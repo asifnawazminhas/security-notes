@@ -1,0 +1,107 @@
+site_name: Asif's Security Notes
+site_description: Cybersecurity, penetration testing and red team notes
+site_author: Asif Nawaz Minhas
+site_url: https://notes.asifnawazminhas.com/
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+  palette:
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+
+  - Web Application Security:
+      - Overview: web/index.md
+      - Reconnaissance: web/reconnaissance.md
+      - Authentication: web/authentication.md
+      - Authorisation: web/authorisation.md
+      - Cross-Site Scripting: web/xss.md
+      - SQL Injection: web/sql-injection.md
+      - SSRF: web/ssrf.md
+      - SSTI: web/ssti.md
+      - File Upload: web/file-upload.md
+      - Path Traversal: web/path-traversal.md
+      - XXE: web/xxe.md
+      - Deserialization: web/deserialization.md
+
+  - Active Directory:
+      - Overview: active-directory/index.md
+      - Enumeration: active-directory/enumeration.md
+      - Kerberos: active-directory/kerberos.md
+      - NTLM: active-directory/ntlm.md
+      - AD CS: active-directory/adcs.md
+      - Lateral Movement: active-directory/lateral-movement.md
+
+  - Windows:
+      - Overview: windows/index.md
+      - Enumeration: windows/enumeration.md
+      - Privilege Escalation: windows/privilege-escalation.md
+
+  - Linux:
+      - Overview: linux/index.md
+      - Enumeration: linux/enumeration.md
+      - Privilege Escalation: linux/privilege-escalation.md
+
+  - Red Teaming:
+      - Overview: red-team/index.md
+      - Initial Access: red-team/initial-access.md
+      - Execution: red-team/execution.md
+      - Persistence: red-team/persistence.md
+      - Defense Evasion: red-team/defense-evasion.md
+      - Credential Access: red-team/credential-access.md
+      - Discovery: red-team/discovery.md
+      - Lateral Movement: red-team/lateral-movement.md
+
+  - Purple Teaming:
+      - Overview: purple-team/index.md
+      - MITRE ATT&CK: purple-team/mitre-attack.md
+      - Detection Testing: purple-team/detection-testing.md
+
+  - Vulnerability Research:
+      - Overview: vulnerability-research/index.md
+      - Methodology: vulnerability-research/methodology.md
+      - Source Code Review: vulnerability-research/source-code-review.md
+      - Fuzzing: vulnerability-research/fuzzing.md
+
+  - Tools:
+      - Overview: tools/index.md
+
+  - Cheatsheets:
+      - Overview: cheatsheets/index.md
+      - PowerShell: cheatsheets/powershell.md
+      - Linux: cheatsheets/linux.md
+      - Windows: cheatsheets/windows.md
