@@ -1,30 +1,75 @@
 site_name: Asif's Security Notes
-site_description: Cybersecurity, penetration testing and red team notes
+site_description: Cybersecurity, penetration testing, red teaming and vulnerability research notes
 site_author: Asif Nawaz Minhas
 site_url: https://notes.asifnawazminhas.com/
 
+repo_name: asifnawazminhas/security-notes
+repo_url: https://github.com/asifnawazminhas/security-notes
+
+copyright: Copyright &copy; Asif Nawaz Minhas
+
 theme:
   name: material
+
+  language: en
+
+  logo: assets/logo.svg
+  favicon: assets/favicon.png
+
   features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
     - navigation.expand
-    - navigation.top
+    - navigation.path
     - navigation.indexes
+    - navigation.top
+    - toc.follow
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.annotate
 
   palette:
-    - scheme: slate
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: cyan
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
 
-    - scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: cyan
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/asifnawazminhas
+      name: GitHub
+
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/asifminhasnl/
+      name: LinkedIn
+
+    - icon: fontawesome/solid/globe
+      link: https://asifnawazminhas.com
+      name: Main website
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search
@@ -33,13 +78,27 @@ markdown_extensions:
   - admonition
   - attr_list
   - md_in_html
+  - footnotes
+  - tables
+
   - pymdownx.details
+
   - pymdownx.superfences
+
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+
   - pymdownx.inlinehilite
+
+  - pymdownx.snippets
+
   - pymdownx.tabbed:
       alternate_style: true
+
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 nav:
   - Home: index.md
