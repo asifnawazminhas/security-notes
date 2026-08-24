@@ -1,13 +1,3 @@
-# Web Application Security
-
-Web application security testing focuses on identifying weaknesses in applications, APIs, authentication mechanisms, access controls and the underlying technologies that support them.
-
-This section contains practical notes, methodologies and references for authorised web application penetration testing and vulnerability research.
-
-!!! warning "Authorised Security Testing"
-
-    The techniques documented in this section are intended for authorised security assessments, lab environments, security research and responsible vulnerability disclosure.
-
 ## Web Application Testing Methodology
 
 A structured assessment can generally be approached as:
@@ -36,3 +26,6 @@ Business Logic Testing
 Validation
       ↓
 Reporting
+```
+
+The exact methodology depends on the application, architecture and scope of the assessment.
