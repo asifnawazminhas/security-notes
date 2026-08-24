@@ -1,38 +1,112 @@
-# Asif's Security Notes
+<div class="security-hero" markdown>
 
-Welcome to my cybersecurity knowledge base.
+![Asif's Security Notes](assets/security-notes-banner.png)
 
-These notes cover practical topics across penetration testing, offensive security, red teaming, vulnerability research, Active Directory, Windows, Linux and purple teaming.
+<div class="hero-intro" markdown>
+
+# Security Knowledge Base
+
+Practical notes covering **offensive security**, **penetration testing**, **red teaming**, **vulnerability research**, **Active Directory**, **Windows**, **Linux** and **purple teaming**.
+
+<span class="security-badge">OFFENSIVE SECURITY</span>
+<span class="security-badge">RED TEAMING</span>
+<span class="security-badge">VULNERABILITY RESEARCH</span>
+<span class="security-badge">PURPLE TEAMING</span>
+
+</div>
+
+</div>
 
 !!! warning "Authorised Security Testing"
+
     The material in these notes is intended for educational purposes, security research and authorised security testing.
 
-## Topics
+## Explore the Knowledge Base
 
-### Web Application Security
+<div class="grid cards" markdown>
 
-Notes covering web application penetration testing, vulnerability discovery and exploitation techniques.
+-   :material-web:{ .lg .middle } **Web Application Security**
 
-### Active Directory
+    ---
 
-Enumeration, authentication, privilege escalation and lateral movement techniques in Active Directory environments.
+    Reconnaissance, authentication, authorisation and web application vulnerability research.
 
-### Red Teaming
+    [:octicons-arrow-right-24: Web Security Notes](web/index.md)
 
-Techniques and methodologies covering the different stages of red team operations.
+-   :material-microsoft-windows:{ .lg .middle } **Active Directory**
 
-### Vulnerability Research
+    ---
 
-Notes covering vulnerability discovery, source code review, fuzzing and security research.
+    Enumeration, Kerberos, NTLM, AD CS, privilege escalation and lateral movement.
 
-### Purple Teaming
+    [:octicons-arrow-right-24: Active Directory Notes](active-directory/index.md)
 
-Adversary emulation, MITRE ATT&CK, detection engineering and collaborative red and blue team exercises.
+-   :material-console:{ .lg .middle } **Red Teaming**
 
-### Tools
+    ---
 
-Practical notes and references for security tooling.
+    Adversary simulation, execution, persistence, credential access, discovery and lateral movement.
 
-### Cheatsheets
+    [:octicons-arrow-right-24: Red Team Notes](red-team/index.md)
 
-Quick references for commands, techniques and common workflows.
+-   :material-shield-search:{ .lg .middle } **Vulnerability Research**
+
+    ---
+
+    Vulnerability discovery, source code review, attack surface analysis, fuzzing and security research.
+
+    [:octicons-arrow-right-24: Vulnerability Research](vulnerability-research/index.md)
+
+-   :material-shield-half-full:{ .lg .middle } **Purple Teaming**
+
+    ---
+
+    MITRE ATT&CK, adversary emulation, detection validation and red and blue team collaboration.
+
+    [:octicons-arrow-right-24: Purple Team Notes](purple-team/index.md)
+
+-   :material-linux:{ .lg .middle } **Linux**
+
+    ---
+
+    Linux enumeration, security testing, privilege escalation and system administration notes.
+
+    [:octicons-arrow-right-24: Linux Notes](linux/index.md)
+
+-   :material-microsoft-windows-classic:{ .lg .middle } **Windows**
+
+    ---
+
+    Windows enumeration, security testing, PowerShell and privilege escalation notes.
+
+    [:octicons-arrow-right-24: Windows Notes](windows/index.md)
+
+-   :material-tools:{ .lg .middle } **Tools**
+
+    ---
+
+    Security tooling, commands, installation notes and practical references used during assessments.
+
+    [:octicons-arrow-right-24: Security Tools](tools/index.md)
+
+-   :material-file-document-multiple-outline:{ .lg .middle } **Cheatsheets**
+
+    ---
+
+    Quick references for commands, techniques, tools and common security assessment workflows.
+
+    [:octicons-arrow-right-24: Cheatsheets](cheatsheets/index.md)
+
+</div>
+
+## About This Knowledge Base
+
+This knowledge base documents practical techniques, methodologies, tooling and research across offensive and defensive cybersecurity.
+
+<div class="terminal">
+Research. Learn. Build. Share.
+</div>
+
+!!! info "Living Knowledge Base"
+
+    These notes are continuously expanded as new techniques, research and tooling are explored.
