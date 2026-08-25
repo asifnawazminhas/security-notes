@@ -25,7 +25,6 @@ theme:
     - navigation.expand
     - navigation.path
     - navigation.indexes
-    - navigation.top
     - toc.follow
     - search.suggest
     - search.highlight
@@ -69,6 +68,9 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/scroll-buttons.js
 
 plugins:
   - search
