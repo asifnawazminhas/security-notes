@@ -1,2479 +1,2415 @@
-# Content Discovery
+# Parameter Discovery
 
-Content discovery is the process of identifying directories, files, endpoints and functionality that are not immediately visible through normal application navigation.
+Parameter discovery is the process of identifying input parameters accepted by a web application or API.
 
-During a web application penetration test, content discovery can reveal administrative interfaces, APIs, backup files, configuration files, development functionality, debug endpoints, documentation, source maps and legacy application components.
+Parameters are important because they represent locations where user-controlled input enters the application.
 
-The objective is not simply to run a large wordlist against a target. Effective content discovery combines **manual investigation, technology identification, crawling, targeted wordlists, recursive discovery and careful analysis of HTTP responses**.
+They may influence:
+
+```text
+Database queries
+File operations
+Redirects
+Authentication
+Authorisation
+API requests
+Templates
+Operating system commands
+Server-side HTTP requests
+Application state
+Business logic
+```
+
+A parameter that appears insignificant may expose important functionality when its value is modified.
 
 !!! warning "Authorised Security Testing"
-
-    Perform content discovery only against applications and systems that are within the authorised scope of the security assessment.
+    Perform parameter discovery and subsequent testing only against systems for which you have explicit authorisation.
 
 ---
 
-## Content Discovery Workflow
+# Objectives
 
-A practical workflow can be organised as:
+The objective is to identify as much of the application's input surface as possible.
+
+Parameters may exist in:
 
 ```text
-Live Web Target
-      |
-      v
-Manual Discovery
-      |
-      +---- robots.txt
-      +---- sitemap.xml
-      +---- .well-known/
-      +---- HTML
-      +---- JavaScript
-      |
-      v
-Technology Identification
-      |
-      v
-Select Wordlists
-      |
-      v
-Directory Discovery
-      |
-      +---- ffuf
-      +---- feroxbuster
-      +---- dirsearch
-      |
-      v
-File Discovery
-      |
-      v
-Extension Discovery
-      |
-      v
-Recursive Discovery
-      |
-      v
-Interesting Endpoints
-      |
-      +---- Admin
-      +---- API
-      +---- Authentication
-      +---- Backups
-      +---- Configuration
-      +---- Debug
-      +---- Documentation
-      +---- Uploads
-      +---- Source Maps
-      |
-      v
-Manual Validation
-      |
-      v
-Expanded Attack Surface
+URL query strings
+POST bodies
+JSON requests
+XML requests
+HTTP headers
+Cookies
+Path parameters
+Multipart forms
+GraphQL requests
+WebSocket messages
 ```
 
-Content discovery should be iterative.
-
-A newly discovered directory can contain additional directories, files and functionality that require another round of discovery.
-
----
-
-# 1. Start Manually
-
-Before using automated tools, inspect the application manually.
-
-Browse the application and identify:
-
-* Navigation links
-* Forms
-* Authentication pages
-* API requests
-* JavaScript files
-* Static resources
-* Upload functionality
-* Download functionality
-* Administrative links
-* Error pages
-* Redirects
-
-Use the browser developer tools and an intercepting proxy to understand how the application is structured.
-
-A surprising amount of content can be discovered without fuzzing.
-
----
-
-# 2. robots.txt
-
-One of the first resources to check is:
+A practical workflow is:
 
 ```text
-/robots.txt
+Endpoint Discovery
+        ↓
+Historical URL Collection
+        ↓
+Parameter Extraction
+        ↓
+Active Parameter Discovery
+        ↓
+JavaScript Analysis
+        ↓
+API Analysis
+        ↓
+Burp Suite Analysis
+        ↓
+Deduplication
+        ↓
+Classification
+        ↓
+Manual Verification
+        ↓
+Vulnerability Testing
 ```
 
-Request it:
+The objective is not simply to collect thousands of URLs.
 
-```bash
-curl -sk https://example.com/robots.txt
-```
+The objective is to understand:
 
-Example:
-
-```text
-User-agent: *
-Disallow: /admin/
-Disallow: /internal/
-Disallow: /backup/
-```
-
-These entries are not access controls.
-
-They simply instruct search engine crawlers which locations should not normally be indexed.
-
-From a reconnaissance perspective, they may reveal interesting application paths.
-
-For example:
-
-```text
-robots.txt
-    |
-    +---- /admin/
-    |
-    +---- /internal/
-    |
-    +---- /backup/
-```
-
-Each discovered path should be manually validated.
+> Where does user-controlled input enter the application?
 
 ---
 
-# 3. sitemap.xml
-
-Check:
-
-```text
-/sitemap.xml
-```
-
-Request it:
-
-```bash
-curl -sk https://example.com/sitemap.xml
-```
-
-Sitemaps may reveal:
-
-* Application routes
-* Product pages
-* Legacy pages
-* Language-specific paths
-* Hidden functionality
-* Additional subdomains
-
-A sitemap may also reference additional sitemap files.
-
-For example:
-
-```xml
-<sitemap>
-    <loc>https://example.com/sitemap-products.xml</loc>
-</sitemap>
-```
-
-These should also be reviewed.
-
----
-
-# 4. .well-known
-
-The `.well-known` directory contains standardised resources used by various protocols and services.
-
-Examples include:
-
-```text
-/.well-known/security.txt
-/.well-known/openid-configuration
-/.well-known/assetlinks.json
-/.well-known/apple-app-site-association
-/.well-known/change-password
-```
-
-Check:
-
-```bash
-curl -sk https://example.com/.well-known/security.txt
-```
-
-and where relevant:
-
-```bash
-curl -sk https://example.com/.well-known/openid-configuration
-```
-
-These resources can reveal information about:
-
-* Security contacts
-* Authentication infrastructure
-* OAuth
-* OpenID Connect
-* Mobile applications
-* Related domains
-* API endpoints
-
----
-
-# 5. security.txt
-
-A security policy may be available at:
-
-```text
-/.well-known/security.txt
-```
-
-or occasionally:
-
-```text
-/security.txt
-```
-
-Request:
-
-```bash
-curl -sk https://example.com/.well-known/security.txt
-```
-
-This may provide useful information about:
-
-* Security contact details
-* Responsible disclosure policies
-* Scope information
-* Security acknowledgements
-* Policy URLs
-
-For authorised assessments, the formal engagement scope remains authoritative.
-
----
-
-# 6. Inspect HTML
-
-HTML can contain links and resources that are not immediately visible in the rendered application.
-
-Download the page:
-
-```bash
-curl -sk https://example.com/ -o index.html
-```
-
-Search URLs:
-
-```bash
-grep -Eo 'href="[^"]+"' index.html
-```
-
-Search form actions:
-
-```bash
-grep -Eo 'action="[^"]+"' index.html
-```
-
-Search interesting strings:
-
-```bash
-grep -Ei \
-'admin|api|debug|internal|upload|download|backup|swagger|graphql' \
-index.html
-```
-
-HTML comments can also contain useful information.
-
-Search:
-
-```bash
-grep -n '<!--' index.html
-```
-
----
-
-# 7. JavaScript
-
-Modern web applications frequently expose large portions of their attack surface through JavaScript.
-
-JavaScript can reveal:
-
-* API endpoints
-* Hidden routes
-* Administrative endpoints
-* Parameter names
-* Internal URLs
-* WebSocket endpoints
-* Feature flags
-* Development functionality
-* Source maps
-
-Extract JavaScript references:
-
-```bash
-curl -sk https://example.com/ \
-  | grep -Eo '<script[^>]+src="[^"]+"'
-```
-
-JavaScript analysis will be covered in more detail in the dedicated reconnaissance note.
-
----
-
-# 8. Choose the Right Wordlist
-
-Wordlist selection has a significant effect on content discovery.
-
-Using the largest available wordlist is not automatically better.
+# What Is a Parameter?
 
 Consider:
 
-* Application technology
-* Application purpose
-* Available testing time
-* Request limits
-* Server performance
-* Scope
-* Known application structure
+```text
+https://target.example/product?id=123
+```
 
-A small targeted wordlist may outperform a huge generic list.
-
----
-
-# 9. SecLists
-
-SecLists contains many useful discovery wordlists.
-
-On Kali Linux it is commonly available under:
+The parameter is:
 
 ```text
-/usr/share/seclists/
+id
 ```
 
-Web content lists are commonly located under:
+and the value is:
 
 ```text
-/usr/share/seclists/Discovery/Web-Content/
+123
 ```
 
-List them:
-
-```bash
-ls /usr/share/seclists/Discovery/Web-Content/
-```
-
-Useful examples include:
+Multiple parameters may exist:
 
 ```text
-common.txt
-directory-list-2.3-medium.txt
-raft-small-directories.txt
-raft-medium-directories.txt
-raft-large-directories.txt
-raft-small-files.txt
-raft-medium-files.txt
-raft-large-files.txt
-raft-small-words.txt
-raft-medium-words.txt
+https://target.example/search?q=test&page=2&sort=date
 ```
 
-Different wordlists serve different purposes.
-
----
-
-# 10. Directory Wordlists
-
-For directory discovery, a useful starting point is:
+Parameters:
 
 ```text
-raft-medium-directories.txt
+q
+page
+sort
 ```
 
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
-```
-
-For faster initial discovery:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-small-directories.txt
-```
-
-A useful strategy is:
+Values:
 
 ```text
-Small Wordlist
-      |
-      v
-Initial Results
-      |
-      v
-Interesting Target?
-      |
-   +--+--+
-   |     |
-  No    Yes
-         |
-         v
-   Larger / Targeted
-      Wordlists
-```
-
----
-
-# 11. ffuf
-
-ffuf is a fast web fuzzer commonly used for content discovery.
-
-Basic directory discovery:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
-```
-
-A shorter form is:
-
-```bash
-ffuf -u https://example.com/FUZZ -w wordlist.txt
-```
-
-The `FUZZ` keyword identifies where each wordlist entry should be inserted.
-
----
-
-# 12. Understanding ffuf Results
-
-Example output may contain:
-
-```text
-admin        [Status: 302, Size: 0]
-api          [Status: 200, Size: 128]
-backup       [Status: 403, Size: 153]
-login        [Status: 200, Size: 4821]
-uploads      [Status: 301, Size: 178]
-```
-
-Do not look only at status `200`.
-
-Interesting status codes include:
-
-| Status | Meaning |
-| --- | --- |
-| 200 | Resource returned successfully |
-| 204 | Successful response without body |
-| 301 | Permanent redirect |
-| 302 | Temporary redirect |
-| 307 | Temporary redirect preserving method |
-| 308 | Permanent redirect preserving method |
-| 401 | Authentication required |
-| 403 | Access forbidden |
-| 405 | Method not allowed |
-| 500 | Server-side error |
-
-A `401` or `403` may be more interesting than a public `200` page.
-
----
-
-# 13. Match Status Codes
-
-ffuf can match specific HTTP status codes.
-
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -mc 200,204,301,302,307,401,403,405
-```
-
-Alternatively, match all responses:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -mc all
-```
-
-Then filter unwanted responses.
-
----
-
-# 14. Filter Status Codes
-
-For example, exclude standard `404` responses:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -mc all \
-  -fc 404
-```
-
-However, filtering only by status code is often insufficient because many applications return `200` for nonexistent pages.
-
-This is known as a soft `404`.
-
----
-
-# 15. Soft 404 Responses
-
-Some applications return:
-
-```text
-HTTP/1.1 200 OK
-```
-
-even when the requested resource does not exist.
-
-For example:
-
-```text
-/random-does-not-exist
-```
-
-may return:
-
-```text
-200 OK
-```
-
-with:
-
-```text
-Page not found
-```
-
-Test a random path before starting discovery:
-
-```bash
-curl -ski https://example.com/random-does-not-exist-12345
-```
-
-Record:
-
-* Status code
-* Response length
-* Word count
-* Line count
-* Response body
-* Redirect behaviour
-
-This creates a baseline for nonexistent resources.
-
----
-
-# 16. Response Size Filtering
-
-Suppose nonexistent pages consistently return:
-
-```text
-Status: 200
-Size: 4242
-```
-
-Filter that size:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -fs 4242
-```
-
-This can dramatically improve discovery results.
-
----
-
-# 17. Word Count Filtering
-
-Responses can also be filtered by word count.
-
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -fw 37
-```
-
-This can be useful when dynamic values make the byte size change slightly while the overall response structure remains similar.
-
----
-
-# 18. Line Count Filtering
-
-Filter by number of lines:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -fl 12
-```
-
-Filtering can therefore use:
-
-```text
-Status
-Size
-Words
-Lines
-```
-
-A good content discovery workflow establishes the baseline first and then selects the appropriate filter.
-
----
-
-# 19. ffuf Auto Calibration
-
-ffuf can attempt to automatically identify common false-positive responses.
-
-Use:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -ac
-```
-
-Auto calibration can be useful when applications return similar responses for nonexistent content.
-
-Always manually inspect the results because automated calibration can occasionally hide interesting responses.
-
----
-
-# 20. Follow Redirects
-
-Redirects can be useful during discovery.
-
-Follow them with:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -r
-```
-
-However, sometimes the redirect itself is the interesting behaviour.
-
-For example:
-
-```text
-/admin
-   |
-   v
-302
-   |
-   v
-/login
-```
-
-The redirect reveals that `/admin` likely exists.
-
-For this reason, retaining redirect information is often useful during initial discovery.
-
----
-
-# 21. File Discovery
-
-Directory discovery should be complemented by file discovery.
-
-Use a file-oriented wordlist:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt
-```
-
-Potential discoveries include:
-
-```text
-config
-backup
-database
-debug
 test
-old
-settings
-admin
-login
+2
+date
 ```
 
-File extensions can then be tested separately.
-
----
-
-# 22. Extension Discovery
-
-Technology identification should influence which extensions are tested.
-
-Common extensions include:
-
-```text
-.php
-.aspx
-.asp
-.jsp
-.json
-.xml
-.txt
-.html
-.js
-.map
-.bak
-.old
-.zip
-.tar
-.gz
-```
-
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -e .php,.txt,.bak,.old,.zip
-```
-
-This tests entries such as:
-
-```text
-admin
-admin.php
-admin.txt
-admin.bak
-admin.old
-admin.zip
-```
-
----
-
-# 23. Technology-Specific Extensions
-
-Technology identification should guide content discovery.
+These parameters may behave very differently internally.
 
 For example:
 
 ```text
-Technology
-    |
-    +---- PHP
-    |      |
-    |      +---- .php
-    |
-    +---- ASP.NET
-    |      |
-    |      +---- .aspx
-    |
-    +---- Java
-    |      |
-    |      +---- .jsp
-    |
-    +---- Static / API
-           |
-           +---- .json
-           +---- .xml
-           +---- .txt
-```
-
-Do not blindly test every possible extension.
-
-Use evidence from the application stack.
-
----
-
-# 24. Backup Files
-
-Backup files can unintentionally expose application content or configuration.
-
-Common patterns include:
-
-```text
-config.php.bak
-config.php.old
-config.php~
-index.php.bak
-web.config.old
-application.properties.bak
-backup.zip
-site.zip
-www.zip
-```
-
-Potential backup extensions include:
-
-```text
-.bak
-.old
-.orig
-.save
-.tmp
-~
-.zip
-.tar
-.gz
-```
-
-These can be incorporated into targeted discovery.
-
----
-
-# 25. Configuration Files
-
-Potentially interesting configuration files include:
-
-```text
-.env
-web.config
-.htaccess
-.htpasswd
-application.properties
-application.yml
-application.yaml
-config.php
-settings.php
-package.json
-composer.json
-```
-
-The presence of these files does not mean they are publicly accessible.
-
-The objective is to identify accidental exposure.
-
----
-
-# 26. Environment Files
-
-A commonly investigated file is:
-
-```text
-.env
-```
-
-Request:
-
-```bash
-curl -ski https://example.com/.env
-```
-
-If the server correctly denies access or returns a normal `404`, record that behaviour and continue.
-
-Do not assume that a file exists simply because an application uses a framework that commonly supports it.
-
----
-
-# 27. Git Metadata
-
-Accidentally exposed version-control metadata can reveal application structure.
-
-A useful check is:
-
-```text
-/.git/
-```
-
-For example:
-
-```bash
-curl -ski https://example.com/.git/HEAD
-```
-
-A normal secure deployment should not expose repository metadata publicly.
-
-Other version-control artefacts may include:
-
-```text
-/.svn/
-/.hg/
-```
-
-Any exposed repository information should be handled carefully because it may contain sensitive source code or configuration.
-
----
-
-# 28. Source Maps
-
-JavaScript source maps may be exposed as:
-
-```text
-app.js.map
-main.js.map
-bundle.js.map
-```
-
-If a JavaScript file contains:
-
-```text
-//# sourceMappingURL=app.js.map
-```
-
-test whether the referenced source map is accessible.
-
-Source maps may reveal:
-
-* Original filenames
-* Source directories
-* Frontend source code
-* API endpoints
-* Comments
-* Application structure
-
----
-
-# 29. API Discovery
-
-Common API paths include:
-
-```text
-/api/
-/api/v1/
-/api/v2/
-/rest/
-/services/
-/graphql
-```
-
-Technology-specific reconnaissance may reveal additional API conventions.
-
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/api/FUZZ \
-  -w wordlist.txt
-```
-
-Once an API base path is identified, perform discovery specifically within that path.
-
----
-
-# 30. Swagger and OpenAPI
-
-API documentation may expose a significant portion of the application's attack surface.
-
-Potential paths include:
-
-```text
-/swagger
-/swagger/
-/swagger-ui
-/swagger-ui/
-/swagger-ui.html
-/api-docs
-/v2/api-docs
-/v3/api-docs
-/openapi.json
-/swagger.json
-```
-
-Check manually:
-
-```bash
-curl -ski https://example.com/swagger
-```
-
-and:
-
-```bash
-curl -ski https://example.com/openapi.json
-```
-
-API documentation can reveal:
-
-* Endpoints
-* HTTP methods
-* Parameters
-* Request bodies
-* Authentication schemes
-* Object models
-
----
-
-# 31. GraphQL
-
-Potential GraphQL endpoints include:
-
-```text
-/graphql
-/api/graphql
-/graphql/v1
-```
-
-A discovered GraphQL endpoint should be recorded for the API testing phase.
-
-The purpose of content discovery at this stage is primarily to identify its existence and location.
-
----
-
-# 32. Administrative Interfaces
-
-Interesting paths may include:
-
-```text
-/admin
-/administrator
-/manage
-/management
-/console
-/dashboard
-/backend
-/control
-/panel
-```
-
-Search with a targeted list:
-
-```bash
-printf '%s\n' \
-admin \
-administrator \
-manage \
-management \
-console \
-dashboard \
-backend \
-control \
-panel \
-> admin-paths.txt
-```
-
-Then:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w admin-paths.txt
-```
-
-A `401`, `403` or redirect to authentication can still confirm that functionality exists.
-
----
-
-# 33. Debug and Development Endpoints
-
-Potentially interesting paths include:
-
-```text
-/debug
-/dev
-/test
-/testing
-/status
-/health
-/metrics
-/info
-/console
-```
-
-Framework-specific endpoints should be selected based on technology identification rather than tested blindly against every target.
-
-Development functionality can reveal:
-
-* Debug information
-* Internal paths
-* Environment information
-* Application state
-* Software versions
-
----
-
-# 34. Spring Boot Content Discovery
-
-If Spring Boot has been identified, relevant paths may include:
-
-```text
-/actuator
-/actuator/health
-/actuator/info
-```
-
-Depending on configuration, additional management endpoints may exist.
-
-The presence of Spring Boot alone does not mean these resources are publicly exposed.
-
-Check only what is appropriate within the authorised scope.
-
----
-
-# 35. WordPress Content Discovery
-
-If WordPress is identified, useful paths include:
-
-```text
-/wp-admin/
-/wp-login.php
-/wp-content/
-/wp-includes/
-/wp-json/
-```
-
-Additional content discovery may focus on:
-
-```text
-/wp-content/plugins/
-/wp-content/themes/
-/wp-content/uploads/
-```
-
-Technology-specific enumeration is generally more effective than using only generic wordlists.
-
----
-
-# 36. Recursive Discovery
-
-A discovered directory can contain additional hidden content.
-
-For example:
-
-```text
-/admin/
-   |
-   +---- login
-   |
-   +---- users
-   |
-   +---- settings
-```
-
-If `/admin/` is discovered, run another discovery pass:
-
-```bash
-ffuf \
-  -u https://example.com/admin/FUZZ \
-  -w wordlist.txt
-```
-
-The process becomes:
-
-```text
-/
-|
-+---- admin/
-|       |
-|       +---- users/
-|       |
-|       +---- settings/
-|
-+---- api/
-        |
-        +---- v1/
-                |
-                +---- users
-                +---- accounts
-```
-
-Recursive discovery is particularly useful for large applications.
-
----
-
-# 37. feroxbuster
-
-feroxbuster is designed for recursive content discovery.
-
-Basic usage:
-
-```bash
-feroxbuster \
-  -u https://example.com
-```
-
-Specify a wordlist:
-
-```bash
-feroxbuster \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt
-```
-
-Specify extensions:
-
-```bash
-feroxbuster \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
-  -x php,txt,json,bak
-```
-
-feroxbuster can automatically recurse into discovered directories, which makes it useful when mapping larger applications.
-
----
-
-# 38. Limit feroxbuster Depth
-
-Recursive discovery can generate large numbers of requests.
-
-Control recursion depth:
-
-```bash
-feroxbuster \
-  -u https://example.com \
-  -d 2
-```
-
-Use an appropriate depth for the application and assessment scope.
-
-More recursion is not automatically better.
-
----
-
-# 39. dirsearch
-
-dirsearch is another commonly used content discovery tool.
-
-Basic usage:
-
-```bash
-dirsearch -u https://example.com
-```
-
-Specify extensions:
-
-```bash
-dirsearch \
-  -u https://example.com \
-  -e php,html,js,json,txt,bak
-```
-
-Specify a wordlist:
-
-```bash
-dirsearch \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt
-```
-
-Different tools may produce slightly different results because they handle recursion, redirects, extensions and filtering differently.
-
----
-
-# 40. Compare Tools Rather Than Trusting One
-
-A useful workflow may be:
-
-```text
-                Target
-                   |
-        +----------+----------+
-        |          |          |
-       ffuf    feroxbuster  dirsearch
-        |          |          |
-        +----------+----------+
-                   |
-                   v
-             Compare Results
-                   |
-                   v
-            Manual Validation
-```
-
-You do not necessarily need to run all three against every application.
-
-Choose the tool that best fits the task.
-
----
-
-# 41. Virtual Host Discovery
-
-Some web servers host multiple applications on the same IP address.
-
-For example:
-
-```text
-10.10.10.10
-    |
-    +---- www.example.com
-    |
-    +---- admin.example.com
-    |
-    +---- dev.example.com
-```
-
-If the server routes requests based on the `Host` header, virtual host discovery may reveal additional applications.
-
-A basic ffuf pattern is:
-
-```bash
-ffuf \
-  -u https://example.com/ \
-  -H "Host: FUZZ.example.com" \
-  -w wordlist.txt
-```
-
-This should only be performed where the wildcard domain or relevant hostnames are within the authorised scope.
-
----
-
-# 42. Baseline Virtual Host Behaviour
-
-Before fuzzing the `Host` header, send a random hostname:
-
-```bash
-curl -ski \
-  -H "Host: random-does-not-exist.example.com" \
-  https://example.com/
-```
-
-Record the response:
-
-```text
-Status
-Size
-Words
-Lines
-Redirect
-```
-
-Then filter that baseline during discovery.
-
-This prevents default virtual-host responses from appearing as false positives.
-
----
-
-# 43. Authentication Boundaries
-
-Content discovery should be performed both before and after authentication where the scope and available accounts allow it.
-
-For example:
-
-```text
-Unauthenticated
-      |
-      +---- /
-      +---- /login
-      +---- /public
-      |
-      v
-Authenticated
-      |
-      +---- /account
-      +---- /dashboard
-      +---- /api
-      +---- /settings
-```
-
-Authenticated application areas frequently expose significantly more functionality.
-
-Use the appropriate authenticated session through your testing proxy or tool configuration.
-
----
-
-# 44. Different User Roles
-
-If multiple test accounts are available, repeat discovery from different privilege levels.
-
-For example:
-
-```text
-Anonymous
-    |
-    v
-User
-    |
-    v
-Manager
-    |
-    v
-Administrator
-```
-
-Different roles may expose different routes.
-
-This can later support authorisation testing.
-
----
-
-# 45. Crawling and Content Discovery
-
-Crawling and content discovery complement each other.
-
-```text
-Crawling
-   |
-   +---- Follow existing links
-   |
-   +---- Parse JavaScript
-   |
-   +---- Discover referenced endpoints
+q
+ ↓
+Search functionality
+ ↓
+Database query
 ```
 
 while:
 
 ```text
-Content Discovery
-   |
-   +---- Guess unlinked resources
-   |
-   +---- Discover hidden directories
-   |
-   +---- Discover backup files
+sort
+ ↓
+Query construction
+ ↓
+Database ordering
 ```
 
-Combining both approaches provides better coverage.
+Understanding the parameter's purpose is therefore just as important as discovering it.
 
 ---
 
-# 46. Historical URLs
+# Parameter Locations
 
-Historical sources may reveal resources that are no longer linked.
+Parameters are not limited to URLs.
+
+## Query Parameters
+
+Example:
+
+```http
+GET /product?id=123&category=books HTTP/1.1
+Host: target.example
+```
+
+Parameters:
+
+```text
+id
+category
+```
+
+---
+
+## Form Parameters
+
+Example:
+
+```http
+POST /login HTTP/1.1
+Host: target.example
+Content-Type: application/x-www-form-urlencoded
+
+username=user&password=password
+```
+
+Parameters:
+
+```text
+username
+password
+```
+
+---
+
+## JSON Parameters
+
+Modern APIs frequently use JSON.
+
+Example:
+
+```http
+POST /api/profile HTTP/1.1
+Host: target.example
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email": "test@example.com"
+}
+```
+
+Parameters:
+
+```text
+username
+email
+```
+
+---
+
+## XML Parameters
+
+Example:
+
+```xml
+<user>
+    <username>test</username>
+    <email>test@example.com</email>
+</user>
+```
+
+Potential input points:
+
+```text
+username
+email
+```
+
+---
+
+## Path Parameters
+
+Some frameworks encode parameters directly into paths.
+
+Example:
+
+```text
+/users/123
+```
+
+The value:
+
+```text
+123
+```
+
+may represent:
+
+```text
+user_id
+```
+
+Another example:
+
+```text
+/api/orders/8472
+```
+
+Conceptually:
+
+```text
+/api/orders/{order_id}
+```
+
+Path parameters are particularly important when testing access controls.
+
+---
+
+## Headers
+
+Applications may process user-controlled headers.
+
+Examples:
+
+```text
+Host
+Origin
+Referer
+User-Agent
+X-Forwarded-For
+X-Forwarded-Host
+X-Original-URL
+X-Rewrite-URL
+Forwarded
+```
+
+Headers should therefore be considered part of the application's input surface.
+
+---
+
+## Cookies
+
+Cookies can also contain application-controlled parameters.
+
+Example:
+
+```http
+Cookie: session=abc123; language=en; role=user
+```
+
+Potential values:
+
+```text
+session
+language
+role
+```
+
+Never assume a cookie is safe simply because the browser normally manages it.
+
+---
+
+# Start With Burp Suite
+
+Before using automated tools, inspect the application through Burp Suite.
+
+Use:
+
+```text
+Proxy
+→ HTTP history
+```
+
+and:
+
+```text
+Target
+→ Site map
+```
+
+Look for requests containing:
+
+```text
+?
+=
+POST bodies
+JSON
+XML
+Cookies
+Custom headers
+Path identifiers
+```
+
+For example:
+
+```http
+GET /account?id=1001 HTTP/1.1
+```
+
+or:
+
+```http
+POST /api/search HTTP/1.1
+Content-Type: application/json
+
+{
+  "query": "administrator",
+  "limit": 20
+}
+```
+
+Burp often reveals parameters that automated URL collection tools cannot see.
+
+---
+
+# Browser Developer Tools
+
+Browser Developer Tools are also useful.
+
+Open:
+
+```text
+Developer Tools
+→ Network
+```
+
+Interact with the application.
+
+Look for:
+
+```text
+XHR
+Fetch
+API
+GraphQL
+WebSocket
+Form submissions
+Background requests
+```
+
+Modern applications may make numerous API requests that are not visible in the page URL.
+
+---
+
+# Historical Parameter Discovery
+
+Historical URL sources are extremely valuable for parameter discovery.
+
+An application might currently expose:
+
+```text
+/search
+```
+
+but historical data could reveal:
+
+```text
+/search?q=test
+/search?query=test
+/search?keyword=test
+/search?category=1
+```
+
+Even if some URLs are old, the parameters may still be recognised by the current application.
 
 Useful tools include:
 
 ```text
 waybackurls
 gau
+urlfinder
 ```
-
-For example:
-
-```bash
-waybackurls example.com > historical-urls.txt
-```
-
-or:
-
-```bash
-gau example.com > historical-urls.txt
-```
-
-Review paths:
-
-```bash
-cat historical-urls.txt \
-  | sed 's/[?#].*$//' \
-  | sort -u
-```
-
-Historical content should be validated before assuming it still exists.
 
 ---
 
-# 47. Extract Paths from Historical URLs
+# Waybackurls
 
-You can extract path information from historical URLs.
-
-For example:
+Collect historical URLs:
 
 ```bash
-cat historical-urls.txt \
-  | awk -F/ '{for(i=4;i<=NF;i++) printf "/"$i; print ""}' \
-  | sort -u
+echo target.example | waybackurls
 ```
 
-This can reveal naming patterns that improve subsequent wordlist selection.
-
-For example:
-
-```text
-/api/v1/
-/legacy/
-/old-admin/
-/reports/
-/downloads/
-```
-
-These patterns can then guide targeted discovery.
-
----
-
-# 48. Build Target-Specific Wordlists
-
-One of the most effective techniques is creating a wordlist from the application itself.
-
-Sources include:
-
-* Existing URLs
-* JavaScript
-* HTML
-* Historical URLs
-* API documentation
-* File names
-* Product terminology
-* Business terminology
-
-Suppose the application contains terms such as:
-
-```text
-customer
-invoice
-report
-document
-account
-payment
-```
-
-These can become a custom discovery list:
-
-```text
-customer
-customers
-invoice
-invoices
-report
-reports
-document
-documents
-account
-accounts
-payment
-payments
-```
-
-Target-specific wordlists often discover resources that generic lists miss.
-
----
-
-# 49. Case Sensitivity
-
-Some servers and frameworks treat paths as case-sensitive.
-
-For example:
-
-```text
-/admin
-/Admin
-/ADMIN
-```
-
-may behave differently.
-
-This is particularly relevant on Linux-hosted applications and certain frameworks.
-
-Do not assume path case is normalised.
-
----
-
-# 50. Trailing Slashes
-
-Compare:
-
-```text
-/admin
-```
-
-with:
-
-```text
-/admin/
-```
-
-They may produce:
-
-```text
-200
-301
-302
-403
-404
-```
-
-depending on server and framework behaviour.
-
-Redirect behaviour can itself confirm that a directory exists.
-
----
-
-# 51. HTTP Methods
-
-A resource returning:
-
-```text
-405 Method Not Allowed
-```
-
-may still be interesting.
-
-For example:
+Save the output:
 
 ```bash
-curl -ski https://example.com/api/users
+echo target.example | waybackurls > wayback.txt
 ```
 
-may return:
+Remove duplicates:
 
-```text
-405 Method Not Allowed
+```bash
+sort -u wayback.txt -o wayback.txt
 ```
 
-This can indicate that the endpoint exists but does not accept `GET`.
+Find URLs containing parameters:
 
-Record such endpoints for later API testing.
+```bash
+grep '=' wayback.txt
+```
+
+Or:
+
+```bash
+grep '?' wayback.txt
+```
+
+Save parameterised URLs:
+
+```bash
+grep '=' wayback.txt > wayback-params.txt
+```
 
 ---
 
-# 52. OPTIONS
+# GAU
 
-Where appropriate, inspect allowed methods:
+GAU can collect URLs from multiple public sources.
+
+Example:
 
 ```bash
-curl -ski \
-  -X OPTIONS \
-  https://example.com/api/example
+gau target.example
 ```
 
-Responses may contain:
+Save output:
 
-```text
-Allow: GET, POST, OPTIONS
+```bash
+gau target.example > gau.txt
 ```
 
-Do not assume the `Allow` header is complete or authoritative, but it can provide useful information.
+Find parameterised URLs:
+
+```bash
+grep '=' gau.txt
+```
+
+Save them:
+
+```bash
+grep '=' gau.txt > gau-params.txt
+```
 
 ---
 
-# 53. Custom Headers and Authentication
+# URLFinder
 
-Some endpoints may behave differently depending on headers or authentication.
+URLFinder can also collect URLs associated with a domain.
 
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -H "Authorization: Bearer TOKEN"
-```
-
-or:
+Example:
 
 ```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -H "Cookie: session=VALUE"
+urlfinder -d target.example
 ```
-
-Use only test credentials and tokens provided or generated within the authorised assessment.
-
-Avoid storing sensitive tokens directly in notes or repositories.
-
----
-
-# 54. Rate Control
-
-Content discovery can generate significant traffic.
-
-Use rate controls where appropriate.
-
-For example with ffuf:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -rate 50
-```
-
-The correct rate depends on:
-
-* Assessment rules
-* Application capacity
-* Network conditions
-* Scope
-* Testing window
-
-The objective is discovery, not service disruption.
-
----
-
-# 55. Threads
-
-Concurrency can also affect application load.
-
-For example:
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -t 20
-```
-
-Higher thread counts are not automatically better.
-
-Use conservative values when application stability is uncertain.
-
----
-
-# 56. Save ffuf Results
-
-Do not rely solely on terminal output.
 
 Save results:
 
 ```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -o ffuf-results.json \
-  -of json
+urlfinder -d target.example -o urlfinder.txt
 ```
 
-Other output formats may also be available depending on the tool version.
+Extract parameterised URLs:
 
-Keeping raw results makes later analysis and reporting easier.
+```bash
+grep '=' urlfinder.txt > urlfinder-params.txt
+```
 
 ---
 
-# 57. Interesting Response Sizes
+# Combine Historical Sources
 
-When reviewing results, group responses by size.
+Combine the results:
 
-Suppose you see:
+```bash
+cat wayback.txt gau.txt urlfinder.txt \
+  | sort -u \
+  > all-urls.txt
+```
+
+Then extract URLs containing parameters:
+
+```bash
+grep '=' all-urls.txt \
+  | sort -u \
+  > parameters.txt
+```
+
+Quick count:
+
+```bash
+wc -l parameters.txt
+```
+
+This produces an initial parameter attack surface.
+
+---
+
+# Extract Parameter Names
+
+Suppose the collected URLs contain:
 
 ```text
-admin      403    153 bytes
-internal   403    153 bytes
-backup     403    153 bytes
-random     403    153 bytes
-portal     403   4281 bytes
+https://target.example/search?q=test&page=1
+https://target.example/product?id=100
+https://target.example/redirect?url=https://example.com
 ```
 
-The different size for `/portal` may indicate different handling.
+The interesting parameter names are:
 
-Response differences are often more useful than the status code alone.
+```text
+q
+page
+id
+url
+```
+
+A simple shell pipeline can help extract names:
+
+```bash
+cat parameters.txt \
+  | grep -oE '[?&][^=]+' \
+  | sed 's/^[?&]//' \
+  | sort -u
+```
+
+Potential output:
+
+```text
+id
+page
+q
+url
+```
+
+This can quickly reveal recurring parameter patterns.
 
 ---
 
-# 58. Compare Responses
+# ParamSpider
 
-For interesting endpoints, manually compare:
+ParamSpider is designed to discover parameters from web archives.
 
-```bash
-curl -ski https://example.com/admin
-```
-
-and:
+Basic usage:
 
 ```bash
-curl -ski https://example.com/random-does-not-exist
+python3 paramspider.py -d target.example
 ```
 
-Compare:
+Depending on the installed version, output is typically written into an output directory.
+
+For example:
+
+```text
+output/
+└── target.example.txt
+```
+
+Inspect:
+
+```bash
+cat output/target.example.txt
+```
+
+Potential results:
+
+```text
+https://target.example/search?q=FUZZ
+https://target.example/product?id=FUZZ
+https://target.example/redirect?url=FUZZ
+https://target.example/download?file=FUZZ
+```
+
+This format is useful because parameter values are replaced with:
+
+```text
+FUZZ
+```
+
+making the URLs ready for further testing.
+
+---
+
+# ParamSpider Workflow
+
+A practical workflow might be:
+
+```bash
+python3 paramspider.py -d target.example
+```
+
+Then:
+
+```bash
+cd output
+```
+
+Review:
+
+```bash
+cat target.example.txt
+```
+
+Count:
+
+```bash
+wc -l target.example.txt
+```
+
+Deduplicate:
+
+```bash
+sort -u target.example.txt -o target.example.txt
+```
+
+The output can then be fed into specialised analysis tools.
+
+---
+
+# Active Parameter Discovery
+
+Historical sources only reveal parameters that have previously appeared publicly.
+
+Applications may also accept undocumented parameters.
+
+Active parameter discovery attempts to identify them.
+
+Useful tools include:
+
+```text
+Arjun
+FFUF
+Burp Intruder
+Param Miner
+```
+
+---
+
+# Arjun
+
+Arjun is designed to discover hidden HTTP parameters.
+
+Basic example:
+
+```bash
+arjun -u https://target.example/page
+```
+
+Potential result:
+
+```text
+parameter detected:
+
+debug
+```
+
+The application might therefore accept:
+
+```text
+https://target.example/page?debug=true
+```
+
+even though the parameter never appeared in the application's normal interface.
+
+---
+
+# GET Parameter Discovery With Arjun
+
+Example:
+
+```bash
+arjun \
+  -u https://target.example/search \
+  -m GET
+```
+
+Possible discovered parameters:
+
+```text
+q
+query
+search
+page
+limit
+sort
+```
+
+Always manually verify interesting results.
+
+---
+
+# POST Parameter Discovery With Arjun
+
+Arjun can also test POST parameters.
+
+Example:
+
+```bash
+arjun \
+  -u https://target.example/api/search \
+  -m POST
+```
+
+This can help identify parameters accepted by endpoints where the request structure is not fully documented.
+
+---
+
+# Parameter Discovery With FFUF
+
+FFUF can fuzz parameter names.
+
+Suppose:
+
+```text
+https://target.example/page
+```
+
+You want to determine whether undocumented GET parameters are accepted.
+
+Example:
+
+```bash
+ffuf \
+  -u 'https://target.example/page?FUZZ=test' \
+  -w parameters.txt
+```
+
+Possible wordlist entries:
+
+```text
+id
+page
+debug
+admin
+user
+file
+url
+redirect
+callback
+lang
+```
+
+Look for changes in:
 
 ```text
 Status
-Headers
-Content-Type
-Content-Length
-Body
+Response size
+Word count
+Line count
 Redirect
+Headers
+```
+
+---
+
+# Establish a Baseline
+
+Before fuzzing parameter names, understand the normal response.
+
+Request:
+
+```bash
+curl -i https://target.example/page
+```
+
+Then:
+
+```bash
+curl -i 'https://target.example/page?randomparameter123=test'
+```
+
+Compare the responses.
+
+If the application ignores unknown parameters, both responses may be identical.
+
+A valid parameter may produce a different:
+
+```text
+Response size
+Status code
+Header
+Redirect
+Page content
+Timing
+```
+
+This difference can be used during discovery.
+
+---
+
+# FFUF Response Filtering
+
+If the baseline response size is:
+
+```text
+4242
+```
+
+filter it:
+
+```bash
+ffuf \
+  -u 'https://target.example/page?FUZZ=test' \
+  -w parameters.txt \
+  -fs 4242
+```
+
+Other useful filters:
+
+```text
+-fs    Response size
+-fw    Word count
+-fl    Line count
+-fc    Status code
+```
+
+This can significantly reduce false positives.
+
+---
+
+# Burp Param Miner
+
+Burp Suite's Param Miner extension is useful for identifying hidden parameters.
+
+It can test:
+
+```text
+Query parameters
+Headers
 Cookies
 ```
 
-This helps distinguish genuine discoveries from generic application behaviour.
+This is particularly useful for discovering behaviour associated with:
+
+```text
+Caching
+Routing
+Proxy behaviour
+Hidden application functionality
+```
+
+Use the extension carefully because parameter guessing can generate a significant number of requests.
 
 ---
 
-# 59. Wildcard Responses
+# JavaScript Parameter Discovery
 
-Some applications return the same response for almost every path.
+JavaScript files frequently reveal parameter names.
 
 For example:
 
-```text
-/abc123     -> 200
-/random999  -> 200
-/admin      -> 200
-/api        -> 200
+```javascript
+fetch("/api/users?id=" + userId)
 ```
 
-This often occurs with Single Page Applications.
-
-The frontend may return the same HTML shell for every route.
-
-In this situation:
+reveals:
 
 ```text
-Status Code
+/api/users
+id
 ```
 
-alone is not useful.
+Another example:
 
-Compare:
+```javascript
+axios.get("/api/search", {
+    params: {
+        query: searchTerm,
+        limit: 20
+    }
+})
+```
 
-* Response length
-* Body hash
-* Page title
-* JavaScript behaviour
-* Browser rendering
-* API responses
+reveals:
+
+```text
+query
+limit
+```
+
+Search JavaScript files for patterns such as:
+
+```text
+?
+&
+=
+params
+query
+search
+id
+url
+redirect
+callback
+file
+path
+```
 
 ---
 
-# 60. Single Page Applications
+# Grep JavaScript
 
-Applications built with frameworks such as React, Angular or Vue may use client-side routing.
+If JavaScript files have been downloaded:
 
-The web server may return:
-
-```text
-index.html
+```bash
+grep -RniE \
+  'id|user|url|uri|redirect|callback|file|path|query|search|page|limit' \
+  javascript/
 ```
 
-for almost every path.
+This is noisy but can reveal useful parameter names.
 
-For example:
+You can also search for API routes:
 
-```text
-/admin
-/random
-/does-not-exist
+```bash
+grep -RniE \
+  '(/api/|/graphql|/admin|/internal|/upload|/download)' \
+  javascript/
 ```
 
-could all return the same frontend application.
-
-This is why technology identification should occur before interpreting content discovery results.
+Combine endpoint discovery with parameter discovery.
 
 ---
 
-# 61. Interesting Content Categories
+# API Documentation
 
-Useful discoveries can be grouped into categories.
+API documentation can provide the most accurate parameter inventory.
 
-## Administrative
+Look for:
 
 ```text
-/admin
-/manage
-/console
-/dashboard
+Swagger
+OpenAPI
+Postman collections
+GraphQL documentation
+Developer portals
+API reference pages
 ```
 
-## API
+Common endpoints include:
 
 ```text
-/api
-/api/v1
-/graphql
 /swagger
+/swagger-ui
+/swagger.json
+/openapi.json
+/api-docs
+/v2/api-docs
+/v3/api-docs
 ```
 
-## Authentication
+An OpenAPI specification might describe:
 
-```text
-/login
-/logout
-/register
-/reset
-/oauth
-/sso
+```yaml
+parameters:
+  - name: id
+    in: query
+    required: true
 ```
 
-## Development
+This immediately identifies:
 
 ```text
-/dev
-/test
-/debug
-/staging
+Parameter: id
+Location: query
+Required: yes
 ```
 
-## Files
+---
+
+# Swagger and OpenAPI Analysis
+
+When API documentation is available, record:
 
 ```text
-/upload
-/uploads
-/download
-/files
+Endpoint
+Method
+Parameter
+Parameter location
+Data type
+Required/optional
+Expected format
+Authentication
+```
+
+For example:
+
+| Endpoint | Method | Parameter | Location | Type |
+|---|---|---|---|---|
+| `/api/users` | GET | `id` | Query | Integer |
+| `/api/search` | GET | `q` | Query | String |
+| `/api/files` | POST | `file` | Multipart | File |
+| `/api/orders/{id}` | GET | `id` | Path | Integer |
+
+This provides an excellent starting point for later testing.
+
+---
+
+# GraphQL Parameters
+
+GraphQL handles input differently from traditional REST APIs.
+
+Example:
+
+```graphql
+query {
+  user(id: 123) {
+    username
+    email
+  }
+}
+```
+
+Input:
+
+```text
+id
+```
+
+Another example:
+
+```graphql
+query Search($term: String!) {
+  search(query: $term) {
+    title
+  }
+}
+```
+
+Input:
+
+```text
+term
+query
+```
+
+GraphQL variables may therefore represent important user-controlled input.
+
+---
+
+# JSON Parameter Mapping
+
+Consider:
+
+```json
+{
+  "user": {
+    "name": "test",
+    "email": "test@example.com"
+  },
+  "preferences": {
+    "language": "en"
+  }
+}
+```
+
+The input surface includes:
+
+```text
+user.name
+user.email
+preferences.language
+```
+
+Do not only record top-level JSON keys.
+
+Nested parameters can behave differently.
+
+---
+
+# Mass Assignment Awareness
+
+JSON APIs sometimes accept more fields than the user interface sends.
+
+For example, the UI may send:
+
+```json
+{
+  "name": "Asif"
+}
+```
+
+while the backend model contains:
+
+```text
+name
+email
+role
+status
+verified
+```
+
+Parameter discovery may therefore involve understanding which additional fields the API accepts.
+
+This becomes particularly relevant during later business logic and authorisation testing.
+
+Do not modify security-sensitive properties outside the authorised scope.
+
+---
+
+# Parameter Classification
+
+Once parameters have been discovered, classify them.
+
+A useful classification is:
+
+```text
+Identifiers
+Search
+Files
+URLs
+Redirects
+Paths
+Commands
+Templates
+Authentication
+Authorisation
+Pagination
+Sorting
+Filters
+Callbacks
+Language
+Debug
+API control
+```
+
+For example:
+
+```text
+id
+user_id
+account_id
+order_id
+```
+
+could be classified as:
+
+```text
+Identifiers
+```
+
+while:
+
+```text
+url
+uri
+target
+dest
+destination
+callback
+```
+
+could be classified as:
+
+```text
+URL-like input
+```
+
+Classification helps determine what type of testing should happen next.
+
+---
+
+# Interesting Parameter Names
+
+Certain names deserve additional attention because they may indicate particular functionality.
+
+## Identifiers
+
+```text
+id
+uid
+user
+user_id
+account
+account_id
+order
+order_id
+document
+document_id
+```
+
+Potential testing areas:
+
+```text
+Authorisation
+IDOR
+Object-level access control
+```
+
+---
+
+## URL Parameters
+
+```text
+url
+uri
+target
+dest
+destination
+redirect
+redirect_url
+return
+return_url
+next
+continue
+callback
+callback_url
+```
+
+Potential testing areas:
+
+```text
+Open redirect
+Server-Side Request Forgery
+Callback handling
+```
+
+---
+
+## File Parameters
+
+```text
+file
+filename
+filepath
+path
+document
+download
+template
+page
+include
+```
+
+Potential testing areas:
+
+```text
+Path traversal
+File inclusion
+File handling
+Download authorisation
+```
+
+---
+
+## Search Parameters
+
+```text
+q
+query
+search
+keyword
+filter
+term
+```
+
+Potential testing areas:
+
+```text
+SQL injection
+Cross-Site Scripting
+Search logic
+Input validation
+```
+
+---
+
+## Command-Like Parameters
+
+```text
+cmd
+command
+exec
+execute
+process
+host
+ip
+```
+
+Potential testing areas:
+
+```text
+Command injection
+Argument injection
+Server-side processing
+```
+
+---
+
+## Template Parameters
+
+```text
+template
+view
+name
+message
+content
+format
+```
+
+Potential testing areas:
+
+```text
+Template injection
+HTML injection
+Cross-Site Scripting
+```
+
+---
+
+## Debug Parameters
+
+```text
+debug
+test
+dev
+verbose
+trace
+preview
+internal
+```
+
+Potentially interesting because they may expose:
+
+```text
+Debug information
+Alternative application behaviour
+Development functionality
+Verbose errors
+```
+
+---
+
+# Parameter Wordlists
+
+SecLists contains parameter-related wordlists.
+
+Search:
+
+```bash
+find /usr/share/seclists \
+  -iname '*param*'
+```
+
+You can also create a target-specific parameter wordlist from discovered application terminology.
+
+For example, if the application contains:
+
+```text
+customer
+invoice
+contract
+document
+organisation
+```
+
+create:
+
+```text
+customer
+customer_id
+invoice
+invoice_id
+contract
+contract_id
+document
+document_id
+organisation
+organisation_id
+```
+
+Target-specific wordlists can be more effective than generic ones.
+
+---
+
+# Build a Custom Parameter Wordlist
+
+Suppose reconnaissance identifies:
+
+```text
+/users
+/accounts
+/orders
 /documents
 ```
 
-## Monitoring
+A custom list could contain:
 
 ```text
-/status
-/health
-/metrics
+user
+userid
+user_id
+account
+accountid
+account_id
+order
+orderid
+order_id
+document
+documentid
+document_id
 ```
 
-## Legacy
+This can then be tested with:
 
-```text
-/old
-/legacy
-/v1
-/backup
+```bash
+ffuf \
+  -u 'https://target.example/page?FUZZ=1' \
+  -w custom-parameters.txt
 ```
-
-Categorising results helps determine what to investigate next.
 
 ---
 
-# 62. Prioritise Discoveries
+# Deduplicating URLs
 
-Not every discovered resource deserves equal attention.
-
-A simple prioritisation model is:
-
-```text
-Discovered Endpoint
-        |
-        v
-Authentication Required?
-        |
-        v
-Sensitive Functionality?
-        |
-        v
-User Input?
-        |
-        v
-File / URL / Command Processing?
-        |
-        v
-Administrative?
-        |
-        v
-API?
-        |
-        v
-Testing Priority
-```
-
-Examples of higher-priority functionality may include:
-
-* Authentication
-* Administration
-* File uploads
-* File downloads
-* URL imports
-* API endpoints
-* Debug functionality
-* Reporting
-* Data exports
-* Search
-* Integrations
-
----
-
-# 63. Content Discovery Does Not Equal Vulnerability
-
-A discovered endpoint is not automatically a security finding.
+Historical sources often produce many duplicates.
 
 For example:
 
 ```text
-/admin
+https://target.example/product?id=1
+https://target.example/product?id=2
+https://target.example/product?id=3
 ```
 
-returning:
+These represent the same basic attack surface:
 
 ```text
-403 Forbidden
+/product?id=
 ```
 
-may simply indicate correctly protected functionality.
+Testing every historical value is usually unnecessary.
 
-The workflow should be:
+Instead, normalise URLs based on:
 
 ```text
-Endpoint Discovered
-        |
-        v
-Manually Validate
-        |
-        v
-Understand Function
-        |
-        v
-Determine Access Control
-        |
-        v
-Security Testing
-        |
-        v
-Finding / No Finding
+Host
+Path
+Parameter names
 ```
-
-Do not report the existence of a path as a vulnerability without security impact.
 
 ---
 
-# 64. Practical ffuf Workflow
+# uro
 
-Start by understanding the baseline:
+The `uro` tool can help reduce duplicate URLs.
 
-```bash
-curl -ski \
-  https://example.com/random-does-not-exist-12345
-```
-
-Then run directory discovery:
+Example:
 
 ```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt \
-  -mc all \
-  -fc 404
+cat all-urls.txt | uro
 ```
 
-If the application uses soft `404`s, use auto calibration:
+Save results:
 
 ```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt \
-  -ac
+cat all-urls.txt \
+  | uro \
+  > unique-urls.txt
 ```
 
-Then investigate interesting directories recursively.
+This can significantly reduce noisy historical URL collections.
+
+---
+
+# qsreplace
+
+`qsreplace` can replace query-string values.
 
 For example:
 
 ```bash
-ffuf \
-  -u https://example.com/api/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
-  -ac
+echo 'https://target.example/search?q=test&page=1' \
+  | qsreplace FUZZ
+```
+
+Result:
+
+```text
+https://target.example/search?q=FUZZ&page=FUZZ
+```
+
+This can make parameterised URLs easier to process with later testing tools.
+
+---
+
+# Parameter Discovery Pipeline
+
+A useful passive pipeline is:
+
+```bash
+echo target.example | waybackurls > wayback.txt
+```
+
+```bash
+gau target.example > gau.txt
+```
+
+```bash
+urlfinder -d target.example -o urlfinder.txt
+```
+
+Combine:
+
+```bash
+cat wayback.txt gau.txt urlfinder.txt \
+  | sort -u \
+  > all-urls.txt
+```
+
+Reduce noise:
+
+```bash
+cat all-urls.txt \
+  | uro \
+  > unique-urls.txt
+```
+
+Extract parameterised URLs:
+
+```bash
+grep '=' unique-urls.txt \
+  > parameterised-urls.txt
+```
+
+Count:
+
+```bash
+wc -l parameterised-urls.txt
 ```
 
 ---
 
-# 65. Practical feroxbuster Workflow
+# Parameter Discovery With ParamSpider
 
-A practical starting command is:
-
-```bash
-feroxbuster \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt
-```
-
-With selected extensions:
+A second workflow can use ParamSpider directly:
 
 ```bash
-feroxbuster \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
-  -x php,json,txt,bak
+python3 paramspider.py -d target.example
 ```
 
-Limit recursion when necessary:
+Then:
 
 ```bash
-feroxbuster \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
-  -d 2
+cd output
 ```
+
+Review:
+
+```bash
+cat target.example.txt
+```
+
+Deduplicate:
+
+```bash
+sort -u target.example.txt \
+  -o target.example.txt
+```
+
+The resulting URLs can then be manually reviewed or passed into specialised analysis tools.
 
 ---
 
-# 66. Practical dirsearch Workflow
+# XSS Candidate Discovery With kxss
 
-Basic discovery:
-
-```bash
-dirsearch \
-  -u https://example.com
-```
-
-With extensions:
-
-```bash
-dirsearch \
-  -u https://example.com \
-  -e php,html,js,json,txt,bak
-```
-
-With a SecLists wordlist:
-
-```bash
-dirsearch \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt
-```
-
----
-
-# 67. Practical Reconnaissance Pipeline
-
-Content discovery should consume information from earlier reconnaissance stages.
+After collecting parameterised GET URLs, `kxss` can help identify parameters where supplied input is reflected in responses.
 
 For example:
 
+```bash
+cat parameterised-urls.txt | kxss
+```
+
+Or with ParamSpider output:
+
+```bash
+cat output/target.example.txt | kxss
+```
+
+This does not automatically mean an endpoint is vulnerable to Cross-Site Scripting.
+
+It identifies locations where input reflection may deserve further investigation.
+
+A useful workflow is:
+
 ```text
-Subdomain Enumeration
-        |
-        v
-alive-hosts.txt
-        |
-        v
-Technology Identification
-        |
-        v
-Select Relevant Wordlists
-        |
-        v
-Content Discovery
-        |
-        +---- ffuf
-        |
-        +---- feroxbuster
-        |
-        +---- dirsearch
-        |
-        v
-Interesting Endpoints
-        |
-        v
-Manual Validation
-        |
-        v
-Crawling
-        |
-        v
 Parameter Discovery
-        |
-        v
-JavaScript Analysis
+        ↓
+Parameterised URLs
+        ↓
+kxss
+        ↓
+Reflection Candidates
+        ↓
+Manual Burp Testing
+        ↓
+Context Analysis
+        ↓
+XSS Testing
 ```
 
-Each reconnaissance stage should improve the next one.
+Always manually verify results.
 
 ---
 
-# 68. Recommended Output Structure
+# Live URL Verification
 
-Keep discovery results organised.
+Historical URLs may no longer exist.
+
+Before extensive testing, determine whether endpoints are still reachable.
+
+For example, URL lists can be reviewed using HTTP probing tools such as:
+
+```text
+httpx
+```
+
+A conceptual workflow is:
+
+```text
+Historical URLs
+      ↓
+Deduplicate
+      ↓
+Probe
+      ↓
+Keep Relevant Live Endpoints
+      ↓
+Parameter Analysis
+```
+
+This can prevent spending time testing obsolete endpoints.
+
+---
+
+# GET Versus POST Parameters
+
+GET parameters are easier to discover because they frequently appear in:
+
+```text
+Browser history
+Search engine indexes
+Web archives
+JavaScript
+Logs
+Links
+```
+
+POST parameters are less visible.
+
+They are more commonly discovered through:
+
+```text
+Burp Suite
+Forms
+JavaScript
+API documentation
+Source code
+Mobile applications
+Active parameter discovery
+```
+
+Do not assume a complete GET parameter inventory represents the complete input surface.
+
+---
+
+# Hidden Form Fields
+
+HTML forms may contain hidden inputs.
+
+Example:
+
+```html
+<input type="hidden" name="user_id" value="123">
+<input type="hidden" name="action" value="update">
+```
+
+Parameters:
+
+```text
+user_id
+action
+```
+
+Hidden does not mean trusted.
+
+The browser can modify these values before submission.
+
+Review all form fields through Burp Suite rather than relying only on visible page elements.
+
+---
+
+# Disabled Form Fields
+
+Disabled fields can also reveal interesting application parameters.
+
+Example:
+
+```html
+<input name="role" value="user" disabled>
+```
+
+Although the browser may not normally submit the field, the backend may still accept it if manually included.
+
+Record these parameters for later validation.
+
+---
+
+# HTTP Method Analysis
+
+The same endpoint may behave differently depending on the HTTP method.
+
+For example:
+
+```text
+GET /api/user
+POST /api/user
+PUT /api/user
+PATCH /api/user
+DELETE /api/user
+```
+
+Each method may accept different parameters.
+
+When documentation or application behaviour suggests multiple methods, map the parameter set independently.
+
+---
+
+# Content-Type Analysis
+
+Parameter parsing may also depend on the content type.
+
+For example:
+
+```text
+application/x-www-form-urlencoded
+application/json
+multipart/form-data
+application/xml
+text/xml
+```
+
+An endpoint may process:
+
+```json
+{"id":123}
+```
+
+differently from:
+
+```text
+id=123
+```
+
+Record the expected content type alongside each parameter.
+
+---
+
+# Parameter Behaviour Analysis
+
+Discovery alone is not enough.
+
+For each important parameter, determine:
+
+```text
+Is it required?
+What data type does it expect?
+Does it accept empty values?
+Does it accept multiple values?
+Does it affect the response?
+Does it trigger a redirect?
+Does it reference an object?
+Does it reference a file?
+Does it reference a URL?
+Is it reflected?
+Is it stored?
+Does it change application state?
+```
+
+This creates context for later vulnerability testing.
+
+---
+
+# Duplicate Parameters
+
+Applications may behave unexpectedly when the same parameter appears multiple times.
+
+Example:
+
+```text
+?id=1&id=2
+```
+
+Different frameworks may:
+
+```text
+Use first value
+Use last value
+Create an array
+Concatenate values
+Reject request
+```
+
+This behaviour can become relevant during later validation and access-control testing.
+
+Record it when observed.
+
+---
+
+# Case Sensitivity
+
+Parameter names may be case-sensitive.
+
+For example:
+
+```text
+id
+ID
+Id
+userId
+userid
+userID
+```
+
+Do not automatically assume these are equivalent.
+
+Application frameworks and custom parsing logic may treat them differently.
+
+---
+
+# Parameter Relationships
+
+Parameters should not always be analysed independently.
+
+Consider:
+
+```text
+/account?user_id=100&organisation_id=5
+```
+
+The relationship may be:
+
+```text
+organisation_id
+      ↓
+Defines organisation
+
+user_id
+      ↓
+Defines user inside organisation
+```
+
+Testing the parameters together may reveal behaviour that testing each one independently misses.
+
+This is particularly important for:
+
+```text
+Business logic
+Authorisation
+Multi-tenant applications
+Object-level access control
+```
+
+---
+
+# Parameter Inventory
+
+Maintain a structured parameter inventory.
+
+For example:
+
+| Endpoint | Method | Parameter | Location | Type | Purpose |
+|---|---|---|---|---|---|
+| `/search` | GET | `q` | Query | String | Search |
+| `/product` | GET | `id` | Query | Integer | Product identifier |
+| `/redirect` | GET | `url` | Query | URL | Redirect destination |
+| `/download` | GET | `file` | Query | String | File selection |
+| `/api/user` | POST | `email` | JSON | String | User email |
+| `/api/order/{id}` | GET | `id` | Path | Integer | Order identifier |
+
+Add additional columns when useful:
+
+```text
+Authentication required
+Role required
+Reflected
+Stored
+Interesting behaviour
+Testing status
+Notes
+```
+
+---
+
+# Prioritising Parameters
+
+Not every parameter deserves equal attention.
+
+A useful priority order is:
+
+```text
+Object identifiers
+        ↓
+URL parameters
+        ↓
+File/path parameters
+        ↓
+Authentication parameters
+        ↓
+Search/filter parameters
+        ↓
+Template/content parameters
+        ↓
+Debug parameters
+        ↓
+Pagination/display parameters
+```
+
+However, context matters.
+
+For example:
+
+```text
+?page=2
+```
+
+might appear harmless.
+
+But:
+
+```text
+?page=../../etc/passwd
+```
+
+would indicate that `page` is actually being used as a file path.
+
+Parameter names are hints, not proof.
+
+---
+
+# Mapping Parameters to Testing Areas
+
+Once parameters have been classified, map them to likely testing categories.
+
+| Parameter Pattern | Testing Areas |
+|---|---|
+| `id`, `uid`, `account_id` | Authorisation, IDOR |
+| `q`, `search`, `query` | XSS, SQLi, input validation |
+| `url`, `uri`, `target` | SSRF, open redirect |
+| `redirect`, `next`, `return` | Open redirect, authentication flows |
+| `file`, `path`, `page` | Path traversal, file handling |
+| `template`, `view` | SSTI, file inclusion |
+| `cmd`, `command`, `exec` | Command injection |
+| `callback` | Redirects, SSRF, JSONP |
+| `role`, `admin`, `privilege` | Authorisation, mass assignment |
+| `debug`, `test`, `dev` | Debug functionality |
+| `sort`, `order`, `filter` | SQLi, business logic |
+| `host`, `domain`, `ip` | SSRF, command injection, network functionality |
+
+This mapping should guide testing, not replace manual analysis.
+
+---
+
+# Practical Workflow
+
+A complete parameter discovery workflow could look like this.
+
+## 1. Browse the application
+
+Use:
+
+```text
+Browser
+Burp Suite
+Developer Tools
+```
+
+Record:
+
+```text
+GET parameters
+POST parameters
+JSON keys
+Cookies
+Headers
+Path identifiers
+```
+
+---
+
+## 2. Collect historical URLs
+
+```bash
+echo target.example | waybackurls > wayback.txt
+```
+
+```bash
+gau target.example > gau.txt
+```
+
+```bash
+urlfinder -d target.example -o urlfinder.txt
+```
+
+---
+
+## 3. Combine results
+
+```bash
+cat wayback.txt gau.txt urlfinder.txt \
+  | sort -u \
+  > all-urls.txt
+```
+
+---
+
+## 4. Reduce duplicates
+
+```bash
+cat all-urls.txt \
+  | uro \
+  > unique-urls.txt
+```
+
+---
+
+## 5. Extract parameterised URLs
+
+```bash
+grep '=' unique-urls.txt \
+  > parameterised-urls.txt
+```
+
+---
+
+## 6. Run ParamSpider
+
+```bash
+python3 paramspider.py -d target.example
+```
+
+Review:
+
+```bash
+cat output/target.example.txt
+```
+
+---
+
+## 7. Review JavaScript
+
+Search for:
+
+```text
+API endpoints
+Parameter names
+Fetch requests
+Axios requests
+GraphQL queries
+Hidden functionality
+```
+
+---
+
+## 8. Active parameter discovery
+
+For interesting endpoints:
+
+```bash
+arjun -u https://target.example/page
+```
+
+or:
+
+```bash
+ffuf \
+  -u 'https://target.example/page?FUZZ=test' \
+  -w parameters.txt
+```
+
+---
+
+## 9. Identify reflection candidates
+
+For authorised GET-based testing:
+
+```bash
+cat parameterised-urls.txt | kxss
+```
+
+---
+
+## 10. Verify manually
+
+Send interesting requests to Burp Repeater.
+
+Determine:
+
+```text
+What does the parameter control?
+What data type is expected?
+How does the response change?
+Where is the value processed?
+What should be tested next?
+```
+
+---
+
+# Example Attack Surface
+
+Suppose reconnaissance produces:
+
+```text
+/search?q=test
+/product?id=123
+/download?file=document.pdf
+/redirect?url=https://example.com
+/api/user?user_id=100
+```
+
+The parameters can be mapped as:
+
+```text
+q
+ ↓
+Search
+ ↓
+XSS / SQLi investigation
+
+id
+ ↓
+Object identifier
+ ↓
+Authorisation / IDOR investigation
+
+file
+ ↓
+File reference
+ ↓
+File handling / path traversal investigation
+
+url
+ ↓
+URL
+ ↓
+Redirect / SSRF investigation
+
+user_id
+ ↓
+User object
+ ↓
+Authorisation investigation
+```
+
+This demonstrates why parameter discovery is a bridge between reconnaissance and vulnerability testing.
+
+---
+
+# Recommended Output Structure
+
+Keep reconnaissance output organised.
 
 For example:
 
 ```text
 recon/
-├── subdomains/
-│   ├── subdomains.txt
-│   ├── resolved-subdomains.txt
-│   └── alive-hosts.txt
+├── urls/
+│   ├── wayback.txt
+│   ├── gau.txt
+│   ├── urlfinder.txt
+│   ├── all-urls.txt
+│   └── unique-urls.txt
 │
-├── technology/
-│   ├── httpx.txt
-│   └── whatweb.txt
+├── parameters/
+│   ├── parameterised-urls.txt
+│   ├── parameter-names.txt
+│   ├── paramspider.txt
+│   ├── arjun.txt
+│   └── reflection-candidates.txt
 │
-└── content/
-    ├── ffuf/
-    ├── feroxbuster/
-    ├── dirsearch/
-    ├── historical-urls.txt
-    ├── interesting-endpoints.txt
-    └── validated-endpoints.txt
+└── javascript/
+    └── endpoints.txt
 ```
 
-For larger assessments, create separate directories for each hostname.
+This makes later testing considerably easier.
 
-For example:
+---
+
+# Parameter Discovery Checklist
 
 ```text
-content/
-├── www.example.com/
-├── api.example.com/
-├── portal.example.com/
-└── admin.example.com/
+[ ] Review Burp HTTP history
+[ ] Review Burp site map
+[ ] Review browser Network requests
+[ ] Record GET parameters
+[ ] Record POST parameters
+[ ] Record JSON parameters
+[ ] Record XML parameters
+[ ] Record path parameters
+[ ] Review cookies
+[ ] Review interesting headers
+[ ] Collect Wayback URLs
+[ ] Collect GAU URLs
+[ ] Collect URLFinder URLs
+[ ] Run ParamSpider
+[ ] Deduplicate URLs
+[ ] Extract parameter names
+[ ] Review JavaScript
+[ ] Review Swagger/OpenAPI
+[ ] Review GraphQL requests
+[ ] Check hidden form fields
+[ ] Check disabled form fields
+[ ] Perform active parameter discovery
+[ ] Establish baseline responses
+[ ] Review response differences
+[ ] Identify reflection candidates
+[ ] Classify parameters
+[ ] Prioritise interesting parameters
+[ ] Record parameters in an inventory
+[ ] Manually verify important findings
 ```
 
 ---
 
-# 69. Record Interesting Endpoints
+# Quick Reference
 
-Maintain a simple list such as:
-
-```text
-/admin
-/api
-/api/v1
-/login
-/upload
-/download
-/swagger
-/graphql
-/debug
-```
-
-Or include additional context:
-
-```text
-/admin       302   -> /login
-/api         200   application/json
-/swagger     200   Swagger UI
-/debug       403
-/upload      200   Authenticated
-```
-
-This becomes useful input for subsequent testing.
-
----
-
-# 70. Quick Reference
-
-## robots.txt
+## Passive Discovery
 
 ```bash
-curl -sk https://example.com/robots.txt
+echo target.example | waybackurls > wayback.txt
 ```
 
-## sitemap.xml
-
 ```bash
-curl -sk https://example.com/sitemap.xml
+gau target.example > gau.txt
 ```
 
-## security.txt
-
 ```bash
-curl -sk https://example.com/.well-known/security.txt
+urlfinder -d target.example -o urlfinder.txt
 ```
 
-## Random 404 Baseline
-
 ```bash
-curl -ski \
-  https://example.com/random-does-not-exist-12345
-```
-
-## ffuf Directory Discovery
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
-```
-
-## ffuf with Auto Calibration
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt \
-  -ac
-```
-
-## ffuf File Discovery
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt
-```
-
-## ffuf Extensions
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
-  -e .php,.json,.txt,.bak
-```
-
-## Filter 404
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -mc all \
-  -fc 404
-```
-
-## Filter Response Size
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -fs 4242
-```
-
-## Save JSON Results
-
-```bash
-ffuf \
-  -u https://example.com/FUZZ \
-  -w wordlist.txt \
-  -o ffuf-results.json \
-  -of json
-```
-
-## feroxbuster
-
-```bash
-feroxbuster \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt
-```
-
-## dirsearch
-
-```bash
-dirsearch \
-  -u https://example.com \
-  -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt
-```
-
-## Historical URLs
-
-```bash
-waybackurls example.com > historical-urls.txt
-```
-
-## gau
-
-```bash
-gau example.com > historical-urls.txt
-```
-
-## Virtual Host Discovery
-
-```bash
-ffuf \
-  -u https://example.com/ \
-  -H "Host: FUZZ.example.com" \
-  -w wordlist.txt
+python3 paramspider.py -d target.example
 ```
 
 ---
 
-# 71. Testing Checklist
+## Combine URLs
 
-During content discovery, ask:
-
-```text
-[ ] Did I check robots.txt?
-[ ] Did I check sitemap.xml?
-[ ] Did I check .well-known resources?
-[ ] Did I inspect HTML?
-[ ] Did I inspect JavaScript?
-[ ] Did I establish the application's 404 baseline?
-[ ] Did I identify soft 404 behaviour?
-[ ] Did I choose a suitable wordlist?
-[ ] Did I perform directory discovery?
-[ ] Did I perform file discovery?
-[ ] Did I use technology-specific extensions?
-[ ] Did I investigate redirects?
-[ ] Did I retain 401 and 403 results?
-[ ] Did I investigate unusual response sizes?
-[ ] Did I recurse into interesting directories?
-[ ] Did I check API documentation?
-[ ] Did I look for source maps?
-[ ] Did I review historical URLs?
-[ ] Did I build target-specific wordlists?
-[ ] Did I repeat discovery after authentication?
-[ ] Did I compare different user roles where available?
-[ ] Did I manually validate interesting results?
+```bash
+cat wayback.txt gau.txt urlfinder.txt \
+  | sort -u \
+  > all-urls.txt
 ```
 
 ---
 
-# 72. Final Workflow
+## Deduplicate
 
-The complete process can be summarised as:
-
-```text
-                         Live Web Target
-                                |
-                                v
-                      Manual Investigation
-                                |
-               +----------------+----------------+
-               |                |                |
-          robots.txt       sitemap.xml      JavaScript
-               |                |                |
-               +----------------+----------------+
-                                |
-                                v
-                    Technology Identification
-                                |
-                                v
-                       Wordlist Selection
-                                |
-             +------------------+------------------+
-             |                  |                  |
-            ffuf           feroxbuster         dirsearch
-             |                  |                  |
-             +------------------+------------------+
-                                |
-                                v
-                         Raw Discoveries
-                                |
-                +---------------+---------------+
-                |               |               |
-             Status           Size           Redirect
-                |               |               |
-                +---------------+---------------+
-                                |
-                                v
-                         Remove Noise
-                                |
-                                v
-                        Manual Validation
-                                |
-             +------------------+------------------+
-             |                  |                  |
-           Admin               API              Files
-             |                  |                  |
-             +------------------+------------------+
-                                |
-                                v
-                     Recursive Discovery
-                                |
-                                v
-                      Expanded Attack Surface
-                                |
-                 +--------------+--------------+
-                 |                             |
-                 v                             v
-         Parameter Discovery            JavaScript Analysis
+```bash
+cat all-urls.txt \
+  | uro \
+  > unique-urls.txt
 ```
-
-The most important principle is:
-
-```text
-Do Not Fuzz Blindly
-        |
-        v
-Understand the Target
-        |
-        v
-Establish a Baseline
-        |
-        v
-Choose Relevant Wordlists
-        |
-        v
-Discover Content
-        |
-        v
-Analyse Differences
-        |
-        v
-Manually Validate
-```
-
-Content discovery is most effective when it is driven by information collected during the rest of reconnaissance.
 
 ---
 
-## Related Notes
+## Parameterised URLs
 
-* [Reconnaissance Overview](index.md)
-* [Subdomain Enumeration](subdomain-enumeration.md)
-* [Technology Identification](technology-identification.md)
-* [Parameter Discovery](parameter-discovery.md)
-* [JavaScript Analysis](javascript-analysis.md)
-* [Web Application Testing Methodology](../methodology.md)
-* [Web Application Pentesting Checklist](../checklist.md)
+```bash
+grep '=' unique-urls.txt \
+  > parameterised-urls.txt
+```
+
+---
+
+## Extract Parameter Names
+
+```bash
+cat parameterised-urls.txt \
+  | grep -oE '[?&][^=]+' \
+  | sed 's/^[?&]//' \
+  | sort -u \
+  > parameter-names.txt
+```
+
+---
+
+## Active Discovery
+
+```bash
+arjun -u https://target.example/page
+```
+
+---
+
+## FFUF Parameter Names
+
+```bash
+ffuf \
+  -u 'https://target.example/page?FUZZ=test' \
+  -w parameter-names.txt
+```
+
+---
+
+## Reflection Candidates
+
+```bash
+cat parameterised-urls.txt | kxss
+```
+
+---
+
+# Key Principle
+
+Parameter discovery should not be treated as:
+
+```text
+Collect URLs
+     ↓
+Find ?
+     ↓
+Done
+```
+
+A better approach is:
+
+```text
+Discover Endpoint
+        ↓
+Identify Inputs
+        ↓
+Understand Input Location
+        ↓
+Determine Purpose
+        ↓
+Classify Parameter
+        ↓
+Observe Behaviour
+        ↓
+Prioritise
+        ↓
+Test
+```
+
+The important question is not:
+
+> How many parameters did I find?
+
+The important questions are:
+
+> What does each parameter control?
+
+and:
+
+> Where does this input go?
+
+A good parameter inventory transforms reconnaissance from a collection of URLs into a structured map of the application's **user-controlled input surface**.
