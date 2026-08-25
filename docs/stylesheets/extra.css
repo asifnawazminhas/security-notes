@@ -1,101 +1,155 @@
-/* ==========================================================
+/* ============================================================
    Asif's Security Notes
-   Custom MkDocs Material Theme
-   ========================================================== */
+   Custom Material for MkDocs styling
+   ============================================================ */
+
+
+/* ============================================================
+   BRAND COLOURS
+   ============================================================ */
 
 :root {
   --am-cyan: #00e5ff;
-  --am-cyan-soft: #67f4ff;
-  --am-cyan-dark: #009fb3;
-  --am-red: #ff334f;
+  --am-cyan-soft: #00b8d4;
+  --am-red: #ff3b4d;
 
-  --am-bg: #080c11;
-  --am-bg-deep: #05080c;
-  --am-surface: #0e151d;
-  --am-surface-light: #131d27;
-  --am-border: #21303d;
+  --am-dark-bg: #071015;
+  --am-dark-surface: #0b141a;
+  --am-dark-surface-2: #10191f;
+  --am-dark-border: #20343e;
+
+  --am-light-bg: #f7f9fb;
+  --am-light-surface: #ffffff;
+  --am-light-border: #d8e1e6;
 }
 
-/* ==========================================================
-   DARK THEME
-   ========================================================== */
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.md-grid {
+  max-width: 76rem;
+}
+
+.md-main__inner {
+  margin-top: 1.5rem;
+}
+
+.md-content__inner {
+  padding-bottom: 3rem;
+}
+
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
 
 [data-md-color-scheme="slate"] {
-  --md-default-bg-color: var(--am-bg);
-  --md-default-fg-color: #d8e0e8;
-  --md-default-fg-color--light: #aab5c0;
-  --md-default-fg-color--lighter: #73808d;
+  --md-default-bg-color: var(--am-dark-bg);
+  --md-default-fg-color: #eef5f7;
+  --md-default-fg-color--light: #c2ccd1;
+  --md-default-fg-color--lighter: #93a4ac;
 
-  --md-primary-fg-color: #05080c;
+  --md-primary-fg-color: #111318;
   --md-primary-bg-color: #ffffff;
 
   --md-accent-fg-color: var(--am-cyan);
 
-  --md-code-bg-color: #05090d;
-  --md-code-fg-color: #dce5ed;
+  --md-code-bg-color: #050b0f;
+  --md-code-fg-color: #e8f4f7;
 
-  --md-typeset-a-color: var(--am-cyan);
+  --md-typeset-a-color: #55a7ff;
 }
 
-/* ==========================================================
+
+/* ============================================================
+   LIGHT MODE
+   ============================================================ */
+
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: var(--am-light-bg);
+  --md-default-fg-color: #172126;
+  --md-default-fg-color--light: #455a64;
+  --md-default-fg-color--lighter: #6d7f87;
+
+  --md-primary-fg-color: #111318;
+  --md-primary-bg-color: #ffffff;
+
+  --md-accent-fg-color: #008fa3;
+
+  --md-code-bg-color: #eef3f5;
+  --md-code-fg-color: #172126;
+
+  --md-typeset-a-color: #006fc9;
+}
+
+
+/* ============================================================
    HEADER
-   ========================================================== */
+   ============================================================ */
 
 .md-header {
-  background: rgba(5, 8, 12, 0.98);
-  border-bottom: 1px solid var(--am-border);
+  background: #111318;
+  border-bottom: 1px solid #20343e;
   box-shadow: none;
 }
 
 .md-header__title {
   font-weight: 700;
-  letter-spacing: 0.02em;
 }
 
-.md-header__button.md-logo {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
-.md-header__button.md-logo img {
-  width: auto;
-  height: 2.2rem;
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  width: 3rem;
+  height: 3rem;
   object-fit: contain;
 }
 
-/* ==========================================================
+.md-header__button {
+  color: #ffffff;
+}
+
+.md-header__topic {
+  color: #ffffff;
+}
+
+
+/* ============================================================
    NAVIGATION TABS
-   ========================================================== */
+   ============================================================ */
 
 .md-tabs {
-  background: #05080c;
-  border-bottom: 1px solid var(--am-border);
+  background: #111318;
+  border-bottom: 1px solid #20343e;
 }
 
 .md-tabs__link {
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 600;
-  opacity: 0.72;
-  transition:
-    color 0.15s ease,
-    opacity 0.15s ease;
 }
 
-.md-tabs__link:hover,
-.md-tabs__link--active {
+.md-tabs__link:hover {
   color: var(--am-cyan);
-  opacity: 1;
 }
 
-/* ==========================================================
-   LEFT NAVIGATION
-   ========================================================== */
-
-.md-nav__title {
-  font-weight: 700;
+.md-tabs__link--active {
+  color: #ffffff;
 }
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 
 .md-nav__link {
-  transition: color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .md-nav__link:hover {
@@ -104,344 +158,443 @@
 
 .md-nav__link--active {
   color: var(--am-cyan);
-  font-weight: 700;
+  font-weight: 600;
 }
 
-/* ==========================================================
-   MAIN PAGE
-   ========================================================== */
-
-.md-main {
-  background:
-    radial-gradient(
-      circle at 75% 5%,
-      rgba(0, 229, 255, 0.04),
-      transparent 32rem
-    ),
-    var(--am-bg);
+[data-md-color-scheme="slate"] .md-sidebar {
+  color: #dce5e8;
 }
 
-.md-content {
-  max-width: 100%;
+[data-md-color-scheme="default"] .md-sidebar {
+  color: #263238;
 }
+
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
 
 .md-typeset h1 {
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.025em;
 }
 
 .md-typeset h2 {
-  margin-top: 2em;
-  padding-bottom: 0.35rem;
-
-  border-bottom: 1px solid var(--am-border);
-
   font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
 .md-typeset h3 {
+  font-weight: 650;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1,
+[data-md-color-scheme="slate"] .md-typeset h2,
+[data-md-color-scheme="slate"] .md-typeset h3 {
+  color: #e7edf0;
+}
+
+[data-md-color-scheme="default"] .md-typeset h1,
+[data-md-color-scheme="default"] .md-typeset h2,
+[data-md-color-scheme="default"] .md-typeset h3 {
+  color: #172126;
+}
+
+
+/* ============================================================
+   HOMEPAGE BANNER
+   ============================================================ */
+
+/*
+   The first image on the homepage is the Security Notes banner.
+
+   This removes the large empty black area that was visible
+   above and below the actual banner.
+*/
+
+.md-typeset > p:first-child {
+  margin-top: 0;
+  margin-bottom: 1.6rem;
+}
+
+.md-typeset > p:first-child img {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  height: auto;
+
+  margin: 0 auto;
+
+  border-radius: 0.65rem;
+
+  object-fit: contain;
+}
+
+[data-md-color-scheme="slate"] .md-typeset > p:first-child img {
+  border: 1px solid var(--am-dark-border);
+}
+
+[data-md-color-scheme="default"] .md-typeset > p:first-child img {
+  border: 1px solid var(--am-light-border);
+}
+
+
+/* ============================================================
+   OPTIONAL BANNER CONTAINER CLEANUP
+   ============================================================ */
+
+/*
+   Prevent paragraph spacing from creating additional space
+   around the homepage banner.
+*/
+
+.md-content__inner > p:first-child {
+  padding: 0;
+}
+
+
+/* ============================================================
+   HOMEPAGE INTRO
+   ============================================================ */
+
+.md-typeset .hero-intro {
+  margin-bottom: 1.5rem;
+}
+
+.md-typeset .hero-intro strong {
   font-weight: 700;
 }
 
-/* ==========================================================
+
+/* ============================================================
+   SECURITY CATEGORY PILLS
+   ============================================================ */
+
+.security-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+
+  margin: 1.2rem 0 2rem;
+}
+
+.security-tag {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.45rem 0.9rem;
+
+  border: 1px solid #009bb0;
+  border-radius: 999px;
+
+  color: var(--am-cyan);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.security-tag:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: var(--am-cyan);
+  color: var(--am-cyan);
+
+  transform: translateY(-1px);
+}
+
+[data-md-color-scheme="default"] .security-tag {
+  color: #007f91;
+  border-color: #009bb0;
+}
+
+[data-md-color-scheme="default"] .security-tag:hover {
+  color: #005f6d;
+  background: rgba(0, 184, 212, 0.08);
+}
+
+
+/* ============================================================
+   KNOWLEDGE BASE CARDS
+   ============================================================ */
+
+.grid.cards > ul > li {
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+[data-md-color-scheme="slate"] .grid.cards > ul > li {
+  background: var(--am-dark-surface);
+  border-color: var(--am-dark-border);
+}
+
+[data-md-color-scheme="default"] .grid.cards > ul > li {
+  background: var(--am-light-surface);
+  border-color: var(--am-light-border);
+}
+
+.grid.cards > ul > li:hover {
+  transform: translateY(-2px);
+}
+
+[data-md-color-scheme="slate"] .grid.cards > ul > li:hover {
+  border-color: #007f91;
+  box-shadow: 0 5px 20px rgba(0, 229, 255, 0.06);
+}
+
+[data-md-color-scheme="default"] .grid.cards > ul > li:hover {
+  border-color: #00a0b8;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ============================================================
+   CARD ICONS
+   ============================================================ */
+
+.grid.cards .twemoji,
+.grid.cards .emojione {
+  color: var(--am-cyan);
+}
+
+
+/* ============================================================
+   ADMONITIONS
+   ============================================================ */
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 0.5rem;
+  box-shadow: none;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .admonition,
+[data-md-color-scheme="slate"] .md-typeset details {
+  background: var(--am-dark-surface);
+}
+
+[data-md-color-scheme="default"] .md-typeset .admonition,
+[data-md-color-scheme="default"] .md-typeset details {
+  background: #ffffff;
+}
+
+
+/* ============================================================
+   WARNING / AUTHORISED TESTING BOX
+   ============================================================ */
+
+[data-md-color-scheme="slate"]
+.md-typeset
+.admonition.warning {
+  background: #0b0d0f;
+}
+
+[data-md-color-scheme="slate"]
+.md-typeset
+.admonition.warning
+.admonition-title {
+  background: #2a2114;
+}
+
+[data-md-color-scheme="default"]
+.md-typeset
+.admonition.warning {
+  background: #ffffff;
+}
+
+[data-md-color-scheme="default"]
+.md-typeset
+.admonition.warning
+.admonition-title {
+  background: #fff4df;
+  color: #302a21;
+}
+
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+
+.md-typeset pre {
+  border-radius: 0.5rem;
+}
+
+[data-md-color-scheme="slate"] .md-typeset pre {
+  border: 1px solid var(--am-dark-border);
+}
+
+[data-md-color-scheme="default"] .md-typeset pre {
+  border: 1px solid var(--am-light-border);
+}
+
+.md-typeset code {
+  border-radius: 0.25rem;
+}
+
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+
+.md-typeset table:not([class]) {
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+
+[data-md-color-scheme="slate"]
+.md-typeset
+table:not([class]) {
+  border: 1px solid var(--am-dark-border);
+}
+
+[data-md-color-scheme="default"]
+.md-typeset
+table:not([class]) {
+  border: 1px solid var(--am-light-border);
+}
+
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+
+.md-search__form {
+  border-radius: 0.5rem;
+}
+
+[data-md-color-scheme="slate"] .md-search__form {
+  background: #0b1015;
+  border: 1px solid #263943;
+}
+
+[data-md-color-scheme="default"] .md-search__form {
+  background: #ffffff;
+  border: 1px solid #d1dce1;
+}
+
+
+/* ============================================================
    LINKS
-   ========================================================== */
+   ============================================================ */
 
 .md-typeset a {
   transition: color 0.15s ease;
 }
 
-.md-typeset a:hover {
-  color: var(--am-cyan-soft);
-}
-
-/* ==========================================================
-   HOMEPAGE HERO
-   ========================================================== */
-
-.security-hero {
-  margin-top: 0;
-  margin-bottom: 2rem;
-}
-
-.security-hero > p:first-child {
-  margin-top: 0;
-}
-
-.security-hero > p:first-child img {
-  display: block;
-
-  width: 100%;
-  max-height: 500px;
-
-  object-fit: cover;
-
-  border: 1px solid var(--am-border);
-  border-radius: 0.65rem;
-
-  box-shadow:
-    0 0 30px rgba(0, 229, 255, 0.08),
-    0 15px 40px rgba(0, 0, 0, 0.4);
-}
-
-.hero-intro {
-  margin-top: 1.75rem;
-}
-
-.hero-intro h1 {
-  margin-bottom: 0.7rem;
-}
-
-/* ==========================================================
-   SECURITY BADGES
-   ========================================================== */
-
-.security-badge {
-  display: inline-block;
-
-  margin:
-    0.25rem
-    0.3rem
-    0.25rem
-    0;
-
-  padding:
-    0.32rem
-    0.68rem;
-
-  border:
-    1px solid
-    rgba(0, 229, 255, 0.45);
-
-  border-radius: 999px;
-
-  color: var(--am-cyan);
-
-  background:
-    rgba(0, 229, 255, 0.05);
-
-  font-family:
-    "Roboto Mono",
-    monospace;
-
-  font-size: 0.68rem;
-
-  font-weight: 700;
-
-  letter-spacing: 0.045em;
-}
-
-/* ==========================================================
-   HOMEPAGE CARDS
-   ========================================================== */
-
-.md-typeset .grid.cards > ul > li {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(17, 24, 33, 0.82),
-      rgba(8, 12, 17, 0.82)
-    );
-
-  border: 1px solid var(--am-border);
-
-  border-radius: 0.55rem;
-
-  transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.md-typeset .grid.cards > ul > li:hover {
-  border-color:
-    rgba(0, 229, 255, 0.65);
-
-  transform:
-    translateY(-3px);
-
-  box-shadow:
-    0 10px 30px
-    rgba(0, 229, 255, 0.07);
-}
-
-.md-typeset .grid.cards .lg {
+[data-md-color-scheme="slate"] .md-typeset a:hover {
   color: var(--am-cyan);
 }
 
-/* ==========================================================
-   CODE
-   ========================================================== */
-
-.md-typeset code {
-  border-radius: 0.3rem;
+[data-md-color-scheme="default"] .md-typeset a:hover {
+  color: #008ca0;
 }
 
-.md-typeset pre > code {
-  border:
-    1px solid
-    var(--am-border);
 
-  border-radius: 0.5rem;
+/* ============================================================
+   HORIZONTAL RULES
+   ============================================================ */
+
+[data-md-color-scheme="slate"] .md-typeset hr {
+  border-color: var(--am-dark-border);
 }
 
-.highlight {
-  border-radius: 0.5rem;
+[data-md-color-scheme="default"] .md-typeset hr {
+  border-color: var(--am-light-border);
 }
 
-.md-clipboard:hover {
-  color: var(--am-cyan);
-}
 
-/* ==========================================================
-   TERMINAL
-   ========================================================== */
-
-.terminal {
-  margin: 1.2rem 0;
-
-  padding: 1rem 1.2rem;
-
-  background:
-    #05080b;
-
-  border:
-    1px solid
-    var(--am-border);
-
-  border-left:
-    3px solid
-    var(--am-cyan);
-
-  border-radius: 0.45rem;
-
-  font-family:
-    "Roboto Mono",
-    monospace;
-
-  color: #dce5ed;
-}
-
-.terminal::before {
-  content: "root@security-notes:~$";
-
-  display: block;
-
-  margin-bottom: 0.65rem;
-
-  color: var(--am-cyan);
-
-  font-weight: 700;
-}
-
-/* ==========================================================
-   RED TEAM ACCENT
-   ========================================================== */
-
-.red-team {
-  padding-left: 1rem;
-
-  border-left:
-    3px solid
-    var(--am-red);
-}
-
-/* ==========================================================
-   TABLES
-   ========================================================== */
-
-.md-typeset table:not([class]) {
-  border:
-    1px solid
-    var(--am-border);
-
-  border-radius: 0.4rem;
-}
-
-.md-typeset table:not([class]) th {
-  background:
-    var(--am-surface);
-}
-
-/* ==========================================================
-   ADMONITIONS
-   ========================================================== */
-
-.md-typeset .admonition,
-.md-typeset details {
-  border-radius: 0.45rem;
-}
-
-/* ==========================================================
-   SEARCH
-   ========================================================== */
-
-.md-search__form {
-  border:
-    1px solid
-    var(--am-border);
-
-  border-radius: 0.4rem;
-}
-
-.md-search__input:focus {
-  border-color: var(--am-cyan);
-}
-
-/* ==========================================================
-   TEXT SELECTION
-   ========================================================== */
-
-::selection {
-  background:
-    rgba(0, 229, 255, 0.25);
-}
-
-/* ==========================================================
-   SCROLLBAR
-   ========================================================== */
-
-[data-md-color-scheme="slate"] ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-[data-md-color-scheme="slate"] ::-webkit-scrollbar-track {
-  background: #05080c;
-}
-
-[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb {
-  background: #273440;
-  border-radius: 10px;
-}
-
-[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb:hover {
-  background: #354554;
-}
-
-/* ==========================================================
+/* ============================================================
    FOOTER
-   ========================================================== */
+   ============================================================ */
 
 .md-footer {
-  background: #05080c;
-
-  border-top:
-    1px solid
-    var(--am-border);
+  background: #111318;
 }
 
-/* ==========================================================
+.md-footer-meta {
+  background: #111318;
+}
+
+.md-footer,
+.md-footer a,
+.md-footer-meta {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.md-footer a:hover {
+  color: var(--am-cyan);
+}
+
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+[data-md-color-scheme="slate"] {
+  scrollbar-color: #40535c #071015;
+}
+
+[data-md-color-scheme="default"] {
+  scrollbar-color: #a7b5bc #eef2f4;
+}
+
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+::selection {
+  background: rgba(0, 229, 255, 0.25);
+}
+
+
+/* ============================================================
    MOBILE
-   ========================================================== */
+   ============================================================ */
 
 @media screen and (max-width: 76.234375em) {
 
-  .md-nav__source {
-    background: #05080c;
+  .md-header__button.md-logo img,
+  .md-header__button.md-logo svg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+
+@media screen and (max-width: 44.984375em) {
+
+  .md-main__inner {
+    margin-top: 0.8rem;
   }
 
-  .security-hero > p:first-child img {
+  .md-typeset > p:first-child {
+    margin-bottom: 1.2rem;
+  }
+
+  .md-typeset > p:first-child img {
     border-radius: 0.4rem;
+  }
+
+  .security-tags {
+    gap: 0.4rem;
+  }
+
+  .security-tag {
+    padding: 0.38rem 0.7rem;
+    font-size: 0.68rem;
   }
 }
