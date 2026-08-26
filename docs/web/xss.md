@@ -1,11 +1,11 @@
 # Cross-Site Scripting
 
-Cross-Site Scripting (XSS) occurs when attacker-controlled input is interpreted by a browser as executable client-side content.
+Cross-Site Scripting (XSS) occurs when attacker-controlled input reaches a browser context where it is interpreted as executable client-side content.
 
-XSS testing should not simply consist of sending large numbers of payloads. A more reliable approach is to determine **where input enters the application, where it is reflected or stored, how the application transforms it, and in which browser context it eventually appears**.
+XSS testing should not simply consist of sending large numbers of payloads. A more reliable approach is to determine where input enters the application, where it is reflected or stored, how the application transforms it, and in which browser context it eventually appears.
 
 !!! warning "Authorised Security Testing"
-    Perform XSS testing only against applications for which you have explicit authorisation. The techniques in these notes are intended for authorised security assessments, lab environments, security research and responsible vulnerability disclosure.
+    Perform XSS testing only against applications for which you have explicit authorisation. These notes are intended for authorised penetration testing, lab environments, security research and responsible vulnerability disclosure.
 
 ---
 
@@ -17,7 +17,7 @@ The primary objectives of XSS testing are to determine:
 - where the input appears
 - which characters are accepted
 - which characters are encoded or removed
-- whether the application performs sanitisation
+- whether sanitisation is performed
 - whether input can influence HTML structure
 - whether input reaches JavaScript execution contexts
 - whether DOM manipulation introduces additional attack paths
@@ -77,23 +77,24 @@ Report
 
 Do not immediately start with complicated payloads.
 
-First understand **what the application does with your input**.
+First understand what the application does with the input.
 
 ---
 
 # Types of XSS
 
-The three primary categories are:
+The main categories are:
 
 ```text
 Reflected XSS
 Stored XSS
 DOM-Based XSS
+Blind XSS
 ```
 
-There are also situations where these concepts overlap.
+These categories can overlap.
 
-For example, stored data may later reach a DOM sink and result in client-side execution.
+For example, stored data may later reach a client-side DOM sink and result in execution.
 
 ---
 
@@ -128,11 +129,31 @@ Potential response:
 <p>Search results for test123</p>
 ```
 
-The first question is not whether JavaScript executes.
-
-The first question is:
+The first question should be:
 
 > Where did `test123` appear?
+
+---
+
+## Reflected XSS Workflow
+
+```text
+Identify Input
+      ↓
+Submit Unique Marker
+      ↓
+Locate Reflection
+      ↓
+Determine Context
+      ↓
+Determine Encoding
+      ↓
+Test Relevant Characters
+      ↓
+Perform Context-Specific Testing
+      ↓
+Validate in Browser
+```
 
 ---
 
@@ -155,10 +176,9 @@ Administrative notes
 Audit interfaces
 CMS content
 Contact forms
-Log viewers
 ```
 
-The important difference is that the vulnerable rendering may occur somewhere other than where the data was originally submitted.
+The vulnerable rendering may occur somewhere other than where the data was originally submitted.
 
 Example:
 
@@ -174,7 +194,33 @@ Stored value rendered
 Potential execution
 ```
 
-Therefore, stored XSS testing should include **secondary application interfaces**.
+Therefore, stored XSS testing should include secondary application interfaces.
+
+---
+
+## Stored XSS Workflow
+
+```text
+Identify Stored Input
+      ↓
+Submit Unique Marker
+      ↓
+Locate Every Rendering Location
+      ↓
+Determine Rendering Context
+      ↓
+Test Encoding
+      ↓
+Check Secondary Interfaces
+      ↓
+Check Privileged Interfaces
+      ↓
+Validate Behaviour
+```
+
+One stored field may be rendered in multiple contexts.
+
+Test each rendering location independently.
 
 ---
 
@@ -182,7 +228,7 @@ Therefore, stored XSS testing should include **secondary application interfaces*
 
 DOM-based XSS occurs when client-side JavaScript takes attacker-controlled data and passes it into an unsafe sink.
 
-The server response may not contain the malicious value at all.
+The malicious value may never appear in the original server response.
 
 Example:
 
@@ -203,7 +249,7 @@ innerHTML
 DOM
 ```
 
-This makes DOM analysis important during XSS testing.
+This makes JavaScript and DOM analysis important during XSS testing.
 
 ---
 
@@ -214,16 +260,10 @@ Before testing executable syntax, submit a unique harmless marker.
 For example:
 
 ```text
-xsstest1337
-```
-
-or:
-
-```text
 AMXSS987654
 ```
 
-Then search the response for that marker.
+Then search the response for the marker.
 
 Example:
 
@@ -231,7 +271,7 @@ Example:
 curl -s "https://target.example/search?q=AMXSS987654" | grep "AMXSS987654"
 ```
 
-The objective is to determine:
+Determine:
 
 ```text
 Was the value reflected?
@@ -249,7 +289,7 @@ Was it encoded?
 
 # Reflection Analysis
 
-Suppose the input:
+Suppose:
 
 ```text
 AMXSS987654
@@ -261,9 +301,9 @@ appears as:
 <h2>Results for AMXSS987654</h2>
 ```
 
-The value is in an HTML text context.
+The value is in HTML text context.
 
-But if it appears as:
+If it appears as:
 
 ```html
 <input value="AMXSS987654">
@@ -281,13 +321,11 @@ var search = "AMXSS987654";
 
 it is inside JavaScript.
 
-These are different contexts and require different testing approaches.
+These are different contexts and require different testing strategies.
 
 ---
 
 # Understand the Injection Context
-
-The injection context is one of the most important aspects of XSS testing.
 
 Typical contexts include:
 
@@ -303,7 +341,11 @@ DOM sinks
 Client-side templates
 ```
 
-A payload that works in one context may be completely irrelevant in another.
+A test that works in one context may be completely irrelevant in another.
+
+The correct question is:
+
+> How will the browser parse this value?
 
 ---
 
@@ -317,7 +359,7 @@ USER_INPUT
 </div>
 ```
 
-Start by testing whether HTML metacharacters are encoded.
+Start by determining whether HTML metacharacters are encoded.
 
 Example test:
 
@@ -331,7 +373,7 @@ Possible response:
 &lt;test&gt;
 ```
 
-This indicates that angle brackets are being encoded.
+This indicates that angle brackets are being HTML encoded.
 
 If the response instead contains:
 
@@ -339,7 +381,7 @@ If the response instead contains:
 <test>
 ```
 
-the browser may interpret the input as markup.
+the browser may interpret the value as markup.
 
 Further context-specific testing is then appropriate.
 
@@ -363,9 +405,7 @@ Are event handlers filtered?
 Is the attribute quoted?
 ```
 
-Test characters individually.
-
-For example:
+Test interesting characters individually:
 
 ```text
 "
@@ -398,7 +438,7 @@ Are quotes escaped?
 Are backslashes escaped?
 Are newlines allowed?
 Is the value JSON encoded?
-Can the surrounding JavaScript syntax be influenced?
+Can surrounding JavaScript syntax be influenced?
 ```
 
 Do not treat JavaScript contexts like HTML contexts.
@@ -421,7 +461,7 @@ or:
 window.location = userInput;
 ```
 
-Test:
+Review:
 
 ```text
 Allowed protocols
@@ -434,9 +474,9 @@ DOM manipulation
 URL contexts can interact with:
 
 ```text
-Open redirect vulnerabilities
+Open redirects
 DOM XSS
-Unsafe URL schemes
+Unsafe URL handling
 Client-side routing
 ```
 
@@ -454,11 +494,9 @@ Example:
 }
 ```
 
-JSON alone does not automatically imply XSS.
+JSON reflection alone does not automatically constitute XSS.
 
-The important question is:
-
-> What consumes the JSON value?
+The important question is what consumes the value.
 
 For example:
 
@@ -480,7 +518,7 @@ The vulnerability may exist in the frontend rather than the API response itself.
 
 # Character Testing
 
-Before attempting complex payloads, determine which characters survive the application.
+Before attempting complex tests, determine which characters survive the application.
 
 Useful characters include:
 
@@ -505,13 +543,13 @@ Useful characters include:
 #
 ```
 
-A simple marker can help identify transformations:
+A marker can help identify transformations:
 
 ```text
 AMXSS<>"'`{}()[]=/\;
 ```
 
-Compare the request and response.
+Compare the request and response carefully.
 
 ---
 
@@ -527,7 +565,7 @@ Common transformations include:
 &    →    &amp;
 ```
 
-But encoding must be appropriate for the output context.
+Encoding must be appropriate for the output context.
 
 HTML encoding does not necessarily protect a JavaScript context.
 
@@ -537,7 +575,7 @@ Similarly, JavaScript escaping may not be appropriate for an HTML attribute.
 
 # Double Encoding
 
-Check whether input is decoded multiple times.
+Check whether input passes through multiple decoding layers.
 
 For example:
 
@@ -557,7 +595,7 @@ Double encoding may appear as:
 %253C
 ```
 
-Applications containing multiple decoding layers can sometimes produce unexpected results.
+Applications containing several decoding and encoding layers can produce unexpected behaviour.
 
 Analyse each transformation step.
 
@@ -565,9 +603,7 @@ Analyse each transformation step.
 
 # Burp Suite Workflow
 
-Burp Suite is particularly useful for XSS testing because requests can be modified repeatedly while observing the exact response.
-
-A useful workflow is:
+Burp Suite is particularly useful because requests can be repeatedly modified while observing the exact response.
 
 ```text
 Proxy
@@ -633,7 +669,7 @@ WebSocket messages
 
 Send interesting requests to Repeater.
 
-Start with a marker:
+Start with:
 
 ```text
 AMXSS987654
@@ -660,13 +696,13 @@ Repeater is ideal for controlled character-by-character analysis.
 
 Intruder can help determine how the application handles different characters.
 
-For example, configure a payload position:
+For example:
 
 ```text
 GET /search?q=§PAYLOAD§ HTTP/1.1
 ```
 
-Then test characters such as:
+Test characters such as:
 
 ```text
 <
@@ -731,11 +767,11 @@ and:
 Elements
 ```
 
-`View Source` shows the original HTML returned by the server.
+View Source shows the original HTML returned by the server.
 
 The Elements panel shows the current DOM after JavaScript has executed.
 
-For DOM XSS testing, the **current DOM** is often more important.
+For DOM XSS testing, the current DOM is often more important.
 
 ---
 
@@ -829,9 +865,7 @@ This is significantly more useful than simply recording that a parameter was ref
 
 # Search JavaScript for Potential Sinks
 
-When JavaScript files have been collected during reconnaissance, search them for interesting DOM operations.
-
-Example:
+When JavaScript files have been collected during reconnaissance:
 
 ```bash
 grep -RniE \
@@ -839,53 +873,7 @@ grep -RniE \
 .
 ```
 
-For larger JavaScript applications, combine this with the JavaScript analysis methodology documented under:
-
-```text
-Web Application Security
-└── Reconnaissance
-    └── JavaScript Analysis
-```
-
----
-
-# Stored XSS Workflow
-
-Stored XSS requires a slightly different workflow.
-
-```text
-Identify Stored Input
-      ↓
-Submit Unique Marker
-      ↓
-Locate Every Rendering Location
-      ↓
-Determine Rendering Context
-      ↓
-Test Encoding
-      ↓
-Check Privileged Interfaces
-      ↓
-Confirm Execution
-```
-
-For example:
-
-```text
-Profile name
-      ↓
-Database
-      ↓
-User profile
-      ↓
-Admin dashboard
-      ↓
-Audit log
-```
-
-One stored field may be displayed in several different contexts.
-
-Test each context independently.
+For larger applications, combine this with the JavaScript Analysis methodology from the reconnaissance section.
 
 ---
 
@@ -899,7 +887,7 @@ For example:
 report.pdf
 ```
 
-may later appear in:
+may later appear as:
 
 ```html
 <a href="/files/123">report.pdf</a>
@@ -921,7 +909,7 @@ This can identify potential stored injection issues.
 
 # HTTP Headers
 
-Some applications reflect HTTP headers into:
+Some applications reflect or store HTTP headers in:
 
 ```text
 Debug pages
@@ -932,7 +920,7 @@ Error pages
 Monitoring interfaces
 ```
 
-Headers worth reviewing can include:
+Headers worth reviewing include:
 
 ```text
 User-Agent
@@ -943,35 +931,463 @@ X-Original-URL
 X-Requested-With
 ```
 
-Use harmless markers first.
-
-Example:
+Start with a harmless marker:
 
 ```http
 User-Agent: AMXSS987654
 ```
 
-Then determine whether the marker appears elsewhere in the application.
+Then determine whether the value appears elsewhere.
 
 ---
 
-# Blind XSS Considerations
+# Blind XSS
 
-Some stored input may only be viewed later by another application component or privileged user.
+Blind Cross-Site Scripting occurs when attacker-controlled input is stored or processed by an application but execution occurs in another interface that the tester cannot directly observe.
+
+This commonly happens when submitted information is later viewed by:
+
+```text
+Administrators
+Support personnel
+Moderators
+SOC analysts
+Helpdesk personnel
+Back-office users
+Application operators
+```
+
+A typical flow is:
+
+```text
+Attacker-Controlled Input
+          ↓
+Application
+          ↓
+Database / Logs / Queue
+          ↓
+Internal Application
+          ↓
+Administrator Views Data
+          ↓
+Browser Processes Input
+          ↓
+Blind XSS Trigger
+```
+
+Unlike normal reflected XSS, execution may occur minutes, hours or days after the original request.
+
+---
+
+## Where to Test for Blind XSS
+
+Blind XSS is particularly interesting anywhere user-controlled information may eventually be displayed in an internal interface.
 
 Potential locations include:
 
 ```text
-Support dashboards
-Administration panels
-Logging systems
+Contact forms
+Support tickets
+Feedback forms
+User profiles
+Account registration
+Usernames
+Display names
+Email addresses
+Company names
+Address fields
+Order information
+Customer notes
+File names
+Uploaded file metadata
+Audit logs
+Application logs
+Search logs
+Error logs
+User-Agent
+Referer
+X-Forwarded-For
+X-Forwarded-Host
+Administrative dashboards
 CRM systems
 Moderation interfaces
-Monitoring systems
 Analytics platforms
+Monitoring systems
 ```
 
-For authorised assessments, document the expected interaction path before performing any callback-based testing.
+The important question is:
+
+> Where might this data eventually be displayed?
+
+---
+
+## Blind XSS Through HTTP Headers
+
+HTTP headers are interesting because they are frequently stored in logging or monitoring systems.
+
+Examples include:
+
+```text
+User-Agent
+Referer
+X-Forwarded-For
+X-Forwarded-Host
+X-Real-IP
+X-Original-URL
+X-Requested-With
+Forwarded
+```
+
+Start with a unique harmless marker.
+
+Example:
+
+```http
+User-Agent: AM-BXSS-987654
+```
+
+---
+
+## Blind XSS Testing Workflow
+
+```text
+Identify Stored Input
+        ↓
+Insert Unique Marker
+        ↓
+Determine Likely Internal Consumer
+        ↓
+Identify Interesting Input Locations
+        ↓
+Configure Authorised Callback
+        ↓
+Submit Controlled Test
+        ↓
+Wait for Interaction
+        ↓
+Record Callback Context
+        ↓
+Identify Trigger Location
+        ↓
+Manually Reproduce Where Possible
+        ↓
+Report
+```
+
+Keep track of exactly where each test value was submitted.
+
+For example:
+
+```text
+BXSS-001 → User-Agent
+BXSS-002 → Contact form name
+BXSS-003 → Contact form message
+BXSS-004 → Profile display name
+BXSS-005 → Uploaded file name
+BXSS-006 → Referer
+```
+
+This makes it significantly easier to determine which input triggered a callback.
+
+---
+
+## XSS Hunter
+
+XSS Hunter can be used during authorised Blind XSS testing to detect execution occurring in interfaces that are not directly visible to the tester.
+
+XSS Hunter by Truffle Security:
+
+https://xsshunter.trufflesecurity.com/app/#/
+
+General workflow:
+
+```text
+Application Input
+       ↓
+Blind XSS Test
+       ↓
+Input Stored
+       ↓
+Internal User Views Input
+       ↓
+Browser Executes Test
+       ↓
+XSS Hunter
+       ↓
+Callback Received
+```
+
+---
+
+## Example XSS Hunter Workflow
+
+```text
+1. Identify fields likely to be viewed internally
+
+2. Assign each test location a unique identifier
+
+3. Configure the authorised XSS Hunter callback
+
+4. Submit the controlled Blind XSS test
+
+5. Continue normal testing
+
+6. Monitor for callbacks
+
+7. Correlate any callback with the original input location
+
+8. Determine which application or administrative interface rendered it
+
+9. Validate the underlying output handling
+
+10. Document the complete source-to-sink path
+```
+
+The important evidence is not simply that a callback occurred.
+
+Establish:
+
+```text
+SOURCE
+  ↓
+STORAGE
+  ↓
+INTERNAL INTERFACE
+  ↓
+RENDERING CONTEXT
+  ↓
+EXECUTION
+  ↓
+CALLBACK
+```
+
+---
+
+## Burp Suite and Blind XSS
+
+A practical workflow is:
+
+```text
+Burp Proxy
+     ↓
+HTTP History
+     ↓
+Interesting Request
+     ↓
+Repeater
+     ↓
+Identify Input Locations
+     ↓
+Insert Controlled Blind XSS Test
+     ↓
+Send Request
+     ↓
+Monitor Callback Service
+```
+
+Interesting locations include:
+
+```text
+Request parameters
+JSON properties
+HTTP headers
+Cookies
+Registration fields
+Support forms
+Profile fields
+File metadata
+```
+
+Prioritise values likely to be:
+
+```text
+Stored
+Logged
+Reviewed
+Moderated
+Displayed
+Investigated
+```
+
+---
+
+## Blind XSS in Administrative Interfaces
+
+Administrative interfaces frequently aggregate data from multiple untrusted sources.
+
+For example:
+
+```text
+Public Contact Form
+        ↓
+Support Database
+        ↓
+Internal Support Dashboard
+        ↓
+Support Agent Opens Ticket
+```
+
+Another example:
+
+```text
+HTTP Request
+     ↓
+Application Logs
+     ↓
+Log Management Interface
+     ↓
+Administrator Reviews Event
+```
+
+The vulnerable component may therefore be an internal application rather than the public-facing endpoint itself.
+
+---
+
+## Blind XSS in Logging Systems
+
+Consider:
+
+```http
+GET / HTTP/1.1
+Host: target.example
+User-Agent: AM-BXSS-987654
+```
+
+The public application may process the request normally.
+
+However:
+
+```text
+User-Agent
+    ↓
+Web Server
+    ↓
+Application Log
+    ↓
+Log Management Platform
+    ↓
+Analyst Browser
+```
+
+If the log viewer renders untrusted data incorrectly, the vulnerability may appear there.
+
+---
+
+## Blind XSS in File Upload Workflows
+
+File upload functionality may create secondary rendering locations.
+
+Potentially interesting metadata includes:
+
+```text
+File name
+Document title
+Image metadata
+Description
+Upload comments
+Display name
+```
+
+Example:
+
+```text
+Upload
+   ↓
+Metadata Stored
+   ↓
+Administrative File Manager
+   ↓
+Metadata Rendered
+   ↓
+Potential Blind XSS
+```
+
+Start with harmless markers to understand where metadata appears.
+
+---
+
+## Blind XSS Evidence
+
+When a callback occurs, record:
+
+```text
+Original request
+Affected endpoint
+Affected parameter or header
+Unique identifier
+Timestamp submitted
+Timestamp triggered
+Callback domain
+Triggering application if identifiable
+Rendering context
+Affected user role
+Required interaction
+Browser information where available
+Relevant screenshot
+```
+
+---
+
+## Blind XSS Testing Considerations
+
+Blind XSS testing can affect users who are not directly participating in the assessment.
+
+Therefore:
+
+```text
+Confirm scope
+Use controlled callbacks
+Avoid destructive behaviour
+Minimise collected information
+Do not attempt session theft
+Do not collect unnecessary sensitive data
+Use unique identifiers
+Document every injection location
+Stop once sufficient evidence exists
+```
+
+The objective is to demonstrate unsafe rendering, not to collect data from affected users.
+
+---
+
+## Blind XSS Quick Reference
+
+```text
+Interesting Input
+      ↓
+Will it be stored?
+      ↓
+Will someone else view it?
+      ↓
+Where will it be rendered?
+      ↓
+Is output encoding applied?
+      ↓
+Can browser execution occur?
+      ↓
+Can a controlled callback confirm it?
+```
+
+High-value locations:
+
+```text
+Support forms
+Contact forms
+Feedback
+Profiles
+Registration
+File names
+Metadata
+User-Agent
+Referer
+Forwarding headers
+Audit logs
+Error logs
+CRM systems
+Admin panels
+Monitoring systems
+Analytics dashboards
+```
 
 ---
 
@@ -1007,11 +1423,11 @@ cat parameters.txt | kxss
 
 Do not automatically treat every `kxss` result as a vulnerability.
 
-Use it to **prioritise parameters for manual analysis**.
+Use it to prioritise parameters for manual analysis.
 
 ---
 
-# Example kxss Workflow
+## Example kxss Workflow
 
 Suppose reconnaissance produces:
 
@@ -1021,10 +1437,10 @@ https://target.example/products?id=1
 https://target.example/profile?name=test
 ```
 
-Store them:
+Store them in:
 
-```bash
-cat urls.txt
+```text
+urls.txt
 ```
 
 Then:
@@ -1035,7 +1451,7 @@ cat urls.txt | kxss
 
 Review parameters where special characters are reflected.
 
-Then manually inspect those endpoints with Burp Repeater.
+Then:
 
 ```text
 kxss
@@ -1069,8 +1485,6 @@ dalfox file urls.txt
 
 Dalfox can be useful after parameter discovery to prioritise potentially vulnerable input.
 
-A workflow can look like:
-
 ```text
 Subdomain Enumeration
         ↓
@@ -1093,7 +1507,7 @@ Automated results should always be manually verified.
 
 ---
 
-# Parameter Discovery + XSS Workflow
+# Parameter Discovery and XSS Workflow
 
 A practical reconnaissance pipeline may look like:
 
@@ -1139,13 +1553,7 @@ The exact tool is less important than understanding what each stage contributes.
 
 Applications may block particular strings while still allowing dangerous browser behaviour.
 
-Do not conclude that XSS is impossible simply because:
-
-```text
-<script>
-```
-
-is blocked.
+Do not conclude that XSS is impossible simply because a common tag is blocked.
 
 Determine what is actually being filtered.
 
@@ -1161,13 +1569,13 @@ Is decoding performed before filtering?
 Is sanitisation applied before or after rendering?
 ```
 
-Context is more important than any individual string.
+Context is more important than any individual payload.
 
 ---
 
 # Test Characters Individually
 
-Rather than immediately submitting a complicated payload, test:
+Rather than immediately submitting complicated input, test:
 
 ```text
 <
@@ -1197,7 +1605,7 @@ then:
 `
 ```
 
-This makes it much easier to understand application behaviour.
+This makes application behaviour considerably easier to understand.
 
 ---
 
@@ -1205,21 +1613,17 @@ This makes it much easier to understand application behaviour.
 
 Remember that the browser is the final parser.
 
-The application may return malformed HTML that the browser repairs.
-
-Therefore:
-
 ```text
-HTTP response
+HTTP Response
       ↓
-HTML parser
+HTML Parser
       ↓
-DOM construction
+DOM Construction
       ↓
-JavaScript execution
+JavaScript Execution
 ```
 
-can produce behaviour that is not immediately obvious from the raw response.
+The browser may repair malformed HTML or create a DOM structure that is not immediately obvious from the raw response.
 
 Always inspect the rendered DOM.
 
@@ -1227,15 +1631,15 @@ Always inspect the rendered DOM.
 
 # Content Security Policy
 
-Content Security Policy (CSP) can reduce the impact of XSS but should be treated as defence in depth.
+Content Security Policy can reduce the impact of XSS but should be treated as defence in depth.
 
-Review the CSP header:
+Review:
 
 ```http
 Content-Security-Policy:
 ```
 
-Useful directives include:
+Important directives include:
 
 ```text
 default-src
@@ -1250,7 +1654,7 @@ form-action
 frame-ancestors
 ```
 
-Pay particular attention to:
+Pay particular attention to configurations involving:
 
 ```text
 'unsafe-inline'
@@ -1264,9 +1668,9 @@ and overly broad trusted domains.
 
 ---
 
-# CSP Example
+## CSP Example
 
-Example:
+A policy such as:
 
 ```http
 Content-Security-Policy:
@@ -1276,20 +1680,22 @@ Content-Security-Policy:
     base-uri 'self';
 ```
 
-This is significantly stronger than:
+is significantly stronger than:
 
 ```http
 Content-Security-Policy:
     script-src * 'unsafe-inline' 'unsafe-eval';
 ```
 
-However, CSP should not replace proper output encoding and sanitisation.
+However:
+
+```text
+CSP ≠ replacement for secure output handling
+```
 
 ---
 
-# Check CSP in Burp
-
-In Burp Suite:
+## Check CSP in Burp
 
 ```text
 Proxy
@@ -1309,7 +1715,7 @@ Also check:
 Content-Security-Policy-Report-Only
 ```
 
-A report-only policy does not enforce restrictions.
+A report-only policy does not enforce the restrictions.
 
 ---
 
@@ -1341,15 +1747,13 @@ Review:
 Template rendering
 DOM manipulation
 Dynamic HTML
-Sanitisation bypasses
+Sanitisation bypass APIs
 Unsafe trust APIs
 Legacy AngularJS expressions
 Third-party directives
 ```
 
-Interesting areas may include APIs that explicitly trust HTML or bypass normal sanitisation.
-
-The exact behaviour depends heavily on the Angular version.
+The exact behaviour depends heavily on the Angular or AngularJS version.
 
 Technology identification therefore matters.
 
@@ -1365,9 +1769,7 @@ For example:
 <div>{username}</div>
 ```
 
-is generally safer than inserting raw HTML.
-
-However, review uses of:
+However, review:
 
 ```javascript
 dangerouslySetInnerHTML
@@ -1385,7 +1787,7 @@ Trace where `userContent` originates and whether it is sanitised.
 
 # Vue
 
-Review areas where raw HTML is deliberately rendered.
+Review locations where raw HTML is deliberately rendered.
 
 For example:
 
@@ -1401,7 +1803,7 @@ Trace attacker-controlled input reaching these locations.
 
 Legacy applications frequently use jQuery DOM manipulation.
 
-Search for patterns such as:
+Search for:
 
 ```javascript
 .html()
@@ -1411,28 +1813,28 @@ Search for patterns such as:
 .before()
 ```
 
-Then determine whether attacker-controlled data reaches these operations.
+Determine whether attacker-controlled data reaches these operations.
 
 ---
 
-# Template Injection and XSS
+# Client-Side Template Injection
 
-Client-side template systems can sometimes introduce injection paths that do not resemble traditional HTML injection.
+Client-side template systems can introduce injection paths that do not resemble traditional HTML injection.
 
 When a framework is detected:
 
 ```text
-Identify framework
+Identify Framework
       ↓
-Determine version
+Determine Version
       ↓
-Identify template syntax
+Identify Template Syntax
       ↓
-Locate user-controlled input
+Locate User-Controlled Input
       ↓
-Understand framework sanitisation
+Understand Framework Sanitisation
       ↓
-Test relevant context
+Perform Relevant Context Testing
 ```
 
 Avoid blindly applying payloads intended for a different framework or version.
@@ -1457,7 +1859,7 @@ Legacy frontend frameworks
 
 Record library versions during reconnaissance.
 
-Then check whether known security issues apply to the identified version.
+Then determine whether known security issues apply to the identified version.
 
 ---
 
@@ -1487,7 +1889,7 @@ The application may intentionally permit:
 
 while attempting to remove dangerous elements and attributes.
 
-In these situations, evaluate the **sanitisation policy**, not merely whether HTML is accepted.
+In these situations, evaluate the sanitisation policy rather than merely determining whether HTML is accepted.
 
 ---
 
@@ -1495,12 +1897,10 @@ In these situations, evaluate the **sanitisation policy**, not merely whether HT
 
 Markdown input may eventually become HTML.
 
-Example:
-
 ```text
 Markdown
    ↓
-Markdown parser
+Markdown Parser
    ↓
 HTML
    ↓
@@ -1530,7 +1930,7 @@ Parameter-specific blocking
 
 Record WAF behaviour separately from application-level encoding.
 
-A WAF blocking a payload does not demonstrate that the underlying application safely handles the input.
+A WAF blocking a test does not demonstrate that the underlying application safely handles the input.
 
 ---
 
@@ -1557,15 +1957,15 @@ Security Impact
 For example:
 
 ```text
-GET parameter
+GET Parameter
      ↓
-Search endpoint
+Search Endpoint
      ↓
-No output encoding
+Insufficient Output Encoding
      ↓
-HTML attribute
+HTML Attribute
      ↓
-Browser interprets attacker-controlled markup
+Browser Interprets Attacker-Controlled Content
 ```
 
 ---
@@ -1591,7 +1991,7 @@ Required user interaction
 Affected user role
 ```
 
-Keep the evidence minimal and reproducible.
+Keep evidence minimal and reproducible.
 
 ---
 
@@ -1610,13 +2010,13 @@ What security impact results
 How the issue should be remediated
 ```
 
-Avoid describing the finding merely as:
+Avoid simply stating:
 
 ```text
-"The application is vulnerable to XSS."
+The application is vulnerable to XSS.
 ```
 
-Instead explain the complete input-to-execution path.
+Explain the complete input-to-execution path.
 
 ---
 
@@ -1689,7 +2089,7 @@ Instead of:
 element.innerHTML = userInput;
 ```
 
-prefer APIs that treat the value as text when HTML is not required:
+prefer an API that treats the value as text when HTML is not required:
 
 ```javascript
 element.textContent = userInput;
@@ -1701,7 +2101,7 @@ The appropriate solution depends on the application's intended behaviour.
 
 # Output Encoding
 
-Apply encoding based on the output context.
+Apply encoding based on output context.
 
 Different contexts require different handling:
 
@@ -1733,29 +2133,6 @@ Embedded content
 ```
 
 Avoid creating custom sanitisation using simple regular expressions.
-
----
-
-# Security Headers
-
-Security headers can provide additional protection.
-
-Review:
-
-```text
-Content-Security-Policy
-X-Content-Type-Options
-Referrer-Policy
-Permissions-Policy
-```
-
-For XSS specifically, CSP can significantly reduce exploitability when correctly implemented.
-
-However:
-
-```text
-CSP ≠ replacement for secure output handling
-```
 
 ---
 
@@ -1819,6 +2196,22 @@ CSP ≠ replacement for secure output handling
 - [ ] Search for `insertAdjacentHTML`
 - [ ] Search for dynamic execution APIs
 
+## Stored and Blind XSS
+
+- [ ] Test profile fields
+- [ ] Test contact forms
+- [ ] Test support tickets
+- [ ] Test feedback fields
+- [ ] Test file names
+- [ ] Test metadata
+- [ ] Review User-Agent handling
+- [ ] Review Referer handling
+- [ ] Review forwarding headers
+- [ ] Consider administrative interfaces
+- [ ] Consider logging systems
+- [ ] Use unique Blind XSS identifiers
+- [ ] Monitor authorised callback service
+
 ## Frameworks
 
 - [ ] Identify frontend framework
@@ -1847,6 +2240,104 @@ CSP ≠ replacement for secure output handling
 
 ---
 
+# XSS Payload and Research Resources
+
+Large payload collections are useful, but they should complement context analysis rather than replace it.
+
+A useful approach is:
+
+```text
+Understand Context
+      ↓
+Determine Restrictions
+      ↓
+Select Relevant Reference
+      ↓
+Choose Appropriate Test
+      ↓
+Manual Validation
+```
+
+---
+
+## PortSwigger XSS Cheat Sheet
+
+PortSwigger maintains an extensive interactive XSS cheat sheet containing vectors organised by tags, events, browser behaviour and context.
+
+https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
+
+Particularly useful when researching:
+
+```text
+HTML contexts
+Event handlers
+Restricted tags
+Restricted characters
+Encoding
+CSP
+Framework-specific behaviour
+Browser parsing
+```
+
+---
+
+## Tiny XSS Payloads
+
+Tiny XSS Payloads by terjanq provides a collection of compact XSS payloads and techniques.
+
+https://tinyxss.terjanq.me/
+
+This can be particularly useful when researching situations involving:
+
+```text
+Length restrictions
+Character limits
+Restricted input fields
+Compact browser syntax
+Payload optimisation
+```
+
+Use the resource after determining the injection context and application restrictions.
+
+---
+
+## XSSNow
+
+XSSNow provides additional XSS payload and research material.
+
+https://xssnow.in/
+
+Use payload collections as references after understanding the injection context rather than blindly sending every available payload.
+
+---
+
+## OWASP XSS Filter Evasion Cheat Sheet
+
+OWASP provides additional reference material covering browser parsing and XSS filter-evasion concepts.
+
+https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html
+
+---
+
+# Useful Tools
+
+| Tool | Purpose |
+|---|---|
+| Burp Suite | Manual HTTP testing and validation |
+| Burp Repeater | Controlled request modification |
+| Burp Intruder | Character and parameter testing |
+| Browser DevTools | DOM and JavaScript analysis |
+| kxss | Reflection and character discovery |
+| Dalfox | XSS scanning and parameter analysis |
+| XSS Hunter | Blind XSS callback detection |
+| Katana | Crawling and endpoint discovery |
+| ParamSpider | Parameter discovery |
+| waybackurls | Historical URL discovery |
+| urlfinder | URL collection |
+| grep / ripgrep | JavaScript source and sink searching |
+
+---
+
 # Quick Reference
 
 ```text
@@ -1854,7 +2345,7 @@ Reflection does not automatically mean XSS.
 
 HTML acceptance does not automatically mean XSS.
 
-A blocked <script> tag does not mean XSS is impossible.
+A blocked common payload does not mean XSS is impossible.
 
 JSON reflection does not automatically mean XSS.
 
@@ -1926,83 +2417,75 @@ SOURCE → TRANSFORMATION → CONTEXT → SINK → BROWSER
 
 ---
 
-# Useful Tools
-
-| Tool | Purpose |
-|---|---|
-| Burp Suite | Manual HTTP testing and validation |
-| Burp Repeater | Controlled request modification |
-| Burp Intruder | Character and parameter testing |
-| Browser DevTools | DOM and JavaScript analysis |
-| kxss | Reflection and character discovery |
-| Dalfox | XSS scanning and parameter analysis |
-| Katana | Crawling and endpoint discovery |
-| ParamSpider | Parameter discovery |
-| waybackurls | Historical URL discovery |
-| urlfinder | URL collection |
-| grep / ripgrep | JavaScript source and sink searching |
-
----
-
 # References
 
-## OWASP
-
-### Cross-Site Scripting Prevention Cheat Sheet
-
-OWASP guidance covering context-aware output encoding, HTML sanitisation, safe sinks and defensive controls.
+## OWASP Cross-Site Scripting Prevention Cheat Sheet
 
 https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 
-### DOM Based XSS Prevention Cheat Sheet
+Guidance covering context-aware output encoding, HTML sanitisation, safe sinks and defensive controls.
 
-OWASP guidance specifically covering DOM-based XSS and safe client-side development.
+---
+
+## OWASP DOM Based XSS Prevention Cheat Sheet
 
 https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html
 
-### XSS Filter Evasion Cheat Sheet
+Guidance specifically covering DOM-based XSS and safe client-side development.
 
-Reference material covering browser parsing behaviour and alternative XSS vectors.
+---
+
+## OWASP XSS Filter Evasion Cheat Sheet
 
 https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html
 
 ---
 
-## PortSwigger Web Security Academy
-
-### Cross-Site Scripting
-
-PortSwigger's XSS learning material and labs.
+## PortSwigger Cross-Site Scripting
 
 https://portswigger.net/web-security/cross-site-scripting
 
-### Cross-Site Scripting Cheat Sheet
+PortSwigger Web Security Academy material covering reflected, stored and DOM-based XSS.
 
-A large interactive reference containing XSS vectors organised by elements, events, browser behaviour and context.
+---
+
+## PortSwigger XSS Cheat Sheet
 
 https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
 
-This is particularly useful when testing unusual contexts or determining which browser events and HTML elements may be relevant.
+Interactive reference for context-specific XSS research.
+
+---
+
+## Tiny XSS Payloads
+
+https://tinyxss.terjanq.me/
+
+Compact XSS payload and technique reference maintained by terjanq.
 
 ---
 
 ## XSSNow
 
-XSS payload and research reference.
-
 https://xssnow.in/
 
-Use large payload collections as references after understanding the injection context rather than blindly sending every payload.
+XSS payload and research reference.
+
+---
+
+## XSS Hunter
+
+https://xsshunter.trufflesecurity.com/app/#/
+
+Useful during authorised Blind XSS testing where execution may occur in an internal or otherwise inaccessible browser context.
 
 ---
 
 ## kxss
 
-GitHub:
-
 https://github.com/Emoe/kxss
 
-Useful for identifying reflected parameters and characters during reconnaissance.
+Useful for identifying reflected parameters and characters.
 
 Example:
 
@@ -2014,11 +2497,9 @@ cat urls.txt | kxss
 
 ## Dalfox
 
-GitHub:
-
 https://github.com/hahwul/dalfox
 
-Dalfox provides automated XSS parameter analysis and scanning.
+Automated XSS parameter analysis and scanning.
 
 Example:
 
@@ -2036,9 +2517,7 @@ Automated findings should always be manually verified.
 
 ---
 
-## Related Notes
-
-Continue with:
+# Related Notes
 
 ```text
 Web Application Security
@@ -2059,4 +2538,4 @@ Web Application Security
 └── Cross-Site Scripting
 ```
 
-The reconnaissance, parameter discovery and JavaScript analysis notes are particularly useful before performing XSS testing.
+The reconnaissance, parameter discovery, JavaScript analysis and Burp Suite notes are particularly useful before performing XSS testing.
