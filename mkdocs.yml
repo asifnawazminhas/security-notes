@@ -25,6 +25,7 @@ theme:
     - navigation.expand
     - navigation.path
     - navigation.indexes
+    - navigation.top
     - toc.follow
     - search.suggest
     - search.highlight
@@ -130,6 +131,10 @@ nav:
       - Authentication: web/authentication.md
       - Authorisation: web/authorisation.md
       - Session Management: web/session-management.md
+
+      - Burp Suite:
+          - Extensions: web/burp-suite/extensions.md
+          - Testing Workflows: web/burp-suite/workflows.md
 
       - Cross-Site Scripting: web/xss.md
       - SQL Injection: web/sql-injection.md
