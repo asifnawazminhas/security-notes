@@ -137,11 +137,13 @@ nav:
           - Testing Workflows: web/burp-suite/workflows.md
 
       - Cross-Site Scripting: web/xss.md
+      - HTML Injection: web/html-injection.md
       - SQL Injection: web/sql-injection.md
       - Command Injection: web/command-injection.md
       - Server-Side Request Forgery: web/ssrf.md
       - Server-Side Template Injection: web/ssti.md
       - Cross-Site Request Forgery: web/csrf.md
+      - Open Redirect: web/open-redirect.md
       - File Upload: web/file-upload.md
       - Path Traversal: web/path-traversal.md
       - File Inclusion: web/file-inclusion.md
