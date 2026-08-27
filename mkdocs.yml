@@ -144,10 +144,13 @@ nav:
       - Cross-Site Request Forgery: web/csrf.md
       - File Upload: web/file-upload.md
       - Path Traversal: web/path-traversal.md
+      - File Inclusion: web/file-inclusion.md
       - XML External Entity Injection: web/xxe.md
       - Deserialization: web/deserialization.md
       - HTTP Request Smuggling: web/http-request-smuggling.md
       - Business Logic: web/business-logic.md
+      - OAuth 2.0 and OpenID Connect: web/oauth-oidc.md
+      - JSON Web Tokens: web/jwt.md
       - API Security: web/api-security.md
       - WebSockets: web/websockets.md
 
