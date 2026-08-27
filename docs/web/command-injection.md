@@ -4,7 +4,7 @@ OS Command Injection occurs when attacker-controlled input is incorporated into 
 
 If an application passes user-controlled data to a shell or operating system command interpreter without appropriate controls, an attacker may be able to alter the intended command.
 
-Command injection testing should not begin with large payload lists. First determine where user input enters the application, what functionality may invoke operating system commands, how the input is transformed, and whether application behaviour indicates command execution.
+Command injection testing should not begin with large payload lists or automated tools. First determine where user input enters the application, what functionality may invoke operating system commands, how the input is transformed, and whether application behaviour indicates command execution.
 
 !!! warning "Authorised Security Testing"
     Perform command injection testing only against applications and systems for which you have explicit authorisation. These notes are intended for authorised penetration testing, lab environments, security research and responsible vulnerability disclosure.
@@ -72,6 +72,8 @@ Observe Response
 Determine OS / Shell
       ↓
 Confirm Execution
+      ↓
+Targeted Automation
       ↓
 Determine Execution Context
       ↓
@@ -334,7 +336,7 @@ Test characters individually to understand how they are handled.
 
 Start with controlled syntax changes.
 
-For example, determine how the application handles:
+Determine how the application handles:
 
 ```text
 ;
@@ -399,7 +401,7 @@ ping -c 1 USER_INPUT
 
 If `USER_INPUT` is concatenated directly into a shell command, shell metacharacters may alter the intended command.
 
-A harmless lab validation might conceptually test:
+A harmless authorised validation might conceptually test:
 
 ```text
 127.0.0.1; id
@@ -415,7 +417,7 @@ groups=...
 
 For authorised testing, prefer commands that demonstrate execution without modifying the system.
 
-Examples include:
+Examples:
 
 ```bash
 id
@@ -423,6 +425,10 @@ id
 
 ```bash
 whoami
+```
+
+```bash
+hostname
 ```
 
 ```bash
@@ -463,7 +469,7 @@ The objective is to demonstrate execution, not to modify the host.
 
 Output based command injection occurs when output from the injected command is returned through the application.
 
-Example flow:
+Example:
 
 ```text
 Input
@@ -532,7 +538,7 @@ Controlled Delay
 Delayed Response
 ```
 
-For a Unix-like environment, a controlled lab test may use a short delay such as:
+For a Unix-like environment, a controlled test may use a short delay:
 
 ```bash
 sleep 5
@@ -575,8 +581,6 @@ Do not treat a single slow request as proof.
 ## Timing Evidence
 
 Record several measurements.
-
-Example:
 
 | Request | Baseline | Controlled Test |
 |---|---:|---:|
@@ -622,7 +626,7 @@ Background jobs process the input
 
 Burp Collaborator can be useful for detecting out of band interactions during authorised testing.
 
-A workflow can look like:
+Workflow:
 
 ```text
 Burp Repeater
@@ -649,7 +653,7 @@ HTTPS
 SMTP
 ```
 
-A callback alone should still be correlated with the exact request that triggered it.
+A callback should be correlated with the exact request that triggered it.
 
 ---
 
@@ -659,17 +663,9 @@ Interactsh is another useful out of band interaction service.
 
 Project:
 
-```text
 https://github.com/projectdiscovery/interactsh
-```
 
-Client:
-
-```text
-https://github.com/projectdiscovery/interactsh/tree/main/cmd/interactsh-client
-```
-
-A typical authorised testing workflow is:
+A typical authorised workflow is:
 
 ```text
 Start interactsh-client
@@ -685,7 +681,7 @@ Monitor Interactions
 Correlate Callback
 ```
 
-Example:
+Start the client:
 
 ```bash
 interactsh-client
@@ -838,7 +834,7 @@ as options.
 
 If attacker-controlled input becomes a command-line argument, it may be possible to influence the external utility even without shell command separators.
 
-The correct security question is:
+The security question is:
 
 > Can user-controlled data become an option rather than ordinary data?
 
@@ -887,7 +883,7 @@ For example:
 ```text
 Process API
    ↓
-Direct executable invocation
+Direct Executable Invocation
 ```
 
 behaves differently from:
@@ -897,10 +893,10 @@ Application
    ↓
 Shell
    ↓
-Command string
+Command String
 ```
 
-This distinction is extremely important.
+This distinction is important when determining exploitability.
 
 ---
 
@@ -913,7 +909,7 @@ Direct process execution:
 ```text
 Application
      ↓
-execve / ProcessBuilder / subprocess
+Process API
      ↓
 Executable + Separate Arguments
 ```
@@ -944,7 +940,7 @@ Example:
 command "USER_INPUT"
 ```
 
-However, quoting alone should not be considered a complete defence.
+Quoting alone should not be considered a complete defence.
 
 Questions include:
 
@@ -982,17 +978,13 @@ Windows examples include:
 
 Environment variable expansion can affect how input is interpreted.
 
-This becomes particularly relevant when testing restricted character sets.
-
 ---
 
 # Whitespace
 
 Input validation sometimes blocks normal spaces.
 
-Command interpreters and applications may nevertheless represent or interpret whitespace in different ways.
-
-Rather than immediately attempting bypasses, first determine:
+Rather than immediately attempting bypasses, determine:
 
 ```text
 Is whitespace blocked?
@@ -1002,7 +994,7 @@ Does the application split arguments itself?
 Is a shell involved?
 ```
 
-Understanding the parser is more valuable than blindly trying alternative syntax.
+Understanding the parser is more useful than blindly trying alternative syntax.
 
 ---
 
@@ -1013,10 +1005,10 @@ Characters may be transformed by URL encoding.
 Examples:
 
 ```text
-;    →    %3B
-&    →    %26
-|    →    %7C
-space →   %20
+;       → %3B
+&       → %26
+|       → %7C
+space   → %20
 ```
 
 Applications may decode input at different layers:
@@ -1304,7 +1296,7 @@ Content-Type: application/x-www-form-urlencoded
 host=127.0.0.1§PAYLOAD§
 ```
 
-A small payload set might contain characters such as:
+A small payload set might contain:
 
 ```text
 ;
@@ -1355,6 +1347,316 @@ Reproduce
 ```
 
 Use unique callback identifiers for each test location.
+
+---
+
+# Commix
+
+Commix, short for **Command Injection Exploiter**, is an automated tool for detecting and testing command injection vulnerabilities.
+
+Project:
+
+https://github.com/commixproject/commix
+
+Commix can complement manual Burp Suite testing when a parameter appears likely to reach an operating system command.
+
+The preferred workflow is:
+
+```text
+Manual Discovery
+       ↓
+Burp Repeater
+       ↓
+Suspicious Parameter
+       ↓
+Commix
+       ↓
+Review Detection
+       ↓
+Manual Verification
+       ↓
+Minimal Evidence
+       ↓
+Report
+```
+
+Do not use automation as a substitute for understanding the affected request.
+
+---
+
+## Install Commix
+
+Clone the official repository:
+
+```bash
+git clone https://github.com/commixproject/commix.git
+```
+
+Enter the directory:
+
+```bash
+cd commix
+```
+
+Check the available options:
+
+```bash
+python3 commix.py --help
+```
+
+The repository can later be updated with:
+
+```bash
+git pull
+```
+
+---
+
+## Basic Commix Testing
+
+For an authorised target with a query parameter:
+
+```bash
+python3 commix.py \
+  --url="https://target.example/ping?host=127.0.0.1"
+```
+
+Commix can then analyse the request for command injection behaviour.
+
+When multiple parameters exist, focus testing on the parameter that has already been identified as interesting during manual analysis.
+
+---
+
+## Commix With POST Data
+
+For an authorised POST endpoint:
+
+```bash
+python3 commix.py \
+  --url="https://target.example/api/ping" \
+  --data="host=127.0.0.1"
+```
+
+This can be useful for:
+
+```text
+Forms
+API requests
+Diagnostic functions
+Administrative functions
+File-processing requests
+```
+
+---
+
+## Commix With Cookies
+
+Authenticated functionality may require session cookies.
+
+Conceptually:
+
+```bash
+python3 commix.py \
+  --url="https://target.example/ping?host=127.0.0.1" \
+  --cookie="session=YOUR_SESSION_COOKIE"
+```
+
+Use your authorised assessment session.
+
+Avoid placing real credentials or session values in documentation, screenshots, or repositories.
+
+---
+
+## Commix With Headers
+
+Applications may require custom headers.
+
+For example, APIs may require:
+
+```text
+Authorization
+Content-Type
+X-CSRF-Token
+Custom application headers
+```
+
+Review Commix's current help output for the supported header options:
+
+```bash
+python3 commix.py --help
+```
+
+This is preferable to assuming command-line options remain unchanged between releases.
+
+---
+
+## Commix and Burp Suite
+
+A useful workflow is:
+
+```text
+Browser
+   ↓
+Burp Proxy
+   ↓
+HTTP History
+   ↓
+Interesting Request
+   ↓
+Burp Repeater
+   ↓
+Manual Analysis
+   ↓
+Commix
+   ↓
+Manual Verification
+```
+
+Burp should generally be used first to understand:
+
+```text
+Endpoint
+Method
+Parameter
+Authentication
+Headers
+Cookies
+Request body
+Normal response
+```
+
+Automation becomes significantly more useful after this context is known.
+
+---
+
+## Commix and Blind Command Injection
+
+Automated tooling can also help investigate suspected blind command injection.
+
+The overall methodology remains:
+
+```text
+Baseline
+   ↓
+Manual Timing Test
+   ↓
+Possible Command Execution
+   ↓
+Commix
+   ↓
+Compare Detection
+   ↓
+Manual Confirmation
+```
+
+If the application has unstable response times, do not rely solely on automated timing detection.
+
+---
+
+## Commix Results
+
+Do not report a command injection finding solely because Commix reports a potentially injectable parameter.
+
+Verify:
+
+```text
+Which endpoint?
+Which parameter?
+Which technique?
+Which operating system?
+What behaviour changed?
+Can execution be reproduced manually?
+What is the actual security impact?
+```
+
+The strongest evidence remains a manually reproducible source-to-execution path.
+
+---
+
+# Manual Testing vs Commix
+
+Commix should complement rather than replace manual testing.
+
+Use manual testing for:
+
+```text
+Understanding application behaviour
+Identifying interesting functionality
+Determining parameter context
+Character filtering
+WAF behaviour
+Argument injection
+Complex authentication
+Second-stage processing
+False-positive elimination
+Impact validation
+```
+
+Use Commix for:
+
+```text
+Targeted automated command injection testing
+Testing a suspicious parameter
+Technique discovery
+Confirming manually observed behaviour
+Reducing repetitive testing
+```
+
+A good combination is:
+
+```text
+Manual Understanding
+        +
+Targeted Commix Testing
+        +
+Manual Verification
+        =
+Reliable Finding
+```
+
+---
+
+# Recommended Command Injection Tool Workflow
+
+```text
+                   Application
+                        ↓
+                   Burp Proxy
+                        ↓
+                 HTTP History
+                        ↓
+             Interesting Function
+                        ↓
+                  Burp Repeater
+                        ↓
+               Establish Baseline
+                        ↓
+               Character Testing
+                        ↓
+                Suspicious Input?
+                        ↓
+                 ┌──────┴──────┐
+                 │             │
+                 ▼             ▼
+              Commix      Manual Testing
+                 │             │
+                 └──────┬──────┘
+                        ↓
+                 Blind Behaviour?
+                        ↓
+              ┌─────────┴─────────┐
+              │                   │
+              ▼                   ▼
+     Burp Collaborator        Interactsh
+              │                   │
+              └─────────┬─────────┘
+                        ↓
+                Manual Verification
+                        ↓
+                Minimal Evidence
+                        ↓
+                      Report
+```
 
 ---
 
@@ -1716,7 +2018,7 @@ Do not assume:
 Container = no impact
 ```
 
-The impact depends on:
+Impact depends on:
 
 ```text
 Container privileges
@@ -1851,6 +2153,7 @@ Modified response
 Response timing
 Command output if visible
 Callback evidence if used
+Commix output if used
 Operating system if known
 Execution user if necessary
 Required privileges
@@ -1926,15 +2229,15 @@ Do not invoke a shell unless absolutely necessary.
 Prefer:
 
 ```text
-Known executable
+Known Executable
       +
-Separate arguments
+Separate Arguments
 ```
 
 instead of:
 
 ```text
-Constructed shell command string
+Constructed Shell Command String
 ```
 
 Additional controls include:
@@ -2108,6 +2411,17 @@ Least privilege does not fix command injection, but it can significantly reduce 
 - [ ] Compare responses
 - [ ] Record timing
 
+## Automation
+
+- [ ] Understand the request manually first
+- [ ] Identify the suspected parameter
+- [ ] Test with Commix where appropriate
+- [ ] Preserve required authentication
+- [ ] Review automated findings
+- [ ] Compare automated results with manual observations
+- [ ] Manually reproduce the vulnerability
+- [ ] Do not report solely from automated output
+
 ## Source Review
 
 - [ ] Search Python process APIs
@@ -2131,6 +2445,7 @@ Least privilege does not fix command injection, but it can significantly reduce 
 - [ ] Stop after sufficient evidence
 - [ ] Capture request and response
 - [ ] Record callback evidence if applicable
+- [ ] Record Commix evidence if applicable
 
 ---
 
@@ -2142,12 +2457,33 @@ Least privilege does not fix command injection, but it can significantly reduce 
 | Burp Repeater | Controlled command injection testing |
 | Burp Intruder | Character and parameter testing |
 | Burp Collaborator | Out of band interaction detection |
-| Interactsh | Controlled OOB interaction detection |
+| Commix | Automated command injection detection and testing |
+| Interactsh | Controlled out of band interaction detection |
 | curl | Manual HTTP requests |
 | Browser DevTools | Client and API analysis |
 | grep | Source code sink discovery |
 | ripgrep | Fast source code searching |
 | Semgrep | Pattern based source code analysis |
+
+---
+
+# Tool Selection
+
+A practical way to select tooling is:
+
+| Situation | Tool |
+|---|---|
+| Understand the request | Burp Proxy |
+| Manual parameter testing | Burp Repeater |
+| Test multiple characters | Burp Intruder |
+| Automated command injection testing | Commix |
+| Blind interaction testing | Burp Collaborator |
+| External OOB interaction testing | Interactsh |
+| Reproduce HTTP requests | curl |
+| Source code sink discovery | grep / ripgrep |
+| Structured source analysis | Semgrep |
+
+The tooling should follow the methodology rather than determine it.
 
 ---
 
@@ -2178,13 +2514,28 @@ Node.js     → child_process
 Ruby        → system, exec, spawn
 Go          → os/exec
 
+Manual Testing:
+
+Burp Proxy
+Burp Repeater
+Burp Intruder
+
+Automation:
+
+Commix
+
+Blind Testing:
+
+Burp Collaborator
+Interactsh
+
 Validation:
 
-Visible output
+Visible Output
       OR
-Reliable timing
+Reliable Timing
       OR
-Controlled OOB interaction
+Controlled OOB Interaction
 
 Always establish:
 
@@ -2222,12 +2573,23 @@ INPUT → COMMAND CONSTRUCTION → PROCESS/SHELL → EXECUTION → IMPACT
                                │
                                ▼
                     ┌─────────────────────┐
-                    │ Confirm Execution   │
+                    │ Manual Confirmation │
                     └──────────┬──────────┘
                                │
                                ▼
                     ┌─────────────────────┐
-                    │ Determine Context   │
+                    │ Commix if Useful    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Blind / OOB Testing │
+                    │     if Required     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Manual Verification │
                     └──────────┬──────────┘
                                │
                                ▼
@@ -2263,15 +2625,23 @@ https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Chea
 
 Defensive guidance covering command injection, argument injection, safe APIs and parameterisation.
 
----
-
-## OWASP Web Security Testing Guide
-
-### Testing for Command Injection
+### Web Security Testing Guide
 
 https://owasp.org/www-project-web-security-testing-guide/
 
 The Web Security Testing Guide contains broader methodology for testing injection vulnerabilities.
+
+---
+
+## Commix
+
+### Command Injection Exploiter
+
+https://github.com/commixproject/commix
+
+Commix is an automated command injection detection and exploitation tool.
+
+Use it as a complement to manual Burp Suite testing rather than as a replacement for understanding and manually validating the vulnerability.
 
 ---
 
@@ -2299,7 +2669,7 @@ Additional practical reference covering command injection behaviour and operatin
 
 ## Interactsh
 
-ProjectDiscovery Interactsh:
+### ProjectDiscovery Interactsh
 
 https://github.com/projectdiscovery/interactsh
 
@@ -2307,7 +2677,9 @@ Useful for detecting controlled out of band interactions during authorised secur
 
 ---
 
-## PortSwigger Burp Collaborator
+## Burp Collaborator
+
+### PortSwigger Burp Collaborator
 
 https://portswigger.net/burp/documentation/collaborator
 
