@@ -267,40 +267,14 @@ nav:
 
       - Languages and Frameworks:
 
-          # --------------------------------------------------
-          # .NET
-          # --------------------------------------------------
-
           - .NET / ASP.NET Core: source-code-review/dotnet.md
-
-
-          # --------------------------------------------------
-          # JAVA
-          # --------------------------------------------------
-
           - Java / Spring: source-code-review/java.md
-
-
-          # --------------------------------------------------
-          # PHP
-          # --------------------------------------------------
-
           - PHP: source-code-review/php.md
-
-
-          # --------------------------------------------------
-          # PYTHON
-          # --------------------------------------------------
 
           - Python:
               - Python: source-code-review/python.md
               - Django: source-code-review/django.md
               - Flask: source-code-review/flask.md
-
-
-          # --------------------------------------------------
-          # JAVASCRIPT
-          # --------------------------------------------------
 
           - JavaScript:
               - Node.js / Express: source-code-review/nodejs.md
@@ -549,13 +523,14 @@ nav:
   # ==========================================================
 
   - Cheatsheets:
-      - Overview: cheatsheets/index.md
+      - cheatsheets/index.md
       - Linux: cheatsheets/linux.md
       - Windows: cheatsheets/windows.md
       - PowerShell: cheatsheets/powershell.md
       - Networking: cheatsheets/networking.md
       - Web: cheatsheets/web.md
       - Active Directory: cheatsheets/active-directory.md
+      - Impacket: cheatsheets/impacket.md
 
 
 # ============================================================
