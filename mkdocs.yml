@@ -90,11 +90,12 @@ nav:
 
 
       # ------------------------------------------------------
-      # RECONNAISSANCE
+      # RECONNAISSANCE AND ATTACK SURFACE
       # ------------------------------------------------------
 
       - Reconnaissance:
           - Overview: web/reconnaissance/index.md
+          - Attack Surface Analysis: web/attack-surface-analysis.md
           - Subdomain Enumeration: web/reconnaissance/subdomain-enumeration.md
           - Technology Identification: web/reconnaissance/technology-identification.md
           - Content Discovery: web/reconnaissance/content-discovery.md
@@ -118,7 +119,11 @@ nav:
       - Authentication and Access Control:
           - Authentication: web/authentication.md
           - Authorisation: web/authorisation.md
+          - IDOR / BOLA: web/idor-bola.md
           - Session Management: web/session-management.md
+          - Password Reset: web/password-reset.md
+          - Multi-Factor Authentication: web/mfa.md
+          - SAML Security: web/saml.md
 
 
       # ------------------------------------------------------
@@ -133,6 +138,8 @@ nav:
           - Clickjacking: web/clickjacking.md
           - Cross-Origin Resource Sharing (CORS): web/cors.md
           - Open Redirect: web/open-redirect.md
+          - XS-Leaks: web/xs-leaks.md
+          - Third-Party JavaScript: web/third-party-javascript.md
 
 
       # ------------------------------------------------------
@@ -142,6 +149,7 @@ nav:
       - Injection:
           - SQL Injection: web/sql-injection.md
           - NoSQL Injection: web/nosql-injection.md
+          - LDAP Injection: web/ldap-injection.md
           - OS Command Injection: web/command-injection.md
           - Server-Side Template Injection (SSTI): web/ssti.md
           - XML External Entity Injection (XXE): web/xxe.md
@@ -157,6 +165,7 @@ nav:
           - File Inclusion: web/file-inclusion.md
           - File Upload Vulnerabilities: web/file-upload.md
           - Insecure Deserialization: web/deserialization.md
+          - Input Validation: web/input-validation.md
 
 
       # ------------------------------------------------------
@@ -164,6 +173,7 @@ nav:
       # ------------------------------------------------------
 
       - HTTP and Infrastructure:
+          - HTTP Security Headers: web/http-security-headers.md
           - HTTP Request Smuggling: web/http-request-smuggling.md
           - HTTP Host Header Attacks: web/host-header-attacks.md
           - Web Cache Poisoning: web/web-cache-poisoning.md
@@ -178,6 +188,7 @@ nav:
       - Application Logic:
           - Business Logic Vulnerabilities: web/business-logic.md
           - Race Conditions: web/race-conditions.md
+          - Rate Limiting and Anti-Automation: web/rate-limiting.md
 
 
       # ------------------------------------------------------
@@ -196,7 +207,18 @@ nav:
       - APIs:
           - API Security: web/api-security.md
           - GraphQL: web/graphql.md
+          - gRPC Security: web/grpc-security.md
           - WebSockets: web/websockets.md
+          - Mass Assignment: web/mass-assignment.md
+
+
+      # ------------------------------------------------------
+      # SOFTWARE SUPPLY CHAIN AND SECRETS
+      # ------------------------------------------------------
+
+      - Software Supply Chain:
+          - Dependency Security: web/dependency-security.md
+          - Secrets Exposure: web/secrets-exposure.md
 
 
       # ------------------------------------------------------
