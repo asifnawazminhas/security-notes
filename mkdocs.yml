@@ -231,6 +231,78 @@ nav:
 
 
   # ==========================================================
+  # SOURCE CODE REVIEW
+  # ==========================================================
+
+  - Source Code Review:
+
+      # ------------------------------------------------------
+      # OVERVIEW AND METHODOLOGY
+      # ------------------------------------------------------
+
+      - Overview: source-code-review/index.md
+      - Methodology: source-code-review/methodology.md
+
+
+      # ------------------------------------------------------
+      # STATIC ANALYSIS
+      # ------------------------------------------------------
+
+      - Static Analysis:
+          - Overview: source-code-review/static-analysis/index.md
+          - ripgrep: source-code-review/static-analysis/ripgrep.md
+          - Semgrep: source-code-review/static-analysis/semgrep.md
+          - OpenGrep: source-code-review/static-analysis/opengrep.md
+          - CodeQL: source-code-review/static-analysis/codeql.md
+
+
+      # ------------------------------------------------------
+      # LANGUAGES AND FRAMEWORKS
+      # ------------------------------------------------------
+
+      - Languages and Frameworks:
+
+          # --------------------------------------------------
+          # .NET
+          # --------------------------------------------------
+
+          - .NET / ASP.NET Core: source-code-review/dotnet.md
+
+
+          # --------------------------------------------------
+          # JAVA
+          # --------------------------------------------------
+
+          - Java / Spring: source-code-review/java.md
+
+
+          # --------------------------------------------------
+          # PHP
+          # --------------------------------------------------
+
+          - PHP: source-code-review/php.md
+
+
+          # --------------------------------------------------
+          # PYTHON
+          # --------------------------------------------------
+
+          - Python:
+              - Python: source-code-review/python.md
+              - Django: source-code-review/django.md
+              - Flask: source-code-review/flask.md
+
+
+          # --------------------------------------------------
+          # JAVASCRIPT
+          # --------------------------------------------------
+
+          - JavaScript:
+              - Node.js / Express: source-code-review/nodejs.md
+              - Client-Side JavaScript: source-code-review/javascript.md
+
+
+  # ==========================================================
   # ACTIVE DIRECTORY
   # ==========================================================
 
