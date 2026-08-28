@@ -312,14 +312,159 @@ nav:
   # ==========================================================
 
   - Active Directory:
+
+      # ------------------------------------------------------
+      # OVERVIEW AND METHODOLOGY
+      # ------------------------------------------------------
+
       - Overview: active-directory/index.md
+      - Methodology: active-directory/methodology.md
       - Enumeration: active-directory/enumeration.md
-      - Kerberos: active-directory/kerberos.md
-      - NTLM: active-directory/ntlm.md
-      - BloodHound: active-directory/bloodhound.md
-      - Lateral Movement: active-directory/lateral-movement.md
-      - Persistence: active-directory/persistence.md
+
+
+      # ------------------------------------------------------
+      # CORE TOOLING
+      # ------------------------------------------------------
+
+      - Tooling:
+          - NetExec: active-directory/netexec.md
+          - Impacket: active-directory/impacket.md
+          - Responder: active-directory/responder.md
+          - PowerView: active-directory/powerview.md
+          - BloodHound: active-directory/bloodhound.md
+
+
+      # ------------------------------------------------------
+      # AUTHENTICATION
+      # ------------------------------------------------------
+
+      - Authentication:
+          - Kerberos: active-directory/kerberos.md
+          - NTLM: active-directory/ntlm.md
+          - Password Spraying: active-directory/password-spraying.md
+          - AS-REP Roasting: active-directory/asrep-roasting.md
+          - Kerberoasting: active-directory/kerberoasting.md
+          - Pass-the-Hash: active-directory/pass-the-hash.md
+          - OverPass-the-Hash: active-directory/overpass-the-hash.md
+          - Pass-the-Key: active-directory/pass-the-key.md
+
+
+      # ------------------------------------------------------
+      # USERS, GROUPS AND ACCESS CONTROL
+      # ------------------------------------------------------
+
+      - Access Control:
+          - ACL and ACE: active-directory/acl-ace.md
+          - Groups: active-directory/groups.md
+          - Group Policy: active-directory/group-policy.md
+          - Machine Account Quota: active-directory/machine-account-quota.md
+
+
+      # ------------------------------------------------------
+      # KERBEROS AND DELEGATION
+      # ------------------------------------------------------
+
+      - Kerberos and Delegation:
+          - Kerberos Tickets: active-directory/kerberos-tickets.md
+          - Unconstrained Delegation: active-directory/unconstrained-delegation.md
+          - Constrained Delegation: active-directory/constrained-delegation.md
+          - Resource-Based Constrained Delegation: active-directory/rbcd.md
+          - S4U: active-directory/s4u.md
+
+
+      # ------------------------------------------------------
+      # CREDENTIAL ACCESS
+      # ------------------------------------------------------
+
+      - Credential Access:
+          - Overview: active-directory/credential-access.md
+          - GPP Passwords: active-directory/gpp-passwords.md
+          - LAPS: active-directory/laps.md
+          - gMSA: active-directory/gmsa.md
+          - Shadow Credentials: active-directory/shadow-credentials.md
+          - NTDS: active-directory/ntds.md
+
+
+      # ------------------------------------------------------
+      # RELAY AND COERCION
+      # ------------------------------------------------------
+
+      - Relay and Coercion:
+          - NTLM Relay: active-directory/ntlm-relay.md
+          - Kerberos Relay: active-directory/kerberos-relay.md
+          - Authentication Coercion: active-directory/coercion.md
+
+
+      # ------------------------------------------------------
+      # ACTIVE DIRECTORY CERTIFICATE SERVICES
+      # ------------------------------------------------------
+
+      - Active Directory Certificate Services:
+          - Overview: active-directory/adcs/index.md
+          - Enumeration: active-directory/adcs/enumeration.md
+          - ESC1: active-directory/adcs/esc1.md
+          - ESC2: active-directory/adcs/esc2.md
+          - ESC3: active-directory/adcs/esc3.md
+          - ESC4: active-directory/adcs/esc4.md
+          - ESC5: active-directory/adcs/esc5.md
+          - ESC6: active-directory/adcs/esc6.md
+          - ESC7: active-directory/adcs/esc7.md
+          - ESC8: active-directory/adcs/esc8.md
+          - ESC9: active-directory/adcs/esc9.md
+          - ESC10: active-directory/adcs/esc10.md
+          - ESC11: active-directory/adcs/esc11.md
+          - ESC12: active-directory/adcs/esc12.md
+          - ESC13: active-directory/adcs/esc13.md
+          - ESC14: active-directory/adcs/esc14.md
+          - ESC15: active-directory/adcs/esc15.md
+          - Golden Certificate: active-directory/adcs/golden-certificate.md
+
+
+      # ------------------------------------------------------
+      # LATERAL MOVEMENT AND PIVOTING
+      # ------------------------------------------------------
+
+      - Lateral Movement and Pivoting:
+          - Lateral Movement: active-directory/lateral-movement.md
+          - SMB: active-directory/smb.md
+          - WinRM: active-directory/winrm.md
+          - WMI: active-directory/wmi.md
+          - DCOM: active-directory/dcom.md
+          - Pivoting: active-directory/pivoting.md
+
+
+      # ------------------------------------------------------
+      # TRUSTS
+      # ------------------------------------------------------
+
+      - Trusts:
+          - Overview: active-directory/trusts.md
+          - Trust Relationships: active-directory/trust-relationships.md
+          - SID History: active-directory/sid-history.md
+          - Trust Tickets: active-directory/trust-tickets.md
+
+
+      # ------------------------------------------------------
+      # ACTIVE DIRECTORY INFRASTRUCTURE
+      # ------------------------------------------------------
+
+      - Infrastructure:
+          - Active Directory Integrated DNS: active-directory/adidns.md
+          - Network Shares: active-directory/shares.md
+          - SCCM: active-directory/sccm.md
+          - WSUS: active-directory/wsus.md
+          - MDT: active-directory/mdt.md
+          - SCOM: active-directory/scom.md
+          - ADFS: active-directory/adfs.md
+          - Read-Only Domain Controllers: active-directory/rodc.md
+
+
+      # ------------------------------------------------------
+      # PRIVILEGE ESCALATION AND PERSISTENCE
+      # ------------------------------------------------------
+
       - Privilege Escalation: active-directory/privilege-escalation.md
+      - Persistence: active-directory/persistence.md
 
 
   # ==========================================================
