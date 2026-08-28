@@ -62,6 +62,14 @@ For detailed explanations of vulnerabilities, techniques, prerequisites, attack 
 
     [:octicons-arrow-right-24: Active Directory Cheatsheet](active-directory.md)
 
+-   :material-tools:{ .lg .middle } **Impacket**
+
+    ---
+
+    Quick-reference commands for Active Directory enumeration, Kerberos, SMB, RPC, delegation, tickets, credential access, remote administration, and NTLM relay testing.
+
+    [:octicons-arrow-right-24: Impacket Cheatsheet](impacket.md)
+
 </div>
 
 ---
@@ -76,6 +84,7 @@ For detailed explanations of vulnerabilities, techniques, prerequisites, attack 
 | Networking | [Networking](networking.md) | Discovering hosts, services, routes, or network paths |
 | Web | [Web Application Security](web.md) | Testing web applications and APIs |
 | Active Directory | [Active Directory](active-directory.md) | Assessing Windows domain environments |
+| Impacket | [Impacket](impacket.md) | Using Impacket for focused Windows and Active Directory protocol operations |
 
 ---
 
@@ -426,9 +435,181 @@ Pivoting
 Re-enumeration
 ```
 
-The AD cheatsheet will continue to grow as the detailed Active Directory notes are built.
+The Active Directory cheatsheet acts as the general operational reference for AD assessments.
+
+As individual tools and techniques grow large enough, they can have their own dedicated cheatsheets.
 
 [Open Active Directory Cheatsheet](active-directory.md)
+
+---
+
+# Impacket
+
+Use the Impacket cheatsheet when you need a quick reference for focused Windows and Active Directory protocol operations.
+
+It covers:
+
+```text
+Installation
+Command naming
+Authentication syntax
+Password authentication
+NTLM hash authentication
+Kerberos authentication
+AES keys
+Kerberos credential caches
+GetADUsers
+GetNPUsers
+GetUserSPNs
+lookupsid
+findDelegation
+rpcdump
+samrdump
+smbclient
+smbserver
+getTGT
+getST
+ticketConverter
+ticketer
+secretsdump
+psexec
+wmiexec
+smbexec
+dcomexec
+atexec
+ntlmrelayx
+Troubleshooting
+Pivoting considerations
+Evidence collection
+```
+
+A useful mental model is:
+
+```text
+NetExec
+   |
+   v
+Broad Discovery
+   |
+   v
+Interesting Target
+   |
+   v
+Impacket
+   |
+   v
+Focused Protocol Operation
+```
+
+Impacket should not be treated as a random collection of scripts.
+
+Select the appropriate tool based on:
+
+```text
+Protocol
+Identity
+Authentication method
+Target
+Privileges
+Required operation
+Rules of engagement
+```
+
+[Open Impacket Cheatsheet](impacket.md)
+
+---
+
+# Active Directory Tool Cheatsheets
+
+The Active Directory cheatsheet provides the broad workflow.
+
+Dedicated tool cheatsheets provide deeper operational references.
+
+```text
+Active Directory Cheatsheet
+          |
+          +--> General AD workflow
+          +--> Discovery
+          +--> Enumeration
+          +--> Authentication
+          +--> Relationships
+          +--> Re-enumeration
+          |
+          v
+Dedicated Tool Cheatsheets
+          |
+          +--> Impacket
+          |
+          +--> NetExec
+          |
+          +--> BloodHound
+          |
+          +--> Responder
+          |
+          +--> Additional tools as required
+```
+
+Currently available:
+
+| Tool | Cheatsheet | Primary Use |
+|---|---|---|
+| Impacket | [Impacket](impacket.md) | Focused SMB, LDAP, RPC, Kerberos, delegation, remote administration, and relay operations |
+
+Additional dedicated tool cheatsheets can be added when their command surface becomes large enough to justify a separate operational reference.
+
+---
+
+# Choosing Between Active Directory and Impacket
+
+Use the general Active Directory cheatsheet when asking:
+
+```text
+What should I enumerate?
+
+What should I check next?
+
+What relationships should I investigate?
+
+What does this new credential change?
+
+What should I re-enumerate?
+```
+
+Use the Impacket cheatsheet when asking:
+
+```text
+Which Impacket tool do I need?
+
+What is the authentication syntax?
+
+How do I enumerate SPNs?
+
+Which tool enumerates delegation?
+
+How do I use a Kerberos ccache?
+
+Which tool interacts with SMB?
+
+Which remote administration mechanism does this tool use?
+```
+
+Conceptually:
+
+```text
+Active Directory Cheatsheet
+           |
+           v
+     WHAT TO TEST
+           |
+           v
+     Select Technique
+           |
+           v
+   Impacket Cheatsheet
+           |
+           v
+      HOW TO RUN IT
+```
 
 ---
 
@@ -452,8 +633,14 @@ What am I testing?
         +--> Active Directory
         |       |
         |       +--> Active Directory
+        |       |
         |       +--> PowerShell
+        |       |
         |       +--> Networking
+        |       |
+        |       +--> Using Impacket?
+        |               |
+        |               +--> Impacket
         |
         +--> Web application
         |       |
@@ -465,6 +652,107 @@ What am I testing?
 ```
 
 In practice, multiple cheatsheets are often used during the same assessment.
+
+---
+
+# Active Directory Tool Selection
+
+For an AD assessment:
+
+```text
+Need broad AD workflow?
+        |
+        +--> Active Directory Cheatsheet
+
+Need broad credential/access validation?
+        |
+        +--> NetExec
+
+Need focused protocol operations?
+        |
+        +--> Impacket
+
+Need identity relationship analysis?
+        |
+        +--> BloodHound
+
+Need Windows-side directory enumeration?
+        |
+        +--> PowerShell / PowerView
+
+Need name-resolution authentication testing?
+        |
+        +--> Responder
+```
+
+As dedicated cheatsheets are added, this section can link directly to each one.
+
+---
+
+# Impacket Tool Selection
+
+A quick Impacket map:
+
+```text
+What do I need?
+      |
+      +--> Users
+      |      |
+      |      +--> GetADUsers
+      |
+      +--> AS-REP candidates
+      |      |
+      |      +--> GetNPUsers
+      |
+      +--> SPNs
+      |      |
+      |      +--> GetUserSPNs
+      |
+      +--> SIDs / RIDs
+      |      |
+      |      +--> lookupsid
+      |
+      +--> Delegation
+      |      |
+      |      +--> findDelegation
+      |
+      +--> SMB
+      |      |
+      |      +--> smbclient
+      |      +--> smbserver
+      |
+      +--> Kerberos TGT
+      |      |
+      |      +--> getTGT
+      |
+      +--> Kerberos service ticket
+      |      |
+      |      +--> getST
+      |
+      +--> Ticket conversion
+      |      |
+      |      +--> ticketConverter
+      |
+      +--> Credential access
+      |      |
+      |      +--> secretsdump
+      |
+      +--> Remote administration
+      |      |
+      |      +--> psexec
+      |      +--> wmiexec
+      |      +--> smbexec
+      |      +--> dcomexec
+      |      +--> atexec
+      |
+      +--> NTLM relay
+             |
+             +--> ntlmrelayx
+```
+
+For commands and syntax:
+
+[Open Impacket Cheatsheet](impacket.md)
 
 ---
 
@@ -506,6 +794,46 @@ These simple commands often determine which testing workflow makes sense next.
 
 ---
 
+# Active Directory Context
+
+Before running specialised AD tooling, establish:
+
+```text
+Domain
+Domain Controller
+Domain Controller FQDN
+Domain Controller IP
+DNS server
+Current identity
+Current privileges
+Network routes
+Reachable services
+```
+
+From Linux:
+
+```bash
+ip addr
+ip route
+cat /etc/resolv.conf
+```
+
+Find LDAP:
+
+```bash
+dig SRV _ldap._tcp.dc._msdcs.example.local
+```
+
+Find Kerberos:
+
+```bash
+dig SRV _kerberos._tcp.example.local
+```
+
+This context is particularly important before using Kerberos-aware Impacket tooling.
+
+---
+
 # Keep Evidence
 
 Where useful, save command output.
@@ -537,10 +865,24 @@ evidence/
 └── findings/
 ```
 
+Tool-specific directories can be useful:
+
+```text
+evidence/
+└── active-directory/
+    ├── netexec/
+    ├── impacket/
+    ├── bloodhound/
+    └── responder/
+```
+
 Avoid unnecessarily storing:
 
 ```text
 Plaintext passwords
+NTLM hashes
+Kerberos tickets
+AES keys
 Private keys
 Authentication tokens
 Sensitive business data
@@ -572,13 +914,29 @@ SPN
    !=
 Weak Service Account
 
+AS-REP Candidate
+   !=
+Weak Password
+
+Delegation
+   !=
+Exploitable Attack Path
+
 SMB Signing Not Required
+   !=
+Successful NTLM Relay
+
+Captured Authentication
    !=
 Successful NTLM Relay
 
 BloodHound Edge
    !=
 Confirmed Attack Path
+
+Kerberos Ticket
+   !=
+Access to Every Service
 
 Writable Directory
    !=
@@ -653,6 +1011,70 @@ A previously inaccessible resource may become accessible after the security cont
 
 ---
 
+# Active Directory Re-Enumeration
+
+When a new AD credential is obtained:
+
+```text
+New Credential
+      |
+      v
+Domain or Local?
+      |
+      v
+Validate Carefully
+      |
+      +--> SMB
+      |
+      +--> LDAP
+      |
+      +--> Kerberos
+      |
+      v
+Users / Groups
+      |
+      v
+Shares
+      |
+      v
+SPNs
+      |
+      v
+Delegation
+      |
+      v
+BloodHound
+      |
+      v
+Administrative Relationships
+```
+
+When a new subnet becomes reachable:
+
+```text
+New Network
+     |
+     v
+Routes
+     |
+     v
+DNS
+     |
+     v
+Hosts
+     |
+     v
+Services
+     |
+     v
+AD Infrastructure
+     |
+     v
+Re-Enumerate
+```
+
+---
+
 # Cheatsheet Philosophy
 
 The cheatsheets should remain:
@@ -680,6 +1102,29 @@ Cheatsheet
 For example:
 
 ```text
+Detailed Impacket Note
+        |
+        +--> Protocol explanation
+        +--> Authentication model
+        +--> Prerequisites
+        +--> Interpretation
+        +--> Troubleshooting
+        +--> Detection
+        +--> Reporting
+        |
+        v
+Impacket Cheatsheet
+        |
+        +--> Tool map
+        +--> Authentication syntax
+        +--> Commands
+        +--> Fast workflows
+        +--> Troubleshooting
+```
+
+Likewise:
+
+```text
 Active Directory Enumeration
         |
         +--> Detailed explanation
@@ -695,6 +1140,41 @@ Active Directory Cheatsheet
         +--> Syntax
         +--> Quick workflow
 ```
+
+---
+
+# When to Create a Dedicated Cheatsheet
+
+Not every tool needs its own cheatsheet.
+
+Use:
+
+```text
+Does the detailed note contain
+enough recurring operational syntax?
+             |
+         +---+---+
+         |       |
+        No      Yes
+         |       |
+         v       v
+      Keep in   Dedicated
+      general   cheatsheet
+      sheet
+```
+
+Good candidates include tools or topics with:
+
+```text
+Many commands
+Multiple authentication methods
+Multiple protocols
+Complex workflows
+Frequent troubleshooting
+Repeated assessment use
+```
+
+This is why Impacket benefits from a dedicated cheatsheet.
 
 ---
 
@@ -724,6 +1204,30 @@ Has my security context changed?
 Has my network position changed?
 
 What should I re-enumerate?
+```
+
+For Active Directory, also ask:
+
+```text
+What domain am I in?
+
+Which Domain Controllers exist?
+
+What authentication methods are available?
+
+What groups does this identity belong to?
+
+Which systems accept this identity?
+
+Which services run under domain identities?
+
+What delegation relationships exist?
+
+What ACL relationships exist?
+
+Which trusts exist?
+
+Which certificate services exist?
 ```
 
 ---
@@ -770,6 +1274,55 @@ What should I re-enumerate?
 
 ---
 
+# Active Directory Assessment Model
+
+```text
+                    ACTIVE DIRECTORY
+                           |
+                           v
+                       DISCOVERY
+                           |
+                           v
+                      ENUMERATION
+                           |
+          +----------------+----------------+
+          |                |                |
+          v                v                v
+       Identity          Hosts          Services
+          |                |                |
+          +----------------+----------------+
+                           |
+                           v
+                     RELATIONSHIPS
+                           |
+          +----------------+----------------+
+          |                |                |
+          v                v                v
+         ACLs          Delegation        Trusts
+          |                |                |
+          +----------------+----------------+
+                           |
+                           v
+                      ATTACK PATHS
+                           |
+                           v
+                    PREREQUISITES
+                           |
+                           v
+                CONTROLLED VALIDATION
+                           |
+                           v
+                        IMPACT
+                           |
+                           v
+                       EVIDENCE
+                           |
+                           v
+                        REPORT
+```
+
+---
+
 # Authorised Use
 
 These cheatsheets are intended for:
@@ -792,7 +1345,12 @@ Some techniques may:
 Generate significant logs
 Trigger monitoring
 Lock user accounts
+Request large numbers of Kerberos tickets
 Change system state
+Create services
+Create scheduled tasks
+Execute commands remotely
+Expose credential material
 Interrupt services
 Expose sensitive information
 ```
@@ -803,14 +1361,122 @@ Use the least intrusive technique that answers the assessment question.
 
 # Cheatsheet Index
 
-| Cheatsheet | Path |
-|---|---|
-| Linux | `cheatsheets/linux.md` |
-| Windows | `cheatsheets/windows.md` |
-| PowerShell | `cheatsheets/powershell.md` |
-| Networking | `cheatsheets/networking.md` |
-| Web Application Security | `cheatsheets/web.md` |
-| Active Directory | `cheatsheets/active-directory.md` |
+| Cheatsheet | Path | Purpose |
+|---|---|---|
+| Linux | `cheatsheets/linux.md` | Linux host assessment |
+| Windows | `cheatsheets/windows.md` | Windows host assessment |
+| PowerShell | `cheatsheets/powershell.md` | PowerShell quick reference |
+| Networking | `cheatsheets/networking.md` | Network discovery and troubleshooting |
+| Web Application Security | `cheatsheets/web.md` | Web and API security testing |
+| Active Directory | `cheatsheets/active-directory.md` | General AD assessment workflow |
+| Impacket | `cheatsheets/impacket.md` | Focused Windows and AD protocol operations |
+
+---
+
+# Planned Active Directory Cheatsheets
+
+As the Active Directory notes grow, dedicated operational references can be added where justified.
+
+```text
+Active Directory
+│
+├── Active Directory        DONE
+│
+├── Impacket                DONE
+│
+├── NetExec                 NEXT
+│
+├── BloodHound
+│
+├── Responder
+│
+├── Kerberos
+│
+├── AD CS
+│
+└── Pivoting
+```
+
+These should only be created when there is enough recurring operational content to justify a dedicated cheatsheet.
+
+The general Active Directory cheatsheet remains the central workflow reference.
+
+---
+
+# Cheatsheet Structure
+
+The growing structure is:
+
+```text
+docs/cheatsheets/
+│
+├── index.md
+│
+├── linux.md
+├── windows.md
+├── powershell.md
+├── networking.md
+├── web.md
+│
+├── active-directory.md
+├── impacket.md
+│
+└── additional focused cheatsheets
+    added as the notes grow
+```
+
+---
+
+# Navigation Model
+
+```text
+                        CHEATSHEETS
+                             |
+          +------------------+------------------+
+          |                  |                  |
+          v                  v                  v
+     Operating           Networking            Web
+      Systems
+          |
+    +-----+-----+
+    |     |     |
+    v     v     v
+ Linux Windows PowerShell
+
+                             |
+                             v
+                     Active Directory
+                             |
+             +---------------+---------------+
+             |               |               |
+             v               v               v
+          General         Impacket        NetExec
+                                             |
+                                      future dedicated
+                                         cheatsheet
+```
+
+As additional tool cheatsheets are created:
+
+```text
+Active Directory
+      |
+      +--> General AD
+      |
+      +--> NetExec
+      |
+      +--> Impacket
+      |
+      +--> BloodHound
+      |
+      +--> Responder
+      |
+      +--> Kerberos
+      |
+      +--> AD CS
+      |
+      +--> Pivoting
+```
 
 ---
 
@@ -834,6 +1500,19 @@ Use the least intrusive technique that answers the assessment question.
                               v
                       Active Directory
                               |
+                 +------------+------------+
+                 |                         |
+                 v                         v
+             General AD               Tool-Specific
+                                           |
+                              +------------+------------+
+                              |                         |
+                              v                         v
+                          Impacket                   NetExec
+                                                       |
+                                                       v
+                                                 More Tools
+                              |
                               v
                          Assessment
                               |
@@ -847,8 +1526,8 @@ Use the least intrusive technique that answers the assessment question.
                            Reporting
 ```
 
-Use the cheatsheets for speed.
+Use the general cheatsheets to decide **what to test**.
 
-Use the detailed notes for understanding.
+Use dedicated tool cheatsheets to determine **which command or syntax to use**.
 
-Use both for a structured assessment.
+Use the detailed notes to understand **why the technique works, what the result means, and how to validate it safely**.
