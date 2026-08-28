@@ -242,6 +242,11 @@ nav:
 
       - Overview: source-code-review/index.md
       - Methodology: source-code-review/methodology.md
+      - Routes and Entry Points: source-code-review/routes-and-entry-points.md
+      - Source-to-Sink Analysis: source-code-review/source-to-sink-analysis.md
+      - Authentication and Authorisation: source-code-review/authentication-authorisation.md
+      - Secrets and Configuration: source-code-review/secrets-and-configuration.md
+      - Variant Analysis: source-code-review/variant-analysis.md
 
 
       # ------------------------------------------------------
