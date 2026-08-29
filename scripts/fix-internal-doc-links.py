@@ -19,11 +19,7 @@ Example:
 
     Becomes:
 
-        For the detailed explanation of NetExec, see:
-
         [NetExec](../active-directory/netexec.md)
-
-The script is deliberately conservative.
 
 SUPPORTED PATH STYLES
 =====================
@@ -60,24 +56,31 @@ SAFETY RULES
 - Supports --verbose.
 - Supports --context-check.
 
-RECOMMENDED FIRST RUN
-=====================
+RECOMMENDED WORKFLOW
+====================
+
+First:
 
     python3 scripts/fix-internal-doc-links.py \
         --dry-run \
         --verbose \
         --context-check
 
-Nothing is modified during a dry run.
-
-After reviewing the proposed changes:
+After reviewing:
 
     python3 scripts/fix-internal-doc-links.py --context-check
 
-Then validate:
+Then:
+
+    python3 scripts/fix-internal-doc-links.py \
+        --dry-run \
+        --context-check
+
+Finally:
 
     git diff --check
     git diff --stat
+    git diff -- docs/
     mkdocs build
 """
 
@@ -103,6 +106,9 @@ DEFAULT_DOCS_ROOT = "docs"
 # Nearby prose containing one of these patterns can indicate that
 # a standalone .md path is intended as navigation rather than as
 # an example of a filesystem/documentation structure.
+#
+# These patterns deliberately focus on language that indicates
+# another document should be opened/read/reviewed.
 LINK_CONTEXT_PATTERNS = [
     r"\bsee\b",
     r"\bsee also\b",
@@ -111,6 +117,9 @@ LINK_CONTEXT_PATTERNS = [
     r"\brelated notes\b",
     r"\bdetailed notes\b",
     r"\bdetailed explanation\b",
+    r"\bdetailed analysis\b",
+    r"\bdetailed testing\b",
+    r"\bdetailed methodology\b",
     r"\bfor more information\b",
     r"\bfor more details\b",
     r"\bmore information\b",
@@ -122,6 +131,13 @@ LINK_CONTEXT_PATTERNS = [
     r"\bcheatsheet\b",
     r"\bdocumentation\b",
     r"\bnotes\b",
+    r"\bbelongs in\b",
+    r"\bcovered in\b",
+    r"\bis covered in\b",
+    r"\bwill be covered in\b",
+    r"\bshould cover\b",
+    r"\balso review\b",
+    r"\bcomplement\b",
 ]
 
 
@@ -309,8 +325,10 @@ def humanise_filename(path: Path) -> str:
         "css": "CSS",
         "dcom": "DCOM",
         "dns": "DNS",
+        "dom": "DOM",
         "gmsa": "gMSA",
         "gpp": "GPP",
+        "graphql": "GraphQL",
         "grpc": "gRPC",
         "html": "HTML",
         "http": "HTTP",
@@ -325,6 +343,7 @@ def humanise_filename(path: Path) -> str:
         "llm": "LLM",
         "mfa": "MFA",
         "netexec": "NetExec",
+        "nosql": "NoSQL",
         "ntds": "NTDS",
         "ntlm": "NTLM",
         "oauth": "OAuth",
@@ -524,7 +543,7 @@ def resolve_target(
     raw_path = raw_path.strip()
 
     # Normalise Windows-style separators in case they ever appear
-    # in the Markdown documentation.
+    # in Markdown documentation.
     normalised = raw_path.replace(
         "\\",
         "/",
@@ -1399,10 +1418,9 @@ def main() -> int:
         "--context-check",
         action="store_true",
         help=(
-            "Require nearby prose such as 'see', "
-            "'detailed notes', 'related', or "
-            "'documentation' before converting a "
-            "standalone .md path."
+            "Require nearby prose indicating that the "
+            "standalone .md path is intended as a "
+            "documentation/navigation reference."
         ),
     )
 
