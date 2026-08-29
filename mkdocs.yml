@@ -550,14 +550,35 @@ nav:
 
   - Cheatsheets:
       - cheatsheets/index.md
+
+      # ------------------------------------------------------
+      # OPERATING SYSTEMS
+      # ------------------------------------------------------
+
       - Linux: cheatsheets/linux.md
       - Windows: cheatsheets/windows.md
       - PowerShell: cheatsheets/powershell.md
+
+      # ------------------------------------------------------
+      # NETWORKING
+      # ------------------------------------------------------
+
       - Networking: cheatsheets/networking.md
+
+      # ------------------------------------------------------
+      # WEB
+      # ------------------------------------------------------
+
       - Web: cheatsheets/web.md
+
+      # ------------------------------------------------------
+      # ACTIVE DIRECTORY
+      # ------------------------------------------------------
+
       - Active Directory: cheatsheets/active-directory.md
-      - Impacket: cheatsheets/impacket.md
       - NetExec: cheatsheets/netexec.md
+      - Impacket: cheatsheets/impacket.md
+      - BloodHound: cheatsheets/bloodhound.md
 
 
 # ============================================================
