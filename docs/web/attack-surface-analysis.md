@@ -4933,79 +4933,79 @@ and where security testing should focus.
 
 ## OWASP Attack Surface Analysis Cheat Sheet
 
-[OWASP Attack Surface Analysis Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html)
+[OWASP Attack Surface Analysis Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Web Security Testing Guide - Information Gathering
 
-[OWASP Web Security Testing Guide - Information Gathering](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/)
+[OWASP Web Security Testing Guide - Information Gathering](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP WSTG - Attack Surface Identification
 
-[OWASP WSTG - Attack Surface Identification](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Attack_Surface_Identification/)
+[OWASP WSTG - Attack Surface Identification](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Attack_Surface_Identification/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP WSTG - Identify Application Entry Points
 
-[OWASP WSTG - Identify Application Entry Points](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points/)
+[OWASP WSTG - Identify Application Entry Points](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP WSTG - Map Execution Paths Through Application
 
-[OWASP WSTG - Map Execution Paths Through Application](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/07-Map_Execution_Paths_Through_Application/)
+[OWASP WSTG - Map Execution Paths Through Application](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/07-Map_Execution_Paths_Through_Application/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP WSTG - Map Application Architecture
 
-[OWASP WSTG - Map Application Architecture](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture/)
+[OWASP WSTG - Map Application Architecture](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Burp Target Scope
 
-[PortSwigger Burp Target Scope](https://portswigger.net/burp/documentation/desktop/tools/target/scope)
+[PortSwigger Burp Target Scope](https://portswigger.net/burp/documentation/desktop/tools/target/scope){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Burp Target Site Map
 
-[PortSwigger Burp Target Site Map](https://portswigger.net/burp/documentation/desktop/tools/target/site-map)
+[PortSwigger Burp Target Site Map](https://portswigger.net/burp/documentation/desktop/tools/target/site-map){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger BApp Store
 
-[PortSwigger BApp Store](https://portswigger.net/bappstore)
+[PortSwigger BApp Store](https://portswigger.net/bappstore){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## ProjectDiscovery Subfinder
 
-[ProjectDiscovery Subfinder](https://github.com/projectdiscovery/subfinder)
+[ProjectDiscovery Subfinder](https://github.com/projectdiscovery/subfinder){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## ProjectDiscovery DNSX
 
-[ProjectDiscovery DNSX](https://github.com/projectdiscovery/dnsx)
+[ProjectDiscovery DNSX](https://github.com/projectdiscovery/dnsx){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## ProjectDiscovery HTTPX
 
-[ProjectDiscovery HTTPX](https://github.com/projectdiscovery/httpx)
+[ProjectDiscovery HTTPX](https://github.com/projectdiscovery/httpx){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## ProjectDiscovery Katana
 
-[ProjectDiscovery Katana](https://github.com/projectdiscovery/katana)
+[ProjectDiscovery Katana](https://github.com/projectdiscovery/katana){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

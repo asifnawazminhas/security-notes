@@ -4667,79 +4667,79 @@ docs/web/websockets.md
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Static Code Analysis
 
-[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis)
+[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Input Validation Cheat Sheet
 
-[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
+[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Authorization Cheat Sheet
 
-[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Injection Prevention Cheat Sheet
 
-[OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
+[OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP SQL Injection Prevention Cheat Sheet
 
-[OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
+[OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP OS Command Injection Defense Cheat Sheet
 
-[OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html)
+[OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP SSRF Prevention Cheat Sheet
 
-[OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+[OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP File Upload Cheat Sheet
 
-[OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
+[OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Deserialization Cheat Sheet
 
-[OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)
+[OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP XSS Prevention Cheat Sheet
 
-[OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+[OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy
 
-[PortSwigger Web Security Academy](https://portswigger.net/web-security)
+[PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Data Flow Analysis
 
-[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
+[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code
 
-[Visual Studio Code](https://code.visualstudio.com/docs)
+[Visual Studio Code](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

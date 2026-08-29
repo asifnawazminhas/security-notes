@@ -5141,119 +5141,119 @@ Only then classify the candidate as a confirmed vulnerability.
 
 ## Flask Documentation
 
-[flask.palletsprojects.com](https://flask.palletsprojects.com/)
+[flask.palletsprojects.com](https://flask.palletsprojects.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask Security Considerations
 
-[Flask Security Considerations](https://flask.palletsprojects.com/en/stable/web-security/)
+[Flask Security Considerations](https://flask.palletsprojects.com/en/stable/web-security/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask Configuration
 
-[Flask Configuration](https://flask.palletsprojects.com/en/stable/config/)
+[Flask Configuration](https://flask.palletsprojects.com/en/stable/config/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask Request Object
 
-[Flask Request Object](https://flask.palletsprojects.com/en/stable/api/#flask.Request)
+[Flask Request Object](https://flask.palletsprojects.com/en/stable/api/#flask.Request){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask File Uploads
 
-[Flask File Uploads](https://flask.palletsprojects.com/en/stable/patterns/fileuploads/)
+[Flask File Uploads](https://flask.palletsprojects.com/en/stable/patterns/fileuploads/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask Deployment
 
-[Flask Deployment](https://flask.palletsprojects.com/en/stable/deploying/)
+[Flask Deployment](https://flask.palletsprojects.com/en/stable/deploying/){ target="_blank" rel="noopener noreferrer" }
 
 ## Werkzeug
 
-[Werkzeug](https://werkzeug.palletsprojects.com/)
+[Werkzeug](https://werkzeug.palletsprojects.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## Werkzeug ProxyFix
 
-[Werkzeug ProxyFix](https://werkzeug.palletsprojects.com/en/stable/middleware/proxy_fix/)
+[Werkzeug ProxyFix](https://werkzeug.palletsprojects.com/en/stable/middleware/proxy_fix/){ target="_blank" rel="noopener noreferrer" }
 
 ## Werkzeug Utilities
 
-[Werkzeug Utilities](https://werkzeug.palletsprojects.com/en/stable/utils/)
+[Werkzeug Utilities](https://werkzeug.palletsprojects.com/en/stable/utils/){ target="_blank" rel="noopener noreferrer" }
 
 ## Jinja Documentation
 
-[jinja.palletsprojects.com](https://jinja.palletsprojects.com/)
+[jinja.palletsprojects.com](https://jinja.palletsprojects.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-Login
 
-[Flask-Login](https://flask-login.readthedocs.io/)
+[Flask-Login](https://flask-login.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-WTF
 
-[Flask-WTF](https://flask-wtf.readthedocs.io/)
+[Flask-WTF](https://flask-wtf.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-CORS
 
-[Flask-CORS](https://flask-cors.readthedocs.io/)
+[Flask-CORS](https://flask-cors.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-Limiter
 
-[Flask-Limiter](https://flask-limiter.readthedocs.io/)
+[Flask-Limiter](https://flask-limiter.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-JWT-Extended
 
-[Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/)
+[Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-SQLAlchemy
 
-[Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
+[Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## SQLAlchemy
 
-[SQLAlchemy](https://docs.sqlalchemy.org/)
+[SQLAlchemy](https://docs.sqlalchemy.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Python subprocess
 
-[Python subprocess](https://docs.python.org/3/library/subprocess.html)
+[Python subprocess](https://docs.python.org/3/library/subprocess.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Python pickle
 
-[Python pickle](https://docs.python.org/3/library/pickle.html)
+[Python pickle](https://docs.python.org/3/library/pickle.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for Python
 
-[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/)
+[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/){ target="_blank" rel="noopener noreferrer" }
 
 ## Bandit
 
-[Bandit](https://bandit.readthedocs.io/)
+[Bandit](https://bandit.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## pip-audit
 
-[pip-audit](https://github.com/pypa/pip-audit)
+[pip-audit](https://github.com/pypa/pip-audit){ target="_blank" rel="noopener noreferrer" }
 
 ## OSV-Scanner
 
-[OSV-Scanner](https://github.com/google/osv-scanner)
+[OSV-Scanner](https://github.com/google/osv-scanner){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

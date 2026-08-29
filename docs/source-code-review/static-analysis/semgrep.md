@@ -4917,63 +4917,63 @@ Variant Analysis
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/)
+[Semgrep](https://semgrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep CLI Reference
 
-[Semgrep CLI Reference](https://semgrep.dev/docs/cli-reference)
+[Semgrep CLI Reference](https://semgrep.dev/docs/cli-reference){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Rule Syntax
 
-[Semgrep Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax)
+[Semgrep Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Pattern Syntax
 
-[Semgrep Pattern Syntax](https://semgrep.dev/docs/writing-rules/pattern-syntax)
+[Semgrep Pattern Syntax](https://semgrep.dev/docs/writing-rules/pattern-syntax){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Taint Mode
 
-[Semgrep Taint Mode](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode)
+[Semgrep Taint Mode](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Rule Writing
 
-[Semgrep Rule Writing](https://semgrep.dev/docs/writing-rules/overview)
+[Semgrep Rule Writing](https://semgrep.dev/docs/writing-rules/overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep GitHub Repository
 
-[Semgrep GitHub Repository](https://github.com/semgrep/semgrep)
+[Semgrep GitHub Repository](https://github.com/semgrep/semgrep){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code
 
-[Visual Studio Code](https://code.visualstudio.com/docs)
+[Visual Studio Code](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep GitHub
 
-[OpenGrep GitHub](https://github.com/opengrep/opengrep)
+[OpenGrep GitHub](https://github.com/opengrep/opengrep){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

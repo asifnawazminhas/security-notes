@@ -5207,7 +5207,7 @@ Path Traversal
 
 ## OWASP gRPC Security Cheat Sheet
 
-[OWASP gRPC Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/gRPC_Security_Cheat_Sheet.html)
+[OWASP gRPC Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/gRPC_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Use this as one of the primary security references.
 
@@ -5229,13 +5229,13 @@ Security testing
 
 ## Official gRPC Documentation
 
-[docs](https://grpc.io/docs/)
+[docs](https://grpc.io/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## gRPC Core Concepts
 
-[gRPC Core Concepts](https://grpc.io/docs/what-is-grpc/core-concepts/)
+[gRPC Core Concepts](https://grpc.io/docs/what-is-grpc/core-concepts/){ target="_blank" rel="noopener noreferrer" }
 
 Use this for:
 
@@ -5252,7 +5252,7 @@ Cancellation
 
 ## gRPC Guides
 
-[gRPC Guides](https://grpc.io/docs/guides/)
+[gRPC Guides](https://grpc.io/docs/guides/){ target="_blank" rel="noopener noreferrer" }
 
 Official guides covering:
 
@@ -5271,13 +5271,13 @@ Keepalive
 
 ## gRPC Authentication
 
-[gRPC Authentication](https://grpc.io/docs/guides/auth/)
+[gRPC Authentication](https://grpc.io/docs/guides/auth/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## gRPC Metadata
 
-[gRPC Metadata](https://grpc.io/docs/guides/metadata/)
+[gRPC Metadata](https://grpc.io/docs/guides/metadata/){ target="_blank" rel="noopener noreferrer" }
 
 Important for understanding:
 
@@ -5292,49 +5292,49 @@ Trailers
 
 ## gRPC Reflection
 
-[gRPC Reflection](https://grpc.io/docs/guides/reflection/)
+[gRPC Reflection](https://grpc.io/docs/guides/reflection/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## gRPC Status Codes
 
-[gRPC Status Codes](https://grpc.io/docs/guides/status-codes/)
+[gRPC Status Codes](https://grpc.io/docs/guides/status-codes/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## gRPC Deadlines
 
-[gRPC Deadlines](https://grpc.io/docs/guides/deadlines/)
+[gRPC Deadlines](https://grpc.io/docs/guides/deadlines/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## gRPC Cancellation
 
-[gRPC Cancellation](https://grpc.io/docs/guides/cancellation/)
+[gRPC Cancellation](https://grpc.io/docs/guides/cancellation/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## gRPC Health Checking
 
-[gRPC Health Checking](https://grpc.io/docs/guides/health-checking/)
+[gRPC Health Checking](https://grpc.io/docs/guides/health-checking/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Protocol Buffers
 
-[Protocol Buffers](https://protobuf.dev/)
+[Protocol Buffers](https://protobuf.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Protocol Buffers Programming Guides
 
-[Protocol Buffers Programming Guides](https://protobuf.dev/programming-guides/)
+[Protocol Buffers Programming Guides](https://protobuf.dev/programming-guides/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## grpcurl
 
-[grpcurl](https://github.com/fullstorydev/grpcurl)
+[grpcurl](https://github.com/fullstorydev/grpcurl){ target="_blank" rel="noopener noreferrer" }
 
 `grpcurl` supports:
 
@@ -5354,7 +5354,7 @@ Streaming RPCs
 
 ## Burp Suite BApp Store
 
-[Burp Suite BApp Store](https://portswigger.net/bappstore)
+[Burp Suite BApp Store](https://portswigger.net/bappstore){ target="_blank" rel="noopener noreferrer" }
 
 Look for current extensions relevant to:
 
@@ -5370,7 +5370,7 @@ Always verify the current extension version and maintenance status before relyin
 
 ## OWASP API Security
 
-[OWASP API Security](https://owasp.org/API-Security/)
+[OWASP API Security](https://owasp.org/API-Security/){ target="_blank" rel="noopener noreferrer" }
 
 Many API security principles apply directly to gRPC services.
 

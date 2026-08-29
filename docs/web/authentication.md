@@ -2678,15 +2678,15 @@ A weakness in one authentication component can undermine otherwise strong contro
 
 Useful references for further study:
 
-- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
-- [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
-- [OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)
-- [OWASP Multifactor Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html)
-- [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
-- [PortSwigger Web Security Academy: Authentication](https://portswigger.net/web-security/authentication)
-- [PortSwigger Web Security Academy: OAuth](https://portswigger.net/web-security/oauth)
-- [OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700)
-- [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html)
+- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
+- [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [OWASP Multifactor Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [PortSwigger Web Security Academy: Authentication](https://portswigger.net/web-security/authentication){ target="_blank" rel="noopener noreferrer" }
+- [PortSwigger Web Security Academy: OAuth](https://portswigger.net/web-security/oauth){ target="_blank" rel="noopener noreferrer" }
+- [OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700){ target="_blank" rel="noopener noreferrer" }
+- [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

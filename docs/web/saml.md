@@ -4944,7 +4944,7 @@ Report
 
 ## OWASP SAML Security Cheat Sheet
 
-[OWASP SAML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html)
+[OWASP SAML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Primary OWASP guidance for securing SAML implementations.
 
@@ -4952,7 +4952,7 @@ Primary OWASP guidance for securing SAML implementations.
 
 ## OWASP Authentication Cheat Sheet
 
-[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Useful for the wider authentication controls surrounding SAML.
 
@@ -4960,7 +4960,7 @@ Useful for the wider authentication controls surrounding SAML.
 
 ## OWASP XML Security Cheat Sheet
 
-[OWASP XML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html)
+[OWASP XML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Useful when evaluating the XML processing layer behind SAML.
 
@@ -4968,7 +4968,7 @@ Useful when evaluating the XML processing layer behind SAML.
 
 ## OASIS SAML 2.0
 
-[OASIS SAML 2.0](https://www.oasis-open.org/standard/saml/)
+[OASIS SAML 2.0](https://www.oasis-open.org/standard/saml/){ target="_blank" rel="noopener noreferrer" }
 
 Official SAML standard resources.
 
@@ -4976,7 +4976,7 @@ Official SAML standard resources.
 
 ## SAML 2.0 Technical Overview
 
-[SAML 2.0 Technical Overview](https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html)
+[SAML 2.0 Technical Overview](https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html){ target="_blank" rel="noopener noreferrer" }
 
 Useful for understanding SAML profiles and message flows.
 
@@ -4984,7 +4984,7 @@ Useful for understanding SAML profiles and message flows.
 
 ## SAML 2.0 Core
 
-[SAML 2.0 Core](https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf)
+[SAML 2.0 Core](https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf){ target="_blank" rel="noopener noreferrer" }
 
 Defines assertions, protocols and core SAML structures.
 
@@ -4992,7 +4992,7 @@ Defines assertions, protocols and core SAML structures.
 
 ## SAML 2.0 Bindings
 
-[SAML 2.0 Bindings](https://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf)
+[SAML 2.0 Bindings](https://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf){ target="_blank" rel="noopener noreferrer" }
 
 Defines HTTP POST, Redirect and other SAML bindings.
 
@@ -5000,7 +5000,7 @@ Defines HTTP POST, Redirect and other SAML bindings.
 
 ## SAML 2.0 Profiles
 
-[SAML 2.0 Profiles](https://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf)
+[SAML 2.0 Profiles](https://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf){ target="_blank" rel="noopener noreferrer" }
 
 Defines SAML profiles including Web Browser SSO.
 
@@ -5008,7 +5008,7 @@ Defines SAML profiles including Web Browser SSO.
 
 ## SAML 2.0 Security Considerations
 
-[SAML 2.0 Security Considerations](https://docs.oasis-open.org/security/saml/v2.0/saml-sec-consider-2.0-os.pdf)
+[SAML 2.0 Security Considerations](https://docs.oasis-open.org/security/saml/v2.0/saml-sec-consider-2.0-os.pdf){ target="_blank" rel="noopener noreferrer" }
 
 Security and privacy considerations for SAML deployments.
 
@@ -5016,7 +5016,7 @@ Security and privacy considerations for SAML deployments.
 
 ## SAML Raider
 
-[SAML Raider](https://portswigger.net/bappstore/c61cfa893bb14db4b01775554f7b802e)
+[SAML Raider](https://portswigger.net/bappstore/c61cfa893bb14db4b01775554f7b802e){ target="_blank" rel="noopener noreferrer" }
 
 Burp Suite extension for:
 
@@ -5033,7 +5033,7 @@ XSLT testing
 
 ## PortSwigger BApp Store
 
-[PortSwigger BApp Store](https://portswigger.net/bappstore)
+[PortSwigger BApp Store](https://portswigger.net/bappstore){ target="_blank" rel="noopener noreferrer" }
 
 Useful for checking current SAML-related Burp extensions.
 
@@ -5041,7 +5041,7 @@ Useful for checking current SAML-related Burp extensions.
 
 ## PortSwigger Authentication Security
 
-[PortSwigger Authentication Security](https://portswigger.net/web-security/authentication)
+[PortSwigger Authentication Security](https://portswigger.net/web-security/authentication){ target="_blank" rel="noopener noreferrer" }
 
 Useful background for authentication testing surrounding federated login.
 

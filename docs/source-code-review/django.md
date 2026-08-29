@@ -5310,95 +5310,95 @@ Only then classify the issue as a confirmed vulnerability.
 
 ## Django Documentation
 
-[docs.djangoproject.com](https://docs.djangoproject.com/)
+[docs.djangoproject.com](https://docs.djangoproject.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Security
 
-[Django Security](https://docs.djangoproject.com/en/5.2/topics/security/)
+[Django Security](https://docs.djangoproject.com/en/5.2/topics/security/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Security Policies
 
-[Django Security Policies](https://docs.djangoproject.com/en/5.2/internals/security/)
+[Django Security Policies](https://docs.djangoproject.com/en/5.2/internals/security/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Settings
 
-[Django Settings](https://docs.djangoproject.com/en/5.2/ref/settings/)
+[Django Settings](https://docs.djangoproject.com/en/5.2/ref/settings/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Authentication
 
-[Django Authentication](https://docs.djangoproject.com/en/5.2/topics/auth/)
+[Django Authentication](https://docs.djangoproject.com/en/5.2/topics/auth/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django CSRF Protection
 
-[Django CSRF Protection](https://docs.djangoproject.com/en/5.2/ref/csrf/)
+[Django CSRF Protection](https://docs.djangoproject.com/en/5.2/ref/csrf/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Templates
 
-[Django Templates](https://docs.djangoproject.com/en/5.2/topics/templates/)
+[Django Templates](https://docs.djangoproject.com/en/5.2/topics/templates/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django QuerySets
 
-[Django QuerySets](https://docs.djangoproject.com/en/5.2/ref/models/querysets/)
+[Django QuerySets](https://docs.djangoproject.com/en/5.2/ref/models/querysets/){ target="_blank" rel="noopener noreferrer" }
 
 ## Performing Raw SQL Queries
 
-[Performing Raw SQL Queries](https://docs.djangoproject.com/en/5.2/topics/db/sql/)
+[Performing Raw SQL Queries](https://docs.djangoproject.com/en/5.2/topics/db/sql/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django File Uploads
 
-[Django File Uploads](https://docs.djangoproject.com/en/5.2/topics/http/file-uploads/)
+[Django File Uploads](https://docs.djangoproject.com/en/5.2/topics/http/file-uploads/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django REST Framework
 
-[Django REST Framework](https://www.django-rest-framework.org/)
+[Django REST Framework](https://www.django-rest-framework.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## DRF Authentication
 
-[DRF Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
+[DRF Authentication](https://www.django-rest-framework.org/api-guide/authentication/){ target="_blank" rel="noopener noreferrer" }
 
 ## DRF Permissions
 
-[DRF Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+[DRF Permissions](https://www.django-rest-framework.org/api-guide/permissions/){ target="_blank" rel="noopener noreferrer" }
 
 ## DRF Serializers
 
-[DRF Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
+[DRF Serializers](https://www.django-rest-framework.org/api-guide/serializers/){ target="_blank" rel="noopener noreferrer" }
 
 ## DRF Throttling
 
-[DRF Throttling](https://www.django-rest-framework.org/api-guide/throttling/)
+[DRF Throttling](https://www.django-rest-framework.org/api-guide/throttling/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for Python
 
-[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/)
+[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/){ target="_blank" rel="noopener noreferrer" }
 
 ## Bandit
 
-[Bandit](https://bandit.readthedocs.io/)
+[Bandit](https://bandit.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

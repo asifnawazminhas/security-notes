@@ -2116,83 +2116,83 @@ active-directory/pivoting.md
 
 ## Impacket
 
-[Impacket](https://github.com/fortra/impacket)
+[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
 
 ## Impacket Examples
 
-[Impacket Examples](https://github.com/fortra/impacket/tree/master/examples)
+[Impacket Examples](https://github.com/fortra/impacket/tree/master/examples){ target="_blank" rel="noopener noreferrer" }
 
 ## GetADUsers
 
-[GetADUsers](https://github.com/fortra/impacket/blob/master/examples/GetADUsers.py)
+[GetADUsers](https://github.com/fortra/impacket/blob/master/examples/GetADUsers.py){ target="_blank" rel="noopener noreferrer" }
 
 ## GetNPUsers
 
-[GetNPUsers](https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py)
+[GetNPUsers](https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py){ target="_blank" rel="noopener noreferrer" }
 
 ## GetUserSPNs
 
-[GetUserSPNs](https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py)
+[GetUserSPNs](https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py){ target="_blank" rel="noopener noreferrer" }
 
 ## findDelegation
 
-[findDelegation](https://github.com/fortra/impacket/blob/master/examples/findDelegation.py)
+[findDelegation](https://github.com/fortra/impacket/blob/master/examples/findDelegation.py){ target="_blank" rel="noopener noreferrer" }
 
 ## lookupsid
 
-[lookupsid](https://github.com/fortra/impacket/blob/master/examples/lookupsid.py)
+[lookupsid](https://github.com/fortra/impacket/blob/master/examples/lookupsid.py){ target="_blank" rel="noopener noreferrer" }
 
 ## getTGT
 
-[getTGT](https://github.com/fortra/impacket/blob/master/examples/getTGT.py)
+[getTGT](https://github.com/fortra/impacket/blob/master/examples/getTGT.py){ target="_blank" rel="noopener noreferrer" }
 
 ## getST
 
-[getST](https://github.com/fortra/impacket/blob/master/examples/getST.py)
+[getST](https://github.com/fortra/impacket/blob/master/examples/getST.py){ target="_blank" rel="noopener noreferrer" }
 
 ## smbclient
 
-[smbclient](https://github.com/fortra/impacket/blob/master/examples/smbclient.py)
+[smbclient](https://github.com/fortra/impacket/blob/master/examples/smbclient.py){ target="_blank" rel="noopener noreferrer" }
 
 ## smbserver
 
-[smbserver](https://github.com/fortra/impacket/blob/master/examples/smbserver.py)
+[smbserver](https://github.com/fortra/impacket/blob/master/examples/smbserver.py){ target="_blank" rel="noopener noreferrer" }
 
 ## secretsdump
 
-[secretsdump](https://github.com/fortra/impacket/blob/master/examples/secretsdump.py)
+[secretsdump](https://github.com/fortra/impacket/blob/master/examples/secretsdump.py){ target="_blank" rel="noopener noreferrer" }
 
 ## psexec
 
-[psexec](https://github.com/fortra/impacket/blob/master/examples/psexec.py)
+[psexec](https://github.com/fortra/impacket/blob/master/examples/psexec.py){ target="_blank" rel="noopener noreferrer" }
 
 ## wmiexec
 
-[wmiexec](https://github.com/fortra/impacket/blob/master/examples/wmiexec.py)
+[wmiexec](https://github.com/fortra/impacket/blob/master/examples/wmiexec.py){ target="_blank" rel="noopener noreferrer" }
 
 ## smbexec
 
-[smbexec](https://github.com/fortra/impacket/blob/master/examples/smbexec.py)
+[smbexec](https://github.com/fortra/impacket/blob/master/examples/smbexec.py){ target="_blank" rel="noopener noreferrer" }
 
 ## dcomexec
 
-[dcomexec](https://github.com/fortra/impacket/blob/master/examples/dcomexec.py)
+[dcomexec](https://github.com/fortra/impacket/blob/master/examples/dcomexec.py){ target="_blank" rel="noopener noreferrer" }
 
 ## atexec
 
-[atexec](https://github.com/fortra/impacket/blob/master/examples/atexec.py)
+[atexec](https://github.com/fortra/impacket/blob/master/examples/atexec.py){ target="_blank" rel="noopener noreferrer" }
 
 ## ntlmrelayx
 
-[ntlmrelayx](https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py)
+[ntlmrelayx](https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py){ target="_blank" rel="noopener noreferrer" }
 
 ## ticketer
 
-[ticketer](https://github.com/fortra/impacket/blob/master/examples/ticketer.py)
+[ticketer](https://github.com/fortra/impacket/blob/master/examples/ticketer.py){ target="_blank" rel="noopener noreferrer" }
 
 ## ticketConverter
 
-[ticketConverter](https://github.com/fortra/impacket/blob/master/examples/ticketConverter.py)
+[ticketConverter](https://github.com/fortra/impacket/blob/master/examples/ticketConverter.py){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

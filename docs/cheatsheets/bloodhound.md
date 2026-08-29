@@ -3429,39 +3429,39 @@ cheatsheets/powershell.md
 
 ## BloodHound Documentation
 
-[BloodHound Documentation](https://bloodhound.specterops.io/)
+[BloodHound Documentation](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## BloodHound Community Edition
 
-[BloodHound Community Edition](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart)
+[BloodHound Community Edition](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart){ target="_blank" rel="noopener noreferrer" }
 
 ## SharpHound CE
 
-[SharpHound CE](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound)
+[SharpHound CE](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound){ target="_blank" rel="noopener noreferrer" }
 
 ## SharpHound Flags
 
-[SharpHound Flags](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound-flags)
+[SharpHound Flags](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound-flags){ target="_blank" rel="noopener noreferrer" }
 
 ## BloodHound.py
 
-[BloodHound.py](https://github.com/dirkjanm/BloodHound.py)
+[BloodHound.py](https://github.com/dirkjanm/BloodHound.py){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec BloodHound Ingestor
 
-[NetExec BloodHound Ingestor](https://www.netexec.wiki/ldap-protocol/bloodhound-ingestor)
+[NetExec BloodHound Ingestor](https://www.netexec.wiki/ldap-protocol/bloodhound-ingestor){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec
 
-[NetExec](https://www.netexec.wiki/)
+[NetExec](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
 
 ## BloodBash
 
-[BloodBash](https://github.com/SquidSec/BloodBash)
+[BloodBash](https://github.com/SquidSec/BloodBash){ target="_blank" rel="noopener noreferrer" }
 
 ## Neo4j
 
-[Neo4j](https://neo4j.com/)
+[Neo4j](https://neo4j.com/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

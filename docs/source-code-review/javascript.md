@@ -5240,131 +5240,131 @@ Only then classify the candidate as a confirmed vulnerability.
 
 ## MDN Web Security
 
-[MDN Web Security](https://developer.mozilla.org/en-US/docs/Web/Security)
+[MDN Web Security](https://developer.mozilla.org/en-US/docs/Web/Security){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Cross-Site Scripting
 
-[MDN Cross-Site Scripting](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XSS)
+[MDN Cross-Site Scripting](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XSS){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN innerHTML
 
-[MDN innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+[MDN innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN insertAdjacentHTML
 
-[MDN insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
+[MDN insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN postMessage
 
-[MDN postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+[MDN postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Web Storage
 
-[MDN Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)
+[MDN Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Content Security Policy
 
-[MDN Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)
+[MDN Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Subresource Integrity
 
-[MDN Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity)
+[MDN Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Trusted Types
 
-[MDN Trusted Types](https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API)
+[MDN Trusted Types](https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Service Worker API
 
-[MDN Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+[MDN Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Web Workers
 
-[MDN Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
+[MDN Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API){ target="_blank" rel="noopener noreferrer" }
 
 ## MDN Web Crypto API
 
-[MDN Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+[MDN Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP DOM Based XSS Prevention Cheat Sheet
 
-[OWASP DOM Based XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html)
+[OWASP DOM Based XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cross Site Scripting Prevention Cheat Sheet
 
-[OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+[OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Third Party JavaScript Management Cheat Sheet
 
-[OWASP Third Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html)
+[OWASP Third Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP HTML5 Security Cheat Sheet
 
-[OWASP HTML5 Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html)
+[OWASP HTML5 Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Content Security Policy Cheat Sheet
 
-[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger DOM-Based Vulnerabilities
 
-[PortSwigger DOM-Based Vulnerabilities](https://portswigger.net/web-security/dom-based)
+[PortSwigger DOM-Based Vulnerabilities](https://portswigger.net/web-security/dom-based){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger DOM XSS
 
-[PortSwigger DOM XSS](https://portswigger.net/web-security/cross-site-scripting/dom-based)
+[PortSwigger DOM XSS](https://portswigger.net/web-security/cross-site-scripting/dom-based){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger DOM Invader
 
-[PortSwigger DOM Invader](https://portswigger.net/burp/documentation/desktop/tools/dom-invader)
+[PortSwigger DOM Invader](https://portswigger.net/burp/documentation/desktop/tools/dom-invader){ target="_blank" rel="noopener noreferrer" }
 
 ## DOMPurify
 
-[DOMPurify](https://github.com/cure53/DOMPurify)
+[DOMPurify](https://github.com/cure53/DOMPurify){ target="_blank" rel="noopener noreferrer" }
 
 ## React dangerouslySetInnerHTML
 
-[React dangerouslySetInnerHTML](https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html)
+[React dangerouslySetInnerHTML](https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html){ target="_blank" rel="noopener noreferrer" }
 
 ## Angular Security
 
-[Angular Security](https://angular.dev/best-practices/security)
+[Angular Security](https://angular.dev/best-practices/security){ target="_blank" rel="noopener noreferrer" }
 
 ## Vue Security
 
-[Vue Security](https://vuejs.org/guide/best-practices/security.html)
+[Vue Security](https://vuejs.org/guide/best-practices/security.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Svelte HTML
 
-[Svelte HTML](https://svelte.dev/docs/svelte/@html)
+[Svelte HTML](https://svelte.dev/docs/svelte/@html){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for JavaScript and TypeScript
 
-[CodeQL for JavaScript and TypeScript](https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/)
+[CodeQL for JavaScript and TypeScript](https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL JavaScript Data Flow
 
-[CodeQL JavaScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/)
+[CodeQL JavaScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/){ target="_blank" rel="noopener noreferrer" }
 
 ## Retire.js
 
-[Retire.js](https://github.com/RetireJS/retire.js)
+[Retire.js](https://github.com/RetireJS/retire.js){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

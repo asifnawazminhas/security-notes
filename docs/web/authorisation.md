@@ -2826,12 +2826,12 @@ Good authorisation testing is ultimately about identifying **trust boundaries** 
 
 Useful references for further study:
 
-- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
-- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
-- [OWASP IDOR Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html)
-- [OWASP API Security Top 10](https://owasp.org/API-Security/)
-- [PortSwigger Web Security Academy: Access Control](https://portswigger.net/web-security/access-control)
-- [PortSwigger Web Security Academy: API Testing](https://portswigger.net/web-security/api-testing)
+- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
+- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [OWASP IDOR Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [OWASP API Security Top 10](https://owasp.org/API-Security/){ target="_blank" rel="noopener noreferrer" }
+- [PortSwigger Web Security Academy: Access Control](https://portswigger.net/web-security/access-control){ target="_blank" rel="noopener noreferrer" }
+- [PortSwigger Web Security Academy: API Testing](https://portswigger.net/web-security/api-testing){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

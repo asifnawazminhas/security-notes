@@ -3349,79 +3349,79 @@ Also ask:
 
 ## Microsoft Active Directory Domain Services
 
-[Microsoft Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/)
+[Microsoft Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft Active Directory Domain Services Overview
 
-[Microsoft Active Directory Domain Services Overview](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview)
+[Microsoft Active Directory Domain Services Overview](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft Kerberos Authentication
 
-[Microsoft Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview)
+[Microsoft Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft NTLM
 
-[Microsoft NTLM](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview)
+[Microsoft NTLM](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft LDAP
 
-[Microsoft LDAP](https://learn.microsoft.com/en-us/windows/win32/adsi/ldap-adspath)
+[Microsoft LDAP](https://learn.microsoft.com/en-us/windows/win32/adsi/ldap-adspath){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft Group Policy
 
-[Microsoft Group Policy](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview)
+[Microsoft Group Policy](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft Active Directory Certificate Services
 
-[Microsoft Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview)
+[Microsoft Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview){ target="_blank" rel="noopener noreferrer" }
 
 ## BloodHound
 
-[BloodHound](https://bloodhound.specterops.io/)
+[BloodHound](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec
 
-[NetExec](https://www.netexec.wiki/)
+[NetExec](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec GitHub
 
-[NetExec GitHub](https://github.com/Pennyw0rth/NetExec)
+[NetExec GitHub](https://github.com/Pennyw0rth/NetExec){ target="_blank" rel="noopener noreferrer" }
 
 ## Impacket
 
-[Impacket](https://github.com/fortra/impacket)
+[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
 
 ## Responder
 
-[Responder](https://github.com/lgandx/Responder)
+[Responder](https://github.com/lgandx/Responder){ target="_blank" rel="noopener noreferrer" }
 
 ## Certipy
 
-[Certipy](https://github.com/ly4k/Certipy)
+[Certipy](https://github.com/ly4k/Certipy){ target="_blank" rel="noopener noreferrer" }
 
 ## bloodyAD
 
-[bloodyAD](https://github.com/CravateRouge/bloodyAD)
+[bloodyAD](https://github.com/CravateRouge/bloodyAD){ target="_blank" rel="noopener noreferrer" }
 
 ## PowerView
 
-[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon)
+[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon){ target="_blank" rel="noopener noreferrer" }
 
 ## Rubeus
 
-[Rubeus](https://github.com/GhostPack/Rubeus)
+[Rubeus](https://github.com/GhostPack/Rubeus){ target="_blank" rel="noopener noreferrer" }
 
 ## Ligolo-ng
 
-[Ligolo-ng](https://github.com/nicocha30/ligolo-ng)
+[Ligolo-ng](https://github.com/nicocha30/ligolo-ng){ target="_blank" rel="noopener noreferrer" }
 
 ## Chisel
 
-[Chisel](https://github.com/jpillora/chisel)
+[Chisel](https://github.com/jpillora/chisel){ target="_blank" rel="noopener noreferrer" }
 
 ## InternalAllTheThings - Active Directory
 
-[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/)
+[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

@@ -4224,101 +4224,101 @@ Risk-based remediation
 
 ## OWASP Vulnerable Dependency Management Cheat Sheet
 
-[OWASP Vulnerable Dependency Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html)
+[OWASP Vulnerable Dependency Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Software Supply Chain Security Cheat Sheet
 
-[OWASP Software Supply Chain Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Software_Supply_Chain_Security_Cheat_Sheet.html)
+[OWASP Software Supply Chain Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Software_Supply_Chain_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP CI/CD Security Cheat Sheet
 
-[OWASP CI/CD Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
+[OWASP CI/CD Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Dependency-Check
 
-[OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
+[OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/){ target="_blank" rel="noopener noreferrer" }
 
 Documentation:
 
-[OWASP Dependency-Check](https://dependency-check.github.io/DependencyCheck/)
+[OWASP Dependency-Check](https://dependency-check.github.io/DependencyCheck/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Dependency-Track
 
-[OWASP Dependency-Track](https://dependencytrack.org/)
+[OWASP Dependency-Track](https://dependencytrack.org/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OSV
 
-[OSV](https://osv.dev/)
+[OSV](https://osv.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OSV-Scanner
 
-[OSV-Scanner](https://github.com/google/osv-scanner)
+[OSV-Scanner](https://github.com/google/osv-scanner){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Trivy
 
-[Trivy](https://trivy.dev/)
+[Trivy](https://trivy.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## pip-audit
 
-[pip-audit](https://github.com/pypa/pip-audit)
+[pip-audit](https://github.com/pypa/pip-audit){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## npm audit
 
-[npm audit](https://docs.npmjs.com/cli/v11/commands/npm-audit/)
+[npm audit](https://docs.npmjs.com/cli/v11/commands/npm-audit/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## CycloneDX
 
-[CycloneDX](https://cyclonedx.org/)
+[CycloneDX](https://cyclonedx.org/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## SPDX
 
-[SPDX](https://spdx.dev/)
+[SPDX](https://spdx.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## CISA Known Exploited Vulnerabilities Catalogue
 
-[CISA Known Exploited Vulnerabilities Catalogue](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
+[CISA Known Exploited Vulnerabilities Catalogue](https://www.cisa.gov/known-exploited-vulnerabilities-catalog){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Burp Retire.js
 
-[Burp Retire.js](https://portswigger.net/bappstore/36238b534a78494db9bf2d03f112265c)
+[Burp Retire.js](https://portswigger.net/bappstore/36238b534a78494db9bf2d03f112265c){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Burp Software Vulnerability Scanner
 
-[Burp Software Vulnerability Scanner](https://portswigger.net/bappstore/c9fb79369b56407792a7104e3c4352fb)
+[Burp Software Vulnerability Scanner](https://portswigger.net/bappstore/c9fb79369b56407792a7104e3c4352fb){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Vulnerable JavaScript Dependency
 
-[PortSwigger Vulnerable JavaScript Dependency](https://portswigger.net/kb/issues/00500080_vulnerable-javascript-dependency)
+[PortSwigger Vulnerable JavaScript Dependency](https://portswigger.net/kb/issues/00500080_vulnerable-javascript-dependency){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

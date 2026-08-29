@@ -818,7 +818,7 @@ Sinatra
 
 0xdf maintains a particularly useful visual reference showing default 404 responses for these technologies:
 
-[0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404)
+[0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404){ target="_blank" rel="noopener noreferrer" }
 
 It can be useful when comparing an unknown application's error response against known default pages.
 
@@ -2102,7 +2102,7 @@ That transforms technology fingerprinting from simple reconnaissance into action
 
 The following reference is particularly useful when manually comparing error responses:
 
-[0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404)
+[0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404){ target="_blank" rel="noopener noreferrer" }
 
 It contains examples for technologies including nginx, Apache, IIS, Flask, Django, FastAPI, aiohttp, Fiber, Gin, PHP-FPM, Laravel, Symfony, Express, Next.js, Tomcat, Spring Boot, Jetty, Ruby on Rails and Sinatra.
 

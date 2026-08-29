@@ -4944,7 +4944,7 @@ Vendor/change-control review
 
 ## OWASP Third Party JavaScript Management Cheat Sheet
 
-[OWASP Third Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html)
+[OWASP Third Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Covers:
 
@@ -4961,43 +4961,43 @@ CSP
 
 ## OWASP Content Security Policy Cheat Sheet
 
-[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Subresource Integrity
 
-[MDN Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity)
+[MDN Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Content Security Policy
 
-[MDN Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)
+[MDN Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN script-src
 
-[MDN script-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src)
+[MDN script-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN iframe sandbox
 
-[MDN iframe sandbox](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe)
+[MDN iframe sandbox](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN postMessage
 
-[MDN postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+[MDN postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger BApp Store
 
-[PortSwigger BApp Store](https://portswigger.net/bappstore)
+[PortSwigger BApp Store](https://portswigger.net/bappstore){ target="_blank" rel="noopener noreferrer" }
 
 Useful extensions to investigate for this workflow include:
 
@@ -5013,7 +5013,7 @@ Review current extension behaviour and source code before using BApps on sensiti
 
 ## PortSwigger Burp Extensions Documentation
 
-[PortSwigger - extensions](https://portswigger.net/burp/documentation/desktop/extend-burp/extensions)
+[PortSwigger - extensions](https://portswigger.net/burp/documentation/desktop/extend-burp/extensions){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

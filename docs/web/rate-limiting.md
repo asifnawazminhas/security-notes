@@ -4505,7 +4505,7 @@ Issue          |
 
 ## OWASP Automated Threats to Web Applications
 
-[OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/)
+[OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/){ target="_blank" rel="noopener noreferrer" }
 
 Useful for understanding automation-driven abuse scenarios.
 
@@ -4513,7 +4513,7 @@ Useful for understanding automation-driven abuse scenarios.
 
 ## OWASP Credential Stuffing Prevention Cheat Sheet
 
-[OWASP Credential Stuffing Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html)
+[OWASP Credential Stuffing Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to:
 
@@ -4530,7 +4530,7 @@ Monitoring
 
 ## OWASP Authentication Cheat Sheet
 
-[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to:
 
@@ -4545,7 +4545,7 @@ MFA
 
 ## OWASP Forgot Password Cheat Sheet
 
-[OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)
+[OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to:
 
@@ -4561,7 +4561,7 @@ Token security
 
 ## OWASP Denial of Service Cheat Sheet
 
-[OWASP Denial of Service Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html)
+[OWASP Denial of Service Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Useful when evaluating:
 
@@ -4575,7 +4575,7 @@ Expensive operations
 
 ## OWASP API Security
 
-[OWASP API Security](https://owasp.org/API-Security/)
+[OWASP API Security](https://owasp.org/API-Security/){ target="_blank" rel="noopener noreferrer" }
 
 Pay particular attention to:
 
@@ -4590,7 +4590,7 @@ when analysing API anti-automation controls.
 
 ## PortSwigger Web Security Academy - Authentication
 
-[PortSwigger Web Security Academy - Authentication](https://portswigger.net/web-security/authentication)
+[PortSwigger Web Security Academy - Authentication](https://portswigger.net/web-security/authentication){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to:
 
@@ -4605,7 +4605,7 @@ Rate-limit bypass concepts
 
 ## PortSwigger Web Security Academy - Business Logic Vulnerabilities
 
-[PortSwigger Web Security Academy - Business Logic Vulnerabilities](https://portswigger.net/web-security/logic-flaws)
+[PortSwigger Web Security Academy - Business Logic Vulnerabilities](https://portswigger.net/web-security/logic-flaws){ target="_blank" rel="noopener noreferrer" }
 
 Relevant because anti-automation weaknesses frequently become meaningful through business workflows.
 
@@ -4613,7 +4613,7 @@ Relevant because anti-automation weaknesses frequently become meaningful through
 
 ## PortSwigger Web Security Academy - Race Conditions
 
-[PortSwigger Web Security Academy - Race Conditions](https://portswigger.net/web-security/race-conditions)
+[PortSwigger Web Security Academy - Race Conditions](https://portswigger.net/web-security/race-conditions){ target="_blank" rel="noopener noreferrer" }
 
 Relevant when:
 
@@ -4629,11 +4629,11 @@ can bypass counters or business limits.
 
 Official BApp Store:
 
-[Turbo Intruder](https://portswigger.net/bappstore/9abaa233088242e8be252cd4ff534988)
+[Turbo Intruder](https://portswigger.net/bappstore/9abaa233088242e8be252cd4ff534988){ target="_blank" rel="noopener noreferrer" }
 
 GitHub:
 
-[Turbo Intruder](https://github.com/PortSwigger/turbo-intruder)
+[Turbo Intruder](https://github.com/PortSwigger/turbo-intruder){ target="_blank" rel="noopener noreferrer" }
 
 Use only when the assessment requires controlled:
 
@@ -4650,7 +4650,7 @@ Race-condition testing
 
 MDN:
 
-[HTTP 429 - Too Many Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429)
+[HTTP 429 - Too Many Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

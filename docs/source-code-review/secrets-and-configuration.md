@@ -4949,139 +4949,139 @@ docs/web/third-party-javascript.md
 
 ## OWASP Secrets Management Cheat Sheet
 
-[OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
+[OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Configuration Cheat Sheet
 
-[OWASP Configuration Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Cloud_Architecture_Cheat_Sheet.html)
+[OWASP Configuration Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Cloud_Architecture_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Logging Cheat Sheet
 
-[OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
+[OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Transport Layer Security Cheat Sheet
 
-[OWASP Transport Layer Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html)
+[OWASP Transport Layer Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP HTTP Headers Cheat Sheet
 
-[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
+[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Session Management Cheat Sheet
 
-[OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
+[OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cross-Origin Resource Sharing Cheat Sheet
 
-[OWASP Cross-Origin Resource Sharing Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/CORS_Configuration_Cheat_Sheet.html)
+[OWASP Cross-Origin Resource Sharing Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/CORS_Configuration_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP CSRF Prevention Cheat Sheet
 
-[OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
+[OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Docker Security Cheat Sheet
 
-[OWASP Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
+[OWASP Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Kubernetes Security Cheat Sheet
 
-[OWASP Kubernetes Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Kubernetes_Security_Cheat_Sheet.html)
+[OWASP Kubernetes Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Kubernetes_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Third-Party JavaScript Management Cheat Sheet
 
-[OWASP Third-Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html)
+[OWASP Third-Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## Gitleaks
 
-[Gitleaks](https://github.com/gitleaks/gitleaks)
+[Gitleaks](https://github.com/gitleaks/gitleaks){ target="_blank" rel="noopener noreferrer" }
 
 ## Gitleaks Documentation
 
-[gitleaks.io](https://gitleaks.io/)
+[gitleaks.io](https://gitleaks.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## TruffleHog
 
-[TruffleHog](https://github.com/trufflesecurity/trufflehog)
+[TruffleHog](https://github.com/trufflesecurity/trufflehog){ target="_blank" rel="noopener noreferrer" }
 
 ## GitHub Secret Scanning
 
-[GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning)
+[GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning){ target="_blank" rel="noopener noreferrer" }
 
 ## GitHub Push Protection
 
-[GitHub Push Protection](https://docs.github.com/en/code-security/secret-scanning/introduction/about-push-protection)
+[GitHub Push Protection](https://docs.github.com/en/code-security/secret-scanning/introduction/about-push-protection){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft ASP.NET Core Configuration
 
-[Microsoft ASP.NET Core Configuration](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/)
+[Microsoft ASP.NET Core Configuration](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft ASP.NET Core Safe Storage of App Secrets
 
-[Microsoft ASP.NET Core Safe Storage of App Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets)
+[Microsoft ASP.NET Core Safe Storage of App Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Boot Externalized Configuration
 
-[Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/reference/features/external-config.html)
+[Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/reference/features/external-config.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Settings
 
-[Django Settings](https://docs.djangoproject.com/en/stable/ref/settings/)
+[Django Settings](https://docs.djangoproject.com/en/stable/ref/settings/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask Configuration
 
-[Flask Configuration](https://flask.palletsprojects.com/en/stable/config/)
+[Flask Configuration](https://flask.palletsprojects.com/en/stable/config/){ target="_blank" rel="noopener noreferrer" }
 
 ## Express Production Security
 
-[Express Production Security](https://expressjs.com/en/advanced/best-practice-security.html)
+[Express Production Security](https://expressjs.com/en/advanced/best-practice-security.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Kubernetes Secrets
 
-[Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
+[Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/){ target="_blank" rel="noopener noreferrer" }
 
 ## Docker Build Secrets
 
-[Docker Build Secrets](https://docs.docker.com/build/building/secrets/)
+[Docker Build Secrets](https://docs.docker.com/build/building/secrets/){ target="_blank" rel="noopener noreferrer" }
 
 ## HashiCorp Vault
 
-[HashiCorp Vault](https://developer.hashicorp.com/vault/docs)
+[HashiCorp Vault](https://developer.hashicorp.com/vault/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## AWS Secrets Manager
 
-[AWS Secrets Manager](https://docs.aws.amazon.com/secretsmanager/)
+[AWS Secrets Manager](https://docs.aws.amazon.com/secretsmanager/){ target="_blank" rel="noopener noreferrer" }
 
 ## Azure Key Vault
 
-[Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/)
+[Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/){ target="_blank" rel="noopener noreferrer" }
 
 ## Google Secret Manager
 
-[Google Secret Manager](https://cloud.google.com/secret-manager/docs)
+[Google Secret Manager](https://cloud.google.com/secret-manager/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL
 
-[CodeQL](https://codeql.github.com/docs/)
+[CodeQL](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

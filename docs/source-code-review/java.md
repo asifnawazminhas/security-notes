@@ -6395,91 +6395,91 @@ Only then should a source-code pattern be classified as a confirmed vulnerabilit
 
 ## Spring Framework Documentation
 
-[reference](https://docs.spring.io/spring-framework/reference/)
+[reference](https://docs.spring.io/spring-framework/reference/){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring MVC
 
-[Spring MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
+[Spring MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring WebFlux
 
-[Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux.html)
+[Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Security
 
-[Spring Security](https://docs.spring.io/spring-security/reference/)
+[Spring Security](https://docs.spring.io/spring-security/reference/){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Security Authorization
 
-[Spring Security Authorization](https://docs.spring.io/spring-security/reference/servlet/authorization/index.html)
+[Spring Security Authorization](https://docs.spring.io/spring-security/reference/servlet/authorization/index.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Security Method Security
 
-[Spring Security Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
+[Spring Security Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Security CSRF
 
-[Spring Security CSRF](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html)
+[Spring Security CSRF](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring JDBC
 
-[Spring JDBC](https://docs.spring.io/spring-framework/reference/data-access/jdbc.html)
+[Spring JDBC](https://docs.spring.io/spring-framework/reference/data-access/jdbc.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Data JPA
 
-[Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/)
+[Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/){ target="_blank" rel="noopener noreferrer" }
 
 ## Java ProcessBuilder
 
-[Java ProcessBuilder](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ProcessBuilder.html)
+[Java ProcessBuilder](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ProcessBuilder.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Java ObjectInputStream
 
-[Java ObjectInputStream](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html)
+[Java ObjectInputStream](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Java Object Serialization Filtering
 
-[Java Object Serialization Filtering](https://docs.oracle.com/en/java/javase/25/core/serialization-filtering1.html)
+[Java Object Serialization Filtering](https://docs.oracle.com/en/java/javase/25/core/serialization-filtering1.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Java Secure Coding Guidelines
 
-[Java Secure Coding Guidelines](https://www.oracle.com/java/technologies/javase/seccodeguide.html)
+[Java Secure Coding Guidelines](https://www.oracle.com/java/technologies/javase/seccodeguide.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/)
+[Semgrep](https://semgrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for Java and Kotlin
 
-[CodeQL for Java and Kotlin](https://codeql.github.com/docs/codeql-language-guides/codeql-for-java/)
+[CodeQL for Java and Kotlin](https://codeql.github.com/docs/codeql-language-guides/codeql-for-java/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Java Data Flow
 
-[CodeQL Java Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/)
+[CodeQL Java Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

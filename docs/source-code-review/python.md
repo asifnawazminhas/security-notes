@@ -6322,95 +6322,95 @@ Only then should a source-code pattern be classified as a confirmed vulnerabilit
 
 ## Python Documentation
 
-[3](https://docs.python.org/3/)
+[3](https://docs.python.org/3/){ target="_blank" rel="noopener noreferrer" }
 
 ## Python Security Considerations
 
-[Python Security Considerations](https://docs.python.org/3/library/security_warnings.html)
+[Python Security Considerations](https://docs.python.org/3/library/security_warnings.html){ target="_blank" rel="noopener noreferrer" }
 
 ## subprocess
 
-[subprocess](https://docs.python.org/3/library/subprocess.html)
+[subprocess](https://docs.python.org/3/library/subprocess.html){ target="_blank" rel="noopener noreferrer" }
 
 ## pickle
 
-[pickle](https://docs.python.org/3/library/pickle.html)
+[pickle](https://docs.python.org/3/library/pickle.html){ target="_blank" rel="noopener noreferrer" }
 
 ## secrets
 
-[secrets](https://docs.python.org/3/library/secrets.html)
+[secrets](https://docs.python.org/3/library/secrets.html){ target="_blank" rel="noopener noreferrer" }
 
 ## tempfile
 
-[tempfile](https://docs.python.org/3/library/tempfile.html)
+[tempfile](https://docs.python.org/3/library/tempfile.html){ target="_blank" rel="noopener noreferrer" }
 
 ## pathlib
 
-[pathlib](https://docs.python.org/3/library/pathlib.html)
+[pathlib](https://docs.python.org/3/library/pathlib.html){ target="_blank" rel="noopener noreferrer" }
 
 ## urllib.parse
 
-[urllib.parse](https://docs.python.org/3/library/urllib.parse.html)
+[urllib.parse](https://docs.python.org/3/library/urllib.parse.html){ target="_blank" rel="noopener noreferrer" }
 
 ## XML Security
 
-[XML Security](https://docs.python.org/3/library/xml.html)
+[XML Security](https://docs.python.org/3/library/xml.html){ target="_blank" rel="noopener noreferrer" }
 
 ## PyYAML
 
-[PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)
+[PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation){ target="_blank" rel="noopener noreferrer" }
 
 ## Requests
 
-[Requests](https://requests.readthedocs.io/)
+[Requests](https://requests.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## SQLAlchemy
 
-[SQLAlchemy](https://docs.sqlalchemy.org/)
+[SQLAlchemy](https://docs.sqlalchemy.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for Python
 
-[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/)
+[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/){ target="_blank" rel="noopener noreferrer" }
 
 ## Bandit
 
-[Bandit](https://bandit.readthedocs.io/)
+[Bandit](https://bandit.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## pip-audit
 
-[pip-audit](https://github.com/pypa/pip-audit)
+[pip-audit](https://github.com/pypa/pip-audit){ target="_blank" rel="noopener noreferrer" }
 
 ## OSV-Scanner
 
-[OSV-Scanner](https://github.com/google/osv-scanner)
+[OSV-Scanner](https://github.com/google/osv-scanner){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

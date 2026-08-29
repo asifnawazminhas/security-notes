@@ -5114,63 +5114,63 @@ Together they provide a repeatable white-box application security methodology.
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Application Security Verification Standard
 
-[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Attack Surface Analysis Cheat Sheet
 
-[OWASP Attack Surface Analysis Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html)
+[OWASP Attack Surface Analysis Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code Documentation
 
-[docs](https://code.visualstudio.com/docs)
+[docs](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code Editing
 
-[Visual Studio Code Editing](https://code.visualstudio.com/docs/editing/codebasics)
+[Visual Studio Code Editing](https://code.visualstudio.com/docs/editing/codebasics){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code Search
 
-[Visual Studio Code Search](https://code.visualstudio.com/docs/editing/codebasics#_search-across-files)
+[Visual Studio Code Search](https://code.visualstudio.com/docs/editing/codebasics#_search-across-files){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code Debugging
 
-[Visual Studio Code Debugging](https://code.visualstudio.com/docs/debugtest/debugging)
+[Visual Studio Code Debugging](https://code.visualstudio.com/docs/debugtest/debugging){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code Source Control
 
-[Visual Studio Code Source Control](https://code.visualstudio.com/docs/sourcecontrol/overview)
+[Visual Studio Code Source Control](https://code.visualstudio.com/docs/sourcecontrol/overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Data Flow Analysis
 
-[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
+[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/){ target="_blank" rel="noopener noreferrer" }
 
 ## Git Documentation
 
-[doc](https://git-scm.com/doc)
+[doc](https://git-scm.com/doc){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

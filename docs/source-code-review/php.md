@@ -6243,123 +6243,123 @@ Only then should a source-code pattern be classified as a confirmed vulnerabilit
 
 ## PHP Manual
 
-[PHP Manual](https://www.php.net/manual/en/)
+[PHP Manual](https://www.php.net/manual/en/){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP Security
 
-[PHP Security](https://www.php.net/manual/en/security.php)
+[PHP Security](https://www.php.net/manual/en/security.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP Database Security
 
-[PHP Database Security](https://www.php.net/manual/en/security.database.php)
+[PHP Database Security](https://www.php.net/manual/en/security.database.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP SQL Injection
 
-[PHP SQL Injection](https://www.php.net/manual/en/security.database.sql-injection.php)
+[PHP SQL Injection](https://www.php.net/manual/en/security.database.sql-injection.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP PDO
 
-[PHP PDO](https://www.php.net/manual/en/book.pdo.php)
+[PHP PDO](https://www.php.net/manual/en/book.pdo.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PDO Prepared Statements
 
-[PDO Prepared Statements](https://www.php.net/manual/en/pdo.prepared-statements.php)
+[PDO Prepared Statements](https://www.php.net/manual/en/pdo.prepared-statements.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PDO::prepare
 
-[PDO::prepare](https://www.php.net/manual/en/pdo.prepare.php)
+[PDO::prepare](https://www.php.net/manual/en/pdo.prepare.php){ target="_blank" rel="noopener noreferrer" }
 
 ## MySQLi Prepared Statements
 
-[MySQLi Prepared Statements](https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php)
+[MySQLi Prepared Statements](https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP unserialize
 
-[PHP unserialize](https://www.php.net/manual/en/function.unserialize.php)
+[PHP unserialize](https://www.php.net/manual/en/function.unserialize.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP File Uploads
 
-[PHP File Uploads](https://www.php.net/manual/en/features.file-upload.php)
+[PHP File Uploads](https://www.php.net/manual/en/features.file-upload.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP Sessions
 
-[PHP Sessions](https://www.php.net/manual/en/book.session.php)
+[PHP Sessions](https://www.php.net/manual/en/book.session.php){ target="_blank" rel="noopener noreferrer" }
 
 ## PHP Password Hashing
 
-[PHP Password Hashing](https://www.php.net/manual/en/book.password.php)
+[PHP Password Hashing](https://www.php.net/manual/en/book.password.php){ target="_blank" rel="noopener noreferrer" }
 
 ## Laravel Documentation
 
-[docs](https://laravel.com/docs/)
+[docs](https://laravel.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Laravel Authentication
 
-[Laravel Authentication](https://laravel.com/docs/authentication)
+[Laravel Authentication](https://laravel.com/docs/authentication){ target="_blank" rel="noopener noreferrer" }
 
 ## Laravel Authorisation
 
-[Laravel Authorisation](https://laravel.com/docs/authorization)
+[Laravel Authorisation](https://laravel.com/docs/authorization){ target="_blank" rel="noopener noreferrer" }
 
 ## Laravel Validation
 
-[Laravel Validation](https://laravel.com/docs/validation)
+[Laravel Validation](https://laravel.com/docs/validation){ target="_blank" rel="noopener noreferrer" }
 
 ## Symfony Documentation
 
-[index](https://symfony.com/doc/current/index.html)
+[index](https://symfony.com/doc/current/index.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Symfony Security
 
-[Symfony Security](https://symfony.com/doc/current/security.html)
+[Symfony Security](https://symfony.com/doc/current/security.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for PHP
 
-[CodeQL for PHP](https://codeql.github.com/docs/codeql-language-guides/codeql-for-php/)
+[CodeQL for PHP](https://codeql.github.com/docs/codeql-language-guides/codeql-for-php/){ target="_blank" rel="noopener noreferrer" }
 
 ## Psalm
 
-[Psalm](https://psalm.dev/)
+[Psalm](https://psalm.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## PHPStan
 
-[PHPStan](https://phpstan.org/)
+[PHPStan](https://phpstan.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Composer
 
-[Composer](https://getcomposer.org/)
+[Composer](https://getcomposer.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Composer Audit
 
-[Composer Audit](https://getcomposer.org/doc/03-cli.md#audit)
+[Composer Audit](https://getcomposer.org/doc/03-cli.md#audit){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

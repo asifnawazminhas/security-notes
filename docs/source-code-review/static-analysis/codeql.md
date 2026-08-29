@@ -5182,83 +5182,83 @@ Custom CodeQL Query
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## GitHub CodeQL Documentation
 
-[codeql cli](https://docs.github.com/en/code-security/codeql-cli)
+[codeql cli](https://docs.github.com/en/code-security/codeql-cli){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL CLI
 
-[CodeQL CLI](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-the-command-line/set-up-codeql-cli)
+[CodeQL CLI](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-the-command-line/set-up-codeql-cli){ target="_blank" rel="noopener noreferrer" }
 
 ## Preparing Code for CodeQL Analysis
 
-[Preparing Code for CodeQL Analysis](https://docs.github.com/en/code-security/tutorials/customize-code-scanning/prepare-code-for-analysis)
+[Preparing Code for CodeQL Analysis](https://docs.github.com/en/code-security/tutorials/customize-code-scanning/prepare-code-for-analysis){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Query Suites
 
-[CodeQL Query Suites](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-query-suites)
+[CodeQL Query Suites](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-query-suites){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Queries
 
-[CodeQL Queries](https://codeql.github.com/docs/writing-codeql-queries/)
+[CodeQL Queries](https://codeql.github.com/docs/writing-codeql-queries/){ target="_blank" rel="noopener noreferrer" }
 
 ## About CodeQL Queries
 
-[About CodeQL Queries](https://codeql.github.com/docs/writing-codeql-queries/about-codeql-queries/)
+[About CodeQL Queries](https://codeql.github.com/docs/writing-codeql-queries/about-codeql-queries/){ target="_blank" rel="noopener noreferrer" }
 
 ## Data Flow Analysis
 
-[Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
+[Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/){ target="_blank" rel="noopener noreferrer" }
 
 ## Creating Path Queries
 
-[Creating Path Queries](https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/)
+[Creating Path Queries](https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for Visual Studio Code
 
-[CodeQL for Visual Studio Code](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-for-vs-code)
+[CodeQL for Visual Studio Code](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-for-vs-code){ target="_blank" rel="noopener noreferrer" }
 
 ## Scan from Visual Studio Code
 
-[Scan from Visual Studio Code](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-vs-code)
+[Scan from Visual Studio Code](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-vs-code){ target="_blank" rel="noopener noreferrer" }
 
 ## JavaScript / TypeScript Data Flow
 
-[JavaScript / TypeScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/)
+[JavaScript / TypeScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/){ target="_blank" rel="noopener noreferrer" }
 
 ## JavaScript Data Flow Cheat Sheet
 
-[JavaScript Data Flow Cheat Sheet](https://codeql.github.com/docs/codeql-language-guides/data-flow-cheat-sheet-for-javascript/)
+[JavaScript Data Flow Cheat Sheet](https://codeql.github.com/docs/codeql-language-guides/data-flow-cheat-sheet-for-javascript/){ target="_blank" rel="noopener noreferrer" }
 
 ## Python Data Flow
 
-[Python Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-python/)
+[Python Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-python/){ target="_blank" rel="noopener noreferrer" }
 
 ## Java / Kotlin Data Flow
 
-[Java / Kotlin Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/)
+[Java / Kotlin Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/){ target="_blank" rel="noopener noreferrer" }
 
 ## C# Data Flow
 
-[C# Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-csharp/)
+[C# Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-csharp/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL GitHub Repository
 
-[CodeQL GitHub Repository](https://github.com/github/codeql)
+[CodeQL GitHub Repository](https://github.com/github/codeql){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Static Code Analysis
 
-[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis)
+[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

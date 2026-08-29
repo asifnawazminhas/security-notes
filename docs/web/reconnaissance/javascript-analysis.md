@@ -2051,16 +2051,16 @@ javascript/
 
 Useful references and projects for further study:
 
-- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
-- [PortSwigger Web Security Academy](https://portswigger.net/web-security)
-- [MDN Web Docs: JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [Katana](https://github.com/projectdiscovery/katana)
-- [gau](https://github.com/lc/gau)
-- [waybackurls](https://github.com/tomnomnom/waybackurls)
-- [LinkFinder](https://github.com/GerbenJavado/LinkFinder)
-- [SecretFinder](https://github.com/m4ll0k/SecretFinder)
-- [xnLinkFinder](https://github.com/xnl-h4ck3r/xnLinkFinder)
-- [Gitleaks](https://github.com/gitleaks/gitleaks)
+- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
+- [PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
+- [MDN Web Docs: JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript){ target="_blank" rel="noopener noreferrer" }
+- [Katana](https://github.com/projectdiscovery/katana){ target="_blank" rel="noopener noreferrer" }
+- [gau](https://github.com/lc/gau){ target="_blank" rel="noopener noreferrer" }
+- [waybackurls](https://github.com/tomnomnom/waybackurls){ target="_blank" rel="noopener noreferrer" }
+- [LinkFinder](https://github.com/GerbenJavado/LinkFinder){ target="_blank" rel="noopener noreferrer" }
+- [SecretFinder](https://github.com/m4ll0k/SecretFinder){ target="_blank" rel="noopener noreferrer" }
+- [xnLinkFinder](https://github.com/xnl-h4ck3r/xnLinkFinder){ target="_blank" rel="noopener noreferrer" }
+- [Gitleaks](https://github.com/gitleaks/gitleaks){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

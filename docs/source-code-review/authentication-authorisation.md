@@ -4810,115 +4810,115 @@ docs/web/websockets.md
 
 ## OWASP Authentication Cheat Sheet
 
-[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Authorization Cheat Sheet
 
-[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Session Management Cheat Sheet
 
-[OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
+[OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Password Storage Cheat Sheet
 
-[OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+[OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Forgot Password Cheat Sheet
 
-[OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)
+[OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Multifactor Authentication Cheat Sheet
 
-[OWASP Multifactor Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html)
+[OWASP Multifactor Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP JSON Web Token Cheat Sheet
 
-[OWASP JSON Web Token Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html)
+[OWASP JSON Web Token Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP OAuth 2.0 Protocol Cheat Sheet
 
-[OWASP OAuth 2.0 Protocol Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OAuth2_Cheat_Sheet.html)
+[OWASP OAuth 2.0 Protocol Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OAuth2_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP REST Security Cheat Sheet
 
-[OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
+[OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP GraphQL Cheat Sheet
 
-[OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html)
+[OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP API Security Project
 
-[OWASP API Security Project](https://owasp.org/www-project-api-security/)
+[OWASP API Security Project](https://owasp.org/www-project-api-security/){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy - Authentication
 
-[PortSwigger Web Security Academy - Authentication](https://portswigger.net/web-security/authentication)
+[PortSwigger Web Security Academy - Authentication](https://portswigger.net/web-security/authentication){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy - Access Control
 
-[PortSwigger Web Security Academy - Access Control](https://portswigger.net/web-security/access-control)
+[PortSwigger Web Security Academy - Access Control](https://portswigger.net/web-security/access-control){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy - JWT
 
-[PortSwigger Web Security Academy - JWT](https://portswigger.net/web-security/jwt)
+[PortSwigger Web Security Academy - JWT](https://portswigger.net/web-security/jwt){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy - OAuth
 
-[PortSwigger Web Security Academy - OAuth](https://portswigger.net/web-security/oauth)
+[PortSwigger Web Security Academy - OAuth](https://portswigger.net/web-security/oauth){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft ASP.NET Core Security
 
-[Microsoft ASP.NET Core Security](https://learn.microsoft.com/en-us/aspnet/core/security/)
+[Microsoft ASP.NET Core Security](https://learn.microsoft.com/en-us/aspnet/core/security/){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft ASP.NET Core Authorization
 
-[Microsoft ASP.NET Core Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction)
+[Microsoft ASP.NET Core Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Security
 
-[Spring Security](https://docs.spring.io/spring-security/reference/)
+[Spring Security](https://docs.spring.io/spring-security/reference/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django Authentication
 
-[Django Authentication](https://docs.djangoproject.com/en/stable/topics/auth/)
+[Django Authentication](https://docs.djangoproject.com/en/stable/topics/auth/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django REST Framework Permissions
 
-[Django REST Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+[Django REST Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask-Login
 
-[Flask-Login](https://flask-login.readthedocs.io/)
+[Flask-Login](https://flask-login.readthedocs.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Laravel Authorization
 
-[Laravel Authorization](https://laravel.com/docs/authorization)
+[Laravel Authorization](https://laravel.com/docs/authorization){ target="_blank" rel="noopener noreferrer" }
 
 ## Passport
 
-[Passport](https://www.passportjs.org/)
+[Passport](https://www.passportjs.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL
 
-[CodeQL](https://codeql.github.com/docs/)
+[CodeQL](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

@@ -4766,95 +4766,95 @@ docs/web/rate-limiting.md
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide - Attack Surface Identification
 
-[OWASP Web Security Testing Guide - Attack Surface Identification](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide - Attack Surface Identification](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP REST Security Cheat Sheet
 
-[OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
+[OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP GraphQL Cheat Sheet
 
-[OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html)
+[OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Authorization Cheat Sheet
 
-[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Authentication Cheat Sheet
 
-[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy
 
-[PortSwigger Web Security Academy](https://portswigger.net/web-security)
+[PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Routing
 
-[ASP.NET Core Routing](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing)
+[ASP.NET Core Routing](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing){ target="_blank" rel="noopener noreferrer" }
 
 ## Spring Web MVC
 
-[Spring Web MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
+[Spring Web MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Django URL Dispatcher
 
-[Django URL Dispatcher](https://docs.djangoproject.com/en/stable/topics/http/urls/)
+[Django URL Dispatcher](https://docs.djangoproject.com/en/stable/topics/http/urls/){ target="_blank" rel="noopener noreferrer" }
 
 ## Django REST Framework Routers
 
-[Django REST Framework Routers](https://www.django-rest-framework.org/api-guide/routers/)
+[Django REST Framework Routers](https://www.django-rest-framework.org/api-guide/routers/){ target="_blank" rel="noopener noreferrer" }
 
 ## Flask Routing
 
-[Flask Routing](https://flask.palletsprojects.com/)
+[Flask Routing](https://flask.palletsprojects.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## Express Routing
 
-[Express Routing](https://expressjs.com/en/guide/routing.html)
+[Express Routing](https://expressjs.com/en/guide/routing.html){ target="_blank" rel="noopener noreferrer" }
 
 ## FastAPI
 
-[FastAPI](https://fastapi.tiangolo.com/)
+[FastAPI](https://fastapi.tiangolo.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## GraphQL
 
-[GraphQL](https://graphql.org/)
+[GraphQL](https://graphql.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## gRPC
 
-[gRPC](https://grpc.io/docs/)
+[gRPC](https://grpc.io/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenAPI
 
-[OpenAPI](https://www.openapis.org/)
+[OpenAPI](https://www.openapis.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL
 
-[CodeQL](https://codeql.github.com/docs/)
+[CodeQL](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code
 
-[Visual Studio Code](https://code.visualstudio.com/docs)
+[Visual Studio Code](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

@@ -3652,55 +3652,55 @@ Each note focuses on using the individual tool during practical security source 
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Application Security Verification Standard
 
-[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code
 
-[Visual Studio Code](https://code.visualstudio.com/docs)
+[Visual Studio Code](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://github.com/opengrep/opengrep)
+[OpenGrep](https://github.com/opengrep/opengrep){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep Documentation
 
-[opengrep.dev](https://opengrep.dev/)
+[opengrep.dev](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Data Flow Analysis
 
-[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
+[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/){ target="_blank" rel="noopener noreferrer" }
 
 ## GitHub Code Scanning
 
-[GitHub Code Scanning](https://docs.github.com/en/code-security/code-scanning)
+[GitHub Code Scanning](https://docs.github.com/en/code-security/code-scanning){ target="_blank" rel="noopener noreferrer" }
 
 ## SARIF
 
-[SARIF](https://sarifweb.azurewebsites.net/)
+[SARIF](https://sarifweb.azurewebsites.net/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

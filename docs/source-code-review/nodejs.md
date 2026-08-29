@@ -5893,119 +5893,119 @@ Only then classify a candidate as a confirmed vulnerability.
 
 ## Node.js Documentation
 
-[api](https://nodejs.org/docs/latest/api/)
+[api](https://nodejs.org/docs/latest/api/){ target="_blank" rel="noopener noreferrer" }
 
 ## Node.js Child Processes
 
-[Node.js Child Processes](https://nodejs.org/api/child_process.html)
+[Node.js Child Processes](https://nodejs.org/api/child_process.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Node.js File System
 
-[Node.js File System](https://nodejs.org/api/fs.html)
+[Node.js File System](https://nodejs.org/api/fs.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Node.js Crypto
 
-[Node.js Crypto](https://nodejs.org/api/crypto.html)
+[Node.js Crypto](https://nodejs.org/api/crypto.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Node.js HTTP
 
-[Node.js HTTP](https://nodejs.org/api/http.html)
+[Node.js HTTP](https://nodejs.org/api/http.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Express Documentation
 
-[expressjs.com](https://expressjs.com/)
+[expressjs.com](https://expressjs.com/){ target="_blank" rel="noopener noreferrer" }
 
 ## Express API
 
-[Express API](https://expressjs.com/en/api.html)
+[Express API](https://expressjs.com/en/api.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Express Security Best Practices
 
-[Express Security Best Practices](https://expressjs.com/en/advanced/best-practice-security.html)
+[Express Security Best Practices](https://expressjs.com/en/advanced/best-practice-security.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Express Production Best Practices
 
-[Express Production Best Practices](https://expressjs.com/en/advanced/best-practice-performance.html)
+[Express Production Best Practices](https://expressjs.com/en/advanced/best-practice-performance.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Express Behind Proxies
 
-[Express Behind Proxies](https://expressjs.com/en/guide/behind-proxies.html)
+[Express Behind Proxies](https://expressjs.com/en/guide/behind-proxies.html){ target="_blank" rel="noopener noreferrer" }
 
 ## express-session
 
-[express-session](https://expressjs.com/en/resources/middleware/session.html)
+[express-session](https://expressjs.com/en/resources/middleware/session.html){ target="_blank" rel="noopener noreferrer" }
 
 ## Helmet
 
-[Helmet](https://helmetjs.github.io/)
+[Helmet](https://helmetjs.github.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## Mongoose
 
-[Mongoose](https://mongoosejs.com/docs/)
+[Mongoose](https://mongoosejs.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## MongoDB Node.js Driver
 
-[MongoDB Node.js Driver](https://www.mongodb.com/docs/drivers/node/current/)
+[MongoDB Node.js Driver](https://www.mongodb.com/docs/drivers/node/current/){ target="_blank" rel="noopener noreferrer" }
 
 ## Sequelize
 
-[Sequelize](https://sequelize.org/docs/)
+[Sequelize](https://sequelize.org/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Prisma
 
-[Prisma](https://www.prisma.io/docs/)
+[Prisma](https://www.prisma.io/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Knex
 
-[Knex](https://knexjs.org/)
+[Knex](https://knexjs.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## jsonwebtoken
 
-[jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
+[jsonwebtoken](https://github.com/auth0/node-jsonwebtoken){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Node.js Security Cheat Sheet
 
-[OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+[OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/docs/)
+[Semgrep](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for JavaScript and TypeScript
 
-[CodeQL for JavaScript and TypeScript](https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/)
+[CodeQL for JavaScript and TypeScript](https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL JavaScript Data Flow
 
-[CodeQL JavaScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/)
+[CodeQL JavaScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/){ target="_blank" rel="noopener noreferrer" }
 
 ## npm audit
 
-[npm audit](https://docs.npmjs.com/cli/commands/npm-audit)
+[npm audit](https://docs.npmjs.com/cli/commands/npm-audit){ target="_blank" rel="noopener noreferrer" }
 
 ## OSV-Scanner
 
-[OSV-Scanner](https://github.com/google/osv-scanner)
+[OSV-Scanner](https://github.com/google/osv-scanner){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

@@ -4191,7 +4191,7 @@ Report Only Relevant Findings
 
 ## OWASP HTTP Headers Cheat Sheet
 
-[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
+[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Primary OWASP guidance for HTTP response security headers.
 
@@ -4199,7 +4199,7 @@ Primary OWASP guidance for HTTP response security headers.
 
 ## OWASP Content Security Policy Cheat Sheet
 
-[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Guidance for deploying CSP.
 
@@ -4207,7 +4207,7 @@ Guidance for deploying CSP.
 
 ## OWASP HTTP Strict Transport Security Cheat Sheet
 
-[OWASP HTTP Strict Transport Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html)
+[OWASP HTTP Strict Transport Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Guidance for HSTS deployment.
 
@@ -4215,7 +4215,7 @@ Guidance for HSTS deployment.
 
 ## OWASP Clickjacking Defense Cheat Sheet
 
-[OWASP Clickjacking Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html)
+[OWASP Clickjacking Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to:
 
@@ -4228,7 +4228,7 @@ frame-ancestors
 
 ## OWASP Cross-Site Scripting Prevention Cheat Sheet
 
-[OWASP Cross-Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+[OWASP Cross-Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Important for understanding CSP as defence in depth rather than a substitute for correct output handling.
 
@@ -4236,61 +4236,61 @@ Important for understanding CSP as defence in depth rather than a substitute for
 
 ## MDN Content-Security-Policy
 
-[MDN Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy)
+[MDN Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Strict-Transport-Security
 
-[MDN Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security)
+[MDN Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN X-Content-Type-Options
 
-[MDN X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options)
+[MDN X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Referrer-Policy
 
-[MDN Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy)
+[MDN Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Permissions-Policy
 
-[MDN Permissions-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy)
+[MDN Permissions-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN X-Frame-Options
 
-[MDN X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options)
+[MDN X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Cross-Origin-Opener-Policy
 
-[MDN Cross-Origin-Opener-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy)
+[MDN Cross-Origin-Opener-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Cross-Origin-Embedder-Policy
 
-[MDN Cross-Origin-Embedder-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy)
+[MDN Cross-Origin-Embedder-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## MDN Cross-Origin-Resource-Policy
 
-[MDN Cross-Origin-Resource-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy)
+[MDN Cross-Origin-Resource-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Content Security Policy
 
-[PortSwigger Content Security Policy](https://portswigger.net/web-security/cross-site-scripting/content-security-policy)
+[PortSwigger Content Security Policy](https://portswigger.net/web-security/cross-site-scripting/content-security-policy){ target="_blank" rel="noopener noreferrer" }
 
 Useful for understanding CSP behaviour and its relationship with XSS.
 
@@ -4298,7 +4298,7 @@ Useful for understanding CSP behaviour and its relationship with XSS.
 
 ## PortSwigger Clickjacking
 
-[PortSwigger Clickjacking](https://portswigger.net/web-security/clickjacking)
+[PortSwigger Clickjacking](https://portswigger.net/web-security/clickjacking){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to framing protections.
 
@@ -4306,7 +4306,7 @@ Relevant to framing protections.
 
 ## PortSwigger CORS
 
-[PortSwigger CORS](https://portswigger.net/web-security/cors)
+[PortSwigger CORS](https://portswigger.net/web-security/cors){ target="_blank" rel="noopener noreferrer" }
 
 Relevant to cross-origin response headers.
 
@@ -4314,7 +4314,7 @@ Relevant to cross-origin response headers.
 
 ## PortSwigger Web Cache Poisoning
 
-[PortSwigger Web Cache Poisoning](https://portswigger.net/web-security/web-cache-poisoning)
+[PortSwigger Web Cache Poisoning](https://portswigger.net/web-security/web-cache-poisoning){ target="_blank" rel="noopener noreferrer" }
 
 Relevant when headers interact with caching behaviour.
 
@@ -4322,7 +4322,7 @@ Relevant when headers interact with caching behaviour.
 
 ## Param Miner
 
-[Param Miner](https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943)
+[Param Miner](https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943){ target="_blank" rel="noopener noreferrer" }
 
 Useful for identifying hidden headers and parameters that influence server behaviour.
 
@@ -4330,7 +4330,7 @@ Useful for identifying hidden headers and parameters that influence server behav
 
 ## Google CSP Evaluator
 
-[Google CSP Evaluator](https://csp-evaluator.withgoogle.com/)
+[Google CSP Evaluator](https://csp-evaluator.withgoogle.com/){ target="_blank" rel="noopener noreferrer" }
 
 Useful for assisting with CSP analysis.
 
@@ -4338,7 +4338,7 @@ Useful for assisting with CSP analysis.
 
 ## Security Headers
 
-[Security Headers](https://securityheaders.com/)
+[Security Headers](https://securityheaders.com/){ target="_blank" rel="noopener noreferrer" }
 
 External header analysis service. Use only for public targets where third-party scanning is permitted.
 
@@ -4346,7 +4346,7 @@ External header analysis service. Use only for public targets where third-party 
 
 ## Mozilla Observatory
 
-[Mozilla Observatory](https://developer.mozilla.org/en-US/observatory)
+[Mozilla Observatory](https://developer.mozilla.org/en-US/observatory){ target="_blank" rel="noopener noreferrer" }
 
 External web-security configuration analysis service.
 

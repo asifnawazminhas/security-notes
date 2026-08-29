@@ -5918,91 +5918,91 @@ Only after those have been established should a source-code pattern be treated a
 
 ## Microsoft ASP.NET Core Security
 
-[Microsoft ASP.NET Core Security](https://learn.microsoft.com/en-us/aspnet/core/security/)
+[Microsoft ASP.NET Core Security](https://learn.microsoft.com/en-us/aspnet/core/security/){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Authentication
 
-[ASP.NET Core Authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/)
+[ASP.NET Core Authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Authorization
 
-[ASP.NET Core Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction)
+[ASP.NET Core Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Anti-Request-Forgery
 
-[ASP.NET Core Anti-Request-Forgery](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery)
+[ASP.NET Core Anti-Request-Forgery](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core CORS
 
-[ASP.NET Core CORS](https://learn.microsoft.com/en-us/aspnet/core/security/cors)
+[ASP.NET Core CORS](https://learn.microsoft.com/en-us/aspnet/core/security/cors){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Data Protection
 
-[ASP.NET Core Data Protection](https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/)
+[ASP.NET Core Data Protection](https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core File Uploads
 
-[ASP.NET Core File Uploads](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads)
+[ASP.NET Core File Uploads](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Model Binding
 
-[ASP.NET Core Model Binding](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding)
+[ASP.NET Core Model Binding](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Model Validation
 
-[ASP.NET Core Model Validation](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation)
+[ASP.NET Core Model Validation](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation){ target="_blank" rel="noopener noreferrer" }
 
 ## ASP.NET Core Rate Limiting
 
-[ASP.NET Core Rate Limiting](https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit)
+[ASP.NET Core Rate Limiting](https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit){ target="_blank" rel="noopener noreferrer" }
 
 ## Entity Framework Core SQL Queries
 
-[Entity Framework Core SQL Queries](https://learn.microsoft.com/en-us/ef/core/querying/sql-queries)
+[Entity Framework Core SQL Queries](https://learn.microsoft.com/en-us/ef/core/querying/sql-queries){ target="_blank" rel="noopener noreferrer" }
 
 ## .NET ProcessStartInfo
 
-[.NET ProcessStartInfo](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo)
+[.NET ProcessStartInfo](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo){ target="_blank" rel="noopener noreferrer" }
 
 ## .NET HttpClient
 
-[.NET HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+[.NET HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient){ target="_blank" rel="noopener noreferrer" }
 
 ## .NET BinaryFormatter Security Guide
 
-[.NET BinaryFormatter Security Guide](https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide)
+[.NET BinaryFormatter Security Guide](https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP ASVS
 
-[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/)
+[Semgrep](https://semgrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL for C#
 
-[CodeQL for C](https://codeql.github.com/docs/codeql-language-guides/codeql-for-csharp/)
+[CodeQL for C](https://codeql.github.com/docs/codeql-language-guides/codeql-for-csharp/){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

@@ -4031,75 +4031,75 @@ docs/web/websockets.md
 
 ## CodeQL - Variant Analysis
 
-[CodeQL - Variant Analysis](https://codeql.github.com/docs/codeql-overview/codeql-glossary/#variant-analysis)
+[CodeQL - Variant Analysis](https://codeql.github.com/docs/codeql-overview/codeql-glossary/#variant-analysis){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL - Data Flow Analysis
 
-[CodeQL - Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
+[CodeQL - Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL - Creating Path Queries
 
-[CodeQL - Creating Path Queries](https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/)
+[CodeQL - Creating Path Queries](https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/){ target="_blank" rel="noopener noreferrer" }
 
 ## GitHub CodeQL
 
-[GitHub CodeQL](https://github.com/github/codeql)
+[GitHub CodeQL](https://github.com/github/codeql){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep - Rule Syntax
 
-[Semgrep - Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax)
+[Semgrep - Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep - Taint Mode
 
-[Semgrep - Taint Mode](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/)
+[Semgrep - Taint Mode](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep GitHub
 
-[OpenGrep GitHub](https://github.com/opengrep/opengrep)
+[OpenGrep GitHub](https://github.com/opengrep/opengrep){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code
 
-[Visual Studio Code](https://code.visualstudio.com/docs)
+[Visual Studio Code](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Authorization Cheat Sheet
 
-[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Input Validation Cheat Sheet
 
-[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
+[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## PortSwigger Web Security Academy
 
-[PortSwigger Web Security Academy](https://portswigger.net/web-security)
+[PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

@@ -5044,7 +5044,7 @@ Or conceptually:
 
 ## OWASP Cross-Site Leaks Cheat Sheet
 
-[OWASP Cross-Site Leaks Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XS_Leaks_Cheat_Sheet.html)
+[OWASP Cross-Site Leaks Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XS_Leaks_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 This should be one of the primary references for this note.
 
@@ -5068,7 +5068,7 @@ Framing protection
 
 ## XS-Leaks Wiki
 
-[XS-Leaks Wiki](https://xsleaks.dev/)
+[XS-Leaks Wiki](https://xsleaks.dev/){ target="_blank" rel="noopener noreferrer" }
 
 A dedicated reference for XS-Leak techniques and browser side channels.
 
@@ -5078,7 +5078,7 @@ Use this when researching individual XS-Leak classes.
 
 ## MDN Cross-Site Leaks
 
-[MDN Cross-Site Leaks](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XS-Leaks)
+[MDN Cross-Site Leaks](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XS-Leaks){ target="_blank" rel="noopener noreferrer" }
 
 Current browser-focused explanation of XS-Leaks and mitigations.
 
@@ -5086,7 +5086,7 @@ Current browser-focused explanation of XS-Leaks and mitigations.
 
 ## MDN Same-Origin Policy
 
-[MDN Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+[MDN Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy){ target="_blank" rel="noopener noreferrer" }
 
 Essential background for understanding why XS-Leaks are possible.
 
@@ -5094,7 +5094,7 @@ Essential background for understanding why XS-Leaks are possible.
 
 ## MDN Fetch Metadata
 
-[MDN Fetch Metadata](https://developer.mozilla.org/en-US/docs/Glossary/Fetch_metadata_request_header)
+[MDN Fetch Metadata](https://developer.mozilla.org/en-US/docs/Glossary/Fetch_metadata_request_header){ target="_blank" rel="noopener noreferrer" }
 
 Useful background for:
 
@@ -5109,7 +5109,7 @@ Sec-Fetch-User
 
 ## MDN Sec-Fetch-Site
 
-[MDN Sec-Fetch-Site](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site)
+[MDN Sec-Fetch-Site](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site){ target="_blank" rel="noopener noreferrer" }
 
 Reference for the request initiator relationship header.
 
@@ -5117,7 +5117,7 @@ Reference for the request initiator relationship header.
 
 ## MDN Cross-Origin-Opener-Policy
 
-[MDN Cross-Origin-Opener-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy)
+[MDN Cross-Origin-Opener-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy){ target="_blank" rel="noopener noreferrer" }
 
 Important reference for window and browsing-context isolation.
 
@@ -5125,7 +5125,7 @@ Important reference for window and browsing-context isolation.
 
 ## MDN Cross-Origin-Resource-Policy
 
-[MDN Cross-Origin-Resource-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy)
+[MDN Cross-Origin-Resource-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy){ target="_blank" rel="noopener noreferrer" }
 
 Reference for restricting cross-origin resource loading.
 
@@ -5133,7 +5133,7 @@ Reference for restricting cross-origin resource loading.
 
 ## MDN Cross-Origin-Embedder-Policy
 
-[MDN Cross-Origin-Embedder-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy)
+[MDN Cross-Origin-Embedder-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy){ target="_blank" rel="noopener noreferrer" }
 
 Reference for cross-origin embedding restrictions and cross-origin isolation.
 
@@ -5141,7 +5141,7 @@ Reference for cross-origin embedding restrictions and cross-origin isolation.
 
 ## MDN Window.postMessage
 
-[MDN Window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+[MDN Window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage){ target="_blank" rel="noopener noreferrer" }
 
 Reference for secure cross-origin window messaging.
 
@@ -5149,7 +5149,7 @@ Reference for secure cross-origin window messaging.
 
 ## OWASP HTTP Headers Cheat Sheet
 
-[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
+[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Useful when reviewing:
 
@@ -5164,7 +5164,7 @@ Other isolation headers
 
 ## OWASP Content Security Policy Cheat Sheet
 
-[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 Useful for:
 
@@ -5178,7 +5178,7 @@ and related CSP controls.
 
 ## PortSwigger BApp Store
 
-[PortSwigger BApp Store](https://portswigger.net/bappstore)
+[PortSwigger BApp Store](https://portswigger.net/bappstore){ target="_blank" rel="noopener noreferrer" }
 
 Check current Burp extensions before relying on third-party tooling.
 

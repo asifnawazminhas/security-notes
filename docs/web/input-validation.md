@@ -5184,79 +5184,79 @@ Secure Error Handling
 
 ## OWASP Input Validation Cheat Sheet
 
-[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
+[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP WSTG - Input Validation Testing
 
-[OWASP WSTG - Input Validation Testing](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/)
+[OWASP WSTG - Input Validation Testing](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Injection Prevention Cheat Sheet
 
-[OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
+[OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP SQL Injection Prevention Cheat Sheet
 
-[OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
+[OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Cross Site Scripting Prevention Cheat Sheet
 
-[OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+[OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP File Upload Cheat Sheet
 
-[OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
+[OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP SSRF Prevention Cheat Sheet
 
-[OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+[OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP OS Command Injection Defense Cheat Sheet
 
-[OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html)
+[OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Web Security Academy
 
-[PortSwigger Web Security Academy](https://portswigger.net/web-security)
+[PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger BApp Store
 
-[PortSwigger BApp Store](https://portswigger.net/bappstore)
+[PortSwigger BApp Store](https://portswigger.net/bappstore){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Content Type Converter
 
-[PortSwigger Content Type Converter](https://portswigger.net/bappstore/db57ecbe2cb7446292a94aa6181c9278)
+[PortSwigger Content Type Converter](https://portswigger.net/bappstore/db57ecbe2cb7446292a94aa6181c9278){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## PortSwigger Param Miner
 
-[PortSwigger Param Miner](https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943)
+[PortSwigger Param Miner](https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

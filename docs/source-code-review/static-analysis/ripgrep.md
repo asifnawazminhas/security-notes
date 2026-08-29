@@ -5416,47 +5416,47 @@ Search Variants
 
 ## ripgrep GitHub Repository
 
-[ripgrep GitHub Repository](https://github.com/BurntSushi/ripgrep)
+[ripgrep GitHub Repository](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep User Guide
 
-[ripgrep User Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)
+[ripgrep User Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md){ target="_blank" rel="noopener noreferrer" }
 
 ## ripgrep FAQ
 
-[ripgrep FAQ](https://github.com/BurntSushi/ripgrep/blob/master/FAQ.md)
+[ripgrep FAQ](https://github.com/BurntSushi/ripgrep/blob/master/FAQ.md){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code Documentation
 
-[docs](https://code.visualstudio.com/docs)
+[docs](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep GitHub Repository
 
-[OpenGrep GitHub Repository](https://github.com/opengrep/opengrep)
+[OpenGrep GitHub Repository](https://github.com/opengrep/opengrep){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

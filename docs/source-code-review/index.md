@@ -4479,79 +4479,79 @@ Impact determines whether there is a vulnerability worth reporting.
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Web Security Testing Guide
 
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Cheat Sheet Series
 
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Application Security Verification Standard
 
-[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP Top 10
 
-[OWASP Top 10](https://owasp.org/www-project-top-ten/)
+[OWASP Top 10](https://owasp.org/www-project-top-ten/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## OWASP API Security Project
 
-[OWASP API Security Project](https://owasp.org/www-project-api-security/)
+[OWASP API Security Project](https://owasp.org/www-project-api-security/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## CWE
 
-[CWE](https://cwe.mitre.org/)
+[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/)
+[Semgrep](https://semgrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## Semgrep Documentation
 
-[docs](https://semgrep.dev/docs/)
+[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## CodeQL
 
-[CodeQL](https://codeql.github.com/)
+[CodeQL](https://codeql.github.com/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## CodeQL Documentation
 
-[docs](https://codeql.github.com/docs/)
+[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## GitHub CodeQL
 
-[GitHub CodeQL](https://github.com/github/codeql)
+[GitHub CodeQL](https://github.com/github/codeql){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 ## ripgrep
 
-[ripgrep](https://github.com/BurntSushi/ripgrep)
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

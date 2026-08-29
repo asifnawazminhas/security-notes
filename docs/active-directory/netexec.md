@@ -3209,28 +3209,28 @@ active-directory/pivoting.md
 
 ## NetExec Documentation
 
-[NetExec Wiki](https://www.netexec.wiki/)
+[NetExec Wiki](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec GitHub
 
-[NetExec GitHub](https://github.com/Pennyw0rth/NetExec)
+[NetExec GitHub](https://github.com/Pennyw0rth/NetExec){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec Wiki Repository
 
-[NetExec Wiki Repository](https://github.com/Pennyw0rth/NetExec-Wiki)
+[NetExec Wiki Repository](https://github.com/Pennyw0rth/NetExec-Wiki){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec Installation
 
-[NetExec Installation](https://www.netexec.wiki/getting-started/installation)
+[NetExec Installation](https://www.netexec.wiki/getting-started/installation){ target="_blank" rel="noopener noreferrer" }
 
 ## NetExec Releases
 
-[NetExec Releases](https://github.com/Pennyw0rth/NetExec/releases)
+[NetExec Releases](https://github.com/Pennyw0rth/NetExec/releases){ target="_blank" rel="noopener noreferrer" }
 
 ## BloodHound
 
-[BloodHound](https://bloodhound.specterops.io/)
+[BloodHound](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
 
 ## InternalAllTheThings - Active Directory
 
-[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/)
+[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/){ target="_blank" rel="noopener noreferrer" }

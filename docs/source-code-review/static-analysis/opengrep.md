@@ -5125,59 +5125,59 @@ Repository-Wide Search
 
 ## OpenGrep
 
-[OpenGrep](https://opengrep.dev/)
+[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep GitHub Repository
 
-[OpenGrep GitHub Repository](https://github.com/opengrep/opengrep)
+[OpenGrep GitHub Repository](https://github.com/opengrep/opengrep){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep README
 
-[OpenGrep README](https://github.com/opengrep/opengrep/blob/main/README.md)
+[OpenGrep README](https://github.com/opengrep/opengrep/blob/main/README.md){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep Changes Since the Fork
 
-[OpenGrep Changes Since the Fork](https://github.com/opengrep/opengrep/blob/main/OPENGREP.md)
+[OpenGrep Changes Since the Fork](https://github.com/opengrep/opengrep/blob/main/OPENGREP.md){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep Wiki
 
-[OpenGrep Wiki](https://github.com/opengrep/opengrep/wiki)
+[OpenGrep Wiki](https://github.com/opengrep/opengrep/wiki){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep Intrafile Taint Analysis
 
-[OpenGrep Intrafile Taint Analysis](https://github.com/opengrep/opengrep/wiki/Intrafile-tainting-tutorial)
+[OpenGrep Intrafile Taint Analysis](https://github.com/opengrep/opengrep/wiki/Intrafile-tainting-tutorial){ target="_blank" rel="noopener noreferrer" }
 
 ## OpenGrep Higher-Order Function Taint Analysis
 
-[OpenGrep Higher-Order Function Taint Analysis](https://github.com/opengrep/opengrep/wiki/Higher-order-functions-tutorial)
+[OpenGrep Higher-Order Function Taint Analysis](https://github.com/opengrep/opengrep/wiki/Higher-order-functions-tutorial){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep
 
-[Semgrep](https://semgrep.dev/)
+[Semgrep](https://semgrep.dev/){ target="_blank" rel="noopener noreferrer" }
 
 ## Semgrep Rule Syntax
 
-[Semgrep Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax)
+[Semgrep Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax){ target="_blank" rel="noopener noreferrer" }
 
 ## CodeQL
 
-[CodeQL](https://codeql.github.com/docs/)
+[CodeQL](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Secure Code Review Cheat Sheet
 
-[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Code Review Guide
 
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
 
 ## OWASP Static Code Analysis
 
-[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis)
+[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis){ target="_blank" rel="noopener noreferrer" }
 
 ## Visual Studio Code
 
-[Visual Studio Code](https://code.visualstudio.com/docs)
+[Visual Studio Code](https://code.visualstudio.com/docs){ target="_blank" rel="noopener noreferrer" }
 
 ---
 

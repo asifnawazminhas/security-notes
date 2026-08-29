@@ -3707,51 +3707,51 @@ cheatsheets/networking.md
 
 ## Microsoft - Kerberos Authentication Overview
 
-[Microsoft - Kerberos Authentication Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview)
+[Microsoft - Kerberos Authentication Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft - Kerberos Technical Documentation
 
-[Microsoft Learn - microsoft kerberos](https://learn.microsoft.com/en-us/windows/win32/secauthn/microsoft-kerberos)
+[Microsoft Learn - microsoft kerberos](https://learn.microsoft.com/en-us/windows/win32/secauthn/microsoft-kerberos){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft - Key Distribution Center
 
-[Microsoft - Key Distribution Center](https://learn.microsoft.com/en-us/windows/win32/secauthn/key-distribution-center)
+[Microsoft - Key Distribution Center](https://learn.microsoft.com/en-us/windows/win32/secauthn/key-distribution-center){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft - klist
 
-[Microsoft - klist](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/klist)
+[Microsoft - klist](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/klist){ target="_blank" rel="noopener noreferrer" }
 
 ## Microsoft - setspn
 
-[Microsoft - setspn](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/setspn)
+[Microsoft - setspn](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/setspn){ target="_blank" rel="noopener noreferrer" }
 
 ## Fortra Impacket
 
-[Fortra Impacket](https://github.com/fortra/impacket)
+[Fortra Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
 
 ## MITRE ATT&CK - Steal or Forge Kerberos Tickets
 
-[MITRE ATT&CK - Steal or Forge Kerberos Tickets](https://attack.mitre.org/techniques/T1558/)
+[MITRE ATT&CK - Steal or Forge Kerberos Tickets](https://attack.mitre.org/techniques/T1558/){ target="_blank" rel="noopener noreferrer" }
 
 ## MITRE ATT&CK - Golden Ticket
 
-[MITRE ATT&CK - Golden Ticket](https://attack.mitre.org/techniques/T1558/001/)
+[MITRE ATT&CK - Golden Ticket](https://attack.mitre.org/techniques/T1558/001/){ target="_blank" rel="noopener noreferrer" }
 
 ## MITRE ATT&CK - Silver Ticket
 
-[MITRE ATT&CK - Silver Ticket](https://attack.mitre.org/techniques/T1558/002/)
+[MITRE ATT&CK - Silver Ticket](https://attack.mitre.org/techniques/T1558/002/){ target="_blank" rel="noopener noreferrer" }
 
 ## MITRE ATT&CK - Kerberoasting
 
-[MITRE ATT&CK - Kerberoasting](https://attack.mitre.org/techniques/T1558/003/)
+[MITRE ATT&CK - Kerberoasting](https://attack.mitre.org/techniques/T1558/003/){ target="_blank" rel="noopener noreferrer" }
 
 ## MITRE ATT&CK - AS-REP Roasting
 
-[MITRE ATT&CK - AS-REP Roasting](https://attack.mitre.org/techniques/T1558/004/)
+[MITRE ATT&CK - AS-REP Roasting](https://attack.mitre.org/techniques/T1558/004/){ target="_blank" rel="noopener noreferrer" }
 
 ## MITRE ATT&CK - Ccache Files
 
-[MITRE ATT&CK - Ccache Files](https://attack.mitre.org/techniques/T1558/005/)
+[MITRE ATT&CK - Ccache Files](https://attack.mitre.org/techniques/T1558/005/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
