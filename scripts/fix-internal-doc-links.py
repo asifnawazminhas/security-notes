@@ -1,86 +1,135 @@
 #!/usr/bin/env python3
 
 """
-Convert standalone internal Markdown document paths displayed in fenced
-text/code blocks into clickable internal MkDocs links.
+Convert standalone internal Markdown document references displayed inside
+fenced text blocks into clickable internal MkDocs links.
 
-Example:
+This script supports both:
 
-    Current file:
-        docs/cheatsheets/netexec.md
+1. Single-path reference blocks
 
-    Markdown:
+       ```text
+       active-directory/netexec.md
+       ```
 
-        For the detailed explanation of NetExec, see:
+2. Multi-path reference blocks
+
+       ```text
+       active-directory/index.md
+       active-directory/methodology.md
+       active-directory/enumeration.md
+       ```
+
+Multi-path blocks are converted ATOMICALLY:
+
+    - Every non-empty line must be a standalone .md path.
+    - Every target must exist inside docs/.
+    - The surrounding prose must look navigational when
+      --context-check is enabled.
+    - If even one target does not exist, the entire block is left
+      unchanged.
+
+This prevents partially converting roadmap/reference lists where some
+documentation pages have not yet been created.
+
+Examples
+========
+
+Single reference:
+
+    Before:
+
+        For detailed documentation, see:
 
         ```text
         active-directory/netexec.md
         ```
 
-    Becomes:
+    After:
 
         [NetExec](../active-directory/netexec.md)
 
-SUPPORTED PATH STYLES
-=====================
 
-The resolver understands paths such as:
+Multi-reference block:
 
-    active-directory/netexec.md
-    docs/active-directory/netexec.md
-    ../active-directory/netexec.md
-    ./kerberos.md
-    web/xss.md
-    docs/web/xss.md
+    Before:
 
-SAFETY RULES
+        See the detailed Active Directory notes:
+
+        ```text
+        active-directory/index.md
+        active-directory/methodology.md
+        active-directory/enumeration.md
+        ```
+
+    After:
+
+        [Active Directory](../active-directory/index.md)
+
+        [Active Directory Penetration Testing Methodology](../active-directory/methodology.md)
+
+        [Active Directory Enumeration](../active-directory/enumeration.md)
+
+
+Safety rules
 ============
 
 - Only scans Markdown files under docs/.
-- Only considers fenced blocks containing exactly ONE .md path.
-- Supports ```text```, ```txt```, and untyped ``` blocks.
-- Also supports equivalent ~~~ fenced blocks.
-- The referenced target must actually exist under docs/.
-- Does not modify multi-line code blocks.
-- Does not modify directory trees.
-- Does not modify shell commands.
-- Does not modify YAML examples.
-- Does not modify arbitrary .md strings inside prose.
-- Does not modify existing Markdown links.
-- Does not add target="_blank" to internal links.
-- Derives the link label from the target page's first H1 heading.
-- Falls back to a readable filename-derived label.
-- Calculates the relative link from the current document automatically.
-- Prevents resolved paths from escaping docs/.
+- Only processes supported fenced text blocks.
+- Supports ```text, ```txt, untyped ```, and equivalent ~~~ fences.
+- Single-reference blocks must contain exactly one standalone .md path.
+- Multi-reference blocks must contain ONLY standalone .md paths.
+- Multi-reference blocks are converted atomically.
+- If one target in a multi-reference block is missing, the entire block
+  is skipped.
+- Targets must physically exist under docs/.
+- Targets must remain inside docs/.
+- Directory trees are not converted.
+- Shell commands are not converted.
+- YAML/config examples are not converted.
+- Mixed-content code blocks are not converted.
+- Existing Markdown links are not modified.
+- Internal links do not receive target="_blank".
+- Link labels come from the target page's first H1.
+- Filename-derived labels are used as a fallback.
+- Relative links are calculated automatically.
 - Supports --dry-run.
 - Supports --verbose.
 - Supports --context-check.
 
-RECOMMENDED WORKFLOW
+Recommended workflow
 ====================
 
-First:
+Review:
 
     python3 scripts/fix-internal-doc-links.py \
         --dry-run \
         --verbose \
         --context-check
 
-After reviewing:
+Save verbose review:
 
-    python3 scripts/fix-internal-doc-links.py --context-check
+    python3 scripts/fix-internal-doc-links.py \
+        --dry-run \
+        --verbose \
+        --context-check \
+        > /tmp/internal-links-review.txt
 
-Then:
+Apply:
+
+    python3 scripts/fix-internal-doc-links.py \
+        --context-check
+
+Verify:
 
     python3 scripts/fix-internal-doc-links.py \
         --dry-run \
         --context-check
 
-Finally:
+Then:
 
     git diff --check
     git diff --stat
-    git diff -- docs/
     mkdocs build
 """
 
@@ -104,11 +153,11 @@ DEFAULT_DOCS_ROOT = "docs"
 
 
 # Nearby prose containing one of these patterns can indicate that
-# a standalone .md path is intended as navigation rather than as
-# an example of a filesystem/documentation structure.
+# a fenced .md path block is intended as documentation navigation.
 #
-# These patterns deliberately focus on language that indicates
-# another document should be opened/read/reviewed.
+# Keep these deliberately focused on navigational/documentation
+# language. Avoid overly generic patterns such as "and", "at",
+# "following", etc.
 LINK_CONTEXT_PATTERNS = [
     r"\bsee\b",
     r"\bsee also\b",
@@ -120,6 +169,8 @@ LINK_CONTEXT_PATTERNS = [
     r"\bdetailed analysis\b",
     r"\bdetailed testing\b",
     r"\bdetailed methodology\b",
+    r"\bdetailed technique\b",
+    r"\bdetailed discussion\b",
     r"\bfor more information\b",
     r"\bfor more details\b",
     r"\bmore information\b",
@@ -128,7 +179,9 @@ LINK_CONTEXT_PATTERNS = [
     r"\bvisit\b",
     r"\brefer to\b",
     r"\breference\b",
+    r"\breferences\b",
     r"\bcheatsheet\b",
+    r"\bcheatsheets\b",
     r"\bdocumentation\b",
     r"\bnotes\b",
     r"\bbelongs in\b",
@@ -138,6 +191,10 @@ LINK_CONTEXT_PATTERNS = [
     r"\bshould cover\b",
     r"\balso review\b",
     r"\bcomplement\b",
+    r"\bfor complete .+ validation\b",
+    r"\bdedicated .+ page\b",
+    r"\bwill be added at\b",
+    r"\bprovide .+ review guidance\b",
 ]
 
 
@@ -145,16 +202,19 @@ LINK_CONTEXT_PATTERNS = [
 # REGULAR EXPRESSIONS
 # ============================================================
 
-# Matches paths such as:
+# Standalone Markdown documentation path.
+#
+# Supported examples:
 #
 # active-directory/netexec.md
 # docs/active-directory/netexec.md
 # ../active-directory/netexec.md
 # ./kerberos.md
 # web/xss.md
+# docs/web/xss.md
+# active-directory/adcs/index.md
 #
-# Spaces are deliberately excluded because documentation paths in
-# this repository should not require them.
+# Spaces are deliberately excluded.
 MD_PATH_RE = re.compile(
     r"^(?P<path>"
     r"(?:\.\.?/)*"
@@ -165,9 +225,29 @@ MD_PATH_RE = re.compile(
 )
 
 
-# First H1 in a target Markdown document.
+# First H1 heading in a target Markdown document.
 H1_RE = re.compile(
     r"^#[ \t]+(?P<title>.+?)[ \t]*#*[ \t]*$"
+)
+
+
+# Characters commonly found in directory-tree diagrams.
+TREE_MARKERS = (
+    "├",
+    "└",
+    "│",
+    "─",
+    "┬",
+    "┴",
+    "┼",
+    "╭",
+    "╮",
+    "╰",
+    "╯",
+    "┌",
+    "┐",
+    "┘",
+    "└",
 )
 
 
@@ -176,37 +256,44 @@ H1_RE = re.compile(
 # ============================================================
 
 @dataclass
-class Candidate:
-    source_file: Path
+class LinkConversion:
     raw_path: str
     target_file: Path
     label: str
     relative_link: str
     replacement: str
-    context: str
 
 
 @dataclass
-class Skipped:
+class BlockConversion:
     source_file: Path
-    raw_path: str
+    context: str
+    links: list[LinkConversion]
+    multiline: bool
+
+
+@dataclass
+class SkippedBlock:
+    source_file: Path
+    raw_paths: list[str]
     reason: str
     context: str = ""
+    missing_paths: list[str] | None = None
 
 
 # ============================================================
-# HEADING / LABEL HELPERS
+# LABEL HELPERS
 # ============================================================
 
 def clean_heading(text: str) -> str:
     """
     Remove common Markdown formatting from an H1 heading so it can
-    safely be used as the label of an internal Markdown link.
+    safely be used as an internal Markdown link label.
     """
 
     text = text.strip()
 
-    # Remove trailing MkDocs attr_list attributes.
+    # Remove trailing MkDocs attr_list.
     #
     # Example:
     #
@@ -283,20 +370,6 @@ def escape_markdown_label(label: str) -> str:
 def humanise_filename(path: Path) -> str:
     """
     Turn a Markdown filename into a readable fallback label.
-
-    Examples:
-
-        netexec.md
-            -> NetExec
-
-        active-directory.md
-            -> Active Directory
-
-        pass-the-hash.md
-            -> Pass The Hash
-
-        ntlm-relay.md
-            -> NTLM Relay
     """
 
     name = path.stem
@@ -315,12 +388,15 @@ def humanise_filename(path: Path) -> str:
 
     special_names = {
         "acl": "ACL",
+        "acls": "ACLs",
         "ace": "ACE",
         "ad": "AD",
         "adcs": "AD CS",
+        "adfs": "ADFS",
         "api": "API",
         "asrep": "AS-REP",
         "bloodhound": "BloodHound",
+        "bola": "BOLA",
         "csrf": "CSRF",
         "css": "CSS",
         "dcom": "DCOM",
@@ -341,6 +417,7 @@ def humanise_filename(path: Path) -> str:
         "laps": "LAPS",
         "ldap": "LDAP",
         "llm": "LLM",
+        "mdt": "MDT",
         "mfa": "MFA",
         "netexec": "NetExec",
         "nosql": "NoSQL",
@@ -399,7 +476,7 @@ def get_target_h1(
     target: Path,
 ) -> str | None:
     """
-    Read the first H1 heading from the target Markdown document.
+    Read the first H1 heading from a target Markdown document.
 
     Fenced code blocks are ignored.
     """
@@ -475,9 +552,9 @@ def get_link_label(
     target: Path,
 ) -> str:
     """
-    Prefer the target page's H1 heading.
+    Prefer the target page's first H1 heading.
 
-    Fall back to a readable version of the filename.
+    Fall back to a human-readable filename.
     """
 
     heading = get_target_h1(
@@ -496,44 +573,26 @@ def get_link_label(
 # PATH RESOLUTION
 # ============================================================
 
-def resolve_target(
+def candidate_target_paths(
     raw_path: str,
     source_file: Path,
     docs_root: Path,
-) -> Path | None:
+) -> list[Path]:
     """
-    Resolve an internal Markdown path safely.
-
-    Supported forms include:
-
-        active-directory/netexec.md
-        docs/active-directory/netexec.md
-        ../active-directory/netexec.md
-        ./kerberos.md
-        web/xss.md
-        docs/web/xss.md
+    Generate possible resolved paths for an internal Markdown reference.
 
     Resolution rules:
 
-    1. Paths beginning with "docs/" are interpreted relative to
-       the documentation root without accidentally producing:
+    docs/foo.md
+        -> relative to docs/
 
-           docs/docs/...
+    ./foo.md
+    ../foo.md
+        -> relative to source document
 
-    2. Paths beginning with "./" or "../" are interpreted relative
-       to the current Markdown document.
-
-    3. Other paths are first interpreted relative to docs/.
-
-    4. Other paths are also tested relative to the current source
-       document as a fallback.
-
-    5. The resolved target must:
-
-       - exist;
-       - be a file;
-       - have a .md extension;
-       - remain inside docs/.
+    foo/bar.md
+        -> try docs-root-relative first
+        -> source-relative second
     """
 
     docs_root = docs_root.resolve()
@@ -542,26 +601,12 @@ def resolve_target(
 
     raw_path = raw_path.strip()
 
-    # Normalise Windows-style separators in case they ever appear
-    # in Markdown documentation.
     normalised = raw_path.replace(
         "\\",
         "/",
     )
 
     candidates: list[Path] = []
-
-    # --------------------------------------------------------
-    # CASE 1
-    #
-    # docs/web/xss.md
-    #
-    # docs_root already points to:
-    #
-    # /workspaces/security-notes/docs
-    #
-    # Therefore remove the leading docs/ before joining.
-    # --------------------------------------------------------
 
     if normalised.startswith("docs/"):
 
@@ -576,16 +621,6 @@ def resolve_target(
             ).resolve()
         )
 
-    # --------------------------------------------------------
-    # CASE 2
-    #
-    # ./xss.md
-    # ../active-directory/netexec.md
-    #
-    # These paths explicitly indicate that they are relative to
-    # the current source document.
-    # --------------------------------------------------------
-
     elif (
         normalised.startswith("./")
         or normalised.startswith("../")
@@ -598,21 +633,15 @@ def resolve_target(
             ).resolve()
         )
 
-    # --------------------------------------------------------
-    # CASE 3
-    #
-    # active-directory/netexec.md
-    # web/xss.md
-    # cheatsheets/impacket.md
-    #
-    # First interpret these as docs-root-relative because that
-    # convention is common throughout this repository.
-    #
-    # Then try source-relative as a fallback.
-    # --------------------------------------------------------
-
     else:
 
+        # Repository convention:
+        #
+        # active-directory/netexec.md
+        #
+        # normally means:
+        #
+        # docs/active-directory/netexec.md
         candidates.append(
             (
                 docs_root
@@ -620,6 +649,7 @@ def resolve_target(
             ).resolve()
         )
 
+        # Source-relative fallback.
         candidates.append(
             (
                 source_dir
@@ -627,11 +657,7 @@ def resolve_target(
             ).resolve()
         )
 
-    # --------------------------------------------------------
-    # REMOVE DUPLICATES
-    # --------------------------------------------------------
-
-    unique_candidates: list[Path] = []
+    unique: list[Path] = []
 
     seen: set[Path] = set()
 
@@ -644,17 +670,39 @@ def resolve_target(
             candidate
         )
 
-        unique_candidates.append(
+        unique.append(
             candidate
         )
 
-    # --------------------------------------------------------
-    # VALIDATE CANDIDATES
-    # --------------------------------------------------------
+    return unique
 
-    for candidate in unique_candidates:
 
-        # Prevent references from escaping docs/.
+def resolve_target(
+    raw_path: str,
+    source_file: Path,
+    docs_root: Path,
+) -> Path | None:
+    """
+    Resolve an internal Markdown path safely.
+
+    The resolved target must:
+
+    - exist;
+    - be a regular file;
+    - end in .md;
+    - remain inside docs/.
+    """
+
+    docs_root = docs_root.resolve()
+
+    candidates = candidate_target_paths(
+        raw_path=raw_path,
+        source_file=source_file,
+        docs_root=docs_root,
+    )
+
+    for candidate in candidates:
+
         try:
 
             candidate.relative_to(
@@ -684,19 +732,7 @@ def make_relative_link(
     target_file: Path,
 ) -> str:
     """
-    Calculate the correct relative Markdown path from the source
-    document to the target document.
-
-    Example:
-
-        source:
-            docs/cheatsheets/netexec.md
-
-        target:
-            docs/active-directory/netexec.md
-
-        result:
-            ../active-directory/netexec.md
+    Calculate a relative Markdown path from source to target.
     """
 
     relative = os.path.relpath(
@@ -704,8 +740,7 @@ def make_relative_link(
         start=source_file.parent,
     )
 
-    # Markdown URLs should use forward slashes even when the
-    # script is run on Windows.
+    # Markdown URLs should always use forward slashes.
     relative = relative.replace(
         os.sep,
         "/",
@@ -721,15 +756,15 @@ def make_relative_link(
 def get_previous_prose(
     lines: list[str],
     block_start_index: int,
-    max_lines: int = 4,
+    max_lines: int = 5,
 ) -> str:
     """
-    Retrieve nearby prose immediately before a candidate code block.
+    Retrieve nearby prose immediately before a candidate fenced block.
 
-    Blank lines are tolerated.
+    Blank lines are ignored.
 
-    We collect a small number of preceding prose lines to determine
-    whether the path appears to be intended as navigation.
+    A small amount of preceding prose is collected so the script can
+    determine whether the block appears to be documentation navigation.
     """
 
     collected: list[str] = []
@@ -750,7 +785,7 @@ def get_previous_prose(
             index -= 1
             continue
 
-        # Stop at another fenced block.
+        # Stop if another fenced block is encountered.
         if (
             line.startswith("```")
             or line.startswith("~~~")
@@ -758,8 +793,17 @@ def get_previous_prose(
 
             break
 
-        # Headings provide structural context but should not by
-        # themselves trigger conversion.
+        # Horizontal rules are not useful navigation context.
+        if line in {
+            "---",
+            "***",
+            "___",
+        }:
+
+            index -= 1
+            continue
+
+        # A heading can mark a structural boundary.
         if line.startswith("#"):
 
             if collected:
@@ -785,20 +829,18 @@ def context_looks_navigational(
     context: str,
 ) -> bool:
     """
-    Determine whether nearby prose suggests that the standalone
-    Markdown path is intended as a documentation/navigation link.
+    Determine whether nearby prose suggests that a fenced .md path
+    block is intended as documentation navigation.
     """
 
     if not context:
         return False
 
-    lowered = context.casefold()
-
     for pattern in LINK_CONTEXT_PATTERNS:
 
         if re.search(
             pattern,
-            lowered,
+            context,
             flags=re.IGNORECASE,
         ):
 
@@ -808,7 +850,7 @@ def context_looks_navigational(
 
 
 # ============================================================
-# FENCE DETECTION
+# FENCE ANALYSIS
 # ============================================================
 
 def parse_fence_start(
@@ -828,7 +870,7 @@ def parse_fence_start(
         ~~~text
         ~~~txt
 
-    Other languages are deliberately ignored.
+    Other fenced languages are deliberately ignored.
     """
 
     stripped = line.strip()
@@ -866,6 +908,107 @@ def parse_fence_start(
     )
 
 
+def block_contains_tree_markers(
+    block_lines: list[str],
+) -> bool:
+    """
+    Detect obvious directory-tree / diagram content.
+
+    Example that must remain unchanged:
+
+        docs/cheatsheets/
+        │
+        ├── index.md
+        ├── linux.md
+        └── windows.md
+    """
+
+    for line in block_lines:
+
+        for marker in TREE_MARKERS:
+
+            if marker in line:
+                return True
+
+    return False
+
+
+def extract_md_paths_from_block(
+    block_lines: list[str],
+) -> list[str] | None:
+    """
+    Return all standalone .md paths from a fenced block only when
+    EVERY non-empty line is a standalone .md path.
+
+    Returns None if the block contains any other content.
+
+    This is the key protection against converting commands,
+    directory trees, configuration examples, prose, etc.
+    """
+
+    non_empty = [
+        line.strip()
+        for line in block_lines
+        if line.strip()
+    ]
+
+    if not non_empty:
+        return None
+
+    paths: list[str] = []
+
+    for line in non_empty:
+
+        match = MD_PATH_RE.fullmatch(
+            line
+        )
+
+        if not match:
+            return None
+
+        paths.append(
+            match.group("path")
+        )
+
+    return paths
+
+
+# ============================================================
+# LINK GENERATION
+# ============================================================
+
+def build_link_conversion(
+    raw_path: str,
+    source_file: Path,
+    target_file: Path,
+) -> LinkConversion:
+    """
+    Build one Markdown link conversion.
+    """
+
+    label = get_link_label(
+        target_file
+    )
+
+    relative_link = make_relative_link(
+        source_file=source_file,
+        target_file=target_file,
+    )
+
+    replacement = (
+        f"[{escape_markdown_label(label)}]"
+        f"({relative_link})"
+    )
+
+    return LinkConversion(
+        raw_path=raw_path,
+        target_file=target_file,
+        label=label,
+        relative_link=relative_link,
+        replacement=replacement,
+    )
+
+
 # ============================================================
 # CONTENT PROCESSING
 # ============================================================
@@ -877,11 +1020,11 @@ def process_content(
     require_context: bool,
 ) -> tuple[
     str,
-    list[Candidate],
-    list[Skipped],
+    list[BlockConversion],
+    list[SkippedBlock],
 ]:
     """
-    Process a complete Markdown document.
+    Process one complete Markdown document.
     """
 
     lines = content.splitlines(
@@ -890,9 +1033,9 @@ def process_content(
 
     output: list[str] = []
 
-    changes: list[Candidate] = []
+    conversions: list[BlockConversion] = []
 
-    skipped: list[Skipped] = []
+    skipped: list[SkippedBlock] = []
 
     index = 0
 
@@ -931,15 +1074,12 @@ def process_content(
                 == fence_marker
             ):
 
-                closing_index = (
-                    search_index
-                )
-
+                closing_index = search_index
                 break
 
             search_index += 1
 
-        # Malformed/unclosed block.
+        # Malformed/unclosed fence.
         if closing_index is None:
 
             output.append(
@@ -956,16 +1096,12 @@ def process_content(
         ]
 
         # ----------------------------------------------------
-        # ONLY SINGLE-LINE BLOCKS ARE CANDIDATES
+        # DIRECTORY TREE PROTECTION
         # ----------------------------------------------------
 
-        non_empty = [
-            line.strip()
-            for line in block_lines
-            if line.strip()
-        ]
-
-        if len(non_empty) != 1:
+        if block_contains_tree_markers(
+            block_lines
+        ):
 
             output.extend(
                 lines[
@@ -980,17 +1116,17 @@ def process_content(
 
             continue
 
-        raw_path = non_empty[0]
-
         # ----------------------------------------------------
-        # MUST BE A STANDALONE .md PATH
+        # EXTRACT .md PATHS
+        #
+        # Every non-empty line must be a standalone .md path.
         # ----------------------------------------------------
 
-        path_match = MD_PATH_RE.fullmatch(
-            raw_path
+        raw_paths = extract_md_paths_from_block(
+            block_lines
         )
 
-        if not path_match:
+        if raw_paths is None:
 
             output.extend(
                 lines[
@@ -1005,22 +1141,14 @@ def process_content(
 
             continue
 
-        raw_path = path_match.group(
-            "path"
-        )
-
         # ----------------------------------------------------
-        # GET NEARBY PROSE
+        # CONTEXT
         # ----------------------------------------------------
 
         context = get_previous_prose(
             lines=lines,
             block_start_index=index,
         )
-
-        # ----------------------------------------------------
-        # OPTIONAL CONSERVATIVE CONTEXT CHECK
-        # ----------------------------------------------------
 
         if (
             require_context
@@ -1030,9 +1158,9 @@ def process_content(
         ):
 
             skipped.append(
-                Skipped(
+                SkippedBlock(
                     source_file=source_file,
-                    raw_path=raw_path,
+                    raw_paths=raw_paths,
                     reason=(
                         "nearby prose does not clearly indicate "
                         "a navigational/documentation link"
@@ -1055,26 +1183,66 @@ def process_content(
             continue
 
         # ----------------------------------------------------
-        # RESOLVE TARGET
+        # RESOLVE EVERY TARGET
+        #
+        # Multi-line blocks are atomic:
+        #
+        # if even one target is missing, convert NONE of them.
         # ----------------------------------------------------
 
-        target = resolve_target(
-            raw_path=raw_path,
-            source_file=source_file,
-            docs_root=docs_root,
-        )
+        resolved_targets: list[
+            tuple[str, Path]
+        ] = []
 
-        if target is None:
+        missing_paths: list[str] = []
+
+        for raw_path in raw_paths:
+
+            target = resolve_target(
+                raw_path=raw_path,
+                source_file=source_file,
+                docs_root=docs_root,
+            )
+
+            if target is None:
+
+                missing_paths.append(
+                    raw_path
+                )
+
+            else:
+
+                resolved_targets.append(
+                    (
+                        raw_path,
+                        target,
+                    )
+                )
+
+        if missing_paths:
+
+            if len(raw_paths) == 1:
+
+                reason = (
+                    "target Markdown file does not exist "
+                    "inside docs/"
+                )
+
+            else:
+
+                reason = (
+                    "multi-reference block skipped atomically "
+                    "because one or more target Markdown files "
+                    "do not exist inside docs/"
+                )
 
             skipped.append(
-                Skipped(
+                SkippedBlock(
                     source_file=source_file,
-                    raw_path=raw_path,
-                    reason=(
-                        "target Markdown file does not exist "
-                        "inside docs/"
-                    ),
+                    raw_paths=raw_paths,
+                    reason=reason,
                     context=context,
+                    missing_paths=missing_paths,
                 )
             )
 
@@ -1092,24 +1260,27 @@ def process_content(
             continue
 
         # ----------------------------------------------------
-        # GENERATE LINK
+        # BUILD ALL LINKS
         # ----------------------------------------------------
 
-        label = get_link_label(
-            target
-        )
+        link_conversions: list[
+            LinkConversion
+        ] = []
 
-        relative_link = make_relative_link(
-            source_file=source_file,
-            target_file=target,
-        )
+        for raw_path, target in resolved_targets:
 
-        replacement = (
-            f"[{escape_markdown_label(label)}]"
-            f"({relative_link})"
-        )
+            link_conversions.append(
+                build_link_conversion(
+                    raw_path=raw_path,
+                    source_file=source_file,
+                    target_file=target,
+                )
+            )
 
-        # Preserve indentation from the opening fence.
+        # ----------------------------------------------------
+        # PRESERVE INDENTATION
+        # ----------------------------------------------------
+
         indentation = (
             lines[index][
                 :len(lines[index])
@@ -1117,28 +1288,46 @@ def process_content(
             ]
         )
 
-        # Preserve CRLF if the source uses it.
+        # Preserve newline convention.
         newline = (
             "\r\n"
             if lines[index].endswith("\r\n")
             else "\n"
         )
 
-        output.append(
-            indentation
-            + replacement
-            + newline
-        )
+        # ----------------------------------------------------
+        # REPLACE ENTIRE FENCED BLOCK
+        #
+        # Separate multiple documentation links with blank lines.
+        # ----------------------------------------------------
 
-        changes.append(
-            Candidate(
+        for link_index, link in enumerate(
+            link_conversions
+        ):
+
+            output.append(
+                indentation
+                + link.replacement
+                + newline
+            )
+
+            if (
+                link_index
+                < len(link_conversions) - 1
+            ):
+
+                output.append(
+                    newline
+                )
+
+        conversions.append(
+            BlockConversion(
                 source_file=source_file,
-                raw_path=raw_path,
-                target_file=target,
-                label=label,
-                relative_link=relative_link,
-                replacement=replacement,
                 context=context,
+                links=link_conversions,
+                multiline=(
+                    len(link_conversions) > 1
+                ),
             )
         )
 
@@ -1148,9 +1337,120 @@ def process_content(
 
     return (
         "".join(output),
-        changes,
+        conversions,
         skipped,
     )
+
+
+# ============================================================
+# VERBOSE OUTPUT
+# ============================================================
+
+def print_conversion(
+    conversion: BlockConversion,
+) -> None:
+    """
+    Print detailed information about one converted block.
+    """
+
+    block_type = (
+        "MULTI"
+        if conversion.multiline
+        else "SINGLE"
+    )
+
+    print(
+        f"    Block Type  : {block_type}"
+    )
+
+    print(
+        f"    Context     : {conversion.context}"
+    )
+
+    for link in conversion.links:
+
+        print(
+            f"    Path        : {link.raw_path}"
+        )
+
+        print(
+            f"    Target      : {link.target_file}"
+        )
+
+        print(
+            f"    Label       : {link.label}"
+        )
+
+        print(
+            f"    Relative    : {link.relative_link}"
+        )
+
+        print(
+            f"    Replace     : {link.replacement}"
+        )
+
+        print()
+
+
+def print_skipped(
+    skipped: SkippedBlock,
+) -> None:
+    """
+    Print detailed information about one skipped block.
+    """
+
+    block_type = (
+        "MULTI"
+        if len(skipped.raw_paths) > 1
+        else "SINGLE"
+    )
+
+    print(
+        f"    SKIP Type   : {block_type}"
+    )
+
+    print(
+        f"    SKIP Reason : {skipped.reason}"
+    )
+
+    if skipped.context:
+
+        print(
+            f"    SKIP Context: {skipped.context}"
+        )
+
+    if len(skipped.raw_paths) == 1:
+
+        print(
+            f"    SKIP Path   : "
+            f"{skipped.raw_paths[0]}"
+        )
+
+    else:
+
+        print(
+            "    SKIP Paths  :"
+        )
+
+        for raw_path in skipped.raw_paths:
+
+            print(
+                f"                  {raw_path}"
+            )
+
+    if skipped.missing_paths:
+
+        print(
+            "    Missing     :"
+        )
+
+        for raw_path in skipped.missing_paths:
+
+            print(
+                f"                  {raw_path}"
+            )
+
+    print()
 
 
 # ============================================================
@@ -1163,14 +1463,20 @@ def process_file(
     dry_run: bool,
     verbose: bool,
     require_context: bool,
-) -> tuple[int, int, bool]:
+) -> tuple[
+    int,
+    int,
+    int,
+    bool,
+]:
     """
     Process one Markdown file.
 
     Returns:
 
-        number of conversions
-        number of skipped candidates
+        converted blocks
+        converted links
+        skipped blocks
         whether the file was modified
     """
 
@@ -1190,6 +1496,7 @@ def process_file(
         return (
             0,
             0,
+            0,
             False,
         )
 
@@ -1203,21 +1510,27 @@ def process_file(
         return (
             0,
             0,
+            0,
             False,
         )
 
-    updated, changes, skipped = process_content(
+    updated, conversions, skipped = process_content(
         content=original,
         source_file=path,
         docs_root=docs_root,
         require_context=require_context,
     )
 
+    converted_link_count = sum(
+        len(conversion.links)
+        for conversion in conversions
+    )
+
     # --------------------------------------------------------
-    # PRINT CONVERSIONS
+    # CONVERSIONS
     # --------------------------------------------------------
 
-    if changes:
+    if conversions:
 
         print()
 
@@ -1227,54 +1540,31 @@ def process_file(
 
         if verbose:
 
-            for change in changes:
+            for conversion in conversions:
 
-                print(
-                    f"    Path        : "
-                    f"{change.raw_path}"
+                print_conversion(
+                    conversion
                 )
-
-                print(
-                    f"    Target      : "
-                    f"{change.target_file}"
-                )
-
-                print(
-                    f"    Label       : "
-                    f"{change.label}"
-                )
-
-                print(
-                    f"    Relative    : "
-                    f"{change.relative_link}"
-                )
-
-                print(
-                    f"    Context     : "
-                    f"{change.context}"
-                )
-
-                print(
-                    f"    Replace     : "
-                    f"{change.replacement}"
-                )
-
-                print()
 
         else:
 
             print(
-                f"    Internal links to convert: "
-                f"{len(changes)}"
+                f"    Reference blocks to convert : "
+                f"{len(conversions)}"
+            )
+
+            print(
+                f"    Internal links to convert   : "
+                f"{converted_link_count}"
             )
 
     # --------------------------------------------------------
-    # PRINT SKIPPED CANDIDATES IN VERBOSE MODE
+    # SKIPPED BLOCKS
     # --------------------------------------------------------
 
     if verbose and skipped:
 
-        if not changes:
+        if not conversions:
 
             print()
 
@@ -1282,26 +1572,11 @@ def process_file(
                 f"[-] {path}"
             )
 
-        for item in skipped:
+        for skipped_block in skipped:
 
-            print(
-                f"    SKIP Path   : "
-                f"{item.raw_path}"
+            print_skipped(
+                skipped_block
             )
-
-            print(
-                f"    SKIP Reason : "
-                f"{item.reason}"
-            )
-
-            if item.context:
-
-                print(
-                    f"    SKIP Context: "
-                    f"{item.context}"
-                )
-
-            print()
 
     # --------------------------------------------------------
     # DRY RUN
@@ -1310,7 +1585,8 @@ def process_file(
     if dry_run:
 
         return (
-            len(changes),
+            len(conversions),
+            converted_link_count,
             len(skipped),
             False,
         )
@@ -1320,7 +1596,7 @@ def process_file(
     # --------------------------------------------------------
 
     if (
-        changes
+        conversions
         and updated != original
     ):
 
@@ -1339,19 +1615,22 @@ def process_file(
             )
 
             return (
-                len(changes),
+                len(conversions),
+                converted_link_count,
                 len(skipped),
                 False,
             )
 
         return (
-            len(changes),
+            len(conversions),
+            converted_link_count,
             len(skipped),
             True,
         )
 
     return (
-        len(changes),
+        len(conversions),
+        converted_link_count,
         len(skipped),
         False,
     )
@@ -1383,8 +1662,8 @@ def main() -> int:
 
     parser = argparse.ArgumentParser(
         description=(
-            "Convert standalone internal .md path code blocks "
-            "into clickable MkDocs links."
+            "Convert fenced internal .md documentation "
+            "references into clickable MkDocs links."
         )
     )
 
@@ -1410,7 +1689,7 @@ def main() -> int:
         "--verbose",
         action="store_true",
         help=(
-            "Show detailed conversions and skipped candidates."
+            "Show detailed conversions and skipped blocks."
         ),
     )
 
@@ -1418,9 +1697,8 @@ def main() -> int:
         "--context-check",
         action="store_true",
         help=(
-            "Require nearby prose indicating that the "
-            "standalone .md path is intended as a "
-            "documentation/navigation reference."
+            "Require nearby prose indicating that a fenced "
+            ".md block is intended as documentation navigation."
         ),
     )
 
@@ -1431,7 +1709,7 @@ def main() -> int:
     )
 
     # --------------------------------------------------------
-    # VALIDATE DOCS ROOT
+    # VALIDATE DOCUMENTATION ROOT
     # --------------------------------------------------------
 
     if not docs_root.exists():
@@ -1515,15 +1793,21 @@ def main() -> int:
         f"{'yes' if args.verbose else 'no'}"
     )
 
+    print(
+        "Multi-reference mode   : atomic"
+    )
+
     # --------------------------------------------------------
     # COUNTERS
     # --------------------------------------------------------
 
-    total_changes = 0
+    total_converted_blocks = 0
 
-    total_skipped = 0
+    total_converted_links = 0
 
-    matched_files = 0
+    total_skipped_blocks = 0
+
+    files_with_conversions = 0
 
     modified_files = 0
 
@@ -1533,7 +1817,12 @@ def main() -> int:
 
     for path in files:
 
-        changes, skipped, modified = process_file(
+        (
+            converted_blocks,
+            converted_links,
+            skipped_blocks,
+            modified,
+        ) = process_file(
             path=path,
             docs_root=docs_root,
             dry_run=args.dry_run,
@@ -1541,13 +1830,21 @@ def main() -> int:
             require_context=args.context_check,
         )
 
-        if changes:
+        if converted_blocks:
 
-            matched_files += 1
+            files_with_conversions += 1
 
-        total_changes += changes
+        total_converted_blocks += (
+            converted_blocks
+        )
 
-        total_skipped += skipped
+        total_converted_links += (
+            converted_links
+        )
+
+        total_skipped_blocks += (
+            skipped_blocks
+        )
 
         if modified:
 
@@ -1580,21 +1877,26 @@ def main() -> int:
 
     print(
         f"Files with conversions : "
-        f"{matched_files}"
+        f"{files_with_conversions}"
+    )
+
+    print(
+        f"Blocks to convert      : "
+        f"{total_converted_blocks}"
     )
 
     print(
         f"Links to convert       : "
-        f"{total_changes}"
+        f"{total_converted_links}"
     )
 
     print(
-        f"Candidates skipped     : "
-        f"{total_skipped}"
+        f"Blocks skipped         : "
+        f"{total_skipped_blocks}"
     )
 
     # --------------------------------------------------------
-    # DRY-RUN MESSAGE
+    # DRY RUN
     # --------------------------------------------------------
 
     if args.dry_run:
@@ -1605,7 +1907,7 @@ def main() -> int:
             "[*] DRY RUN ONLY - no files were modified."
         )
 
-        if total_changes:
+        if total_converted_blocks:
 
             print()
 
@@ -1630,6 +1932,21 @@ def main() -> int:
             print()
 
             print(
+                "[*] Save the full review if required:"
+            )
+
+            print()
+
+            print(
+                "    python3 scripts/"
+                "fix-internal-doc-links.py "
+                "--dry-run --verbose --context-check "
+                "> /tmp/internal-links-review.txt"
+            )
+
+            print()
+
+            print(
                 "[*] If the results look correct, apply with:"
             )
 
@@ -1646,12 +1963,12 @@ def main() -> int:
             print()
 
             print(
-                "[*] No safe internal documentation links "
-                "were identified."
+                "[*] No safe internal documentation "
+                "reference blocks were identified."
             )
 
     # --------------------------------------------------------
-    # WRITE-MODE MESSAGE
+    # WRITE MODE
     # --------------------------------------------------------
 
     else:
@@ -1661,7 +1978,7 @@ def main() -> int:
             f"{modified_files}"
         )
 
-        if total_changes:
+        if total_converted_blocks:
 
             print()
 
