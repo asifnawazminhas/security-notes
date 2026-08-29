@@ -5207,9 +5207,7 @@ Path Traversal
 
 ## OWASP gRPC Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/gRPC_Security_Cheat_Sheet.html
-```
+[OWASP gRPC Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/gRPC_Security_Cheat_Sheet.html)
 
 Use this as one of the primary security references.
 
@@ -5231,17 +5229,13 @@ Security testing
 
 ## Official gRPC Documentation
 
-```text
-https://grpc.io/docs/
-```
+[docs](https://grpc.io/docs/)
 
 ---
 
 ## gRPC Core Concepts
 
-```text
-https://grpc.io/docs/what-is-grpc/core-concepts/
-```
+[gRPC Core Concepts](https://grpc.io/docs/what-is-grpc/core-concepts/)
 
 Use this for:
 
@@ -5258,9 +5252,7 @@ Cancellation
 
 ## gRPC Guides
 
-```text
-https://grpc.io/docs/guides/
-```
+[gRPC Guides](https://grpc.io/docs/guides/)
 
 Official guides covering:
 
@@ -5279,17 +5271,13 @@ Keepalive
 
 ## gRPC Authentication
 
-```text
-https://grpc.io/docs/guides/auth/
-```
+[gRPC Authentication](https://grpc.io/docs/guides/auth/)
 
 ---
 
 ## gRPC Metadata
 
-```text
-https://grpc.io/docs/guides/metadata/
-```
+[gRPC Metadata](https://grpc.io/docs/guides/metadata/)
 
 Important for understanding:
 
@@ -5304,65 +5292,49 @@ Trailers
 
 ## gRPC Reflection
 
-```text
-https://grpc.io/docs/guides/reflection/
-```
+[gRPC Reflection](https://grpc.io/docs/guides/reflection/)
 
 ---
 
 ## gRPC Status Codes
 
-```text
-https://grpc.io/docs/guides/status-codes/
-```
+[gRPC Status Codes](https://grpc.io/docs/guides/status-codes/)
 
 ---
 
 ## gRPC Deadlines
 
-```text
-https://grpc.io/docs/guides/deadlines/
-```
+[gRPC Deadlines](https://grpc.io/docs/guides/deadlines/)
 
 ---
 
 ## gRPC Cancellation
 
-```text
-https://grpc.io/docs/guides/cancellation/
-```
+[gRPC Cancellation](https://grpc.io/docs/guides/cancellation/)
 
 ---
 
 ## gRPC Health Checking
 
-```text
-https://grpc.io/docs/guides/health-checking/
-```
+[gRPC Health Checking](https://grpc.io/docs/guides/health-checking/)
 
 ---
 
 ## Protocol Buffers
 
-```text
-https://protobuf.dev/
-```
+[Protocol Buffers](https://protobuf.dev/)
 
 ---
 
 ## Protocol Buffers Programming Guides
 
-```text
-https://protobuf.dev/programming-guides/
-```
+[Protocol Buffers Programming Guides](https://protobuf.dev/programming-guides/)
 
 ---
 
 ## grpcurl
 
-```text
-https://github.com/fullstorydev/grpcurl
-```
+[grpcurl](https://github.com/fullstorydev/grpcurl)
 
 `grpcurl` supports:
 
@@ -5382,9 +5354,7 @@ Streaming RPCs
 
 ## Burp Suite BApp Store
 
-```text
-https://portswigger.net/bappstore
-```
+[Burp Suite BApp Store](https://portswigger.net/bappstore)
 
 Look for current extensions relevant to:
 
@@ -5400,9 +5370,7 @@ Always verify the current extension version and maintenance status before relyin
 
 ## OWASP API Security
 
-```text
-https://owasp.org/API-Security/
-```
+[OWASP API Security](https://owasp.org/API-Security/)
 
 Many API security principles apply directly to gRPC services.
 

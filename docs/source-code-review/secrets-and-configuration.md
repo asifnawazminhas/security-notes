@@ -4949,207 +4949,139 @@ docs/web/third-party-javascript.md
 
 ## OWASP Secrets Management Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
-```
+[OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Configuration Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Cloud_Architecture_Cheat_Sheet.html
-```
+[OWASP Configuration Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Cloud_Architecture_Cheat_Sheet.html)
 
 ## OWASP Logging Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
-```
+[OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
 
 ## OWASP Transport Layer Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html
-```
+[OWASP Transport Layer Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html)
 
 ## OWASP HTTP Headers Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
-```
+[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
 
 ## OWASP Session Management Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
-```
+[OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
 
 ## OWASP Cross-Origin Resource Sharing Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/CORS_Configuration_Cheat_Sheet.html
-```
+[OWASP Cross-Origin Resource Sharing Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/CORS_Configuration_Cheat_Sheet.html)
 
 ## OWASP CSRF Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
-```
+[OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 
 ## OWASP Docker Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html
-```
+[OWASP Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
 
 ## OWASP Kubernetes Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Kubernetes_Security_Cheat_Sheet.html
-```
+[OWASP Kubernetes Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Kubernetes_Security_Cheat_Sheet.html)
 
 ## OWASP Third-Party JavaScript Management Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html
-```
+[OWASP Third-Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## Gitleaks
 
-```text
-https://github.com/gitleaks/gitleaks
-```
+[Gitleaks](https://github.com/gitleaks/gitleaks)
 
 ## Gitleaks Documentation
 
-```text
-https://gitleaks.io/
-```
+[gitleaks.io](https://gitleaks.io/)
 
 ## TruffleHog
 
-```text
-https://github.com/trufflesecurity/trufflehog
-```
+[TruffleHog](https://github.com/trufflesecurity/trufflehog)
 
 ## GitHub Secret Scanning
 
-```text
-https://docs.github.com/en/code-security/secret-scanning
-```
+[GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning)
 
 ## GitHub Push Protection
 
-```text
-https://docs.github.com/en/code-security/secret-scanning/introduction/about-push-protection
-```
+[GitHub Push Protection](https://docs.github.com/en/code-security/secret-scanning/introduction/about-push-protection)
 
 ## Microsoft ASP.NET Core Configuration
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/
-```
+[Microsoft ASP.NET Core Configuration](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/)
 
 ## Microsoft ASP.NET Core Safe Storage of App Secrets
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets
-```
+[Microsoft ASP.NET Core Safe Storage of App Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets)
 
 ## Spring Boot Externalized Configuration
 
-```text
-https://docs.spring.io/spring-boot/reference/features/external-config.html
-```
+[Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/reference/features/external-config.html)
 
 ## Django Settings
 
-```text
-https://docs.djangoproject.com/en/stable/ref/settings/
-```
+[Django Settings](https://docs.djangoproject.com/en/stable/ref/settings/)
 
 ## Flask Configuration
 
-```text
-https://flask.palletsprojects.com/en/stable/config/
-```
+[Flask Configuration](https://flask.palletsprojects.com/en/stable/config/)
 
 ## Express Production Security
 
-```text
-https://expressjs.com/en/advanced/best-practice-security.html
-```
+[Express Production Security](https://expressjs.com/en/advanced/best-practice-security.html)
 
 ## Kubernetes Secrets
 
-```text
-https://kubernetes.io/docs/concepts/configuration/secret/
-```
+[Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 ## Docker Build Secrets
 
-```text
-https://docs.docker.com/build/building/secrets/
-```
+[Docker Build Secrets](https://docs.docker.com/build/building/secrets/)
 
 ## HashiCorp Vault
 
-```text
-https://developer.hashicorp.com/vault/docs
-```
+[HashiCorp Vault](https://developer.hashicorp.com/vault/docs)
 
 ## AWS Secrets Manager
 
-```text
-https://docs.aws.amazon.com/secretsmanager/
-```
+[AWS Secrets Manager](https://docs.aws.amazon.com/secretsmanager/)
 
 ## Azure Key Vault
 
-```text
-https://learn.microsoft.com/en-us/azure/key-vault/
-```
+[Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/)
 
 ## Google Secret Manager
 
-```text
-https://cloud.google.com/secret-manager/docs
-```
+[Google Secret Manager](https://cloud.google.com/secret-manager/docs)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## CodeQL
 
-```text
-https://codeql.github.com/docs/
-```
+[CodeQL](https://codeql.github.com/docs/)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

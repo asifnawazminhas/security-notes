@@ -5125,87 +5125,59 @@ Repository-Wide Search
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## OpenGrep GitHub Repository
 
-```text
-https://github.com/opengrep/opengrep
-```
+[OpenGrep GitHub Repository](https://github.com/opengrep/opengrep)
 
 ## OpenGrep README
 
-```text
-https://github.com/opengrep/opengrep/blob/main/README.md
-```
+[OpenGrep README](https://github.com/opengrep/opengrep/blob/main/README.md)
 
 ## OpenGrep Changes Since the Fork
 
-```text
-https://github.com/opengrep/opengrep/blob/main/OPENGREP.md
-```
+[OpenGrep Changes Since the Fork](https://github.com/opengrep/opengrep/blob/main/OPENGREP.md)
 
 ## OpenGrep Wiki
 
-```text
-https://github.com/opengrep/opengrep/wiki
-```
+[OpenGrep Wiki](https://github.com/opengrep/opengrep/wiki)
 
 ## OpenGrep Intrafile Taint Analysis
 
-```text
-https://github.com/opengrep/opengrep/wiki/Intrafile-tainting-tutorial
-```
+[OpenGrep Intrafile Taint Analysis](https://github.com/opengrep/opengrep/wiki/Intrafile-tainting-tutorial)
 
 ## OpenGrep Higher-Order Function Taint Analysis
 
-```text
-https://github.com/opengrep/opengrep/wiki/Higher-order-functions-tutorial
-```
+[OpenGrep Higher-Order Function Taint Analysis](https://github.com/opengrep/opengrep/wiki/Higher-order-functions-tutorial)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/
-```
+[Semgrep](https://semgrep.dev/)
 
 ## Semgrep Rule Syntax
 
-```text
-https://semgrep.dev/docs/writing-rules/rule-syntax
-```
+[Semgrep Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax)
 
 ## CodeQL
 
-```text
-https://codeql.github.com/docs/
-```
+[CodeQL](https://codeql.github.com/docs/)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Static Code Analysis
 
-```text
-https://owasp.org/www-community/controls/Static_Code_Analysis
-```
+[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis)
 
 ## Visual Studio Code
 
-```text
-https://code.visualstudio.com/docs
-```
+[Visual Studio Code](https://code.visualstudio.com/docs)
 
 ---
 

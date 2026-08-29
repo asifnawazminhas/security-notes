@@ -6322,141 +6322,95 @@ Only then should a source-code pattern be classified as a confirmed vulnerabilit
 
 ## Python Documentation
 
-```text
-https://docs.python.org/3/
-```
+[3](https://docs.python.org/3/)
 
 ## Python Security Considerations
 
-```text
-https://docs.python.org/3/library/security_warnings.html
-```
+[Python Security Considerations](https://docs.python.org/3/library/security_warnings.html)
 
 ## subprocess
 
-```text
-https://docs.python.org/3/library/subprocess.html
-```
+[subprocess](https://docs.python.org/3/library/subprocess.html)
 
 ## pickle
 
-```text
-https://docs.python.org/3/library/pickle.html
-```
+[pickle](https://docs.python.org/3/library/pickle.html)
 
 ## secrets
 
-```text
-https://docs.python.org/3/library/secrets.html
-```
+[secrets](https://docs.python.org/3/library/secrets.html)
 
 ## tempfile
 
-```text
-https://docs.python.org/3/library/tempfile.html
-```
+[tempfile](https://docs.python.org/3/library/tempfile.html)
 
 ## pathlib
 
-```text
-https://docs.python.org/3/library/pathlib.html
-```
+[pathlib](https://docs.python.org/3/library/pathlib.html)
 
 ## urllib.parse
 
-```text
-https://docs.python.org/3/library/urllib.parse.html
-```
+[urllib.parse](https://docs.python.org/3/library/urllib.parse.html)
 
 ## XML Security
 
-```text
-https://docs.python.org/3/library/xml.html
-```
+[XML Security](https://docs.python.org/3/library/xml.html)
 
 ## PyYAML
 
-```text
-https://pyyaml.org/wiki/PyYAMLDocumentation
-```
+[PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
 ## Requests
 
-```text
-https://requests.readthedocs.io/
-```
+[Requests](https://requests.readthedocs.io/)
 
 ## SQLAlchemy
 
-```text
-https://docs.sqlalchemy.org/
-```
+[SQLAlchemy](https://docs.sqlalchemy.org/)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## CodeQL for Python
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/
-```
+[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/)
 
 ## Bandit
 
-```text
-https://bandit.readthedocs.io/
-```
+[Bandit](https://bandit.readthedocs.io/)
 
 ## pip-audit
 
-```text
-https://github.com/pypa/pip-audit
-```
+[pip-audit](https://github.com/pypa/pip-audit)
 
 ## OSV-Scanner
 
-```text
-https://github.com/google/osv-scanner
-```
+[OSV-Scanner](https://github.com/google/osv-scanner)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

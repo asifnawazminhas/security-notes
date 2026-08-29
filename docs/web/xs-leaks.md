@@ -5044,9 +5044,7 @@ Or conceptually:
 
 ## OWASP Cross-Site Leaks Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/XS_Leaks_Cheat_Sheet.html
-```
+[OWASP Cross-Site Leaks Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XS_Leaks_Cheat_Sheet.html)
 
 This should be one of the primary references for this note.
 
@@ -5070,9 +5068,7 @@ Framing protection
 
 ## XS-Leaks Wiki
 
-```text
-https://xsleaks.dev/
-```
+[XS-Leaks Wiki](https://xsleaks.dev/)
 
 A dedicated reference for XS-Leak techniques and browser side channels.
 
@@ -5082,9 +5078,7 @@ Use this when researching individual XS-Leak classes.
 
 ## MDN Cross-Site Leaks
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XS-Leaks
-```
+[MDN Cross-Site Leaks](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XS-Leaks)
 
 Current browser-focused explanation of XS-Leaks and mitigations.
 
@@ -5092,9 +5086,7 @@ Current browser-focused explanation of XS-Leaks and mitigations.
 
 ## MDN Same-Origin Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
-```
+[MDN Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
 Essential background for understanding why XS-Leaks are possible.
 
@@ -5102,9 +5094,7 @@ Essential background for understanding why XS-Leaks are possible.
 
 ## MDN Fetch Metadata
 
-```text
-https://developer.mozilla.org/en-US/docs/Glossary/Fetch_metadata_request_header
-```
+[MDN Fetch Metadata](https://developer.mozilla.org/en-US/docs/Glossary/Fetch_metadata_request_header)
 
 Useful background for:
 
@@ -5119,9 +5109,7 @@ Sec-Fetch-User
 
 ## MDN Sec-Fetch-Site
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site
-```
+[MDN Sec-Fetch-Site](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site)
 
 Reference for the request initiator relationship header.
 
@@ -5129,9 +5117,7 @@ Reference for the request initiator relationship header.
 
 ## MDN Cross-Origin-Opener-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy
-```
+[MDN Cross-Origin-Opener-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy)
 
 Important reference for window and browsing-context isolation.
 
@@ -5139,9 +5125,7 @@ Important reference for window and browsing-context isolation.
 
 ## MDN Cross-Origin-Resource-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy
-```
+[MDN Cross-Origin-Resource-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy)
 
 Reference for restricting cross-origin resource loading.
 
@@ -5149,9 +5133,7 @@ Reference for restricting cross-origin resource loading.
 
 ## MDN Cross-Origin-Embedder-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy
-```
+[MDN Cross-Origin-Embedder-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy)
 
 Reference for cross-origin embedding restrictions and cross-origin isolation.
 
@@ -5159,9 +5141,7 @@ Reference for cross-origin embedding restrictions and cross-origin isolation.
 
 ## MDN Window.postMessage
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-```
+[MDN Window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
 
 Reference for secure cross-origin window messaging.
 
@@ -5169,9 +5149,7 @@ Reference for secure cross-origin window messaging.
 
 ## OWASP HTTP Headers Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
-```
+[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
 
 Useful when reviewing:
 
@@ -5186,9 +5164,7 @@ Other isolation headers
 
 ## OWASP Content Security Policy Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html
-```
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
 
 Useful for:
 
@@ -5202,9 +5178,7 @@ and related CSP controls.
 
 ## PortSwigger BApp Store
 
-```text
-https://portswigger.net/bappstore
-```
+[PortSwigger BApp Store](https://portswigger.net/bappstore)
 
 Check current Burp extensions before relying on third-party tooling.
 

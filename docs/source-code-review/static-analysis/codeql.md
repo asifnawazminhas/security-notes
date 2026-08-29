@@ -5182,123 +5182,83 @@ Custom CodeQL Query
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ## GitHub CodeQL Documentation
 
-```text
-https://docs.github.com/en/code-security/codeql-cli
-```
+[codeql cli](https://docs.github.com/en/code-security/codeql-cli)
 
 ## CodeQL CLI
 
-```text
-https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-the-command-line/set-up-codeql-cli
-```
+[CodeQL CLI](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-the-command-line/set-up-codeql-cli)
 
 ## Preparing Code for CodeQL Analysis
 
-```text
-https://docs.github.com/en/code-security/tutorials/customize-code-scanning/prepare-code-for-analysis
-```
+[Preparing Code for CodeQL Analysis](https://docs.github.com/en/code-security/tutorials/customize-code-scanning/prepare-code-for-analysis)
 
 ## CodeQL Query Suites
 
-```text
-https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-query-suites
-```
+[CodeQL Query Suites](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-query-suites)
 
 ## CodeQL Queries
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/
-```
+[CodeQL Queries](https://codeql.github.com/docs/writing-codeql-queries/)
 
 ## About CodeQL Queries
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/about-codeql-queries/
-```
+[About CodeQL Queries](https://codeql.github.com/docs/writing-codeql-queries/about-codeql-queries/)
 
 ## Data Flow Analysis
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/
-```
+[Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
 
 ## Creating Path Queries
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/
-```
+[Creating Path Queries](https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/)
 
 ## CodeQL for Visual Studio Code
 
-```text
-https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-for-vs-code
-```
+[CodeQL for Visual Studio Code](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-for-vs-code)
 
 ## Scan from Visual Studio Code
 
-```text
-https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-vs-code
-```
+[Scan from Visual Studio Code](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-vs-code)
 
 ## JavaScript / TypeScript Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/
-```
+[JavaScript / TypeScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/)
 
 ## JavaScript Data Flow Cheat Sheet
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/data-flow-cheat-sheet-for-javascript/
-```
+[JavaScript Data Flow Cheat Sheet](https://codeql.github.com/docs/codeql-language-guides/data-flow-cheat-sheet-for-javascript/)
 
 ## Python Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-python/
-```
+[Python Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-python/)
 
 ## Java / Kotlin Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/
-```
+[Java / Kotlin Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/)
 
 ## C# Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-csharp/
-```
+[C# Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-csharp/)
 
 ## CodeQL GitHub Repository
 
-```text
-https://github.com/github/codeql
-```
+[CodeQL GitHub Repository](https://github.com/github/codeql)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Static Code Analysis
 
-```text
-https://owasp.org/www-community/controls/Static_Code_Analysis
-```
+[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis)
 
 ---
 

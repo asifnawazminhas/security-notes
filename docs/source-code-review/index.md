@@ -4479,105 +4479,79 @@ Impact determines whether there is a vulnerability worth reporting.
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ---
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ---
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ---
 
 ## OWASP Application Security Verification Standard
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
 
 ---
 
 ## OWASP Top 10
 
-```text
-https://owasp.org/www-project-top-ten/
-```
+[OWASP Top 10](https://owasp.org/www-project-top-ten/)
 
 ---
 
 ## OWASP API Security Project
 
-```text
-https://owasp.org/www-project-api-security/
-```
+[OWASP API Security Project](https://owasp.org/www-project-api-security/)
 
 ---
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ---
 
 ## Semgrep
 
-```text
-https://semgrep.dev/
-```
+[Semgrep](https://semgrep.dev/)
 
 ---
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ---
 
 ## CodeQL
 
-```text
-https://codeql.github.com/
-```
+[CodeQL](https://codeql.github.com/)
 
 ---
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ---
 
 ## GitHub CodeQL
 
-```text
-https://github.com/github/codeql
-```
+[GitHub CodeQL](https://github.com/github/codeql)
 
 ---
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

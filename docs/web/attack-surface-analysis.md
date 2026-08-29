@@ -4933,105 +4933,79 @@ and where security testing should focus.
 
 ## OWASP Attack Surface Analysis Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html
-```
+[OWASP Attack Surface Analysis Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html)
 
 ---
 
 ## OWASP Web Security Testing Guide - Information Gathering
 
-```text
-https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/
-```
+[OWASP Web Security Testing Guide - Information Gathering](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/)
 
 ---
 
 ## OWASP WSTG - Attack Surface Identification
 
-```text
-https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Attack_Surface_Identification/
-```
+[OWASP WSTG - Attack Surface Identification](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Attack_Surface_Identification/)
 
 ---
 
 ## OWASP WSTG - Identify Application Entry Points
 
-```text
-https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points/
-```
+[OWASP WSTG - Identify Application Entry Points](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points/)
 
 ---
 
 ## OWASP WSTG - Map Execution Paths Through Application
 
-```text
-https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/07-Map_Execution_Paths_Through_Application/
-```
+[OWASP WSTG - Map Execution Paths Through Application](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/07-Map_Execution_Paths_Through_Application/)
 
 ---
 
 ## OWASP WSTG - Map Application Architecture
 
-```text
-https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture/
-```
+[OWASP WSTG - Map Application Architecture](https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture/)
 
 ---
 
 ## PortSwigger Burp Target Scope
 
-```text
-https://portswigger.net/burp/documentation/desktop/tools/target/scope
-```
+[PortSwigger Burp Target Scope](https://portswigger.net/burp/documentation/desktop/tools/target/scope)
 
 ---
 
 ## PortSwigger Burp Target Site Map
 
-```text
-https://portswigger.net/burp/documentation/desktop/tools/target/site-map
-```
+[PortSwigger Burp Target Site Map](https://portswigger.net/burp/documentation/desktop/tools/target/site-map)
 
 ---
 
 ## PortSwigger BApp Store
 
-```text
-https://portswigger.net/bappstore
-```
+[PortSwigger BApp Store](https://portswigger.net/bappstore)
 
 ---
 
 ## ProjectDiscovery Subfinder
 
-```text
-https://github.com/projectdiscovery/subfinder
-```
+[ProjectDiscovery Subfinder](https://github.com/projectdiscovery/subfinder)
 
 ---
 
 ## ProjectDiscovery DNSX
 
-```text
-https://github.com/projectdiscovery/dnsx
-```
+[ProjectDiscovery DNSX](https://github.com/projectdiscovery/dnsx)
 
 ---
 
 ## ProjectDiscovery HTTPX
 
-```text
-https://github.com/projectdiscovery/httpx
-```
+[ProjectDiscovery HTTPX](https://github.com/projectdiscovery/httpx)
 
 ---
 
 ## ProjectDiscovery Katana
 
-```text
-https://github.com/projectdiscovery/katana
-```
+[ProjectDiscovery Katana](https://github.com/projectdiscovery/katana)
 
 ---
 

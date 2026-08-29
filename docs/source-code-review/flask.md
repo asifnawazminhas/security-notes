@@ -5141,177 +5141,119 @@ Only then classify the candidate as a confirmed vulnerability.
 
 ## Flask Documentation
 
-```text
-https://flask.palletsprojects.com/
-```
+[flask.palletsprojects.com](https://flask.palletsprojects.com/)
 
 ## Flask Security Considerations
 
-```text
-https://flask.palletsprojects.com/en/stable/web-security/
-```
+[Flask Security Considerations](https://flask.palletsprojects.com/en/stable/web-security/)
 
 ## Flask Configuration
 
-```text
-https://flask.palletsprojects.com/en/stable/config/
-```
+[Flask Configuration](https://flask.palletsprojects.com/en/stable/config/)
 
 ## Flask Request Object
 
-```text
-https://flask.palletsprojects.com/en/stable/api/#flask.Request
-```
+[Flask Request Object](https://flask.palletsprojects.com/en/stable/api/#flask.Request)
 
 ## Flask File Uploads
 
-```text
-https://flask.palletsprojects.com/en/stable/patterns/fileuploads/
-```
+[Flask File Uploads](https://flask.palletsprojects.com/en/stable/patterns/fileuploads/)
 
 ## Flask Deployment
 
-```text
-https://flask.palletsprojects.com/en/stable/deploying/
-```
+[Flask Deployment](https://flask.palletsprojects.com/en/stable/deploying/)
 
 ## Werkzeug
 
-```text
-https://werkzeug.palletsprojects.com/
-```
+[Werkzeug](https://werkzeug.palletsprojects.com/)
 
 ## Werkzeug ProxyFix
 
-```text
-https://werkzeug.palletsprojects.com/en/stable/middleware/proxy_fix/
-```
+[Werkzeug ProxyFix](https://werkzeug.palletsprojects.com/en/stable/middleware/proxy_fix/)
 
 ## Werkzeug Utilities
 
-```text
-https://werkzeug.palletsprojects.com/en/stable/utils/
-```
+[Werkzeug Utilities](https://werkzeug.palletsprojects.com/en/stable/utils/)
 
 ## Jinja Documentation
 
-```text
-https://jinja.palletsprojects.com/
-```
+[jinja.palletsprojects.com](https://jinja.palletsprojects.com/)
 
 ## Flask-Login
 
-```text
-https://flask-login.readthedocs.io/
-```
+[Flask-Login](https://flask-login.readthedocs.io/)
 
 ## Flask-WTF
 
-```text
-https://flask-wtf.readthedocs.io/
-```
+[Flask-WTF](https://flask-wtf.readthedocs.io/)
 
 ## Flask-CORS
 
-```text
-https://flask-cors.readthedocs.io/
-```
+[Flask-CORS](https://flask-cors.readthedocs.io/)
 
 ## Flask-Limiter
 
-```text
-https://flask-limiter.readthedocs.io/
-```
+[Flask-Limiter](https://flask-limiter.readthedocs.io/)
 
 ## Flask-JWT-Extended
 
-```text
-https://flask-jwt-extended.readthedocs.io/
-```
+[Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/)
 
 ## Flask-SQLAlchemy
 
-```text
-https://flask-sqlalchemy.palletsprojects.com/
-```
+[Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
 
 ## SQLAlchemy
 
-```text
-https://docs.sqlalchemy.org/
-```
+[SQLAlchemy](https://docs.sqlalchemy.org/)
 
 ## Python subprocess
 
-```text
-https://docs.python.org/3/library/subprocess.html
-```
+[Python subprocess](https://docs.python.org/3/library/subprocess.html)
 
 ## Python pickle
 
-```text
-https://docs.python.org/3/library/pickle.html
-```
+[Python pickle](https://docs.python.org/3/library/pickle.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## CodeQL for Python
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/
-```
+[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/)
 
 ## Bandit
 
-```text
-https://bandit.readthedocs.io/
-```
+[Bandit](https://bandit.readthedocs.io/)
 
 ## pip-audit
 
-```text
-https://github.com/pypa/pip-audit
-```
+[pip-audit](https://github.com/pypa/pip-audit)
 
 ## OSV-Scanner
 
-```text
-https://github.com/google/osv-scanner
-```
+[OSV-Scanner](https://github.com/google/osv-scanner)
 
 ---
 

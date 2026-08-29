@@ -3312,114 +3312,76 @@ ADFS
 
 ## Microsoft - Active Directory Domain Services
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/
-```
+[Microsoft - Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/)
 
 ## Microsoft - Active Directory Domain Services Overview
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview
-```
+[Microsoft - Active Directory Domain Services Overview](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview)
 
 ## Microsoft - Kerberos Authentication
 
-```text
-https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview
-```
+[Microsoft - Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview)
 
 ## Microsoft - NTLM Overview
 
-```text
-https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview
-```
+[Microsoft - NTLM Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview)
 
 ## Microsoft - Group Policy
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview
-```
+[Microsoft - Group Policy](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview)
 
 ## Microsoft - Active Directory Certificate Services
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview
-```
+[Microsoft - Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview)
 
 ## Microsoft - LDAP
 
-```text
-https://learn.microsoft.com/en-us/windows/win32/adsi/ldap-adspath
-```
+[Microsoft - LDAP](https://learn.microsoft.com/en-us/windows/win32/adsi/ldap-adspath)
 
 ## BloodHound
 
-```text
-https://bloodhound.specterops.io/
-```
+[BloodHound](https://bloodhound.specterops.io/)
 
 ## NetExec
 
-```text
-https://www.netexec.wiki/
-```
+[NetExec](https://www.netexec.wiki/)
 
 ## NetExec GitHub
 
-```text
-https://github.com/Pennyw0rth/NetExec
-```
+[NetExec GitHub](https://github.com/Pennyw0rth/NetExec)
 
 ## Impacket
 
-```text
-https://github.com/fortra/impacket
-```
+[Impacket](https://github.com/fortra/impacket)
 
 ## Responder
 
-```text
-https://github.com/lgandx/Responder
-```
+[Responder](https://github.com/lgandx/Responder)
 
 ## Certipy
 
-```text
-https://github.com/ly4k/Certipy
-```
+[Certipy](https://github.com/ly4k/Certipy)
 
 ## bloodyAD
 
-```text
-https://github.com/CravateRouge/bloodyAD
-```
+[bloodyAD](https://github.com/CravateRouge/bloodyAD)
 
 ## PowerView
 
-```text
-https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon
-```
+[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon)
 
 ## Rubeus
 
-```text
-https://github.com/GhostPack/Rubeus
-```
+[Rubeus](https://github.com/GhostPack/Rubeus)
 
 ## Ligolo-ng
 
-```text
-https://github.com/nicocha30/ligolo-ng
-```
+[Ligolo-ng](https://github.com/nicocha30/ligolo-ng)
 
 ## Chisel
 
-```text
-https://github.com/jpillora/chisel
-```
+[Chisel](https://github.com/jpillora/chisel)
 
 ## InternalAllTheThings - Active Directory
 
-```text
-https://swisskyrepo.github.io/InternalAllTheThings/active-directory/
-```
+[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/)

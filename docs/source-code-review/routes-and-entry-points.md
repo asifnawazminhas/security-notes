@@ -4766,141 +4766,95 @@ docs/web/rate-limiting.md
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Web Security Testing Guide - Attack Surface Identification
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide - Attack Surface Identification](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP REST Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html
-```
+[OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
 
 ## OWASP GraphQL Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
-```
+[OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html)
 
 ## OWASP Authorization Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
-```
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
 
 ## OWASP Authentication Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
-```
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 
 ## PortSwigger Web Security Academy
 
-```text
-https://portswigger.net/web-security
-```
+[PortSwigger Web Security Academy](https://portswigger.net/web-security)
 
 ## ASP.NET Core Routing
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing
-```
+[ASP.NET Core Routing](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing)
 
 ## Spring Web MVC
 
-```text
-https://docs.spring.io/spring-framework/reference/web/webmvc.html
-```
+[Spring Web MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
 
 ## Django URL Dispatcher
 
-```text
-https://docs.djangoproject.com/en/stable/topics/http/urls/
-```
+[Django URL Dispatcher](https://docs.djangoproject.com/en/stable/topics/http/urls/)
 
 ## Django REST Framework Routers
 
-```text
-https://www.django-rest-framework.org/api-guide/routers/
-```
+[Django REST Framework Routers](https://www.django-rest-framework.org/api-guide/routers/)
 
 ## Flask Routing
 
-```text
-https://flask.palletsprojects.com/
-```
+[Flask Routing](https://flask.palletsprojects.com/)
 
 ## Express Routing
 
-```text
-https://expressjs.com/en/guide/routing.html
-```
+[Express Routing](https://expressjs.com/en/guide/routing.html)
 
 ## FastAPI
 
-```text
-https://fastapi.tiangolo.com/
-```
+[FastAPI](https://fastapi.tiangolo.com/)
 
 ## GraphQL
 
-```text
-https://graphql.org/
-```
+[GraphQL](https://graphql.org/)
 
 ## gRPC
 
-```text
-https://grpc.io/docs/
-```
+[gRPC](https://grpc.io/docs/)
 
 ## OpenAPI
 
-```text
-https://www.openapis.org/
-```
+[OpenAPI](https://www.openapis.org/)
 
 ## CodeQL
 
-```text
-https://codeql.github.com/docs/
-```
+[CodeQL](https://codeql.github.com/docs/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ## Visual Studio Code
 
-```text
-https://code.visualstudio.com/docs
-```
+[Visual Studio Code](https://code.visualstudio.com/docs)
 
 ---
 

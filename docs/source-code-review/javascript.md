@@ -5240,195 +5240,131 @@ Only then classify the candidate as a confirmed vulnerability.
 
 ## MDN Web Security
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/Security
-```
+[MDN Web Security](https://developer.mozilla.org/en-US/docs/Web/Security)
 
 ## MDN Cross-Site Scripting
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XSS
-```
+[MDN Cross-Site Scripting](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/XSS)
 
 ## MDN innerHTML
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
-```
+[MDN innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
 
 ## MDN insertAdjacentHTML
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
-```
+[MDN insertAdjacentHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML)
 
 ## MDN postMessage
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-```
+[MDN postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
 
 ## MDN Web Storage
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
-```
+[MDN Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)
 
 ## MDN Content Security Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP
-```
+[MDN Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)
 
 ## MDN Subresource Integrity
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity
-```
+[MDN Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity)
 
 ## MDN Trusted Types
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API
-```
+[MDN Trusted Types](https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API)
 
 ## MDN Service Worker API
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
-```
+[MDN Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
 
 ## MDN Web Workers
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API
-```
+[MDN Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
 
 ## MDN Web Crypto API
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API
-```
+[MDN Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
 ## OWASP DOM Based XSS Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html
-```
+[OWASP DOM Based XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html)
 
 ## OWASP Cross Site Scripting Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
-```
+[OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 
 ## OWASP Third Party JavaScript Management Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html
-```
+[OWASP Third Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html)
 
 ## OWASP HTML5 Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html
-```
+[OWASP HTML5 Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html)
 
 ## OWASP Content Security Policy Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html
-```
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## PortSwigger DOM-Based Vulnerabilities
 
-```text
-https://portswigger.net/web-security/dom-based
-```
+[PortSwigger DOM-Based Vulnerabilities](https://portswigger.net/web-security/dom-based)
 
 ## PortSwigger DOM XSS
 
-```text
-https://portswigger.net/web-security/cross-site-scripting/dom-based
-```
+[PortSwigger DOM XSS](https://portswigger.net/web-security/cross-site-scripting/dom-based)
 
 ## PortSwigger DOM Invader
 
-```text
-https://portswigger.net/burp/documentation/desktop/tools/dom-invader
-```
+[PortSwigger DOM Invader](https://portswigger.net/burp/documentation/desktop/tools/dom-invader)
 
 ## DOMPurify
 
-```text
-https://github.com/cure53/DOMPurify
-```
+[DOMPurify](https://github.com/cure53/DOMPurify)
 
 ## React dangerouslySetInnerHTML
 
-```text
-https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html
-```
+[React dangerouslySetInnerHTML](https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html)
 
 ## Angular Security
 
-```text
-https://angular.dev/best-practices/security
-```
+[Angular Security](https://angular.dev/best-practices/security)
 
 ## Vue Security
 
-```text
-https://vuejs.org/guide/best-practices/security.html
-```
+[Vue Security](https://vuejs.org/guide/best-practices/security.html)
 
 ## Svelte HTML
 
-```text
-https://svelte.dev/docs/svelte/@html
-```
+[Svelte HTML](https://svelte.dev/docs/svelte/@html)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## CodeQL for JavaScript and TypeScript
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/
-```
+[CodeQL for JavaScript and TypeScript](https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/)
 
 ## CodeQL JavaScript Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/
-```
+[CodeQL JavaScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/)
 
 ## Retire.js
 
-```text
-https://github.com/RetireJS/retire.js
-```
+[Retire.js](https://github.com/RetireJS/retire.js)
 
 ---
 

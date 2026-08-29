@@ -3652,81 +3652,55 @@ Each note focuses on using the individual tool during practical security source 
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Application Security Verification Standard
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## Visual Studio Code
 
-```text
-https://code.visualstudio.com/docs
-```
+[Visual Studio Code](https://code.visualstudio.com/docs)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ## OpenGrep
 
-```text
-https://github.com/opengrep/opengrep
-```
+[OpenGrep](https://github.com/opengrep/opengrep)
 
 ## OpenGrep Documentation
 
-```text
-https://opengrep.dev/
-```
+[opengrep.dev](https://opengrep.dev/)
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ## CodeQL Data Flow Analysis
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/
-```
+[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
 
 ## GitHub Code Scanning
 
-```text
-https://docs.github.com/en/code-security/code-scanning
-```
+[GitHub Code Scanning](https://docs.github.com/en/code-security/code-scanning)
 
 ## SARIF
 
-```text
-https://sarifweb.azurewebsites.net/
-```
+[SARIF](https://sarifweb.azurewebsites.net/)
 
 ---
 

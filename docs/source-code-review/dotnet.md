@@ -5918,135 +5918,91 @@ Only after those have been established should a source-code pattern be treated a
 
 ## Microsoft ASP.NET Core Security
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/
-```
+[Microsoft ASP.NET Core Security](https://learn.microsoft.com/en-us/aspnet/core/security/)
 
 ## ASP.NET Core Authentication
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/authentication/
-```
+[ASP.NET Core Authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/)
 
 ## ASP.NET Core Authorization
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction
-```
+[ASP.NET Core Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction)
 
 ## ASP.NET Core Anti-Request-Forgery
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery
-```
+[ASP.NET Core Anti-Request-Forgery](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery)
 
 ## ASP.NET Core CORS
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/cors
-```
+[ASP.NET Core CORS](https://learn.microsoft.com/en-us/aspnet/core/security/cors)
 
 ## ASP.NET Core Data Protection
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/
-```
+[ASP.NET Core Data Protection](https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/)
 
 ## ASP.NET Core File Uploads
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads
-```
+[ASP.NET Core File Uploads](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads)
 
 ## ASP.NET Core Model Binding
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
-```
+[ASP.NET Core Model Binding](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding)
 
 ## ASP.NET Core Model Validation
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation
-```
+[ASP.NET Core Model Validation](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation)
 
 ## ASP.NET Core Rate Limiting
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit
-```
+[ASP.NET Core Rate Limiting](https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit)
 
 ## Entity Framework Core SQL Queries
 
-```text
-https://learn.microsoft.com/en-us/ef/core/querying/sql-queries
-```
+[Entity Framework Core SQL Queries](https://learn.microsoft.com/en-us/ef/core/querying/sql-queries)
 
 ## .NET ProcessStartInfo
 
-```text
-https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo
-```
+[.NET ProcessStartInfo](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo)
 
 ## .NET HttpClient
 
-```text
-https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient
-```
+[.NET HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
 
 ## .NET BinaryFormatter Security Guide
 
-```text
-https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide
-```
+[.NET BinaryFormatter Security Guide](https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/
-```
+[Semgrep](https://semgrep.dev/)
 
 ## CodeQL for C#
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-csharp/
-```
+[CodeQL for C](https://codeql.github.com/docs/codeql-language-guides/codeql-for-csharp/)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

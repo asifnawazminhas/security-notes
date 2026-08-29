@@ -5893,177 +5893,119 @@ Only then classify a candidate as a confirmed vulnerability.
 
 ## Node.js Documentation
 
-```text
-https://nodejs.org/docs/latest/api/
-```
+[api](https://nodejs.org/docs/latest/api/)
 
 ## Node.js Child Processes
 
-```text
-https://nodejs.org/api/child_process.html
-```
+[Node.js Child Processes](https://nodejs.org/api/child_process.html)
 
 ## Node.js File System
 
-```text
-https://nodejs.org/api/fs.html
-```
+[Node.js File System](https://nodejs.org/api/fs.html)
 
 ## Node.js Crypto
 
-```text
-https://nodejs.org/api/crypto.html
-```
+[Node.js Crypto](https://nodejs.org/api/crypto.html)
 
 ## Node.js HTTP
 
-```text
-https://nodejs.org/api/http.html
-```
+[Node.js HTTP](https://nodejs.org/api/http.html)
 
 ## Express Documentation
 
-```text
-https://expressjs.com/
-```
+[expressjs.com](https://expressjs.com/)
 
 ## Express API
 
-```text
-https://expressjs.com/en/api.html
-```
+[Express API](https://expressjs.com/en/api.html)
 
 ## Express Security Best Practices
 
-```text
-https://expressjs.com/en/advanced/best-practice-security.html
-```
+[Express Security Best Practices](https://expressjs.com/en/advanced/best-practice-security.html)
 
 ## Express Production Best Practices
 
-```text
-https://expressjs.com/en/advanced/best-practice-performance.html
-```
+[Express Production Best Practices](https://expressjs.com/en/advanced/best-practice-performance.html)
 
 ## Express Behind Proxies
 
-```text
-https://expressjs.com/en/guide/behind-proxies.html
-```
+[Express Behind Proxies](https://expressjs.com/en/guide/behind-proxies.html)
 
 ## express-session
 
-```text
-https://expressjs.com/en/resources/middleware/session.html
-```
+[express-session](https://expressjs.com/en/resources/middleware/session.html)
 
 ## Helmet
 
-```text
-https://helmetjs.github.io/
-```
+[Helmet](https://helmetjs.github.io/)
 
 ## Mongoose
 
-```text
-https://mongoosejs.com/docs/
-```
+[Mongoose](https://mongoosejs.com/docs/)
 
 ## MongoDB Node.js Driver
 
-```text
-https://www.mongodb.com/docs/drivers/node/current/
-```
+[MongoDB Node.js Driver](https://www.mongodb.com/docs/drivers/node/current/)
 
 ## Sequelize
 
-```text
-https://sequelize.org/docs/
-```
+[Sequelize](https://sequelize.org/docs/)
 
 ## Prisma
 
-```text
-https://www.prisma.io/docs/
-```
+[Prisma](https://www.prisma.io/docs/)
 
 ## Knex
 
-```text
-https://knexjs.org/
-```
+[Knex](https://knexjs.org/)
 
 ## jsonwebtoken
 
-```text
-https://github.com/auth0/node-jsonwebtoken
-```
+[jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP Node.js Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html
-```
+[OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## CodeQL for JavaScript and TypeScript
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/
-```
+[CodeQL for JavaScript and TypeScript](https://codeql.github.com/docs/codeql-language-guides/codeql-for-javascript/)
 
 ## CodeQL JavaScript Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/
-```
+[CodeQL JavaScript Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-javascript-and-typescript/)
 
 ## npm audit
 
-```text
-https://docs.npmjs.com/cli/commands/npm-audit
-```
+[npm audit](https://docs.npmjs.com/cli/commands/npm-audit)
 
 ## OSV-Scanner
 
-```text
-https://github.com/google/osv-scanner
-```
+[OSV-Scanner](https://github.com/google/osv-scanner)
 
 ---
 

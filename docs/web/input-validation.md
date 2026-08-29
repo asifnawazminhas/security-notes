@@ -5184,105 +5184,79 @@ Secure Error Handling
 
 ## OWASP Input Validation Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
-```
+[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
 
 ---
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ---
 
 ## OWASP WSTG - Input Validation Testing
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/
-```
+[OWASP WSTG - Input Validation Testing](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/)
 
 ---
 
 ## OWASP Injection Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html
-```
+[OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
 
 ---
 
 ## OWASP SQL Injection Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html
-```
+[OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
 
 ---
 
 ## OWASP Cross Site Scripting Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
-```
+[OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 
 ---
 
 ## OWASP File Upload Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
-```
+[OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
 
 ---
 
 ## OWASP SSRF Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
-```
+[OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
 
 ---
 
 ## OWASP OS Command Injection Defense Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html
-```
+[OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html)
 
 ---
 
 ## PortSwigger Web Security Academy
 
-```text
-https://portswigger.net/web-security
-```
+[PortSwigger Web Security Academy](https://portswigger.net/web-security)
 
 ---
 
 ## PortSwigger BApp Store
 
-```text
-https://portswigger.net/bappstore
-```
+[PortSwigger BApp Store](https://portswigger.net/bappstore)
 
 ---
 
 ## PortSwigger Content Type Converter
 
-```text
-https://portswigger.net/bappstore/db57ecbe2cb7446292a94aa6181c9278
-```
+[PortSwigger Content Type Converter](https://portswigger.net/bappstore/db57ecbe2cb7446292a94aa6181c9278)
 
 ---
 
 ## PortSwigger Param Miner
 
-```text
-https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943
-```
+[PortSwigger Param Miner](https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943)
 
 ---
 

@@ -3891,84 +3891,56 @@ ADFS
 
 ## Microsoft - Active Directory Domain Services
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/
-```
+[Microsoft - Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/)
 
 ## Microsoft - Active Directory PowerShell
 
-```text
-https://learn.microsoft.com/en-us/powershell/module/activedirectory/
-```
+[Microsoft - Active Directory PowerShell](https://learn.microsoft.com/en-us/powershell/module/activedirectory/)
 
 ## Microsoft - Kerberos Authentication
 
-```text
-https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview
-```
+[Microsoft - Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview)
 
 ## Microsoft - NTLM
 
-```text
-https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview
-```
+[Microsoft - NTLM](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview)
 
 ## Microsoft - Group Policy
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview
-```
+[Microsoft - Group Policy](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview)
 
 ## Microsoft - Active Directory Certificate Services
 
-```text
-https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview
-```
+[Microsoft - Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview)
 
 ## NetExec
 
-```text
-https://www.netexec.wiki/
-```
+[NetExec](https://www.netexec.wiki/)
 
 ## NetExec GitHub
 
-```text
-https://github.com/Pennyw0rth/NetExec
-```
+[NetExec GitHub](https://github.com/Pennyw0rth/NetExec)
 
 ## Impacket
 
-```text
-https://github.com/fortra/impacket
-```
+[Impacket](https://github.com/fortra/impacket)
 
 ## BloodHound
 
-```text
-https://bloodhound.specterops.io/
-```
+[BloodHound](https://bloodhound.specterops.io/)
 
 ## Certipy
 
-```text
-https://github.com/ly4k/Certipy
-```
+[Certipy](https://github.com/ly4k/Certipy)
 
 ## bloodyAD
 
-```text
-https://github.com/CravateRouge/bloodyAD
-```
+[bloodyAD](https://github.com/CravateRouge/bloodyAD)
 
 ## PowerView
 
-```text
-https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon
-```
+[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon)
 
 ## InternalAllTheThings - Active Directory Enumeration
 
-```text
-https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adds-enumerate/
-```
+[InternalAllTheThings - Active Directory Enumeration](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/ad-adds-enumerate/)

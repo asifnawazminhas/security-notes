@@ -3707,75 +3707,51 @@ cheatsheets/networking.md
 
 ## Microsoft - Kerberos Authentication Overview
 
-```text
-https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview
-```
+[Microsoft - Kerberos Authentication Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview)
 
 ## Microsoft - Kerberos Technical Documentation
 
-```text
-https://learn.microsoft.com/en-us/windows/win32/secauthn/microsoft-kerberos
-```
+[Microsoft Learn - microsoft kerberos](https://learn.microsoft.com/en-us/windows/win32/secauthn/microsoft-kerberos)
 
 ## Microsoft - Key Distribution Center
 
-```text
-https://learn.microsoft.com/en-us/windows/win32/secauthn/key-distribution-center
-```
+[Microsoft - Key Distribution Center](https://learn.microsoft.com/en-us/windows/win32/secauthn/key-distribution-center)
 
 ## Microsoft - klist
 
-```text
-https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/klist
-```
+[Microsoft - klist](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/klist)
 
 ## Microsoft - setspn
 
-```text
-https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/setspn
-```
+[Microsoft - setspn](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/setspn)
 
 ## Fortra Impacket
 
-```text
-https://github.com/fortra/impacket
-```
+[Fortra Impacket](https://github.com/fortra/impacket)
 
 ## MITRE ATT&CK - Steal or Forge Kerberos Tickets
 
-```text
-https://attack.mitre.org/techniques/T1558/
-```
+[MITRE ATT&CK - Steal or Forge Kerberos Tickets](https://attack.mitre.org/techniques/T1558/)
 
 ## MITRE ATT&CK - Golden Ticket
 
-```text
-https://attack.mitre.org/techniques/T1558/001/
-```
+[MITRE ATT&CK - Golden Ticket](https://attack.mitre.org/techniques/T1558/001/)
 
 ## MITRE ATT&CK - Silver Ticket
 
-```text
-https://attack.mitre.org/techniques/T1558/002/
-```
+[MITRE ATT&CK - Silver Ticket](https://attack.mitre.org/techniques/T1558/002/)
 
 ## MITRE ATT&CK - Kerberoasting
 
-```text
-https://attack.mitre.org/techniques/T1558/003/
-```
+[MITRE ATT&CK - Kerberoasting](https://attack.mitre.org/techniques/T1558/003/)
 
 ## MITRE ATT&CK - AS-REP Roasting
 
-```text
-https://attack.mitre.org/techniques/T1558/004/
-```
+[MITRE ATT&CK - AS-REP Roasting](https://attack.mitre.org/techniques/T1558/004/)
 
 ## MITRE ATT&CK - Ccache Files
 
-```text
-https://attack.mitre.org/techniques/T1558/005/
-```
+[MITRE ATT&CK - Ccache Files](https://attack.mitre.org/techniques/T1558/005/)
 
 ---
 

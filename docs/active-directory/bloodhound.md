@@ -3362,63 +3362,43 @@ cheatsheets/powershell.md
 
 ## BloodHound Documentation
 
-```text
-https://bloodhound.specterops.io/
-```
+[BloodHound Documentation](https://bloodhound.specterops.io/)
 
 ## BloodHound Community Edition Quickstart
 
-```text
-https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart
-```
+[BloodHound Community Edition Quickstart](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart)
 
 ## SharpHound Community Edition
 
-```text
-https://bloodhound.specterops.io/collect-data/ce-collection/sharphound
-```
+[SharpHound Community Edition](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound)
 
 ## SharpHound Collection Flags
 
-```text
-https://bloodhound.specterops.io/collect-data/ce-collection/sharphound-flags
-```
+[SharpHound Collection Flags](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound-flags)
 
 ## BloodHound JSON Formats
 
-```text
-https://bloodhound.specterops.io/integrations/bloodhound-api/json-formats
-```
+[BloodHound JSON Formats](https://bloodhound.specterops.io/integrations/bloodhound-api/json-formats)
 
 ## BloodHound.py
 
-```text
-https://github.com/dirkjanm/BloodHound.py
-```
+[BloodHound.py](https://github.com/dirkjanm/BloodHound.py)
 
 ## NetExec BloodHound Ingestor
 
-```text
-https://www.netexec.wiki/ldap-protocol/bloodhound-ingestor
-```
+[NetExec BloodHound Ingestor](https://www.netexec.wiki/ldap-protocol/bloodhound-ingestor)
 
 ## NetExec
 
-```text
-https://www.netexec.wiki/
-```
+[NetExec](https://www.netexec.wiki/)
 
 ## BloodBash
 
-```text
-https://github.com/SquidSec/BloodBash
-```
+[BloodBash](https://github.com/SquidSec/BloodBash)
 
 ## Neo4j
 
-```text
-https://neo4j.com/
-```
+[Neo4j](https://neo4j.com/)
 
 ---
 

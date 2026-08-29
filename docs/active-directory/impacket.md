@@ -2986,129 +2986,87 @@ active-directory/pivoting.md
 
 ## Official Impacket Repository
 
-```text
-https://github.com/fortra/impacket
-```
+[Official Impacket Repository](https://github.com/fortra/impacket)
 
 ## Impacket README
 
-```text
-https://github.com/fortra/impacket/blob/master/README.md
-```
+[Impacket README](https://github.com/fortra/impacket/blob/master/README.md)
 
 ## Impacket Examples
 
-```text
-https://github.com/fortra/impacket/tree/master/examples
-```
+[Impacket Examples](https://github.com/fortra/impacket/tree/master/examples)
 
 ## GetADUsers
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/GetADUsers.py
-```
+[GetADUsers](https://github.com/fortra/impacket/blob/master/examples/GetADUsers.py)
 
 ## GetNPUsers
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py
-```
+[GetNPUsers](https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py)
 
 ## GetUserSPNs
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py
-```
+[GetUserSPNs](https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py)
 
 ## findDelegation
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/findDelegation.py
-```
+[findDelegation](https://github.com/fortra/impacket/blob/master/examples/findDelegation.py)
 
 ## lookupsid
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/lookupsid.py
-```
+[lookupsid](https://github.com/fortra/impacket/blob/master/examples/lookupsid.py)
 
 ## smbclient
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/smbclient.py
-```
+[smbclient](https://github.com/fortra/impacket/blob/master/examples/smbclient.py)
 
 ## smbserver
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/smbserver.py
-```
+[smbserver](https://github.com/fortra/impacket/blob/master/examples/smbserver.py)
 
 ## getTGT
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/getTGT.py
-```
+[getTGT](https://github.com/fortra/impacket/blob/master/examples/getTGT.py)
 
 ## getST
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/getST.py
-```
+[getST](https://github.com/fortra/impacket/blob/master/examples/getST.py)
 
 ## secretsdump
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
-```
+[secretsdump](https://github.com/fortra/impacket/blob/master/examples/secretsdump.py)
 
 ## psexec
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/psexec.py
-```
+[psexec](https://github.com/fortra/impacket/blob/master/examples/psexec.py)
 
 ## wmiexec
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/wmiexec.py
-```
+[wmiexec](https://github.com/fortra/impacket/blob/master/examples/wmiexec.py)
 
 ## smbexec
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/smbexec.py
-```
+[smbexec](https://github.com/fortra/impacket/blob/master/examples/smbexec.py)
 
 ## dcomexec
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/dcomexec.py
-```
+[dcomexec](https://github.com/fortra/impacket/blob/master/examples/dcomexec.py)
 
 ## atexec
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/atexec.py
-```
+[atexec](https://github.com/fortra/impacket/blob/master/examples/atexec.py)
 
 ## ntlmrelayx
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py
-```
+[ntlmrelayx](https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py)
 
 ## ticketer
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/ticketer.py
-```
+[ticketer](https://github.com/fortra/impacket/blob/master/examples/ticketer.py)
 
 ## ticketConverter
 
-```text
-https://github.com/fortra/impacket/blob/master/examples/ticketConverter.py
-```
+[ticketConverter](https://github.com/fortra/impacket/blob/master/examples/ticketConverter.py)
 
 ---
 

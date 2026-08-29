@@ -2749,45 +2749,31 @@ cheatsheets/powershell.md
 
 ## NetExec Official Website
 
-```text
-https://www.netexec.wiki/
-```
+[NetExec Official Website](https://www.netexec.wiki/)
 
 ## NetExec GitHub Repository
 
-```text
-https://github.com/Pennyw0rth/NetExec
-```
+[NetExec GitHub Repository](https://github.com/Pennyw0rth/NetExec)
 
 ## NetExec Wiki Repository
 
-```text
-https://github.com/Pennyw0rth/NetExec-Wiki
-```
+[NetExec Wiki Repository](https://github.com/Pennyw0rth/NetExec-Wiki)
 
 ## Installation
 
-```text
-https://www.netexec.wiki/getting-started/installation/installation-on-unix
-```
+[NetExec Wiki - installation on unix](https://www.netexec.wiki/getting-started/installation/installation-on-unix)
 
 ## Using Credentials
 
-```text
-https://www.netexec.wiki/getting-started/using-credentials
-```
+[Using Credentials](https://www.netexec.wiki/getting-started/using-credentials)
 
 ## Using Modules
 
-```text
-https://www.netexec.wiki/getting-started/using-modules
-```
+[Using Modules](https://www.netexec.wiki/getting-started/using-modules)
 
 ## Certificate Authentication
 
-```text
-https://www.netexec.wiki/getting-started/using-certificates
-```
+[Certificate Authentication](https://www.netexec.wiki/getting-started/using-certificates)
 
 ---
 

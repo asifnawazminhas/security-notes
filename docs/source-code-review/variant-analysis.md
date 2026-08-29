@@ -4031,111 +4031,75 @@ docs/web/websockets.md
 
 ## CodeQL - Variant Analysis
 
-```text
-https://codeql.github.com/docs/codeql-overview/codeql-glossary/#variant-analysis
-```
+[CodeQL - Variant Analysis](https://codeql.github.com/docs/codeql-overview/codeql-glossary/#variant-analysis)
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ## CodeQL - Data Flow Analysis
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/
-```
+[CodeQL - Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
 
 ## CodeQL - Creating Path Queries
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/
-```
+[CodeQL - Creating Path Queries](https://codeql.github.com/docs/writing-codeql-queries/creating-path-queries/)
 
 ## GitHub CodeQL
 
-```text
-https://github.com/github/codeql
-```
+[GitHub CodeQL](https://github.com/github/codeql)
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ## Semgrep - Rule Syntax
 
-```text
-https://semgrep.dev/docs/writing-rules/rule-syntax
-```
+[Semgrep - Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax)
 
 ## Semgrep - Taint Mode
 
-```text
-https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/
-```
+[Semgrep - Taint Mode](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## OpenGrep GitHub
 
-```text
-https://github.com/opengrep/opengrep
-```
+[OpenGrep GitHub](https://github.com/opengrep/opengrep)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ## Visual Studio Code
 
-```text
-https://code.visualstudio.com/docs
-```
+[Visual Studio Code](https://code.visualstudio.com/docs)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP Authorization Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
-```
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
 
 ## OWASP Input Validation Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
-```
+[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
 
 ## PortSwigger Web Security Academy
 
-```text
-https://portswigger.net/web-security
-```
+[PortSwigger Web Security Academy](https://portswigger.net/web-security)
 
 ---
 

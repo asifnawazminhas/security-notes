@@ -4944,9 +4944,7 @@ Report
 
 ## OWASP SAML Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html
-```
+[OWASP SAML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html)
 
 Primary OWASP guidance for securing SAML implementations.
 
@@ -4954,9 +4952,7 @@ Primary OWASP guidance for securing SAML implementations.
 
 ## OWASP Authentication Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
-```
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 
 Useful for the wider authentication controls surrounding SAML.
 
@@ -4964,9 +4960,7 @@ Useful for the wider authentication controls surrounding SAML.
 
 ## OWASP XML Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html
-```
+[OWASP XML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html)
 
 Useful when evaluating the XML processing layer behind SAML.
 
@@ -4974,9 +4968,7 @@ Useful when evaluating the XML processing layer behind SAML.
 
 ## OASIS SAML 2.0
 
-```text
-https://www.oasis-open.org/standard/saml/
-```
+[OASIS SAML 2.0](https://www.oasis-open.org/standard/saml/)
 
 Official SAML standard resources.
 
@@ -4984,9 +4976,7 @@ Official SAML standard resources.
 
 ## SAML 2.0 Technical Overview
 
-```text
-https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html
-```
+[SAML 2.0 Technical Overview](https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html)
 
 Useful for understanding SAML profiles and message flows.
 
@@ -4994,9 +4984,7 @@ Useful for understanding SAML profiles and message flows.
 
 ## SAML 2.0 Core
 
-```text
-https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf
-```
+[SAML 2.0 Core](https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf)
 
 Defines assertions, protocols and core SAML structures.
 
@@ -5004,9 +4992,7 @@ Defines assertions, protocols and core SAML structures.
 
 ## SAML 2.0 Bindings
 
-```text
-https://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf
-```
+[SAML 2.0 Bindings](https://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf)
 
 Defines HTTP POST, Redirect and other SAML bindings.
 
@@ -5014,9 +5000,7 @@ Defines HTTP POST, Redirect and other SAML bindings.
 
 ## SAML 2.0 Profiles
 
-```text
-https://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf
-```
+[SAML 2.0 Profiles](https://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf)
 
 Defines SAML profiles including Web Browser SSO.
 
@@ -5024,9 +5008,7 @@ Defines SAML profiles including Web Browser SSO.
 
 ## SAML 2.0 Security Considerations
 
-```text
-https://docs.oasis-open.org/security/saml/v2.0/saml-sec-consider-2.0-os.pdf
-```
+[SAML 2.0 Security Considerations](https://docs.oasis-open.org/security/saml/v2.0/saml-sec-consider-2.0-os.pdf)
 
 Security and privacy considerations for SAML deployments.
 
@@ -5034,9 +5016,7 @@ Security and privacy considerations for SAML deployments.
 
 ## SAML Raider
 
-```text
-https://portswigger.net/bappstore/c61cfa893bb14db4b01775554f7b802e
-```
+[SAML Raider](https://portswigger.net/bappstore/c61cfa893bb14db4b01775554f7b802e)
 
 Burp Suite extension for:
 
@@ -5053,9 +5033,7 @@ XSLT testing
 
 ## PortSwigger BApp Store
 
-```text
-https://portswigger.net/bappstore
-```
+[PortSwigger BApp Store](https://portswigger.net/bappstore)
 
 Useful for checking current SAML-related Burp extensions.
 
@@ -5063,9 +5041,7 @@ Useful for checking current SAML-related Burp extensions.
 
 ## PortSwigger Authentication Security
 
-```text
-https://portswigger.net/web-security/authentication
-```
+[PortSwigger Authentication Security](https://portswigger.net/web-security/authentication)
 
 Useful background for authentication testing surrounding federated login.
 

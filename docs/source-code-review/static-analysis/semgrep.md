@@ -4917,93 +4917,63 @@ Variant Analysis
 
 ## Semgrep
 
-```text
-https://semgrep.dev/
-```
+[Semgrep](https://semgrep.dev/)
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ## Semgrep CLI Reference
 
-```text
-https://semgrep.dev/docs/cli-reference
-```
+[Semgrep CLI Reference](https://semgrep.dev/docs/cli-reference)
 
 ## Semgrep Rule Syntax
 
-```text
-https://semgrep.dev/docs/writing-rules/rule-syntax
-```
+[Semgrep Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax)
 
 ## Semgrep Pattern Syntax
 
-```text
-https://semgrep.dev/docs/writing-rules/pattern-syntax
-```
+[Semgrep Pattern Syntax](https://semgrep.dev/docs/writing-rules/pattern-syntax)
 
 ## Semgrep Taint Mode
 
-```text
-https://semgrep.dev/docs/writing-rules/data-flow/taint-mode
-```
+[Semgrep Taint Mode](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode)
 
 ## Semgrep Rule Writing
 
-```text
-https://semgrep.dev/docs/writing-rules/overview
-```
+[Semgrep Rule Writing](https://semgrep.dev/docs/writing-rules/overview)
 
 ## Semgrep GitHub Repository
 
-```text
-https://github.com/semgrep/semgrep
-```
+[Semgrep GitHub Repository](https://github.com/semgrep/semgrep)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## Visual Studio Code
 
-```text
-https://code.visualstudio.com/docs
-```
+[Visual Studio Code](https://code.visualstudio.com/docs)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## OpenGrep GitHub
 
-```text
-https://github.com/opengrep/opengrep
-```
+[OpenGrep GitHub](https://github.com/opengrep/opengrep)
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ---
 

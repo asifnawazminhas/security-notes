@@ -4667,117 +4667,79 @@ docs/web/websockets.md
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Static Code Analysis
 
-```text
-https://owasp.org/www-community/controls/Static_Code_Analysis
-```
+[OWASP Static Code Analysis](https://owasp.org/www-community/controls/Static_Code_Analysis)
 
 ## OWASP Input Validation Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
-```
+[OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
 
 ## OWASP Authorization Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
-```
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
 
 ## OWASP Injection Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html
-```
+[OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
 
 ## OWASP SQL Injection Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html
-```
+[OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
 
 ## OWASP OS Command Injection Defense Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html
-```
+[OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html)
 
 ## OWASP SSRF Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
-```
+[OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
 
 ## OWASP File Upload Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
-```
+[OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
 
 ## OWASP Deserialization Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
-```
+[OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)
 
 ## OWASP XSS Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
-```
+[OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 
 ## PortSwigger Web Security Academy
 
-```text
-https://portswigger.net/web-security
-```
+[PortSwigger Web Security Academy](https://portswigger.net/web-security)
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ## CodeQL Data Flow Analysis
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/
-```
+[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
 
 ## Visual Studio Code
 
-```text
-https://code.visualstudio.com/docs
-```
+[Visual Studio Code](https://code.visualstudio.com/docs)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

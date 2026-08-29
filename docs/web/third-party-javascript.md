@@ -4944,9 +4944,7 @@ Vendor/change-control review
 
 ## OWASP Third Party JavaScript Management Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html
-```
+[OWASP Third Party JavaScript Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html)
 
 Covers:
 
@@ -4963,57 +4961,43 @@ CSP
 
 ## OWASP Content Security Policy Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html
-```
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
 
 ---
 
 ## MDN Subresource Integrity
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity
-```
+[MDN Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity)
 
 ---
 
 ## MDN Content Security Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP
-```
+[MDN Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)
 
 ---
 
 ## MDN script-src
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src
-```
+[MDN script-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src)
 
 ---
 
 ## MDN iframe sandbox
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe
-```
+[MDN iframe sandbox](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe)
 
 ---
 
 ## MDN postMessage
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-```
+[MDN postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
 
 ---
 
 ## PortSwigger BApp Store
 
-```text
-https://portswigger.net/bappstore
-```
+[PortSwigger BApp Store](https://portswigger.net/bappstore)
 
 Useful extensions to investigate for this workflow include:
 
@@ -5029,9 +5013,7 @@ Review current extension behaviour and source code before using BApps on sensiti
 
 ## PortSwigger Burp Extensions Documentation
 
-```text
-https://portswigger.net/burp/documentation/desktop/extend-burp/extensions
-```
+[PortSwigger - extensions](https://portswigger.net/burp/documentation/desktop/extend-burp/extensions)
 
 ---
 

@@ -5310,141 +5310,95 @@ Only then classify the issue as a confirmed vulnerability.
 
 ## Django Documentation
 
-```text
-https://docs.djangoproject.com/
-```
+[docs.djangoproject.com](https://docs.djangoproject.com/)
 
 ## Django Security
 
-```text
-https://docs.djangoproject.com/en/5.2/topics/security/
-```
+[Django Security](https://docs.djangoproject.com/en/5.2/topics/security/)
 
 ## Django Security Policies
 
-```text
-https://docs.djangoproject.com/en/5.2/internals/security/
-```
+[Django Security Policies](https://docs.djangoproject.com/en/5.2/internals/security/)
 
 ## Django Settings
 
-```text
-https://docs.djangoproject.com/en/5.2/ref/settings/
-```
+[Django Settings](https://docs.djangoproject.com/en/5.2/ref/settings/)
 
 ## Django Authentication
 
-```text
-https://docs.djangoproject.com/en/5.2/topics/auth/
-```
+[Django Authentication](https://docs.djangoproject.com/en/5.2/topics/auth/)
 
 ## Django CSRF Protection
 
-```text
-https://docs.djangoproject.com/en/5.2/ref/csrf/
-```
+[Django CSRF Protection](https://docs.djangoproject.com/en/5.2/ref/csrf/)
 
 ## Django Templates
 
-```text
-https://docs.djangoproject.com/en/5.2/topics/templates/
-```
+[Django Templates](https://docs.djangoproject.com/en/5.2/topics/templates/)
 
 ## Django QuerySets
 
-```text
-https://docs.djangoproject.com/en/5.2/ref/models/querysets/
-```
+[Django QuerySets](https://docs.djangoproject.com/en/5.2/ref/models/querysets/)
 
 ## Performing Raw SQL Queries
 
-```text
-https://docs.djangoproject.com/en/5.2/topics/db/sql/
-```
+[Performing Raw SQL Queries](https://docs.djangoproject.com/en/5.2/topics/db/sql/)
 
 ## Django File Uploads
 
-```text
-https://docs.djangoproject.com/en/5.2/topics/http/file-uploads/
-```
+[Django File Uploads](https://docs.djangoproject.com/en/5.2/topics/http/file-uploads/)
 
 ## Django REST Framework
 
-```text
-https://www.django-rest-framework.org/
-```
+[Django REST Framework](https://www.django-rest-framework.org/)
 
 ## DRF Authentication
 
-```text
-https://www.django-rest-framework.org/api-guide/authentication/
-```
+[DRF Authentication](https://www.django-rest-framework.org/api-guide/authentication/)
 
 ## DRF Permissions
 
-```text
-https://www.django-rest-framework.org/api-guide/permissions/
-```
+[DRF Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
 
 ## DRF Serializers
 
-```text
-https://www.django-rest-framework.org/api-guide/serializers/
-```
+[DRF Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
 
 ## DRF Throttling
 
-```text
-https://www.django-rest-framework.org/api-guide/throttling/
-```
+[DRF Throttling](https://www.django-rest-framework.org/api-guide/throttling/)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## CodeQL for Python
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/
-```
+[CodeQL for Python](https://codeql.github.com/docs/codeql-language-guides/codeql-for-python/)
 
 ## Bandit
 
-```text
-https://bandit.readthedocs.io/
-```
+[Bandit](https://bandit.readthedocs.io/)
 
 ---
 

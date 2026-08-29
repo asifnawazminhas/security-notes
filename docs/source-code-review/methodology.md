@@ -5114,93 +5114,63 @@ Together they provide a repeatable white-box application security methodology.
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP Application Security Verification Standard
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP Attack Surface Analysis Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html
-```
+[OWASP Attack Surface Analysis Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html)
 
 ## Visual Studio Code Documentation
 
-```text
-https://code.visualstudio.com/docs
-```
+[docs](https://code.visualstudio.com/docs)
 
 ## Visual Studio Code Editing
 
-```text
-https://code.visualstudio.com/docs/editing/codebasics
-```
+[Visual Studio Code Editing](https://code.visualstudio.com/docs/editing/codebasics)
 
 ## Visual Studio Code Search
 
-```text
-https://code.visualstudio.com/docs/editing/codebasics#_search-across-files
-```
+[Visual Studio Code Search](https://code.visualstudio.com/docs/editing/codebasics#_search-across-files)
 
 ## Visual Studio Code Debugging
 
-```text
-https://code.visualstudio.com/docs/debugtest/debugging
-```
+[Visual Studio Code Debugging](https://code.visualstudio.com/docs/debugtest/debugging)
 
 ## Visual Studio Code Source Control
 
-```text
-https://code.visualstudio.com/docs/sourcecontrol/overview
-```
+[Visual Studio Code Source Control](https://code.visualstudio.com/docs/sourcecontrol/overview)
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ## CodeQL Data Flow Analysis
 
-```text
-https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/
-```
+[CodeQL Data Flow Analysis](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/)
 
 ## Git Documentation
 
-```text
-https://git-scm.com/doc
-```
+[doc](https://git-scm.com/doc)
 
 ---
 

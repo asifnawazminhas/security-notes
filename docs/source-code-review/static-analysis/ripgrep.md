@@ -5416,69 +5416,47 @@ Search Variants
 
 ## ripgrep GitHub Repository
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep GitHub Repository](https://github.com/BurntSushi/ripgrep)
 
 ## ripgrep User Guide
 
-```text
-https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
-```
+[ripgrep User Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)
 
 ## ripgrep FAQ
 
-```text
-https://github.com/BurntSushi/ripgrep/blob/master/FAQ.md
-```
+[ripgrep FAQ](https://github.com/BurntSushi/ripgrep/blob/master/FAQ.md)
 
 ## Visual Studio Code Documentation
 
-```text
-https://code.visualstudio.com/docs
-```
+[docs](https://code.visualstudio.com/docs)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## Semgrep Documentation
 
-```text
-https://semgrep.dev/docs/
-```
+[docs](https://semgrep.dev/docs/)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ## OpenGrep GitHub Repository
 
-```text
-https://github.com/opengrep/opengrep
-```
+[OpenGrep GitHub Repository](https://github.com/opengrep/opengrep)
 
 ## CodeQL Documentation
 
-```text
-https://codeql.github.com/docs/
-```
+[docs](https://codeql.github.com/docs/)
 
 ---
 

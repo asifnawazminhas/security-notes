@@ -6243,183 +6243,123 @@ Only then should a source-code pattern be classified as a confirmed vulnerabilit
 
 ## PHP Manual
 
-```text
-https://www.php.net/manual/en/
-```
+[PHP Manual](https://www.php.net/manual/en/)
 
 ## PHP Security
 
-```text
-https://www.php.net/manual/en/security.php
-```
+[PHP Security](https://www.php.net/manual/en/security.php)
 
 ## PHP Database Security
 
-```text
-https://www.php.net/manual/en/security.database.php
-```
+[PHP Database Security](https://www.php.net/manual/en/security.database.php)
 
 ## PHP SQL Injection
 
-```text
-https://www.php.net/manual/en/security.database.sql-injection.php
-```
+[PHP SQL Injection](https://www.php.net/manual/en/security.database.sql-injection.php)
 
 ## PHP PDO
 
-```text
-https://www.php.net/manual/en/book.pdo.php
-```
+[PHP PDO](https://www.php.net/manual/en/book.pdo.php)
 
 ## PDO Prepared Statements
 
-```text
-https://www.php.net/manual/en/pdo.prepared-statements.php
-```
+[PDO Prepared Statements](https://www.php.net/manual/en/pdo.prepared-statements.php)
 
 ## PDO::prepare
 
-```text
-https://www.php.net/manual/en/pdo.prepare.php
-```
+[PDO::prepare](https://www.php.net/manual/en/pdo.prepare.php)
 
 ## MySQLi Prepared Statements
 
-```text
-https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php
-```
+[MySQLi Prepared Statements](https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php)
 
 ## PHP unserialize
 
-```text
-https://www.php.net/manual/en/function.unserialize.php
-```
+[PHP unserialize](https://www.php.net/manual/en/function.unserialize.php)
 
 ## PHP File Uploads
 
-```text
-https://www.php.net/manual/en/features.file-upload.php
-```
+[PHP File Uploads](https://www.php.net/manual/en/features.file-upload.php)
 
 ## PHP Sessions
 
-```text
-https://www.php.net/manual/en/book.session.php
-```
+[PHP Sessions](https://www.php.net/manual/en/book.session.php)
 
 ## PHP Password Hashing
 
-```text
-https://www.php.net/manual/en/book.password.php
-```
+[PHP Password Hashing](https://www.php.net/manual/en/book.password.php)
 
 ## Laravel Documentation
 
-```text
-https://laravel.com/docs/
-```
+[docs](https://laravel.com/docs/)
 
 ## Laravel Authentication
 
-```text
-https://laravel.com/docs/authentication
-```
+[Laravel Authentication](https://laravel.com/docs/authentication)
 
 ## Laravel Authorisation
 
-```text
-https://laravel.com/docs/authorization
-```
+[Laravel Authorisation](https://laravel.com/docs/authorization)
 
 ## Laravel Validation
 
-```text
-https://laravel.com/docs/validation
-```
+[Laravel Validation](https://laravel.com/docs/validation)
 
 ## Symfony Documentation
 
-```text
-https://symfony.com/doc/current/index.html
-```
+[index](https://symfony.com/doc/current/index.html)
 
 ## Symfony Security
 
-```text
-https://symfony.com/doc/current/security.html
-```
+[Symfony Security](https://symfony.com/doc/current/security.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## CodeQL for PHP
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-php/
-```
+[CodeQL for PHP](https://codeql.github.com/docs/codeql-language-guides/codeql-for-php/)
 
 ## Psalm
 
-```text
-https://psalm.dev/
-```
+[Psalm](https://psalm.dev/)
 
 ## PHPStan
 
-```text
-https://phpstan.org/
-```
+[PHPStan](https://phpstan.org/)
 
 ## Composer
 
-```text
-https://getcomposer.org/
-```
+[Composer](https://getcomposer.org/)
 
 ## Composer Audit
 
-```text
-https://getcomposer.org/doc/03-cli.md#audit
-```
+[Composer Audit](https://getcomposer.org/doc/03-cli.md#audit)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

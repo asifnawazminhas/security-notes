@@ -4810,171 +4810,115 @@ docs/web/websockets.md
 
 ## OWASP Authentication Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
-```
+[OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 
 ## OWASP Authorization Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
-```
+[OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
 
 ## OWASP Session Management Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
-```
+[OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
 
 ## OWASP Password Storage Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-```
+[OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
 
 ## OWASP Forgot Password Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
-```
+[OWASP Forgot Password Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)
 
 ## OWASP Multifactor Authentication Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html
-```
+[OWASP Multifactor Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html)
 
 ## OWASP JSON Web Token Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html
-```
+[OWASP JSON Web Token Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html)
 
 ## OWASP OAuth 2.0 Protocol Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/OAuth2_Cheat_Sheet.html
-```
+[OWASP OAuth 2.0 Protocol Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OAuth2_Cheat_Sheet.html)
 
 ## OWASP REST Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html
-```
+[OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
 
 ## OWASP GraphQL Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
-```
+[OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html)
 
 ## OWASP Secure Code Review Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html
-```
+[OWASP Secure Code Review Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP API Security Project
 
-```text
-https://owasp.org/www-project-api-security/
-```
+[OWASP API Security Project](https://owasp.org/www-project-api-security/)
 
 ## PortSwigger Web Security Academy - Authentication
 
-```text
-https://portswigger.net/web-security/authentication
-```
+[PortSwigger Web Security Academy - Authentication](https://portswigger.net/web-security/authentication)
 
 ## PortSwigger Web Security Academy - Access Control
 
-```text
-https://portswigger.net/web-security/access-control
-```
+[PortSwigger Web Security Academy - Access Control](https://portswigger.net/web-security/access-control)
 
 ## PortSwigger Web Security Academy - JWT
 
-```text
-https://portswigger.net/web-security/jwt
-```
+[PortSwigger Web Security Academy - JWT](https://portswigger.net/web-security/jwt)
 
 ## PortSwigger Web Security Academy - OAuth
 
-```text
-https://portswigger.net/web-security/oauth
-```
+[PortSwigger Web Security Academy - OAuth](https://portswigger.net/web-security/oauth)
 
 ## Microsoft ASP.NET Core Security
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/
-```
+[Microsoft ASP.NET Core Security](https://learn.microsoft.com/en-us/aspnet/core/security/)
 
 ## Microsoft ASP.NET Core Authorization
 
-```text
-https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction
-```
+[Microsoft ASP.NET Core Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction)
 
 ## Spring Security
 
-```text
-https://docs.spring.io/spring-security/reference/
-```
+[Spring Security](https://docs.spring.io/spring-security/reference/)
 
 ## Django Authentication
 
-```text
-https://docs.djangoproject.com/en/stable/topics/auth/
-```
+[Django Authentication](https://docs.djangoproject.com/en/stable/topics/auth/)
 
 ## Django REST Framework Permissions
 
-```text
-https://www.django-rest-framework.org/api-guide/permissions/
-```
+[Django REST Framework Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
 
 ## Flask-Login
 
-```text
-https://flask-login.readthedocs.io/
-```
+[Flask-Login](https://flask-login.readthedocs.io/)
 
 ## Laravel Authorization
 
-```text
-https://laravel.com/docs/authorization
-```
+[Laravel Authorization](https://laravel.com/docs/authorization)
 
 ## Passport
 
-```text
-https://www.passportjs.org/
-```
+[Passport](https://www.passportjs.org/)
 
 ## CodeQL
 
-```text
-https://codeql.github.com/docs/
-```
+[CodeQL](https://codeql.github.com/docs/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/docs/
-```
+[Semgrep](https://semgrep.dev/docs/)
 
 ## OpenGrep
 
-```text
-https://opengrep.dev/
-```
+[OpenGrep](https://opengrep.dev/)
 
 ---
 

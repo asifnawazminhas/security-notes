@@ -6395,135 +6395,91 @@ Only then should a source-code pattern be classified as a confirmed vulnerabilit
 
 ## Spring Framework Documentation
 
-```text
-https://docs.spring.io/spring-framework/reference/
-```
+[reference](https://docs.spring.io/spring-framework/reference/)
 
 ## Spring MVC
 
-```text
-https://docs.spring.io/spring-framework/reference/web/webmvc.html
-```
+[Spring MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
 
 ## Spring WebFlux
 
-```text
-https://docs.spring.io/spring-framework/reference/web/webflux.html
-```
+[Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux.html)
 
 ## Spring Security
 
-```text
-https://docs.spring.io/spring-security/reference/
-```
+[Spring Security](https://docs.spring.io/spring-security/reference/)
 
 ## Spring Security Authorization
 
-```text
-https://docs.spring.io/spring-security/reference/servlet/authorization/index.html
-```
+[Spring Security Authorization](https://docs.spring.io/spring-security/reference/servlet/authorization/index.html)
 
 ## Spring Security Method Security
 
-```text
-https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html
-```
+[Spring Security Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
 
 ## Spring Security CSRF
 
-```text
-https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html
-```
+[Spring Security CSRF](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html)
 
 ## Spring JDBC
 
-```text
-https://docs.spring.io/spring-framework/reference/data-access/jdbc.html
-```
+[Spring JDBC](https://docs.spring.io/spring-framework/reference/data-access/jdbc.html)
 
 ## Spring Data JPA
 
-```text
-https://docs.spring.io/spring-data/jpa/reference/
-```
+[Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/)
 
 ## Java ProcessBuilder
 
-```text
-https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ProcessBuilder.html
-```
+[Java ProcessBuilder](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ProcessBuilder.html)
 
 ## Java ObjectInputStream
 
-```text
-https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html
-```
+[Java ObjectInputStream](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html)
 
 ## Java Object Serialization Filtering
 
-```text
-https://docs.oracle.com/en/java/javase/25/core/serialization-filtering1.html
-```
+[Java Object Serialization Filtering](https://docs.oracle.com/en/java/javase/25/core/serialization-filtering1.html)
 
 ## Java Secure Coding Guidelines
 
-```text
-https://www.oracle.com/java/technologies/javase/seccodeguide.html
-```
+[Java Secure Coding Guidelines](https://www.oracle.com/java/technologies/javase/seccodeguide.html)
 
 ## OWASP Code Review Guide
 
-```text
-https://owasp.org/www-project-code-review-guide/
-```
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
 
 ## OWASP Web Security Testing Guide
 
-```text
-https://owasp.org/www-project-web-security-testing-guide/
-```
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
 
 ## OWASP Cheat Sheet Series
 
-```text
-https://cheatsheetseries.owasp.org/
-```
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
 ## OWASP ASVS
 
-```text
-https://owasp.org/www-project-application-security-verification-standard/
-```
+[OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
 
 ## CWE
 
-```text
-https://cwe.mitre.org/
-```
+[CWE](https://cwe.mitre.org/)
 
 ## Semgrep
 
-```text
-https://semgrep.dev/
-```
+[Semgrep](https://semgrep.dev/)
 
 ## CodeQL for Java and Kotlin
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/codeql-for-java/
-```
+[CodeQL for Java and Kotlin](https://codeql.github.com/docs/codeql-language-guides/codeql-for-java/)
 
 ## CodeQL Java Data Flow
 
-```text
-https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/
-```
+[CodeQL Java Data Flow](https://codeql.github.com/docs/codeql-language-guides/analyzing-data-flow-in-java/)
 
 ## ripgrep
 
-```text
-https://github.com/BurntSushi/ripgrep
-```
+[ripgrep](https://github.com/BurntSushi/ripgrep)
 
 ---
 

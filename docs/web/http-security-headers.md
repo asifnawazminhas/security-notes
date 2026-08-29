@@ -4191,9 +4191,7 @@ Report Only Relevant Findings
 
 ## OWASP HTTP Headers Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
-```
+[OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)
 
 Primary OWASP guidance for HTTP response security headers.
 
@@ -4201,9 +4199,7 @@ Primary OWASP guidance for HTTP response security headers.
 
 ## OWASP Content Security Policy Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html
-```
+[OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
 
 Guidance for deploying CSP.
 
@@ -4211,9 +4207,7 @@ Guidance for deploying CSP.
 
 ## OWASP HTTP Strict Transport Security Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html
-```
+[OWASP HTTP Strict Transport Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html)
 
 Guidance for HSTS deployment.
 
@@ -4221,9 +4215,7 @@ Guidance for HSTS deployment.
 
 ## OWASP Clickjacking Defense Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html
-```
+[OWASP Clickjacking Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html)
 
 Relevant to:
 
@@ -4236,9 +4228,7 @@ frame-ancestors
 
 ## OWASP Cross-Site Scripting Prevention Cheat Sheet
 
-```text
-https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
-```
+[OWASP Cross-Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 
 Important for understanding CSP as defence in depth rather than a substitute for correct output handling.
 
@@ -4246,81 +4236,61 @@ Important for understanding CSP as defence in depth rather than a substitute for
 
 ## MDN Content-Security-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy
-```
+[MDN Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy)
 
 ---
 
 ## MDN Strict-Transport-Security
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security
-```
+[MDN Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security)
 
 ---
 
 ## MDN X-Content-Type-Options
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options
-```
+[MDN X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options)
 
 ---
 
 ## MDN Referrer-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy
-```
+[MDN Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy)
 
 ---
 
 ## MDN Permissions-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy
-```
+[MDN Permissions-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy)
 
 ---
 
 ## MDN X-Frame-Options
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options
-```
+[MDN X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options)
 
 ---
 
 ## MDN Cross-Origin-Opener-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy
-```
+[MDN Cross-Origin-Opener-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy)
 
 ---
 
 ## MDN Cross-Origin-Embedder-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy
-```
+[MDN Cross-Origin-Embedder-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy)
 
 ---
 
 ## MDN Cross-Origin-Resource-Policy
 
-```text
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy
-```
+[MDN Cross-Origin-Resource-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Resource-Policy)
 
 ---
 
 ## PortSwigger Content Security Policy
 
-```text
-https://portswigger.net/web-security/cross-site-scripting/content-security-policy
-```
+[PortSwigger Content Security Policy](https://portswigger.net/web-security/cross-site-scripting/content-security-policy)
 
 Useful for understanding CSP behaviour and its relationship with XSS.
 
@@ -4328,9 +4298,7 @@ Useful for understanding CSP behaviour and its relationship with XSS.
 
 ## PortSwigger Clickjacking
 
-```text
-https://portswigger.net/web-security/clickjacking
-```
+[PortSwigger Clickjacking](https://portswigger.net/web-security/clickjacking)
 
 Relevant to framing protections.
 
@@ -4338,9 +4306,7 @@ Relevant to framing protections.
 
 ## PortSwigger CORS
 
-```text
-https://portswigger.net/web-security/cors
-```
+[PortSwigger CORS](https://portswigger.net/web-security/cors)
 
 Relevant to cross-origin response headers.
 
@@ -4348,9 +4314,7 @@ Relevant to cross-origin response headers.
 
 ## PortSwigger Web Cache Poisoning
 
-```text
-https://portswigger.net/web-security/web-cache-poisoning
-```
+[PortSwigger Web Cache Poisoning](https://portswigger.net/web-security/web-cache-poisoning)
 
 Relevant when headers interact with caching behaviour.
 
@@ -4358,9 +4322,7 @@ Relevant when headers interact with caching behaviour.
 
 ## Param Miner
 
-```text
-https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943
-```
+[Param Miner](https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943)
 
 Useful for identifying hidden headers and parameters that influence server behaviour.
 
@@ -4368,9 +4330,7 @@ Useful for identifying hidden headers and parameters that influence server behav
 
 ## Google CSP Evaluator
 
-```text
-https://csp-evaluator.withgoogle.com/
-```
+[Google CSP Evaluator](https://csp-evaluator.withgoogle.com/)
 
 Useful for assisting with CSP analysis.
 
@@ -4378,9 +4338,7 @@ Useful for assisting with CSP analysis.
 
 ## Security Headers
 
-```text
-https://securityheaders.com/
-```
+[Security Headers](https://securityheaders.com/)
 
 External header analysis service. Use only for public targets where third-party scanning is permitted.
 
@@ -4388,9 +4346,7 @@ External header analysis service. Use only for public targets where third-party 
 
 ## Mozilla Observatory
 
-```text
-https://developer.mozilla.org/en-US/observatory
-```
+[Mozilla Observatory](https://developer.mozilla.org/en-US/observatory)
 
 External web-security configuration analysis service.
 
