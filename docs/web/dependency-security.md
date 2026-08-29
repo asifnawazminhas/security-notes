@@ -2533,11 +2533,11 @@ Data leakage
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-docs/web/prototype-pollution.md
-```
+[Cross-Site Scripting](xss.md)
+
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
+
+[Prototype Pollution](prototype-pollution.md)
 
 ---
 

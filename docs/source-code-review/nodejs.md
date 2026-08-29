@@ -1140,10 +1140,9 @@ Prioritise attacker-controlled identifiers.
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-docs/web/authorisation.md
-```
+[IDOR and BOLA](../web/idor-bola.md)
+
+[Authorisation Testing](../web/authorisation.md)
 
 ---
 
@@ -1912,10 +1911,9 @@ The downstream browser context matters.
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 
@@ -3979,10 +3977,9 @@ Does this cache entry require tenant or permission context?
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
 
 ---
 
@@ -4273,10 +4270,9 @@ DOM sinks
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-docs/source-code-review/javascript.md
-```
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
+
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 ---
 

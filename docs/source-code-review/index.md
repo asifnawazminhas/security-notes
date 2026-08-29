@@ -1205,10 +1205,9 @@ Can a user reach a sensitive operation without the required authorisation check?
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-docs/web/idor-bola.md
-```
+[Authorisation Testing](../web/authorisation.md)
+
+[IDOR and BOLA](../web/idor-bola.md)
 
 ---
 
@@ -1466,11 +1465,11 @@ Archive entry
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-docs/web/file-inclusion.md
-docs/web/file-upload.md
-```
+[Path Traversal](../web/path-traversal.md)
+
+[File Inclusion](../web/file-inclusion.md)
+
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -1605,11 +1604,11 @@ Context matters.
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 
@@ -1676,10 +1675,9 @@ Source code review should therefore not be reduced to sink searching.
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-docs/web/race-conditions.md
-```
+[Business Logic Vulnerabilities](../web/business-logic.md)
+
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -2390,12 +2388,13 @@ Brute-force protection
 
 Refer to:
 
-```text
-docs/web/authentication.md
-docs/web/password-reset.md
-docs/web/mfa.md
-docs/web/session-management.md
-```
+[Authentication Testing](../web/authentication.md)
+
+[Password Reset Security](../web/password-reset.md)
+
+[Multi-Factor Authentication Security](../web/mfa.md)
+
+[Session Management](../web/session-management.md)
 
 ---
 
@@ -2803,10 +2802,9 @@ DOM
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
 
 ---
 
@@ -4001,9 +3999,7 @@ The following pages provide language and framework-specific review guidance.
 
 ## .NET / ASP.NET Core
 
-```text
-docs/source-code-review/dotnet.md
-```
+[.NET / ASP.NET Core Source Code Review](dotnet.md)
 
 Topics include:
 

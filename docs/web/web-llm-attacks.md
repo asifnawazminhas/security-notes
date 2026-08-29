@@ -717,10 +717,9 @@ with the LLM providing an alternative interface to reach it.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-docs/web/api-security.md
-```
+[Authorisation Testing](authorisation.md)
+
+[API Security](api-security.md)
 
 ---
 
@@ -1751,10 +1750,9 @@ If arbitrary HTML is interpreted, continue according to the authorised XSS metho
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](xss.md)
+
+[HTML Injection](html-injection.md)
 
 ---
 

@@ -2555,10 +2555,9 @@ This may expose recovery information.
 
 Refer to:
 
-```text
-docs/web/web-cache-deception.md
-docs/web/web-cache-poisoning.md
-```
+[Web Cache Deception](web-cache-deception.md)
+
+[Web Cache Poisoning](web-cache-poisoning.md)
 
 where relevant.
 
@@ -2628,10 +2627,9 @@ JavaScript
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-```
+[Cross-Site Scripting](xss.md)
+
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
 
 ---
 

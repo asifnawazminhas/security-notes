@@ -1746,10 +1746,9 @@ DOM
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 
@@ -4078,10 +4077,9 @@ Incorrect cache key construction may cause cross-user data leakage.
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
 
 ---
 

@@ -6,11 +6,11 @@ This cheatsheet is intentionally command-focused.
 
 For methodology and explanations, see:
 
-```text
-active-directory/index.md
-active-directory/methodology.md
-active-directory/enumeration.md
-```
+[Active Directory Penetration Testing](../active-directory/index.md)
+
+[Active Directory Penetration Testing Methodology](../active-directory/methodology.md)
+
+[Active Directory Enumeration](../active-directory/enumeration.md)
 
 ---
 

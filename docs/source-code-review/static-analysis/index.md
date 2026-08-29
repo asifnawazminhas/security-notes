@@ -3637,12 +3637,13 @@ Dynamic validation
 
 Continue with:
 
-```text
-docs/source-code-review/static-analysis/ripgrep.md
-docs/source-code-review/static-analysis/semgrep.md
-docs/source-code-review/static-analysis/opengrep.md
-docs/source-code-review/static-analysis/codeql.md
-```
+[ripgrep for Security Source Code Review](ripgrep.md)
+
+[Semgrep for Security Source Code Review](semgrep.md)
+
+[OpenGrep for Security Source Code Review](opengrep.md)
+
+[CodeQL for Security Source Code Review](codeql.md)
 
 Each note focuses on using the individual tool during practical security source code review.
 

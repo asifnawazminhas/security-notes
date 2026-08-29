@@ -1472,9 +1472,7 @@ Whether introspection is considered a vulnerability depends on the application's
 
 A dedicated GraphQL page will be added at:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 

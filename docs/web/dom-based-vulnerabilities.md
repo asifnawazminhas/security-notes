@@ -2114,11 +2114,11 @@ filenameElement.textContent = file.name;
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-docs/web/html-injection.md
-docs/web/xss.md
-```
+[File Upload Security](file-upload.md)
+
+[HTML Injection](html-injection.md)
+
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -2193,10 +2193,9 @@ Source maps can make source-to-sink analysis substantially easier.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-docs/web/reconnaissance/javascript-analysis.md
-```
+[Information Disclosure](information-disclosure.md)
+
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 

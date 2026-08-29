@@ -1442,11 +1442,11 @@ rather than allowing arbitrary path syntax.
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-docs/web/file-inclusion.md
-docs/web/file-upload.md
-```
+[Path Traversal](path-traversal.md)
+
+[File Inclusion](file-inclusion.md)
+
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -2518,10 +2518,9 @@ are both required.
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-docs/web/authorisation.md
-```
+[IDOR and BOLA](idor-bola.md)
+
+[Authorisation Testing](authorisation.md)
 
 ---
 

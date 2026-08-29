@@ -1736,10 +1736,9 @@ The exact CSP security properties depend on the complete policy.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-docs/web/xss.md
-```
+[HTTP Security Headers](http-security-headers.md)
+
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -2387,10 +2386,9 @@ because the script executes on the application's page.
 
 Refer to:
 
-```text
-docs/web/dom-based-vulnerabilities.md
-docs/web/xss.md
-```
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
+
+[Cross-Site Scripting](xss.md)
 
 ---
 

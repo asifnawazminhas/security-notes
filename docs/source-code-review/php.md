@@ -2668,10 +2668,9 @@ Review framework escaping and the exact output context.
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 

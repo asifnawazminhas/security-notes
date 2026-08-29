@@ -1240,10 +1240,9 @@ ownership
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-docs/web/authorisation.md
-```
+[IDOR and BOLA](../web/idor-bola.md)
+
+[Authorisation Testing](../web/authorisation.md)
 
 ---
 
@@ -1925,10 +1924,9 @@ Inline event handlers
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 

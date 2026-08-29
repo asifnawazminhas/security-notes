@@ -2725,10 +2725,9 @@ Determine the response content type and output context.
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 
@@ -2740,10 +2739,9 @@ Review browser-side JavaScript separately.
 
 Refer to:
 
-```text
-docs/source-code-review/javascript.md
-docs/web/dom-based-vulnerabilities.md
-```
+[Client-Side JavaScript Source Code Review](javascript.md)
+
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
 
 ---
 
@@ -4011,10 +4009,9 @@ Incorrect cache isolation can cause sensitive-data disclosure.
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
 
 ---
 

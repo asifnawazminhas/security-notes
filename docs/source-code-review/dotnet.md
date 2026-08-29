@@ -3257,10 +3257,9 @@ Sensitive responses
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
 
 ---
 
@@ -3274,11 +3273,11 @@ Review relevant JavaScript separately.
 
 Refer to:
 
-```text
-docs/source-code-review/javascript.md
-docs/source-code-review/nodejs.md
-docs/web/prototype-pollution.md
-```
+[Client-Side JavaScript Source Code Review](javascript.md)
+
+[Node.js and Express Source Code Review](nodejs.md)
+
+[Prototype Pollution](../web/prototype-pollution.md)
 
 ---
 

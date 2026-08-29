@@ -878,10 +878,9 @@ Do not treat every sink identically.
 
 Refer to:
 
-```text
-docs/web/dom-based-vulnerabilities.md
-docs/web/xss.md
-```
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
+
+[Cross-Site Scripting](../web/xss.md)
 
 ---
 

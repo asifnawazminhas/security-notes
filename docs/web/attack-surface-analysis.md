@@ -2320,10 +2320,9 @@ Some applications trust proxy-related headers unexpectedly.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-docs/web/cors.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
+
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -4258,10 +4257,9 @@ Every sensitive object and action should enforce server-side authorisation.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-docs/web/idor-bola.md
-```
+[Authorisation Testing](authorisation.md)
+
+[IDOR and BOLA](idor-bola.md)
 
 ---
 

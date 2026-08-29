@@ -402,10 +402,9 @@ against client-side attacks such as XSS.
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-```
+[Cross-Site Scripting](xss.md)
+
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
 
 ---
 
@@ -3210,10 +3209,9 @@ https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-docs/web/web-cache-poisoning.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
+
+[Web Cache Poisoning](web-cache-poisoning.md)
 
 ---
 
@@ -3716,9 +3714,7 @@ Define an appropriate framing policy using the Content-Security-Policy frame-anc
 
 For complete clickjacking validation:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](clickjacking.md)
 
 ---
 
