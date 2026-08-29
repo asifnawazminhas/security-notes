@@ -1356,9 +1356,7 @@ Rate limiting should not be considered a replacement for consistent authenticati
 
 Refer to:
 
-```text
-docs/web/authentication.md
-```
+[Authentication Testing](authentication.md)
 
 ---
 
@@ -1388,9 +1386,7 @@ Test with controlled accounts.
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -1485,9 +1481,7 @@ Secure generation
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](mfa.md)
 
 ---
 
@@ -1863,9 +1857,7 @@ User
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -1957,9 +1949,7 @@ is not sufficient as the only control.
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](grpc-security.md)
 
 ---
 
@@ -2008,9 +1998,7 @@ may bypass a connection-based control.
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -2247,9 +2235,7 @@ Storage quotas
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -2551,9 +2537,7 @@ Only one allowed
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](race-conditions.md)
 
 ---
 
@@ -4008,9 +3992,7 @@ Rate limiting only reduces exploitation speed.
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 

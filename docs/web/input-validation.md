@@ -1537,15 +1537,11 @@ DNS resolution where relevant
 
 If the server makes requests to user-supplied URLs, refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 If the browser is redirected to user-controlled URLs, refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -1840,9 +1836,7 @@ XXE
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](xxe.md)
 
 ---
 
@@ -1994,9 +1988,7 @@ is inherently trustworthy.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
 
 ---
 
@@ -2072,9 +2064,7 @@ No single check is sufficient.
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -2206,9 +2196,7 @@ while violating the business rule.
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -2235,9 +2223,7 @@ State transitions
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](grpc-security.md)
 
 ---
 
@@ -2268,9 +2254,7 @@ Business rules
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -2574,9 +2558,7 @@ Missing authorisation
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](mass-assignment.md)
 
 ---
 
@@ -2613,9 +2595,7 @@ String concatenation
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](sql-injection.md)
 
 ---
 
@@ -2636,9 +2616,7 @@ Safe query APIs
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](nosql-injection.md)
 
 ---
 
@@ -2650,9 +2628,7 @@ Validation can reduce unexpected input but should not replace correct LDAP escap
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](ldap-injection.md)
 
 ---
 
@@ -2682,9 +2658,7 @@ Strictly allowlist expected arguments
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](command-injection.md)
 
 ---
 
@@ -2706,9 +2680,7 @@ User input = template code
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](ssti.md)
 
 ---
 
@@ -2742,9 +2714,7 @@ Sanitisation when HTML is intentionally allowed
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -2773,9 +2743,7 @@ Protocol restrictions
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -2803,9 +2771,7 @@ Server:
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](path-traversal.md)
 
 ---
 
@@ -2833,9 +2799,7 @@ rather than accepting arbitrary URLs.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 

@@ -953,9 +953,7 @@ This can occasionally affect authorisation.
 
 Refer to parameter parsing behaviour in:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -1144,9 +1142,7 @@ GraphQL resolvers must enforce object-level authorisation.
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -1419,9 +1415,7 @@ Sessions
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -1460,9 +1454,7 @@ according to the authorisation policy.
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 ---
 
@@ -1519,9 +1511,7 @@ That identifier may then be tested against:
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -1554,9 +1544,7 @@ Action
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -1578,9 +1566,7 @@ This can create a TOCTOU-style problem.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](race-conditions.md)
 
 ---
 

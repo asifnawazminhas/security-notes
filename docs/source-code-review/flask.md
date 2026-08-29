@@ -1545,9 +1545,7 @@ use server-controlled mappings or allowlists.
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -1583,9 +1581,7 @@ Review whether operators can be injected.
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -1618,9 +1614,7 @@ LDAP escaping must be appropriate for the specific LDAP context.
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -1692,9 +1686,7 @@ Validation and allowlisting may still be required.
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -1803,9 +1795,7 @@ Again, determine whether attacker-controlled data becomes template source.
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -2138,9 +2128,7 @@ Parser behaviour
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -2223,9 +2211,7 @@ This is why interprocedural and second-order tracing matters.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -2424,9 +2410,7 @@ Unexpected file types
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -2502,9 +2486,7 @@ Do not report XML parsing itself as XXE.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -2669,9 +2651,7 @@ Determine which host and scheme influence the generated URL.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -2792,9 +2772,7 @@ A correctly signed token does not automatically prove that the resulting action 
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](../web/password-reset.md)
 
 ---
 
@@ -2867,9 +2845,7 @@ Bypass paths
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
 
 ---
 
@@ -2945,9 +2921,7 @@ How are tokens revoked?
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -2979,9 +2953,7 @@ Session creation
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -3011,9 +2983,7 @@ Account linking
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -3087,9 +3057,7 @@ Load balancer
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -3249,9 +3217,7 @@ Review database transaction isolation and application-level locking.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -3563,9 +3529,7 @@ Introspection
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3603,9 +3567,7 @@ State-changing events
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -3641,9 +3603,7 @@ Do not automatically trust internal RPC traffic.
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -3787,9 +3747,7 @@ Deployment
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 

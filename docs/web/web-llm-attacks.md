@@ -1408,9 +1408,7 @@ Then assess network restrictions carefully.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -1591,9 +1589,7 @@ It is trusted
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](sql-injection.md)
 
 ---
 
@@ -1621,9 +1617,7 @@ Command Injection
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](command-injection.md)
 
 ---
 
@@ -1654,9 +1648,7 @@ Authorisation
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](nosql-injection.md)
 
 ---
 
@@ -1676,9 +1668,7 @@ unsafe template handling may expose SSTI.
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](ssti.md)
 
 ---
 
@@ -2016,9 +2006,7 @@ Was the action reversible?
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -2453,9 +2441,7 @@ Metadata
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -2640,9 +2626,7 @@ conversation
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -2848,9 +2832,7 @@ Open Redirect
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -3073,9 +3055,7 @@ Revocation
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 

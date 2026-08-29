@@ -393,9 +393,7 @@ Modifies Other User's Security State
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -464,9 +462,7 @@ They are different vulnerability classes.
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](prototype-pollution.md)
 
 ---
 
@@ -499,9 +495,7 @@ in the first place.
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -1468,9 +1462,7 @@ and inspect them where exposed.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -1611,9 +1603,7 @@ deserve careful review.
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 

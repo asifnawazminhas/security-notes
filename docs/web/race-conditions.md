@@ -365,9 +365,7 @@ The application logic may be secure when requests are sequential but insecure wh
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -1626,9 +1624,7 @@ a TOCTOU issue may occur.
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -2127,9 +2123,7 @@ State Write
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -2163,9 +2157,7 @@ GraphQL aliases and batching can create additional concurrency and rate-limit co
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -2188,9 +2180,7 @@ If WebSocket functionality is in scope, examine whether multiple messages can in
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -2229,9 +2219,7 @@ Then ask:
 
 Refer to:
 
-```text
-docs/web/authentication.md
-```
+[Authentication Testing](authentication.md)
 
 ---
 
@@ -2259,9 +2247,7 @@ Administrative approval
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -2285,9 +2271,7 @@ Concurrent requests modifying the same session may produce unexpected combinatio
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 

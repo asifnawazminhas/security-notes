@@ -365,9 +365,7 @@ Internal Service Reached
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -534,15 +532,11 @@ Such information can significantly improve subsequent injection testing.
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](sql-injection.md)
 
 and:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](nosql-injection.md)
 
 once the NoSQL page is added.
 
@@ -669,9 +663,7 @@ Source map references
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -1426,9 +1418,7 @@ This overlaps with API security testing.
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -1535,9 +1525,7 @@ This reveals account validity.
 
 Refer to:
 
-```text
-docs/web/authentication.md
-```
+[Authentication Testing](authentication.md)
 
 ---
 
@@ -1586,9 +1574,7 @@ This reveals object and user identifiers even though access is denied.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -1797,9 +1783,7 @@ This should be treated as an SSRF attack chain rather than generic information d
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -1847,9 +1831,7 @@ Certificate Transparency data can be useful during reconnaissance.
 
 Refer to:
 
-```text
-docs/web/reconnaissance/subdomain-enumeration.md
-```
+[Subdomain Enumeration](reconnaissance/subdomain-enumeration.md)
 
 ---
 
@@ -2550,9 +2532,7 @@ Version control metadata
 
 Refer to:
 
-```text
-docs/web/reconnaissance/content-discovery.md
-```
+[Content Discovery](reconnaissance/content-discovery.md)
 
 ---
 
@@ -2640,9 +2620,7 @@ Report according to the root cause.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 

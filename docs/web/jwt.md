@@ -1409,9 +1409,7 @@ If arbitrary destinations are accepted, apply the SSRF methodology.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -2352,9 +2350,7 @@ Is user-a authorised to access user-b?
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -2556,9 +2552,7 @@ Therefore token storage and XSS threat modelling should be considered together.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -2585,9 +2579,7 @@ Additional CSRF controls
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -2632,9 +2624,7 @@ JWT validation threat model
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 

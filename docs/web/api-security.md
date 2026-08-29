@@ -1300,9 +1300,7 @@ These should be assessed for SSRF.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 for the dedicated SSRF methodology.
 
@@ -2472,9 +2470,7 @@ Processing
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 

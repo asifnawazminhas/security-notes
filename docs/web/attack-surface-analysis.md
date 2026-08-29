@@ -1498,9 +1498,7 @@ Content discovery should use application-specific wordlists where possible.
 
 Refer to:
 
-```text
-docs/web/reconnaissance/content-discovery.md
-```
+[Content Discovery](reconnaissance/content-discovery.md)
 
 ---
 
@@ -1715,9 +1713,7 @@ Configuration
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -1846,9 +1842,7 @@ Therefore endpoint counting alone can underestimate the attack surface.
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -1875,9 +1869,7 @@ Authorisation
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -1912,9 +1904,7 @@ Authentication
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](grpc-security.md)
 
 ---
 
@@ -1977,9 +1967,7 @@ Every step creates potential attack surface.
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -2000,9 +1988,7 @@ MFA bypasses frequently occur in surrounding workflows rather than the OTP verif
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](mfa.md)
 
 ---
 
@@ -2024,9 +2010,7 @@ Claims
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -2046,9 +2030,7 @@ Logout
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](saml.md)
 
 ---
 
@@ -2229,9 +2211,7 @@ Test each stage independently.
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -2444,9 +2424,7 @@ What happens if it is unavailable?
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-```
+[Third-Party JavaScript Security](third-party-javascript.md)
 
 ---
 
@@ -2678,9 +2656,7 @@ Errors can reveal hidden architecture and components.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -3495,9 +3471,7 @@ Source code
 
 Refer to:
 
-```text
-docs/web/reconnaissance/parameter-discovery.md
-```
+[Parameter Discovery](reconnaissance/parameter-discovery.md)
 
 ---
 
@@ -4297,9 +4271,7 @@ All untrusted input crossing entry points should be validated according to its e
 
 Refer to:
 
-```text
-docs/web/input-validation.md
-```
+[Input Validation](input-validation.md)
 
 ---
 

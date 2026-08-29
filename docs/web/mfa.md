@@ -521,9 +521,7 @@ After MFA:
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 for JWT-specific testing.
 
@@ -1363,9 +1361,7 @@ Partially masked information may still aid user enumeration.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -1610,9 +1606,7 @@ Session state
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -1705,9 +1699,7 @@ may be possible.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -1807,9 +1799,7 @@ Recovery state persists
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -2135,9 +2125,7 @@ cannot protect against every consequence of XSS.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -2163,9 +2151,7 @@ Privilege state
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 
@@ -2322,9 +2308,7 @@ Single-use code used twice
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](race-conditions.md)
 
 ---
 
@@ -2473,9 +2457,7 @@ Alternative MFA methods
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -2541,9 +2523,7 @@ principles.
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -2559,9 +2539,7 @@ can establish an authenticated WebSocket connection.
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -2654,9 +2632,7 @@ to determine authentication strength.
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -2784,15 +2760,11 @@ Change MFA Destination
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 and:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -3147,9 +3119,7 @@ Factor replacement
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](race-conditions.md)
 
 ---
 
@@ -3168,9 +3138,7 @@ Trust device
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -3189,9 +3157,7 @@ MFA does not eliminate XSS risk.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -3221,9 +3187,7 @@ Can the transaction change after approval?
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 

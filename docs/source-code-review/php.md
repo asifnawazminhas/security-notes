@@ -1132,9 +1132,7 @@ Business logic
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -1517,9 +1515,7 @@ Review the correct context.
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -1684,9 +1680,7 @@ system / exec / shell_exec / proc_open
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -1796,9 +1790,7 @@ A URL parser is not an authorisation mechanism.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -2181,9 +2173,7 @@ Write
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -2313,9 +2303,7 @@ Prefer safer interchange formats such as JSON when the data crosses an untrusted
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -2422,9 +2410,7 @@ Options may materially alter parser behaviour.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -2547,9 +2533,7 @@ Review dynamically constructed template source and configuration.
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -2739,9 +2723,7 @@ Pay particular attention to functionality intentionally allowing external URLs.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -2901,9 +2883,7 @@ A stateless API using manually attached bearer tokens has different CSRF propert
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -2944,9 +2924,7 @@ Do not classify permissive CORS as exploitable without demonstrating meaningful 
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -3096,9 +3074,7 @@ Account linking
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -3129,9 +3105,7 @@ Attribute mapping
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -3202,9 +3176,7 @@ Bypass routes
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
 
 ---
 
@@ -3612,9 +3584,7 @@ Determine whether users can skip required states.
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](../web/business-logic.md)
 
 ---
 
@@ -3678,9 +3648,7 @@ Trace the entire state transition.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -3779,9 +3747,7 @@ Batching
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3817,9 +3783,7 @@ State-changing messages
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -3857,9 +3821,7 @@ Data Access
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](../web/api-security.md)
 
 ---
 

@@ -4,9 +4,7 @@ Quick-reference commands, syntax, workflows, and troubleshooting for using NetEx
 
 For the detailed explanation of NetExec, its protocols, authentication models, methodology, evidence handling, detection, and reporting, see:
 
-```text
-active-directory/netexec.md
-```
+[NetExec](../active-directory/netexec.md)
 
 ---
 

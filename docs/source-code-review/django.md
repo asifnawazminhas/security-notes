@@ -1618,9 +1618,7 @@ Model Update
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -2189,9 +2187,7 @@ Review the actual template engine and capabilities before determining impact.
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -2308,9 +2304,7 @@ Review broad trusted-origin configurations.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -2354,9 +2348,7 @@ Can an attacker-controlled origin read sensitive responses?
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2492,9 +2484,7 @@ Egress controls
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -2568,9 +2558,7 @@ Sensitive files
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2721,9 +2709,7 @@ Unsafe downstream processing
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -2750,9 +2736,7 @@ Never deserialize untrusted pickle data.
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -2923,9 +2907,7 @@ Determine whether the resulting host is derived from trusted configuration or re
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -2972,9 +2954,7 @@ Session invalidation
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](../web/password-reset.md)
 
 ---
 
@@ -3069,9 +3049,7 @@ Bypass paths
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
 
 ---
 
@@ -3111,9 +3089,7 @@ Token storage
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -3144,9 +3120,7 @@ Account linking
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -3177,9 +3151,7 @@ ldap_filter = (
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -3211,9 +3183,7 @@ Prefer avoiding shell invocation and passing arguments separately where possible
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -3266,9 +3236,7 @@ Do not classify XML parsing alone as XXE.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -3353,9 +3321,7 @@ Validate actual responses.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -3380,9 +3346,7 @@ Review why framing is allowed.
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](../web/clickjacking.md)
 
 ---
 
@@ -3588,9 +3552,7 @@ Determine whether concurrent requests can violate business invariants.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -3647,9 +3609,7 @@ Do not conclude that rate limiting is absent from source alone because infrastru
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -3743,9 +3703,7 @@ Introspection
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3799,9 +3757,7 @@ State-changing operations
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -3834,9 +3790,7 @@ Do not assume internal RPC calls are inherently trusted.
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -4017,9 +3971,7 @@ Attacker-controlled path?
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 

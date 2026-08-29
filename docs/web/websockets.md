@@ -1208,9 +1208,7 @@ Testing should follow the dedicated XSS methodology.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -1243,9 +1241,7 @@ The transport protocol does not change the underlying injection principle.
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](sql-injection.md)
 
 ---
 
@@ -1276,9 +1272,7 @@ If the input reaches a command interpreter unsafely, command injection may exist
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](command-injection.md)
 
 ---
 
@@ -1309,9 +1303,7 @@ this should trigger SSRF testing.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 

@@ -482,9 +482,7 @@ Victim → Cache → Attacker
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-```
+[Web Cache Poisoning](web-cache-poisoning.md)
 
 ---
 
@@ -1587,9 +1585,7 @@ Do not automatically claim CSRF bypass merely because a token is disclosed.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -1749,9 +1745,7 @@ becomes incorrectly cached.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -1831,9 +1825,7 @@ for subsequent requests.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -2497,9 +2489,7 @@ Sensitive response cached
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](path-traversal.md)
 
 ---
 
@@ -2535,9 +2525,7 @@ URL interpretation / cacheability
 
 Refer to:
 
-```text
-docs/web/http-request-smuggling.md
-```
+[HTTP Request Smuggling](http-request-smuggling.md)
 
 ---
 
@@ -2565,9 +2553,7 @@ and explain the resulting data disclosure.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -2594,9 +2580,7 @@ Validate independently.
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 

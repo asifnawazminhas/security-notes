@@ -1559,9 +1559,7 @@ BOLA / IDOR
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -1710,9 +1708,7 @@ might become security-sensitive mass-assignment candidates.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](mass-assignment.md)
 
 ---
 
@@ -2036,9 +2032,7 @@ SQL injection remains possible
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](sql-injection.md)
 
 ---
 
@@ -2067,9 +2061,7 @@ The gRPC transport provides no protection against unsafe command construction.
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](command-injection.md)
 
 ---
 
@@ -2094,9 +2086,7 @@ These are potential SSRF candidates.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -2131,9 +2121,7 @@ Potential path traversal
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](path-traversal.md)
 
 ---
 
@@ -2529,9 +2517,7 @@ Administrative methods
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](rate-limiting.md)
 
 when that page exists.
 
@@ -2882,9 +2868,7 @@ Unexpected object state
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -2912,9 +2896,7 @@ HTTP/2 multiplexing and gRPC concurrency make race-condition testing relevant.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](race-conditions.md)
 
 Use controlled accounts and minimal concurrency.
 
@@ -3720,9 +3702,7 @@ Authorisation
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 ---
 
@@ -3744,9 +3724,7 @@ as appropriate.
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -3766,9 +3744,7 @@ Security Misconfiguration
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -3787,9 +3763,7 @@ Access-Control-Allow-Methods
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -3816,9 +3790,7 @@ immune to CSRF
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 

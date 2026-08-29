@@ -1291,9 +1291,7 @@ No CSRF vulnerability
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -1345,9 +1343,7 @@ A site can have strict CORS and still be vulnerable to Clickjacking.
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](clickjacking.md)
 
 ---
 
@@ -1598,9 +1594,7 @@ Verify the complete flow.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 

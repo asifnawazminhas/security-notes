@@ -500,9 +500,7 @@ Infers information
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -548,9 +546,7 @@ There can be overlap between the defenses used against both.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -594,9 +590,7 @@ infers target state
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -1446,9 +1440,7 @@ X-Frame-Options: DENY
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](clickjacking.md)
 
 ---
 
@@ -1692,9 +1684,7 @@ event.origin
 
 Refer to:
 
-```text
-docs/web/dom-based-vulnerabilities.md
-```
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
 
 ---
 
@@ -2499,9 +2489,7 @@ Sec-Fetch-User
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](http-security-headers.md)
 
 ---
 
@@ -2853,9 +2841,7 @@ without directly reading the response.
 
 Refer to:
 
-```text
-docs/web/authentication.md
-```
+[Authentication Testing](authentication.md)
 
 ---
 
@@ -2915,9 +2901,7 @@ or whether the victim can access it?
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -2947,9 +2931,7 @@ Anti-framing controls can mitigate both.
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](clickjacking.md)
 
 ---
 
@@ -2969,9 +2951,7 @@ It becomes relevant when it contributes to an observable cross-site state differ
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -3039,9 +3019,7 @@ does not by itself prevent XS-Leaks.
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 
@@ -3749,9 +3727,7 @@ Different cache behaviour
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 

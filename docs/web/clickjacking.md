@@ -740,9 +740,7 @@ The legitimate page already contains the required token.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -1632,9 +1630,7 @@ Clickjacking
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 once that page is added.
 

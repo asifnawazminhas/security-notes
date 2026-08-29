@@ -18,9 +18,7 @@ Evidence and reporting
 
 For the detailed methodology and explanation of BloodHound relationships, see:
 
-```text
-active-directory/bloodhound.md
-```
+[BloodHound](../active-directory/bloodhound.md)
 
 ---
 

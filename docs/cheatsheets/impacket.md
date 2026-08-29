@@ -4,9 +4,7 @@ Quick-reference commands and workflows for using Impacket during authorised Wind
 
 For explanations of the protocols, authentication models, prerequisites, interpretation, detection, and reporting, see:
 
-```text
-active-directory/impacket.md
-```
+[Impacket](../active-directory/impacket.md)
 
 ---
 

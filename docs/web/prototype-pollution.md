@@ -1133,9 +1133,7 @@ Readable variable names
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -1962,9 +1960,7 @@ Focus on endpoints that recursively process user-controlled objects.
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -2036,9 +2032,7 @@ They may occur in related object-processing code, but they are separate issues.
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](deserialization.md)
 
 ---
 

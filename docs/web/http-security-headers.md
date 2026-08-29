@@ -762,9 +762,7 @@ This can reduce the impact of certain HTML injection scenarios.
 
 Refer to:
 
-```text
-docs/web/html-injection.md
-```
+[HTML Injection](html-injection.md)
 
 ---
 
@@ -795,9 +793,7 @@ X-Frame-Options
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](clickjacking.md)
 
 ---
 
@@ -968,9 +964,7 @@ to the same origin, the upload functionality may influence CSP security.
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -984,9 +978,7 @@ However, redirect chains and trusted services can create complex interactions.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -1450,9 +1442,7 @@ Generated files
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -1602,9 +1592,7 @@ Recovery identifiers
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -1828,9 +1816,7 @@ Clickjacking feasibility
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](clickjacking.md)
 
 ---
 
@@ -1901,9 +1887,7 @@ XS-Leaks
 
 which will be covered in:
 
-```text
-docs/web/xs-leaks.md
-```
+[XS-Leaks](xs-leaks.md)
 
 ---
 
@@ -2014,9 +1998,7 @@ CORS primarily controls whether JavaScript can read certain cross-origin respons
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -2042,9 +2024,7 @@ CORS requires dedicated origin and credential testing.
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -2211,9 +2191,7 @@ where applicable.
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 
@@ -2245,9 +2223,7 @@ Max-Age
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 
@@ -2297,9 +2273,7 @@ SameSite can provide protection against some CSRF scenarios.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -2430,9 +2404,7 @@ Known vulnerability exploitable
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -2611,9 +2583,7 @@ Does CSP restrict active content?
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -2673,9 +2643,7 @@ depending on authentication and response type.
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -3419,9 +3387,7 @@ Test Relevant XSS Context
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 for complete cookie testing.
 

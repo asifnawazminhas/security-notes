@@ -363,9 +363,7 @@ appears in the DOM through `innerHTML`, investigate the rendering context.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -624,9 +622,7 @@ https://example.com/
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -1474,9 +1470,7 @@ The security impact depends on how the server processes the message.
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -1775,9 +1769,7 @@ but the mechanism differs.
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](prototype-pollution.md)
 
 ---
 
@@ -1896,9 +1888,7 @@ Sensitive Action
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -2680,9 +2670,7 @@ Prototype pollution has its own dedicated methodology.
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](prototype-pollution.md)
 
 ---
 
@@ -3232,9 +3220,7 @@ This does not automatically prove JavaScript execution.
 
 Refer to:
 
-```text
-docs/web/html-injection.md
-```
+[HTML Injection](html-injection.md)
 
 ---
 

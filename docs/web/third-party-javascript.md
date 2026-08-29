@@ -1323,9 +1323,7 @@ This is why secrets should generally not be placed unnecessarily in URLs.
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](secrets-exposure.md)
 
 ---
 
@@ -1351,9 +1349,7 @@ and avoid placing secrets in URLs in the first place.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](http-security-headers.md)
 
 ---
 
@@ -2410,9 +2406,7 @@ through unsafe object-merging or property-handling functionality.
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](prototype-pollution.md)
 
 Dependency scanning can help identify known vulnerable library versions.
 
@@ -2444,9 +2438,7 @@ Is integrity checked?
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](dependency-security.md)
 
 ---
 
@@ -2474,9 +2466,7 @@ Application applicability
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](dependency-security.md)
 
 ---
 
@@ -2612,9 +2602,7 @@ Configuration
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -3016,9 +3004,7 @@ Third-party requests
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 

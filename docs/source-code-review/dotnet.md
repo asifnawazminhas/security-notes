@@ -1125,9 +1125,7 @@ Prefer explicit request DTOs and explicit mapping of permitted fields.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -1400,9 +1398,7 @@ If attacker-controlled data is inserted directly into an LDAP filter, review for
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -1517,9 +1513,7 @@ Command execution
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -1588,9 +1582,7 @@ Proxy behaviour
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -1676,9 +1668,7 @@ where appropriate.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -1744,9 +1734,7 @@ File Operation
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -1837,9 +1825,7 @@ Downstream processing
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -1921,9 +1907,7 @@ Parser defaults and configuration vary by API and .NET version.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -2076,9 +2060,7 @@ The latter deserves closer SSTI review.
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -2197,9 +2179,7 @@ The same raw rendering primitives may result in HTML injection even when executa
 
 Refer to:
 
-```text
-docs/web/html-injection.md
-```
+[HTML Injection](../web/html-injection.md)
 
 ---
 
@@ -2271,9 +2251,7 @@ Trace the complete framework configuration.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -2332,9 +2310,7 @@ but do not automatically report them without assessing whether sensitive cross-o
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2362,9 +2338,7 @@ Cache keys
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -2561,9 +2535,7 @@ Account linking
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -2603,9 +2575,7 @@ Attribute mapping
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -2643,9 +2613,7 @@ Rate limiting
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](../web/password-reset.md)
 
 ---
 
@@ -2673,9 +2641,7 @@ Review bypass paths as well as the main verification handler.
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
 
 ---
 
@@ -2841,9 +2807,7 @@ Actually usable
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](../web/secrets-exposure.md)
 
 ---
 
@@ -3030,9 +2994,7 @@ These vulnerabilities often have no obvious dangerous sink.
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](../web/business-logic.md)
 
 ---
 
@@ -3115,9 +3077,7 @@ API endpoints
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -3171,9 +3131,7 @@ Depth
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3217,9 +3175,7 @@ Sensitive Operation
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -3248,9 +3204,7 @@ State-changing methods
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -3274,9 +3228,7 @@ Review deployment configuration as well as application code.
 
 Refer to:
 
-```text
-docs/web/http-request-smuggling.md
-```
+[HTTP Request Smuggling](../web/http-request-smuggling.md)
 
 ---
 
@@ -3368,9 +3320,7 @@ Dependency source configuration
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 
@@ -3432,9 +3382,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-```
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
 
 ---
 

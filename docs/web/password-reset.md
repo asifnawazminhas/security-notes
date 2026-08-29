@@ -675,9 +675,7 @@ Single-use behaviour
 
 JWT-specific security testing is covered in:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 ---
 
@@ -821,9 +819,7 @@ Correct Account
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -1358,9 +1354,7 @@ Application
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
 
 ---
 
@@ -1655,9 +1649,7 @@ Stack trace
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -1681,9 +1673,7 @@ may become exposed.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -1724,9 +1714,7 @@ depending on session and CSRF protections.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -2093,9 +2081,7 @@ to be used more than once concurrently.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](race-conditions.md)
 
 ---
 
@@ -2482,9 +2468,7 @@ Determine whether reset unexpectedly creates alternative authentication paths.
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -2537,9 +2521,7 @@ because applications frequently need to generate absolute URLs.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
 
 ---
 
@@ -2665,9 +2647,7 @@ Recovery setting modification
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -2695,9 +2675,7 @@ Can verification state be manipulated?
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -2740,9 +2718,7 @@ Each must be securely bound to the recovery token or authenticated recovery stat
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -3385,9 +3361,7 @@ Hidden workflow steps
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 

@@ -3429,9 +3429,7 @@ Also ask:
 
 Continue with:
 
-```text
-docs/active-directory/methodology.md
-```
+[Active Directory Penetration Testing Methodology](methodology.md)
 
 The methodology page should turn this overview into a practical engagement workflow:
 

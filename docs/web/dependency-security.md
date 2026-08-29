@@ -2568,9 +2568,7 @@ Can interact with page
 
 This topic deserves separate treatment and is covered in:
 
-```text
-docs/web/third-party-javascript.md
-```
+[Third-Party JavaScript Security](third-party-javascript.md)
 
 ---
 

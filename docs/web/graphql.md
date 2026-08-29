@@ -298,9 +298,7 @@ Real-Time Response
 
 If subscriptions are present, also review:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -1382,9 +1380,7 @@ Validate With Controlled Account
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -1511,9 +1507,7 @@ SQL injection may still occur.
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](sql-injection.md)
 
 ---
 
@@ -1533,9 +1527,7 @@ Resolver and database logic still require review.
 
 A dedicated page should cover:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](nosql-injection.md)
 
 ---
 
@@ -1555,9 +1547,7 @@ command injection may be possible.
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](command-injection.md)
 
 ---
 
@@ -1589,9 +1579,7 @@ This may create SSRF attack surface.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -1650,9 +1638,7 @@ Processing libraries
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](file-upload.md)
 
 ---
 
@@ -1682,9 +1668,7 @@ Can workflow steps be skipped?
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -1969,9 +1953,7 @@ Are subscriptions authenticated?
 
 Refer to:
 
-```text
-docs/web/authentication.md
-```
+[Authentication Testing](authentication.md)
 
 ---
 
@@ -2002,9 +1984,7 @@ Can User Modify Object?
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 

@@ -833,9 +833,7 @@ Host-related headers are a classic cache poisoning source.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
 
 A common pattern is:
 
@@ -887,9 +885,7 @@ Victim delivery
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
@@ -1109,9 +1105,7 @@ Cross-origin data exposure
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -1180,9 +1174,7 @@ Cache Poisoning
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -1288,9 +1280,7 @@ Victim → Cache → Attacker
 
 A separate page should cover:
 
-```text
-docs/web/web-cache-deception.md
-```
+[Web Cache Deception](web-cache-deception.md)
 
 ---
 
@@ -1336,9 +1326,7 @@ The two can sometimes interact, but they are separate vulnerability classes.
 
 Refer to:
 
-```text
-docs/web/http-request-smuggling.md
-```
+[HTTP Request Smuggling](http-request-smuggling.md)
 
 ---
 

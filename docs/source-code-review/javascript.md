@@ -1049,9 +1049,7 @@ Determine whether arbitrary external destinations are accepted.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -1586,9 +1584,7 @@ sanitiser configuration
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](../web/prototype-pollution.md)
 
 ---
 
@@ -2153,9 +2149,7 @@ It is not appropriate for every dynamically changing third-party script.
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-```
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
 
 ---
 
@@ -2511,9 +2505,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -2670,9 +2662,7 @@ These can reveal server-side attack surface.
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -2728,9 +2718,7 @@ Mutations reveal high-value operations.
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -2756,9 +2744,7 @@ Endpoints
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -3276,9 +3262,7 @@ Determine the actual impact.
 
 Refer to:
 
-```text
-docs/web/html-injection.md
-```
+[HTML Injection](../web/html-injection.md)
 
 ---
 

@@ -1343,9 +1343,7 @@ Do not report normal ORM queries as SQL injection merely because attacker-contro
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -1449,9 +1447,7 @@ Aggregation stages
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -1486,9 +1482,7 @@ Trace attacker-controlled values into LDAP filter syntax.
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -1634,9 +1628,7 @@ Treat attacker-controlled input reaching shell-enabled execution as high priorit
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -1832,9 +1824,7 @@ This distinction is essential.
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -2077,9 +2067,7 @@ Search beyond direct request-to-fetch flows.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -2302,9 +2290,7 @@ Destination
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -2344,9 +2330,7 @@ Trust boundary
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -2453,9 +2437,7 @@ Privilege checks
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](../web/prototype-pollution.md)
 
 ---
 
@@ -2541,9 +2523,7 @@ Explicit field selection makes the writable model clearer.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -2591,9 +2571,7 @@ Do not report missing CSRF middleware without understanding authentication.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -2665,9 +2643,7 @@ Reflection of arbitrary Origin
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2887,9 +2863,7 @@ Are refresh tokens protected?
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -2930,9 +2904,7 @@ Session creation
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -2970,9 +2942,7 @@ Account linking
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -3080,9 +3050,7 @@ Bypass routes
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
 
 ---
 
@@ -3135,9 +3103,7 @@ Email
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -3284,9 +3250,7 @@ Load balancer
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -3501,9 +3465,7 @@ Should price come from trusted server-side product data?
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](../web/business-logic.md)
 
 ---
 
@@ -3571,9 +3533,7 @@ Their presence does not automatically prove the workflow is race-safe.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -3809,9 +3769,7 @@ File uploads
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3890,9 +3848,7 @@ Session lifecycle
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -3934,9 +3890,7 @@ Internal trust assumptions
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -3978,9 +3932,7 @@ Do not report request smuggling based solely on an Express route.
 
 Refer to:
 
-```text
-docs/web/http-request-smuggling.md
-```
+[HTTP Request Smuggling](../web/http-request-smuggling.md)
 
 ---
 

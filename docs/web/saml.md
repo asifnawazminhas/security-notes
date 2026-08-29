@@ -500,9 +500,7 @@ Session mix-up
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -701,9 +699,7 @@ metadata
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -2071,9 +2067,7 @@ affect authorisation.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -2328,9 +2322,7 @@ User identity
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 
@@ -2467,9 +2459,7 @@ may exist.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -2504,9 +2494,7 @@ The application should correctly bind authentication responses to intended flows
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](csrf.md)
 
 ---
 
@@ -2567,9 +2555,7 @@ may become possible.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](xxe.md)
 
 ---
 
@@ -2719,9 +2705,7 @@ may become relevant.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](host-header-attacks.md)
 
 ---
 
@@ -2848,9 +2832,7 @@ on SAML endpoints where relevant.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](http-security-headers.md)
 
 ---
 
@@ -2941,9 +2923,7 @@ or assurance level.
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](mfa.md)
 
 ---
 
@@ -3025,9 +3005,7 @@ If local authentication was intended to be disabled, this can create an alternat
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -3084,9 +3062,7 @@ Identity Layer
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -3148,9 +3124,7 @@ Audience
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 ---
 
@@ -3168,9 +3142,7 @@ A secure SAML login does not guarantee secure object authorisation.
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -3200,9 +3172,7 @@ accountType
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](mass-assignment.md)
 
 ---
 
@@ -3223,9 +3193,7 @@ These are business logic boundaries.
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 

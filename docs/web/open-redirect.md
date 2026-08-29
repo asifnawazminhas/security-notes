@@ -717,9 +717,7 @@ If the callback or related trusted path can redirect externally, the trust chain
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -1043,9 +1041,7 @@ Therefore redirect following can be relevant during SSRF testing.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 
@@ -1914,9 +1910,7 @@ or broad wildcard redirect rules where avoidable.
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 

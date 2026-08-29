@@ -1569,9 +1569,7 @@ GraphQL schema validation may reduce some type confusion, but resolver logic mus
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -1633,9 +1631,7 @@ unless strict server-side validation prevents it.
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](api-security.md)
 
 ---
 
@@ -1923,9 +1919,7 @@ Broken Object-Level Authorisation
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -1953,9 +1947,7 @@ Business Logic Abuse
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -2042,9 +2034,7 @@ Internal code
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -2074,9 +2064,7 @@ They are different vulnerability classes.
 
 Refer to:
 
-```text
-docs/web/prototype-pollution.md
-```
+[Prototype Pollution](prototype-pollution.md)
 
 ---
 
@@ -2498,9 +2486,7 @@ MongoDB
 
 Refer to:
 
-```text
-docs/web/reconnaissance/technology-identification.md
-```
+[Technology Identification](reconnaissance/technology-identification.md)
 
 ---
 
@@ -2533,9 +2519,7 @@ graphql
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 

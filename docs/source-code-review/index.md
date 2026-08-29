@@ -290,9 +290,7 @@ Management interfaces
 
 Source review should complement:
 
-```text
-docs/web/attack-surface-analysis.md
-```
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
 
 ---
 
@@ -1013,9 +1011,7 @@ They are also important for dependency security.
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 
@@ -1072,9 +1068,7 @@ Encryption keys
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](../web/secrets-exposure.md)
 
 Do not assume every high-entropy string is a valid credential.
 
@@ -1171,9 +1165,7 @@ Manually implemented?
 
 Refer to:
 
-```text
-docs/web/authentication.md
-```
+[Authentication Testing](../web/authentication.md)
 
 ---
 
@@ -1296,9 +1288,7 @@ Database
 
 Refer to:
 
-```text
-docs/web/input-validation.md
-```
+[Input Validation](../web/input-validation.md)
 
 ---
 
@@ -1444,9 +1434,7 @@ Shell syntax?
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -1513,9 +1501,7 @@ Redirect destination
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -1544,9 +1530,7 @@ User input as template source
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -1580,9 +1564,7 @@ Integrity protection
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -1602,9 +1584,7 @@ Parser configuration
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -1650,9 +1630,7 @@ Trace whether the destination is attacker-controlled.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -2346,9 +2324,7 @@ Internal endpoints
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](../web/information-disclosure.md)
 
 ---
 
@@ -2499,9 +2475,7 @@ Permissions
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -2540,9 +2514,7 @@ account linking
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -2581,9 +2553,7 @@ Attribute mapping
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -2649,9 +2619,7 @@ Where is ownership checked?
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](../web/idor-bola.md)
 
 ---
 
@@ -2685,9 +2653,7 @@ verified
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -2719,9 +2685,7 @@ Then determine whether parameterisation is used correctly.
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -2738,9 +2702,7 @@ Filter construction
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -2757,9 +2719,7 @@ Dynamic filter construction
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -2788,9 +2748,7 @@ Input allowlisted?
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -2812,9 +2770,7 @@ Is user input compiled/evaluated as template source?
 
 Refer to:
 
-```text
-docs/web/ssti.md
-```
+[Server-Side Template Injection](../web/ssti.md)
 
 ---
 
@@ -2871,9 +2827,7 @@ Framework CSRF middleware
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -2891,9 +2845,7 @@ Dynamic origin reflection
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2925,9 +2877,7 @@ Network egress
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -2956,9 +2906,7 @@ Filename mapping
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2999,9 +2947,7 @@ Archive extraction
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-```
+[File Upload Security](../web/file-upload.md)
 
 ---
 
@@ -3023,9 +2969,7 @@ Does deserialisation trigger dangerous behaviour?
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -3050,9 +2994,7 @@ Restricted to local paths
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -3079,9 +3021,7 @@ Security decisions
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -3104,9 +3044,7 @@ Consider application context and actual impact.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -3141,9 +3079,7 @@ Failure behaviour
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -3180,9 +3116,7 @@ Account creation
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -3205,9 +3139,7 @@ Use software composition analysis where appropriate.
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 
@@ -3241,9 +3173,7 @@ How is vendor change managed?
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-```
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
 
 ---
 
@@ -3265,9 +3195,7 @@ Versioning
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](../web/api-security.md)
 
 ---
 
@@ -3289,9 +3217,7 @@ Authorisation should be reviewed at the actual data-access level, not merely at 
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3311,9 +3237,7 @@ Message validation
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -3333,9 +3257,7 @@ State changes
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -3359,9 +3281,7 @@ Potential secrets require validation.
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](../web/secrets-exposure.md)
 
 ---
 

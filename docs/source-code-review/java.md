@@ -1529,9 +1529,7 @@ Aggregation pipelines
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -1585,9 +1583,7 @@ Review whether attacker-controlled values are properly encoded for their LDAP co
 
 Refer to:
 
-```text
-docs/web/ldap-injection.md
-```
+[LDAP Injection](../web/ldap-injection.md)
 
 ---
 
@@ -1706,9 +1702,7 @@ Runtime.exec / ProcessBuilder
 
 Refer to:
 
-```text
-docs/web/command-injection.md
-```
+[OS Command Injection](../web/command-injection.md)
 
 ---
 
@@ -1867,9 +1861,7 @@ A syntactically valid URL is not necessarily an authorised URL.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](../web/ssrf.md)
 
 ---
 
@@ -1930,9 +1922,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -2033,9 +2023,7 @@ File Operation
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2257,9 +2245,7 @@ Interpret settings in context.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -2454,9 +2440,7 @@ Side Effects?
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -2869,9 +2853,7 @@ Do not automatically report wildcard CORS without demonstrating a meaningful cro
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2909,9 +2891,7 @@ Cache keys
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -2967,9 +2947,7 @@ because headers may be applied outside Java.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -3108,9 +3086,7 @@ Administrative access
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -3141,9 +3117,7 @@ Claims
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
 
 ---
 
@@ -3179,9 +3153,7 @@ Attribute mapping
 
 Refer to:
 
-```text
-docs/web/saml.md
-```
+[SAML Security](../web/saml.md)
 
 ---
 
@@ -3212,9 +3184,7 @@ Password-change invalidation
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](../web/password-reset.md)
 
 ---
 
@@ -3243,9 +3213,7 @@ Rate limiting
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
 
 ---
 
@@ -3654,9 +3622,7 @@ Verify configuration and reachability.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](../web/information-disclosure.md)
 
 ---
 
@@ -3724,9 +3690,7 @@ Business logic vulnerabilities may have no obvious sink.
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](../web/business-logic.md)
 
 ---
 
@@ -3835,9 +3799,7 @@ API endpoints
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -3915,9 +3877,7 @@ Data loaders
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](../web/graphql.md)
 
 ---
 
@@ -3961,9 +3921,7 @@ Sensitive Operation
 
 Refer to:
 
-```text
-docs/web/grpc-security.md
-```
+[gRPC Security](../web/grpc-security.md)
 
 ---
 
@@ -3999,9 +3957,7 @@ State-changing messages
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](../web/websockets.md)
 
 ---
 
@@ -4084,9 +4040,7 @@ Review deployment architecture and HTTP parser differences.
 
 Refer to:
 
-```text
-docs/web/http-request-smuggling.md
-```
+[HTTP Request Smuggling](../web/http-request-smuggling.md)
 
 ---
 
@@ -4139,9 +4093,7 @@ Transitive dependencies
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 

@@ -655,9 +655,7 @@ Determine whether the behaviour creates a meaningful redirect vulnerability.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](open-redirect.md)
 
 ---
 
@@ -729,9 +727,7 @@ These can help identify caching infrastructure.
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-```
+[Web Cache Poisoning](web-cache-poisoning.md)
 
 once that page is added.
 
@@ -830,9 +826,7 @@ A callback can provide evidence that the supplied hostname influenced server-sid
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 for broader SSRF methodology.
 
@@ -1124,9 +1118,7 @@ Verify whether attacker-controlled host information actually reaches a security-
 
 Refer to:
 
-```text
-docs/web/oauth-oidc.md
-```
+[OAuth 2.0 and OpenID Connect Security](oauth-oidc.md)
 
 ---
 
@@ -1156,9 +1148,7 @@ API gateways
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -1192,9 +1182,7 @@ Host validation
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](cors.md)
 
 ---
 
@@ -1221,9 +1209,7 @@ This can reveal internal infrastructure.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 

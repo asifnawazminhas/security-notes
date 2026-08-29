@@ -1202,9 +1202,7 @@ LDAP Search
 
 Refer to:
 
-```text
-docs/web/graphql.md
-```
+[GraphQL API Security](graphql.md)
 
 ---
 
@@ -1269,9 +1267,7 @@ query
 
 Refer to:
 
-```text
-docs/web/reconnaissance/parameter-discovery.md
-```
+[Parameter Discovery](reconnaissance/parameter-discovery.md)
 
 ---
 
@@ -1618,9 +1614,7 @@ This may expose internal infrastructure information.
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 
@@ -2175,9 +2169,7 @@ Wrong-account selection
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](password-reset.md)
 
 ---
 
@@ -2195,9 +2187,7 @@ Manipulating directory lookup logic could potentially influence downstream authe
 
 Refer to:
 
-```text
-docs/web/mfa.md
-```
+[Multi-Factor Authentication Security](mfa.md)
 
 ---
 
@@ -2231,9 +2221,7 @@ may become possible.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -2267,9 +2255,7 @@ They can coexist.
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -2290,9 +2276,7 @@ A technically small LDAP injection may therefore create significant business-log
 
 Refer to:
 
-```text
-docs/web/business-logic.md
-```
+[Business Logic Vulnerabilities](business-logic.md)
 
 ---
 
@@ -2312,9 +2296,7 @@ Organisational structure
 
 Refer to:
 
-```text
-docs/web/information-disclosure.md
-```
+[Information Disclosure](information-disclosure.md)
 
 ---
 

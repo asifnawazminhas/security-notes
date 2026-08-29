@@ -1134,9 +1134,7 @@ If JavaScript execution is demonstrated, classify and report the more significan
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 
