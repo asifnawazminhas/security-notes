@@ -1,280 +1,104 @@
 # NetExec Cheatsheet
 
-Quick-reference commands, syntax, workflows, and troubleshooting for using NetExec during authorised Windows and Active Directory security assessments.
+Quick-reference guide for using NetExec during authorised internal penetration tests, Active Directory assessments and red-team engagements.
 
-For the detailed explanation of NetExec, its protocols, authentication models, methodology, evidence handling, detection, and reporting, see:
+NetExec, commonly invoked as `nxc`, is a network service enumeration and assessment framework descended from CrackMapExec.
 
-[NetExec](../active-directory/netexec.md)
+It supports multiple protocols and can be used for:
+
+```text
+Host Discovery
+Service Enumeration
+Authentication Validation
+SMB Assessment
+LDAP Enumeration
+WinRM Assessment
+MSSQL Enumeration
+SSH Assessment
+RDP Assessment
+NFS Assessment
+FTP Assessment
+WMI Assessment
+VNC Assessment
+Security Configuration Review
+Share Enumeration
+Active Directory Enumeration
+BloodHound Collection
+Module-Based Enumeration
+```
+
+!!! warning "Authorised testing only"
+    NetExec can authenticate to many systems quickly and can perform actions that generate significant authentication traffic or modify remote systems. Use it only against systems you own or are explicitly authorised to assess. Understand account lockout policy and the rules of engagement before authentication testing.
+
+For deeper Active Directory methodology see:
+
+[Active Directory Cheatsheet](active-directory.md)
 
 ---
 
-# What Is NetExec?
+# Quick Start
 
-NetExec, commonly invoked as:
+A useful NetExec workflow:
+
+```text
+Targets
+   |
+   v
+Protocol Discovery
+   |
+   v
+Unauthenticated Enumeration
+   |
+   v
+Security Configuration
+   |
+   v
+Authorised Credentials
+   |
+   v
+Authentication Validation
+   |
+   v
+Users / Groups / Shares
+   |
+   v
+LDAP / AD Enumeration
+   |
+   v
+Administrative Access Mapping
+   |
+   v
+Modules
+   |
+   v
+Manual Validation
+```
+
+Typical starting commands:
 
 ```bash
-nxc
+nxc smb 10.10.10.0/24
 ```
 
-is a network service assessment tool designed for efficiently testing and enumerating multiple systems.
-
-It is particularly useful for:
-
-```text
-Host discovery
-SMB enumeration
-LDAP enumeration
-Credential validation
-Administrative access mapping
-Share discovery
-Password policy review
-Kerberos-aware authentication
-WinRM assessment
-WMI assessment
-MSSQL assessment
-SSH assessment
-RDP assessment
-Module-based enumeration
-BloodHound collection
-Large-scale internal assessment
+```bash
+nxc ldap dc01.example.local
 ```
 
-A useful mental model is:
-
-```text
-                   NetExec
-                      |
-          +-----------+-----------+
-          |                       |
-          v                       v
-       Targets                Credentials
-          |                       |
-          +-----------+-----------+
-                      |
-                      v
-                   Protocol
-                      |
-       +--------------+--------------+
-       |              |              |
-       v              v              v
-      SMB            LDAP          WinRM
-       |              |              |
-       +--------------+--------------+
-                      |
-                      v
-                 Enumeration
-                      |
-                      v
-                  Analysis
+```bash
+nxc winrm 10.10.10.0/24
 ```
 
 ---
 
-# Authorised Use
+# Help
 
-Use NetExec only for:
-
-```text
-Authorised penetration testing
-Internal security assessments
-Red team exercises
-Purple team exercises
-Training environments
-CTFs
-Security research
-```
-
-Some NetExec operations can:
-
-```text
-Validate credentials across many systems
-Perform password spraying
-Access remote shares
-Enumerate sensitive directory information
-Dump credential material
-Execute commands
-Run modules
-Modify remote systems
-```
-
-Always confirm the operation is permitted by the rules of engagement.
-
----
-
-# Installation
-
-## Kali Linux
-
-```bash
-sudo apt update
-sudo apt install netexec
-```
-
-Check:
-
-```bash
-which nxc
-```
-
-Version:
-
-```bash
-nxc --version
-```
-
-Help:
+Global help:
 
 ```bash
 nxc --help
 ```
 
----
-
-# pipx Installation
-
-Install prerequisites:
-
-```bash
-sudo apt install pipx git
-```
-
-Configure pipx:
-
-```bash
-pipx ensurepath
-```
-
-Install NetExec:
-
-```bash
-pipx install git+https://github.com/Pennyw0rth/NetExec
-```
-
-Open a new shell afterwards.
-
-Check:
-
-```bash
-nxc --version
-```
-
----
-
-# Updating NetExec
-
-For a pipx installation:
-
-```bash
-pipx upgrade netexec
-```
-
-Force installation from the latest repository state:
-
-```bash
-pipx reinstall netexec
-```
-
----
-
-# Tab Completion
-
-Install:
-
-```bash
-sudo apt install python3-argcomplete
-```
-
-For Bash:
-
-```bash
-register-python-argcomplete nxc >> ~/.bashrc
-```
-
-Reload:
-
-```bash
-source ~/.bashrc
-```
-
-For Zsh:
-
-```bash
-register-python-argcomplete nxc >> ~/.zshrc
-```
-
-Reload:
-
-```bash
-source ~/.zshrc
-```
-
----
-
-# NetExec Home Directory
-
-Default:
-
-```text
-~/.nxc
-```
-
-Inspect:
-
-```bash
-ls -la ~/.nxc
-```
-
-NetExec stores configuration and operational data under this directory.
-
----
-
-# Custom NetExec Directory
-
-Set:
-
-```bash
-export NXC_PATH="/path/to/netexec-data"
-```
-
-Check:
-
-```bash
-echo "$NXC_PATH"
-```
-
----
-
-# General Syntax
-
-Basic syntax:
-
-```bash
-nxc <protocol> <target>
-```
-
-With credentials:
-
-```bash
-nxc <protocol> <target> -u <username> -p '<password>'
-```
-
-Example:
-
-```bash
-nxc smb 10.10.20.10 -u alice -p 'Password'
-```
-
----
-
-# Protocol Help
-
-Check available protocols:
-
-```bash
-nxc --help
-```
-
-Protocol-specific help:
+Protocol help:
 
 ```bash
 nxc smb --help
@@ -288,516 +112,642 @@ nxc ldap --help
 nxc winrm --help
 ```
 
-Always use the help output from the installed version when syntax differs from older notes.
+Always check the installed version's help before relying on an option copied from an older cheatsheet.
 
 ---
 
-# Common Protocols
+# Version
 
-Depending on the installed NetExec version, commonly supported protocols include:
-
-```text
-SMB
-LDAP
-WinRM
-WMI
-MSSQL
-SSH
-RDP
-FTP
-NFS
-VNC
+```bash
+nxc --version
 ```
 
-Check:
+NetExec changes regularly.
+
+Commands and modules may differ between releases.
+
+---
+
+# Installed Protocols
+
+Run:
 
 ```bash
 nxc --help
 ```
 
-for the authoritative list on the installed system.
+The available protocols depend on the installed NetExec version.
+
+Common protocols include:
+
+```text
+SMB
+LDAP
+WINRM
+WMI
+MSSQL
+SSH
+FTP
+RDP
+NFS
+VNC
+```
 
 ---
 
 # Target Formats
 
-NetExec can work with individual hosts.
+NetExec accepts several target forms.
+
+Single IP:
 
 ```bash
-nxc smb 10.10.20.10
+nxc smb 10.10.10.10
 ```
 
 Hostname:
 
 ```bash
-nxc smb dc01.example.local
+nxc smb server01.example.local
 ```
 
-Subnet:
+CIDR:
 
 ```bash
-nxc smb 10.10.20.0/24
+nxc smb 10.10.10.0/24
 ```
 
-Multiple targets may also be supplied through supported target input formats.
-
-Check:
+Range:
 
 ```bash
-nxc smb --help
+nxc smb 10.10.10.10-20
+```
+
+Target file:
+
+```bash
+nxc smb targets.txt
 ```
 
 ---
 
-# Environment Variables
+# Target File
 
-Useful assessment variables:
-
-```bash
-export DOMAIN="example.local"
-export DC="dc01.example.local"
-export DC_IP="10.10.20.10"
-export USER="alice"
-```
-
-Check:
-
-```bash
-echo "$DOMAIN"
-echo "$DC"
-echo "$DC_IP"
-echo "$USER"
-```
-
----
-
-# Discovery First
-
-A useful NetExec workflow:
+Example:
 
 ```text
-Network
-   |
-   v
-SMB Discovery
-   |
-   v
-Windows Hosts
-   |
-   v
-Domain Information
-   |
-   v
-Security Controls
-   |
-   v
-Credentials
-   |
-   v
-Authenticated Enumeration
+10.10.10.10
+10.10.10.11
+server01.example.local
+server02.example.local
 ```
+
+Run:
+
+```bash
+nxc smb targets.txt
+```
+
+Target files are useful for separating discovery from later authenticated testing.
 
 ---
 
-# SMB Discovery
+# DNS Resolution
 
-Enumerate SMB systems:
+Active Directory testing depends heavily on DNS.
+
+Before troubleshooting Kerberos or LDAP, confirm:
 
 ```bash
-nxc smb 10.10.20.0/24
+dig dc01.example.local
 ```
 
-This can quickly reveal information such as:
+```bash
+nslookup dc01.example.local
+```
+
+Check your resolver:
+
+```bash
+cat /etc/resolv.conf
+```
+
+A large percentage of Kerberos problems are actually:
 
 ```text
-IP address
+DNS
+Time
 Hostname
-Domain/workgroup
-Operating system information
-SMB signing state
-SMB-related host information
+Realm
+SPN
 ```
 
-depending on the target and NetExec version.
+problems.
 
 ---
 
-# Single SMB Host
+# Starting Position - No Credentials
 
-```bash
-nxc smb 10.10.20.10
+A common internal assessment begins with:
+
+```text
+Internal Network
+      |
+      v
+No Credentials
+      |
+      v
+NetExec SMB Discovery
 ```
 
-Hostname:
+Start with:
 
 ```bash
-nxc smb dc01.example.local
+nxc smb 10.10.10.0/24
 ```
+
+This can provide useful host and SMB information without assuming domain credentials.
+
+---
+
+# SMB Host Discovery
+
+```bash
+nxc smb 10.10.10.0/24
+```
+
+Useful output may include:
+
+```text
+IP
+Hostname
+Domain
+Operating System
+SMB Signing
+SMB Version Information
+```
+
+This is one of the most useful initial NetExec commands during an internal Windows assessment.
 
 ---
 
 # Save Discovery Output
 
+Standard shell redirection:
+
 ```bash
-nxc smb 10.10.20.0/24 |
-    tee smb-discovery.txt
+nxc smb 10.10.10.0/24 | tee smb-discovery.txt
 ```
+
+Preserve raw evidence before filtering.
+
+---
+
+# Extract Hosts
+
+Example shell processing:
+
+```bash
+grep 'SMB' smb-discovery.txt
+```
+
+For complex engagements, prefer NetExec's database and workspaces rather than relying entirely on text parsing.
 
 ---
 
 # SMB Signing
 
-SMB signing is important during NTLM relay analysis.
+SMB signing is particularly important when assessing NTLM relay exposure.
 
-Use SMB discovery output to identify signing state.
+Generate a relay candidate list:
 
-Conceptually:
-
-```text
-SMB Host
-   |
-   v
-Signing Required?
-   |
- +---+---+
- |       |
-Yes      No
- |       |
- v       v
-Relay   Potential
-Blocked Prerequisite
-for SMB
+```bash
+nxc smb 10.10.10.0/24 --gen-relay-list relay.txt
 ```
 
-Remember:
+Review:
 
-```text
-SMB signing not required
-        !=
-Successful NTLM relay
+```bash
+cat relay.txt
 ```
 
-Other prerequisites still matter.
+Important:
+
+```text
+SMB Signing Not Required
+          !=
+NTLM Relay Vulnerability
+```
+
+A complete relay path still depends on:
+
+```text
+Authentication Source
+Target Protocol
+Target Authentication
+Signing / Binding
+Privileges
+Network Reachability
+Protocol Configuration
+```
+
+Treat the relay list as a candidate list.
 
 ---
 
-# Password Authentication
+# SMBv1
 
-General syntax:
-
-```bash
-nxc <protocol> <target> -u <username> -p '<password>'
-```
-
-Example:
-
-```bash
-nxc smb 10.10.20.10 \
-    -u alice \
-    -p 'Password'
-```
-
----
-
-# Domain Authentication
-
-Specify the domain where appropriate:
-
-```bash
-nxc smb 10.10.20.10 \
-    -d example.local \
-    -u alice \
-    -p 'Password'
-```
-
----
-
-# Special Characters
-
-Passwords containing shell-sensitive characters should be quoted:
-
-```bash
-nxc smb 10.10.20.10 \
-    -u alice \
-    -p 'Password!'
-```
-
-Prefer single quotes where appropriate.
-
----
-
-# NTLM Hash Authentication
-
-NetExec commonly uses:
-
-```text
--H
-```
-
-for NTLM hash authentication.
-
-Example structure:
-
-```bash
-nxc smb 10.10.20.10 \
-    -u alice \
-    -H <NT-HASH>
-```
-
-With domain:
-
-```bash
-nxc smb 10.10.20.10 \
-    -d example.local \
-    -u alice \
-    -H <NT-HASH>
-```
-
----
-
-# Password vs Hash
-
-```text
-Password
-   |
-   +--> -p
-
-NTLM Hash
-   |
-   +--> -H
-```
-
-Do not confuse:
-
-```text
--p
-```
-
-with:
-
-```text
--H
-```
-
----
-
-# Local Accounts
-
-When assessing local accounts, explicitly distinguish them from domain identities.
-
-Conceptually:
-
-```text
-EXAMPLE\administrator
-```
-
-is different from:
-
-```text
-SERVER01\administrator
-```
-
-Check protocol help for the current local-authentication option:
+Check protocol help first:
 
 ```bash
 nxc smb --help
 ```
 
----
-
-# Credential Validation
-
-Validate a credential against an approved target:
+For dedicated SMB protocol-version validation, Nmap is also useful:
 
 ```bash
-nxc smb 10.10.20.10 \
-    -d example.local \
-    -u alice \
-    -p 'Password'
+nmap -p 445 --script smb-protocols 10.10.10.10
 ```
 
-Interpret the result carefully.
-
-```text
-Authentication Success
-        |
-        v
-Identity Valid
-        |
-        v
-Administrative?
-        |
-    +---+---+
-    |       |
-   No      Yes
-    |       |
-    v       v
-Normal   Potential
-Access   Admin Access
-```
-
-Authentication success does not automatically mean administrative access.
+Do not infer SMBv1 status from unrelated SMB output.
 
 ---
 
-# Administrative Access
-
-NetExec can indicate elevated access depending on the protocol and target.
-
-Treat this as:
-
-```text
-Potential Administrative Relationship
-```
-
-that should be understood and documented.
-
-Do not automatically proceed to remote execution.
-
----
-
-# Credential Files
-
-NetExec supports credential input from files.
-
-General patterns include:
+# SMB Shares - Authenticated
 
 ```bash
-nxc <protocol> <target> \
-    -u users.txt \
-    -p passwords.txt
-```
-
-or hash files:
-
-```bash
-nxc <protocol> <target> \
-    -u users.txt \
-    -H hashes.txt
-```
-
-!!! warning
-    File-based credential testing can generate a large number of authentication attempts. Review lockout policy and rules of engagement before using it.
-
----
-
-# Password Spraying
-
-NetExec supports password spraying and credential testing.
-
-Before performing any spray:
-
-```text
-Password Policy
-      |
-      v
-Lockout Threshold
-      |
-      v
-Observation Window
-      |
-      v
-Current Failed Attempts?
-      |
-      v
-Rules of Engagement
-      |
-      v
-Safe Test Plan
-```
-
-Do not blindly spray credentials.
-
----
-
-# Avoiding Full Cartesian Brute Force
-
-NetExec provides:
-
-```text
---no-bruteforce
-```
-
-for supported credential-file workflows where credentials should be paired rather than tested in every combination.
-
-Check:
-
-```bash
-nxc <protocol> --help
-```
-
-before using it.
-
----
-
-# Database Credential IDs
-
-NetExec can use credentials stored in its database.
-
-General syntax:
-
-```bash
-nxc <protocol> <target> -id <credential-id>
-```
-
-Review stored credentials through the NetExec database tooling before using IDs.
-
----
-
-# SMB Share Enumeration
-
-With valid credentials:
-
-```bash
-nxc smb 10.10.20.10 \
-    -d example.local \
-    -u alice \
+nxc smb 10.10.10.10 \
+    -u username \
     -p 'Password' \
     --shares
 ```
 
----
-
-# Multiple Hosts - Shares
+Subnet:
 
 ```bash
-nxc smb 10.10.20.0/24 \
-    -d example.local \
-    -u alice \
+nxc smb 10.10.10.0/24 \
+    -u username \
     -p 'Password' \
     --shares
-```
-
----
-
-# Share Analysis
-
-Prioritise:
-
-```text
-SYSVOL
-NETLOGON
-Administrative shares
-Department shares
-Deployment shares
-Backup shares
-Software shares
-User shares
 ```
 
 Look for:
 
 ```text
-Configuration files
-Scripts
-Backups
-Credentials
-Connection strings
-Certificates
-Keys
-Deployment files
-Administrative documentation
+Readable Shares
+Writable Shares
+Administrative Shares
+Deployment Shares
+Backup Shares
+User Shares
+Software Shares
+SYSVOL
+NETLOGON
 ```
+
+---
+
+# Avoid Passwords in Shell History
+
+This:
+
+```bash
+nxc smb 10.10.10.10 -u username -p 'Password'
+```
+
+is convenient for examples but may expose credentials through:
+
+```text
+Shell History
+Process Listings
+Terminal Logging
+Assessment Notes
+Screenshots
+```
+
+Use credential-handling methods appropriate to the engagement.
+
+---
+
+# Domain Authentication
+
+```bash
+nxc smb 10.10.10.10 \
+    -d example.local \
+    -u username \
+    -p 'Password'
+```
+
+The domain can also often be represented through other accepted username formats.
+
+Check:
+
+```bash
+nxc smb --help
+```
+
+for the installed version.
+
+---
+
+# Multiple Targets
+
+```bash
+nxc smb targets.txt \
+    -d example.local \
+    -u username \
+    -p 'Password'
+```
+
+NetExec is designed for parallel network assessment.
+
+This is powerful but can create substantial authentication traffic.
+
+---
+
+# Authentication Safety
+
+Before testing credentials determine:
+
+```text
+Domain Password Policy
+Fine-Grained Password Policies
+Account Lockout Threshold
+Lockout Observation Window
+Lockout Duration
+Approved Accounts
+Approved Passwords
+Allowed Rate
+```
+
+Do not use NetExec as a blind password-spraying engine.
+
+---
+
+# Single Credential Validation
+
+Prefer validating one approved credential against one target first:
+
+```bash
+nxc smb 10.10.10.10 \
+    -d example.local \
+    -u username \
+    -p 'Password'
+```
+
+Then expand only where necessary.
+
+---
+
+# Username File
+
+Where explicitly authorised:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u users.txt \
+    -p 'ApprovedPassword'
+```
+
+This may generate many authentication attempts.
+
+Understand lockout behaviour first.
+
+---
+
+# Password File
+
+Similarly:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p passwords.txt
+```
+
+Do not use uncontrolled password lists against production accounts.
+
+---
+
+# Username + Password Lists
+
+NetExec can work with lists, but this can quickly become a high-volume authentication test.
+
+Before doing so:
+
+```text
+STOP
+ |
+ v
+Check Lockout Policy
+ |
+ v
+Check Scope
+ |
+ v
+Check Attempt Count
+ |
+ v
+Check Rate
+ |
+ v
+Proceed Only If Approved
+```
+
+---
+
+# Local Authentication
+
+When assessing a local account rather than a domain account, check the protocol help for the current local-authentication option:
+
+```bash
+nxc smb --help
+```
+
+Keep local and domain credentials clearly separated in notes.
+
+A reused local administrator credential can have a very different impact from a domain credential.
+
+---
+
+# Pass-the-Hash Validation
+
+Where NTLM hash authentication is explicitly authorised, NetExec supports NTLM-based authentication workflows.
+
+Check the installed syntax:
+
+```bash
+nxc smb --help
+```
+
+Example form:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -H '<NTLM_HASH>'
+```
+
+Do not collect or use password hashes outside the approved credential-access scope.
+
+The existence of NTLM authentication does not itself constitute a vulnerability.
+
+---
+
+# Kerberos Authentication
+
+Kerberos should be preferred where the assessment requires testing Kerberos-specific behaviour.
+
+Check:
+
+```bash
+nxc smb --help
+```
+
+and:
+
+```bash
+nxc ldap --help
+```
+
+for current Kerberos options.
+
+Before troubleshooting Kerberos verify:
+
+```bash
+date
+```
+
+```bash
+dig dc01.example.local
+```
+
+```bash
+klist
+```
+
+---
+
+# Kerberos Troubleshooting
+
+Think:
+
+```text
+Kerberos Failure
+      |
+      +--> DNS?
+      |
+      +--> Time?
+      |
+      +--> Realm?
+      |
+      +--> Hostname?
+      |
+      +--> SPN?
+      |
+      +--> Ticket?
+      |
+      +--> Credential?
+```
+
+Do not immediately assume the account password is wrong.
+
+---
+
+# SMB Users
+
+Authenticated enumeration:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    --users
+```
+
+Availability and behaviour can depend on target configuration and NetExec version.
+
+---
+
+# SMB Groups
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    --groups
+```
+
+---
+
+# Logged-On Users
+
+Where supported and authorised:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    --loggedon-users
+```
+
+This can reveal sensitive session information.
+
+Use only where required by scope.
+
+---
+
+# Sessions
+
+Session enumeration can be security sensitive because it helps map credential and lateral-movement paths.
+
+Check current options:
+
+```bash
+nxc smb --help
+```
+
+Collect only what is required for the assessment.
+
+---
+
+# Local Administrators
+
+When authenticated with appropriate rights, identify local administrative relationships rather than immediately performing remote execution.
+
+A useful assessment question is:
+
+```text
+Where is this identity an administrator?
+```
+
+rather than:
+
+```text
+Where can I execute commands?
+```
+
+---
+
+# Administrative Access
+
+NetExec output may identify elevated access.
+
+Interpret this as:
+
+```text
+Credential
+   |
+   v
+Target
+   |
+   v
+Administrative Relationship
+```
+
+Then determine whether that relationship is intended.
+
+Do not automatically perform command execution.
 
 ---
 
@@ -806,305 +756,516 @@ Administrative documentation
 Enumerate shares:
 
 ```bash
-nxc smb "$DC" \
-    -d "$DOMAIN" \
-    -u "$USER" \
+nxc smb dc01.example.local \
+    -u username \
     -p 'Password' \
     --shares
 ```
 
-If SYSVOL is accessible, review it deliberately rather than recursively collecting everything.
+Then use a dedicated SMB client for careful file inspection:
 
-Potentially interesting content includes:
+```bash
+smbclient //dc01.example.local/SYSVOL -U username
+```
+
+Look for:
 
 ```text
-Group Policy
-Logon scripts
-Startup scripts
+Logon Scripts
+Group Policy Files
+Deployment Scripts
 Configuration
-Deployment settings
-Legacy preference files
+Legacy Credentials
+Internal Hostnames
 ```
 
 ---
 
 # NETLOGON
 
-NETLOGON may contain:
+Similarly:
 
-```text
-Logon scripts
-Administrative scripts
-Deployment scripts
-Configuration
+```bash
+smbclient //dc01.example.local/NETLOGON -U username
 ```
 
-Use focused review.
+Review scripts carefully.
+
+Do not modify domain logon scripts during enumeration.
 
 ---
 
-# SMB Workflow
+# Spidering Shares
+
+NetExec includes modules and capabilities that can search accessible SMB content.
+
+Before using broad spidering:
 
 ```text
-SMB Discovery
-     |
-     v
-Authentication
-     |
-     v
-Shares
-     |
-     v
-Permissions
-     |
-     v
-Interesting Share
-     |
-     v
-Focused File Review
+How large is the share?
+Is sensitive user data present?
+Will the operation generate excessive traffic?
+Is downloading allowed?
 ```
 
-For interactive file access, move to:
+Prefer targeted searches over indiscriminate collection.
 
-```text
-smbclient
+---
+
+# Important spider_plus Security Note
+
+Keep NetExec updated.
+
+Older NetExec versions had a security issue affecting the `spider_plus` module that was fixed in the 1.5.1 release.
+
+Check:
+
+```bash
+nxc --version
 ```
 
-or:
-
-```text
-Impacket smbclient
-```
-
-when useful.
+and update according to the official project documentation before using the tool in an engagement.
 
 ---
 
 # LDAP
 
-LDAP is useful for directory-oriented enumeration.
+LDAP is one of the most useful NetExec protocols for authenticated Active Directory enumeration.
 
-Start with:
+Basic:
 
 ```bash
-nxc ldap "$DC" \
-    -d "$DOMAIN" \
-    -u "$USER" \
+nxc ldap dc01.example.local
+```
+
+Authenticated:
+
+```bash
+nxc ldap dc01.example.local \
+    -u username \
     -p 'Password'
 ```
 
-Protocol options:
+---
+
+# LDAP Domain
+
+Specify domain where required:
 
 ```bash
-nxc ldap --help
+nxc ldap dc01.example.local \
+    -d example.local \
+    -u username \
+    -p 'Password'
 ```
 
 ---
 
 # LDAP Users
 
-Current NetExec versions provide directory enumeration options through the LDAP protocol.
-
-Check:
-
 ```bash
-nxc ldap --help
-```
-
-A commonly used user-enumeration option is:
-
-```text
---users
-```
-
-Example:
-
-```bash
-nxc ldap "$DC" \
-    -d "$DOMAIN" \
-    -u "$USER" \
+nxc ldap dc01.example.local \
+    -u username \
     -p 'Password' \
     --users
 ```
 
 ---
 
-# LDAP Workflow
+# LDAP Active Users
 
-```text
-Valid Domain Credential
-        |
-        v
-LDAP
-        |
-        +--> Users
-        +--> Groups
-        +--> Computers
-        +--> Policy
-        +--> Directory Relationships
-        |
-        v
-Attack Path Analysis
-```
-
----
-
-# Password Policy
-
-Review the domain password and lockout policy before password-based testing.
-
-Check LDAP and SMB help for policy-related options available in the installed version:
-
-```bash
-nxc ldap --help
-```
-
-```bash
-nxc smb --help
-```
-
-Record:
-
-```text
-Minimum password length
-Password history
-Maximum password age
-Lockout threshold
-Lockout duration
-Observation window
-```
-
----
-
-# Kerberos
-
-Kerberos-aware operations depend on:
-
-```text
-DNS
-FQDN
-Domain
-KDC
-Time
-SPNs
-Credentials
-Tickets
-```
-
-Before troubleshooting NetExec:
-
-```bash
-date
-```
-
-```bash
-dig "$DC"
-```
-
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
----
-
-# Kerberos Authentication
-
-Check protocol-specific Kerberos options:
-
-```bash
-nxc smb --help
-```
-
-```bash
-nxc ldap --help
-```
-
-Do not assume IP-based authentication behaves the same as FQDN-based Kerberos authentication.
-
-Prefer correct hostnames when using Kerberos.
-
----
-
-# Kerberos Mental Model
-
-```text
-Credential / Ticket
-        |
-        v
-DNS
-        |
-        v
-KDC
-        |
-        v
-SPN
-        |
-        v
-Target Service
-```
-
-If one component is wrong, authentication can fail even when network connectivity works.
-
----
-
-# Certificate Authentication
-
-Current NetExec versions support certificate-based authentication for supported workflows.
-
-Available forms include certificate containers and PEM certificate/key combinations.
+Current NetExec versions may provide filtering for active users.
 
 Check:
 
 ```bash
-nxc smb --help
+nxc ldap --help
 ```
 
-for the exact options in the installed version.
+Where supported:
 
-Certificate authentication can result in NetExec creating a Kerberos credential cache under its home directory.
+```bash
+nxc ldap dc01.example.local \
+    -u username \
+    -p 'Password' \
+    --active-users
+```
 
-Treat generated ticket material as sensitive.
+This is useful for reducing noise from disabled accounts.
+
+---
+
+# LDAP Groups
+
+```bash
+nxc ldap dc01.example.local \
+    -u username \
+    -p 'Password' \
+    --groups
+```
+
+---
+
+# LDAP Computers
+
+Check current LDAP options:
+
+```bash
+nxc ldap --help
+```
+
+NetExec capabilities evolve, so use built-in help rather than relying on old CrackMapExec syntax.
+
+---
+
+# LDAP Password Policy
+
+Password-policy enumeration is particularly useful before authentication testing.
+
+Check:
+
+```bash
+nxc ldap --help
+```
+
+and use the current password-policy option supported by the installed version.
+
+Cross-check important lockout values with native AD tooling where possible.
+
+---
+
+# LDAP AS-REP Candidates
+
+NetExec can assist with identifying Active Directory account configurations relevant to Kerberos assessment.
+
+Check:
+
+```bash
+nxc ldap --help
+```
+
+Validate candidate accounts manually before reporting.
+
+The relevant condition is:
+
+```text
+Kerberos Preauthentication Disabled
+```
+
+not merely whether a tool labels an account interesting.
+
+---
+
+# LDAP Kerberoasting Candidates
+
+Service Principal Names can be enumerated through LDAP.
+
+Think:
+
+```text
+User
+ |
+ v
+SPN
+ |
+ v
+Service Account
+ |
+ v
+Password Strength
+ |
+ v
+Privileges
+```
+
+An SPN is normal Active Directory functionality.
+
+The security risk depends on account password strength and privileges.
+
+---
+
+# LDAP Delegation
+
+Review current LDAP options and modules for delegation-related enumeration:
+
+```bash
+nxc ldap --help
+```
+
+Look for:
+
+```text
+Unconstrained Delegation
+Constrained Delegation
+Resource-Based Constrained Delegation
+```
+
+Validate relationships against AD attributes and BloodHound.
+
+---
+
+# LDAP Trusts
+
+Trust enumeration should determine:
+
+```text
+Trusted Domain
+Direction
+Transitivity
+Trust Type
+Forest Relationship
+```
+
+Check current LDAP capabilities:
+
+```bash
+nxc ldap --help
+```
+
+Cross-check with:
+
+```cmd
+nltest /domain_trusts
+```
+
+or:
+
+```powershell
+Get-ADTrust -Filter *
+```
+
+where available.
+
+---
+
+# LDAP AD CS Discovery
+
+NetExec includes LDAP modules and functionality that can assist with Active Directory Certificate Services assessment.
+
+List LDAP modules:
+
+```bash
+nxc ldap -L
+```
+
+Search for relevant certificate and AD CS modules in the installed version.
+
+For comprehensive AD CS enumeration also use:
+
+```text
+Certipy
+Certify
+Native Certificate Tools
+LDAP
+```
+
+See:
+
+[Active Directory Cheatsheet](active-directory.md)
+
+---
+
+# LDAP Security Controls
+
+When assessing LDAP, think beyond directory objects.
+
+Review:
+
+```text
+LDAP Signing
+LDAP Channel Binding
+LDAPS
+NTLM Authentication
+Certificate Configuration
+Relay Exposure
+```
+
+Do not infer LDAP security solely from port 636 being open.
 
 ---
 
 # WinRM
 
-Check WinRM targets:
+Discovery:
 
 ```bash
-nxc winrm 10.10.20.10
+nxc winrm 10.10.10.0/24
 ```
 
-With credentials:
+Authenticated validation:
 
 ```bash
-nxc winrm 10.10.20.10 \
-    -d example.local \
-    -u alice \
+nxc winrm 10.10.10.10 \
+    -u username \
     -p 'Password'
 ```
 
 ---
 
-# WinRM Workflow
+# WinRM Interpretation
+
+Successful WinRM authentication indicates remote management access.
+
+Determine:
 
 ```text
-Host
- |
- v
-WinRM Reachable?
- |
- v
-Credential Valid?
- |
- v
-Remote Management Rights?
- |
- v
-Authorised Validation
+Which user?
+Which target?
+Which group grants access?
+Is access expected?
+Is the account administrative?
 ```
 
-Authentication success does not necessarily mean the identity is permitted to use WinRM.
+Do not automatically treat WinRM access as a vulnerability.
+
+---
+
+# Remote Management Users
+
+On Windows:
+
+```cmd
+net localgroup "Remote Management Users"
+```
+
+Membership may explain intended WinRM access.
+
+---
+
+# RDP
+
+Check current protocol support:
+
+```bash
+nxc rdp --help
+```
+
+Basic discovery:
+
+```bash
+nxc rdp 10.10.10.0/24
+```
+
+Authentication testing should follow the same lockout precautions as SMB and WinRM.
+
+---
+
+# MSSQL
+
+Discovery:
+
+```bash
+nxc mssql 10.10.10.0/24
+```
+
+Authenticated assessment:
+
+```bash
+nxc mssql 10.10.10.10 \
+    -u username \
+    -p 'Password'
+```
+
+SQL Server authentication and Windows authentication may behave differently.
+
+Check:
+
+```bash
+nxc mssql --help
+```
+
+---
+
+# MSSQL Assessment Questions
+
+Determine:
+
+```text
+Authentication Method
+Database Role
+Server Role
+Linked Servers
+Service Account
+Domain Context
+Impersonation Rights
+Network Reachability
+```
+
+Do not immediately enable or invoke command-execution features.
+
+---
+
+# SSH
+
+Discovery:
+
+```bash
+nxc ssh 10.10.10.0/24
+```
+
+Authenticated:
+
+```bash
+nxc ssh 10.10.10.10 \
+    -u username \
+    -p 'Password'
+```
+
+Use only approved credentials.
+
+---
+
+# FTP
+
+Discovery:
+
+```bash
+nxc ftp 10.10.10.0/24
+```
+
+Check:
+
+```bash
+nxc ftp --help
+```
+
+Assess:
+
+```text
+Anonymous Access
+Authentication
+Readable Files
+Writable Locations
+Sensitive Files
+```
+
+Do not upload test files unless permitted.
+
+---
+
+# NFS
+
+Where supported:
+
+```bash
+nxc nfs 10.10.10.0/24
+```
+
+Check:
+
+```bash
+nxc nfs --help
+```
+
+Review:
+
+```text
+Exports
+Permissions
+Root Squashing
+Writable Exports
+Sensitive Data
+```
 
 ---
 
@@ -1116,113 +1277,66 @@ Check:
 nxc wmi --help
 ```
 
-WMI commonly depends on:
+WMI can provide remote-management functionality.
 
-```text
-RPC
-DCOM
-Administrative permissions
-Firewall configuration
-```
+Successful authentication or management access should first be treated as an access-control relationship.
 
-A credential that works over SMB may still fail through WMI.
+Do not automatically perform command execution.
 
 ---
 
-# MSSQL
+# VNC
 
 Check:
 
 ```bash
-nxc mssql --help
+nxc vnc --help
 ```
 
-Typical workflow:
-
-```text
-MSSQL Service
-     |
-     v
-Authentication
-     |
-     v
-Database Privilege
-     |
-     v
-Server Role
-     |
-     v
-Security Impact
-```
-
-Do not equate successful SQL authentication with operating-system administrative access.
-
----
-
-# SSH
-
-Check:
-
-```bash
-nxc ssh --help
-```
-
-Basic structure:
-
-```bash
-nxc ssh 10.10.20.20 \
-    -u user \
-    -p 'Password'
-```
-
-Useful when Linux or network systems are part of the internal environment.
-
----
-
-# RDP
-
-Check:
-
-```bash
-nxc rdp --help
-```
-
-RDP assessment can help identify whether:
-
-```text
-Service reachable
-Credential valid
-Remote desktop access permitted
-```
-
-These are separate questions.
+Use VNC protocol assessment only where the service is in scope.
 
 ---
 
 # Modules
 
-List modules for a protocol:
+NetExec modules extend protocol functionality.
+
+List SMB modules:
 
 ```bash
 nxc smb -L
 ```
 
-For another protocol:
+LDAP:
 
 ```bash
 nxc ldap -L
 ```
 
----
-
-# Run a Module
-
-General syntax:
+MSSQL:
 
 ```bash
-nxc <protocol> <target> \
-    -u <username> \
-    -p '<password>' \
+nxc mssql -L
+```
+
+The available module set depends on the installed NetExec version.
+
+---
+
+# Module Help
+
+Module options:
+
+```bash
+nxc smb -M <module> --options
+```
+
+Example structure:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
     -M <module>
 ```
 
@@ -1230,100 +1344,165 @@ nxc <protocol> <target> \
 
 # Module Options
 
-Display options:
+Options generally use:
 
 ```bash
-nxc smb \
-    -M <module> \
-    --options
+-o KEY=value
 ```
 
----
-
-# Supply Module Options
-
-General syntax:
+Example structure:
 
 ```bash
-nxc smb <target> \
-    -u <username> \
-    -p '<password>' \
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
     -M <module> \
-    -o KEY=value
+    -o OPTION=value
 ```
+
+Always inspect:
+
+```bash
+nxc smb -M <module> --options
+```
+
+before running a module.
 
 ---
 
 # Multiple Modules
 
-Current NetExec versions support multiple:
+Current NetExec versions support specifying multiple modules.
 
-```text
--M
-```
-
-arguments.
-
-General structure:
+General form:
 
 ```bash
-nxc smb <target> \
-    -u <username> \
-    -p '<password>' \
-    -M <module1> \
-    -M <module2>
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    -M module1 \
+    -M module2
 ```
 
-!!! warning
-    Review each module before running it. Modules can have very different operational impact.
+However, running many modules simultaneously can generate unnecessary traffic and complicate evidence collection.
+
+Prefer targeted execution.
 
 ---
 
-# Module Safety
+# Module Categories
 
-Before running a module:
+Modules may perform different classes of operations.
+
+Examples include:
 
 ```text
-Module
-  |
-  v
-What Does It Do?
-  |
-  v
-Read Options
-  |
-  v
-Does It Change State?
-  |
-  v
-Does It Access Credentials?
-  |
-  v
-Does It Execute Code?
-  |
-  v
-Is It Authorised?
+Enumeration
+Privilege Escalation
+Credential Access
+Remote Interaction
+Configuration Assessment
 ```
 
-Do not treat:
+Read the module description before execution.
+
+Do not assume a module is read-only.
+
+---
+
+# Safe Module Workflow
+
+Use:
+
+```text
+List Modules
+    |
+    v
+Read Description
+    |
+    v
+Check Options
+    |
+    v
+Understand Privileges
+    |
+    v
+Understand Side Effects
+    |
+    v
+Run Against One Target
+    |
+    v
+Review Output
+    |
+    v
+Expand If Necessary
+```
+
+---
+
+# Audit Mode
+
+Recent NetExec documentation includes an audit mode.
+
+Check the installed version:
 
 ```bash
-nxc smb -L
+nxc --help
 ```
 
-as a list of modules that should all be executed.
+and the protocol-specific help.
+
+Audit-oriented operation is useful when the engagement prioritises enumeration and configuration assessment over invasive actions.
+
+---
+
+# BloodHound Integration
+
+NetExec supports integration with BloodHound-oriented workflows.
+
+Check current LDAP options:
+
+```bash
+nxc ldap --help
+```
+
+and the official NetExec documentation.
+
+BloodHound should be used to analyse relationships rather than as proof that every discovered edge is exploitable.
+
+See:
+
+[BloodHound Cheatsheet](bloodhound.md)
+
+---
+
+# BloodHound Workflow
+
+```text
+NetExec / LDAP
+      |
+      v
+AD Information
+      |
+      v
+BloodHound Collection
+      |
+      v
+Graph
+      |
+      v
+Candidate Path
+      |
+      v
+Manual Validation
+```
 
 ---
 
 # NetExec Database
 
-NetExec maintains operational data in its database.
-
-The database shell is:
-
-```bash
-nxcdb
-```
+NetExec stores assessment information in its own database.
 
 Launch:
 
@@ -1331,512 +1510,729 @@ Launch:
 nxcdb
 ```
 
+This is particularly useful during larger engagements.
+
 ---
 
 # Workspaces
 
-NetExec supports workspaces.
+Workspaces separate engagement data.
 
-Conceptually:
+Launch:
+
+```bash
+nxcdb
+```
+
+Then:
 
 ```text
-Assessment
+workspace list
+```
+
+Create:
+
+```text
+workspace create assessment
+```
+
+Switch:
+
+```text
+workspace assessment
+```
+
+Use separate workspaces for separate engagements.
+
+---
+
+# Database Location
+
+NetExec workspaces are normally stored under:
+
+```text
+~/.nxc/workspaces/
+```
+
+Protect this directory.
+
+It may contain sensitive assessment data and credentials.
+
+---
+
+# Protocol Database
+
+Inside `nxcdb`:
+
+```text
+proto smb
+```
+
+Return:
+
+```text
+back
+```
+
+Another protocol:
+
+```text
+proto ldap
+```
+
+---
+
+# Database Help
+
+Inside:
+
+```text
+help
+```
+
+Protocol-specific database commands differ.
+
+Always inspect help before exporting or deleting data.
+
+---
+
+# Database Credentials
+
+NetExec can store credentials discovered or used during an assessment.
+
+Treat:
+
+```text
+~/.nxc/
+```
+
+as sensitive engagement material.
+
+Protect:
+
+```text
+Permissions
+Backups
+Screenshots
+Exports
+Terminal Logs
+```
+
+---
+
+# Database Export
+
+NetExec supports exporting information from its database.
+
+Inside the SMB database:
+
+```text
+help export
+```
+
+Example structure:
+
+```text
+export shares detailed shares.csv
+```
+
+Export only the data required for reporting or analysis.
+
+---
+
+# Workspace Hygiene
+
+Recommended:
+
+```text
+One Engagement
+      =
+One Workspace
+```
+
+Avoid mixing:
+
+```text
+Customer A
+Customer B
+Lab Data
+CTF Data
+Personal Testing
+```
+
+in the same workspace.
+
+---
+
+# Authentication Mapping
+
+A useful NetExec workflow is to build an access matrix.
+
+Example:
+
+| Identity | Host | SMB | WinRM | Admin |
+|---|---|---|---|---|
+| user1 | WS01 | Yes | No | No |
+| user1 | SRV01 | Yes | Yes | No |
+| admin1 | SRV01 | Yes | Yes | Yes |
+
+This is more useful than immediately executing commands.
+
+---
+
+# Access Mapping Model
+
+```text
+Credential
     |
     v
-Workspace
+Targets
     |
-    +--> Hosts
-    +--> Credentials
-    +--> Protocol data
-    +--> Relationships
+    v
+Authentication
+    |
+    v
+Access Level
+    |
+    v
+Expected?
 ```
-
-Keep client engagements separated.
 
 ---
 
-# NetExec Data Directory
+# Local Administrator Reuse
 
-Default:
+If an approved local administrative credential is available, assess whether it is reused across multiple hosts.
 
-```text
-~/.nxc
-```
-
-Typical operational data may include:
+The security issue is:
 
 ```text
-Configuration
-Workspaces
-Databases
-Logs
-Extracted information
-Kerberos material
+Same Local Administrative Secret
+              |
+              v
+Multiple Hosts
+              |
+              v
+Lateral Movement Risk
 ```
 
-Treat this directory as sensitive.
+Do not perform uncontrolled authentication attempts.
 
 ---
 
-# BloodHound
+# Domain Administrator Exposure
 
-NetExec can integrate with BloodHound-related collection workflows.
+Do not routinely test highly privileged credentials across every workstation.
 
-Before using collection functionality:
+This creates unnecessary authentication exposure and may generate credentials on systems where they should never appear.
+
+Prefer:
 
 ```text
-Check installed NetExec version
-Check BloodHound edition
-Check collection options
-Check DNS
-Check LDAP
-Check domain context
+Least Privileged Test Account
+      |
+      v
+Targeted Validation
 ```
 
-NetExec currently defaults its BloodHound ingestor configuration toward BloodHound CE.
+---
+
+# Authentication Failure Analysis
+
+Common errors can indicate:
+
+```text
+Bad Password
+Disabled Account
+Expired Password
+Locked Account
+Logon Restriction
+Protocol Restriction
+Signing Requirement
+Authentication Policy
+Network Failure
+DNS Failure
+```
+
+Do not retry repeatedly without understanding the error.
+
+---
+
+# Password Spraying with NetExec
+
+NetExec can perform high-volume authentication testing.
+
+That does not mean it should be used blindly.
+
+Before spraying:
+
+```text
+Get Password Policy
+        |
+        v
+Get Fine-Grained Policies
+        |
+        v
+Determine Lockout Threshold
+        |
+        v
+Determine Observation Window
+        |
+        v
+Define Approved Accounts
+        |
+        v
+Define Attempt Count
+        |
+        v
+Obtain Approval
+```
+
+Prefer dedicated controlled spray procedures where the assessment specifically includes password auditing.
+
+---
+
+# Credential Types
+
+Keep credential types distinct:
+
+```text
+Domain Password
+Local Password
+NTLM Hash
+Kerberos Ticket
+Certificate
+SSH Key
+Database Credential
+```
+
+They have different security implications.
+
+---
+
+# Certificates
+
+Modern NetExec versions include certificate-related authentication functionality for supported protocols.
 
 Check:
 
 ```bash
-cat ~/.nxc/nxc.conf
+nxc <protocol> --help
 ```
 
-before assuming legacy or CE behaviour.
+Use certificate authentication only where the certificate and associated identity are within scope.
 
 ---
 
-# BloodHound Workflow
+# Kerberos Tickets
 
-```text
-NetExec
-   |
-   v
-Authenticated Directory Access
-   |
-   v
-Collection
-   |
-   v
-BloodHound
-   |
-   v
-Attack Path Analysis
+If using an existing authorised Kerberos credential cache:
+
+```bash
+klist
 ```
 
-BloodHound should be used for relationship analysis, not simply as a graph of "things to exploit."
+Check:
+
+```bash
+echo "$KRB5CCNAME"
+```
+
+Then consult:
+
+```bash
+nxc <protocol> --help
+```
+
+for current Kerberos options.
 
 ---
 
-# NetExec + Impacket
+# Relay Candidate Discovery
 
-A strong operational pattern is:
-
-```text
-NetExec
-   |
-   v
-Broad Discovery
-   |
-   +--> Hosts
-   +--> Credentials
-   +--> Shares
-   +--> Admin Relationships
-   |
-   v
-Interesting Target
-   |
-   v
-Impacket
-   |
-   +--> SMB
-   +--> RPC
-   +--> Kerberos
-   +--> Delegation
-   +--> Focused Administration
-```
-
-Use:
+A safe early relay workflow is:
 
 ```text
-NetExec = breadth
-
-Impacket = focused protocol operations
-```
-
----
-
-# NetExec + BloodHound
-
-```text
-NetExec
-   |
-   v
-Host / Credential Context
-   |
-   v
-BloodHound
-   |
-   v
-Relationship Analysis
-   |
-   v
-Potential Path
-   |
-   v
+Discover Hosts
+      |
+      v
+Check SMB Signing
+      |
+      v
+Identify Candidates
+      |
+      v
+Review LDAP Protections
+      |
+      v
+Review HTTP Endpoints
+      |
+      v
+Determine Authentication Source
+      |
+      v
+Obtain Approval
+      |
+      v
 Controlled Validation
 ```
 
----
+NetExec can help with the discovery stages.
 
-# NetExec + Responder
-
-Responder can identify or induce authentication scenarios during authorised internal testing.
-
-NetExec can help identify potential targets and security controls.
+Do not jump directly from:
 
 ```text
-NetExec
-   |
-   v
-SMB Signing / Target Analysis
-   |
-   v
-Responder
-   |
-   v
-Authentication Attempt
-   |
-   v
-Relay Analysis
+Signing Not Required
 ```
 
-Remember:
+to:
 
 ```text
-Capture != Relay
-```
-
-and:
-
-```text
-Signing not required != successful relay
+Perform Relay
 ```
 
 ---
 
-# NetExec + Certipy
+# LDAP Relay Considerations
 
-NetExec can help establish:
-
-```text
-Domain
-Credentials
-Domain Controller
-LDAP connectivity
-```
-
-before moving to dedicated AD CS tooling.
-
-Conceptually:
+Assess:
 
 ```text
-NetExec
-   |
-   v
-AD Context
-   |
-   v
-AD CS Present?
-   |
-   v
-Certipy
-   |
-   v
-Certificate Services Analysis
+LDAP Signing
+LDAP Channel Binding
+LDAPS
+EPA
+Authentication Method
+Target Privileges
 ```
+
+Relay viability depends on the complete chain.
 
 ---
 
-# NetExec Through a Pivot
+# Coercion Considerations
 
-Before using NetExec through a pivot:
+Authentication coercion can affect production services.
+
+Before testing:
+
+```text
+Is coercion in scope?
+Which protocol is triggered?
+Which account authenticates?
+Where will authentication go?
+Could the service become unstable?
+Is relay also authorised?
+```
+
+Discovery and exploitation are separate phases.
+
+---
+
+# AD CS Relay Considerations
+
+When AD CS is present, investigate:
+
+```text
+Certificate Authority
+Web Enrollment
+Enrollment Services
+HTTP vs HTTPS
+Extended Protection
+Authentication
+Templates
+Enrollment Rights
+```
+
+Use dedicated AD CS tooling for comprehensive analysis.
+
+See:
+
+[Active Directory Cheatsheet](active-directory.md)
+
+---
+
+# Logging
+
+For evidence:
 
 ```bash
-ip addr
-```
-
-```bash
-ip route
-```
-
-```bash
-cat /etc/resolv.conf
-```
-
-Then verify:
-
-```text
-Target route
-DNS
-Protocol ports
-Kerberos requirements
-```
-
----
-
-# SOCKS Pivot
-
-Some NetExec operations may be used through a SOCKS-aware environment.
-
-However, protocols such as:
-
-```text
-RPC
-Kerberos
-Dynamic RPC
-```
-
-can complicate proxy-based operation.
-
-For broad AD testing, routed or TUN-based pivots can sometimes provide a cleaner network model.
-
----
-
-# Routed Pivot
-
-Conceptually:
-
-```text
-Kali
- |
- v
-TUN Interface
- |
- v
-Pivot
- |
- v
-Internal Network
- |
- v
-NetExec
-```
-
-From NetExec's perspective, the remote subnet behaves more like a directly routed network.
-
----
-
-# DNS During Pivoting
-
-A working route does not guarantee working AD tooling.
-
-Verify:
-
-```bash
-dig "$DC"
+nxc smb 10.10.10.0/24 | tee smb.txt
 ```
 
 ```bash
-dig SRV "_ldap._tcp.dc._msdcs.$DOMAIN"
+nxc ldap dc01.example.local \
+    -u username \
+    -p 'Password' |
+    tee ldap.txt
 ```
 
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
----
-
-# Re-Enumeration
-
-Whenever your security context changes, run relevant NetExec checks again.
+Be aware that logs may contain:
 
 ```text
-New Credential
-      |
-      v
-Re-Enumerate
-
-New Host
-      |
-      v
-Re-Enumerate
-
-New Privilege
-      |
-      v
-Re-Enumerate
-
-New Subnet
-      |
-      v
-Re-Enumerate
-
-New Domain
-      |
-      v
-Re-Enumerate
-```
-
----
-
-# New Credential Workflow
-
-```text
-New Credential
-      |
-      v
-Domain or Local?
-      |
-      v
-Validate Against
-Approved Targets
-      |
-      v
-SMB
-      |
-      +--> Shares
-      |
-      +--> Admin?
-      |
-      v
-LDAP
-      |
-      +--> Users
-      +--> Groups
-      +--> Policy
-      |
-      v
-WinRM / WMI
-where appropriate
-      |
-      v
-Update BloodHound
-      |
-      v
-New Relationships
-```
-
----
-
-# New Host Workflow
-
-```text
-New Host
-   |
-   v
-SMB
-   |
-   v
-Hostname / Domain
-   |
-   v
-Signing
-   |
-   v
-Known Credentials
-   |
-   v
-Shares
-   |
-   v
-Administrative Access
-   |
-   v
-Remote Management
-```
-
----
-
-# New Subnet Workflow
-
-```text
-New Subnet
-    |
-    v
-nxc smb
-    |
-    v
-Windows Hosts
-    |
-    v
+Usernames
 Domains
-    |
-    v
-Signing
-    |
-    v
-Known Credentials
-    |
-    v
-Interesting Systems
+Hostnames
+Credentials
+Hashes
+Share Names
+Sensitive Paths
 ```
+
+Protect them appropriately.
 
 ---
 
-# New Domain Workflow
+# Timestamp Evidence
+
+Before important tests:
+
+```bash
+date -Is
+```
+
+Record:
 
 ```text
-New Domain
-    |
-    v
-Identify DC
-    |
-    v
-DNS
-    |
-    v
-LDAP
-    |
-    v
-Users / Groups
-    |
-    v
-Password Policy
-    |
-    v
-Trusts
-    |
-    v
-BloodHound
+Timestamp
+Source
+Target
+Identity
+Command
+Result
+```
+
+This helps correlate testing with:
+
+```text
+SIEM
+EDR
+Windows Event Logs
+Firewall Logs
+SOC Alerts
 ```
 
 ---
 
-# Common Troubleshooting
+# Evidence Model
 
-## NetExec Not Found
+For each important NetExec result record:
 
-```bash
-which nxc
-```
-
-If missing:
-
-```bash
-sudo apt install netexec
-```
-
-or use the pipx installation.
-
----
-
-# Check Version
-
-```bash
-nxc --version
+```text
+Source Host
+Source IP
+Target Host
+Target IP
+Protocol
+Identity
+Authentication Type
+Observed Access
+Security Control
+Impact
 ```
 
 ---
 
-# Check Global Help
+# Example - SMB Signing
 
-```bash
-nxc --help
+Weak evidence:
+
+```text
+Signing: False
+```
+
+Better:
+
+```text
+Host: WS01
+IP: 10.10.10.25
+Protocol: SMB
+SMB signing required: No
+Authentication source available: Not yet established
+Relay path: Not validated
+```
+
+Conclusion:
+
+```text
+Potential relay target requiring additional validation.
 ```
 
 ---
 
-# Check Protocol Help
+# Example - Administrative Access
+
+Weak:
+
+```text
+Pwn3d!
+```
+
+Better:
+
+```text
+Identity:
+EXAMPLE\user1
+
+Target:
+SRV01
+
+Protocol:
+SMB
+
+Observed:
+Administrative access
+
+Expected:
+User should not administer server
+
+Impact:
+Potential excessive privilege and lateral movement path
+```
+
+---
+
+# Example - Writable Share
+
+Weak:
+
+```text
+Share is writable.
+```
+
+Better:
+
+```text
+Identity
+   |
+   v
+Writable Share
+   |
+   v
+What consumes files?
+   |
+   v
+Privileged deployment process?
+   |
+   v
+Security boundary?
+```
+
+A writable share is not automatically privilege escalation.
+
+---
+
+# Example - WinRM
+
+Weak:
+
+```text
+WinRM login successful.
+```
+
+Better:
+
+```text
+Domain User
+     |
+     v
+WinRM Authentication
+     |
+     v
+Remote Management Group?
+     |
+     v
+Administrative Rights?
+     |
+     v
+Expected Access?
+```
+
+---
+
+# Example - Kerberoast Candidate
+
+Weak:
+
+```text
+SPN found.
+```
+
+Better:
+
+```text
+Account
+   |
+   v
+SPN
+   |
+   v
+Service Ticket
+   |
+   v
+Password Strength
+   |
+   v
+Privileges
+   |
+   v
+Security Impact
+```
+
+---
+
+# Common Mistakes
+
+Avoid:
+
+```text
+Running password lists without checking lockout policy
+Testing Domain Admin credentials everywhere
+Assuming Pwn3d means a vulnerability
+Assuming SMB signing disabled means relay is guaranteed
+Running every module
+Dumping credentials by default
+Spidering every share recursively
+Mixing customer data in the same workspace
+Using old CrackMapExec syntax without checking help
+Ignoring DNS during Kerberos troubleshooting
+Treating tool output as final evidence
+```
+
+---
+
+# NetExec vs CrackMapExec
+
+NetExec is the actively maintained continuation/fork of the CrackMapExec project lineage.
+
+Modern documentation and commands use:
+
+```text
+nxc
+```
+
+rather than relying on old:
+
+```text
+crackmapexec
+cme
+```
+
+examples.
+
+When an old write-up says:
+
+```bash
+crackmapexec smb ...
+```
+
+look for the equivalent current NetExec syntax:
+
+```bash
+nxc smb ...
+```
+
+and verify options using:
 
 ```bash
 nxc smb --help
@@ -1844,7 +2240,251 @@ nxc smb --help
 
 ---
 
-# Check Modules
+# NetExec vs Impacket
+
+Think:
+
+```text
+NetExec
+   =
+Network-Scale Enumeration
+Authentication Mapping
+Protocol Assessment
+Modules
+AD Enumeration
+
+Impacket
+   =
+Protocol Utilities
+Kerberos Operations
+SMB / RPC Tools
+Targeted Remote Administration
+Specialised AD Operations
+```
+
+They complement each other.
+
+See:
+
+[Impacket Cheatsheet](impacket.md)
+
+---
+
+# NetExec vs BloodHound
+
+```text
+NetExec
+   |
+   v
+Hosts / Authentication / AD Information
+   |
+   v
+BloodHound
+   |
+   v
+Relationships / Paths
+```
+
+Use BloodHound when the question becomes:
+
+```text
+How does this identity reach that privilege?
+```
+
+See:
+
+[BloodHound Cheatsheet](bloodhound.md)
+
+---
+
+# NetExec vs Nmap
+
+```text
+Nmap
+ |
+ +--> Network Discovery
+ +--> Port Discovery
+ +--> Service Fingerprinting
+ +--> NSE
+
+NetExec
+ |
+ +--> Protocol-Aware Enumeration
+ +--> Authentication
+ +--> Windows / AD Context
+ +--> Access Mapping
+```
+
+A useful workflow:
+
+```text
+Nmap
+  ->
+NetExec
+  ->
+LDAP / SMB Enumeration
+  ->
+BloodHound
+  ->
+Manual Validation
+```
+
+---
+
+# Internal Unauthenticated Workflow
+
+```text
+1. Identify network
+2. Identify DNS
+3. Discover SMB hosts
+4. Identify domains
+5. Identify DCs
+6. Check SMB signing
+7. Identify LDAP
+8. Identify Kerberos
+9. Identify WinRM
+10. Build target lists
+```
+
+Example:
+
+```bash
+nxc smb 10.10.10.0/24
+```
+
+Then:
+
+```bash
+nxc smb 10.10.10.0/24 --gen-relay-list relay.txt
+```
+
+Then investigate identified DCs with:
+
+```bash
+nxc ldap dc01.example.local
+```
+
+---
+
+# Authenticated Domain User Workflow
+
+```text
+1. Validate one credential
+2. Enumerate SMB
+3. Enumerate shares
+4. Enumerate LDAP
+5. Enumerate users
+6. Enumerate groups
+7. Identify Kerberos candidates
+8. Identify delegation
+9. Identify AD CS
+10. Collect graph data
+11. Map administrative access
+12. Validate candidate paths
+```
+
+---
+
+# Local Administrator Workflow
+
+When an authorised local administrator credential is provided:
+
+```text
+1. Test one target
+2. Determine local vs domain context
+3. Map where credential works
+4. Identify credential reuse
+5. Determine whether reuse is intended
+6. Avoid unnecessary command execution
+7. Document lateral movement exposure
+```
+
+---
+
+# Post-Compromise Workflow
+
+If the engagement has reached an authorised Windows foothold:
+
+```text
+Windows Host
+    |
+    v
+Identity
+    |
+    v
+Domain
+    |
+    v
+NetExec from Assessment Host
+    |
+    v
+Access Mapping
+    |
+    v
+LDAP Enumeration
+    |
+    v
+BloodHound
+    |
+    v
+Candidate Lateral Path
+```
+
+Do not assume a foothold means unrestricted testing is permitted.
+
+---
+
+# Quick SMB Commands
+
+Discovery:
+
+```bash
+nxc smb 10.10.10.0/24
+```
+
+Credential validation:
+
+```bash
+nxc smb 10.10.10.10 \
+    -d example.local \
+    -u username \
+    -p 'Password'
+```
+
+Shares:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    --shares
+```
+
+Users:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    --users
+```
+
+Groups:
+
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    --groups
+```
+
+Signing candidates:
+
+```bash
+nxc smb 10.10.10.0/24 --gen-relay-list relay.txt
+```
+
+Modules:
 
 ```bash
 nxc smb -L
@@ -1852,433 +2492,20 @@ nxc smb -L
 
 ---
 
-# Check Module Options
+# Quick LDAP Commands
+
+Basic:
 
 ```bash
-nxc smb \
-    -M <module> \
-    --options
+nxc ldap dc01.example.local
 ```
 
----
-
-# Authentication Failure
-
-If credentials fail, verify:
-
-```text
-Username
-Password/hash
-Domain
-Local vs domain account
-Target
-Protocol
-NTLM/Kerberos
-Account status
-```
-
----
-
-# Domain vs Local Account
-
-Always distinguish:
-
-```text
-EXAMPLE\alice
-```
-
-from:
-
-```text
-SERVER01\alice
-```
-
-A valid local credential may not work as a domain credential and vice versa.
-
----
-
-# DNS Failure
-
-Check:
-
-```bash
-cat /etc/resolv.conf
-```
-
-```bash
-dig "$DC"
-```
-
-For AD:
-
-```bash
-dig SRV "_ldap._tcp.dc._msdcs.$DOMAIN"
-```
-
----
-
-# Kerberos Failure
-
-Check:
-
-```bash
-date
-```
-
-```bash
-dig "$DC"
-```
-
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
-Then verify:
-
-```text
-FQDN
-SPN
-KDC
-Ticket
-Domain
-```
-
----
-
-# Authentication Works but No Admin
-
-This is normal.
-
-```text
-Valid Credential
-      |
-      v
-Authentication
-      |
-      v
-Authorisation
-      |
-   +--+--+
-   |     |
- User   Admin
-```
-
-Do not treat successful authentication as a privilege escalation.
-
----
-
-# SMB Works but WinRM Fails
-
-Possible reasons include:
-
-```text
-WinRM disabled
-Firewall
-User not permitted for remote management
-Different authentication configuration
-Network restrictions
-```
-
-Do not assume the password is wrong.
-
----
-
-# SMB Works but WMI Fails
-
-Possible reasons:
-
-```text
-Insufficient privileges
-RPC blocked
-DCOM blocked
-Dynamic RPC blocked
-Firewall
-Endpoint security
-```
-
----
-
-# Too Many Authentication Attempts
-
-Stop.
-
-Review:
-
-```text
-Password policy
-Lockout threshold
-Current test strategy
-Credential files
---no-bruteforce
-Rules of engagement
-```
-
-Do not continue blindly.
-
----
-
-# Evidence Directory
-
-Create:
-
-```bash
-mkdir -p evidence/netexec/{discovery,smb,ldap,winrm,wmi,mssql,ssh,modules}
-```
-
-Structure:
-
-```text
-evidence/
-└── netexec/
-    ├── discovery/
-    ├── smb/
-    ├── ldap/
-    ├── winrm/
-    ├── wmi/
-    ├── mssql/
-    ├── ssh/
-    └── modules/
-```
-
----
-
-# Save Output
-
-Example:
-
-```bash
-nxc smb 10.10.20.0/24 |
-    tee evidence/netexec/discovery/smb.txt
-```
-
-Shares:
-
-```bash
-nxc smb 10.10.20.0/24 \
-    -d example.local \
-    -u alice \
-    -p 'Password' \
-    --shares |
-    tee evidence/netexec/smb/shares.txt
-```
-
----
-
-# Sensitive Evidence
-
-Protect output containing:
-
-```text
-Passwords
-NTLM hashes
-Kerberos tickets
-Private keys
-Certificates
-Credential material
-Sensitive filenames
-Client information
-```
-
-Do not put secrets into screenshots or final reports unnecessarily.
-
----
-
-# Reporting
-
-Report the security condition rather than the NetExec command.
-
-Avoid:
-
-```text
-NetExec showed Pwn3d.
-```
-
-Prefer:
-
-```text
-The tested domain account possessed local administrative
-privileges on APP01.
-```
-
-Avoid:
-
-```text
-NetExec found SMB signing off.
-```
-
-Prefer:
-
-```text
-The SMB service on APP01 did not require message signing,
-which may satisfy one prerequisite for certain NTLM relay
-scenarios.
-```
-
----
-
-# Reporting Share Access
-
-Avoid:
-
-```text
-nxc --shares showed READ.
-```
-
-Prefer:
-
-```text
-The tested domain user could read the Finance share on FILE01.
-```
-
-If relevant, explain the exposed data and security impact.
-
----
-
-# Reporting Credential Validation
-
-Avoid:
-
-```text
-NetExec accepted the password.
-```
-
-Prefer:
-
-```text
-The supplied domain credential successfully authenticated to
-the SMB service on the tested system.
-```
-
-Then separately document whether administrative access existed.
-
----
-
-# Detection Perspective
-
-NetExec can generate telemetry across:
-
-```text
-Authentication logs
-SMB logs
-LDAP logs
-Kerberos logs
-WinRM
-WMI
-MSSQL
-SSH
-RDP
-Network monitoring
-EDR
-Domain Controller logs
-```
-
-The amount of telemetry depends heavily on the selected protocol and operation.
-
----
-
-# Purple Team Use
-
-NetExec can be useful for controlled purple team exercises.
-
-```text
-Action
-  |
-  v
-Authentication / Enumeration
-  |
-  v
-Host Telemetry
-  |
-  v
-Network Telemetry
-  |
-  v
-Detection?
-  |
- +---+---+
- |       |
-Yes      No
- |       |
- v       v
-Tune    Create
-Rule    Detection
-```
-
----
-
-# Low-Impact First
-
-Prefer:
-
-```text
-Discovery
-    |
-    v
-Enumeration
-    |
-    v
-Analysis
-    |
-    v
-Focused Validation
-```
-
-over:
-
-```text
-Credential
-    |
-    v
-Execute Everything
-```
-
----
-
-# Quick SMB Workflow
-
-```bash
-nxc smb 10.10.20.0/24
-```
-
-Then approved credential validation:
-
-```bash
-nxc smb 10.10.20.0/24 \
-    -d example.local \
-    -u alice \
-    -p 'Password'
-```
-
-Shares:
-
-```bash
-nxc smb 10.10.20.0/24 \
-    -d example.local \
-    -u alice \
-    -p 'Password' \
-    --shares
-```
-
-Then:
-
-```text
-Review
-   |
-   v
-Interesting Host?
-   |
-   v
-Focused Enumeration
-```
-
----
-
-# Quick LDAP Workflow
+Authenticated:
 
 ```bash
 nxc ldap dc01.example.local \
     -d example.local \
-    -u alice \
+    -u username \
     -p 'Password'
 ```
 
@@ -2286,563 +2513,456 @@ Users:
 
 ```bash
 nxc ldap dc01.example.local \
-    -d example.local \
-    -u alice \
+    -u username \
     -p 'Password' \
     --users
 ```
 
-Then:
+Active users where supported:
 
-```text
-Users
-  |
-  v
-Groups
-  |
-  v
-Policy
-  |
-  v
-Relationships
-  |
-  v
-BloodHound
+```bash
+nxc ldap dc01.example.local \
+    -u username \
+    -p 'Password' \
+    --active-users
+```
+
+Groups:
+
+```bash
+nxc ldap dc01.example.local \
+    -u username \
+    -p 'Password' \
+    --groups
+```
+
+Modules:
+
+```bash
+nxc ldap -L
 ```
 
 ---
 
-# Quick WinRM Workflow
+# Quick WinRM Commands
+
+Discovery:
 
 ```bash
-nxc winrm 10.10.20.0/24
+nxc winrm 10.10.10.0/24
 ```
 
-Then:
+Authentication:
 
 ```bash
-nxc winrm 10.10.20.10 \
-    -d example.local \
-    -u alice \
+nxc winrm 10.10.10.10 \
+    -u username \
     -p 'Password'
 ```
 
-Interpret:
-
-```text
-Reachable
-   |
-   v
-Authenticated
-   |
-   v
-Remote Management Authorised?
-```
-
----
-
-# Quick Hash Workflow
-
-Given an authorised NTLM hash:
+Help:
 
 ```bash
-nxc smb 10.10.20.10 \
-    -d example.local \
-    -u alice \
-    -H <NT-HASH>
-```
-
-Then determine:
-
-```text
-Authentication?
-      |
-      v
-Privilege?
-      |
-      v
-Shares?
-      |
-      v
-Administrative Relationship?
+nxc winrm --help
 ```
 
 ---
 
-# What Protocol Do I Need?
+# Quick MSSQL Commands
 
-```text
-What am I testing?
-       |
-       +--> Windows host discovery
-       |       |
-       |       +--> SMB
-       |
-       +--> Active Directory
-       |       |
-       |       +--> LDAP
-       |
-       +--> Windows remote management
-       |       |
-       |       +--> WinRM
-       |
-       +--> Windows management / WMI
-       |       |
-       |       +--> WMI
-       |
-       +--> SQL Server
-       |       |
-       |       +--> MSSQL
-       |
-       +--> Linux / Unix SSH
-       |       |
-       |       +--> SSH
-       |
-       +--> Remote Desktop
-               |
-               +--> RDP
+Discovery:
+
+```bash
+nxc mssql 10.10.10.0/24
+```
+
+Authentication:
+
+```bash
+nxc mssql 10.10.10.10 \
+    -u username \
+    -p 'Password'
+```
+
+Help:
+
+```bash
+nxc mssql --help
 ```
 
 ---
 
-# What Do I Run First?
+# Quick SSH Commands
 
-```text
-Internal Network
-      |
-      v
-nxc smb <subnet>
-      |
-      v
-Windows Hosts
-      |
-      v
-Domain?
-      |
-   +--+--+
-   |     |
-  No    Yes
-   |     |
-   |     v
-   |   Find DC
-   |     |
-   |     v
-   |   LDAP
-   |
-   v
-Known Credentials?
-      |
-   +--+--+
-   |     |
-  No    Yes
-   |     |
-   v     v
-Enum   Validate
-Only   Carefully
-         |
-         v
-       Shares
-         |
-         v
-       Access
-         |
-         v
-     BloodHound
+Discovery:
+
+```bash
+nxc ssh 10.10.10.0/24
+```
+
+Authentication:
+
+```bash
+nxc ssh 10.10.10.10 \
+    -u username \
+    -p 'Password'
 ```
 
 ---
 
-# NetExec Assessment Checklist
+# Quick Module Commands
 
-## Installation
+List:
 
-```text
-[ ] NetExec installed
-[ ] nxc available
-[ ] Version checked
-[ ] Protocol help checked
+```bash
+nxc smb -L
 ```
 
-## Context
+Options:
 
-```text
-[ ] Scope confirmed
-[ ] Interface known
-[ ] Routes known
-[ ] DNS known
-[ ] Domain known
-[ ] DC identified
+```bash
+nxc smb -M <module> --options
 ```
 
-## SMB
+Run:
 
-```text
-[ ] SMB hosts discovered
-[ ] Hostnames recorded
-[ ] Domains recorded
-[ ] SMB signing reviewed
-[ ] Approved credentials validated
-[ ] Shares reviewed
-[ ] Administrative relationships recorded
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    -M <module>
 ```
 
-## LDAP
+With options:
 
-```text
-[ ] LDAP reachable
-[ ] Domain credential validated
-[ ] Users reviewed
-[ ] Groups reviewed where appropriate
-[ ] Password policy reviewed
-[ ] Directory relationships analysed
-```
-
-## Kerberos
-
-```text
-[ ] DNS correct
-[ ] Time correct
-[ ] FQDN correct
-[ ] KDC reachable
-[ ] Authentication method understood
-```
-
-## Remote Management
-
-```text
-[ ] WinRM reviewed
-[ ] WMI reviewed where relevant
-[ ] Administrative rights confirmed
-[ ] Remote execution separately authorised
-```
-
-## Modules
-
-```text
-[ ] Module purpose understood
-[ ] Module options reviewed
-[ ] Operational impact understood
-[ ] Credential access implications understood
-[ ] State changes understood
-[ ] Module explicitly authorised
-```
-
-## Evidence
-
-```text
-[ ] Commands recorded
-[ ] Targets recorded
-[ ] Identities recorded
-[ ] Relevant output saved
-[ ] Sensitive material protected
+```bash
+nxc smb 10.10.10.10 \
+    -u username \
+    -p 'Password' \
+    -M <module> \
+    -o KEY=value
 ```
 
 ---
 
-# One-Minute NetExec Reference
+# Quick Database Commands
+
+Launch:
+
+```bash
+nxcdb
+```
+
+Then:
 
 ```text
-Help
-    nxc --help
-
-SMB help
-    nxc smb --help
-
-SMB discovery
-    nxc smb <target>
-
-Password
-    nxc smb <target> -u USER -p 'PASSWORD'
-
-Domain
-    nxc smb <target> -d DOMAIN -u USER -p 'PASSWORD'
-
-NTLM hash
-    nxc smb <target> -d DOMAIN -u USER -H HASH
-
-Shares
-    nxc smb <target> -d DOMAIN -u USER -p 'PASSWORD' --shares
-
-LDAP
-    nxc ldap <dc> -d DOMAIN -u USER -p 'PASSWORD'
-
-LDAP users
-    nxc ldap <dc> -d DOMAIN -u USER -p 'PASSWORD' --users
-
-WinRM
-    nxc winrm <target> -d DOMAIN -u USER -p 'PASSWORD'
-
-Modules
-    nxc smb -L
-
-Module options
-    nxc smb -M MODULE --options
-
-Run module
-    nxc smb <target> -u USER -p 'PASSWORD' -M MODULE
-
-Database
-    nxcdb
+workspace list
+workspace create assessment
+workspace assessment
+proto smb
+help
+back
+proto ldap
+help
 ```
 
 ---
 
-# Rules to Remember
+# Assessment Checklist
+
+- [ ] Check NetExec version
+- [ ] Confirm engagement workspace
+- [ ] Confirm target scope
+- [ ] Confirm credential scope
+- [ ] Check password lockout policy
+- [ ] Identify DNS
+- [ ] Identify domain
+- [ ] Identify DCs
+- [ ] Enumerate SMB hosts
+- [ ] Check SMB signing
+- [ ] Identify SMB shares
+- [ ] Identify LDAP
+- [ ] Enumerate domain users
+- [ ] Enumerate active users
+- [ ] Enumerate groups
+- [ ] Identify Kerberos candidates
+- [ ] Review delegation
+- [ ] Review AD CS
+- [ ] Identify WinRM
+- [ ] Identify MSSQL
+- [ ] Map administrative relationships
+- [ ] Review NetExec modules before use
+- [ ] Avoid unnecessary credential collection
+- [ ] Avoid unnecessary remote execution
+- [ ] Preserve evidence
+- [ ] Validate important findings manually
+- [ ] Protect the NetExec database
+- [ ] Remove engagement data according to retention requirements
+
+---
+
+# Reporting Checklist
+
+For each result ask:
 
 ```text
-Authentication != Administration
+What did NetExec observe?
 
-Administration != Domain Admin
+What identity was used?
 
-Pwn3d-style indicator != Permission to Execute Commands
+What target was tested?
 
-Share Access != Sensitive Data Exposure
+Was authentication required?
 
-SMB Signing Not Required != Successful Relay
+What permissions were present?
 
-Valid Password != Safe to Spray Everywhere
+Is the access expected?
 
-Module Available != Module Appropriate
+What security boundary exists?
 
-BloodHound Edge != Confirmed Attack Path
+Can the result be reproduced manually?
 
-Host Reachable != Host In Scope
+What is the actual security impact?
 ```
 
 ---
 
-# NetExec vs Impacket
+# Do Not Overreport
+
+Do not automatically report:
 
 ```text
-Need broad discovery?
-        |
-        +--> NetExec
+SMB Is Open
+LDAP Is Open
+WinRM Is Open
+A Domain User Can Authenticate
+A Share Exists
+An SPN Exists
+A User Appears in LDAP
+SMB Signing Is Not Required
+WinRM Authentication Works
+NetExec Shows Administrative Access
+A Module Produces Red Output
+```
 
-Need credential validation across hosts?
-        |
-        +--> NetExec
+Instead determine:
 
-Need share mapping?
-        |
-        +--> NetExec
-
-Need broad admin relationship mapping?
-        |
-        +--> NetExec
-
-Need focused SMB interaction?
-        |
-        +--> Impacket smbclient
-
-Need SID / RPC operations?
-        |
-        +--> Impacket
-
-Need focused Kerberos operations?
-        |
-        +--> Impacket
-
-Need ticket conversion?
-        |
-        +--> Impacket
-
-Need specialised protocol operation?
-        |
-        +--> Impacket
+```text
+Configuration
+     +
+Identity
+     +
+Permission
+     +
+Reachability
+     +
+Security Boundary
+     =
+Security Impact
 ```
 
 ---
 
-# NetExec Mental Model
+# Recommended Tool Chain
+
+A practical internal AD assessment often looks like:
 
 ```text
-                      NETEXEC
-                         |
-                         v
-                       SCOPE
-                         |
-                         v
-                       TARGET
-                         |
-            +------------+------------+
-            |            |            |
-            v            v            v
-           SMB          LDAP        WinRM
-            |            |            |
-            +------------+------------+
-                         |
-                         v
-                    AUTHENTICATION
-                         |
-              +----------+----------+
-              |                     |
-              v                     v
-           Password                Hash
-              |                     |
-              +----------+----------+
-                         |
-                         v
-                    AUTHORISATION
-                         |
-              +----------+----------+
-              |                     |
-              v                     v
-           Standard               Admin
-            Access                Access
-              |                     |
-              +----------+----------+
-                         |
-                         v
-                     ENUMERATE
-                         |
-            +------------+------------+
-            |            |            |
-            v            v            v
-          Hosts         Shares      Identity
-            |            |            |
-            +------------+------------+
-                         |
-                         v
-                       ANALYSE
-                         |
-                         v
-                  NEW RELATIONSHIP
-                         |
-                         v
-                    RE-ENUMERATE
+Nmap
+  |
+  v
+NetExec
+  |
+  +--> SMB
+  |
+  +--> LDAP
+  |
+  +--> WinRM
+  |
+  +--> MSSQL
+  |
+  v
+Impacket
+  |
+  v
+BloodHound
+  |
+  v
+Certipy
+  |
+  v
+Manual Validation
 ```
 
----
-
-# Detailed Notes
-
-```text
-active-directory/netexec.md
-active-directory/impacket.md
-active-directory/enumeration.md
-active-directory/bloodhound.md
-active-directory/kerberos.md
-active-directory/ntlm.md
-active-directory/password-spraying.md
-active-directory/ntlm-relay.md
-active-directory/lateral-movement.md
-active-directory/pivoting.md
-```
-
----
-
-# Related Cheatsheets
-
-```text
-cheatsheets/active-directory.md
-cheatsheets/impacket.md
-cheatsheets/networking.md
-cheatsheets/windows.md
-cheatsheets/powershell.md
-```
+No single tool should determine the final finding.
 
 ---
 
 # References
 
-## NetExec Official Website
+## NetExec Official Documentation
 
-[NetExec Official Website](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
+[NetExec Documentation](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
 
-## NetExec GitHub Repository
-
-[NetExec GitHub Repository](https://github.com/Pennyw0rth/NetExec){ target="_blank" rel="noopener noreferrer" }
-
-## NetExec Wiki Repository
-
-[NetExec Wiki Repository](https://github.com/Pennyw0rth/NetExec-Wiki){ target="_blank" rel="noopener noreferrer" }
-
-## Installation
-
-[NetExec Wiki - installation on unix](https://www.netexec.wiki/getting-started/installation/installation-on-unix){ target="_blank" rel="noopener noreferrer" }
-
-## Using Credentials
-
-[Using Credentials](https://www.netexec.wiki/getting-started/using-credentials){ target="_blank" rel="noopener noreferrer" }
-
-## Using Modules
-
-[Using Modules](https://www.netexec.wiki/getting-started/using-modules){ target="_blank" rel="noopener noreferrer" }
-
-## Certificate Authentication
-
-[Certificate Authentication](https://www.netexec.wiki/getting-started/using-certificates){ target="_blank" rel="noopener noreferrer" }
+Primary reference for current NetExec usage, protocols, credentials, modules, databases, BloodHound integration and other features.
 
 ---
 
-# Final Quick Reference
+## NetExec GitHub
+
+[NetExec - GitHub](https://github.com/Pennyw0rth/NetExec){ target="_blank" rel="noopener noreferrer" }
+
+Use the official repository for source code, releases, installation information and current development.
+
+---
+
+## NetExec Wiki Source
+
+[NetExec Wiki - GitHub](https://github.com/Pennyw0rth/NetExec-Wiki){ target="_blank" rel="noopener noreferrer" }
+
+Useful when reviewing documentation changes and current examples.
+
+---
+
+## NetExec Lab
+
+[NetExec Lab](https://github.com/Pennyw0rth/NetExec-Lab){ target="_blank" rel="noopener noreferrer" }
+
+Official training lab for practising NetExec and related Active Directory assessment workflows in a controlled environment.
+
+---
+
+## Exploit Notes - Active Directory
+
+[Exploit Notes - Active Directory](https://exploitnotes.org/exploit/windows/active-directory/){ target="_blank" rel="noopener noreferrer" }
+
+Useful as an additional Active Directory methodology and enumeration reference.
+
+---
+
+## HackTricks - Active Directory
+
+[HackTricks - Active Directory Methodology](https://hacktricks.wiki/en/windows-hardening/active-directory-methodology/index.html){ target="_blank" rel="noopener noreferrer" }
+
+Useful as a broad AD methodology reference.
+
+---
+
+## InternalAllTheThings
+
+[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/){ target="_blank" rel="noopener noreferrer" }
+
+Useful as an additional Active Directory technique and command reference.
+
+---
+
+## Impacket
+
+[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
+
+Use alongside NetExec for protocol-specific Active Directory and Windows operations.
+
+---
+
+## BloodHound
+
+[BloodHound Documentation](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
+
+Use for Active Directory relationship and attack-path analysis.
+
+---
+
+## Certipy
+
+[Certipy](https://github.com/ly4k/Certipy){ target="_blank" rel="noopener noreferrer" }
+
+Useful for Active Directory Certificate Services enumeration and authorised security assessment.
+
+---
+
+# Final NetExec Model
+
+Do not use NetExec as:
 
 ```text
-                         NETEXEC
-                            |
-                            v
-                        DISCOVERY
-                            |
-                            v
-                     nxc smb <range>
-                            |
-                            v
-                         HOSTS
-                            |
-                +-----------+-----------+
-                |                       |
-                v                       v
-               SMB                    LDAP
-                |                       |
-                v                       v
-             Shares                  Users
-                |                    Groups
-                |                    Policy
-                |                       |
-                +-----------+-----------+
-                            |
-                            v
-                       CREDENTIAL
-                            |
-                +-----------+-----------+
-                |                       |
-                v                       v
-             Password                  Hash
-                |                       |
-                +-----------+-----------+
-                            |
-                            v
-                      AUTHENTICATION
-                            |
-                            v
-                       AUTHORISATION
-                            |
-                +-----------+-----------+
-                |                       |
-                v                       v
-              User                    Admin
-                |                       |
-                +-----------+-----------+
-                            |
-                            v
-                         ANALYSE
-                            |
-                            v
-                    NEW RELATIONSHIP
-                            |
-                            v
-                      RE-ENUMERATE
-                            |
-                            v
-                         EVIDENCE
+Get Credentials
+      |
+      v
+Spray Entire Network
+      |
+      v
+Run Every Module
+      |
+      v
+Dump Everything
 ```
 
-The key principle is:
+Use:
 
 ```text
-NetExec gives breadth.
+Understand Scope
+      |
+      v
+Identify Network
+      |
+      v
+Discover Services
+      |
+      v
+Identify Security Controls
+      |
+      v
+Validate One Credential
+      |
+      v
+Enumerate Relevant Data
+      |
+      v
+Map Access
+      |
+      v
+Identify Candidate Paths
+      |
+      v
+Manual Validation
+      |
+      v
+Minimal Proof
+      |
+      v
+Report Impact
+```
 
-Use it to map hosts, identities, access, and relationships.
+NetExec is most valuable when it answers questions such as:
 
-Then move to focused tools when deeper protocol-specific analysis is required.
+```text
+Which Windows hosts exist?
+
+Which domain do they belong to?
+
+Where is SMB signing not required?
+
+Which shares can this identity access?
+
+Which systems accept this approved credential?
+
+Where does this identity have elevated access?
+
+Which domain objects should be investigated further?
+
+Which protocols expose additional attack paths?
+```
+
+The goal is not:
+
+```text
+Run as many NetExec commands as possible.
+```
+
+The goal is:
+
+```text
+Turn network-scale Windows and Active Directory information
+into a validated map of identities, systems, permissions,
+security controls and attack paths.
 ```
