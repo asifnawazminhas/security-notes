@@ -1,40 +1,40 @@
 # Cheatsheets
 
-Quick-reference commands, workflows, syntax, and testing checklists for penetration testing, red teaming, vulnerability research, and security assessments.
+Quick-reference material for penetration testing, red teaming, purple teaming, security assessments, and authorised security research.
 
-The cheatsheets are designed for use during an assessment when the question is:
+The cheatsheets are designed for situations where you already understand the underlying technique and need to quickly answer:
 
-> **What command or workflow do I need right now?**
+> **What should I check next, and what command or tool can help me validate it?**
 
-For detailed explanations of vulnerabilities, techniques, prerequisites, attack paths, detection, and remediation, use the main sections of the notes.
+For detailed explanations, methodology, prerequisites, attack paths, defensive considerations, and remediation guidance, use the main topic-specific notes.
 
 ---
 
-## Cheatsheets
+# Available Cheatsheets
 
 <div class="grid cards" markdown>
 
--   :material-linux:{ .lg .middle } **Linux**
+-   :fontawesome-brands-linux:{ .lg .middle } **Linux**
 
     ---
 
-    Linux enumeration, networking, services, permissions, processes, credentials, and privilege escalation commands.
+    Linux enumeration, privilege escalation triage, permissions, SUID/SGID, capabilities, sudo, services, cron, containers, credentials, networking, and evidence collection.
 
     [:octicons-arrow-right-24: Linux Cheatsheet](linux.md)
 
--   :material-microsoft-windows:{ .lg .middle } **Windows**
+-   :fontawesome-brands-windows:{ .lg .middle } **Windows**
 
     ---
 
-    Windows enumeration, users, groups, services, permissions, networking, credentials, and privilege escalation commands.
+    Windows host enumeration, privileges, services, scheduled tasks, writable paths, AppLocker, App Control, Defender, credentials, local privilege escalation, and evidence collection.
 
     [:octicons-arrow-right-24: Windows Cheatsheet](windows.md)
 
--   :material-powershell:{ .lg .middle } **PowerShell**
+-   :simple-powershell:{ .lg .middle } **PowerShell**
 
     ---
 
-    PowerShell syntax and commands for Windows and Active Directory enumeration, system administration, filtering, networking, and security testing.
+    PowerShell syntax, host enumeration, files, ACLs, registry, networking, remoting, language modes, execution controls, logging, Defender, and security assessment commands.
 
     [:octicons-arrow-right-24: PowerShell Cheatsheet](powershell.md)
 
@@ -42,33 +42,49 @@ For detailed explanations of vulnerabilities, techniques, prerequisites, attack 
 
     ---
 
-    Network discovery, DNS, ports, routing, connectivity testing, service enumeration, tunnelling, and troubleshooting.
+    TCP/IP, DNS, routing, ports, sockets, Nmap, packet capture, HTTP/TLS, SSH tunnels, proxies, pivoting, VPNs, Active Directory networking, and troubleshooting.
 
     [:octicons-arrow-right-24: Networking Cheatsheet](networking.md)
 
--   :material-web:{ .lg .middle } **Web Application Security**
+-   :material-web:{ .lg .middle } **Web**
 
     ---
 
-    Quick-reference workflows and commands for reconnaissance, HTTP testing, authentication, access control, injection, APIs, and common web vulnerabilities.
+    Web reconnaissance, technology identification, content discovery, authentication, authorisation, APIs, injection, business logic, HTTP-layer testing, caching, LLM applications, and evidence collection.
 
     [:octicons-arrow-right-24: Web Cheatsheet](web.md)
 
--   :material-microsoft-windows-classic:{ .lg .middle } **Active Directory**
+-   :material-microsoft-windows:{ .lg .middle } **Active Directory**
 
     ---
 
-    Active Directory discovery, SMB, LDAP, Kerberos, users, groups, computers, shares, ACLs, delegation, BloodHound, NetExec, Impacket, trusts, AD CS, and pivoting.
+    External, internal unauthenticated, authenticated domain-user, Windows-host, privilege escalation, Kerberos, NTLM, delegation, AD CS, trusts, lateral movement, and infrastructure assessment workflows.
 
     [:octicons-arrow-right-24: Active Directory Cheatsheet](active-directory.md)
+
+-   :material-console:{ .lg .middle } **NetExec**
+
+    ---
+
+    NetExec workflows for SMB, LDAP, WinRM, MSSQL, SSH, Kerberos, shares, users, groups, sessions, AD enumeration, credential validation, relay-target discovery, and evidence collection.
+
+    [:octicons-arrow-right-24: NetExec Cheatsheet](netexec.md)
 
 -   :material-tools:{ .lg .middle } **Impacket**
 
     ---
 
-    Quick-reference commands for Active Directory enumeration, Kerberos, SMB, RPC, delegation, tickets, credential access, remote administration, and NTLM relay testing.
+    Impacket tool selection and workflows for SMB, Kerberos, LDAP, MSSQL, credential validation, remote administration, ticket operations, secrets assessment, and Active Directory testing.
 
     [:octicons-arrow-right-24: Impacket Cheatsheet](impacket.md)
+
+-   :material-graph-outline:{ .lg .middle } **BloodHound**
+
+    ---
+
+    BloodHound collection, graph analysis, privilege-path discovery, ACL relationships, delegation, sessions, AD CS, attack-path reasoning, Cypher queries, and remediation validation.
+
+    [:octicons-arrow-right-24: BloodHound Cheatsheet](bloodhound.md)
 
 </div>
 
@@ -76,65 +92,82 @@ For detailed explanations of vulnerabilities, techniques, prerequisites, attack 
 
 # Quick Navigation
 
-| Area | Cheatsheet | Use When |
+| Area | Cheatsheet | Primary Use |
 |---|---|---|
-| Linux | [Linux](linux.md) | Working on a Linux host |
-| Windows | [Windows](windows.md) | Working on a Windows host |
-| PowerShell | [PowerShell](powershell.md) | Using PowerShell for enumeration or administration |
-| Networking | [Networking](networking.md) | Discovering hosts, services, routes, or network paths |
-| Web | [Web Application Security](web.md) | Testing web applications and APIs |
-| Active Directory | [Active Directory](active-directory.md) | Assessing Windows domain environments |
-| Impacket | [Impacket](impacket.md) | Using Impacket for focused Windows and Active Directory protocol operations |
+| Linux | [Linux](linux.md) | Linux enumeration and privilege escalation |
+| Windows | [Windows](windows.md) | Windows host assessment and privilege escalation |
+| PowerShell | [PowerShell](powershell.md) | Windows and PowerShell operational reference |
+| Networking | [Networking](networking.md) | Network discovery, troubleshooting and pivoting |
+| Web | [Web](web.md) | Web application and API assessments |
+| Active Directory | [Active Directory](active-directory.md) | AD assessment methodology and attack-path analysis |
+| NetExec | [NetExec](netexec.md) | Multi-protocol Windows and AD enumeration |
+| Impacket | [Impacket](impacket.md) | Windows and AD protocol tooling |
+| BloodHound | [BloodHound](bloodhound.md) | AD relationship and attack-path analysis |
 
 ---
 
-# How the Cheatsheets Fit the Notes
+# Cheatsheet vs Detailed Notes
 
-The notes are organised into two complementary layers.
+The cheatsheets are not intended to replace the detailed documentation.
+
+Use:
 
 ```text
-                     Security Notes
-                          |
-              +-----------+-----------+
-              |                       |
-              v                       v
-        Detailed Notes            Cheatsheets
-              |                       |
-              v                       v
-        Why does it work?       What do I run?
-              |
-              v
-        How does it work?
-              |
-              v
-        What does the
-        result mean?
-              |
-              v
-        How do I validate it?
-              |
-              v
-        How is it detected?
-              |
-              v
-        How is it remediated?
+Cheatsheet
+    =
+Quick operational reference
+
+Detailed Notes
+    =
+Concepts
+Methodology
+Attack mechanics
+Prerequisites
+Validation
+Impact
+Detection
+Mitigation
+References
 ```
 
-Use the detailed notes when learning or investigating a technique.
+A typical workflow is:
 
-Use the cheatsheets when you already understand the technique and need a quick operational reference.
+```text
+Assessment
+    |
+    v
+Cheatsheet
+    |
+    v
+Interesting Observation
+    |
+    v
+Detailed Topic Page
+    |
+    v
+Understand Technique
+    |
+    v
+Validate Safely
+    |
+    v
+Collect Evidence
+    |
+    v
+Report
+```
 
 ---
 
 # General Assessment Workflow
 
-A useful high-level workflow is:
+A consistent methodology is more valuable than memorising commands.
 
 ```text
 Scope
   |
   v
-Discovery
+Starting Position
   |
   v
 Enumeration
@@ -143,1391 +176,1783 @@ Enumeration
 Attack Surface
   |
   v
-Authentication
+Trust Boundaries
   |
   v
-Authorisation
+Hypothesis
   |
   v
-Validation
+Safe Validation
   |
   v
-Privilege Analysis
-  |
-  v
-Lateral Movement
-  |
-  v
-Re-Enumeration
+Impact
   |
   v
 Evidence
   |
   v
-Reporting
+Remediation
+  |
+  v
+Re-Test
 ```
 
-Not every assessment follows this exact sequence.
+---
 
-The important principle is:
+# Starting Position Matters
+
+Before running tools, determine what access you actually have.
 
 ```text
-Understand
-    |
-    v
-Enumerate
-    |
-    v
-Analyse
-    |
-    v
-Validate
+External / Internet
+        |
+        v
+No Internal Access
+
+Internal Network
+        |
+        +--> Unauthenticated
+        |
+        +--> Authenticated
+
+Endpoint Access
+        |
+        +--> Standard User
+        |
+        +--> Local Administrator
+
+Directory Access
+        |
+        +--> Domain User
+        |
+        +--> Privileged User
+
+Application Access
+        |
+        +--> Unauthenticated
+        |
+        +--> Authenticated
+        |
+        +--> Multiple Roles
+        |
+        +--> Administrator
 ```
 
-rather than immediately attempting exploitation.
+The same command or observation can have very different meaning depending on the starting position.
+
+---
+
+# Scope First
+
+Before testing, establish:
+
+```text
+What is in scope?
+
+What is out of scope?
+
+Which credentials are provided?
+
+Which user roles are available?
+
+Are production systems included?
+
+Are disruptive techniques prohibited?
+
+Are password attacks permitted?
+
+Are relay attacks permitted?
+
+Are credential extraction techniques permitted?
+
+Are external callbacks permitted?
+
+Are third-party systems excluded?
+
+Are availability tests permitted?
+
+What evidence may be collected?
+```
 
 ---
 
 # Linux
 
-Use the Linux cheatsheet for quick reference when working from or assessing Linux systems.
+Use the [Linux Cheatsheet](linux.md) for Linux host assessment.
 
-Typical areas include:
+Core areas:
 
 ```text
-System information
-Users and groups
+Identity
+OS / Kernel
+Users
+Groups
+sudo
 Processes
 Services
 Networking
-Routes
-DNS
 Filesystems
 Permissions
 SUID / SGID
 Capabilities
 Cron
-Credentials
+systemd Timers
 SSH
-Logs
+Credentials
+Configuration
 Containers
-Privilege escalation
+NFS
+Shared Libraries
+Kernel Exposure
+Security Controls
+Logs
 ```
 
-[Open Linux Cheatsheet](linux.md)
+Typical model:
+
+```text
+Current User
+     |
+     v
+Groups / sudo
+     |
+     v
+Services / Processes
+     |
+     v
+Files / Permissions
+     |
+     v
+Scheduled Execution
+     |
+     v
+Credentials
+     |
+     v
+Containers / Mounts
+     |
+     v
+Privilege Boundary
+```
+
+Useful references include:
+
+```text
+GTFOBins
+Exploit Notes
+HackTricks
+PEASS-ng
+Linux Smart Enumeration
+Linux Exploit Suggester
+```
 
 ---
 
 # Windows
 
-Use the Windows cheatsheet for:
+Use the [Windows Cheatsheet](windows.md) for Windows host assessment.
+
+Core areas:
 
 ```text
-System information
-Users
-Groups
+Identity
 Privileges
+Local Groups
+UAC
 Processes
 Services
-Scheduled tasks
-Networking
-Routes
-Firewall
-Shares
-Credentials
+Scheduled Tasks
+Autoruns
 Registry
-Permissions
-Execution controls
-Privilege escalation
+Filesystem ACLs
+Writable Locations
+Credential Storage
+PowerShell
+Defender
+ASR
+AppLocker
+App Control
+Software
+Drivers
+IIS
+SMB
+RDP
+WinRM
+Event Logs
 ```
 
-[Open Windows Cheatsheet](windows.md)
+Typical model:
+
+```text
+Current User
+     |
+     v
+Privileges
+     |
+     v
+Local Groups
+     |
+     v
+Services
+     |
+     v
+Scheduled Tasks
+     |
+     v
+Writable Paths
+     |
+     v
+Credentials
+     |
+     v
+Application Control
+     |
+     v
+Privilege Boundary
+```
 
 ---
 
 # PowerShell
 
-PowerShell is useful across:
+Use the [PowerShell Cheatsheet](powershell.md) when working from PowerShell or assessing PowerShell security controls.
+
+Core areas:
 
 ```text
-Windows enumeration
-Active Directory
-Networking
-File analysis
-Permissions
-Services
-Processes
+Language Mode
+PowerShell Version
+Execution Policy
+Modules
+Profiles
+Files
+ACLs
 Registry
-Event logs
-Remote administration
-Object filtering
+Processes
+Services
+Networking
+HTTP
+Remoting
+CIM
+Active Directory
+Logging
+AMSI
+Defender
+AppLocker
+App Control
 ```
 
-Typical workflow:
+Security-control model:
 
 ```text
-Get Data
-   |
-   v
-Select Properties
-   |
-   v
-Filter Objects
-   |
-   v
-Sort / Group
-   |
-   v
-Export Evidence
+PowerShell
+    |
+    +--> Language Mode
+    |
+    +--> Logging
+    |
+    +--> AMSI
+    |
+    +--> Defender
+    |
+    +--> ASR
+    |
+    +--> AppLocker
+    |
+    +--> App Control
 ```
 
-[Open PowerShell Cheatsheet](powershell.md)
+Do not treat one control as the complete security boundary.
 
 ---
 
 # Networking
 
-Use the networking cheatsheet when determining:
+Use the [Networking Cheatsheet](networking.md) for network discovery, protocol testing, troubleshooting, and pivoting.
+
+Core areas:
 
 ```text
-Where am I?
-
-What interfaces exist?
-
-What routes exist?
-
-What DNS server is being used?
-
-Which hosts are reachable?
-
-Which ports are open?
-
-Which services are exposed?
-
-Is another network reachable?
-
-Do I need to pivot?
+Interfaces
+IP Addresses
+Routes
+ARP / Neighbours
+DNS
+TCP
+UDP
+Ports
+Sockets
+HTTP
+TLS
+Nmap
+Packet Capture
+Firewalls
+Proxies
+SSH
+Tunnels
+Pivoting
+VPNs
+Containers
+Active Directory Networking
 ```
 
-Typical workflow:
+Typical model:
 
 ```text
 Interface
     |
     v
-Routes
+Address
+    |
+    v
+Route
     |
     v
 DNS
     |
     v
-Neighbours
+Reachability
     |
     v
-Hosts
+Port
     |
     v
-Ports
+Protocol
     |
     v
-Services
-    |
-    v
-Network Paths
+Application
 ```
-
-[Open Networking Cheatsheet](networking.md)
 
 ---
 
-# Web Application Security
+# Web
 
-Use the Web cheatsheet for quick access to testing workflows covering areas such as:
+Use the [Web Cheatsheet](web.md) for web application and API assessments.
+
+Core areas:
 
 ```text
 Reconnaissance
-Technology identification
-Content discovery
-Parameter discovery
+Subdomains
+HTTP Probing
+Technology Identification
+404 Fingerprinting
+Content Discovery
+Crawling
+JavaScript
+Parameters
 Authentication
+Session Management
 Authorisation
-Session management
-XSS
-SQL injection
-Command injection
-SSRF
-XXE
-SSTI
-File upload
-Path traversal
+Business Logic
 APIs
 GraphQL
+gRPC
+WebSockets
 JWT
 OAuth
-HTTP behaviour
-Security headers
+SAML
+XSS
+SQLi
+NoSQLi
+Command Injection
+SSTI
+XXE
+SSRF
+File Upload
+Path Traversal
+Deserialization
+Prototype Pollution
+Request Smuggling
+Cache Poisoning
+Cache Deception
+Race Conditions
+Rate Limiting
+LLM Applications
 ```
 
-Typical workflow:
+Assessment model:
 
 ```text
-Target
-  |
-  v
-Recon
-  |
-  v
-Map Application
-  |
-  v
-Identify Inputs
-  |
-  v
-Identify Trust Boundaries
-  |
-  v
-Test Controls
-  |
-  v
-Validate Findings
+Discover
+   |
+   v
+Understand
+   |
+   v
+Map Trust
+   |
+   v
+Hypothesise
+   |
+   v
+Test
+   |
+   v
+Validate
+   |
+   v
+Assess Impact
 ```
-
-[Open Web Application Security Cheatsheet](web.md)
 
 ---
 
 # Active Directory
 
-Use the Active Directory cheatsheet when assessing Windows domain environments.
+Use the [Active Directory Cheatsheet](active-directory.md) as the main quick-reference entry point for Active Directory assessments.
 
-It currently covers quick-reference workflows for:
+It is organised around the tester's starting position.
 
 ```text
-Domain discovery
-Domain Controller discovery
+External
+   |
+   v
+Internal Unauthenticated
+   |
+   v
+Authenticated Domain User
+   |
+   v
+Windows Host Access
+   |
+   v
+Local Administrator
+   |
+   v
+Privileged Domain Context
+```
+
+Core areas include:
+
+```text
+Domain Discovery
+Domain Controllers
 DNS
-SMB
-LDAP
-RPC
 Users
 Groups
 Computers
-Password policy
-SPNs
-AS-REP candidates
+Password Policy
+Kerberos
+NTLM
+Password Spraying
+AS-REP Roasting
+Kerberoasting
+Tickets
+ACLs
+GPO
+MachineAccountQuota
+LAPS
+gMSA
 Delegation
-OUs
-Group Policy
+RBCD
+S4U
+Shadow Credentials
+NTLM Relay
+Kerberos Relay
+Authentication Coercion
+AD CS
+Trusts
+SID History
+Shares
+ADIDNS
+Lateral Movement
+Credential Access
+NTDS
+SCCM
+WSUS
+MDT
+SCOM
+AD FS
+RODC
+Privilege Escalation
+Persistence
+```
+
+---
+
+# Active Directory Starting Positions
+
+## External - No Credentials
+
+Focus on:
+
+```text
+DNS
+Public Infrastructure
+VPN
+RD Gateway
+OWA / Exchange
+AD FS
+SSO
+Entra ID Integration
+Citrix
+VMware Horizon
+Password Reset
+Autodiscover
+Certificates
+Public Authentication Portals
+```
+
+Goal:
+
+```text
+Understand exposed identity infrastructure
+without assuming internal access.
+```
+
+---
+
+## Internal - Unauthenticated
+
+Focus on:
+
+```text
+Network Configuration
+DNS
+Domain Discovery
+Domain Controllers
+Kerberos
+LDAP
+SMB
+RPC
+SMB Signing
+Anonymous Access
+Guest Access
+Null Sessions
+Relay Conditions
+```
+
+Goal:
+
+```text
+Determine what the internal network exposes
+before valid domain credentials are available.
+```
+
+---
+
+## Internal - Authenticated Domain User
+
+This is one of the most important AD assessment perspectives.
+
+Focus on:
+
+```text
+Users
+Groups
+Computers
+SPNs
+Password Policy
+Fine-Grained Password Policies
+Shares
 SYSVOL
 NETLOGON
 ACLs
+Delegation
+AD CS
 Trusts
 LAPS
 gMSA
-Machine Account Quota
-AD CS discovery
-BloodHound
-NetExec
-Impacket
-Responder
-Remote management
-Pivoting
-Re-enumeration
+MachineAccountQuota
+BloodHound Relationships
+Sessions
+Local Administrative Rights
 ```
 
-The Active Directory cheatsheet acts as the general operational reference for AD assessments.
+Goal:
 
-As individual tools and techniques grow large enough, they can have their own dedicated cheatsheets.
-
-[Open Active Directory Cheatsheet](active-directory.md)
+```text
+Understand what a normal domain user can discover,
+reach, influence, or escalate toward.
+```
 
 ---
 
-# Impacket
+# Windows Host Assessment During AD Testing
 
-Use the Impacket cheatsheet when you need a quick reference for focused Windows and Active Directory protocol operations.
+Do not assess only the directory.
 
-It covers:
+A domain-joined Windows host can expose additional paths.
 
-```text
-Installation
-Command naming
-Authentication syntax
-Password authentication
-NTLM hash authentication
-Kerberos authentication
-AES keys
-Kerberos credential caches
-GetADUsers
-GetNPUsers
-GetUserSPNs
-lookupsid
-findDelegation
-rpcdump
-samrdump
-smbclient
-smbserver
-getTGT
-getST
-ticketConverter
-ticketer
-secretsdump
-psexec
-wmiexec
-smbexec
-dcomexec
-atexec
-ntlmrelayx
-Troubleshooting
-Pivoting considerations
-Evidence collection
-```
-
-A useful mental model is:
+Check:
 
 ```text
-NetExec
-   |
-   v
-Broad Discovery
-   |
-   v
-Interesting Target
-   |
-   v
-Impacket
-   |
-   v
-Focused Protocol Operation
-```
-
-Impacket should not be treated as a random collection of scripts.
-
-Select the appropriate tool based on:
-
-```text
-Protocol
-Identity
-Authentication method
-Target
+Current User
+Groups
 Privileges
-Required operation
-Rules of engagement
+PowerShell Language Mode
+PowerShell Logging
+AMSI
+Defender
+ASR
+AppLocker
+App Control
+Writable Directories
+Writable PATH Entries
+Services
+Scheduled Tasks
+Startup Locations
+Installed Software
+Credential Manager
+PowerShell History
+RDP
+WinRM
+SMB
+Local Administrators
+Network Connections
+Security Products
 ```
 
-[Open Impacket Cheatsheet](impacket.md)
+The combination of controls matters more than any individual control.
 
 ---
 
-# Active Directory Tool Cheatsheets
+# Active Directory Attack-Path Model
 
-The Active Directory cheatsheet provides the broad workflow.
+Avoid viewing AD techniques as isolated tricks.
 
-Dedicated tool cheatsheets provide deeper operational references.
+Use:
 
 ```text
-Active Directory Cheatsheet
-          |
-          +--> General AD workflow
-          +--> Discovery
-          +--> Enumeration
-          +--> Authentication
-          +--> Relationships
-          +--> Re-enumeration
-          |
-          v
-Dedicated Tool Cheatsheets
-          |
-          +--> Impacket
-          |
-          +--> NetExec
-          |
-          +--> BloodHound
-          |
-          +--> Responder
-          |
-          +--> Additional tools as required
+Identity
+   |
+   v
+Group Membership
+   |
+   v
+ACL
+   |
+   v
+Computer
+   |
+   v
+Session
+   |
+   v
+Credential
+   |
+   v
+Delegation
+   |
+   v
+Certificate
+   |
+   v
+Trust
+   |
+   v
+Higher Privilege
 ```
 
-Currently available:
-
-| Tool | Cheatsheet | Primary Use |
-|---|---|---|
-| Impacket | [Impacket](impacket.md) | Focused SMB, LDAP, RPC, Kerberos, delegation, remote administration, and relay operations |
-
-Additional dedicated tool cheatsheets can be added when their command surface becomes large enough to justify a separate operational reference.
+An attack path is often a chain of individually ordinary relationships.
 
 ---
 
-# Choosing Between Active Directory and Impacket
+# Active Directory Certificate Services
 
-Use the general Active Directory cheatsheet when asking:
+AD CS should be treated as a dedicated attack surface.
 
-```text
-What should I enumerate?
-
-What should I check next?
-
-What relationships should I investigate?
-
-What does this new credential change?
-
-What should I re-enumerate?
-```
-
-Use the Impacket cheatsheet when asking:
+Core areas:
 
 ```text
-Which Impacket tool do I need?
-
-What is the authentication syntax?
-
-How do I enumerate SPNs?
-
-Which tool enumerates delegation?
-
-How do I use a Kerberos ccache?
-
-Which tool interacts with SMB?
-
-Which remote administration mechanism does this tool use?
+Certificate Authorities
+Certificate Templates
+Enrollment Rights
+Template Permissions
+EKUs
+Subject Name Control
+Manager Approval
+Authorised Signatures
+CA Configuration
+Web Enrollment
+HTTP Enrollment
+NTLM Relay Exposure
+Certificate Mapping
+Authentication Certificates
 ```
 
-Conceptually:
+ESC coverage in the detailed notes includes:
 
 ```text
-Active Directory Cheatsheet
-           |
-           v
-     WHAT TO TEST
-           |
-           v
-     Select Technique
-           |
-           v
-   Impacket Cheatsheet
-           |
-           v
-      HOW TO RUN IT
+ESC1
+ESC2
+ESC3
+ESC4
+ESC5
+ESC6
+ESC7
+ESC8
+ESC9
+ESC10
+ESC11
+ESC12
+ESC13
+ESC14
+ESC15
+ESC16
+ESC17
+Golden Certificate
 ```
 
----
-
-# Tool Selection
-
-A simple way to select the appropriate cheatsheet:
-
-```text
-What am I testing?
-        |
-        +--> Linux host
-        |       |
-        |       +--> Linux
-        |
-        +--> Windows host
-        |       |
-        |       +--> Windows
-        |       |
-        |       +--> PowerShell
-        |
-        +--> Active Directory
-        |       |
-        |       +--> Active Directory
-        |       |
-        |       +--> PowerShell
-        |       |
-        |       +--> Networking
-        |       |
-        |       +--> Using Impacket?
-        |               |
-        |               +--> Impacket
-        |
-        +--> Web application
-        |       |
-        |       +--> Web
-        |
-        +--> Network
-                |
-                +--> Networking
-```
-
-In practice, multiple cheatsheets are often used during the same assessment.
+Use the detailed AD CS notes when a potentially vulnerable certificate path is identified.
 
 ---
 
 # Active Directory Tool Selection
 
-For an AD assessment:
+A useful mental model:
 
 ```text
-Need broad AD workflow?
-        |
-        +--> Active Directory Cheatsheet
+Need broad Windows / AD enumeration?
+    -> NetExec
 
-Need broad credential/access validation?
-        |
-        +--> NetExec
+Need protocol-level tooling?
+    -> Impacket
 
-Need focused protocol operations?
-        |
-        +--> Impacket
+Need relationship / path analysis?
+    -> BloodHound
 
-Need identity relationship analysis?
-        |
-        +--> BloodHound
+Need AD CS analysis?
+    -> Certipy
 
-Need Windows-side directory enumeration?
-        |
-        +--> PowerShell / PowerView
+Need Windows host enumeration?
+    -> PowerShell / Seatbelt / winPEAS
 
-Need name-resolution authentication testing?
-        |
-        +--> Responder
+Need Linux-side AD queries?
+    -> ldapsearch / Kerberos tools / Samba tools
 ```
 
-As dedicated cheatsheets are added, this section can link directly to each one.
+No single tool provides a complete AD assessment.
 
 ---
 
-# Impacket Tool Selection
+# NetExec
 
-A quick Impacket map:
+Use the [NetExec Cheatsheet](netexec.md) for quick NetExec workflows.
 
-```text
-What do I need?
-      |
-      +--> Users
-      |      |
-      |      +--> GetADUsers
-      |
-      +--> AS-REP candidates
-      |      |
-      |      +--> GetNPUsers
-      |
-      +--> SPNs
-      |      |
-      |      +--> GetUserSPNs
-      |
-      +--> SIDs / RIDs
-      |      |
-      |      +--> lookupsid
-      |
-      +--> Delegation
-      |      |
-      |      +--> findDelegation
-      |
-      +--> SMB
-      |      |
-      |      +--> smbclient
-      |      +--> smbserver
-      |
-      +--> Kerberos TGT
-      |      |
-      |      +--> getTGT
-      |
-      +--> Kerberos service ticket
-      |      |
-      |      +--> getST
-      |
-      +--> Ticket conversion
-      |      |
-      |      +--> ticketConverter
-      |
-      +--> Credential access
-      |      |
-      |      +--> secretsdump
-      |
-      +--> Remote administration
-      |      |
-      |      +--> psexec
-      |      +--> wmiexec
-      |      +--> smbexec
-      |      +--> dcomexec
-      |      +--> atexec
-      |
-      +--> NTLM relay
-             |
-             +--> ntlmrelayx
-```
+NetExec is particularly useful when the assessment involves many hosts.
 
-For commands and syntax:
-
-[Open Impacket Cheatsheet](impacket.md)
-
----
-
-# Start With Context
-
-Before running specialised tools, establish context.
-
-## Linux
-
-```bash
-id
-hostname
-ip addr
-ip route
-cat /etc/resolv.conf
-```
-
-## Windows
-
-```cmd
-whoami /all
-hostname
-ipconfig /all
-route print
-arp -a
-```
-
-## PowerShell
-
-```powershell
-whoami /all
-hostname
-Get-NetIPConfiguration
-Get-NetRoute
-Get-DnsClientServerAddress
-```
-
-These simple commands often determine which testing workflow makes sense next.
-
----
-
-# Active Directory Context
-
-Before running specialised AD tooling, establish:
+Common areas:
 
 ```text
-Domain
-Domain Controller
-Domain Controller FQDN
-Domain Controller IP
-DNS server
-Current identity
-Current privileges
-Network routes
-Reachable services
+SMB
+LDAP
+WinRM
+MSSQL
+SSH
+Credential Validation
+Kerberos
+Users
+Groups
+Computers
+Shares
+Sessions
+Local Administrators
+Password Policy
+Relay Target Discovery
+Modules
+Command Execution
+Evidence Collection
 ```
 
-From Linux:
-
-```bash
-ip addr
-ip route
-cat /etc/resolv.conf
-```
-
-Find LDAP:
-
-```bash
-dig SRV _ldap._tcp.dc._msdcs.example.local
-```
-
-Find Kerberos:
-
-```bash
-dig SRV _kerberos._tcp.example.local
-```
-
-This context is particularly important before using Kerberos-aware Impacket tooling.
-
----
-
-# Keep Evidence
-
-Where useful, save command output.
-
-Linux:
-
-```bash
-command | tee evidence.txt
-```
-
-PowerShell:
-
-```powershell
-Get-Something |
-    Out-File evidence.txt
-```
-
-Create structured evidence directories for larger assessments:
+Typical workflow:
 
 ```text
-evidence/
-├── discovery/
-├── enumeration/
-├── authentication/
-├── network/
-├── web/
-├── active-directory/
-├── screenshots/
-└── findings/
-```
-
-Tool-specific directories can be useful:
-
-```text
-evidence/
-└── active-directory/
-    ├── netexec/
-    ├── impacket/
-    ├── bloodhound/
-    └── responder/
-```
-
-Avoid unnecessarily storing:
-
-```text
-Plaintext passwords
-NTLM hashes
-Kerberos tickets
-AES keys
-Private keys
-Authentication tokens
-Sensitive business data
-Personal information
+Targets
+   |
+   v
+Protocol Discovery
+   |
+   v
+Authentication
+   |
+   v
+Enumeration
+   |
+   v
+Privilege Context
+   |
+   v
+Interesting Hosts
+   |
+   v
+Focused Validation
 ```
 
 ---
 
-# Interpret Results Carefully
+# NetExec Result Interpretation
 
-A tool result is not automatically a vulnerability.
-
-Examples:
+Do not confuse:
 
 ```text
-Open Port
-   !=
-Vulnerability
-
 Authentication Success
-   !=
-Administrative Access
-
-Administrative Access
-   !=
-Domain Administrator
-
-SPN
-   !=
-Weak Service Account
-
-AS-REP Candidate
-   !=
-Weak Password
-
-Delegation
-   !=
-Exploitable Attack Path
-
-SMB Signing Not Required
-   !=
-Successful NTLM Relay
-
-Captured Authentication
-   !=
-Successful NTLM Relay
-
-BloodHound Edge
-   !=
-Confirmed Attack Path
-
-Kerberos Ticket
-   !=
-Access to Every Service
-
-Writable Directory
-   !=
-Privilege Escalation
-
-Outdated Component
-   !=
-Confirmed Exploitable CVE
-
-Missing Security Header
-   !=
-Exploitable Vulnerability
 ```
 
-The general model should be:
+with:
+
+```text
+Administrative Access
+```
+
+Always distinguish:
+
+```text
+Credential Valid
+Service Accessible
+User Authorised
+Administrative Rights
+Remote Execution Available
+```
+
+These are different security conditions.
+
+---
+
+# NetExec and Password Testing
+
+Before password spraying or credential testing:
+
+```text
+Retrieve Password Policy
+        |
+        v
+Understand Lockout Threshold
+        |
+        v
+Understand Observation Window
+        |
+        v
+Determine Safe Test Rate
+        |
+        v
+Use Approved Accounts / Scope
+```
+
+Avoid indiscriminate authentication attempts.
+
+---
+
+# Impacket
+
+Use the [Impacket Cheatsheet](impacket.md) when protocol-specific Windows and Active Directory tooling is needed.
+
+Common tools and areas include:
+
+```text
+GetUserSPNs
+GetNPUsers
+GetADUsers
+Get-GPPPassword
+GetLAPSPassword
+lookupsid
+rpcdump
+samrdump
+smbclient
+smbserver
+mssqlclient
+GetUserSPNs
+secretsdump
+ticketer
+getTGT
+getST
+ticketConverter
+ntlmrelayx
+psexec
+wmiexec
+smbexec
+atexec
+dcomexec
+```
+
+The exact tool selection depends on:
+
+```text
+Protocol
+Credential Type
+Privilege Level
+Kerberos Availability
+Target Service
+Assessment Objective
+```
+
+---
+
+# Impacket Tool Selection Model
+
+```text
+Need SMB interaction?
+    -> smbclient
+
+Need MSSQL interaction?
+    -> mssqlclient
+
+Need SPN / Kerberoast enumeration?
+    -> GetUserSPNs
+
+Need AS-REP Roast candidates?
+    -> GetNPUsers
+
+Need SID discovery?
+    -> lookupsid
+
+Need TGT?
+    -> getTGT
+
+Need service ticket?
+    -> getST
+
+Need ticket format conversion?
+    -> ticketConverter
+
+Need relay assessment?
+    -> ntlmrelayx
+
+Need authorised secrets assessment?
+    -> secretsdump
+
+Need remote administration validation?
+    -> psexec / wmiexec / smbexec / atexec / dcomexec
+```
+
+High-impact tools should be used only when they are required to answer an authorised assessment question.
+
+---
+
+# BloodHound
+
+Use the [BloodHound Cheatsheet](bloodhound.md) to understand Active Directory relationships and privilege paths.
+
+BloodHound is not simply a visualisation tool.
+
+It helps answer:
+
+```text
+Who can control what?
+
+Which relationships create privilege?
+
+Where are privileged sessions?
+
+Which computers are strategically important?
+
+Which ACLs create attack paths?
+
+Which delegation relationships matter?
+
+Which certificate relationships matter?
+
+What is the shortest path to a sensitive object?
+
+What should defenders remediate first?
+```
+
+---
+
+# BloodHound Model
+
+```text
+Directory Data
+      |
+      v
+Collection
+      |
+      v
+Graph
+      |
+      v
+Nodes + Edges
+      |
+      v
+Relationships
+      |
+      v
+Attack Paths
+      |
+      v
+Validation
+      |
+      v
+Remediation
+```
+
+---
+
+# BloodHound Collection
+
+Collection should be deliberate.
+
+Consider:
+
+```text
+Users
+Groups
+Computers
+Domains
+OUs
+GPOs
+Containers
+ACLs
+Sessions
+Local Groups
+Trusts
+Certificate Services
+```
+
+More collection is not automatically better.
+
+Balance:
+
+```text
+Coverage
+   vs
+Network Traffic
+   vs
+Assessment Requirements
+```
+
+---
+
+# BloodHound Analysis
+
+High-value questions include:
+
+```text
+What can the current user control?
+
+What can the current user's groups control?
+
+Where does the user have local administrator rights?
+
+Where are privileged users logged on?
+
+Which principals can modify privileged groups?
+
+Which computers have paths to domain control?
+
+Which ACL relationships are exploitable?
+
+Which delegation paths exist?
+
+Which certificate paths exist?
+
+Which trust relationships expand the attack surface?
+```
+
+---
+
+# BloodHound Edge Interpretation
+
+Never report an edge solely because it exists.
+
+For each relationship determine:
+
+```text
+Source
+Target
+Edge Type
+Required Privilege
+Prerequisites
+Reachability
+Operational Constraints
+Security Impact
+```
+
+Then validate the relationship independently where appropriate.
+
+---
+
+# Combining the AD Tools
+
+The three primary AD cheatsheets complement each other.
+
+```text
+                 ACTIVE DIRECTORY
+                        |
+        +---------------+---------------+
+        |               |               |
+        v               v               v
+     NetExec         Impacket       BloodHound
+        |               |               |
+        v               v               v
+   Enumeration      Protocols        Graph
+   Validation       Kerberos         Paths
+   Host Triage      SMB / RPC        ACLs
+   Shares           Tickets          Sessions
+   Services         Relay            Delegation
+   Modules          Remote Ops       Relationships
+        |               |               |
+        +---------------+---------------+
+                        |
+                        v
+                 Manual Validation
+                        |
+                        v
+                     Evidence
+```
+
+A common workflow is:
+
+```text
+NetExec
+   |
+   v
+Identify Hosts / Users / Services
+   |
+   v
+Impacket
+   |
+   v
+Focused Protocol Validation
+   |
+   v
+BloodHound
+   |
+   v
+Understand Relationships
+   |
+   v
+Return to NetExec / Impacket
+   |
+   v
+Validate Specific Path
+```
+
+---
+
+# Re-Enumeration
+
+Re-enumeration is essential.
+
+After obtaining:
+
+```text
+New Credentials
+New Group Membership
+New Host Access
+New Network Segment
+New Certificate
+New Kerberos Ticket
+New API Role
+New Application Role
+```
+
+repeat relevant enumeration.
+
+```text
+Initial Access
+     |
+     v
+Enumerate
+     |
+     v
+New Access
+     |
+     v
+Re-Enumerate
+     |
+     v
+New Attack Surface
+```
+
+Do not assume the original attack surface remains complete after privilege changes.
+
+---
+
+# Context Before Commands
+
+A command without context is easy to misuse.
+
+Before using a command ask:
+
+```text
+What question am I answering?
+
+What permissions do I currently have?
+
+What protocol does this use?
+
+What traffic will it generate?
+
+Could it modify state?
+
+Could it expose credentials?
+
+Could it affect another user?
+
+Could it trigger account lockout?
+
+Could it cause service disruption?
+
+What evidence do I need?
+```
+
+---
+
+# Safe Validation
+
+Prefer the least intrusive test that proves the issue.
 
 ```text
 Observation
     |
     v
-Security Condition
+Hypothesis
     |
     v
+Low-Impact Test
+    |
+    v
+Confirmed?
+    |
+    +--> No -> Reassess
+    |
+    +--> Yes
+           |
+           v
+      Minimum Evidence
+```
+
+Do not automatically escalate from:
+
+```text
+Can enumerate
+```
+
+to:
+
+```text
+Can exploit
+```
+
+if enumeration already proves the relevant security weakness.
+
+---
+
+# Evidence Collection
+
+Good evidence should answer:
+
+```text
+What was tested?
+
+When was it tested?
+
+From where?
+
+As which user?
+
+Against which target?
+
+What command or request was used?
+
+What was the relevant output?
+
+What changed?
+
+What security boundary was crossed?
+```
+
+---
+
+# Evidence Directory
+
+A useful structure:
+
+```text
+evidence/
+├── linux/
+├── windows/
+├── powershell/
+├── networking/
+├── web/
+└── active-directory/
+    ├── enumeration/
+    ├── kerberos/
+    ├── ntlm/
+    ├── acl/
+    ├── delegation/
+    ├── adcs/
+    ├── trusts/
+    ├── lateral-movement/
+    ├── netexec/
+    ├── impacket/
+    └── bloodhound/
+```
+
+---
+
+# Evidence Quality
+
+Prefer:
+
+```text
+Relevant Command
+Relevant Output
+Target
+Identity
+Timestamp
+Short Explanation
+```
+
+Avoid:
+
+```text
+Huge terminal dumps
+Unrelated secrets
+Full credential databases
+Unnecessary personal data
+Screenshots without context
+Scanner output without validation
+```
+
+---
+
+# Reporting Model
+
+A defensible finding should connect:
+
+```text
+Observation
+     +
 Prerequisites
-    |
-    v
-Controlled Validation
-    |
-    v
+     +
+Security Boundary
+     +
+Reproducibility
+     +
 Impact
+     =
+Finding
 ```
 
 ---
 
-# Re-Enumerate
+# Do Not Overreport
 
-One of the most important habits during an assessment is re-enumeration.
+Examples of observations that require context:
 
 ```text
-New Credential
-      |
-      v
-Re-Enumerate
-
-New User
-      |
-      v
-Re-Enumerate
-
-New Privilege
-      |
-      v
-Re-Enumerate
-
-New Host
-      |
-      v
-Re-Enumerate
-
-New Network
-      |
-      v
-Re-Enumerate
-
-New Domain
-      |
-      v
-Re-Enumerate
+Port 445 is open
+PowerShell is installed
+PowerShell uses FullLanguage
+rundll32.exe exists
+A directory is writable
+A domain user can query LDAP
+SMB signing is disabled
+A certificate template exists
+A BloodHound edge exists
+A technology version is visible
+A security header is missing
+A tool authenticates successfully
 ```
 
-A previously inaccessible resource may become accessible after the security context changes.
-
----
-
-# Active Directory Re-Enumeration
-
-When a new AD credential is obtained:
+The question is:
 
 ```text
-New Credential
-      |
-      v
-Domain or Local?
-      |
-      v
-Validate Carefully
-      |
-      +--> SMB
-      |
-      +--> LDAP
-      |
-      +--> Kerberos
-      |
-      v
-Users / Groups
-      |
-      v
-Shares
-      |
-      v
-SPNs
-      |
-      v
-Delegation
-      |
-      v
-BloodHound
-      |
-      v
-Administrative Relationships
-```
-
-When a new subnet becomes reachable:
-
-```text
-New Network
-     |
-     v
-Routes
-     |
-     v
-DNS
-     |
-     v
-Hosts
-     |
-     v
-Services
-     |
-     v
-AD Infrastructure
-     |
-     v
-Re-Enumerate
+What security boundary can be crossed because of this condition?
 ```
 
 ---
 
-# Cheatsheet Philosophy
+# Remediation Thinking
 
-The cheatsheets should remain:
+Do not stop at:
 
 ```text
-Fast
-Practical
-Structured
-Searchable
-Operational
+Disable Feature
 ```
 
-They should not become copies of the detailed notes.
-
-The model is:
+Consider:
 
 ```text
-Detailed Page
-     |
-     | Distil useful commands
-     v
-Cheatsheet
-```
+Why does the feature exist?
 
-For example:
+Who requires it?
 
-```text
-Detailed Impacket Note
-        |
-        +--> Protocol explanation
-        +--> Authentication model
-        +--> Prerequisites
-        +--> Interpretation
-        +--> Troubleshooting
-        +--> Detection
-        +--> Reporting
-        |
-        v
-Impacket Cheatsheet
-        |
-        +--> Tool map
-        +--> Authentication syntax
-        +--> Commands
-        +--> Fast workflows
-        +--> Troubleshooting
-```
+What security boundary failed?
 
-Likewise:
+Can permissions be reduced?
 
-```text
-Active Directory Enumeration
-        |
-        +--> Detailed explanation
-        +--> Security model
-        +--> Interpretation
-        +--> Detection
-        +--> Remediation
-        |
-        v
-Active Directory Cheatsheet
-        |
-        +--> Commands
-        +--> Syntax
-        +--> Quick workflow
+Can access be segmented?
+
+Can stronger authentication be applied?
+
+Can monitoring detect abuse?
+
+Can the dangerous relationship be removed?
+
+Can the architecture eliminate the path?
 ```
 
 ---
 
-# When to Create a Dedicated Cheatsheet
+# Purple Team Perspective
 
-Not every tool needs its own cheatsheet.
+The same cheatsheets can support purple teaming.
 
-Use:
+For each technique:
 
 ```text
-Does the detailed note contain
-enough recurring operational syntax?
-             |
-         +---+---+
-         |       |
-        No      Yes
-         |       |
-         v       v
-      Keep in   Dedicated
-      general   cheatsheet
-      sheet
+Red Team
+    |
+    v
+Perform Controlled Action
+    |
+    v
+Blue Team
+    |
+    v
+Observe Telemetry
+    |
+    v
+Detection?
+    |
+    +--> Yes -> Evaluate Quality
+    |
+    +--> No  -> Identify Gap
+                    |
+                    v
+                 Improve
+                    |
+                    v
+                  Re-Test
 ```
 
-Good candidates include tools or topics with:
+Useful questions:
 
 ```text
-Many commands
-Multiple authentication methods
-Multiple protocols
-Complex workflows
-Frequent troubleshooting
-Repeated assessment use
-```
+Was the activity logged?
 
-This is why Impacket benefits from a dedicated cheatsheet.
+Which host produced telemetry?
 
----
+Which identity was visible?
 
-# During an Assessment
+Which process was visible?
 
-When unsure what to do next, ask:
+Which protocol was visible?
 
-```text
-Who am I?
+Did the SIEM receive the event?
 
-Where am I?
+Was an alert generated?
 
-What can I reach?
+Was the alert actionable?
 
-What services are available?
-
-What credentials do I have?
-
-What privileges do I have?
-
-What can those privileges access?
-
-What relationships exist?
-
-Has my security context changed?
-
-Has my network position changed?
-
-What should I re-enumerate?
-```
-
-For Active Directory, also ask:
-
-```text
-What domain am I in?
-
-Which Domain Controllers exist?
-
-What authentication methods are available?
-
-What groups does this identity belong to?
-
-Which systems accept this identity?
-
-Which services run under domain identities?
-
-What delegation relationships exist?
-
-What ACL relationships exist?
-
-Which trusts exist?
-
-Which certificate services exist?
+Could the analyst reconstruct the activity?
 ```
 
 ---
 
-# Quick Assessment Model
+# Quick Tool Map
 
-```text
-                         START
-                           |
-                           v
-                         SCOPE
-                           |
-                           v
-                        CONTEXT
-                           |
-             +-------------+-------------+
-             |             |             |
-             v             v             v
-           HOST          NETWORK      APPLICATION
-             |             |             |
-             +-------------+-------------+
-                           |
-                           v
-                       ENUMERATE
-                           |
-                           v
-                        ANALYSE
-                           |
-                           v
-                        VALIDATE
-                           |
-                           v
-                     NEW INFORMATION
-                           |
-                           v
-                     RE-ENUMERATE
-                           |
-                           v
-                        EVIDENCE
-                           |
-                           v
-                        REPORT
-```
+| Objective | Useful Starting Tool |
+|---|---|
+| Linux host enumeration | Linux shell / PEASS-ng |
+| Windows host enumeration | PowerShell / Seatbelt / winPEAS |
+| PowerShell assessment | PowerShell |
+| Network discovery | Nmap |
+| DNS | dig / nslookup |
+| HTTP inspection | curl / Burp Suite |
+| Web fingerprinting | WhatWeb / Wappalyzer |
+| Web content discovery | ffuf / feroxbuster |
+| Web crawling | Katana / Burp Suite |
+| AD broad enumeration | NetExec |
+| AD protocol operations | Impacket |
+| AD graph analysis | BloodHound |
+| AD CS | Certipy |
+| LDAP | ldapsearch / NetExec |
+| SMB | NetExec / Impacket |
+| Kerberos | Impacket / native Kerberos tools |
+| Packet capture | Wireshark / tcpdump |
+| HTTP probing at scale | httpx |
+
+Tools should support the methodology, not define it.
 
 ---
 
-# Active Directory Assessment Model
+# Core Cheatsheet Set
 
-```text
-                    ACTIVE DIRECTORY
-                           |
-                           v
-                       DISCOVERY
-                           |
-                           v
-                      ENUMERATION
-                           |
-          +----------------+----------------+
-          |                |                |
-          v                v                v
-       Identity          Hosts          Services
-          |                |                |
-          +----------------+----------------+
-                           |
-                           v
-                     RELATIONSHIPS
-                           |
-          +----------------+----------------+
-          |                |                |
-          v                v                v
-         ACLs          Delegation        Trusts
-          |                |                |
-          +----------------+----------------+
-                           |
-                           v
-                      ATTACK PATHS
-                           |
-                           v
-                    PREREQUISITES
-                           |
-                           v
-                CONTROLLED VALIDATION
-                           |
-                           v
-                        IMPACT
-                           |
-                           v
-                       EVIDENCE
-                           |
-                           v
-                        REPORT
-```
-
----
-
-# Authorised Use
-
-These cheatsheets are intended for:
-
-```text
-Authorised penetration testing
-Red team exercises
-Purple team exercises
-Security assessments
-Training environments
-CTFs
-Security research
-```
-
-Always remain within the agreed scope and rules of engagement.
-
-Some techniques may:
-
-```text
-Generate significant logs
-Trigger monitoring
-Lock user accounts
-Request large numbers of Kerberos tickets
-Change system state
-Create services
-Create scheduled tasks
-Execute commands remotely
-Expose credential material
-Interrupt services
-Expose sensitive information
-```
-
-Use the least intrusive technique that answers the assessment question.
-
----
-
-# Cheatsheet Index
-
-| Cheatsheet | Path | Purpose |
-|---|---|---|
-| Linux | `cheatsheets/linux.md` | Linux host assessment |
-| Windows | `cheatsheets/windows.md` | Windows host assessment |
-| PowerShell | `cheatsheets/powershell.md` | PowerShell quick reference |
-| Networking | `cheatsheets/networking.md` | Network discovery and troubleshooting |
-| Web Application Security | `cheatsheets/web.md` | Web and API security testing |
-| Active Directory | `cheatsheets/active-directory.md` | General AD assessment workflow |
-| Impacket | `cheatsheets/impacket.md` | Focused Windows and AD protocol operations |
-
----
-
-# Planned Active Directory Cheatsheets
-
-As the Active Directory notes grow, dedicated operational references can be added where justified.
-
-```text
-Active Directory
-│
-├── Active Directory        DONE
-│
-├── Impacket                DONE
-│
-├── NetExec                 NEXT
-│
-├── BloodHound
-│
-├── Responder
-│
-├── Kerberos
-│
-├── AD CS
-│
-└── Pivoting
-```
-
-These should only be created when there is enough recurring operational content to justify a dedicated cheatsheet.
-
-The general Active Directory cheatsheet remains the central workflow reference.
-
----
-
-# Cheatsheet Structure
-
-The growing structure is:
+The current core cheatsheet collection is:
 
 ```text
 docs/cheatsheets/
-│
 ├── index.md
-│
 ├── linux.md
 ├── windows.md
 ├── powershell.md
 ├── networking.md
 ├── web.md
-│
 ├── active-directory.md
+├── netexec.md
 ├── impacket.md
-│
-└── additional focused cheatsheets
-    added as the notes grow
+└── bloodhound.md
+```
+
+This provides three layers of reference:
+
+```text
+Operating Systems
+    |
+    +--> Linux
+    +--> Windows
+    +--> PowerShell
+
+Assessment Domains
+    |
+    +--> Networking
+    +--> Web
+    +--> Active Directory
+
+AD Tooling
+    |
+    +--> NetExec
+    +--> Impacket
+    +--> BloodHound
 ```
 
 ---
 
-# Navigation Model
+# Detailed Notes
+
+The cheatsheets should act as gateways into the detailed knowledge base.
+
+Primary sections:
 
 ```text
-                        CHEATSHEETS
-                             |
-          +------------------+------------------+
-          |                  |                  |
-          v                  v                  v
-     Operating           Networking            Web
-      Systems
-          |
-    +-----+-----+
-    |     |     |
-    v     v     v
- Linux Windows PowerShell
-
-                             |
-                             v
-                     Active Directory
-                             |
-             +---------------+---------------+
-             |               |               |
-             v               v               v
-          General         Impacket        NetExec
-                                             |
-                                      future dedicated
-                                         cheatsheet
-```
-
-As additional tool cheatsheets are created:
-
-```text
+Web Application Security
 Active Directory
-      |
-      +--> General AD
-      |
-      +--> NetExec
-      |
-      +--> Impacket
-      |
-      +--> BloodHound
-      |
-      +--> Responder
-      |
-      +--> Kerberos
-      |
-      +--> AD CS
-      |
-      +--> Pivoting
+Source Code Review
+Research
+```
+
+For Active Directory, detailed coverage includes:
+
+```text
+Enumeration
+Methodology
+Kerberos
+NTLM
+Password Spraying
+AS-REP Roasting
+Kerberoasting
+Pass-the-Hash
+Pass-the-Key
+Pass-the-Ticket
+Kerberos Tickets
+Delegation
+RBCD
+S4U
+ACL / ACE
+Groups
+Group Policy
+MachineAccountQuota
+Credential Access
+LAPS
+gMSA
+Shadow Credentials
+NTDS
+NTLM Relay
+Kerberos Relay
+Authentication Coercion
+AD CS
+ESC1-ESC17
+Golden Certificate
+Lateral Movement
+SMB
+WinRM
+WMI
+DCOM
+Pivoting
+Trusts
+SID History
+ADIDNS
+Shares
+SCCM
+WSUS
+MDT
+SCOM
+AD FS
+RODC
+Privilege Escalation
+Persistence
+```
+
+For Web Application Security, detailed coverage includes:
+
+```text
+Reconnaissance
+Technology Identification
+Content Discovery
+Parameter Discovery
+JavaScript Analysis
+Authentication
+Authorisation
+Session Management
+IDOR / BOLA
+Business Logic
+XSS
+DOM-Based Vulnerabilities
+SQL Injection
+NoSQL Injection
+LDAP Injection
+Command Injection
+SSTI
+XXE
+SSRF
+Path Traversal
+File Inclusion
+File Upload
+Deserialization
+Prototype Pollution
+Host Header Attacks
+HTTP Request Smuggling
+Cache Poisoning
+Cache Deception
+CORS
+CSRF
+Clickjacking
+Open Redirect
+OAuth / OIDC
+JWT
+SAML
+API Security
+GraphQL
+gRPC
+WebSockets
+Mass Assignment
+Race Conditions
+Rate Limiting
+Secrets Exposure
+Dependency Security
+Web LLM Attacks
 ```
 
 ---
 
-# Final Model
+# Reference Philosophy
+
+These cheatsheets intentionally combine:
 
 ```text
-                         CHEATSHEETS
-                              |
-          +-------------------+-------------------+
-          |                   |                   |
-          v                   v                   v
-        Linux              Windows              Web
-          |                   |                   |
-          |                   +--> PowerShell     |
-          |                                       |
-          +-------------------+-------------------+
-                              |
-                              v
-                          Networking
-                              |
-                              v
-                      Active Directory
-                              |
-                 +------------+------------+
-                 |                         |
-                 v                         v
-             General AD               Tool-Specific
-                                           |
-                              +------------+------------+
-                              |                         |
-                              v                         v
-                          Impacket                   NetExec
-                                                       |
-                                                       v
-                                                 More Tools
-                              |
-                              v
-                         Assessment
-                              |
-                              v
-                    Detailed Investigation
-                              |
-                              v
-                           Evidence
-                              |
-                              v
-                           Reporting
+Commands
+    +
+Methodology
+    +
+Decision Points
+    +
+Security Context
+    +
+Evidence Guidance
 ```
 
-Use the general cheatsheets to decide **what to test**.
+A useful security reference should not simply answer:
 
-Use dedicated tool cheatsheets to determine **which command or syntax to use**.
+```text
+What command do I run?
+```
 
-Use the detailed notes to understand **why the technique works, what the result means, and how to validate it safely**.
+It should also help answer:
+
+```text
+Why am I running it?
+
+What should I expect?
+
+What does the result mean?
+
+What should I test next?
+
+What would constitute a real finding?
+
+What evidence should I preserve?
+```
+
+---
+
+# Final Assessment Model
+
+Use the cheatsheets as a map rather than a checklist that must always be completed from top to bottom.
+
+```text
+                         ASSESSMENT
+                              |
+                              v
+                            SCOPE
+                              |
+                              v
+                      STARTING POSITION
+                              |
+              +---------------+---------------+
+              |               |               |
+              v               v               v
+            HOST            NETWORK       APPLICATION
+              |               |               |
+         +----+----+          |          +----+----+
+         |         |          |          |         |
+         v         v          v          v         v
+       Linux    Windows   Networking    Web        API
+                    |
+                    v
+               PowerShell
+                              |
+                              v
+                    ACTIVE DIRECTORY
+                              |
+             +----------------+----------------+
+             |                |                |
+             v                v                v
+          NetExec          Impacket        BloodHound
+             |                |                |
+             +----------------+----------------+
+                              |
+                              v
+                         ENUMERATION
+                              |
+                              v
+                        ATTACK SURFACE
+                              |
+                              v
+                       TRUST BOUNDARIES
+                              |
+                              v
+                          HYPOTHESIS
+                              |
+                              v
+                       SAFE VALIDATION
+                              |
+                              v
+                           IMPACT
+                              |
+                              v
+                          EVIDENCE
+                              |
+                              v
+                         REMEDIATION
+                              |
+                              v
+                           RE-TEST
+```
+
+The objective is not to run every command in every cheatsheet.
+
+The objective is to understand:
+
+```text
+Where am I?
+
+What can I see?
+
+What can I reach?
+
+What does my current identity control?
+
+Which trust relationships exist?
+
+Which security boundary might fail?
+
+What is the minimum safe test that proves it?
+
+What should the organisation change?
+```
+
+That turns a collection of commands into a repeatable security assessment methodology.
