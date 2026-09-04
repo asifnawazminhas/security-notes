@@ -2999,40 +2999,40 @@ Effective Privilege
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC4:
 
-[AD CS ESC4](ad-cs-esc4.md)
+[AD CS ESC4](esc4.md)
 
 ESC5:
 
-[AD CS ESC5](ad-cs-esc5.md)
+[AD CS ESC5](esc5.md)
 
 ESC12:
 
-[AD CS ESC12](ad-cs-esc12.md)
+[AD CS ESC12](esc12.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 Groups:
 
-[Active Directory Groups](groups.md)
+[Active Directory Groups](../groups.md)
 
 ACLs and ACEs:
 
-[ACL and ACE](acl-ace.md)
+[ACL and ACE](../acl-ace.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc14.md
+docs/active-directory/ad-cs/esc14.md
 ```
 
 ---

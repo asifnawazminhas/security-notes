@@ -2416,7 +2416,7 @@ involves forging federation tokens using compromised federation signing material
 
 See:
 
-[Golden Certificate](ad-cs-golden-certificate.md)
+[Golden Certificate](ad-cs/golden-certificate.md)
 
 ---
 
@@ -4282,7 +4282,7 @@ AD CS:
 
 Golden Certificate:
 
-[Golden Certificate](ad-cs-golden-certificate.md)
+[Golden Certificate](ad-cs/golden-certificate.md)
 
 SCOM:
 

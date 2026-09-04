@@ -765,7 +765,7 @@ That authentication may then become relayable.
 
 See:
 
-[Authentication Coercion](authentication-coercion.md)
+[Authentication Coercion](../authentication-coercion.md)
 
 ---
 
@@ -1585,7 +1585,7 @@ Certificate
 
 See:
 
-[Authentication Coercion](authentication-coercion.md)
+[Authentication Coercion](../authentication-coercion.md)
 
 ---
 
@@ -1895,7 +1895,7 @@ Vulnerable Enrollment Endpoint
 
 See:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 ---
 
@@ -3370,48 +3370,48 @@ Victim Privileges
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC1:
 
-[AD CS ESC1](ad-cs-esc1.md)
+[AD CS ESC1](esc1.md)
 
 ESC6:
 
-[AD CS ESC6](ad-cs-esc6.md)
+[AD CS ESC6](esc6.md)
 
 ESC7:
 
-[AD CS ESC7](ad-cs-esc7.md)
+[AD CS ESC7](esc7.md)
 
 NTLM:
 
-[NTLM](ntlm.md)
+[NTLM](../ntlm.md)
 
 NTLM Relay:
 
-[NTLM Relay](ntlm-relay.md)
+[NTLM Relay](../ntlm-relay.md)
 
 Authentication Coercion:
 
-[Authentication Coercion](authentication-coercion.md)
+[Authentication Coercion](../authentication-coercion.md)
 
 Kerberos:
 
-[Kerberos](kerberos.md)
+[Kerberos](../kerberos.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc9.md
+docs/active-directory/ad-cs/esc9.md
 ```
 
 ---

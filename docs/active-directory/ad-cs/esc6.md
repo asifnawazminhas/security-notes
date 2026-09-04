@@ -1550,7 +1550,7 @@ PKI Privilege Paths
 
 See:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 Graph data should complement, not replace, direct CA configuration verification.
 
@@ -2938,48 +2938,48 @@ That distinction is central to modern ESC6 testing.
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC1:
 
-[AD CS ESC1](ad-cs-esc1.md)
+[AD CS ESC1](esc1.md)
 
 ESC2:
 
-[AD CS ESC2](ad-cs-esc2.md)
+[AD CS ESC2](esc2.md)
 
 ESC3:
 
-[AD CS ESC3](ad-cs-esc3.md)
+[AD CS ESC3](esc3.md)
 
 ESC4:
 
-[AD CS ESC4](ad-cs-esc4.md)
+[AD CS ESC4](esc4.md)
 
 ESC5:
 
-[AD CS ESC5](ad-cs-esc5.md)
+[AD CS ESC5](esc5.md)
 
 Kerberos:
 
-[Kerberos](kerberos.md)
+[Kerberos](../kerberos.md)
 
 Active Directory ACL and ACE Abuse:
 
-[Active Directory ACL and ACE Abuse](acl-ace.md)
+[Active Directory ACL and ACE Abuse](../acl-ace.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc7.md
+docs/active-directory/ad-cs/esc7.md
 ```
 
 ---

@@ -1004,7 +1004,7 @@ Golden Certificate
 
 See:
 
-[Golden Certificate](ad-cs-golden-certificate.md)
+[Golden Certificate](ad-cs/golden-certificate.md)
 
 ---
 
@@ -1703,7 +1703,7 @@ or equivalent CA administrative permissions should be investigated.
 
 See:
 
-[ESC7](ad-cs-esc7.md)
+[ESC7](ad-cs/esc7.md)
 
 ---
 
@@ -3572,7 +3572,7 @@ Active Directory Certificate Services:
 
 Golden Certificate:
 
-[Golden Certificate](ad-cs-golden-certificate.md)
+[Golden Certificate](ad-cs/golden-certificate.md)
 
 Trusts:
 

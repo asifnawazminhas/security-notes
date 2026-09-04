@@ -2770,40 +2770,40 @@ Certificate Mapping Attack Surface
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC6:
 
-[AD CS ESC6](ad-cs-esc6.md)
+[AD CS ESC6](esc6.md)
 
 ESC9:
 
-[AD CS ESC9](ad-cs-esc9.md)
+[AD CS ESC9](esc9.md)
 
 ESC10:
 
-[AD CS ESC10](ad-cs-esc10.md)
+[AD CS ESC10](esc10.md)
 
 ESC14:
 
-[AD CS ESC14](ad-cs-esc14.md)
+[AD CS ESC14](esc14.md)
 
 ESC15:
 
-[AD CS ESC15](ad-cs-esc15.md)
+[AD CS ESC15](esc15.md)
 
 ACLs and ACEs:
 
-[ACL and ACE](acl-ace.md)
+[ACL and ACE](../acl-ace.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc17.md
+docs/active-directory/ad-cs/esc17.md
 ```
 
 ---

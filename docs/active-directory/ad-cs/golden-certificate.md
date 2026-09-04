@@ -613,7 +613,7 @@ depending on the exact deployment.
 
 See:
 
-[AD CS ESC12](ad-cs-esc12.md)
+[AD CS ESC12](esc12.md)
 
 ---
 
@@ -3218,47 +3218,47 @@ Persistent Identity Compromise
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC5:
 
-[AD CS ESC5](ad-cs-esc5.md)
+[AD CS ESC5](esc5.md)
 
 ESC7:
 
-[AD CS ESC7](ad-cs-esc7.md)
+[AD CS ESC7](esc7.md)
 
 ESC12:
 
-[AD CS ESC12](ad-cs-esc12.md)
+[AD CS ESC12](esc12.md)
 
 ESC16:
 
-[AD CS ESC16](ad-cs-esc16.md)
+[AD CS ESC16](esc16.md)
 
 Kerberos:
 
-[Kerberos](kerberos.md)
+[Kerberos](../kerberos.md)
 
 Kerberos tickets:
 
-[Kerberos Tickets](kerberos-tickets.md)
+[Kerberos Tickets](../kerberos-tickets.md)
 
 Pass the Ticket:
 
-[Pass the Ticket](pass-the-ticket.md)
+[Pass the Ticket](../pass-the-ticket.md)
 
 Credential Access:
 
-[Credential Access](credential-access.md)
+[Credential Access](../credential-access.md)
 
 NTDS:
 
-[NTDS](ntds.md)
+[NTDS](../ntds.md)
 
 The next Active Directory topic is:
 

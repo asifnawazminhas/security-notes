@@ -2800,44 +2800,44 @@ Privilege Escalation
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC1:
 
-[AD CS ESC1](ad-cs-esc1.md)
+[AD CS ESC1](esc1.md)
 
 ESC3:
 
-[AD CS ESC3](ad-cs-esc3.md)
+[AD CS ESC3](esc3.md)
 
 ESC4:
 
-[AD CS ESC4](ad-cs-esc4.md)
+[AD CS ESC4](esc4.md)
 
 ESC9:
 
-[AD CS ESC9](ad-cs-esc9.md)
+[AD CS ESC9](esc9.md)
 
 ESC10:
 
-[AD CS ESC10](ad-cs-esc10.md)
+[AD CS ESC10](esc10.md)
 
 ESC13:
 
-[AD CS ESC13](ad-cs-esc13.md)
+[AD CS ESC13](esc13.md)
 
 ESC14:
 
-[AD CS ESC14](ad-cs-esc14.md)
+[AD CS ESC14](esc14.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc16.md
+docs/active-directory/ad-cs/esc16.md
 ```
 
 ---

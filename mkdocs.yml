@@ -305,8 +305,6 @@ nav:
       - Tooling:
           - NetExec: active-directory/netexec.md
           - Impacket: active-directory/impacket.md
-          - Responder: active-directory/responder.md
-          - PowerView: active-directory/powerview.md
           - BloodHound: active-directory/bloodhound.md
 
 
@@ -323,6 +321,7 @@ nav:
           - Pass-the-Hash: active-directory/pass-the-hash.md
           - OverPass-the-Hash: active-directory/overpass-the-hash.md
           - Pass-the-Key: active-directory/pass-the-key.md
+          - Pass-the-Ticket: active-directory/pass-the-ticket.md
 
 
       # ------------------------------------------------------
@@ -354,7 +353,6 @@ nav:
 
       - Credential Access:
           - Overview: active-directory/credential-access.md
-          - GPP Passwords: active-directory/gpp-passwords.md
           - LAPS: active-directory/laps.md
           - gMSA: active-directory/gmsa.md
           - Shadow Credentials: active-directory/shadow-credentials.md
@@ -391,20 +389,20 @@ nav:
               - ESC5: active-directory/ad-cs/esc5.md
 
               # Existing flat files
-              - ESC6: active-directory/ad-cs-esc6.md
-              - ESC7: active-directory/ad-cs-esc7.md
-              - ESC8: active-directory/ad-cs-esc8.md
-              - ESC9: active-directory/ad-cs-esc9.md
-              - ESC10: active-directory/ad-cs-esc10.md
-              - ESC11: active-directory/ad-cs-esc11.md
-              - ESC12: active-directory/ad-cs-esc12.md
-              - ESC13: active-directory/ad-cs-esc13.md
-              - ESC14: active-directory/ad-cs-esc14.md
-              - ESC15: active-directory/ad-cs-esc15.md
-              - ESC16: active-directory/ad-cs-esc16.md
-              - ESC17: active-directory/ad-cs-esc17.md
+              - ESC6: active-directory/ad-cs/esc6.md
+              - ESC7: active-directory/ad-cs/esc7.md
+              - ESC8: active-directory/ad-cs/esc8.md
+              - ESC9: active-directory/ad-cs/esc9.md
+              - ESC10: active-directory/ad-cs/esc10.md
+              - ESC11: active-directory/ad-cs/esc11.md
+              - ESC12: active-directory/ad-cs/esc12.md
+              - ESC13: active-directory/ad-cs/esc13.md
+              - ESC14: active-directory/ad-cs/esc14.md
+              - ESC15: active-directory/ad-cs/esc15.md
+              - ESC16: active-directory/ad-cs/esc16.md
+              - ESC17: active-directory/ad-cs/esc17.md
 
-          - Golden Certificate: active-directory/ad-cs-golden-certificate.md
+          - Golden Certificate: active-directory/ad-cs/golden-certificate.md
 
 
       # ------------------------------------------------------

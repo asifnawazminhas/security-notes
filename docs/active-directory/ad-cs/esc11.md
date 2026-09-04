@@ -460,7 +460,7 @@ and related enrollment services.
 
 See:
 
-[AD CS ESC8](ad-cs-esc8.md)
+[AD CS ESC8](esc8.md)
 
 ---
 
@@ -1027,7 +1027,7 @@ Authentication Coercion
 
 See:
 
-[Authentication Coercion](authentication-coercion.md)
+[Authentication Coercion](../authentication-coercion.md)
 
 ---
 
@@ -1378,7 +1378,7 @@ ESC11 belongs to the broader NTLM relay attack class.
 
 See:
 
-[NTLM Relay](ntlm-relay.md)
+[NTLM Relay](../ntlm-relay.md)
 
 The general model is:
 
@@ -1819,7 +1819,7 @@ Monitor for abnormal RPC activity associated with authentication coercion.
 
 See:
 
-[Authentication Coercion](authentication-coercion.md)
+[Authentication Coercion](../authentication-coercion.md)
 
 ---
 
@@ -2103,7 +2103,7 @@ Other Services
 
 See:
 
-[NTLM Relay](ntlm-relay.md)
+[NTLM Relay](../ntlm-relay.md)
 
 ---
 
@@ -2984,44 +2984,44 @@ Certificate Credential
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC8:
 
-[AD CS ESC8](ad-cs-esc8.md)
+[AD CS ESC8](esc8.md)
 
 ESC9:
 
-[AD CS ESC9](ad-cs-esc9.md)
+[AD CS ESC9](esc9.md)
 
 ESC10:
 
-[AD CS ESC10](ad-cs-esc10.md)
+[AD CS ESC10](esc10.md)
 
 NTLM Relay:
 
-[NTLM Relay](ntlm-relay.md)
+[NTLM Relay](../ntlm-relay.md)
 
 Authentication Coercion:
 
-[Authentication Coercion](authentication-coercion.md)
+[Authentication Coercion](../authentication-coercion.md)
 
 Kerberos:
 
-[Kerberos](kerberos.md)
+[Kerberos](../kerberos.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc12.md
+docs/active-directory/ad-cs/esc12.md
 ```
 
 ---

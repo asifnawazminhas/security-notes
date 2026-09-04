@@ -1835,7 +1835,7 @@ If a client authenticates to an attacker-controlled server, additional relay or 
 
 These should be analysed separately under:
 
-[NTLM Relay](ntlm-relay.md)
+[NTLM Relay](../ntlm-relay.md)
 
 ---
 
@@ -3256,50 +3256,50 @@ Potential Service Impersonation
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC1:
 
-[AD CS ESC1](ad-cs-esc1.md)
+[AD CS ESC1](esc1.md)
 
 ESC2:
 
-[AD CS ESC2](ad-cs-esc2.md)
+[AD CS ESC2](esc2.md)
 
 ESC4:
 
-[AD CS ESC4](ad-cs-esc4.md)
+[AD CS ESC4](esc4.md)
 
 ESC6:
 
-[AD CS ESC6](ad-cs-esc6.md)
+[AD CS ESC6](esc6.md)
 
 ESC15:
 
-[AD CS ESC15](ad-cs-esc15.md)
+[AD CS ESC15](esc15.md)
 
 ESC16:
 
-[AD CS ESC16](ad-cs-esc16.md)
+[AD CS ESC16](esc16.md)
 
 NTLM relay:
 
-[NTLM Relay](ntlm-relay.md)
+[NTLM Relay](../ntlm-relay.md)
 
 Group Policy:
 
-[Group Policy](group-policy.md)
+[Group Policy](../group-policy.md)
 
 The ESC1-ESC17 sequence is now complete.
 
 The next AD CS topic is:
 
 ```text
-docs/active-directory/ad-cs-golden-certificate.md
+docs/active-directory/ad-cs/golden-certificate.md
 ```
 
 ---

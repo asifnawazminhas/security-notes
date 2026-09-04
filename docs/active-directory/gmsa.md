@@ -3654,7 +3654,7 @@ LAPS:
 
 Group Policy Preferences Passwords:
 
-[Group Policy Preferences Passwords](gpp-passwords.md)
+`Group Policy Preferences Passwords`
 
 Active Directory methodology:
 

@@ -974,7 +974,7 @@ values in SYSVOL.
 
 See:
 
-[GPP Passwords](gpp-passwords.md)
+`GPP Passwords`
 
 ---
 
@@ -3391,7 +3391,7 @@ LAPS:
 
 GPP Passwords:
 
-[GPP Passwords](gpp-passwords.md)
+`GPP Passwords`
 
 NTLM Relay:
 

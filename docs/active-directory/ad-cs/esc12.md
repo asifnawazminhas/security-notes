@@ -1386,7 +1386,7 @@ Domain
 
 See:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 ---
 
@@ -3508,36 +3508,36 @@ PKI Trust
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC5:
 
-[AD CS ESC5](ad-cs-esc5.md)
+[AD CS ESC5](esc5.md)
 
 ESC7:
 
-[AD CS ESC7](ad-cs-esc7.md)
+[AD CS ESC7](esc7.md)
 
 ESC11:
 
-[AD CS ESC11](ad-cs-esc11.md)
+[AD CS ESC11](esc11.md)
 
 Credential Access:
 
-[Credential Access](credential-access.md)
+[Credential Access](../credential-access.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc13.md
+docs/active-directory/ad-cs/esc13.md
 ```
 
 ---

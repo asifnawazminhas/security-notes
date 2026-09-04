@@ -2902,56 +2902,56 @@ Authentication or Trust Impact
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC1:
 
-[AD CS ESC1](ad-cs-esc1.md)
+[AD CS ESC1](esc1.md)
 
 ESC2:
 
-[AD CS ESC2](ad-cs-esc2.md)
+[AD CS ESC2](esc2.md)
 
 ESC3:
 
-[AD CS ESC3](ad-cs-esc3.md)
+[AD CS ESC3](esc3.md)
 
 ESC4:
 
-[AD CS ESC4](ad-cs-esc4.md)
+[AD CS ESC4](esc4.md)
 
 ESC5:
 
-[AD CS ESC5](ad-cs-esc5.md)
+[AD CS ESC5](esc5.md)
 
 ESC6:
 
-[AD CS ESC6](ad-cs-esc6.md)
+[AD CS ESC6](esc6.md)
 
 ACL and ACE Abuse:
 
-[Active Directory ACL and ACE Abuse](acl-ace.md)
+[Active Directory ACL and ACE Abuse](../acl-ace.md)
 
 Groups:
 
-[Active Directory Groups](groups.md)
+[Active Directory Groups](../groups.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 Kerberos:
 
-[Kerberos](kerberos.md)
+[Kerberos](../kerberos.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc8.md
+docs/active-directory/ad-cs/esc8.md
 ```
 
 ---

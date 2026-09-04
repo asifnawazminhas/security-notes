@@ -991,7 +991,7 @@ These compromise different parts of the identity infrastructure.
 
 See:
 
-[Golden Certificate](ad-cs-golden-certificate.md)
+[Golden Certificate](ad-cs/golden-certificate.md)
 
 ---
 
@@ -2734,7 +2734,7 @@ Active Directory Certificate Services:
 
 Golden Certificate:
 
-[Golden Certificate](ad-cs-golden-certificate.md)
+[Golden Certificate](ad-cs/golden-certificate.md)
 
 The next Active Directory section moves into infrastructure:
 

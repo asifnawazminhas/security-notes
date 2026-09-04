@@ -3409,7 +3409,7 @@ Credential Access:
 
 Group Policy Preferences:
 
-[Group Policy Preferences Passwords](gpp-passwords.md)
+`Group Policy Preferences Passwords`
 
 LAPS:
 

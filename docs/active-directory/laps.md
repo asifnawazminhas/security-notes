@@ -2400,7 +2400,7 @@ Automatic Rotation
 
 See:
 
-[Group Policy Preferences Passwords](gpp-passwords.md)
+`Group Policy Preferences Passwords`
 
 ---
 
@@ -4099,7 +4099,7 @@ Credential Access:
 
 Group Policy Preference Passwords:
 
-[Group Policy Preferences Passwords](gpp-passwords.md)
+`Group Policy Preferences Passwords`
 
 Active Directory methodology:
 

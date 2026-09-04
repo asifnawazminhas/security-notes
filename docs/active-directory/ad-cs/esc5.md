@@ -3166,48 +3166,48 @@ Privilege
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC1:
 
-[AD CS ESC1](ad-cs-esc1.md)
+[AD CS ESC1](esc1.md)
 
 ESC2:
 
-[AD CS ESC2](ad-cs-esc2.md)
+[AD CS ESC2](esc2.md)
 
 ESC3:
 
-[AD CS ESC3](ad-cs-esc3.md)
+[AD CS ESC3](esc3.md)
 
 ESC4:
 
-[AD CS ESC4](ad-cs-esc4.md)
+[AD CS ESC4](esc4.md)
 
 Active Directory ACL and ACE abuse:
 
-[Active Directory ACL and ACE Abuse](acl-ace.md)
+[Active Directory ACL and ACE Abuse](../acl-ace.md)
 
 Active Directory Groups:
 
-[Active Directory Groups](groups.md)
+[Active Directory Groups](../groups.md)
 
 BloodHound:
 
-[BloodHound](bloodhound.md)
+[BloodHound](../bloodhound.md)
 
 Credential Access:
 
-[Active Directory Credential Access](credential-access.md)
+[Active Directory Credential Access](../credential-access.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc6.md
+docs/active-directory/ad-cs/esc6.md
 ```
 
 ---

@@ -741,7 +741,7 @@ altSecurityIdentities
 
 Therefore ESC14 Scenario A should be analysed alongside:
 
-[ACL and ACE](acl-ace.md)
+[ACL and ACE](../acl-ace.md)
 
 ---
 
@@ -1713,7 +1713,7 @@ Target Object Control
 
 See:
 
-[Shadow Credentials](shadow-credentials.md)
+[Shadow Credentials](../shadow-credentials.md)
 
 ---
 
@@ -3278,40 +3278,40 @@ Target Privilege
 
 AD CS overview:
 
-[Active Directory Certificate Services](ad-cs.md)
+[Active Directory Certificate Services](index.md)
 
 AD CS enumeration:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 ESC9:
 
-[AD CS ESC9](ad-cs-esc9.md)
+[AD CS ESC9](esc9.md)
 
 ESC10:
 
-[AD CS ESC10](ad-cs-esc10.md)
+[AD CS ESC10](esc10.md)
 
 ESC13:
 
-[AD CS ESC13](ad-cs-esc13.md)
+[AD CS ESC13](esc13.md)
 
 Shadow Credentials:
 
-[Shadow Credentials](shadow-credentials.md)
+[Shadow Credentials](../shadow-credentials.md)
 
 ACLs and ACEs:
 
-[ACL and ACE](acl-ace.md)
+[ACL and ACE](../acl-ace.md)
 
 Certificate Templates:
 
-[AD CS Enumeration](ad-cs-enumeration.md)
+[AD CS Enumeration](enumeration.md)
 
 The next AD CS page is:
 
 ```text
-docs/active-directory/ad-cs-esc15.md
+docs/active-directory/ad-cs/esc15.md
 ```
 
 ---
