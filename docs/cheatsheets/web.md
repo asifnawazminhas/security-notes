@@ -1,132 +1,84 @@
-# Web Pentesting Cheatsheet
+# Web Application Security Cheatsheet
 
-Quick-reference methodology, commands, tools and checks for authorised web application penetration testing, vulnerability research and bug bounty assessments.
+Quick-reference workflows, commands, testing ideas, tools, and validation checklists for authorised web application and API security assessments.
 
-This cheatsheet is intended to answer:
+This cheatsheet is designed for the question:
+
+> **What should I check next during a web assessment?**
+
+For detailed explanations, prerequisites, impact, remediation, and vulnerability-specific methodology, use the main Web Application Security notes.
+
+---
+
+# Authorised Use
+
+Use these techniques only for:
 
 ```text
-What is the target?
-      |
-      v
-What technology is running?
-      |
-      v
-What content exists?
-      |
-      v
-Where does input enter?
-      |
-      v
-How is authentication enforced?
-      |
-      v
-How is authorisation enforced?
-      |
-      v
-Can server-side behaviour be influenced?
-      |
-      v
-Can client-side behaviour be influenced?
-      |
-      v
-What security impact can be demonstrated?
+Authorised penetration testing
+Web application security assessments
+API security assessments
+Red team exercises
+Purple team exercises
+Bug bounty programmes within scope
+Training environments
+CTFs
+Security research
 ```
 
-!!! warning "Authorised testing only"
-    Use these techniques only against applications and infrastructure you own or are explicitly authorised to assess. Respect the defined scope, rate limits, excluded functionality, data-handling requirements and rules of engagement.
+Always follow:
+
+```text
+Scope
+Rules of Engagement
+Rate Limits
+Test Account Restrictions
+Data Handling Requirements
+Third-Party Restrictions
+Production Safety Requirements
+```
+
+Some techniques can:
+
+```text
+Create accounts
+Send email
+Trigger SMS
+Lock users out
+Modify application state
+Upload files
+Generate large numbers of requests
+Cause backend requests
+Interact with internal services
+Create database records
+Affect caches
+Consume application resources
+Trigger monitoring
+```
+
+Use the least intrusive test that answers the security question.
 
 ---
 
-# Quick Start
-
-For a new web target:
-
-```bash
-export TARGET="https://example.com"
-export DOMAIN="example.com"
-```
-
-Initial response:
-
-```bash
-curl -skI "$TARGET"
-```
-
-Technology fingerprinting:
-
-```bash
-whatweb "$TARGET"
-```
-
-More detailed WhatWeb fingerprinting:
-
-```bash
-whatweb -a 3 "$TARGET"
-```
-
-Nmap:
-
-```bash
-nmap -Pn -sV -p 80,443 "$DOMAIN"
-```
-
-HTTP probing:
-
-```bash
-echo "$DOMAIN" | httpx -silent -status-code -title -tech-detect
-```
-
-Common files:
-
-```bash
-curl -sk "$TARGET/robots.txt"
-curl -sk "$TARGET/sitemap.xml"
-curl -sk "$TARGET/.well-known/security.txt"
-```
-
-Response headers:
-
-```bash
-curl -skI "$TARGET"
-```
-
-TLS:
-
-```bash
-openssl s_client -connect "$DOMAIN:443" -servername "$DOMAIN"
-```
-
-The first goal is not exploitation.
-
-The first goal is understanding the application.
-
----
-
-# Methodology
+# Core Assessment Model
 
 ```text
 Scope
   |
   v
-Asset Discovery
+Reconnaissance
   |
   v
 Technology Identification
   |
   v
-HTTP / TLS Analysis
+Attack Surface Mapping
   |
   v
 Content Discovery
   |
   v
-Crawling
-  |
-  v
 Parameter Discovery
-  |
-  v
-JavaScript Analysis
   |
   v
 Authentication
@@ -135,19 +87,22 @@ Authentication
 Authorisation
   |
   v
+Session Management
+  |
+  v
 Input Handling
-  |
-  v
-Server-Side Testing
-  |
-  v
-Client-Side Testing
   |
   v
 Business Logic
   |
   v
-API Testing
+API / Client-Side Features
+  |
+  v
+Infrastructure Behaviour
+  |
+  v
+Manual Validation
   |
   v
 Evidence
@@ -156,89 +111,138 @@ Evidence
 Reporting
 ```
 
-For every discovered:
+The important principle is:
 
 ```text
-Domain
-Subdomain
-Virtual Host
-Application
-API
-Administrative Interface
+Discover
+   |
+   v
+Understand
+   |
+   v
+Hypothesise
+   |
+   v
+Test
+   |
+   v
+Validate
+   |
+   v
+Assess Impact
 ```
 
-restart the relevant portions of the methodology.
+rather than:
+
+```text
+Run Scanner
+    |
+    v
+Report Everything
+```
 
 ---
 
-# Scope First
+# Starting Position
 
-Before testing record:
-
-```text
-Domains
-Subdomains
-IP Addresses
-Applications
-APIs
-Authentication Contexts
-Test Accounts
-Allowed Techniques
-Excluded Techniques
-Rate Limits
-Testing Window
-Data Restrictions
-```
-
-Do not assume:
+Web testing changes significantly depending on the access provided.
 
 ```text
-*.example.com
+Internet / Unauthenticated
+        |
+        v
+External Attack Surface
+
+Authenticated Low-Privilege User
+        |
+        v
+Authorisation + Business Logic
+
+Multiple User Roles
+        |
+        v
+Horizontal + Vertical Access Control
+
+Administrator Account
+        |
+        v
+Administrative Trust Boundaries
+
+API Token
+        |
+        v
+API Object + Function Authorisation
+
+Source Code Available
+        |
+        v
+White-Box Testing
+
+Internal Application
+        |
+        v
+Internal Trust + Identity + Infrastructure
 ```
-
-is in scope because:
-
-```text
-example.com
-```
-
-is in scope.
 
 ---
 
-# Target Variables
+# Assessment Perspectives
 
-Useful Bash variables:
+Always consider at least these perspectives:
+
+```text
+Unauthenticated User
+Authenticated User A
+Authenticated User B
+Higher-Privilege User
+Administrator
+API Client
+Mobile Client
+Internal Service
+Third-Party Integration
+```
+
+A vulnerability may only become visible when comparing two contexts.
+
+---
+
+# Initial Target Setup
+
+Useful shell variables:
 
 ```bash
-export TARGET="https://example.com"
+export TARGET="https://app.example.com"
+export HOST="app.example.com"
 export DOMAIN="example.com"
 ```
 
 Check:
 
 ```bash
-echo "$TARGET"
-echo "$DOMAIN"
+printf 'TARGET=%s\nHOST=%s\nDOMAIN=%s\n' "$TARGET" "$HOST" "$DOMAIN"
 ```
 
 ---
 
 # DNS
 
-A record:
-
 ```bash
-dig A "$DOMAIN"
+dig "$HOST"
 ```
 
-AAAA:
-
 ```bash
-dig AAAA "$DOMAIN"
+dig A "$HOST"
 ```
 
-Name servers:
+```bash
+dig AAAA "$HOST"
+```
+
+```bash
+dig CNAME "$HOST"
+```
+
+Nameservers:
 
 ```bash
 dig NS "$DOMAIN"
@@ -256,105 +260,65 @@ TXT:
 dig TXT "$DOMAIN"
 ```
 
-Short:
+---
+
+# Quick HTTP Inspection
+
+Headers:
 
 ```bash
-dig +short "$DOMAIN"
+curl -I "$TARGET"
+```
+
+Verbose:
+
+```bash
+curl -v "$TARGET"
+```
+
+Follow redirects:
+
+```bash
+curl -L "$TARGET"
+```
+
+Headers and body:
+
+```bash
+curl -i "$TARGET"
+```
+
+Save response:
+
+```bash
+curl -sS "$TARGET" -o response.html
 ```
 
 ---
 
-# Reverse DNS
+# HTTP Methods
+
+OPTIONS:
 
 ```bash
-dig -x 192.0.2.10
+curl -i -X OPTIONS "$TARGET"
 ```
 
----
-
-# DNS Zone Transfer
-
-Where explicitly authorised:
+HEAD:
 
 ```bash
-dig AXFR example.com @ns1.example.com
+curl -I "$TARGET"
 ```
 
-A successful unauthorised zone transfer may expose:
+Do not report unusual methods solely because they are advertised.
 
-```text
-Hosts
-Subdomains
-Infrastructure
-Mail Systems
-Internal Naming
-Service Records
-```
-
----
-
-# Subdomain Enumeration
-
-Subfinder:
-
-```bash
-subfinder -d example.com -silent
-```
-
-Save:
-
-```bash
-subfinder -d example.com -silent -o subdomains.txt
-```
-
----
-
-# Probe Discovered Web Services
-
-```bash
-httpx -l subdomains.txt -silent
-```
-
-Useful metadata:
-
-```bash
-httpx -l subdomains.txt \
-    -silent \
-    -status-code \
-    -title \
-    -tech-detect
-```
-
-Save:
-
-```bash
-httpx -l subdomains.txt \
-    -silent \
-    -status-code \
-    -title \
-    -tech-detect \
-    -o alive.txt
-```
-
-Remember:
-
-```text
-httpx Responsive
-      =
-HTTP/HTTPS Service Responsive
-```
-
-not necessarily:
-
-```text
-Host Alive for Every Protocol
-```
+Determine whether they create meaningful unintended behaviour.
 
 ---
 
 # Technology Identification
 
-Technology identification should happen early.
+Technology fingerprinting helps guide testing.
 
 Look for:
 
@@ -367,727 +331,326 @@ JavaScript Framework
 Reverse Proxy
 CDN
 WAF
-Analytics
 Authentication Platform
-API Gateway
-Hosting Platform
+API Framework
+Cloud Platform
 Version Information
-```
-
-Useful tools:
-
-```text
-WhatWeb
-Wappalyzer
-httpx
-curl
-Browser Developer Tools
-Burp Suite
-Nmap
-Manual Response Inspection
-404 Fingerprinting
+Third-Party Components
 ```
 
 ---
 
 # WhatWeb
 
-WhatWeb fingerprints technologies exposed by web applications.
-
 Basic:
 
 ```bash
-whatweb https://example.com
-```
-
-Aggression level:
-
-```bash
-whatweb -a 3 https://example.com
-```
-
-More aggressive:
-
-```bash
-whatweb -a 4 https://example.com
-```
-
-Use higher aggression levels only when appropriate for the assessment.
-
-Multiple targets:
-
-```bash
-whatweb https://example.com https://www.example.com
-```
-
-Input file:
-
-```bash
-whatweb -i targets.txt
-```
-
-JSON output:
-
-```bash
-whatweb --log-json=whatweb.json https://example.com
+whatweb "$TARGET"
 ```
 
 Verbose:
 
 ```bash
-whatweb -v https://example.com
+whatweb -v "$TARGET"
 ```
 
-List plugins:
+Higher aggression:
 
 ```bash
-whatweb -l
+whatweb -a 3 "$TARGET"
 ```
 
-Search plugins:
+Input file:
 
 ```bash
-whatweb -l | grep -i wordpress
+whatweb -i urls.txt
 ```
 
-Technology fingerprinting is evidence, not proof.
+JSON logging:
 
-For example:
+```bash
+whatweb --log-json=whatweb.json "$TARGET"
+```
+
+Treat fingerprinting as evidence, not proof.
 
 ```text
-WhatWeb says Apache
-        |
-        v
-Confirm Headers
-        |
-        v
-Confirm Behaviour
-        |
-        v
-Check Other Fingerprints
+WhatWeb Result
+      |
+      v
+Verify Manually
+      |
+      v
+Search Known Behaviour
+      |
+      v
+Version Relevant?
+      |
+      v
+Test Configuration
 ```
-
-Do not report a vulnerability solely because a fingerprinting tool identifies a technology or version.
 
 ---
 
 # Wappalyzer
 
-Wappalyzer can identify technologies from public website signals such as:
+Wappalyzer can identify technologies using public application signals such as:
 
 ```text
 HTML
 JavaScript
 Headers
 Cookies
+Meta Tags
+Script Paths
 Framework Patterns
-CMS Patterns
-Analytics Tags
-Infrastructure Indicators
 ```
 
-Useful categories include:
+Useful for identifying:
 
 ```text
 CMS
-Web Framework
-JavaScript Framework
-Web Server
-Reverse Proxy
-CDN
+Framework
 Analytics
-Tag Manager
-E-commerce Platform
+CDN
+Web Server
+JavaScript Libraries
+E-Commerce Platforms
 Authentication Technology
-Programming Language
 ```
 
-Use the browser extension or Wappalyzer technology lookup during manual reconnaissance.
-
-Technology lookup:
-
-[Wappalyzer - Technology Lookup](https://www.wappalyzer.com/lookup/){ target="_blank" rel="noopener noreferrer" }
-
-Do not assume every identified version is exact.
-
-Use multiple signals.
+Verify results independently.
 
 ---
 
-# Technology Validation
+# Technology Fingerprinting Sources
 
-Use several sources:
+Combine:
 
 ```text
 WhatWeb
-   |
-   +--> Fingerprints
-
 Wappalyzer
-   |
-   +--> Browser / Public Signals
-
-httpx
-   |
-   +--> HTTP Metadata
-
-Headers
-   |
-   +--> Server / Framework Clues
-
+HTTP Headers
+HTML Source
 Cookies
-   |
-   +--> Framework Clues
-
-404 Pages
-   |
-   +--> Framework Fingerprints
-
-HTML / JavaScript
-   |
-   +--> Application Stack
+JavaScript
+Favicon
+Error Pages
+Default Pages
+TLS Certificates
+URL Structure
+Static Asset Paths
 ```
-
-Then correlate.
 
 ---
 
-# 404 Fingerprinting
-
-A default error page can reveal the underlying technology.
+# Default 404 Fingerprinting
 
 Request a random path:
 
 ```bash
-curl -sk https://example.com/this-path-should-not-exist-839274
+curl -i "$TARGET/this-page-should-not-exist-928374"
 ```
 
-Headers:
-
-```bash
-curl -skI https://example.com/this-path-should-not-exist-839274
-```
-
-Save response:
-
-```bash
-curl -sk https://example.com/this-path-should-not-exist-839274 \
-    -o 404.html
-```
-
-Look for:
+Inspect:
 
 ```text
-Framework-specific templates
-Server signatures
-Error formatting
-Default text
-Generated HTML structure
-Headers
+Status Code
+Server Header
+Framework Error Page
+Page Title
+HTML Structure
+Response Length
 Cookies
-Debug information
-Stack traces
+Debug Information
 ```
 
-Possible technologies that can expose recognisable default error behaviour include:
+Default error pages can reveal:
 
 ```text
-Apache
-nginx
-IIS
-Tomcat
-Jetty
-Express
-Django
-Flask
-ASP.NET
-Spring
-Rails
-PHP frameworks
+Framework
+CMS
+Reverse Proxy
+Application Server
+Hosting Platform
 ```
 
-Do not identify technology from the HTTP status alone.
-
-Use the content and behaviour of the response.
+The 0xdf Default 404 Pages reference is useful for visual fingerprinting.
 
 ---
 
-# 0xdf Default 404 Reference
+# Favicon Fingerprinting
 
-0xdf maintains a useful reference showing default 404 pages from different technologies.
+Download:
 
-This can help correlate:
+```bash
+curl -sS "$TARGET/favicon.ico" -o favicon.ico
+```
+
+Hash:
+
+```bash
+md5sum favicon.ico
+```
+
+```bash
+sha256sum favicon.ico
+```
+
+Favicon hashes can support technology identification but should not be treated as definitive proof.
+
+---
+
+# Subdomain Enumeration
+
+Common sources:
 
 ```text
-Unknown Application
-       |
-       v
-Random Invalid Path
-       |
-       v
-Default Error Response
-       |
-       v
-Compare Fingerprint
-       |
-       v
-Technology Hypothesis
-       |
-       v
-Validate Using Other Evidence
+Certificate Transparency
+DNS
+Search Engines
+Passive DNS
+Subfinder
+Amass
+Assetfinder
+crt.sh
 ```
 
-Reference:
+Subfinder:
 
-[0xdf - Cheatsheets](https://0xdf.gitlab.io/cheatsheets/){ target="_blank" rel="noopener noreferrer" }
+```bash
+subfinder -d "$DOMAIN" -silent
+```
 
-Use the **Default 404 Pages** reference from the Enumeration section.
+Save:
 
-Do not treat visual similarity as definitive proof.
+```bash
+subfinder -d "$DOMAIN" -silent -o subdomains.txt
+```
 
 ---
 
-# Manual Fingerprinting
-
-Response:
+# Probe Discovered Hosts
 
 ```bash
-curl -sk -D - https://example.com/ -o /dev/null
+httpx -l subdomains.txt
 ```
 
-Look for:
+Useful metadata:
+
+```bash
+httpx -l subdomains.txt -status-code -title -tech-detect
+```
+
+Add IP:
+
+```bash
+httpx -l subdomains.txt -status-code -title -tech-detect -ip
+```
+
+---
+
+# Attack Surface Inventory
+
+Record:
 
 ```text
-Server
-X-Powered-By
-Via
-X-AspNet-Version
-X-Generator
-Set-Cookie
-X-Cache
-X-Varnish
-CF-Ray
+Hostname
+IP
+Port
+Protocol
+Status
+Title
+Technology
+Authentication Required?
+Application Purpose
+Environment
+Interesting Paths
+Notes
 ```
 
-Headers can be removed, changed or spoofed.
-
----
-
-# HTTP Status Codes
-
-Common:
-
-| Code | Meaning |
-|---:|---|
-| 200 | OK |
-| 201 | Created |
-| 204 | No Content |
-| 301 | Permanent Redirect |
-| 302 | Temporary Redirect |
-| 303 | See Other |
-| 307 | Temporary Redirect |
-| 308 | Permanent Redirect |
-| 400 | Bad Request |
-| 401 | Unauthenticated |
-| 403 | Forbidden |
-| 404 | Not Found |
-| 405 | Method Not Allowed |
-| 409 | Conflict |
-| 429 | Too Many Requests |
-| 500 | Internal Server Error |
-| 502 | Bad Gateway |
-| 503 | Service Unavailable |
-| 504 | Gateway Timeout |
-
-Do not interpret:
+Example:
 
 ```text
-403
+app.example.com
+api.example.com
+admin.example.com
+dev.example.com
+staging.example.com
+files.example.com
+auth.example.com
+sso.example.com
 ```
 
-as:
+---
+
+# Virtual Host Enumeration
+
+A single IP may host multiple applications.
+
+Check:
 
 ```text
-Resource Does Not Exist
+Host Header
+TLS Certificate
+DNS
+Reverse DNS
+Application Redirects
+Error Responses
 ```
 
-A 403 can reveal that routing or authorisation reached a real resource.
-
----
-
-# curl
-
-Basic:
+Fuzzing example:
 
 ```bash
-curl https://example.com/
+ffuf -w subdomains.txt -u https://10.10.10.10/ -H 'Host: FUZZ.example.com'
 ```
 
-Headers:
-
-```bash
-curl -I https://example.com/
-```
-
-Verbose:
-
-```bash
-curl -v https://example.com/
-```
-
-Follow redirects:
-
-```bash
-curl -L https://example.com/
-```
-
-Include response headers:
-
-```bash
-curl -i https://example.com/
-```
-
-Save response:
-
-```bash
-curl -o response.html https://example.com/
-```
-
----
-
-# Ignore TLS Validation
-
-For authorised testing of systems with expected certificate problems:
-
-```bash
-curl -k https://example.com/
-```
-
-Do not use `-k` when the objective is to validate certificate trust.
-
----
-
-# Custom Header
-
-```bash
-curl -H 'X-Test: value' https://example.com/
-```
-
-Multiple:
-
-```bash
-curl \
-    -H 'X-Test: value' \
-    -H 'Accept: application/json' \
-    https://example.com/
-```
-
----
-
-# User-Agent
-
-```bash
-curl -A 'Mozilla/5.0' https://example.com/
-```
-
----
-
-# Cookie
-
-```bash
-curl -b 'session=value' https://example.com/
-```
-
-Cookie jar:
-
-```bash
-curl -c cookies.txt https://example.com/
-```
-
-Reuse:
-
-```bash
-curl -b cookies.txt https://example.com/account
-```
-
-Treat session cookies as credentials.
-
----
-
-# POST Form
-
-```bash
-curl \
-    -X POST \
-    -d 'username=test&password=test' \
-    https://example.com/login
-```
-
-Only perform authentication testing according to the rules of engagement.
-
----
-
-# POST JSON
-
-```bash
-curl \
-    -X POST \
-    -H 'Content-Type: application/json' \
-    -d '{"name":"test"}' \
-    https://example.com/api/example
-```
-
----
-
-# PUT
-
-Where authorised:
-
-```bash
-curl \
-    -X PUT \
-    -H 'Content-Type: application/json' \
-    -d '{"name":"test"}' \
-    https://example.com/api/example/1
-```
-
----
-
-# DELETE
-
-Do not issue state-changing DELETE requests against real production records merely to test method support.
-
-Prefer:
-
-```text
-Disposable Test Record
-Dedicated Test Account
-Non-production Environment
-```
-
-where possible.
-
----
-
-# OPTIONS
-
-```bash
-curl -i -X OPTIONS https://example.com/
-```
-
-This may reveal supported HTTP methods.
-
-It is not guaranteed to represent every method accepted by application routing.
-
----
-
-# TRACE
-
-Check only if explicitly required:
-
-```bash
-curl -i -X TRACE https://example.com/
-```
-
-Do not report TRACE solely because the server responds unless meaningful security impact exists.
-
----
-
-# HTTP Headers
-
-Inspect:
-
-```bash
-curl -skI https://example.com/
-```
-
-Review:
-
-```text
-Content-Security-Policy
-Strict-Transport-Security
-X-Content-Type-Options
-Referrer-Policy
-Permissions-Policy
-Cross-Origin-Opener-Policy
-Cross-Origin-Resource-Policy
-Cache-Control
-Set-Cookie
-Access-Control-Allow-Origin
-```
-
-Also investigate information-disclosure headers:
-
-```text
-Server
-X-Powered-By
-Via
-X-Backend
-X-Generator
-```
-
----
-
-# Security Headers
-
-Useful manual check:
-
-```bash
-curl -skI https://example.com/
-```
-
-Security headers are defence-in-depth.
-
-Missing headers should be evaluated in context.
-
-For example:
-
-```text
-Missing CSP
-```
-
-does not itself prove XSS.
-
----
-
-# Cookies
-
-Inspect:
-
-```bash
-curl -skI https://example.com/
-```
-
-Look for:
-
-```text
-Secure
-HttpOnly
-SameSite
-Domain
-Path
-Expires
-Max-Age
-```
-
-Important:
-
-```text
-Cookie Attribute Missing
-        |
-        v
-Determine Cookie Purpose
-        |
-        v
-Determine Attack Scenario
-        |
-        v
-Assess Impact
-```
-
----
-
-# TLS
-
-```bash
-openssl s_client \
-    -connect example.com:443 \
-    -servername example.com
-```
-
-Certificate:
-
-```bash
-openssl s_client \
-    -connect example.com:443 \
-    -servername example.com \
-    </dev/null 2>/dev/null |
-    openssl x509 -noout -subject -issuer -dates
-```
-
-SAN:
-
-```bash
-openssl s_client \
-    -connect example.com:443 \
-    -servername example.com \
-    </dev/null 2>/dev/null |
-    openssl x509 -noout -ext subjectAltName
-```
-
----
-
-# Nmap Web Enumeration
-
-```bash
-nmap -Pn -sV -p 80,443 example.com
-```
-
-Default scripts:
-
-```bash
-nmap -Pn -sC -sV -p 80,443 example.com
-```
-
-HTTP title:
-
-```bash
-nmap -p 80,443 --script http-title example.com
-```
-
-Headers:
-
-```bash
-nmap -p 80,443 --script http-headers example.com
-```
-
-Methods:
-
-```bash
-nmap -p 80,443 --script http-methods example.com
-```
-
-Review NSE script behaviour before using it.
+Use response filtering to remove the default virtual-host response.
 
 ---
 
 # robots.txt
 
 ```bash
-curl -sk https://example.com/robots.txt
+curl -sS "$TARGET/robots.txt"
 ```
 
 Look for:
 
 ```text
+Disallowed Paths
 Administrative Paths
-Internal Paths
-Staging Content
+Old Endpoints
 Uploads
 Backups
-API Paths
-Disallowed Directories
+Internal Features
 ```
 
-`Disallow` is not access control.
+Remember:
+
+```text
+Disallow
+   !=
+Access Control
+```
 
 ---
 
 # sitemap.xml
 
 ```bash
-curl -sk https://example.com/sitemap.xml
+curl -sS "$TARGET/sitemap.xml"
 ```
 
-Potential discoveries:
+Useful for discovering:
 
 ```text
-Hidden Content
-Legacy Paths
-Product IDs
-Language Paths
-API Documentation
-Unlinked Pages
+Routes
+Products
+Profiles
+Legacy URLs
+Localized Paths
+Application Sections
 ```
 
 ---
@@ -1095,24 +658,23 @@ Unlinked Pages
 # security.txt
 
 ```bash
-curl -sk https://example.com/.well-known/security.txt
+curl -sS "$TARGET/.well-known/security.txt"
 ```
 
-Useful for identifying:
+Useful for understanding:
 
 ```text
 Security Contact
 Disclosure Policy
 Acknowledgements
-Encryption Keys
-Canonical Policy
+Scope Information
 ```
 
 ---
 
 # Common Interesting Files
 
-Check selectively:
+Check where appropriate:
 
 ```text
 /robots.txt
@@ -1123,14 +685,17 @@ Check selectively:
 /asset-manifest.json
 /openapi.json
 /swagger.json
-/api-docs
-/swagger
 /swagger-ui/
+/api-docs
 /graphql
 /graphiql
+/.git/
+/.env
+/server-status
+/phpinfo.php
 ```
 
-Do not blindly request sensitive files outside scope.
+Do not assume these paths exist.
 
 ---
 
@@ -1143,8 +708,7 @@ ffuf
 feroxbuster
 gobuster
 dirsearch
-Burp Suite
-Katana
+Burp Content Discovery
 ```
 
 ---
@@ -1154,64 +718,42 @@ Katana
 Basic:
 
 ```bash
-ffuf \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt \
-    -u https://example.com/FUZZ
+ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt -u "$TARGET/FUZZ"
 ```
 
 Extensions:
 
 ```bash
-ffuf \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt \
-    -u https://example.com/FUZZ \
-    -e .php,.html,.txt,.json
-```
-
-Status filtering:
-
-```bash
-ffuf \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt \
-    -u https://example.com/FUZZ \
-    -mc 200,204,301,302,307,401,403
+ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt -u "$TARGET/FUZZ" -e .php,.asp,.aspx,.jsp,.json,.txt,.xml,.bak
 ```
 
 ---
 
-# ffuf Auto Calibration
+# feroxbuster
 
 ```bash
-ffuf \
-    -ac \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt \
-    -u https://example.com/FUZZ
+feroxbuster -u "$TARGET"
 ```
 
-Useful when applications return soft 404 responses.
+With wordlist:
+
+```bash
+feroxbuster -u "$TARGET" -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
+```
 
 ---
 
-# Soft 404
+# gobuster
 
-Some applications return:
-
-```text
-HTTP 200
+```bash
+gobuster dir -u "$TARGET" -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
 ```
 
-for nonexistent resources.
+---
 
-Example:
+# Soft 404s
 
-```text
-GET /this-definitely-does-not-exist
-HTTP/1.1 200 OK
-
-Page Not Found
-```
-
-Therefore filtering only by status code can produce large numbers of false positives.
+Do not rely only on status codes.
 
 Compare:
 
@@ -1221,145 +763,158 @@ Length
 Words
 Lines
 Title
-Body Fingerprint
-Redirect
+Body Similarity
+Redirect Location
 ```
 
----
-
-# Establish Baseline 404
-
-```bash
-curl -sk \
-    -o /tmp/notfound \
-    -w 'status=%{http_code} size=%{size_download}\n' \
-    https://example.com/random-invalid-path-739281
-```
-
-This helps determine the application's normal nonexistent-page behaviour.
-
----
-
-# feroxbuster
-
-Basic:
-
-```bash
-feroxbuster \
-    -u https://example.com \
-    -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
-```
-
-Extensions:
-
-```bash
-feroxbuster \
-    -u https://example.com \
-    -x php,html,txt,json
-```
-
-Use recursion and concurrency appropriate to the target.
-
----
-
-# Gobuster
-
-```bash
-gobuster dir \
-    -u https://example.com \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt
-```
-
-Extensions:
-
-```bash
-gobuster dir \
-    -u https://example.com \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt \
-    -x php,html,txt
-```
-
----
-
-# Wordlists
-
-SecLists:
+Example:
 
 ```text
-/usr/share/seclists/
+/random-1234 -> 200, 4812 bytes
+/admin       -> 200, 4812 bytes
 ```
 
-Common web content:
+This may indicate a soft 404.
+
+---
+
+# Discovery Workflow
 
 ```text
-/usr/share/seclists/Discovery/Web-Content/
+Known URL
+   |
+   v
+Random 404 Baseline
+   |
+   v
+Wordlist
+   |
+   v
+Filter Baseline
+   |
+   v
+Interesting Responses
+   |
+   v
+Manual Inspection
 ```
 
-Useful categories:
+---
+
+# Backup Files
+
+Look for accidental copies such as:
 
 ```text
-Common
-Raft
-Apache
-IIS
-API
-CMS
-Backup Files
+.bak
+.old
+.orig
+.save
+.tmp
+~
+.zip
+.tar
+.tar.gz
+.7z
+```
+
+Focus on known filenames rather than generating excessive requests.
+
+---
+
+# Git Repository Exposure
+
+Check:
+
+```bash
+curl -I "$TARGET/.git/HEAD"
+```
+
+Potential exposure can reveal:
+
+```text
+Source Code
+Commit History
+Deleted Secrets
+Configuration
+Internal URLs
+Credentials
+API Keys
+```
+
+Do not download an entire repository unless authorised and necessary.
+
+---
+
+# JavaScript Discovery
+
+JavaScript frequently reveals hidden application functionality.
+
+Look for:
+
+```text
+API Endpoints
+Routes
 Parameters
+Feature Flags
+Internal Hosts
+WebSocket URLs
+GraphQL Endpoints
+Authentication Logic
+Source Maps
+Secrets
+Debug Features
+Third-Party Integrations
 ```
-
-Choose wordlists based on technology and context.
 
 ---
 
-# Technology-Specific Discovery
+# Find JavaScript References
 
-After fingerprinting:
-
-```text
-WordPress
-   |
-   +--> WordPress-specific content
-
-IIS / ASP.NET
-   |
-   +--> ASPX / config conventions
-
-PHP
-   |
-   +--> PHP extensions
-
-Java
-   |
-   +--> JSP / servlet conventions
-
-API
-   |
-   +--> API wordlists
-
-Framework
-   |
-   +--> Framework-specific routes
-```
-
-This is more efficient than blindly using one giant wordlist.
-
----
-
-# Virtual Host Discovery
-
-Where the target architecture and scope allow it:
+From downloaded HTML:
 
 ```bash
-ffuf \
-    -w subdomains.txt \
-    -u https://192.0.2.10/ \
-    -H 'Host: FUZZ.example.com'
+grep -Eo 'src="[^"]+\.js[^"]*"' response.html
 ```
 
-Filter the baseline/default response.
+---
 
-Verify discovered virtual hosts are within scope before deeper testing.
+# Search Downloaded JavaScript
+
+```bash
+grep -RniE 'api|token|secret|password|graphql|websocket|admin|internal|debug' js/
+```
+
+Use findings as leads.
+
+Do not automatically report every string containing `token` or `secret`.
+
+---
+
+# Source Maps
+
+Look for:
+
+```text
+.js.map
+sourceMappingURL
+```
+
+Example:
+
+```bash
+grep -Rni 'sourceMappingURL' js/
+```
+
+Source maps may reveal:
+
+```text
+Original Source
+Component Names
+Internal Routes
+API Calls
+Developer Comments
+```
 
 ---
 
@@ -1370,10 +925,9 @@ Useful tools:
 ```text
 Katana
 Burp Suite
-hakrawler
 gau
 waybackurls
-Browser
+hakrawler
 ```
 
 ---
@@ -1381,306 +935,152 @@ Browser
 # Katana
 
 ```bash
-katana -u https://example.com
+katana -u "$TARGET"
 ```
 
 Save:
 
 ```bash
-katana -u https://example.com -o katana.txt
+katana -u "$TARGET" -o katana.txt
 ```
 
 JavaScript crawling:
 
 ```bash
-katana -u https://example.com -jc
-```
-
-Crawling can discover:
-
-```text
-Endpoints
-Parameters
-JavaScript
-Forms
-API Calls
-Static Assets
-Hidden Routes
+katana -u "$TARGET" -jc
 ```
 
 ---
 
 # Historical URLs
 
-Where permitted:
+gau:
 
 ```bash
-echo example.com | gau
+gau "$DOMAIN"
 ```
 
-Save:
+waybackurls:
 
 ```bash
-echo example.com | gau > gau.txt
+echo "$DOMAIN" | waybackurls
 ```
 
-Wayback:
-
-```bash
-echo example.com | waybackurls
-```
-
-Historical URLs can reveal:
+Historical URLs may reveal:
 
 ```text
 Old Endpoints
-Removed Parameters
-Legacy APIs
-Backup Paths
-Previous Technologies
+Old Parameters
+Deprecated APIs
+Legacy File Names
+Removed Features
 ```
 
-Historical presence does not prove current reachability.
-
----
-
-# URL Deduplication
-
-```bash
-sort -u urls.txt > urls-unique.txt
-```
-
----
-
-# Extract URLs from HTML
-
-Simple:
-
-```bash
-curl -sk https://example.com/ |
-    grep -Eo 'https?://[^" ]+'
-```
-
-For comprehensive crawling, use a crawler rather than regex alone.
+Historical availability does not prove the endpoint still exists.
 
 ---
 
 # Parameter Discovery
 
-Look for parameters in:
+Parameters can appear in:
 
 ```text
-GET
-POST
+Query Strings
+POST Forms
 JSON
 XML
 Headers
 Cookies
 Path Segments
 GraphQL Variables
-Multipart Forms
+Multipart Requests
 WebSocket Messages
 ```
 
 ---
 
-# Extract Parameterised URLs
+# Arjun
 
 ```bash
-grep '?' urls.txt
-```
-
-Unique:
-
-```bash
-grep '?' urls.txt | sort -u
+arjun -u "$TARGET"
 ```
 
 ---
 
 # ParamSpider
 
-Typical use:
+Typical workflow:
 
 ```bash
 python3 paramspider.py -d example.com
 ```
 
-Review the installed version's documentation because command-line options can change.
-
-Historical URLs can generate false positives and dead endpoints.
-
-Validate before testing.
+Review discovered URLs before sending additional probes.
 
 ---
 
-# Arjun
+# Parameter Inventory
 
-Parameter discovery:
-
-```bash
-arjun -u https://example.com/endpoint
-```
-
-GET:
-
-```bash
-arjun -u https://example.com/endpoint -m GET
-```
-
-POST:
-
-```bash
-arjun -u https://example.com/endpoint -m POST
-```
-
-Do not generate excessive traffic against production endpoints.
-
----
-
-# JavaScript Discovery
-
-Find JavaScript URLs:
-
-```bash
-grep -Ei '\.js([?#].*)?$' urls.txt
-```
-
-Crawl:
-
-```bash
-katana -u https://example.com -jc
-```
-
----
-
-# Download JavaScript
-
-```bash
-curl -sk https://example.com/assets/app.js -o app.js
-```
-
-Search:
-
-```bash
-grep -Ein \
-    'api|token|secret|key|password|admin|internal|graphql|swagger' \
-    app.js
-```
-
-Treat matches as leads, not findings.
-
----
-
-# JavaScript Review
-
-Look for:
+Record:
 
 ```text
-API Endpoints
-Hidden Routes
-WebSocket URLs
-GraphQL Endpoints
-Feature Flags
-Internal Hostnames
-Source Maps
-Cloud Storage
-Authentication Logic
-Client-side Roles
-Debug Functions
-Hardcoded Credentials
-Secrets
-Third-party Integrations
+Endpoint
+Method
+Parameter
+Location
+Type
+Authentication Required
+Observed Behaviour
+Potential Sink
 ```
 
 ---
 
-# Source Maps
-
-Look for:
+# Input Location Model
 
 ```text
-.js.map
-```
-
-Example:
-
-```bash
-curl -skI https://example.com/assets/app.js.map
-```
-
-Source maps can expose original source structure and developer comments.
-
-Do not report source maps solely because they exist.
-
-Assess what they disclose.
-
----
-
-# Browser Developer Tools
-
-Use:
-
-```text
-Network
-Sources
+User Input
+   |
+   +--> Query
+   +--> Body
+   +--> JSON
+   +--> XML
+   +--> Header
+   +--> Cookie
+   +--> Path
+   +--> File
+   +--> WebSocket
+   |
+   v
 Application
-Storage
-Cookies
-Console
-DOM Inspector
-Security
 ```
 
-Important questions:
-
-```text
-Which APIs are called?
-Which parameters are sent?
-Which tokens are stored?
-Which routes exist?
-Which JavaScript files load?
-Which cookies change?
-What happens when roles change?
-```
+Do not test only URL parameters.
 
 ---
 
-# Burp Suite
-
-Core workflow:
+# Burp Suite Core Workflow
 
 ```text
-Browser
-   |
-   v
 Proxy
-   |
-   v
+  |
+  v
 HTTP History
-   |
-   +--> Repeater
-   +--> Intruder
-   +--> Decoder
-   +--> Comparer
-   +--> Sequencer
-```
-
-Burp Suite should be central to manual web testing.
-
----
-
-# Burp Proxy
-
-Use Proxy to:
-
-```text
-Capture Requests
-Inspect Responses
-Map Application
-Understand Authentication
-Identify Parameters
-Observe API Calls
+  |
+  v
+Target Map
+  |
+  v
+Repeater
+  |
+  v
+Compare Behaviour
+  |
+  v
+Intruder / Extensions
+  |
+  v
+Manual Validation
 ```
 
 ---
@@ -1691,43 +1091,16 @@ Use Repeater for:
 
 ```text
 Parameter Modification
-Authorisation Testing
-Input Validation
+Role Comparison
 Header Testing
 Cookie Testing
+Method Changes
+Content-Type Changes
 API Testing
-Response Comparison
-```
-
-Repeater is usually preferable to repeatedly modifying requests through the browser.
-
----
-
-# Burp Intruder
-
-Useful for:
-
-```text
-Controlled Enumeration
-Parameter Testing
-ID Enumeration
-Content Discovery
-Small Targeted Payload Sets
-```
-
-Respect rate limits and avoid account lockouts.
-
----
-
-# Burp Decoder
-
-Useful for:
-
-```text
-URL Encoding
-Base64
-Hex
-HTML Encoding
+Authentication Testing
+Business Logic
+Race Condition Preparation
+Cache Testing
 ```
 
 ---
@@ -1737,43 +1110,87 @@ HTML Encoding
 Useful for comparing:
 
 ```text
-Admin vs User
+User A vs User B
 Authenticated vs Unauthenticated
 Valid vs Invalid ID
-Original vs Modified Request
+GET vs POST
+Different Content Types
+Different Host Headers
+Cache Hit vs Miss
 ```
 
 ---
 
 # Useful Burp Extensions
 
-Depending on the target:
+Depending on the test:
 
 ```text
-Logger++
 Autorize
 AuthMatrix
+Logger++
+Param Miner
+HTTP Request Smuggler
+Turbo Intruder
 JWT Editor
 JSON Web Tokens
-HTTP Request Smuggler
-Param Miner
-Turbo Intruder
-Collaborator Everywhere
 Backslash Powered Scanner
-JS Link Finder
+Collaborator Everywhere
+Upload Scanner
+Java Deserialization Scanner
 Software Vulnerability Scanner
 GraphQL Raider
+JS Link Finder
 Content Type Converter
-Upload Scanner
 ```
 
-Review extension permissions and source before installing third-party extensions.
+Install only trusted extensions and review what traffic they generate.
 
 ---
 
-# Authentication
+# Burp Param Miner
 
-Test:
+Useful for discovering:
+
+```text
+Hidden Headers
+Unkeyed Headers
+Hidden Parameters
+Cache Inputs
+Host Header Behaviour
+```
+
+Especially useful during:
+
+```text
+Cache Poisoning
+Host Header Testing
+Parameter Discovery
+```
+
+---
+
+# Collaborator / Out-of-Band Testing
+
+Useful for validating blind interactions such as:
+
+```text
+SSRF
+XXE
+Blind XSS
+Blind Command Injection
+External Service Interaction
+```
+
+Use only an approved callback service.
+
+Avoid exposing sensitive application data to third-party infrastructure.
+
+---
+
+# Authentication Testing
+
+Map:
 
 ```text
 Registration
@@ -1783,31 +1200,36 @@ Password Reset
 Password Change
 MFA
 Remember Me
-Session Creation
-Session Rotation
-Session Expiration
 Account Recovery
-Email Change
-Username Change
-Device Trust
+Email Verification
 SSO
-OAuth / OIDC
+OAuth
+SAML
+API Authentication
+Session Creation
 ```
 
 ---
 
-# Authentication Matrix
+# Login Checklist
 
-Create:
+Check:
 
-| Function | Anonymous | User A | User B | Admin |
-|---|---|---|---|---|
-| View profile | No | Own | Own | Any |
-| Edit profile | No | Own | Own | Any |
-| View invoice | No | Own | Own | Any |
-| Admin panel | No | No | No | Yes |
-
-Then validate each security boundary.
+```text
+[ ] Username enumeration
+[ ] Email enumeration
+[ ] Error-message differences
+[ ] Response-length differences
+[ ] Timing differences
+[ ] Rate limiting
+[ ] Lockout behaviour
+[ ] MFA
+[ ] CAPTCHA
+[ ] Session rotation
+[ ] Password policy
+[ ] Remember-me behaviour
+[ ] SSO fallback paths
+```
 
 ---
 
@@ -1816,41 +1238,173 @@ Then validate each security boundary.
 Compare:
 
 ```text
-Valid Username + Wrong Password
-Invalid Username + Wrong Password
+Known User
+Unknown User
+Wrong Password
+Locked User
+Disabled User
 ```
 
 Look for differences in:
 
 ```text
+Message
 Status
-Body
 Length
-Headers
 Timing
-Workflow
-Lockout Behaviour
+Headers
+Redirects
+Cookies
 ```
 
-Do not perform high-volume username enumeration unless authorised.
+Avoid high-volume enumeration unless explicitly authorised.
+
+---
+
+# Password Policy
+
+Assess:
+
+```text
+Minimum Length
+Maximum Length
+Character Requirements
+Common Password Blocking
+Breached Password Detection
+Password Reuse
+Password History
+Password Change Controls
+```
+
+Do not equate complexity requirements with strong password security.
+
+---
+
+# Rate Limiting
+
+Test carefully.
+
+Questions:
+
+```text
+Is limiting per IP?
+
+Per account?
+
+Per session?
+
+Per device?
+
+Per endpoint?
+
+Global?
+
+Does it apply across equivalent endpoints?
+
+Does it reset unexpectedly?
+
+Can concurrent requests bypass the intended control?
+```
+
+Avoid intentionally locking accounts unless authorised.
+
+---
+
+# Anti-Automation
+
+Review:
+
+```text
+CAPTCHA
+Rate Limiting
+Progressive Delay
+Account Lockout
+Device Signals
+Risk-Based Authentication
+MFA
+Transaction Limits
+```
+
+A CAPTCHA alone is not a complete anti-automation control.
 
 ---
 
 # Password Reset
 
+Map:
+
+```text
+Request Reset
+    |
+    v
+Token Creation
+    |
+    v
+Token Delivery
+    |
+    v
+Token Validation
+    |
+    v
+Password Change
+    |
+    v
+Session Handling
+```
+
 Check:
 
 ```text
+User Enumeration
 Token Entropy
-Token Expiry
+Token Lifetime
 Single Use
 Account Binding
-Host Header Handling
-Rate Limiting
-User Enumeration
+Host Header Dependence
+Email Change Interaction
 Session Invalidation
-Password Policy
 MFA Interaction
+Rate Limiting
+```
+
+---
+
+# Registration
+
+Check:
+
+```text
+Duplicate Accounts
+Email Verification
+Username Normalisation
+Case Sensitivity
+Reserved Names
+Role Assignment
+Invite Codes
+Tenant Assignment
+Referral Logic
+Registration Limits
+Domain Restrictions
+```
+
+---
+
+# Account Recovery
+
+Ask:
+
+```text
+Can recovery bypass MFA?
+
+Can recovery change account identity?
+
+Can recovery tokens be reused?
+
+Does recovery invalidate sessions?
+
+Are old email addresses trusted?
+
+Are security questions predictable?
 ```
 
 ---
@@ -1860,318 +1414,762 @@ MFA Interaction
 Check:
 
 ```text
-Is MFA required for every login path?
-Can recovery bypass MFA?
-Can remembered devices bypass policy?
-Is MFA required for sensitive changes?
-Are backup codes protected?
-Is step-up authentication enforced?
+Enrollment
+Activation
+Challenge
+Recovery
+Backup Codes
+Device Trust
+Remember Device
+MFA Reset
+Alternative Login Paths
+SSO Paths
+API Paths
 ```
 
-Avoid destructive lockout testing.
+The key question is:
+
+```text
+Can authentication reach the same privilege without satisfying MFA?
+```
 
 ---
 
 # Session Management
 
-Check:
+Inspect:
 
 ```text
-Session Cookie Attributes
-Rotation After Login
-Rotation After Privilege Change
-Logout Invalidation
-Timeout
-Concurrent Sessions
-Password Change Invalidation
-Password Reset Invalidation
-Server-Side Revocation
+Session Cookie
+Session Token
+Refresh Token
+CSRF Token
+Remember-Me Token
+Device Token
+```
+
+---
+
+# Cookie Attributes
+
+Look for:
+
+```text
+Secure
+HttpOnly
+SameSite
+Path
+Domain
+Expires
+Max-Age
+```
+
+Example:
+
+```bash
+curl -I "$TARGET"
+```
+
+Missing attributes should be interpreted in application context.
+
+---
+
+# Session Rotation
+
+Check whether the session identifier changes after:
+
+```text
+Login
+Privilege Change
+Password Change
+MFA
+Account Recovery
+Role Change
 ```
 
 ---
 
 # Session Fixation
 
-Compare the session identifier:
+Concept:
 
 ```text
-Before Login
-    |
-    v
-Authentication
-    |
-    v
-After Login
+Pre-Authentication Session
+          |
+          v
+Victim Authenticates
+          |
+          v
+Same Session Identifier?
 ```
 
-A sensitive session identifier should generally rotate when authentication state changes.
+Secure behaviour normally involves appropriate session regeneration at authentication boundaries.
+
+---
+
+# Logout
+
+Check:
+
+```text
+Server-Side Session Invalidated?
+Cookie Removed?
+Refresh Token Revoked?
+Back Button Behaviour?
+Multiple Sessions?
+API Token Still Valid?
+```
+
+---
+
+# Concurrent Sessions
+
+Determine:
+
+```text
+Are multiple sessions allowed?
+
+Can users view sessions?
+
+Can sessions be revoked?
+
+Does password change revoke old sessions?
+
+Does MFA reset revoke old sessions?
+```
 
 ---
 
 # Authorisation
 
-Test horizontally:
+Always test authorisation independently from authentication.
 
 ```text
-User A
-  |
-  v
-Object A
-
-User B
-  |
-  X
-  |
-Object A
+Authentication
+      !=
+Authorisation
 ```
 
-Test vertically:
+Use at least:
+
+```text
+Unauthenticated
+User A
+User B
+Administrator
+```
+
+where permitted.
+
+---
+
+# Horizontal Authorisation
+
+Example concept:
+
+```text
+User A -> /account/1001
+User B -> /account/1002
+```
+
+Test whether User A can access User B's object.
+
+---
+
+# Vertical Authorisation
+
+Example:
 
 ```text
 Normal User
     |
-    X
-    |
-Admin Function
+    v
+Administrative Function
 ```
+
+Check whether server-side authorisation prevents access.
 
 ---
 
 # IDOR / BOLA
 
-Example pattern:
+Look for identifiers in:
 
 ```text
-GET /api/invoices/1001
+URL Paths
+Query Parameters
+JSON
+GraphQL Variables
+Headers
+Cookies
+File Names
+UUIDs
+Numeric IDs
+Encoded Values
 ```
 
-Do not immediately brute-force IDs.
-
-Use controlled objects created by authorised test accounts.
-
-Example:
-
-```text
-User A -> Object A
-User B -> Object B
-```
-
-Test whether:
-
-```text
-User A -> Object B
-```
-
-is incorrectly allowed.
+Use two controlled accounts where possible.
 
 ---
 
-# Authorisation Testing Model
+# IDOR Testing Model
 
 ```text
-Identity
+User A
    |
    v
-Role
+Object A
    |
    v
-Action
+Capture Request
    |
    v
-Object
+Change Identifier
    |
    v
-Expected Decision
+Object B
    |
    v
-Actual Decision
+Server-Side Authorisation?
 ```
+
+Do not access unrelated real-user data unnecessarily.
 
 ---
 
-# HTTP Method Authorisation
+# Function-Level Authorisation
 
-If:
+Check:
 
 ```text
-GET /admin/user/10
+GET vs POST
+UI-hidden endpoints
+Admin APIs
+Bulk actions
+Export functions
+Import functions
+Delete operations
+Role-management endpoints
 ```
 
-is denied, also consider whether the same function is exposed through:
+Removing a button from the UI is not authorisation.
+
+---
+
+# Method-Based Access Control
+
+Compare:
 
 ```text
+GET
 POST
 PUT
 PATCH
 DELETE
-API Endpoint
-Alternate Route
 ```
 
-Only use state-changing requests on disposable test data where possible.
+Do not assume an endpoint applies identical authorisation to every method.
+
+---
+
+# Content-Type Differences
+
+Compare where appropriate:
+
+```text
+application/json
+application/x-www-form-urlencoded
+multipart/form-data
+application/xml
+text/plain
+```
+
+Different parsers may reach different validation or authorisation paths.
 
 ---
 
 # Business Logic
 
-Business logic vulnerabilities often require understanding the application rather than payloads.
+Business logic vulnerabilities often require understanding what the application is supposed to do.
 
-Look for:
+Map:
 
 ```text
-Workflow Skipping
-State Manipulation
-Price Manipulation
-Quantity Manipulation
+Workflow
+State
+Role
+Limit
+Price
+Quantity
+Ownership
+Approval
+Sequence
+Trust Boundary
+```
+
+---
+
+# Business Logic Questions
+
+Ask:
+
+```text
+Can steps be skipped?
+
+Can steps be repeated?
+
+Can steps occur out of order?
+
+Can values become negative?
+
+Can limits be exceeded?
+
+Can the same benefit be claimed twice?
+
+Can another user's state be referenced?
+
+Can client-controlled values override server values?
+
+Can approval be bypassed?
+
+Can stale state be reused?
+```
+
+---
+
+# Workflow Testing
+
+```text
+Step 1
+  |
+  v
+Step 2
+  |
+  v
+Step 3
+```
+
+Try:
+
+```text
+1 -> 3
+2 -> 1
+3 directly
+2 twice
+3 twice
+Old Step 2 after Step 3
+```
+
+Only where safe and authorised.
+
+---
+
+# Client-Side Validation
+
+If validation exists only in:
+
+```text
+JavaScript
+HTML Attributes
+Mobile Client
+Frontend Framework
+```
+
+verify whether the server independently enforces it.
+
+---
+
+# Server-Side Validation
+
+Test:
+
+```text
+Boundary Values
+Unexpected Types
+Missing Fields
+Duplicate Fields
+Null Values
+Empty Values
 Negative Values
-Duplicate Actions
-Race Conditions
-Coupon Reuse
-Approval Bypass
-Limit Bypass
-Role Workflow Errors
-Order Manipulation
-Trust in Client-side Values
+Large Values
+Alternative Encodings
+```
+
+Avoid resource-exhaustion testing unless explicitly permitted.
+
+---
+
+# Race Conditions
+
+Race conditions occur when concurrent requests interact with shared state incorrectly.
+
+Common areas:
+
+```text
+Coupon Redemption
+Gift Cards
+Balance Transfers
+Inventory
+Invitations
+Password Reset
+Email Verification
+MFA
+Account Registration
+Voting
+Promo Codes
+Single-Use Tokens
+File Processing
 ```
 
 ---
 
-# Business Logic Workflow
+# Race Condition Model
 
 ```text
-Understand Normal Workflow
+Check State
+    |
+    v
+Action Allowed?
+    |
+    v
+Update State
+```
+
+If multiple requests reach the vulnerable window:
+
+```text
+Request A ----\
+               > Check Before Update
+Request B ----/
+```
+
+both may be accepted.
+
+---
+
+# Race Condition Testing
+
+Prefer controlled test data.
+
+Use Burp Repeater's parallel request functionality or Turbo Intruder where appropriate.
+
+Start with a very small number of requests.
+
+Do not perform uncontrolled concurrency against production systems.
+
+---
+
+# Rate-Limit Race Conditions
+
+A limit may be correctly enforced sequentially but fail under concurrency.
+
+Check carefully:
+
+```text
+Sequential Requests
         |
         v
-Identify Assumptions
+Limit Works
+
+Parallel Requests
         |
         v
-Modify Sequence
-        |
-        v
-Modify Values
-        |
-        v
-Repeat Actions
-        |
-        v
-Compare Server Behaviour
+Same Limit?
 ```
 
 ---
 
-# Input Mapping
+# HTTP Basics
 
-For every input determine:
+Understand:
 
 ```text
-Source
- |
- v
-Validation
- |
- v
-Transformation
- |
- v
-Sink
+Request Line
+Headers
+Body
 ```
 
-Sources include:
+Example:
+
+```http
+POST /api/profile HTTP/1.1
+Host: app.example.com
+Content-Type: application/json
+Cookie: session=...
+
+{"displayName":"test"}
+```
+
+---
+
+# Response Analysis
+
+Inspect:
 
 ```text
-Query Parameters
-POST Fields
-JSON
-XML
+Status
 Headers
 Cookies
-Path Values
-Uploaded Files
-WebSocket Messages
-GraphQL Variables
+Redirect
+Content-Type
+Content-Length
+Body
+Timing
+Cache Headers
+Security Headers
+```
+
+---
+
+# Security Headers
+
+Common headers:
+
+```text
+Content-Security-Policy
+Strict-Transport-Security
+X-Content-Type-Options
+Referrer-Policy
+Permissions-Policy
+Cross-Origin-Opener-Policy
+Cross-Origin-Resource-Policy
+```
+
+Legacy:
+
+```text
+X-Frame-Options
+```
+
+Do not report missing headers without understanding application context and actual risk.
+
+---
+
+# TLS
+
+Basic inspection:
+
+```bash
+openssl s_client -connect "$HOST:443" -servername "$HOST"
+```
+
+Certificate:
+
+```bash
+echo | openssl s_client -connect "$HOST:443" -servername "$HOST" 2>/dev/null | openssl x509 -noout -subject -issuer -dates
+```
+
+Nmap:
+
+```bash
+nmap -p443 --script ssl-cert,ssl-enum-ciphers "$HOST"
+```
+
+---
+
+# CORS
+
+Inspect:
+
+```text
+Access-Control-Allow-Origin
+Access-Control-Allow-Credentials
+Access-Control-Allow-Methods
+Access-Control-Allow-Headers
+Vary
+```
+
+Test with a controlled Origin:
+
+```bash
+curl -i "$TARGET" -H 'Origin: https://example.invalid'
+```
+
+---
+
+# CORS Model
+
+```text
+Attacker-Controlled Origin
+        |
+        v
+Browser Sends Request
+        |
+        v
+Server CORS Policy
+        |
+        v
+Browser Permits Response Reading?
+```
+
+A permissive-looking header is not automatically exploitable.
+
+Consider:
+
+```text
+Credentials
+Sensitive Response
+Origin Reflection
+Browser Behaviour
+Preflight
+```
+
+---
+
+# CSRF
+
+Ask:
+
+```text
+Does request change state?
+
+Does browser automatically attach authentication?
+
+Is there an unpredictable CSRF token?
+
+Is token bound appropriately?
+
+Are SameSite cookies relevant?
+
+Does Origin/Referer validation exist?
+
+Can content type be changed?
+```
+
+---
+
+# CSRF Testing Model
+
+```text
+State-Changing Request
+       |
+       v
+Authentication via Browser?
+       |
+       v
+Anti-CSRF Control?
+       |
+       v
+Can Cross-Site Request Be Sent?
+       |
+       v
+Impact
+```
+
+---
+
+# Clickjacking
+
+Inspect:
+
+```text
+Content-Security-Policy: frame-ancestors
+X-Frame-Options
+```
+
+Check whether sensitive UI can be framed.
+
+Do not report frameability alone without considering what user actions could be induced.
+
+---
+
+# Open Redirect
+
+Look for parameters such as:
+
+```text
+url
+uri
+redirect
+redirect_uri
+return
+returnUrl
+next
+continue
+dest
+destination
+callback
+```
+
+Assess impact in context:
+
+```text
+Phishing
+OAuth
+SSO
+Trusted-Domain Bypass
+Security-Control Bypass
 ```
 
 ---
 
 # XSS
 
-Contexts:
+Types:
+
+```text
+Reflected
+Stored
+DOM-Based
+```
+
+Identify:
+
+```text
+Source
+Context
+Sink
+Encoding
+Sanitisation
+CSP
+Execution
+Impact
+```
+
+---
+
+# XSS Contexts
 
 ```text
 HTML
-Attribute
+HTML Attribute
 JavaScript
 URL
 CSS
 DOM
+Template
 ```
 
-The correct test depends on context.
+Payloads are context-dependent.
+
+Do not blindly paste large payload lists.
 
 ---
 
-# Basic XSS Marker
+# Safe XSS Validation
 
-Start with a harmless unique marker:
+Start with harmless markers:
 
 ```text
-xsstest839274
+XSS_TEST_12345
 ```
 
 Determine:
 
 ```text
-Is it reflected?
-Where?
-How is it encoded?
-What context?
+Reflected?
+Encoded?
+Stored?
+Context?
 ```
 
-Then select context-appropriate testing.
-
-Do not jump directly to complex payloads.
+Then use the minimum harmless proof needed to demonstrate script execution in the authorised test environment.
 
 ---
 
-# Reflected XSS Flow
+# DOM-Based Vulnerabilities
 
-```text
-Input
- |
- v
-Reflection
- |
- v
-HTML Context
- |
- v
-Encoding
- |
- v
-Execution Possible?
-```
-
----
-
-# Stored XSS
-
-Determine:
-
-```text
-Where is input stored?
-Who views it?
-What privilege does the viewer have?
-Which page renders it?
-Is output encoding applied?
-```
-
-Stored XSS affecting privileged users can have significantly greater impact.
-
----
-
-# DOM XSS
-
-Review sources:
+Review sources such as:
 
 ```text
 location
@@ -2184,166 +2182,545 @@ localStorage
 sessionStorage
 ```
 
-Potential sinks include unsafe DOM-writing or code-execution functions.
+Potential sinks include:
 
-Use browser developer tools and dedicated DOM analysis rather than relying only on server responses.
+```text
+innerHTML
+outerHTML
+document.write
+eval
+setTimeout with string
+setInterval with string
+location assignment
+```
+
+Context determines whether the flow is dangerous.
 
 ---
 
-# XSS Resources
+# DOM Clobbering
 
-[PortSwigger - Cross-site scripting](https://portswigger.net/web-security/cross-site-scripting){ target="_blank" rel="noopener noreferrer" }
+DOM clobbering abuses HTML elements and named properties to influence JavaScript assumptions about global variables or object properties.
 
-[PortSwigger - XSS Cheat Sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet){ target="_blank" rel="noopener noreferrer" }
+Look for code patterns that trust:
 
-[OWASP - XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+```text
+window.someName
+document.someName
+element.id
+element.name
+```
+
+without verifying the expected object type.
+
+Testing model:
+
+```text
+Attacker-Controlled HTML
+        |
+        v
+Named DOM Element
+        |
+        v
+JavaScript Property Resolution
+        |
+        v
+Unexpected Object / Value
+        |
+        v
+Security-Relevant Sink?
+```
+
+Do not report clobbering unless it affects meaningful application behaviour.
+
+---
+
+# HTML Injection
+
+Test whether attacker-controlled HTML is rendered as markup.
+
+Differentiate:
+
+```text
+HTML Injection
+      !=
+JavaScript Execution
+```
+
+Assess impact such as:
+
+```text
+UI Manipulation
+Content Spoofing
+Phishing
+Form Injection
+Security Messaging Manipulation
+```
+
+---
+
+# Blind XSS
+
+Potential sinks include:
+
+```text
+Admin Panels
+Support Tickets
+Log Viewers
+CRM Systems
+Moderation Interfaces
+Analytics Dashboards
+Back-Office Applications
+```
+
+Use only approved callback infrastructure.
+
+Do not send sensitive data to third-party collectors.
+
+---
+
+# XS-Leaks
+
+Cross-site leaks can use browser side channels to infer information about another origin.
+
+Areas include:
+
+```text
+Framing
+Window References
+Resource Loading
+Cache State
+Timing
+Navigation
+Browser APIs
+```
+
+Assess browser protections and whether sensitive cross-origin state can actually be inferred.
+
+---
+
+# Third-Party JavaScript
+
+Review:
+
+```text
+Analytics
+Chat Widgets
+Tag Managers
+Payment Scripts
+CDN Libraries
+Advertising
+Support Widgets
+```
+
+Questions:
+
+```text
+Who controls the script?
+
+Does it execute in the application's origin?
+
+Is integrity checking used where appropriate?
+
+What data can it access?
+
+What happens if the supplier is compromised?
+```
 
 ---
 
 # SQL Injection
 
-Start by identifying:
+Look for database-backed input in:
 
 ```text
-Parameter
-   |
-   v
-Database Interaction?
-   |
-   v
-Response Difference?
-   |
-   v
-Error?
-   |
-   v
-Boolean Difference?
-   |
-   v
-Timing Difference?
+Query Parameters
+Search
+Filters
+Sorting
+Login
+IDs
+JSON
+Headers
+Cookies
+API Parameters
 ```
 
-Avoid immediately extracting database contents.
-
-Prove the vulnerability with minimal impact.
+Start with controlled behavioural testing.
 
 ---
 
-# SQL Injection Indicators
+# SQLi Signals
 
-Look for:
+Compare:
 
 ```text
-Database Errors
-Different Response Length
-Different Status
-Different Records
-Timing Differences
-Unexpected Application Errors
+Normal Input
+Special Character
+Boolean Condition
+Type Mismatch
+Unexpected Value
+```
+
+Observe:
+
+```text
+Error
+Status
+Length
+Timing
+Returned Rows
+Application Behaviour
 ```
 
 ---
 
-# SQLmap
+# sqlmap
 
-For authorised testing:
+Use only after manual evidence suggests SQL injection.
+
+Basic:
 
 ```bash
-sqlmap -u 'https://example.com/item?id=1'
+sqlmap -u 'https://app.example.com/item?id=1'
 ```
 
-Use a captured request:
+Request file:
 
 ```bash
 sqlmap -r request.txt
 ```
 
-Specify parameter:
+Avoid aggressive options by default.
 
-```bash
-sqlmap -r request.txt -p id
-```
-
-Do not immediately use:
-
-```text
---dump
---os-shell
---file-read
-```
-
-unless explicitly required by the assessment.
-
-A minimal proof is usually preferable.
+Do not dump production databases simply because a tool can.
 
 ---
 
-# Command Injection
-
-Identify inputs reaching:
+# SQLi Validation Model
 
 ```text
-Operating System Commands
-Shell Scripts
-System Utilities
-Image Processing
-Archive Tools
-Network Utilities
-Document Conversion
+Input
+  |
+  v
+Database Query?
+  |
+  v
+Behaviour Difference
+  |
+  v
+Repeatable?
+  |
+  v
+Injection Confirmed?
+  |
+  v
+Minimum Evidence
 ```
 
-Start with non-destructive validation.
+---
 
-Do not use destructive commands or establish shells merely to prove command execution.
+# NoSQL Injection
+
+Potential technologies:
+
+```text
+MongoDB
+CouchDB
+Elasticsearch
+Other document/query stores
+```
+
+Look for:
+
+```text
+JSON Objects
+Filter Parameters
+Search
+Authentication
+Nested Objects
+Operator Handling
+Type Confusion
+```
+
+---
+
+# NoSQL Testing Questions
+
+Ask:
+
+```text
+Can scalar input become an object?
+
+Are query operators accepted from user input?
+
+Are types enforced?
+
+Are filters constructed directly from JSON?
+
+Does authentication compare user-controlled query objects?
+```
+
+Use harmless differential testing before attempting broader extraction.
+
+---
+
+# LDAP Injection
+
+LDAP-backed functionality may include:
+
+```text
+Authentication
+Directory Search
+Employee Lookup
+Group Search
+Address Books
+Internal Portals
+```
+
+Look for unsafely constructed LDAP filters.
+
+Test with controlled syntax changes and observe whether directory query behaviour changes.
+
+---
+
+# OS Command Injection
+
+Potential sinks:
+
+```text
+Ping
+Traceroute
+DNS Lookup
+File Conversion
+Backup
+Archive
+Image Processing
+Git Operations
+System Utilities
+Administrative Features
+```
+
+Start with non-destructive behavioural tests.
+
+---
+
+# Command Injection Model
+
+```text
+Input
+  |
+  v
+Application
+  |
+  v
+Shell / Process?
+  |
+  v
+User Input Reaches Command?
+  |
+  v
+Observable Behaviour?
+```
+
+Avoid destructive commands.
 
 ---
 
 # Commix
 
-Project:
+Where command injection is already suspected:
 
-[commixproject/commix](https://github.com/commixproject/commix){ target="_blank" rel="noopener noreferrer" }
+```bash
+commix --url='https://app.example.com/example?parameter=value'
+```
 
-Use only where command-injection testing is explicitly authorised.
+Review tool behaviour before using automated exploitation options.
+
+---
+
+# SSTI
+
+Potential template engines include:
+
+```text
+Jinja2
+Twig
+Freemarker
+Velocity
+Smarty
+Handlebars
+ERB
+```
+
+Start with simple arithmetic/template-expression detection appropriate to the suspected engine.
+
+Determine:
+
+```text
+Template Engine
+Evaluation Context
+Sandbox
+Available Objects
+Impact
+```
+
+Do not immediately attempt command execution.
+
+---
+
+# XXE
+
+Potential XML entry points:
+
+```text
+SOAP
+XML APIs
+SAML
+SVG
+Document Upload
+RSS
+XML Configuration
+```
+
+Check:
+
+```text
+DOCTYPE handling
+External entity resolution
+XInclude
+Parser configuration
+Out-of-band interaction
+```
+
+Use controlled resources.
+
+---
+
+# Blind XXE
+
+When output is not reflected:
+
+```text
+XML Input
+   |
+   v
+External Reference
+   |
+   v
+Approved Callback
+   |
+   v
+Interaction?
+```
+
+Do not request sensitive local files merely to prove external entity processing if a harmless callback is sufficient.
+
+---
+
+# SSRF
+
+Potential URL-taking functionality:
+
+```text
+URL Preview
+Webhook
+Import
+Image Fetch
+PDF Generator
+Proxy
+Callback
+Avatar
+Feed Import
+Cloud Integration
+Document Conversion
+```
+
+---
+
+# SSRF Testing
+
+Start with an approved controlled URL.
+
+```text
+Application
+    |
+    v
+Fetch URL
+    |
+    v
+Controlled Server
+    |
+    v
+Observe Request
+```
+
+Then determine:
+
+```text
+Protocol Restrictions
+Redirect Handling
+DNS Resolution
+Allowlist
+Blocklist
+Internal Reachability
+Response Visibility
+```
+
+Avoid probing sensitive internal services unless explicitly authorised.
+
+---
+
+# Blind SSRF
+
+Use approved out-of-band infrastructure.
+
+Evidence can be as simple as:
+
+```text
+Timestamp
+Source IP
+Hostname
+Requested Path
+Headers
+```
+
+Do not escalate to internal metadata access unless required and permitted.
 
 ---
 
 # Path Traversal
 
-Potential inputs:
+Potential parameters:
 
 ```text
-file=
-path=
-page=
-template=
-download=
-document=
-folder=
+file
+path
+page
+template
+download
+document
+folder
+filename
 ```
 
-Determine:
+Start with known harmless application files where possible.
+
+Assess:
 
 ```text
-User Input
-   |
-   v
-Path Construction
-   |
-   v
 Canonicalisation
-   |
-   v
-Allowed Directory?
+Encoding
+Path Normalisation
+Allowlist
+Base Directory Enforcement
 ```
-
-Use harmless known files appropriate to the target environment.
 
 ---
 
 # File Inclusion
 
-Distinguish:
+Differentiate:
 
 ```text
 Path Traversal
@@ -2352,32 +2729,13 @@ Remote File Inclusion
 Template Inclusion
 ```
 
-Do not assume traversal automatically means code execution.
+Determine what the application actually does with the supplied path.
 
 ---
 
 # File Upload
 
-Review:
-
-```text
-Extension
-Content-Type
-Magic Bytes
-Filename
-Storage Location
-Execution
-Retrieval
-Authorisation
-Malware Scanning
-Image Processing
-Archive Handling
-Metadata
-```
-
----
-
-# Upload Testing Flow
+Map the complete pipeline:
 
 ```text
 Upload
@@ -2389,302 +2747,523 @@ Validation
 Storage
   |
   v
+Processing
+  |
+  v
 Retrieval
   |
   v
-Interpretation
+Rendering / Execution
 ```
-
-A secure upload can still store attacker-controlled content safely.
-
-The key question is how the server processes and serves it.
 
 ---
 
-# Harmless Upload Validation
+# File Upload Checklist
 
-Use:
+Check:
 
 ```text
-Plain Text
-Small Images
-Controlled PDFs
-EICAR only where explicitly permitted
+Extension
+MIME Type
+Magic Bytes
+Filename
+Path Handling
+Storage Location
+Randomisation
+Overwrite
+Access Control
+Direct Access
+Content-Disposition
+Image Processing
+Archive Extraction
+Antivirus
+Execution
+Public Exposure
+Metadata
 ```
-
-Avoid uploading active malware to production systems.
 
 ---
 
-# SSRF
+# Safe Upload Validation
 
-Potential parameters:
+Prefer harmless files.
 
-```text
-url=
-uri=
-endpoint=
-callback=
-webhook=
-image=
-feed=
-proxy=
-redirect=
-next=
-```
+For antivirus validation, the EICAR test file may be appropriate where explicitly approved.
 
-Look for functionality that causes the server to retrieve another resource.
+Do not upload executable malware to production systems merely to prove that file validation is incomplete.
 
 ---
 
-# SSRF Flow
+# Image Processing
+
+Upload pipelines may invoke:
 
 ```text
-User-Controlled URL
-        |
-        v
-Server Request
-        |
-        v
-Destination Control
-        |
-        v
-Internal / External Reachability
+ImageMagick
+GraphicsMagick
+ExifTool
+Ghostscript
+PDF Libraries
+Office Converters
+Thumbnail Generators
 ```
 
-Use controlled infrastructure when proving outbound requests.
+Fingerprint processing behaviour carefully.
 
-Do not target unrelated internal services merely to demonstrate SSRF.
+A component version alone does not prove vulnerability.
 
 ---
 
-# SSTI
+# Dynamic PDF / Document Generation
 
-Potential locations:
+Features such as:
 
 ```text
-Email Templates
-PDF Generation
-CMS Templates
-Notification Templates
-User Profile Rendering
-Custom Themes
-Server-side Rendering
+Print to PDF
+Invoice Generation
+Report Export
+HTML to PDF
+Document Preview
+Screenshot Generation
 ```
 
-Begin with harmless arithmetic or rendering differences appropriate to the suspected template engine.
+may introduce additional server-side processing.
 
-Do not jump directly to command execution.
+Assess:
+
+```text
+External Resource Loading
+Internal URL Fetching
+HTML Interpretation
+Template Injection
+File Access
+JavaScript Handling
+Metadata Exposure
+```
+
+Use harmless controlled resources for validation.
 
 ---
 
-# XXE
+# Insecure Deserialization
 
-Relevant where the application parses XML.
-
-Review:
+Potential formats:
 
 ```text
-Content-Type: application/xml
-Content-Type: text/xml
-SOAP
-SVG
-Office Formats
-XML Uploads
-```
-
-Determine parser behaviour using safe controlled entities before attempting file access or network callbacks.
-
----
-
-# Deserialization
-
-Potential indicators:
-
-```text
-Serialized Cookies
-Binary Blobs
-Base64 Objects
 Java Serialization
 .NET Serialization
 PHP Serialization
-Signed State Objects
-```
-
-Do not assume encoded data is serialized object data.
-
----
-
-# CORS
-
-Inspect:
-
-```bash
-curl -skI \
-    -H 'Origin: https://example.org' \
-    https://example.com/
+Python Pickle
+Ruby Marshal
+Custom Binary Formats
+Signed Application Objects
 ```
 
 Look for:
 
 ```text
-Access-Control-Allow-Origin
-Access-Control-Allow-Credentials
-Access-Control-Allow-Methods
-Access-Control-Allow-Headers
+Opaque Encoded Blobs
+Serialized Cookies
+State Parameters
+Base64 Objects
+Binary Request Bodies
+Framework-Specific Markers
 ```
 
-CORS findings require a realistic browser-based data-access scenario.
-
----
-
-# CSRF
-
-Review state-changing actions:
-
-```text
-Password Change
-Email Change
-Profile Update
-Payment
-Account Linking
-Administrative Actions
-API Key Creation
-```
-
-Determine:
-
-```text
-Is authentication cookie-based?
-Is SameSite protective?
-Is there an anti-CSRF token?
-Is Origin/Referer checked?
-Can an attacker construct the request?
-```
-
----
-
-# Clickjacking
-
-Review:
-
-```text
-Content-Security-Policy: frame-ancestors
-X-Frame-Options
-```
-
-Not every page requires framing protection.
-
-Focus on sensitive interactive functionality.
-
----
-
-# Open Redirect
-
-Common parameters:
-
-```text
-url=
-redirect=
-redirect_uri=
-next=
-return=
-returnUrl=
-continue=
-destination=
-```
-
-Assess impact in context:
-
-```text
-Phishing
-OAuth
-SSO
-Token Leakage
-Trusted-domain Abuse
-```
-
-An arbitrary redirect alone may be low severity.
-
----
-
-# Host Header
-
-Test carefully with Burp Repeater.
-
-Potential areas:
-
-```text
-Password Reset URLs
-Absolute URL Generation
-Cache Keys
-Routing
-Virtual Hosts
-Security Links
-```
-
-Do not send password-reset emails to real users.
-
-Use dedicated test accounts.
-
----
-
-# HTTP Request Smuggling
-
-Relevant when:
-
-```text
-Front End
-   |
-   v
-Back End
-```
-
-interpret HTTP request boundaries differently.
-
-Use:
-
-```text
-Burp HTTP Request Smuggler
-```
-
-Request smuggling testing can disrupt production services.
-
-Use only when explicitly authorised and with appropriate precautions.
-
----
-
-# Cache Poisoning
-
-Review:
-
-```text
-Cache Key
-Unkeyed Headers
-Query Parameters
-Host
-Path
-Content Negotiation
-CDN Behaviour
-```
-
-Use unique markers and avoid poisoning content seen by real users.
+Do not send gadget chains to production systems without explicit authorisation.
 
 ---
 
 # Prototype Pollution
 
-Relevant primarily to JavaScript applications and libraries.
+Relevant primarily to JavaScript ecosystems.
 
-Look for unsafe recursive object merge behaviour and attacker-controlled property names.
+Distinguish:
 
-Test first with harmless properties.
+```text
+Client-Side Prototype Pollution
+Server-Side Prototype Pollution
+```
+
+Look for unsafe recursive merging or property assignment involving attacker-controlled keys.
+
+Interesting keys conceptually include:
+
+```text
+__proto__
+constructor
+prototype
+```
+
+Start with non-destructive property behaviour.
 
 ---
 
-# API Testing
+# HTTP Host Header
 
-Map:
+Test whether application behaviour trusts:
+
+```text
+Host
+X-Forwarded-Host
+Forwarded
+X-Host
+X-Original-Host
+```
+
+Potentially affected functionality:
+
+```text
+Password Reset
+Absolute URL Generation
+Routing
+Cache Keys
+Virtual Hosting
+Security Links
+```
+
+---
+
+# Host Header Testing
+
+Controlled example:
+
+```bash
+curl -i "$TARGET" -H 'Host: example.invalid'
+```
+
+Proxy environments may behave differently.
+
+Do not report Host reflection unless it leads to meaningful security impact.
+
+---
+
+# HTTP Header Injection / CRLF
+
+Potential sinks include:
+
+```text
+Redirect Locations
+Download Filenames
+Custom Headers
+Logging
+Proxy Headers
+Email Headers
+```
+
+Look for unsafe inclusion of user-controlled data in response headers.
+
+Assess whether newline characters can alter:
+
+```text
+Response Headers
+Cookies
+Redirects
+Body Interpretation
+```
+
+Use harmless custom-header proofs.
+
+---
+
+# HTTP Request Smuggling
+
+Request smuggling involves disagreement between HTTP components about request boundaries.
+
+Concept:
+
+```text
+Client
+  |
+  v
+Front End
+  |
+  v
+Back End
+```
+
+If they parse boundaries differently:
+
+```text
+Request Desynchronisation
+```
+
+can occur.
+
+---
+
+# Request Smuggling Safety
+
+This testing can affect other users.
+
+Prefer:
+
+```text
+Burp HTTP Request Smuggler
+Dedicated Test Environment
+Single-User Test Host
+Non-Destructive Detection
+```
+
+Do not perform aggressive desynchronisation testing against production unless explicitly approved.
+
+---
+
+# Web Cache Poisoning
+
+Model:
+
+```text
+Attacker Input
+      |
+      v
+Application Response
+      |
+      v
+Cache
+      |
+      v
+Other Users
+```
+
+Look for:
+
+```text
+Unkeyed Headers
+Unkeyed Parameters
+Host Variations
+Forwarded Headers
+Path Normalisation
+Cache-Key Differences
+```
+
+---
+
+# Cache Poisoning Workflow
+
+```text
+Identify Cache
+     |
+     v
+Find Unkeyed Input
+     |
+     v
+Observe Response Influence
+     |
+     v
+Determine Cacheability
+     |
+     v
+Controlled Cache Test
+```
+
+Avoid poisoning shared production responses.
+
+---
+
+# Web Cache Deception
+
+Cache deception differs from cache poisoning.
+
+```text
+Cache Poisoning
+    =
+Attacker influences cached content
+
+Cache Deception
+    =
+Cache stores sensitive victim-specific content
+```
+
+Test whether URL/path transformations cause private responses to become publicly cacheable.
+
+Use only controlled accounts and your own sensitive test data.
+
+---
+
+# Cache Indicators
+
+Inspect:
+
+```text
+Age
+Cache-Control
+Vary
+ETag
+X-Cache
+CF-Cache-Status
+Via
+Server-Timing
+CDN-Specific Headers
+```
+
+Headers vary by platform.
+
+---
+
+# Broken Link Hijacking
+
+Broken-link hijacking occurs when an application references an external resource whose destination can potentially be re-registered or reclaimed.
+
+Look for:
+
+```text
+Dead Social Links
+Expired Domains
+Deleted GitHub Repositories
+Removed Package Names
+Unused Cloud Resources
+External JavaScript
+External CSS
+Documentation Links
+```
+
+Assessment model:
+
+```text
+Application Reference
+       |
+       v
+External Resource Missing
+       |
+       v
+Can Resource Be Reclaimed?
+       |
+       v
+What Trust Does Application Place In It?
+       |
+       v
+Impact
+```
+
+Do not register third-party domains or resources unless explicitly authorised.
+
+---
+
+# HTML Smuggling
+
+HTML smuggling uses browser-side functionality to construct files locally rather than transferring the final file directly from the server.
+
+During defensive web assessments, review whether:
+
+```text
+JavaScript constructs Blob objects
+Data is embedded or encoded client-side
+Downloads are generated dynamically
+Security controls depend only on network-layer file inspection
+```
+
+Do not generate malicious payloads.
+
+The relevant question is whether security architecture assumes that every downloaded file crosses the network in its final form.
+
+---
+
+# WebDAV
+
+Check whether WebDAV is exposed:
+
+```bash
+curl -i -X OPTIONS "$TARGET"
+```
+
+Look for methods such as:
+
+```text
+PROPFIND
+MKCOL
+COPY
+MOVE
+LOCK
+UNLOCK
+PUT
+DELETE
+```
+
+Exposure alone is not a vulnerability.
+
+Assess:
+
+```text
+Authentication
+Authorisation
+Writable Locations
+File Types
+Execution Context
+Information Disclosure
+```
+
+---
+
+# Information Disclosure
+
+Look for:
+
+```text
+Stack Traces
+Debug Pages
+Internal IPs
+Internal Hostnames
+Source Paths
+Database Errors
+Framework Versions
+Secrets
+API Keys
+Tokens
+Credentials
+Environment Variables
+Cloud Metadata
+Source Code
+Backups
+Comments
+```
+
+---
+
+# Error Handling
+
+Compare malformed requests.
+
+Look for:
+
+```text
+Framework Error
+Stack Trace
+SQL Error
+Filesystem Path
+Internal Host
+Source File
+Line Number
+Debug Mode
+```
+
+Avoid causing repeated server errors.
+
+---
+
+# Debug Interfaces
+
+Potential examples:
+
+```text
+/debug
+/console
+/actuator
+/server-status
+/phpinfo.php
+/swagger
+/graphiql
+```
+
+Do not assume a debug-looking endpoint is vulnerable.
+
+Assess actual information or functionality exposed.
+
+---
+
+# API Security
+
+First inventory:
 
 ```text
 Base URL
@@ -2692,63 +3271,177 @@ Version
 Authentication
 Endpoints
 Methods
-Parameters
 Objects
+Identifiers
 Roles
+Scopes
 Rate Limits
 Documentation
 ```
 
 ---
 
-# OpenAPI / Swagger
+# API Discovery
 
 Look for:
 
 ```text
-/openapi.json
+/api/
+/api/v1/
+/api/v2/
+/rest/
+/graphql
 /swagger.json
-/swagger/
-/swagger-ui/
+/openapi.json
 /api-docs
-/v1/api-docs
-/v2/api-docs
-/v3/api-docs
 ```
 
-Documentation exposure is not automatically a vulnerability.
+Also inspect:
 
-It may significantly improve attack-surface discovery.
+```text
+JavaScript
+Mobile Applications
+Network Traffic
+Documentation
+Historical URLs
+```
 
 ---
 
-# jq
+# OpenAPI / Swagger
 
-Pretty-print JSON:
+If documentation is exposed, review:
 
-```bash
-curl -sk https://example.com/api/data | jq
+```text
+Endpoints
+Methods
+Parameters
+Schemas
+Authentication
+Deprecated Endpoints
+Administrative Operations
+Hidden Functionality
 ```
 
-Specific property:
-
-```bash
-curl -sk https://example.com/api/data |
-    jq '.name'
-```
+Documentation exposure alone is not necessarily a vulnerability.
 
 ---
 
 # API Authorisation
 
-Create a matrix:
+Test:
 
-| Endpoint | Anonymous | User A | User B | Admin |
-|---|---|---|---|---|
-| GET /profile | No | Own | Own | Any |
-| GET /users/ID | No | Own | Own | Any |
-| PUT /users/ID | No | Own | Own | Any |
-| DELETE /users/ID | No | No | No | Yes |
+```text
+Object-Level Authorisation
+Function-Level Authorisation
+Property-Level Authorisation
+Tenant Isolation
+Role Enforcement
+```
+
+---
+
+# BOLA
+
+```text
+User A
+   |
+   v
+/api/orders/1001
+   |
+   v
+Change Object ID
+   |
+   v
+/api/orders/1002
+   |
+   v
+Server Checks Ownership?
+```
+
+Use controlled accounts and controlled objects.
+
+---
+
+# BFLA
+
+Broken Function Level Authorisation:
+
+```text
+Normal User
+    |
+    v
+Administrative API Function
+    |
+    v
+Server-Side Role Check?
+```
+
+---
+
+# Property-Level Authorisation
+
+Look for sensitive fields such as:
+
+```text
+role
+isAdmin
+owner
+tenantId
+accountId
+status
+verified
+permissions
+credit
+price
+```
+
+Determine whether clients can read or modify fields beyond their intended privilege.
+
+---
+
+# Mass Assignment
+
+Mass assignment occurs when application frameworks automatically bind user-controlled object properties.
+
+Testing model:
+
+```text
+Expected Fields
+      |
+      v
+Add Non-UI Field
+      |
+      v
+Server Accepts?
+      |
+      v
+Security-Relevant Property Changed?
+```
+
+Use harmless account/profile properties first.
+
+---
+
+# API Versioning
+
+Check:
+
+```text
+/v1/
+/v2/
+/v3/
+```
+
+Older API versions may have:
+
+```text
+Weaker Authorisation
+Missing Rate Limits
+Deprecated Authentication
+Additional Fields
+Legacy Endpoints
+```
 
 ---
 
@@ -2758,48 +3451,148 @@ Common endpoints:
 
 ```text
 /graphql
-/graphiql
 /api/graphql
-/v1/graphql
+/graphql/v1
 ```
 
-Identify GraphQL by:
+Check:
 
 ```text
-Content-Type
-Request Structure
-Errors
-JavaScript
-Documentation
-```
-
-Review:
-
-```text
-Authentication
-Object Authorisation
-Field Authorisation
 Introspection
-Batching
+Schema
+Queries
+Mutations
+Subscriptions
+Authorisation
+Object Access
+Field Access
 Aliases
+Batching
 Depth
 Complexity
-Rate Limits
-Error Disclosure
 ```
 
 ---
 
-# GraphQL Burp Extensions
+# GraphQL Introspection
 
-Useful:
+Where permitted, determine whether introspection is available.
+
+Introspection exposure itself is not necessarily a vulnerability.
+
+The schema is useful for mapping:
 
 ```text
-GraphQL Raider
-InQL
+Objects
+Fields
+Queries
+Mutations
+Arguments
+Types
 ```
 
-Verify compatibility with the current Burp version.
+---
+
+# GraphQL Authorisation
+
+Do not assume resolver-level authorisation is consistent.
+
+Test:
+
+```text
+Same Object via Different Query
+Nested Object
+Direct Object Query
+Mutation
+Alternative Field
+Different Role
+```
+
+---
+
+# GraphQL DoS Safety
+
+Avoid aggressive:
+
+```text
+Deeply Nested Queries
+Huge Alias Sets
+Large Batches
+Recursive Queries
+```
+
+unless availability testing is explicitly authorised.
+
+---
+
+# gRPC
+
+Identify:
+
+```text
+HTTP/2
+gRPC Content-Type
+Protocol Buffers
+Reflection
+Service Definitions
+```
+
+Security testing should consider:
+
+```text
+Authentication
+Authorisation
+Method Exposure
+Message Validation
+Metadata
+Streaming
+Rate Limiting
+Reflection
+```
+
+Do not assume traditional REST controls automatically apply.
+
+---
+
+# WebSockets
+
+Identify upgrade:
+
+```text
+Connection: Upgrade
+Upgrade: websocket
+```
+
+Test:
+
+```text
+Authentication
+Authorisation
+Origin Validation
+Message-Level Access Control
+Input Validation
+Session Expiry
+Reconnect Behaviour
+```
+
+---
+
+# WebSocket Model
+
+```text
+HTTP Handshake
+      |
+      v
+WebSocket Connection
+      |
+      v
+Messages
+      |
+      v
+Application Actions
+```
+
+Authorisation must often be enforced at the message/action level, not only during the handshake.
 
 ---
 
@@ -2811,7 +3604,7 @@ JWT structure:
 HEADER.PAYLOAD.SIGNATURE
 ```
 
-Decode locally:
+Decode for inspection:
 
 ```bash
 python3 - <<'PY'
@@ -2826,62 +3619,62 @@ for part in token.split(".")[:2]:
 PY
 ```
 
-Decoding is not verification.
-
 ---
 
-# JWT Review
+# JWT Checklist
+
+Review:
+
+```text
+alg
+kid
+typ
+iss
+aud
+sub
+exp
+nbf
+iat
+jti
+roles
+scope
+permissions
+```
 
 Check:
 
 ```text
-Algorithm
-Signature Validation
+Signature Verification
+Algorithm Enforcement
+Key Selection
 Issuer
 Audience
-Expiration
-Not Before
-Subject
-Key Selection
+Expiry
+Role Trust
+Revocation
 Key Rotation
-Claims Authorisation
-Token Revocation
 ```
 
-Do not treat readable JWT claims as information disclosure merely because JWT payloads are Base64URL encoded.
+Do not treat base64 decoding as token compromise.
 
 ---
 
-# OAuth / OIDC
+# OAuth 2.0 / OpenID Connect
 
 Map:
 
 ```text
-Authorization Endpoint
-Token Endpoint
+Client
+Authorisation Server
+Resource Server
 Redirect URI
-Client ID
-Scopes
 State
 Nonce
 PKCE
-Issuer
-JWKS
+Scopes
+Tokens
 UserInfo
-```
-
-Common discovery:
-
-```text
-/.well-known/openid-configuration
-```
-
-Example:
-
-```bash
-curl -sk \
-    https://example.com/.well-known/openid-configuration |
-    jq
+Logout
 ```
 
 ---
@@ -2892,1124 +3685,1210 @@ Review:
 
 ```text
 Redirect URI Validation
-State
-Nonce
+state
+nonce
 PKCE
 Scope Enforcement
+Client Binding
 Token Audience
-Issuer Validation
-Account Linking
-Open Redirect Interaction
 Token Leakage
+Account Linking
+SSO Session
+Open Redirect Interaction
 ```
 
 ---
 
-# WebSockets
-
-Look for:
+# OAuth Mental Model
 
 ```text
-ws://
-wss://
+User
+ |
+ v
+Client
+ |
+ v
+Authorisation Server
+ |
+ v
+Code / Token
+ |
+ v
+Client
+ |
+ v
+Resource Server
 ```
+
+Understand which party trusts which value.
+
+---
+
+# SAML
 
 Review:
 
 ```text
-Authentication
-Authorisation
-Origin Validation
-Message Validation
-Object Access
-Session Handling
+Service Provider
+Identity Provider
+Assertion
+Signature
+Audience
+Recipient
+Destination
+InResponseTo
+NameID
+Attributes
+Session
 ```
 
-Burp Suite can intercept WebSocket messages.
+Prefer dedicated SAML tooling and controlled test identities.
 
 ---
 
-# Web Cache
+# Web LLM Applications
 
-Useful headers:
-
-```text
-Age
-Cache-Control
-Vary
-ETag
-X-Cache
-CF-Cache-Status
-Via
-```
-
-Determine:
+Modern applications may expose LLM-backed functionality through:
 
 ```text
-What is cached?
-What forms the cache key?
-Can user-specific data be cached?
-Can unkeyed input affect cached content?
+Chatbots
+Support Assistants
+Search
+Document Analysis
+Agentic Workflows
+Tool Calling
+RAG
+Automated Actions
+AI-Powered Scanners
 ```
 
 ---
 
-# Reverse Proxy / CDN
-
-Possible technologies:
+# LLM Security Model
 
 ```text
-Cloudflare
-Akamai
-Fastly
-CloudFront
-nginx
-HAProxy
-Varnish
-IIS
-Apache
-Traefik
+User Prompt
+    |
+    v
+Model
+    |
+    +--> System Instructions
+    +--> Retrieved Data
+    +--> Tools
+    +--> APIs
+    +--> Internal Services
+    |
+    v
+Application Action
 ```
 
-Use:
+The primary security question is not:
 
 ```text
-Headers
-DNS
-TLS
-WhatWeb
-Wappalyzer
-httpx
-Behaviour
+Can I make the model say something strange?
 ```
 
-for identification.
+It is:
 
-Do not assume the origin technology based only on edge-server headers.
+```text
+Can untrusted input cross a security boundary?
+```
 
 ---
 
-# WAF Identification
+# LLM Testing Areas
 
-Potential tools:
+Review:
 
 ```text
-wafw00f
-Nmap
-WhatWeb
-Manual Response Comparison
+Direct Prompt Injection
+Indirect Prompt Injection
+Tool Authorisation
+Data Leakage
+RAG Poisoning
+Cross-User Data Isolation
+Sensitive System Prompts
+Excessive Agency
+Unsafe Output Handling
+SSRF Through Tools
+Privilege Boundaries
+External Content Trust
 ```
 
-Example:
+Use harmless instructions and controlled documents.
+
+---
+
+# LLM Tool Calling
+
+For agentic applications ask:
+
+```text
+Which tools can the model invoke?
+
+Which arguments can it control?
+
+Does the server independently authorise each action?
+
+Can retrieved content instruct the model?
+
+Can one user influence another user's context?
+
+Can tools access internal services?
+
+Are dangerous actions confirmed?
+```
+
+Never assume model instructions are an authorisation boundary.
+
+---
+
+# Secrets Exposure
+
+Search:
+
+```text
+JavaScript
+Source Maps
+Git History
+Configuration
+Backups
+Environment Files
+CI/CD Files
+Documentation
+Error Messages
+API Responses
+```
+
+Useful local search:
 
 ```bash
-wafw00f https://example.com
+grep -RniE 'api[_-]?key|secret|token|password|passwd|authorization|bearer' .
 ```
 
-WAF detection is fingerprinting, not proof of protection.
-
----
-
-# Nikto
-
-For authorised baseline assessment:
-
-```bash
-nikto -h https://example.com
-```
-
-Nikto can generate substantial traffic and false positives.
-
-Use findings as leads requiring manual validation.
-
----
-
-# Nuclei
-
-ProjectDiscovery Nuclei can perform template-based checks.
-
-Example:
-
-```bash
-nuclei -u https://example.com
-```
-
-Restrict severity:
-
-```bash
-nuclei \
-    -u https://example.com \
-    -severity medium,high,critical
-```
-
-Before using broad template sets:
+Validate whether a discovered value is:
 
 ```text
-Review Scope
-Review Templates
-Review Rate
-Understand Potential Side Effects
+Real
+Current
+Sensitive
+In Scope
+Privileged
+Revoked
+Test Data
 ```
 
-Automated results require manual validation.
+Do not use third-party credentials outside scope.
+
+---
+
+# Dependency Security
+
+Identify:
+
+```text
+Framework
+Library
+Plugin
+CMS
+Package
+Version
+```
+
+Then determine:
+
+```text
+Is version accurate?
+
+Is component actually reachable?
+
+Is vulnerable feature enabled?
+
+Does configuration mitigate it?
+
+Is authentication required?
+
+Is the known vulnerability applicable?
+```
 
 ---
 
 # Known Vulnerability Research
-
-After technology identification:
-
-```text
-Technology
-    |
-    v
-Version
-    |
-    v
-Deployment Context
-    |
-    v
-Vendor Advisory
-    |
-    v
-CVE
-    |
-    v
-Applicability
-    |
-    v
-Safe Validation
-```
 
 Useful sources:
 
 ```text
 Vendor Advisories
 NVD
-CISA KEV
 GitHub Security Advisories
+CISA KEV
 Exploit-DB
+Packet Storm
 Project Repositories
-Security Research
+Security Research Blogs
 ```
 
-Never conclude:
-
-```text
-Version String
-      =
-Vulnerable
-```
-
-without validating configuration, patch backports and affected-version conditions.
+Prioritise vendor and primary research sources.
 
 ---
 
-# Searchsploit
+# searchsploit
 
 ```bash
 searchsploit nginx
 ```
 
-Specific technology:
+Specific product:
 
 ```bash
-searchsploit "Apache 2.4"
+searchsploit 'Apache Tomcat'
 ```
 
-Copy a public reference locally:
-
-```bash
-searchsploit -m <ID>
-```
-
-Review any public proof of concept before execution.
+Do not execute public exploit code without reviewing it.
 
 ---
 
-# Error Handling
+# Nuclei
 
-Trigger only harmless malformed requests.
+Basic:
+
+```bash
+nuclei -u "$TARGET"
+```
+
+List:
+
+```bash
+nuclei -l urls.txt
+```
+
+Use focused templates where possible.
+
+Treat scanner results as leads requiring validation.
+
+---
+
+# Nikto
+
+```bash
+nikto -h "$TARGET"
+```
+
+Useful for broad web-server checks, but findings require manual validation.
+
+---
+
+# WAF Detection
+
+Possible tools include:
+
+```text
+wafw00f
+Nmap
+HTTP Response Analysis
+```
+
+Example:
+
+```bash
+wafw00f "$TARGET"
+```
+
+A WAF fingerprint should guide testing, not become a finding by itself.
+
+---
+
+# CDN / Reverse Proxy
 
 Look for:
 
 ```text
-Stack Traces
-Framework Names
-Source Paths
-Database Errors
-Internal Hosts
-Library Versions
-Debug Data
-Environment Names
+Cloudflare
+Akamai
+Fastly
+CloudFront
+Azure Front Door
+Application Gateway
+NGINX
+HAProxy
+Traefik
+Varnish
 ```
 
-Do not intentionally cause resource exhaustion.
+Understand:
+
+```text
+Client
+  |
+  v
+CDN / WAF
+  |
+  v
+Reverse Proxy
+  |
+  v
+Application
+```
+
+Many advanced HTTP vulnerabilities involve disagreement between layers.
 
 ---
 
-# Verbose Errors
+# Origin Exposure
 
-Potential evidence:
+Assess whether an application behind a CDN/WAF has a directly reachable origin.
+
+Sources can include:
 
 ```text
-/home/application/
-/var/www/
-/srv/app/
-C:\inetpub\
-Framework Version
-Database Driver
-Internal IP
-Internal Hostname
-Source File
-Line Number
+Historical DNS
+Certificates
+Old Records
+Email Headers
+Other Subdomains
+Infrastructure Reuse
 ```
 
-Report sensitive disclosure, not merely the existence of an error page.
+Do not attempt to bypass protection unless explicitly authorised.
 
 ---
 
-# Backup Files
+# Server Misconfiguration
 
-When a known file exists:
-
-```text
-config.php
-```
-
-possible backup naming patterns can include:
+Review:
 
 ```text
-config.php~
-config.php.bak
-config.php.old
-config.php.save
-config.php.orig
+Directory Listing
+Default Files
+Debug Mode
+Verbose Errors
+Dangerous Methods
+Backup Files
+Default Credentials
+Exposed Admin Interfaces
+Weak TLS
+Unnecessary Services
+Sensitive Headers
+Source Code Exposure
 ```
-
-Test selectively.
-
-Do not brute-force massive backup extension combinations without reason.
 
 ---
 
-# Git Exposure
+# Product-Specific Testing
+
+If fingerprinting identifies a product such as:
+
+```text
+Apache Tomcat
+ActiveMQ
+Jenkins
+WordPress
+Drupal
+Next.js
+Grafana
+GitLab
+Confluence
+Exchange
+WebLogic
+JBoss
+```
+
+use this workflow:
+
+```text
+Fingerprint
+    |
+    v
+Confirm Product
+    |
+    v
+Confirm Version if Possible
+    |
+    v
+Review Vendor Documentation
+    |
+    v
+Review Security Advisories
+    |
+    v
+Check Exposed Features
+    |
+    v
+Determine Applicability
+    |
+    v
+Safe Validation
+```
+
+Do not build a finding solely from a banner.
+
+---
+
+# Web Server Fingerprinting
+
+Nmap:
+
+```bash
+nmap -sV -p80,443 "$HOST"
+```
+
+HTTP scripts:
+
+```bash
+nmap -p80,443 --script http-title,http-headers "$HOST"
+```
+
+---
+
+# Apache
 
 Check:
 
-```bash
-curl -skI https://example.com/.git/HEAD
-```
-
-A reachable `.git` path requires careful validation.
-
-Do not automatically download an entire repository containing production secrets unless necessary and authorised.
-
----
-
-# Environment Files
-
-A targeted request may include:
-
-```bash
-curl -skI https://example.com/.env
-```
-
-Do not broadly download secrets if exposure can be proven safely.
-
-If sensitive credentials are exposed:
-
 ```text
-Stop
-Preserve Minimal Evidence
-Do Not Reuse Credentials Without Authorisation
-Report Promptly
+Version Disclosure
+Directory Listing
+server-status
+HTTP Methods
+Virtual Hosts
+Proxy Configuration
+CGI
+WebDAV
+.htaccess Behaviour
 ```
 
 ---
 
-# Information Disclosure
+# NGINX
 
-Look for:
-
-```text
-Internal Hostnames
-Internal IP Addresses
-Source Paths
-Stack Traces
-Credentials
-Tokens
-API Keys
-Cloud Keys
-Database Names
-User Data
-Debug Information
-Build Information
-Repository Metadata
-```
-
-Not every version banner is a vulnerability.
-
----
-
-# Favicon Fingerprinting
-
-Download:
-
-```bash
-curl -sk https://example.com/favicon.ico -o favicon.ico
-```
-
-Hash:
-
-```bash
-sha256sum favicon.ico
-```
-
-Favicons can help correlate applications and technologies.
-
-Do not treat a favicon match alone as definitive identification.
-
----
-
-# Screenshots
-
-For large authorised target sets, screenshots can assist triage.
-
-Useful tools include:
+Check:
 
 ```text
-gowitness
-EyeWitness
-Aquatone
-```
-
-Visual review can quickly reveal:
-
-```text
-Login Portals
-Admin Interfaces
-Default Pages
-Development Applications
-Monitoring Platforms
-Duplicate Applications
+Version Disclosure
+Alias Configuration
+Path Normalisation
+Reverse Proxy Behaviour
+Cache Behaviour
+Host Handling
 ```
 
 ---
 
-# Default Pages
+# IIS
 
-Look for:
-
-```text
-Apache Default Page
-nginx Default Page
-IIS Default Page
-Tomcat
-Jetty
-Application Server Consoles
-Framework Welcome Pages
-Cloud Default Pages
-```
-
-A default page is primarily reconnaissance information unless it exposes additional security impact.
-
----
-
-# 401 vs 403 vs 404
+Check:
 
 ```text
-401
- |
- +--> Authentication required
-
-403
- |
- +--> Request understood but forbidden
-
-404
- |
- +--> Resource not found
-      or deliberately hidden
-```
-
-Applications may intentionally return 404 for unauthorised resources.
-
-Compare behaviour rather than trusting status codes blindly.
-
----
-
-# Response Comparison
-
-When testing:
-
-```text
+Version
+WebDAV
+Short Name Behaviour where relevant
 Authentication
-Authorisation
-Enumeration
-Filtering
-Input Validation
+Handler Mappings
+Static/Dynamic Content
+Request Filtering
+Error Pages
 ```
 
-compare:
+---
+
+# PHP Applications
+
+Look for:
 
 ```text
-Status
-Length
-Words
-Lines
+phpinfo()
+Exposed Source
+Backup Files
+Session Configuration
+File Inclusion
+Upload Handling
+Type Juggling
+Framework Debug Pages
+Composer Metadata
+```
+
+Do not assume a PHP application is vulnerable because PHP is used.
+
+---
+
+# Java Applications
+
+Look for:
+
+```text
+Tomcat
+Spring
+Struts
+JBoss
+WebLogic
+JSP
+Serialized Objects
+Actuator
+Error Pages
+Management Interfaces
+```
+
+---
+
+# .NET Applications
+
+Look for:
+
+```text
+ASP.NET
+ASP.NET Core
+IIS
+ViewState
+Machine Keys
+Debug Information
+Trace
+Web.config Exposure
+Authentication Configuration
+```
+
+---
+
+# Node.js Applications
+
+Look for:
+
+```text
+Express
+Next.js
+NestJS
+Prototype Pollution
+Source Maps
+npm Dependencies
+Debug Endpoints
+Server-Side JavaScript Behaviour
+```
+
+---
+
+# Broken Access Control vs Business Logic
+
+Use:
+
+```text
+Access Control
+    =
+Can this identity perform this action?
+
+Business Logic
+    =
+Should this action be possible in this state?
+```
+
+Both should be tested independently.
+
+---
+
+# Input Validation vs Output Encoding
+
+```text
+Input Validation
+    =
+Is supplied data acceptable?
+
+Output Encoding
+    =
+Is data safely represented in its destination context?
+```
+
+Do not treat them as interchangeable.
+
+---
+
+# Client vs Server Trust
+
+```text
+Browser
+   |
+   | Untrusted
+   v
+Server
+```
+
+Values controlled by the client can include:
+
+```text
+Price
+Role
+User ID
+Tenant ID
+Feature Flags
+Hidden Fields
+Disabled Fields
+JavaScript Variables
+Headers
+Cookies
+```
+
+The server must enforce security-sensitive decisions.
+
+---
+
+# Multi-Tenant Applications
+
+Always test tenant isolation where authorised.
+
+```text
+Tenant A
+   |
+   v
+Object A
+
+Tenant B
+   |
+   v
+Object B
+```
+
+Check isolation across:
+
+```text
+Objects
+Users
+Files
+Exports
+Search
+APIs
+Reports
+Invitations
+Administration
+Billing
+Logs
+```
+
+---
+
+# File Download Functions
+
+Check:
+
+```text
+Authorisation
+Path Handling
+Filename
+Content-Type
+Content-Disposition
+Caching
+Range Requests
+Signed URLs
+Expiry
+Tenant Isolation
+```
+
+---
+
+# Export Functions
+
+Exports can reveal more data than the UI.
+
+Check:
+
+```text
+CSV
+PDF
+Excel
+JSON
+ZIP
+Reports
+Bulk Exports
+```
+
+Compare exported fields with what the user is authorised to view.
+
+---
+
+# Import Functions
+
+Imports may introduce:
+
+```text
+File Upload
+Parser Vulnerabilities
+Formula Injection
+Mass Assignment
+Business Logic Abuse
+Duplicate Processing
+External Resource Loading
+```
+
+Use harmless test data.
+
+---
+
+# CSV Injection
+
+If user-controlled values are exported to spreadsheets, assess whether spreadsheet formula interpretation creates risk.
+
+Use harmless formula-like test markers.
+
+Do not trigger external commands.
+
+---
+
+# Email Functionality
+
+Review:
+
+```text
+Recipient Control
+Template Injection
+Header Handling
+HTML Rendering
+Links
+Password Reset
+Invitations
+Verification
+Rate Limiting
+```
+
+Avoid sending unsolicited messages to real users.
+
+---
+
+# Webhook Security
+
+Check:
+
+```text
+URL Validation
+SSRF
+Authentication
+Signature Verification
+Replay Protection
+Secret Rotation
+Event Authorisation
+Tenant Isolation
+Retry Behaviour
+```
+
+---
+
+# Webhook Signature Model
+
+```text
+Sender
+  |
+  v
+Signed Event
+  |
+  v
+Receiver
+  |
+  v
+Verify Signature
+  |
+  v
+Verify Timestamp / Replay
+  |
+  v
+Process Event
+```
+
+---
+
+# Search Functionality
+
+Search can expose:
+
+```text
+SQLi
+NoSQLi
+LDAP Injection
+XSS
+Authorisation Issues
+Information Leakage
+Search Index Leakage
+Tenant Isolation Issues
+```
+
+Compare results across roles.
+
+---
+
+# Pagination
+
+Manipulate safely:
+
+```text
+page
+offset
+limit
+size
+cursor
+```
+
+Check:
+
+```text
+Maximum Limit
+Negative Values
+Very Large Values
+Authorisation Across Pages
+Cursor Integrity
+```
+
+Avoid resource-exhaustion testing.
+
+---
+
+# Sorting and Filtering
+
+Parameters such as:
+
+```text
+sort
+order
+filter
+fields
+include
+expand
+search
+q
+```
+
+may influence backend queries or expose additional fields.
+
+---
+
+# Hidden Fields
+
+Do not trust:
+
+```html
+<input type="hidden">
+```
+
+Security decisions must be enforced server-side.
+
+---
+
+# Duplicate Parameters
+
+Applications and proxies may interpret duplicate parameters differently.
+
+Concept:
+
+```text
+?id=1&id=2
+```
+
+Assess parser behaviour carefully.
+
+This can matter for:
+
+```text
+Validation
+WAF Behaviour
+Caching
+Authorisation
+Backend Routing
+```
+
+---
+
+# Parameter Pollution
+
+Different layers may interpret parameters differently.
+
+```text
+Proxy
+   |
+   v
+Framework
+   |
+   v
+Application
+```
+
+Check only where there is evidence that parser disagreement may matter.
+
+---
+
+# Encoding
+
+Common encodings:
+
+```text
+URL Encoding
+Double URL Encoding
+HTML Entities
+Unicode
+Base64
+JSON Escaping
+XML Entities
+```
+
+Encoding is not encryption.
+
+Use encoding variations to understand parser and validation behaviour, not merely to bypass controls.
+
+---
+
+# Normalisation
+
+Check whether components disagree about:
+
+```text
+Case
+Slashes
+Backslashes
+Dots
+Percent Encoding
+Unicode
+Duplicate Separators
+Trailing Characters
+Path Segments
+```
+
+Relevant to:
+
+```text
+Routing
+Access Control
+Caching
+Path Traversal
+Proxy Behaviour
+```
+
+---
+
+# HTTP Parameter Locations
+
+Always inspect:
+
+```text
+GET Query
+POST Form
+JSON
+XML
+Multipart
+Headers
+Cookies
+Path
+Fragment - client-side only
+```
+
+---
+
+# Response Difference Analysis
+
+When testing a hypothesis compare:
+
+```text
+Status Code
+Response Length
+Word Count
+Line Count
 Headers
 Cookies
 Redirect
 Body
 Timing
+Cache Behaviour
 ```
+
+Do not rely on one signal.
 
 ---
 
-# curl Response Metrics
+# Baseline First
 
-```bash
-curl -sk \
-    -o /dev/null \
-    -w 'status=%{http_code} size=%{size_download} time=%{time_total}\n' \
-    https://example.com/
-```
-
-Useful for identifying subtle differences.
-
----
-
-# Web Recon Workflow
+Before fuzzing:
 
 ```text
-Domain
- |
- v
-DNS
- |
- v
-Subdomains
- |
- v
-HTTP Probe
- |
- v
-WhatWeb / Wappalyzer
- |
- v
-Headers
- |
- v
-404 Fingerprint
- |
- v
-robots / sitemap
- |
- v
-Crawl
- |
- v
-Content Discovery
- |
- v
-Parameters
- |
- v
-JavaScript
- |
- v
-Application Mapping
-```
-
----
-
-# Testing Workflow
-
-After reconnaissance:
-
-```text
-Authentication
+Normal Request
       |
       v
-Session Management
+Record Baseline
       |
       v
-Authorisation
+Change One Variable
       |
       v
-Input Validation
-      |
-      +--> XSS
-      +--> SQLi
-      +--> Command Injection
-      +--> SSTI
-      +--> XXE
-      +--> Traversal
-      +--> Upload
-      +--> SSRF
-      |
-      v
-Business Logic
-      |
-      v
-API
-      |
-      v
-Client Side
-```
-
----
-
-# Tool Map
-
-```text
-Technology
- |
- +--> WhatWeb
- +--> Wappalyzer
- +--> httpx
-
-Content
- |
- +--> ffuf
- +--> feroxbuster
- +--> Gobuster
-
-Crawling
- |
- +--> Katana
- +--> Burp
- +--> gau
- +--> waybackurls
-
-Parameters
- |
- +--> Arjun
- +--> ParamSpider
-
-HTTP
- |
- +--> curl
- +--> Burp Repeater
-
-TLS
- |
- +--> OpenSSL
- +--> Nmap
-
-Scanning
- |
- +--> Nmap
- +--> Nuclei
- +--> Nikto
-
-WAF
- |
- +--> wafw00f
-
-SQLi
- |
- +--> Burp
- +--> sqlmap
-
-Command Injection
- |
- +--> Burp
- +--> Commix
-
-JavaScript
- |
- +--> Browser DevTools
- +--> Katana
- +--> grep
-
-Authorisation
- |
- +--> Burp Repeater
- +--> Autorize
- +--> AuthMatrix
-
-JWT
- |
- +--> Burp
- +--> JWT Editor
-
-GraphQL
- |
- +--> Burp
- +--> GraphQL Raider
- +--> InQL
-```
-
----
-
-# Burp Workflow
-
-```text
-Proxy
-  |
-  v
-HTTP History
-  |
-  v
-Map Endpoints
-  |
-  v
-Send Interesting Request
-  |
-  v
-Repeater
-  |
-  +--> Change User
-  +--> Change Object
-  +--> Change Method
-  +--> Change Parameter
-  +--> Change Header
-  +--> Change Cookie
-  |
-  v
 Compare
 ```
 
----
-
-# Evidence
-
-For each finding record:
-
-```text
-Target
-Endpoint
-Method
-Parameter
-Account
-Role
-Timestamp
-Request
-Response
-Expected Behaviour
-Actual Behaviour
-Impact
-```
+Changing one variable at a time makes results easier to interpret.
 
 ---
 
-# Request Evidence
-
-Capture:
-
-```http
-GET /example HTTP/1.1
-Host: example.com
-```
-
-Redact:
-
-```text
-Authorization
-Cookie
-API Keys
-Passwords
-Tokens
-Personal Data
-```
-
-unless the exact value is essential evidence.
-
----
-
-# Response Evidence
-
-Include only the minimum necessary response.
-
-Avoid copying:
-
-```text
-Entire Databases
-Large User Lists
-Unnecessary Personal Data
-Production Secrets
-```
-
-into reports.
-
----
-
-# Proof of Concept Principle
+# Safe Proof Principle
 
 Prefer:
 
 ```text
-Minimum Action
-     |
-     v
-Maximum Confidence
+Can I prove the issue without:
+    accessing unrelated data?
+    executing OS commands?
+    dumping a database?
+    changing another user's password?
+    poisoning a shared cache?
+    causing downtime?
 ```
 
-Examples:
+If yes, use the lower-impact proof.
+
+---
+
+# Scanner Result Model
 
 ```text
-Read one controlled object
-instead of
-dumping every object
-
-Demonstrate harmless command execution
-instead of
-opening a shell
-
-Demonstrate one controlled callback
-instead of
-scanning the internal network
-
-Read minimal known file
-instead of
-collecting credentials
+Scanner Finding
+      |
+      v
+Understand Detection
+      |
+      v
+Reproduce Manually
+      |
+      v
+Check Context
+      |
+      v
+Assess Exploitability
+      |
+      v
+Determine Impact
+      |
+      v
+Report
 ```
+
+---
+
+# False Positives
+
+Common causes:
+
+```text
+Generic Error Pages
+WAF Responses
+Soft 404s
+Reflected but Encoded Input
+Version Fingerprinting
+Rate-Limit Responses
+Authentication Redirects
+CDN Behaviour
+Scanner Heuristics
+```
+
+---
+
+# Evidence Directory
+
+```bash
+mkdir -p evidence/web/{recon,http,auth,access-control,input,api,business-logic,files,screenshots,requests,responses}
+```
+
+Suggested:
+
+```text
+evidence/
+└── web/
+    ├── recon/
+    ├── http/
+    ├── auth/
+    ├── access-control/
+    ├── input/
+    ├── api/
+    ├── business-logic/
+    ├── files/
+    ├── screenshots/
+    ├── requests/
+    └── responses/
+```
+
+---
+
+# Save HTTP Evidence
+
+Request:
+
+```text
+POST /api/example HTTP/1.1
+Host: app.example.com
+...
+```
+
+Response:
+
+```text
+HTTP/1.1 200 OK
+...
+```
+
+Remove:
+
+```text
+Passwords
+Session Tokens
+API Keys
+Personal Data
+Unrelated Sensitive Data
+```
+
+where they are not required for evidence.
+
+---
+
+# Evidence Record
+
+For each confirmed issue record:
+
+```text
+Timestamp:
+Target:
+Endpoint:
+Method:
+User / Role:
+Preconditions:
+Request:
+Response:
+Observed Behaviour:
+Expected Behaviour:
+Security Impact:
+State Changed:
+Cleanup:
+```
+
+---
+
+# Screenshot Naming
+
+Useful naming:
+
+```text
+01-login-page.png
+02-user-a-object.png
+03-user-b-object-access.png
+04-server-response.png
+```
+
+Keep screenshots focused.
 
 ---
 
 # Reporting
 
-A good finding contains:
+A good web finding explains:
 
 ```text
-Title
-Severity
-Affected Asset
-Description
-Prerequisites
-Reproduction
-Evidence
-Impact
-Remediation
-References
-```
+What is wrong?
 
----
+Where is it?
 
-# Weak Finding
+Who can reach it?
 
-```text
-Server header reveals nginx.
-```
+What prerequisites exist?
 
-Better question:
+What can an attacker actually do?
 
-```text
-Does the disclosed information materially enable an attack?
-```
+What evidence proves it?
 
----
-
-# Strong Finding
-
-```text
-A standard authenticated user can modify the object identifier
-in GET /api/invoices/{id} and retrieve invoices belonging to
-other users because the server does not perform object-level
-authorisation.
-```
-
-This demonstrates:
-
-```text
-Principal
-   |
-   v
-Action
-   |
-   v
-Security Boundary
-   |
-   v
-Impact
-```
-
----
-
-# Web Assessment Checklist
-
-## Scope
-
-- [ ] Confirm domains
-- [ ] Confirm subdomains
-- [ ] Confirm IPs
-- [ ] Confirm test accounts
-- [ ] Confirm excluded functionality
-- [ ] Confirm rate limits
-- [ ] Confirm destructive testing restrictions
-
-## Reconnaissance
-
-- [ ] DNS
-- [ ] Subdomains
-- [ ] HTTP probing
-- [ ] Titles
-- [ ] Technologies
-- [ ] WhatWeb
-- [ ] Wappalyzer
-- [ ] Headers
-- [ ] Cookies
-- [ ] 404 fingerprint
-- [ ] TLS
-- [ ] CDN / WAF
-- [ ] Virtual hosts
-
-## Discovery
-
-- [ ] robots.txt
-- [ ] sitemap.xml
-- [ ] security.txt
-- [ ] Content discovery
-- [ ] Crawling
-- [ ] Historical URLs
-- [ ] Parameters
-- [ ] JavaScript
-- [ ] Source maps
-- [ ] API documentation
-- [ ] GraphQL
-
-## Authentication
-
-- [ ] Registration
-- [ ] Login
-- [ ] Logout
-- [ ] Enumeration
-- [ ] Password reset
-- [ ] Password change
-- [ ] MFA
-- [ ] Recovery
-- [ ] SSO
-- [ ] OAuth / OIDC
-
-## Sessions
-
-- [ ] Cookie attributes
-- [ ] Session rotation
-- [ ] Expiration
-- [ ] Logout invalidation
-- [ ] Password-change invalidation
-- [ ] Password-reset invalidation
-- [ ] Concurrent sessions
-
-## Authorisation
-
-- [ ] Horizontal access
-- [ ] Vertical access
-- [ ] IDOR / BOLA
-- [ ] Hidden functions
-- [ ] Administrative endpoints
-- [ ] HTTP methods
-- [ ] API object access
-- [ ] File access
-
-## Input Validation
-
-- [ ] XSS
-- [ ] SQL injection
-- [ ] Command injection
-- [ ] Path traversal
-- [ ] File inclusion
-- [ ] SSTI
-- [ ] XXE
-- [ ] Deserialization
-- [ ] SSRF
-- [ ] File upload
-- [ ] Header injection
-
-## Browser Security
-
-- [ ] CORS
-- [ ] CSRF
-- [ ] Clickjacking
-- [ ] CSP
-- [ ] DOM security
-- [ ] postMessage
-- [ ] Cookies
-- [ ] Storage
-
-## HTTP
-
-- [ ] Methods
-- [ ] Host header
-- [ ] Request smuggling where appropriate
-- [ ] Cache behaviour
-- [ ] Redirects
-- [ ] Security headers
-- [ ] Error handling
-
-## API
-
-- [ ] Endpoint inventory
-- [ ] Authentication
-- [ ] Object authorisation
-- [ ] Function authorisation
-- [ ] Rate limiting
-- [ ] Mass assignment
-- [ ] Excessive data exposure
-- [ ] Input validation
-- [ ] Versioning
-- [ ] Documentation
-
-## Business Logic
-
-- [ ] Workflow bypass
-- [ ] State manipulation
-- [ ] Price manipulation
-- [ ] Quantity manipulation
-- [ ] Limit bypass
-- [ ] Duplicate actions
-- [ ] Race conditions
-- [ ] Approval workflows
-- [ ] Role transitions
-
-## Evidence
-
-- [ ] Exact request
-- [ ] Relevant response
-- [ ] User context
-- [ ] Role
-- [ ] Timestamp
-- [ ] Expected behaviour
-- [ ] Actual behaviour
-- [ ] Minimal data collection
-- [ ] Secrets redacted
-
----
-
-# Quick Recon Commands
-
-```bash
-export TARGET="https://example.com"
-export DOMAIN="example.com"
-
-dig "$DOMAIN"
-
-subfinder -d "$DOMAIN" -silent -o subdomains.txt
-
-httpx \
-    -l subdomains.txt \
-    -silent \
-    -status-code \
-    -title \
-    -tech-detect \
-    -o alive.txt
-
-whatweb "$TARGET"
-
-curl -skI "$TARGET"
-
-curl -sk "$TARGET/robots.txt"
-
-curl -sk "$TARGET/sitemap.xml"
-
-curl -sk "$TARGET/.well-known/security.txt"
-
-curl -sk \
-    "$TARGET/random-invalid-path-839274" \
-    -o 404.html
-
-katana -u "$TARGET" -o katana.txt
-```
-
----
-
-# Quick Content Discovery
-
-```bash
-ffuf \
-    -ac \
-    -w /usr/share/seclists/Discovery/Web-Content/common.txt \
-    -u https://example.com/FUZZ
-```
-
-Alternative:
-
-```bash
-feroxbuster \
-    -u https://example.com \
-    -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
-```
-
----
-
-# Quick Technology Workflow
-
-```text
-WhatWeb
-   |
-   v
-Wappalyzer
-   |
-   v
-httpx
-   |
-   v
-Headers
-   |
-   v
-Cookies
-   |
-   v
-404 Fingerprint
-   |
-   v
-HTML / JS
-   |
-   v
-Technology Hypothesis
-   |
-   v
-Manual Validation
-```
-
----
-
-# Quick Input Workflow
-
-```text
-Parameter
-   |
-   v
-Unique Marker
-   |
-   v
-Observe Response
-   |
-   v
-Determine Context
-   |
-   v
-Select Test
-   |
-   v
-Minimal Validation
-   |
-   v
-Impact
-```
-
----
-
-# Quick Authorisation Workflow
-
-```text
-User A -> Object A
-User B -> Object B
-
-        |
-        v
-
-User A -> Object B ?
-
-        |
-        v
-
-Expected Deny
-        |
-        v
-Actual Allow?
+What should be changed?
 ```
 
 ---
@@ -4021,238 +4900,760 @@ Do not automatically report:
 ```text
 Server Header Present
 Technology Detected
-Wappalyzer Identified Framework
-WhatWeb Identified CMS
-Default 404 Page
-robots.txt Exists
-Swagger Exists
-GraphQL Exists
-Port 443 Open
-HTTP OPTIONS Enabled
-Missing CSP
+Old-Looking Version
 Missing Security Header
-Cookie Exists
-JavaScript Contains Endpoint
-Source Map Exists
+robots.txt Entry
+Swagger Documentation
+GraphQL Introspection
+WebDAV OPTIONS Response
+CORS Header
+Open Port
+Debug-Looking Path
+SPF/DMARC Issue During Web Scope
+Cookie Without Attribute
+WAF Detected
+Directory Exists
 ```
 
-Instead determine:
-
-```text
-What is exposed?
-      |
-      v
-Who can access it?
-      |
-      v
-What security boundary exists?
-      |
-      v
-Can that boundary be crossed?
-      |
-      v
-What is the actual impact?
-```
+Determine actual security impact.
 
 ---
 
-# Safe Testing Model
-
-Prefer:
+# Better Finding Model
 
 ```text
-Observe
-   |
-   v
-Understand
-   |
-   v
-Compare
-   |
-   v
-Modify Minimally
-   |
-   v
-Validate
-   |
-   v
-Collect Evidence
-```
-
-before:
-
-```text
-Exploit
-Dump Data
-Execute Commands
-Upload Active Payload
-Establish Shell
-Scan Internal Networks
-Modify Production Data
-```
-
----
-
-# Final Testing Model
-
-```text
-Reconnaissance
-      |
-      v
-Application Mapping
-      |
-      v
-Attack Surface
-      |
-      v
-Trust Boundaries
-      |
-      v
-Security Controls
-      |
-      v
-Controlled Validation
-      |
-      v
+Observation
+    +
+Reachability
+    +
+Prerequisites
+    +
+Security Boundary
+    +
 Impact
+    =
+Finding
+```
+
+---
+
+# Example - IDOR
+
+Weak:
+
+```text
+The ID parameter can be changed.
+```
+
+Better:
+
+```text
+An authenticated standard user can modify the object identifier
+in the order-details API request and retrieve another test user's
+order information because the server does not enforce object-level
+authorisation.
+```
+
+---
+
+# Example - Technology
+
+Weak:
+
+```text
+The application uses Apache.
+```
+
+Better:
+
+```text
+No finding unless the identified Apache configuration or version
+creates a demonstrable security condition relevant to the application.
+```
+
+---
+
+# Example - CORS
+
+Weak:
+
+```text
+The Origin header is reflected.
+```
+
+Better:
+
+```text
+Determine whether an attacker-controlled origin can read a
+credentialed response containing sensitive information.
+```
+
+---
+
+# Example - File Upload
+
+Weak:
+
+```text
+PDF files can be uploaded.
+```
+
+Better:
+
+```text
+Determine whether the upload pipeline permits a file to cross a
+security boundary, become publicly accessible, execute, trigger unsafe
+server-side processing, or expose other users to active content.
+```
+
+---
+
+# Example - Rate Limiting
+
+Weak:
+
+```text
+No rate limiting header exists.
+```
+
+Better:
+
+```text
+Demonstrate whether the security-sensitive operation can be repeated
+at a rate that creates a realistic authentication, recovery, abuse,
+or resource-consumption risk.
+```
+
+---
+
+# Quick Unauthenticated Workflow
+
+```text
+Target
+  |
+  v
+DNS
+  |
+  v
+Subdomains
+  |
+  v
+HTTP Probe
+  |
+  v
+Technology
+  |
+  v
+404 Fingerprint
+  |
+  v
+robots / sitemap
+  |
+  v
+Content Discovery
+  |
+  v
+Crawl
+  |
+  v
+JavaScript
+  |
+  v
+Parameters
+  |
+  v
+Authentication Surface
+  |
+  v
+Public APIs
+  |
+  v
+Input Testing
+  |
+  v
+Infrastructure Behaviour
+```
+
+---
+
+# Quick Authenticated Workflow
+
+```text
+Login
+  |
+  v
+Map User Functions
+  |
+  v
+Capture Requests
+  |
+  v
+Session
+  |
+  v
+Authorisation
+  |
+  v
+User A vs User B
+  |
+  v
+Role Boundaries
+  |
+  v
+Business Logic
+  |
+  v
+API
+  |
+  v
+Files / Exports / Imports
+  |
+  v
+Re-Enumerate
+```
+
+---
+
+# Multi-Role Workflow
+
+```text
+Unauthenticated
       |
       v
-Remediation
+User A
+      |
+      v
+User B
+      |
+      v
+Manager
+      |
+      v
+Administrator
 ```
 
-A useful mental model is:
+At every level compare:
 
 ```text
-Input
-  |
-  v
-Processing
-  |
-  v
-Trust Decision
-  |
-  v
-Sensitive Operation
+Endpoints
+Methods
+Objects
+Fields
+Actions
+Exports
+Search
+API
+Files
 ```
 
-Ask:
+---
+
+# API Workflow
 
 ```text
-Can the attacker influence the input?
-
-Does the application trust it?
-
-Is validation performed?
-
-Is authorisation performed?
-
-What sensitive operation follows?
+Discover API
+    |
+    v
+Documentation
+    |
+    v
+Authentication
+    |
+    v
+Endpoint Inventory
+    |
+    v
+Object IDs
+    |
+    v
+BOLA
+    |
+    v
+Function Authorisation
+    |
+    v
+Property Authorisation
+    |
+    v
+Mass Assignment
+    |
+    v
+Business Logic
+    |
+    v
+Rate Limiting
 ```
+
+---
+
+# Business Logic Workflow
+
+```text
+Understand Intended Process
+          |
+          v
+Identify Invariants
+          |
+          v
+Identify State Transitions
+          |
+          v
+Change Sequence
+          |
+          v
+Change Values
+          |
+          v
+Repeat Actions
+          |
+          v
+Parallelise Carefully
+          |
+          v
+Cross Roles / Accounts
+          |
+          v
+Assess Impact
+```
+
+---
+
+# Recon Tool Selection
+
+```text
+Subdomains
+    -> subfinder / amass
+
+Alive HTTP
+    -> httpx
+
+Technology
+    -> WhatWeb / Wappalyzer
+
+Content
+    -> ffuf / feroxbuster / gobuster
+
+Crawling
+    -> Katana / Burp
+
+Historical URLs
+    -> gau / waybackurls
+
+Parameters
+    -> Arjun / ParamSpider
+
+WAF
+    -> wafw00f
+
+Known patterns
+    -> Nuclei
+
+Manual HTTP
+    -> Burp / curl
+```
+
+---
+
+# Vulnerability Tool Selection
+
+```text
+SQL Injection
+    -> Burp Repeater / sqlmap
+
+Command Injection
+    -> Burp Repeater / Commix
+
+XSS
+    -> Burp / browser / PortSwigger cheat sheet
+
+Request Smuggling
+    -> HTTP Request Smuggler
+
+Cache
+    -> Burp / Param Miner
+
+JWT
+    -> JWT Editor
+
+Race Conditions
+    -> Burp Repeater / Turbo Intruder
+
+GraphQL
+    -> Burp / GraphQL Raider
+
+Blind Interactions
+    -> Burp Collaborator / approved OAST
+
+General Checks
+    -> Nuclei / Nikto
+```
+
+Automation should support manual reasoning rather than replace it.
+
+---
+
+# One-Minute Reference
+
+```text
+DNS
+    dig app.example.com
+
+Headers
+    curl -I https://app.example.com
+
+Verbose HTTP
+    curl -v https://app.example.com
+
+Technology
+    whatweb https://app.example.com
+
+Subdomains
+    subfinder -d example.com -silent
+
+Alive
+    httpx -l subdomains.txt -status-code -title -tech-detect
+
+Content
+    ffuf -w WORDLIST -u https://app.example.com/FUZZ
+
+Crawl
+    katana -u https://app.example.com
+
+Historical
+    gau example.com
+
+404 fingerprint
+    curl -i https://app.example.com/random-928374
+
+TLS
+    openssl s_client -connect app.example.com:443 -servername app.example.com
+
+WAF
+    wafw00f https://app.example.com
+
+OPTIONS
+    curl -i -X OPTIONS https://app.example.com
+
+CORS
+    curl -i https://app.example.com -H 'Origin: https://example.invalid'
+
+Nuclei
+    nuclei -u https://app.example.com
+
+Nikto
+    nikto -h https://app.example.com
+```
+
+---
+
+# Master Testing Checklist
+
+## Scope
+
+```text
+[ ] Domains
+[ ] Subdomains
+[ ] IPs
+[ ] APIs
+[ ] Mobile APIs
+[ ] Test accounts
+[ ] Roles
+[ ] Third parties
+[ ] Production restrictions
+[ ] Rate restrictions
+[ ] OAST restrictions
+```
+
+## Reconnaissance
+
+```text
+[ ] DNS
+[ ] Subdomains
+[ ] HTTP services
+[ ] Virtual hosts
+[ ] Technologies
+[ ] WAF/CDN
+[ ] TLS
+[ ] Error pages
+[ ] Favicon
+[ ] robots.txt
+[ ] sitemap.xml
+[ ] security.txt
+```
+
+## Attack Surface
+
+```text
+[ ] Content discovery
+[ ] Crawling
+[ ] Historical URLs
+[ ] Parameters
+[ ] JavaScript
+[ ] Source maps
+[ ] API documentation
+[ ] GraphQL
+[ ] WebSockets
+[ ] gRPC
+[ ] Uploads
+[ ] Imports
+[ ] Exports
+[ ] Webhooks
+[ ] Admin interfaces
+```
+
+## Authentication
+
+```text
+[ ] Login
+[ ] Enumeration
+[ ] Rate limiting
+[ ] Lockout
+[ ] Password policy
+[ ] Registration
+[ ] Email verification
+[ ] Password reset
+[ ] Account recovery
+[ ] MFA
+[ ] SSO
+[ ] OAuth
+[ ] SAML
+```
+
+## Session
+
+```text
+[ ] Cookie attributes
+[ ] Session rotation
+[ ] Session fixation
+[ ] Logout
+[ ] Expiry
+[ ] Concurrent sessions
+[ ] Password-change invalidation
+[ ] MFA-reset invalidation
+[ ] Refresh tokens
+```
+
+## Authorisation
+
+```text
+[ ] Unauthenticated access
+[ ] Horizontal access
+[ ] Vertical access
+[ ] IDOR / BOLA
+[ ] Function-level access
+[ ] Property-level access
+[ ] Tenant isolation
+[ ] Method differences
+[ ] Hidden endpoints
+[ ] Export access
+[ ] File access
+```
+
+## Input / Injection
+
+```text
+[ ] XSS
+[ ] DOM-based issues
+[ ] HTML injection
+[ ] SQL injection
+[ ] NoSQL injection
+[ ] LDAP injection
+[ ] Command injection
+[ ] SSTI
+[ ] XXE
+[ ] SSRF
+[ ] Path traversal
+[ ] File inclusion
+[ ] Deserialization
+[ ] Prototype pollution
+[ ] Header injection
+```
+
+## Files
+
+```text
+[ ] Upload validation
+[ ] Storage
+[ ] Retrieval
+[ ] Access control
+[ ] Processing
+[ ] Image handling
+[ ] Archive handling
+[ ] PDF generation
+[ ] Downloads
+[ ] Exports
+[ ] Imports
+```
+
+## HTTP / Infrastructure
+
+```text
+[ ] Host header
+[ ] Security headers
+[ ] CORS
+[ ] CSRF
+[ ] Clickjacking
+[ ] Open redirect
+[ ] Request smuggling
+[ ] Cache poisoning
+[ ] Cache deception
+[ ] WebDAV
+[ ] Information disclosure
+[ ] Debug interfaces
+[ ] Reverse proxy behaviour
+```
+
+## Business Logic
+
+```text
+[ ] Step skipping
+[ ] Step repetition
+[ ] Out-of-order actions
+[ ] Negative values
+[ ] Boundary values
+[ ] Limit bypass
+[ ] Duplicate actions
+[ ] Race conditions
+[ ] Rate limits
+[ ] Approval workflows
+[ ] Client-controlled trust
+```
+
+## APIs
+
+```text
+[ ] Endpoint inventory
+[ ] Authentication
+[ ] BOLA
+[ ] BFLA
+[ ] Property authorisation
+[ ] Mass assignment
+[ ] Versioning
+[ ] Rate limiting
+[ ] GraphQL
+[ ] WebSockets
+[ ] gRPC
+```
+
+## Modern Web
+
+```text
+[ ] Prototype pollution
+[ ] Third-party JavaScript
+[ ] Dependency security
+[ ] Secrets exposure
+[ ] LLM / chatbot security
+[ ] Tool calling
+[ ] RAG trust boundaries
+[ ] Supply-chain exposure
+```
+
+## Evidence
+
+```text
+[ ] Request saved
+[ ] Response saved
+[ ] Role recorded
+[ ] Preconditions recorded
+[ ] Timestamp recorded
+[ ] Screenshot focused
+[ ] Sensitive values redacted
+[ ] State changes recorded
+[ ] Cleanup completed
+```
+
+---
+
+# Detailed Notes
+
+Use the detailed pages for deeper testing.
+
+```text
+web/index.md
+web/methodology.md
+web/checklist.md
+web/attack-surface-analysis.md
+
+web/reconnaissance/index.md
+web/reconnaissance/subdomain-enumeration.md
+web/reconnaissance/technology-identification.md
+web/reconnaissance/content-discovery.md
+web/reconnaissance/parameter-discovery.md
+web/reconnaissance/javascript-analysis.md
+
+web/burp-suite/extensions.md
+web/burp-suite/workflows.md
+
+web/authentication.md
+web/authorisation.md
+web/idor-bola.md
+web/session-management.md
+web/password-reset.md
+web/mfa.md
+web/saml.md
+
+web/xss.md
+web/dom-based-vulnerabilities.md
+web/html-injection.md
+web/csrf.md
+web/clickjacking.md
+web/cors.md
+web/open-redirect.md
+web/xs-leaks.md
+web/third-party-javascript.md
+
+web/sql-injection.md
+web/nosql-injection.md
+web/ldap-injection.md
+web/command-injection.md
+web/ssti.md
+web/xxe.md
+
+web/ssrf.md
+web/path-traversal.md
+web/file-inclusion.md
+web/file-upload.md
+web/deserialization.md
+web/input-validation.md
+
+web/http-security-headers.md
+web/http-request-smuggling.md
+web/host-header-attacks.md
+web/web-cache-poisoning.md
+web/web-cache-deception.md
+web/information-disclosure.md
+
+web/business-logic.md
+web/race-conditions.md
+web/rate-limiting.md
+
+web/oauth-oidc.md
+web/jwt.md
+
+web/api-security.md
+web/graphql.md
+web/grpc-security.md
+web/websockets.md
+web/mass-assignment.md
+
+web/dependency-security.md
+web/secrets-exposure.md
+
+web/prototype-pollution.md
+web/web-llm-attacks.md
+```
+
+Only turn these into clickable internal links after confirming the files exist in the repository.
 
 ---
 
 # References
 
-## 0xdf Cheatsheets
-
-[0xdf - Cheatsheets](https://0xdf.gitlab.io/cheatsheets/){ target="_blank" rel="noopener noreferrer" }
-
-Especially useful for the **Default 404 Pages** fingerprinting reference and practical enumeration notes.
-
----
-
-## WhatWeb
-
-[WhatWeb - GitHub](https://github.com/urbanadventurer/WhatWeb){ target="_blank" rel="noopener noreferrer" }
-
-Use WhatWeb for web technology fingerprinting and correlation.
-
----
-
-## Wappalyzer
-
-[Wappalyzer](https://www.wappalyzer.com/){ target="_blank" rel="noopener noreferrer" }
-
-[Wappalyzer - Technology Lookup](https://www.wappalyzer.com/lookup/){ target="_blank" rel="noopener noreferrer" }
-
-Useful for identifying publicly observable:
-
-```text
-CMS
-Frameworks
-JavaScript Libraries
-Analytics
-Infrastructure
-Web Servers
-CDNs
-E-commerce Platforms
-```
-
----
-
-## HackTricks
-
-[HackTricks - Web Pentesting Methodology](https://hacktricks.wiki/en/network-services-pentesting/pentesting-web/index.html){ target="_blank" rel="noopener noreferrer" }
-
-Useful as a broad methodology and coverage reference.
-
----
-
-## InternalAllTheThings
-
-[InternalAllTheThings](https://swisskyrepo.github.io/InternalAllTheThings/){ target="_blank" rel="noopener noreferrer" }
-
-Useful for internal, web, Active Directory and red-team assessment methodology.
-
----
-
-## PayloadsAllTheThings
-
-[PayloadsAllTheThings](https://swisskyrepo.github.io/PayloadsAllTheThings/){ target="_blank" rel="noopener noreferrer" }
-
-Useful as a vulnerability-specific testing reference.
-
-Always understand and adapt a test rather than blindly copying payloads.
-
----
-
-## PortSwigger Web Security Academy
-
-[PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
-
-Major reference for:
-
-```text
-Authentication
-Access Control
-XSS
-SQL Injection
-CSRF
-CORS
-SSRF
-XXE
-SSTI
-Request Smuggling
-Web Cache
-OAuth
-JWT
-GraphQL
-Business Logic
-```
-
----
-
-## PortSwigger XSS Cheat Sheet
-
-[PortSwigger - XSS Cheat Sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet){ target="_blank" rel="noopener noreferrer" }
-
----
-
 ## OWASP Web Security Testing Guide
 
-[OWASP - Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 
-Use as a structured testing methodology reference.
+Comprehensive methodology for web application and web-service security testing.
 
 ---
 
@@ -4260,7 +5661,7 @@ Use as a structured testing methodology reference.
 
 [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
 
-Especially useful for remediation and defensive guidance.
+Defensive guidance covering authentication, sessions, input handling, APIs, cryptography, file uploads, OAuth and many other web-security topics.
 
 ---
 
@@ -4268,29 +5669,135 @@ Especially useful for remediation and defensive guidance.
 
 [OWASP API Security Project](https://owasp.org/www-project-api-security/){ target="_blank" rel="noopener noreferrer" }
 
+Useful for API-specific security risks and testing methodology.
+
+---
+
+## PortSwigger Web Security Academy
+
+[Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
+
+High-quality web-security learning material and interactive labs.
+
+---
+
+## PortSwigger Web Security Topics
+
+[Web Security Academy Topics](https://portswigger.net/web-security/all-topics){ target="_blank" rel="noopener noreferrer" }
+
+Useful index covering classic and modern web vulnerability classes.
+
+---
+
+## PortSwigger Web Security Academy - Detailed Materials
+
+[Web Security Academy Detailed Materials](https://portswigger.net/web-security/all-materials/detailed){ target="_blank" rel="noopener noreferrer" }
+
+Detailed testing material including race conditions, APIs, NoSQL injection, cache behaviour and other advanced topics.
+
+---
+
+## PortSwigger XSS Cheat Sheet
+
+[Cross-Site Scripting Cheat Sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet){ target="_blank" rel="noopener noreferrer" }
+
+Useful context-aware XSS reference.
+
+---
+
+## PortSwigger Burp Documentation
+
+[Burp Suite Documentation](https://portswigger.net/burp/documentation){ target="_blank" rel="noopener noreferrer" }
+
+Official Burp Suite documentation.
+
+---
+
+## Exploit Notes - Web
+
+[Exploit Notes - Web](https://exploitnotes.org/exploit/web/){ target="_blank" rel="noopener noreferrer" }
+
+Broad practical web-security reference covering vulnerability classes, technologies and assessment techniques.
+
+---
+
+## HackTricks - Web
+
+[HackTricks - Web Pentesting Methodology](https://hacktricks.wiki/en/network-services-pentesting/pentesting-web/index.html){ target="_blank" rel="noopener noreferrer" }
+
+Broad web enumeration and testing reference.
+
+---
+
+## PayloadsAllTheThings
+
+[PayloadsAllTheThings](https://swisskyrepo.github.io/PayloadsAllTheThings/){ target="_blank" rel="noopener noreferrer" }
+
+Reference material covering many web vulnerability classes.
+
+---
+
+## InternalAllTheThings
+
+[InternalAllTheThings](https://swisskyrepo.github.io/InternalAllTheThings/){ target="_blank" rel="noopener noreferrer" }
+
+Useful security assessment reference, especially where web applications interact with internal infrastructure and identity systems.
+
+---
+
+## 0xdf Cheatsheets
+
+[0xdf Cheatsheets](https://0xdf.gitlab.io/cheatsheets/){ target="_blank" rel="noopener noreferrer" }
+
+Includes useful enumeration references such as Default 404 Pages.
+
+---
+
+## WhatWeb
+
+[WhatWeb](https://github.com/urbanadventurer/WhatWeb){ target="_blank" rel="noopener noreferrer" }
+
+Web technology fingerprinting tool.
+
+---
+
+## Wappalyzer
+
+[Wappalyzer](https://www.wappalyzer.com/){ target="_blank" rel="noopener noreferrer" }
+
+Technology identification and web application fingerprinting.
+
+---
+
+## Wappalyzer Lookup
+
+[Wappalyzer Technology Lookup](https://www.wappalyzer.com/lookup/){ target="_blank" rel="noopener noreferrer" }
+
+Useful for quickly reviewing detected web technologies.
+
 ---
 
 ## ProjectDiscovery httpx
 
-[ProjectDiscovery - httpx](https://github.com/projectdiscovery/httpx){ target="_blank" rel="noopener noreferrer" }
+[httpx](https://github.com/projectdiscovery/httpx){ target="_blank" rel="noopener noreferrer" }
 
----
-
-## ProjectDiscovery Nuclei
-
-[ProjectDiscovery - Nuclei](https://github.com/projectdiscovery/nuclei){ target="_blank" rel="noopener noreferrer" }
+HTTP probing and web-service metadata collection.
 
 ---
 
 ## ProjectDiscovery Katana
 
-[ProjectDiscovery - Katana](https://github.com/projectdiscovery/katana){ target="_blank" rel="noopener noreferrer" }
+[Katana](https://github.com/projectdiscovery/katana){ target="_blank" rel="noopener noreferrer" }
+
+Web crawling and endpoint discovery.
 
 ---
 
-## SecLists
+## ProjectDiscovery Nuclei
 
-[SecLists](https://github.com/danielmiessler/SecLists){ target="_blank" rel="noopener noreferrer" }
+[Nuclei](https://github.com/projectdiscovery/nuclei){ target="_blank" rel="noopener noreferrer" }
+
+Template-based security scanning.
 
 ---
 
@@ -4298,11 +5805,55 @@ Especially useful for remediation and defensive guidance.
 
 [ffuf](https://github.com/ffuf/ffuf){ target="_blank" rel="noopener noreferrer" }
 
+Fast web fuzzing and content-discovery tool.
+
 ---
 
 ## feroxbuster
 
 [feroxbuster](https://github.com/epi052/feroxbuster){ target="_blank" rel="noopener noreferrer" }
+
+Recursive web content-discovery tool.
+
+---
+
+## SecLists
+
+[SecLists](https://github.com/danielmiessler/SecLists){ target="_blank" rel="noopener noreferrer" }
+
+Useful wordlists for content discovery, fuzzing and security testing.
+
+---
+
+## Arjun
+
+[Arjun](https://github.com/s0md3v/Arjun){ target="_blank" rel="noopener noreferrer" }
+
+HTTP parameter discovery.
+
+---
+
+## ParamSpider
+
+[ParamSpider](https://github.com/devanshbatham/ParamSpider){ target="_blank" rel="noopener noreferrer" }
+
+Parameter-oriented URL discovery.
+
+---
+
+## gau
+
+[gau](https://github.com/lc/gau){ target="_blank" rel="noopener noreferrer" }
+
+Fetches known URLs from several historical/public sources.
+
+---
+
+## waybackurls
+
+[waybackurls](https://github.com/tomnomnom/waybackurls){ target="_blank" rel="noopener noreferrer" }
+
+Historical URL discovery from the Wayback Machine.
 
 ---
 
@@ -4310,160 +5861,172 @@ Especially useful for remediation and defensive guidance.
 
 [sqlmap](https://github.com/sqlmapproject/sqlmap){ target="_blank" rel="noopener noreferrer" }
 
+Automated SQL injection testing tool. Use after manual evidence indicates SQL injection.
+
 ---
 
 ## Commix
 
 [Commix](https://github.com/commixproject/commix){ target="_blank" rel="noopener noreferrer" }
 
+Automated command-injection assessment tool.
+
 ---
 
-# Final Notes
+## wafw00f
 
-For a new target:
+[wafw00f](https://github.com/EnableSecurity/wafw00f){ target="_blank" rel="noopener noreferrer" }
 
-```text
-Domain
- |
- v
-Subdomains
- |
- v
-HTTP Services
- |
- v
-Technology
- |
- v
-404 / Headers / Cookies
- |
- v
-Content
- |
- v
-Parameters
- |
- v
-JavaScript
- |
- v
-Authentication
- |
- v
-Authorisation
- |
- v
-Input
- |
- v
-Business Logic
- |
- v
-Impact
-```
+Web Application Firewall fingerprinting.
 
-Start with:
+---
 
-```bash
-whatweb https://example.com
-```
+## Nikto
 
-and correlate with:
+[Nikto](https://github.com/sullo/nikto){ target="_blank" rel="noopener noreferrer" }
+
+Web-server assessment scanner.
+
+---
+
+## MDN HTTP
+
+[MDN HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP){ target="_blank" rel="noopener noreferrer" }
+
+Excellent reference for HTTP semantics, headers, methods, cookies, caching and browser behaviour.
+
+---
+
+## curl
+
+[curl Documentation](https://curl.se/docs/){ target="_blank" rel="noopener noreferrer" }
+
+Official curl documentation.
+
+---
+
+## Mozilla Web Security Guidelines
+
+[Mozilla Web Security Guidelines](https://infosec.mozilla.org/guidelines/web_security){ target="_blank" rel="noopener noreferrer" }
+
+Useful defensive web-security configuration reference.
+
+---
+
+# Final Testing Model
+
+Do not test web applications as:
 
 ```text
-Wappalyzer
-httpx
-Headers
-Cookies
-404 Fingerprinting
-HTML
-JavaScript
+Run WhatWeb
+    |
+    v
+Run Directory Scanner
+    |
+    v
+Run Nuclei
+    |
+    v
+Run Payload Lists
+    |
+    v
+Report Scanner Output
 ```
 
-Then discover:
+Use:
 
 ```text
-robots.txt
-sitemap.xml
-Directories
-Files
-Historical URLs
-Parameters
-JavaScript
-APIs
+                         WEB APPLICATION
+                                |
+                                v
+                              SCOPE
+                                |
+                                v
+                        RECONNAISSANCE
+                                |
+             +------------------+------------------+
+             |                  |                  |
+             v                  v                  v
+         Subdomains         Technology          Content
+             |                  |                  |
+             +------------------+------------------+
+                                |
+                                v
+                         ATTACK SURFACE
+                                |
+             +------------------+------------------+
+             |                  |                  |
+             v                  v                  v
+       Authentication      Authorisation       Input
+             |                  |                  |
+             +------------------+------------------+
+                                |
+                                v
+                         BUSINESS LOGIC
+                                |
+             +------------------+------------------+
+             |                  |                  |
+             v                  v                  v
+            API             Client Side       HTTP Layers
+             |                  |                  |
+             +------------------+------------------+
+                                |
+                                v
+                          HYPOTHESIS
+                                |
+                                v
+                         MANUAL TEST
+                                |
+                                v
+                         REPRODUCIBLE?
+                                |
+                          +-----+-----+
+                          |           |
+                         No          Yes
+                          |           |
+                          v           v
+                       Discard     IMPACT
+                                      |
+                                      v
+                              MINIMUM SAFE PROOF
+                                      |
+                                      v
+                                  EVIDENCE
+                                      |
+                                      v
+                                   REPORT
 ```
 
-Then test the application's trust boundaries:
+The goal is not:
 
 ```text
-Who am I?
-   |
-   v
-What can I access?
-   |
-   v
-What input can I control?
-   |
-   v
-What does the server trust?
-   |
-   v
-Can I cross a security boundary?
+How many payloads can I send?
 ```
 
-The objective is not:
+The goal is:
 
 ```text
-Run Every Tool
-Try Every Payload
+How does this application establish trust,
+and can an untrusted user cross one of those
+security boundaries?
 ```
 
-The objective is:
+A strong web assessment therefore combines:
 
 ```text
-Understand
-   |
-   v
-Form Hypothesis
-   |
-   v
-Test
-   |
-   v
-Validate
-   |
-   v
-Demonstrate Impact
-```
-
-Technology fingerprinting is the start of the process:
-
-```text
-WhatWeb
-   +
-Wappalyzer
-   +
-404 Fingerprinting
-   +
-Headers
-   +
-JavaScript
-   =
-Technology Hypothesis
-```
-
-and not the conclusion.
-
-A strong web assessment combines:
-
-```text
-Automation
-    +
-Manual Testing
-    +
+Reconnaissance
+      +
+Protocol Understanding
+      +
 Application Understanding
-    +
-Security Boundary Analysis
+      +
+Role Comparison
+      +
+Business Logic
+      +
+Manual Validation
+      +
+Minimal Evidence
+      =
+Defensible Security Finding
 ```
-
-rather than relying on scanners alone.
