@@ -1,0 +1,3508 @@
+{
+  "platform": "linux",
+  "title": "Linux PrivEsc Explorer",
+  "description": "Searchable Linux privilege escalation assessment techniques for authorised security testing.",
+  "techniques": [
+    {
+      "id": "linux-sudo-enumeration",
+      "name": "sudo Permissions",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Enumerate commands the current account is permitted to execute through sudo and assess whether the delegation crosses an unintended privilege boundary.",
+      "found": [
+        "The current user has one or more sudo rules.",
+        "The delegated command may execute as root or another privileged account."
+      ],
+      "requires": [
+        "The current user must have an applicable sudo rule.",
+        "The delegated functionality must provide more privilege than intended for practical escalation."
+      ],
+      "commands": [
+        "sudo -l",
+        "sudo -V"
+      ],
+      "validation": [
+        "Record the exact sudo rule, target user, executable, and permitted arguments.",
+        "Determine whether NOPASSWD, SETENV, wildcards, editors, interpreters, shell functionality, plugins, or writable dependencies are involved.",
+        "Prefer configuration evidence before executing privileged functionality."
+      ],
+      "detection": [
+        "Monitor sudo authentication and execution events.",
+        "Review changes to /etc/sudoers and /etc/sudoers.d/.",
+        "Periodically audit delegated administrative commands."
+      ],
+      "remediation": [
+        "Delegate only the commands required for the user's role.",
+        "Restrict arguments where practical.",
+        "Avoid delegating unrestricted shells, interpreters, editors, or highly flexible utilities.",
+        "Protect all scripts and configuration consumed by delegated commands."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "sudo",
+        "sudoers",
+        "root",
+        "privilege",
+        "delegation"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-sudo-nopasswd",
+      "name": "sudo NOPASSWD Delegation",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A sudo rule using NOPASSWD permits execution of the delegated command without re-entering the user's password.",
+      "found": [
+        "sudo -l reports a NOPASSWD rule.",
+        "The user can invoke the specified command without interactive password authentication."
+      ],
+      "requires": [
+        "An applicable NOPASSWD rule.",
+        "The delegated command must expose functionality capable of crossing the intended privilege boundary."
+      ],
+      "commands": [
+        "sudo -l"
+      ],
+      "validation": [
+        "Identify the exact target identity and delegated executable.",
+        "Determine whether the command itself is intended administrative access or whether it exposes unintended functionality.",
+        "Check the delegated binary against its official documentation and GTFOBins where applicable."
+      ],
+      "detection": [
+        "Audit NOPASSWD entries in sudoers configuration.",
+        "Monitor execution of high-risk delegated commands."
+      ],
+      "remediation": [
+        "Remove unnecessary NOPASSWD rules.",
+        "Use narrowly scoped commands and arguments.",
+        "Do not rely on password prompting as the only control if the delegated executable itself is unsafe."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "sudo",
+        "nopasswd",
+        "sudoers",
+        "root"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-sudo-setenv",
+      "name": "sudo SETENV",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "SETENV can permit environment-variable control for a delegated sudo command and may become security-sensitive when the executable trusts environment-controlled behaviour.",
+      "found": [
+        "sudo -l reports SETENV for a delegated command."
+      ],
+      "requires": [
+        "An applicable SETENV sudo rule.",
+        "The delegated program must consume a security-sensitive environment setting."
+      ],
+      "commands": [
+        "sudo -l",
+        "env"
+      ],
+      "validation": [
+        "Identify which environment variables the delegated application accepts.",
+        "Review library, module, configuration, interpreter, and PATH behaviour.",
+        "Confirm actual environment handling rather than assuming dangerous variables are preserved."
+      ],
+      "detection": [
+        "Audit sudoers entries containing SETENV.",
+        "Monitor changes to sudo environment policy."
+      ],
+      "remediation": [
+        "Remove SETENV where it is unnecessary.",
+        "Use controlled environment values for privileged commands.",
+        "Avoid privileged applications that load user-controlled modules or configuration."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "sudo",
+        "setenv",
+        "environment",
+        "path",
+        "library"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-sudo-wildcard",
+      "name": "sudo Wildcard Rule",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Wildcards in sudo rules can provide broader argument control than intended depending on how sudo and the delegated program interpret the command line.",
+      "found": [
+        "A sudoers rule contains wildcard-controlled arguments."
+      ],
+      "requires": [
+        "The wildcard must permit attacker-controlled argument expansion or equivalent unintended functionality.",
+        "The delegated program must interpret that control in a security-sensitive way."
+      ],
+      "commands": [
+        "sudo -l"
+      ],
+      "validation": [
+        "Record the exact sudo rule.",
+        "Determine which arguments the wildcard can match.",
+        "Review the delegated application's argument parser and option handling.",
+        "Do not assume every wildcard rule is exploitable."
+      ],
+      "detection": [
+        "Audit sudoers rules for wildcard use.",
+        "Review high-privilege delegated commands after sudoers changes."
+      ],
+      "remediation": [
+        "Avoid broad wildcards in privileged rules.",
+        "Use explicit commands and tightly constrained arguments.",
+        "Use wrapper programs only when the wrapper itself validates input safely."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "sudo",
+        "wildcard",
+        "arguments",
+        "sudoers"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-sudo-gtfobins",
+      "name": "GTFOBins sudo Candidate",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A sudo-delegated binary appears in GTFOBins and exposes functionality that may be relevant to privilege-boundary analysis.",
+      "found": [
+        "A delegated binary has a documented GTFOBins sudo function."
+      ],
+      "requires": [
+        "The exact sudo configuration must satisfy the documented conditions.",
+        "The functionality must provide unintended privilege beyond the approved delegation."
+      ],
+      "commands": [
+        "sudo -l",
+        "command -v <binary>",
+        "ls -l \"$(command -v <binary>)\""
+      ],
+      "validation": [
+        "Compare the exact binary and sudo rule with the GTFOBins entry.",
+        "Confirm version and command restrictions.",
+        "Treat GTFOBins as a reference, not proof of exploitability."
+      ],
+      "detection": [
+        "Audit sudo rules granting access to highly flexible utilities.",
+        "Monitor privileged use of unusual administrative binaries."
+      ],
+      "remediation": [
+        "Remove unnecessary sudo access.",
+        "Use purpose-built administrative interfaces rather than general-purpose utilities where possible.",
+        "Restrict arguments and environment."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "sudo",
+        "gtfobins",
+        "binary",
+        "delegation"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-suid-enumeration",
+      "name": "SUID Binary Enumeration",
+      "platform": "linux",
+      "category": "SUID",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Identify executables carrying the SUID permission bit and determine whether their elevated effective UID creates an unsafe privilege boundary.",
+      "found": [
+        "One or more SUID executables are accessible to the current user."
+      ],
+      "requires": [
+        "The SUID executable must run with a more privileged effective UID.",
+        "Its functionality must permit unintended privileged behaviour."
+      ],
+      "commands": [
+        "find / -perm -4000 -type f 2>/dev/null",
+        "find / -type f -perm -u=s 2>/dev/null"
+      ],
+      "validation": [
+        "Compare discovered binaries with the expected operating-system baseline.",
+        "Prioritise custom, unusual, legacy, copied, or unexpectedly located SUID binaries.",
+        "Inspect ownership and permissions before active testing."
+      ],
+      "detection": [
+        "Maintain an approved SUID inventory.",
+        "Alert on unexpected SUID-bit creation or changes.",
+        "Use file-integrity monitoring for privileged executable locations."
+      ],
+      "remediation": [
+        "Remove unnecessary SUID bits.",
+        "Remove obsolete privileged executables.",
+        "Use narrower privilege mechanisms where appropriate.",
+        "Protect privileged executable files and directories."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.001",
+          "name": "Setuid and Setgid",
+          "url": "https://attack.mitre.org/techniques/T1548/001/"
+        }
+      ],
+      "tags": [
+        "suid",
+        "setuid",
+        "binary",
+        "root",
+        "permissions"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-custom-suid",
+      "name": "Custom SUID Binary",
+      "platform": "linux",
+      "category": "SUID",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "A custom or organisation-specific executable carries SUID and should be reviewed for unsafe command execution, environment trust, file handling, and input processing.",
+      "found": [
+        "A non-standard executable carries the SUID bit.",
+        "The file is owned by root or another privileged identity."
+      ],
+      "requires": [
+        "The current user can execute the binary.",
+        "A security-sensitive implementation weakness must be present."
+      ],
+      "commands": [
+        "ls -l /path/to/binary",
+        "stat /path/to/binary",
+        "file /path/to/binary",
+        "ldd /path/to/binary 2>/dev/null",
+        "namei -l /path/to/binary"
+      ],
+      "validation": [
+        "Review command execution and absolute versus relative paths.",
+        "Review environment-variable handling.",
+        "Review writable configuration and dependencies.",
+        "Review temporary-file and symlink handling.",
+        "Review user-controlled input before active validation."
+      ],
+      "detection": [
+        "Inventory custom SUID binaries.",
+        "Monitor permission and ownership changes.",
+        "Perform secure code review of custom privileged applications."
+      ],
+      "remediation": [
+        "Remove SUID where unnecessary.",
+        "Apply least privilege.",
+        "Use absolute paths and controlled environments.",
+        "Drop privileges as early as possible.",
+        "Protect configuration, dependencies, and temporary resources."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.001",
+          "name": "Setuid and Setgid",
+          "url": "https://attack.mitre.org/techniques/T1548/001/"
+        }
+      ],
+      "tags": [
+        "suid",
+        "custom binary",
+        "setuid",
+        "path",
+        "environment"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-sgid-enumeration",
+      "name": "SGID Binary Enumeration",
+      "platform": "linux",
+      "category": "SGID",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Identify SGID executables and determine whether their effective group identity grants access to privileged resources.",
+      "found": [
+        "One or more SGID executables are present."
+      ],
+      "requires": [
+        "The effective group must provide security-sensitive access.",
+        "The executable must expose functionality capable of abusing that access."
+      ],
+      "commands": [
+        "find / -perm -2000 -type f 2>/dev/null",
+        "find / -type f -perm -g=s 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the file group.",
+        "Determine what resources the group can access.",
+        "Prioritise unusual and custom SGID executables."
+      ],
+      "detection": [
+        "Maintain an inventory of SGID executables.",
+        "Monitor unexpected SGID permission changes."
+      ],
+      "remediation": [
+        "Remove unnecessary SGID permissions.",
+        "Restrict privileged group access.",
+        "Protect privileged binaries and their dependencies."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.001",
+          "name": "Setuid and Setgid",
+          "url": "https://attack.mitre.org/techniques/T1548/001/"
+        }
+      ],
+      "tags": [
+        "sgid",
+        "setgid",
+        "group",
+        "permissions"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-file-capabilities",
+      "name": "File Capability Enumeration",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Enumerate Linux file capabilities and identify executables granted fine-grained privileges beyond normal Unix permissions.",
+      "found": [
+        "One or more files have Linux capabilities assigned."
+      ],
+      "requires": [
+        "The capability must provide security-sensitive functionality.",
+        "The executable must expose a way to use that capability beyond its intended purpose."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "getcap /path/to/binary"
+      ],
+      "validation": [
+        "Record the executable and exact capability set.",
+        "Review the binary's functionality.",
+        "Determine whether namespaces or security controls restrict practical impact."
+      ],
+      "detection": [
+        "Maintain a baseline of file capabilities.",
+        "Monitor setcap and capability extended-attribute changes."
+      ],
+      "remediation": [
+        "Remove unnecessary capabilities.",
+        "Assign only the minimum required capabilities.",
+        "Avoid granting broad capabilities to interpreters and general-purpose utilities."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "capabilities",
+        "getcap",
+        "setcap",
+        "privilege"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-setuid",
+      "name": "CAP_SETUID",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "CAP_SETUID can permit manipulation of process user identities and is particularly sensitive when assigned to flexible user-accessible executables.",
+      "found": [
+        "A user-accessible executable has CAP_SETUID."
+      ],
+      "requires": [
+        "The capability must be effective in the relevant context.",
+        "The executable must expose functionality capable of changing UID in a security-sensitive manner."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "getcap /path/to/binary",
+        "capsh --print 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm the exact capability flags.",
+        "Review the executable's documented UID-related functionality.",
+        "Consider namespaces and NoNewPrivileges."
+      ],
+      "detection": [
+        "Monitor file capability changes.",
+        "Alert on CAP_SETUID assignment to unexpected executables."
+      ],
+      "remediation": [
+        "Remove CAP_SETUID unless explicitly required.",
+        "Avoid assigning CAP_SETUID to interpreters or general-purpose utilities.",
+        "Use dedicated narrowly scoped privileged helpers."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "cap_setuid",
+        "capabilities",
+        "uid",
+        "root",
+        "getcap"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-setgid",
+      "name": "CAP_SETGID",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "CAP_SETGID can permit manipulation of group identity and may expose resources protected by privileged group membership.",
+      "found": [
+        "A user-accessible executable has CAP_SETGID."
+      ],
+      "requires": [
+        "The executable must permit useful group-identity manipulation.",
+        "The resulting group must provide additional security-sensitive access."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "getcap /path/to/binary"
+      ],
+      "validation": [
+        "Identify the exact capability flags.",
+        "Determine which privileged groups matter on the host.",
+        "Review application behaviour before active testing."
+      ],
+      "detection": [
+        "Monitor file capability changes.",
+        "Audit unexpected CAP_SETGID assignments."
+      ],
+      "remediation": [
+        "Remove unnecessary CAP_SETGID capabilities.",
+        "Use narrowly scoped service identities and permissions."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "cap_setgid",
+        "capabilities",
+        "gid",
+        "group"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-dac-override",
+      "name": "CAP_DAC_OVERRIDE",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "high",
+      "confidence": "likely",
+      "summary": "CAP_DAC_OVERRIDE can bypass selected discretionary access-control checks and may expose protected files through a capable executable.",
+      "found": [
+        "An accessible executable has CAP_DAC_OVERRIDE."
+      ],
+      "requires": [
+        "The executable must expose file operations relevant to the protected resource."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "getcap /path/to/binary"
+      ],
+      "validation": [
+        "Identify which file operations the application permits.",
+        "Use metadata and controlled test files before accessing real secrets.",
+        "Consider additional LSM restrictions."
+      ],
+      "detection": [
+        "Monitor CAP_DAC_OVERRIDE assignments.",
+        "Monitor unexpected access to sensitive files."
+      ],
+      "remediation": [
+        "Remove unnecessary CAP_DAC_OVERRIDE.",
+        "Use a narrower capability or application-specific privilege design."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "cap_dac_override",
+        "capabilities",
+        "permissions",
+        "files"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-dac-read-search",
+      "name": "CAP_DAC_READ_SEARCH",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "CAP_DAC_READ_SEARCH can bypass selected file-read and directory-search permission checks.",
+      "found": [
+        "An accessible executable has CAP_DAC_READ_SEARCH."
+      ],
+      "requires": [
+        "The executable must expose read or traversal functionality useful against protected resources."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "getcap /path/to/binary"
+      ],
+      "validation": [
+        "Review the executable's file-access features.",
+        "Avoid reading unrelated sensitive files when permission evidence is sufficient."
+      ],
+      "detection": [
+        "Audit capable executables.",
+        "Monitor sensitive-file access where appropriate."
+      ],
+      "remediation": [
+        "Remove unnecessary CAP_DAC_READ_SEARCH.",
+        "Use least privilege for file-reading services."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "cap_dac_read_search",
+        "capabilities",
+        "read",
+        "filesystem"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-sys-admin",
+      "name": "CAP_SYS_ADMIN",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "CAP_SYS_ADMIN covers a broad set of privileged operations and can significantly weaken privilege boundaries when exposed to untrusted users or containers.",
+      "found": [
+        "The process or an accessible executable has CAP_SYS_ADMIN."
+      ],
+      "requires": [
+        "The capability must apply in a namespace where the relevant privileged operation has security impact."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "grep '^Cap' /proc/self/status",
+        "capsh --print 2>/dev/null"
+      ],
+      "validation": [
+        "Determine whether the capability exists on the host or only inside a namespace.",
+        "Review mount, namespace, filesystem, and application context.",
+        "Avoid invasive mount or namespace manipulation where configuration evidence is sufficient."
+      ],
+      "detection": [
+        "Audit CAP_SYS_ADMIN assignments.",
+        "Review container capability configurations."
+      ],
+      "remediation": [
+        "Avoid CAP_SYS_ADMIN unless strictly required.",
+        "Drop unnecessary container capabilities.",
+        "Use narrowly scoped capabilities."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "cap_sys_admin",
+        "capabilities",
+        "container",
+        "mount",
+        "namespace"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-sys-ptrace",
+      "name": "CAP_SYS_PTRACE",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "CAP_SYS_PTRACE can permit tracing of otherwise protected processes under applicable namespace and security-policy conditions.",
+      "found": [
+        "A process or accessible executable has CAP_SYS_PTRACE."
+      ],
+      "requires": [
+        "A security-sensitive target process must be traceable.",
+        "Yama, namespaces, LSM policy, and process protections must permit the operation."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "cat /proc/sys/kernel/yama/ptrace_scope 2>/dev/null",
+        "grep '^Cap' /proc/self/status"
+      ],
+      "validation": [
+        "Review ptrace restrictions.",
+        "Identify the namespace relationship.",
+        "Do not attach to critical production processes merely to prove capability."
+      ],
+      "detection": [
+        "Monitor unexpected process tracing.",
+        "Audit CAP_SYS_PTRACE assignments."
+      ],
+      "remediation": [
+        "Remove unnecessary CAP_SYS_PTRACE.",
+        "Apply Yama and least-privilege process isolation where appropriate."
+      ],
+      "mitre": [
+        {
+          "id": "T1055",
+          "name": "Process Injection",
+          "url": "https://attack.mitre.org/techniques/T1055/"
+        }
+      ],
+      "tags": [
+        "cap_sys_ptrace",
+        "ptrace",
+        "process",
+        "capabilities",
+        "yama"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cap-sys-module",
+      "name": "CAP_SYS_MODULE",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "CAP_SYS_MODULE permits kernel module management and represents a highly privileged capability.",
+      "found": [
+        "The current context or an accessible executable has CAP_SYS_MODULE."
+      ],
+      "requires": [
+        "The capability must apply to the relevant kernel namespace and module operations must be available."
+      ],
+      "commands": [
+        "grep '^Cap' /proc/self/status",
+        "capsh --print 2>/dev/null",
+        "getcap -r / 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm the capability context.",
+        "Configuration evidence is generally sufficient to demonstrate excessive privilege.",
+        "Do not load a kernel module solely to prove impact."
+      ],
+      "detection": [
+        "Monitor module loading and unloading.",
+        "Audit processes receiving CAP_SYS_MODULE."
+      ],
+      "remediation": [
+        "Remove CAP_SYS_MODULE from untrusted workloads.",
+        "Restrict kernel module operations to trusted administrative contexts."
+      ],
+      "mitre": [
+        {
+          "id": "T1547.006",
+          "name": "Kernel Modules and Extensions",
+          "url": "https://attack.mitre.org/techniques/T1547/006/"
+        }
+      ],
+      "tags": [
+        "cap_sys_module",
+        "kernel",
+        "module",
+        "capabilities"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-root-processes",
+      "name": "Root Process Enumeration",
+      "platform": "linux",
+      "category": "Services",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Identify root processes and determine whether they trust resources controlled by the current user.",
+      "found": [
+        "One or more privileged processes are running."
+      ],
+      "requires": [
+        "A privileged process must consume a lower-privileged controlled resource or expose unsafe functionality."
+      ],
+      "commands": [
+        "ps auxf",
+        "ps -ef",
+        "ps -U root -u root u"
+      ],
+      "validation": [
+        "Identify executable paths and configuration.",
+        "Review scripts, plugins, working directories, environment files, sockets, and writable dependencies."
+      ],
+      "detection": [
+        "Maintain expected privileged process baselines.",
+        "Monitor unexpected root process execution."
+      ],
+      "remediation": [
+        "Run services as dedicated unprivileged identities where possible.",
+        "Protect privileged process dependencies."
+      ],
+      "mitre": [
+        {
+          "id": "T1068",
+          "name": "Exploitation for Privilege Escalation",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "tags": [
+        "process",
+        "root process",
+        "service",
+        "daemon"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-systemd-services",
+      "name": "systemd Service Enumeration",
+      "platform": "linux",
+      "category": "systemd",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Review systemd services for privileged execution paths and lower-privileged writable dependencies.",
+      "found": [
+        "One or more systemd services execute privileged commands."
+      ],
+      "requires": [
+        "A lower-privileged user must control a trusted service resource for practical escalation."
+      ],
+      "commands": [
+        "systemctl --type=service --state=running",
+        "systemctl list-unit-files --type=service",
+        "systemctl cat <service>",
+        "systemctl show <service>"
+      ],
+      "validation": [
+        "Record User, Group, ExecStart, ExecStartPre, ExecStartPost, EnvironmentFile, and WorkingDirectory where relevant.",
+        "Check file and parent-directory permissions for trusted resources."
+      ],
+      "detection": [
+        "Monitor systemd unit changes.",
+        "Maintain file-integrity monitoring for service resources."
+      ],
+      "remediation": [
+        "Run services using dedicated least-privilege accounts.",
+        "Protect unit files, executables, scripts, configuration, and environment files.",
+        "Apply appropriate systemd hardening options."
+      ],
+      "mitre": [
+        {
+          "id": "T1543.002",
+          "name": "Systemd Service",
+          "url": "https://attack.mitre.org/techniques/T1543/002/"
+        }
+      ],
+      "tags": [
+        "systemd",
+        "service",
+        "execstart",
+        "root"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-service-script",
+      "name": "Writable Root Service Script",
+      "platform": "linux",
+      "category": "Services",
+      "severity": "critical",
+      "confidence": "confirmed",
+      "summary": "A lower-privileged user can modify a script executed by a service running as root or another privileged identity.",
+      "found": [
+        "A privileged service executes a script writable by the current user or one of the user's groups."
+      ],
+      "requires": [
+        "The privileged service must execute the writable script.",
+        "The service must run with higher privilege than the current user."
+      ],
+      "commands": [
+        "systemctl cat <service>",
+        "ls -l /path/to/script",
+        "namei -l /path/to/script",
+        "getfacl /path/to/script 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm the service execution identity.",
+        "Confirm the script path used by the service.",
+        "Confirm effective write access through Unix permissions or ACLs.",
+        "The privilege relationship can normally be demonstrated without changing the script."
+      ],
+      "detection": [
+        "Monitor modifications to scripts executed by privileged services.",
+        "Monitor service restarts and privileged process creation."
+      ],
+      "remediation": [
+        "Remove lower-privileged write access.",
+        "Correct ownership and ACLs.",
+        "Protect all parent directories.",
+        "Separate writable application data from privileged executable content."
+      ],
+      "mitre": [
+        {
+          "id": "T1543.002",
+          "name": "Systemd Service",
+          "url": "https://attack.mitre.org/techniques/T1543/002/"
+        }
+      ],
+      "tags": [
+        "service",
+        "writable script",
+        "systemd",
+        "root",
+        "permissions"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-service-binary",
+      "name": "Writable Privileged Service Executable",
+      "platform": "linux",
+      "category": "Services",
+      "severity": "critical",
+      "confidence": "confirmed",
+      "summary": "A lower-privileged account can modify or replace an executable launched by a privileged service.",
+      "found": [
+        "A privileged service executable is writable or replaceable by a lower-privileged user."
+      ],
+      "requires": [
+        "The service must execute the affected file.",
+        "The service must run with higher privilege."
+      ],
+      "commands": [
+        "systemctl cat <service>",
+        "ls -l /path/to/executable",
+        "namei -l /path/to/executable",
+        "getfacl /path/to/executable 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm effective write or replacement rights.",
+        "Check parent-directory permissions.",
+        "Do not replace production binaries merely to demonstrate impact."
+      ],
+      "detection": [
+        "File-integrity monitoring for service executables.",
+        "Monitor package and service binary changes."
+      ],
+      "remediation": [
+        "Restrict executable and directory write permissions.",
+        "Use trusted package-managed locations where appropriate.",
+        "Run services with minimum required privilege."
+      ],
+      "mitre": [
+        {
+          "id": "T1543.002",
+          "name": "Systemd Service",
+          "url": "https://attack.mitre.org/techniques/T1543/002/"
+        }
+      ],
+      "tags": [
+        "service binary",
+        "writable",
+        "systemd",
+        "root"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-systemd-unit",
+      "name": "Writable systemd Unit",
+      "platform": "linux",
+      "category": "systemd",
+      "severity": "critical",
+      "confidence": "confirmed",
+      "summary": "A lower-privileged user can modify a systemd unit that controls privileged service execution.",
+      "found": [
+        "A privileged unit file is writable by the current user or an accessible group."
+      ],
+      "requires": [
+        "The unit must be loaded or otherwise used by systemd.",
+        "The affected service must execute with greater privilege."
+      ],
+      "commands": [
+        "systemctl cat <service>",
+        "ls -l /etc/systemd/system/<service>",
+        "namei -l /etc/systemd/system/<service>",
+        "getfacl /etc/systemd/system/<service> 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm effective write access.",
+        "Confirm the service execution identity.",
+        "Do not edit the unit solely to prove the condition."
+      ],
+      "detection": [
+        "Monitor /etc/systemd/system and relevant vendor unit directories.",
+        "Alert on unexpected daemon-reload and unit changes."
+      ],
+      "remediation": [
+        "Restrict unit-file write access to administrators.",
+        "Protect parent directories.",
+        "Review custom service deployment processes."
+      ],
+      "mitre": [
+        {
+          "id": "T1543.002",
+          "name": "Systemd Service",
+          "url": "https://attack.mitre.org/techniques/T1543/002/"
+        }
+      ],
+      "tags": [
+        "systemd",
+        "unit",
+        "writable",
+        "service"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-systemd-environment-file",
+      "name": "Writable systemd EnvironmentFile",
+      "platform": "linux",
+      "category": "systemd",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged service consumes an environment file that is writable by a lower-privileged account.",
+      "found": [
+        "A service references EnvironmentFile and the file is lower-privileged writable."
+      ],
+      "requires": [
+        "The service must consume a variable whose value influences security-sensitive behaviour."
+      ],
+      "commands": [
+        "systemctl cat <service>",
+        "ls -l /path/to/environment-file",
+        "getfacl /path/to/environment-file 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the variables consumed by the service.",
+        "Determine whether they influence executable paths, arguments, libraries, configuration, or other privileged behaviour."
+      ],
+      "detection": [
+        "Monitor privileged service environment files for changes."
+      ],
+      "remediation": [
+        "Restrict write access to privileged environment files.",
+        "Avoid using lower-trust configuration for privileged command construction."
+      ],
+      "mitre": [
+        {
+          "id": "T1574",
+          "name": "Hijack Execution Flow",
+          "url": "https://attack.mitre.org/techniques/T1574/"
+        }
+      ],
+      "tags": [
+        "systemd",
+        "environmentfile",
+        "environment",
+        "service",
+        "writable"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-systemd-timers",
+      "name": "systemd Timer Enumeration",
+      "platform": "linux",
+      "category": "systemd",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Enumerate systemd timers and inspect the corresponding services for privileged scheduled execution.",
+      "found": [
+        "One or more systemd timers execute recurring services."
+      ],
+      "requires": [
+        "The corresponding privileged service must trust a lower-privileged controlled resource for escalation."
+      ],
+      "commands": [
+        "systemctl list-timers --all",
+        "systemctl cat <timer>",
+        "systemctl cat <service>"
+      ],
+      "validation": [
+        "Map each interesting timer to its service.",
+        "Identify execution identity and writable dependencies."
+      ],
+      "detection": [
+        "Monitor timer and corresponding service-unit changes."
+      ],
+      "remediation": [
+        "Protect scheduled service resources.",
+        "Run scheduled workloads with minimum required privilege."
+      ],
+      "mitre": [
+        {
+          "id": "T1053",
+          "name": "Scheduled Task/Job",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "tags": [
+        "systemd timer",
+        "timer",
+        "scheduled",
+        "service"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cron-enumeration",
+      "name": "Cron Job Enumeration",
+      "platform": "linux",
+      "category": "Cron",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Review cron configuration for privileged scheduled jobs and user-controlled dependencies.",
+      "found": [
+        "System or user cron jobs are configured."
+      ],
+      "requires": [
+        "A privileged scheduled command must trust a resource controlled by the current user for escalation."
+      ],
+      "commands": [
+        "cat /etc/crontab 2>/dev/null",
+        "ls -la /etc/cron.d 2>/dev/null",
+        "ls -la /etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly 2>/dev/null"
+      ],
+      "validation": [
+        "Record the execution user, command, schedule, PATH, scripts, and dependencies.",
+        "Check file and directory permissions."
+      ],
+      "detection": [
+        "Monitor system cron configuration.",
+        "Alert on unexpected root cron changes."
+      ],
+      "remediation": [
+        "Protect cron files and scripts.",
+        "Use absolute command paths.",
+        "Run scheduled tasks with least privilege."
+      ],
+      "mitre": [
+        {
+          "id": "T1053.003",
+          "name": "Cron",
+          "url": "https://attack.mitre.org/techniques/T1053/003/"
+        }
+      ],
+      "tags": [
+        "cron",
+        "crontab",
+        "scheduled job",
+        "root"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-cron-script",
+      "name": "Writable Root Cron Script",
+      "platform": "linux",
+      "category": "Cron",
+      "severity": "critical",
+      "confidence": "confirmed",
+      "summary": "A script executed by a root cron job is writable or replaceable by a lower-privileged user.",
+      "found": [
+        "A root cron job executes a lower-privileged writable script."
+      ],
+      "requires": [
+        "The cron job must execute as root or another higher-privileged identity.",
+        "The current user must have effective modification or replacement rights."
+      ],
+      "commands": [
+        "cat /etc/crontab 2>/dev/null",
+        "ls -l /path/to/script",
+        "namei -l /path/to/script",
+        "getfacl /path/to/script 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm the scheduled execution identity.",
+        "Confirm the exact script path.",
+        "Confirm effective write or replacement access.",
+        "Avoid changing the script where configuration evidence proves the boundary."
+      ],
+      "detection": [
+        "Monitor privileged cron scripts for modification.",
+        "Monitor cron configuration and root scheduled process execution."
+      ],
+      "remediation": [
+        "Remove lower-privileged write access.",
+        "Correct ownership and ACLs.",
+        "Protect parent directories."
+      ],
+      "mitre": [
+        {
+          "id": "T1053.003",
+          "name": "Cron",
+          "url": "https://attack.mitre.org/techniques/T1053/003/"
+        }
+      ],
+      "tags": [
+        "cron",
+        "writable script",
+        "root",
+        "scheduled"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-cron-path",
+      "name": "Privileged Cron PATH Trust",
+      "platform": "linux",
+      "category": "PATH",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged scheduled job executes a relative command and searches a PATH containing a directory controlled by a lower-privileged user.",
+      "found": [
+        "A privileged scheduled command uses a relative executable name.",
+        "An earlier PATH directory may be writable by the current user."
+      ],
+      "requires": [
+        "The privileged job must use the affected PATH.",
+        "The command must be resolved through PATH.",
+        "A lower-privileged writable directory must precede the intended executable."
+      ],
+      "commands": [
+        "cat /etc/crontab 2>/dev/null",
+        "printf '%s\\n' \"$PATH\" | tr ':' '\\n'",
+        "ls -ld /path/from/PATH"
+      ],
+      "validation": [
+        "Confirm the exact PATH in the scheduled context.",
+        "Confirm the command is invoked without an absolute path.",
+        "Confirm effective directory write access."
+      ],
+      "detection": [
+        "Review privileged scripts for relative command execution.",
+        "Monitor changes to privileged job PATH configuration."
+      ],
+      "remediation": [
+        "Use absolute executable paths.",
+        "Use a controlled root-owned PATH.",
+        "Remove untrusted writable directories from privileged execution paths."
+      ],
+      "mitre": [
+        {
+          "id": "T1574.007",
+          "name": "PATH Environment Variable Path Interception by PATH Environment Variable",
+          "url": "https://attack.mitre.org/techniques/T1574/007/"
+        }
+      ],
+      "tags": [
+        "cron",
+        "path",
+        "relative command",
+        "scheduled"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-path-hijack",
+      "name": "Privileged PATH Hijack Candidate",
+      "platform": "linux",
+      "category": "PATH",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged process or script executes a relative command while using a PATH containing a lower-privileged writable directory.",
+      "found": [
+        "A privileged consumer invokes an executable by relative name.",
+        "The effective PATH contains a potentially writable directory."
+      ],
+      "requires": [
+        "The privileged process must resolve the command through PATH.",
+        "The current user must control an earlier search directory."
+      ],
+      "commands": [
+        "printf '%s\\n' \"$PATH\" | tr ':' '\\n'",
+        "ls -ld /path/from/PATH",
+        "namei -l /path/from/PATH"
+      ],
+      "validation": [
+        "Establish the PATH used by the privileged consumer rather than relying only on the current shell PATH.",
+        "Confirm directory write access.",
+        "Confirm command resolution order."
+      ],
+      "detection": [
+        "Review privileged scripts for relative command execution.",
+        "Monitor privileged executable search paths."
+      ],
+      "remediation": [
+        "Use absolute executable paths in privileged scripts.",
+        "Use controlled PATH values.",
+        "Remove lower-privileged writable directories from privileged PATHs."
+      ],
+      "mitre": [
+        {
+          "id": "T1574.007",
+          "name": "PATH Environment Variable Path Interception by PATH Environment Variable",
+          "url": "https://attack.mitre.org/techniques/T1574/007/"
+        }
+      ],
+      "tags": [
+        "path",
+        "path hijack",
+        "relative command",
+        "environment"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-world-writable-files",
+      "name": "World-Writable File Enumeration",
+      "platform": "linux",
+      "category": "Filesystem",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Identify world-writable files and determine whether any are trusted by privileged processes.",
+      "found": [
+        "One or more world-writable files exist."
+      ],
+      "requires": [
+        "A privileged consumer must trust or execute the writable file for escalation."
+      ],
+      "commands": [
+        "find / -xdev -type f -perm -0002 2>/dev/null"
+      ],
+      "validation": [
+        "Identify ownership and purpose.",
+        "Determine whether a privileged process executes, loads, or trusts the file.",
+        "Do not report ordinary writable data files as privilege escalation findings."
+      ],
+      "detection": [
+        "Baseline privileged directories for unexpected world-writable files.",
+        "Use file-integrity monitoring."
+      ],
+      "remediation": [
+        "Remove unnecessary world-write permissions.",
+        "Separate writable data from privileged executable or configuration content."
+      ],
+      "mitre": [
+        {
+          "id": "T1222.002",
+          "name": "Linux and Mac File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/002/"
+        }
+      ],
+      "tags": [
+        "world writable",
+        "filesystem",
+        "permissions",
+        "file"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-world-writable-directories",
+      "name": "World-Writable Directory Enumeration",
+      "platform": "linux",
+      "category": "Filesystem",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Identify world-writable directories and determine whether they allow replacement or introduction of resources trusted by privileged processes.",
+      "found": [
+        "One or more world-writable directories exist."
+      ],
+      "requires": [
+        "A privileged process must consume content from the directory in a security-sensitive way."
+      ],
+      "commands": [
+        "find / -xdev -type d -perm -0002 2>/dev/null",
+        "ls -ld /path/to/directory"
+      ],
+      "validation": [
+        "Check sticky-bit semantics.",
+        "Identify privileged consumers.",
+        "Determine whether file creation, replacement, or deletion creates practical influence."
+      ],
+      "detection": [
+        "Monitor privileged application directories for permission changes.",
+        "Review unexpected world-writable directories."
+      ],
+      "remediation": [
+        "Remove unnecessary world-write permissions.",
+        "Use the sticky bit where appropriate for shared temporary directories.",
+        "Protect privileged application directories."
+      ],
+      "mitre": [
+        {
+          "id": "T1222.002",
+          "name": "Linux and Mac File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/002/"
+        }
+      ],
+      "tags": [
+        "world writable",
+        "directory",
+        "sticky bit",
+        "permissions"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-acl",
+      "name": "Unexpected POSIX ACL",
+      "platform": "linux",
+      "category": "Filesystem",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "POSIX ACLs can grant access beyond traditional owner, group, and other permission bits.",
+      "found": [
+        "A security-sensitive resource has additional ACL entries."
+      ],
+      "requires": [
+        "The ACL must grant the current user or group security-sensitive access.",
+        "The resource must influence a privileged consumer."
+      ],
+      "commands": [
+        "getfacl /path/to/resource",
+        "ls -l /path/to/resource"
+      ],
+      "validation": [
+        "Identify effective ACL permissions.",
+        "Consider ACL masks.",
+        "Map the accessible resource to its privileged consumer."
+      ],
+      "detection": [
+        "Audit ACLs on privileged resources.",
+        "Monitor ACL changes where supported."
+      ],
+      "remediation": [
+        "Remove unnecessary ACL entries.",
+        "Use least privilege and documented administrative groups."
+      ],
+      "mitre": [
+        {
+          "id": "T1222.002",
+          "name": "Linux and Mac File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/002/"
+        }
+      ],
+      "tags": [
+        "acl",
+        "getfacl",
+        "permissions",
+        "filesystem"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-parent-directory",
+      "name": "Writable Parent Directory",
+      "platform": "linux",
+      "category": "Filesystem",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A protected privileged file may still be replaceable when a lower-privileged user controls a parent directory.",
+      "found": [
+        "A parent directory in the path to a privileged resource is writable."
+      ],
+      "requires": [
+        "Directory permissions must permit practical replacement or manipulation of the trusted resource.",
+        "A privileged consumer must use the affected path."
+      ],
+      "commands": [
+        "namei -l /path/to/resource",
+        "ls -ld /path/to/parent"
+      ],
+      "validation": [
+        "Review each path component.",
+        "Consider sticky bit and ownership semantics.",
+        "Confirm whether the resource can actually be replaced."
+      ],
+      "detection": [
+        "Audit parent directories of privileged executables and configuration.",
+        "Monitor directory permission changes."
+      ],
+      "remediation": [
+        "Restrict parent-directory write access.",
+        "Use root-owned trusted deployment paths."
+      ],
+      "mitre": [
+        {
+          "id": "T1222.002",
+          "name": "Linux and Mac File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/002/"
+        }
+      ],
+      "tags": [
+        "parent directory",
+        "namei",
+        "replace",
+        "filesystem"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-shell-history-credentials",
+      "name": "Credentials in Shell History",
+      "platform": "linux",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Shell history can expose passwords, tokens, connection strings, or administrative commands containing reusable credentials.",
+      "found": [
+        "History files contain credential-related commands or strings."
+      ],
+      "requires": [
+        "The exposed secret must remain valid and provide access to a more privileged identity or resource for escalation."
+      ],
+      "commands": [
+        "ls -la ~/.bash_history ~/.zsh_history 2>/dev/null",
+        "grep -Ei 'pass(word)?|secret|token|api[_-]?key|credential' ~/.bash_history 2>/dev/null"
+      ],
+      "validation": [
+        "Minimise secret exposure.",
+        "Determine the associated account or service.",
+        "Do not display complete secrets in reports."
+      ],
+      "detection": [
+        "Monitor secret scanning results in administrative environments.",
+        "Review operational procedures that place secrets on command lines."
+      ],
+      "remediation": [
+        "Rotate exposed credentials.",
+        "Use secret-management mechanisms.",
+        "Avoid secrets in command-line arguments and shell history."
+      ],
+      "mitre": [
+        {
+          "id": "T1552.003",
+          "name": "Bash History",
+          "url": "https://attack.mitre.org/techniques/T1552/003/"
+        }
+      ],
+      "tags": [
+        "credentials",
+        "bash history",
+        "zsh history",
+        "password",
+        "token"
+      ],
+      "related": [
+        "../linux/credentials.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-environment-credentials",
+      "name": "Credentials in Environment Variables",
+      "platform": "linux",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Environment variables may expose application passwords, API tokens, cloud credentials, or service secrets.",
+      "found": [
+        "Credential-related environment-variable names or values are visible."
+      ],
+      "requires": [
+        "The secret must provide additional authorised access or higher privilege."
+      ],
+      "commands": [
+        "env | cut -d= -f1 | grep -Ei 'pass|secret|token|key|cred'"
+      ],
+      "validation": [
+        "Search variable names before displaying values.",
+        "Determine whether the secret is valid and security-sensitive without unnecessary disclosure."
+      ],
+      "detection": [
+        "Review service configuration for plaintext environment secrets.",
+        "Use secret-scanning controls."
+      ],
+      "remediation": [
+        "Move secrets to an appropriate secret-management mechanism.",
+        "Restrict process and environment exposure.",
+        "Rotate exposed credentials."
+      ],
+      "mitre": [
+        {
+          "id": "T1552.001",
+          "name": "Credentials In Files",
+          "url": "https://attack.mitre.org/techniques/T1552/001/"
+        }
+      ],
+      "tags": [
+        "environment",
+        "credentials",
+        "secret",
+        "token",
+        "password"
+      ],
+      "related": [
+        "../linux/credentials.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-ssh-private-key",
+      "name": "Accessible SSH Private Key",
+      "platform": "linux",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "An accessible SSH private key may permit authentication as another local or remote identity.",
+      "found": [
+        "An SSH private-key file is readable by the current user."
+      ],
+      "requires": [
+        "The key must correspond to an account or system in assessment scope.",
+        "The key must provide additional access beyond the current identity."
+      ],
+      "commands": [
+        "ls -la ~/.ssh",
+        "find ~ -maxdepth 3 -type f \\( -name 'id_rsa' -o -name 'id_ed25519' -o -name 'id_ecdsa' \\) -ls 2>/dev/null"
+      ],
+      "validation": [
+        "Record metadata without printing private-key content.",
+        "Identify the likely account and authorised destination.",
+        "Handle private keys as sensitive evidence."
+      ],
+      "detection": [
+        "Monitor access to private-key files.",
+        "Audit private-key permissions."
+      ],
+      "remediation": [
+        "Correct private-key permissions.",
+        "Rotate compromised keys.",
+        "Use passphrases and managed SSH credentials where appropriate."
+      ],
+      "mitre": [
+        {
+          "id": "T1552.004",
+          "name": "Private Keys",
+          "url": "https://attack.mitre.org/techniques/T1552/004/"
+        }
+      ],
+      "tags": [
+        "ssh",
+        "private key",
+        "credentials",
+        "id_rsa",
+        "id_ed25519"
+      ],
+      "related": [
+        "../linux/credentials.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-application-credentials",
+      "name": "Application Configuration Credentials",
+      "platform": "linux",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Application configuration may contain reusable database, service, cloud, API, or administrative credentials.",
+      "found": [
+        "A readable application configuration appears to contain credential material."
+      ],
+      "requires": [
+        "The credential must remain valid.",
+        "The credential must provide higher privilege or access relevant to the assessment."
+      ],
+      "commands": [
+        "find /opt /srv /var/www -maxdepth 4 -type f \\( -name '*.conf' -o -name '*.ini' -o -name '*.env' -o -name '*.yaml' -o -name '*.yml' \\) -readable 2>/dev/null"
+      ],
+      "validation": [
+        "Target known applications instead of dumping entire filesystems.",
+        "Record file path and permission evidence.",
+        "Redact secret values."
+      ],
+      "detection": [
+        "Use secret scanning.",
+        "Monitor access to high-value configuration files."
+      ],
+      "remediation": [
+        "Remove plaintext secrets where possible.",
+        "Restrict configuration-file permissions.",
+        "Rotate exposed secrets.",
+        "Use dedicated service accounts and secret-management systems."
+      ],
+      "mitre": [
+        {
+          "id": "T1552.001",
+          "name": "Credentials In Files",
+          "url": "https://attack.mitre.org/techniques/T1552/001/"
+        }
+      ],
+      "tags": [
+        "credentials",
+        "configuration",
+        "env",
+        "database",
+        "api key"
+      ],
+      "related": [
+        "../linux/credentials.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-docker-group",
+      "name": "docker Group Membership",
+      "platform": "linux",
+      "category": "Groups",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "Access to a rootful Docker daemon can represent a host-equivalent administrative boundary because the daemon controls containers and host resources.",
+      "found": [
+        "The current user belongs to the docker group or otherwise has Docker socket access."
+      ],
+      "requires": [
+        "The accessible daemon must provide security-sensitive host control.",
+        "The daemon must not be limited by an authorization mechanism that prevents the relevant operations."
+      ],
+      "commands": [
+        "id",
+        "groups",
+        "ls -l /var/run/docker.sock 2>/dev/null",
+        "docker info 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm socket access.",
+        "Determine whether the daemon is rootful or rootless.",
+        "Review authorization plugins and daemon configuration.",
+        "Do not launch a privileged host-mounted container merely to prove the relationship."
+      ],
+      "detection": [
+        "Audit membership of the docker group.",
+        "Monitor Docker API and container creation activity."
+      ],
+      "remediation": [
+        "Restrict Docker daemon access to trusted administrators.",
+        "Use rootless Docker where appropriate.",
+        "Apply daemon authorization controls where required."
+      ],
+      "mitre": [
+        {
+          "id": "T1611",
+          "name": "Escape to Host",
+          "url": "https://attack.mitre.org/techniques/T1611/"
+        }
+      ],
+      "tags": [
+        "docker",
+        "docker group",
+        "docker.sock",
+        "container",
+        "root"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-docker-socket",
+      "name": "Accessible Docker Socket",
+      "platform": "linux",
+      "category": "Containers",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "A user-accessible Docker API socket may provide extensive control over a rootful Docker daemon and host resources.",
+      "found": [
+        "/var/run/docker.sock or another Docker API endpoint is accessible."
+      ],
+      "requires": [
+        "The daemon must permit security-sensitive operations.",
+        "The daemon's host privilege must exceed the current user's privilege."
+      ],
+      "commands": [
+        "ls -l /var/run/docker.sock 2>/dev/null",
+        "stat /var/run/docker.sock 2>/dev/null",
+        "docker info 2>/dev/null"
+      ],
+      "validation": [
+        "Identify socket owner and group.",
+        "Determine daemon privilege model.",
+        "Review authorization controls.",
+        "Use metadata and daemon information before any active container creation."
+      ],
+      "detection": [
+        "Monitor Docker API access.",
+        "Monitor container creation and host mount activity."
+      ],
+      "remediation": [
+        "Restrict socket permissions.",
+        "Do not expose the Docker API to untrusted identities.",
+        "Use rootless Docker where suitable."
+      ],
+      "mitre": [
+        {
+          "id": "T1611",
+          "name": "Escape to Host",
+          "url": "https://attack.mitre.org/techniques/T1611/"
+        }
+      ],
+      "tags": [
+        "docker",
+        "docker.sock",
+        "socket",
+        "container"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-lxd-group",
+      "name": "LXD Administrative Access",
+      "platform": "linux",
+      "category": "Groups",
+      "severity": "critical",
+      "confidence": "candidate",
+      "summary": "LXD administration can provide significant control over containers and host-backed resources depending on daemon configuration.",
+      "found": [
+        "The current user appears to have LXD administrative access."
+      ],
+      "requires": [
+        "The daemon must operate with privileges capable of exposing host resources.",
+        "The user must be permitted to perform security-sensitive container operations."
+      ],
+      "commands": [
+        "id",
+        "groups",
+        "lxc info 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm the installed LXD model and daemon privilege.",
+        "Review storage pools, devices, profiles, and host-resource exposure.",
+        "Avoid creating host-mounted privileged containers merely to prove impact."
+      ],
+      "detection": [
+        "Audit LXD administrative group membership.",
+        "Monitor container and device configuration changes."
+      ],
+      "remediation": [
+        "Restrict LXD administration to trusted users.",
+        "Apply least privilege to container management."
+      ],
+      "mitre": [
+        {
+          "id": "T1611",
+          "name": "Escape to Host",
+          "url": "https://attack.mitre.org/techniques/T1611/"
+        }
+      ],
+      "tags": [
+        "lxd",
+        "lxc",
+        "group",
+        "container"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-disk-group",
+      "name": "disk Group Membership",
+      "platform": "linux",
+      "category": "Groups",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "The disk group can provide direct block-device access on many Linux systems, bypassing normal filesystem-level permissions.",
+      "found": [
+        "The current user belongs to disk or has equivalent block-device access."
+      ],
+      "requires": [
+        "Relevant host block devices must be accessible through the granted permissions."
+      ],
+      "commands": [
+        "id",
+        "ls -l /dev/sd* /dev/nvme* 2>/dev/null"
+      ],
+      "validation": [
+        "Record group membership and device permissions.",
+        "Do not read raw production disks merely to demonstrate impact."
+      ],
+      "detection": [
+        "Audit membership of the disk group.",
+        "Monitor raw block-device access where supported."
+      ],
+      "remediation": [
+        "Restrict disk-group membership to trusted administrators.",
+        "Use narrowly scoped mechanisms for applications requiring device access."
+      ],
+      "mitre": [
+        {
+          "id": "T1006",
+          "name": "Direct Volume Access",
+          "url": "https://attack.mitre.org/techniques/T1006/"
+        }
+      ],
+      "tags": [
+        "disk",
+        "group",
+        "block device",
+        "filesystem"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-shadow-group",
+      "name": "shadow File Access",
+      "platform": "linux",
+      "category": "Groups",
+      "severity": "high",
+      "confidence": "likely",
+      "summary": "Access to /etc/shadow exposes local password hashes and may weaken account security even when it does not directly provide root execution.",
+      "found": [
+        "The current user or one of its groups can read /etc/shadow."
+      ],
+      "requires": [
+        "The access must exceed what is intended for the user's role."
+      ],
+      "commands": [
+        "id",
+        "ls -l /etc/shadow",
+        "getfacl /etc/shadow 2>/dev/null"
+      ],
+      "validation": [
+        "Use permission evidence rather than copying password hashes.",
+        "Determine whether the access is intentionally delegated."
+      ],
+      "detection": [
+        "Monitor unexpected reads of /etc/shadow.",
+        "Audit shadow-group membership."
+      ],
+      "remediation": [
+        "Restrict /etc/shadow access.",
+        "Remove unnecessary shadow-group membership."
+      ],
+      "mitre": [
+        {
+          "id": "T1003.008",
+          "name": "/etc/passwd and /etc/shadow",
+          "url": "https://attack.mitre.org/techniques/T1003/008/"
+        }
+      ],
+      "tags": [
+        "shadow",
+        "group",
+        "password hash",
+        "credentials"
+      ],
+      "related": [
+        "../linux/credentials.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-adm-journal",
+      "name": "Privileged Log Access",
+      "platform": "linux",
+      "category": "Groups",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Membership in groups such as adm or systemd-journal may expose sensitive operational logs containing credentials, tokens, or administrative data.",
+      "found": [
+        "The current user has elevated log-reading access."
+      ],
+      "requires": [
+        "The logs must contain security-sensitive information that provides additional privilege or access."
+      ],
+      "commands": [
+        "id",
+        "journalctl -n 50 --no-pager 2>/dev/null"
+      ],
+      "validation": [
+        "Review only the minimum log data required.",
+        "Do not classify log access itself as root escalation without an additional security-sensitive condition."
+      ],
+      "detection": [
+        "Audit privileged log-reading groups.",
+        "Prevent secrets from being written to logs."
+      ],
+      "remediation": [
+        "Restrict sensitive log access.",
+        "Remove credentials and tokens from application logs."
+      ],
+      "mitre": [
+        {
+          "id": "T1552.001",
+          "name": "Credentials In Files",
+          "url": "https://attack.mitre.org/techniques/T1552/001/"
+        }
+      ],
+      "tags": [
+        "adm",
+        "systemd-journal",
+        "logs",
+        "credentials"
+      ],
+      "related": [
+        "../linux/credentials.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-libvirt",
+      "name": "libvirt Administrative Access",
+      "platform": "linux",
+      "category": "Groups",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Virtualisation management access may provide control over virtual machines, storage, devices, and host-backed resources.",
+      "found": [
+        "The current user appears to have libvirt or equivalent virtualisation-management access."
+      ],
+      "requires": [
+        "The available daemon operations must expose security-sensitive host resources."
+      ],
+      "commands": [
+        "id",
+        "groups",
+        "ls -l /var/run/libvirt/libvirt-sock 2>/dev/null",
+        "virsh list --all 2>/dev/null"
+      ],
+      "validation": [
+        "Review daemon privilege and socket permissions.",
+        "Review storage pools and host-backed device access.",
+        "Avoid modifying production virtual machines merely to demonstrate administrative capability."
+      ],
+      "detection": [
+        "Audit virtualisation administrative groups.",
+        "Monitor VM, storage, and device configuration changes."
+      ],
+      "remediation": [
+        "Restrict virtualisation administration to trusted users.",
+        "Separate administrative roles where feasible."
+      ],
+      "mitre": [
+        {
+          "id": "T1611",
+          "name": "Escape to Host",
+          "url": "https://attack.mitre.org/techniques/T1611/"
+        }
+      ],
+      "tags": [
+        "libvirt",
+        "virsh",
+        "virtualization",
+        "group"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-unix-sockets",
+      "name": "Privileged Unix Socket",
+      "platform": "linux",
+      "category": "Sockets",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A Unix-domain socket accessible to the current user may expose an administrative API implemented by a more privileged daemon.",
+      "found": [
+        "A socket is accessible to the current user.",
+        "The associated daemon may run with greater privilege."
+      ],
+      "requires": [
+        "The socket protocol must expose security-sensitive operations.",
+        "The daemon must not independently reject the current identity."
+      ],
+      "commands": [
+        "find /run /var/run /tmp -type s 2>/dev/null",
+        "ss -xl 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the server process.",
+        "Record socket ownership and permissions.",
+        "Review documented API methods and authentication."
+      ],
+      "detection": [
+        "Monitor access to privileged administrative sockets where feasible.",
+        "Audit socket permissions."
+      ],
+      "remediation": [
+        "Restrict administrative socket access.",
+        "Apply application-level authentication and authorization.",
+        "Run daemons with least privilege."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "socket",
+        "unix socket",
+        "daemon",
+        "api"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-dbus",
+      "name": "Privileged D-Bus Service",
+      "platform": "linux",
+      "category": "Sockets",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged D-Bus service may expose methods whose authorization should be reviewed for unsafe local privilege boundaries.",
+      "found": [
+        "Privileged services are exposed on D-Bus."
+      ],
+      "requires": [
+        "A security-sensitive method must be callable by the current identity.",
+        "D-Bus policy and any Polkit checks must permit the operation."
+      ],
+      "commands": [
+        "busctl list 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the service owner.",
+        "Review exported methods.",
+        "Review D-Bus and Polkit authorization.",
+        "Do not invoke destructive administrative methods."
+      ],
+      "detection": [
+        "Monitor privileged D-Bus method use where supported.",
+        "Audit custom D-Bus policy."
+      ],
+      "remediation": [
+        "Apply explicit authorization to privileged methods.",
+        "Restrict custom system-bus services."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "dbus",
+        "busctl",
+        "polkit",
+        "service"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-polkit",
+      "name": "Polkit Authorization Review",
+      "platform": "linux",
+      "category": "Applications",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Custom or overly broad Polkit rules can permit lower-privileged users to invoke security-sensitive operations through privileged services.",
+      "found": [
+        "Polkit rules or privileged Polkit-integrated services are present."
+      ],
+      "requires": [
+        "A rule or service authorization decision must grant unintended privileged functionality."
+      ],
+      "commands": [
+        "find /etc/polkit-1/rules.d /usr/share/polkit-1/rules.d -maxdepth 1 -type f -print 2>/dev/null"
+      ],
+      "validation": [
+        "Review custom rules first.",
+        "Identify permitted users and groups.",
+        "Map each rule to the affected privileged action."
+      ],
+      "detection": [
+        "Monitor Polkit rule changes.",
+        "Audit custom authorization policy."
+      ],
+      "remediation": [
+        "Use least-privilege Polkit rules.",
+        "Avoid broad group-based administrative authorization.",
+        "Remove obsolete custom rules."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "polkit",
+        "policykit",
+        "authorization",
+        "dbus"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-nfs-no-root-squash",
+      "name": "NFS no_root_squash",
+      "platform": "linux",
+      "category": "NFS",
+      "severity": "critical",
+      "confidence": "candidate",
+      "summary": "An NFS export using no_root_squash can preserve remote root ownership semantics and may create a local privilege boundary issue depending on export access and filesystem use.",
+      "found": [
+        "An NFS export appears to use no_root_squash."
+      ],
+      "requires": [
+        "The tester must have authorised access to an allowed NFS client context.",
+        "The exported filesystem must interact with privileged execution or sensitive host resources."
+      ],
+      "commands": [
+        "cat /etc/exports 2>/dev/null",
+        "mount -t nfs,nfs4 2>/dev/null",
+        "mount"
+      ],
+      "validation": [
+        "Record the export path and allowed clients.",
+        "Review root_squash settings.",
+        "Review mount options and the role of files stored on the export.",
+        "Avoid creating privileged executable content on production exports merely to prove impact."
+      ],
+      "detection": [
+        "Audit NFS export configuration.",
+        "Monitor changes to /etc/exports."
+      ],
+      "remediation": [
+        "Use root_squash unless no_root_squash is explicitly required.",
+        "Restrict NFS clients.",
+        "Separate writable exports from privileged executable locations."
+      ],
+      "mitre": [
+        {
+          "id": "T1135",
+          "name": "Network Share Discovery",
+          "url": "https://attack.mitre.org/techniques/T1135/"
+        }
+      ],
+      "tags": [
+        "nfs",
+        "no_root_squash",
+        "root_squash",
+        "mount",
+        "export"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-mount-options",
+      "name": "Filesystem Mount Security Options",
+      "platform": "linux",
+      "category": "Filesystem",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Mount options such as nosuid, noexec, nodev, ro, and rw can materially change the exploitability of filesystem-based privilege escalation candidates.",
+      "found": [
+        "A filesystem relevant to a candidate has security-relevant mount options."
+      ],
+      "requires": [
+        "A separate privilege escalation candidate must depend on the affected filesystem behaviour."
+      ],
+      "commands": [
+        "mount",
+        "findmnt 2>/dev/null"
+      ],
+      "validation": [
+        "Record the exact mount point and options.",
+        "Use mount configuration to refine exploitability rather than reporting missing options automatically."
+      ],
+      "detection": [
+        "Baseline security-sensitive mount options.",
+        "Monitor persistent mount configuration changes."
+      ],
+      "remediation": [
+        "Use nosuid, nodev, noexec, or read-only mounts where appropriate to the workload.",
+        "Do not apply restrictive mount options without considering application requirements."
+      ],
+      "mitre": [],
+      "tags": [
+        "mount",
+        "nosuid",
+        "noexec",
+        "nodev",
+        "filesystem"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-library",
+      "name": "Writable Privileged Library",
+      "platform": "linux",
+      "category": "Libraries",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "A privileged executable loads a dynamic library that a lower-privileged user can modify or replace.",
+      "found": [
+        "A library loaded by a privileged consumer is writable or replaceable."
+      ],
+      "requires": [
+        "The privileged process must load the affected library.",
+        "The current user must have effective modification or replacement rights."
+      ],
+      "commands": [
+        "ldd /path/to/binary 2>/dev/null",
+        "ls -l /path/to/library",
+        "namei -l /path/to/library",
+        "getfacl /path/to/library 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm the actual library path.",
+        "Confirm privileged execution context.",
+        "Confirm effective write access.",
+        "Avoid modifying production shared libraries."
+      ],
+      "detection": [
+        "File-integrity monitoring for privileged library directories.",
+        "Monitor unexpected library modifications."
+      ],
+      "remediation": [
+        "Restrict library and directory write permissions.",
+        "Use trusted package-managed library locations.",
+        "Remove unsafe custom library search paths."
+      ],
+      "mitre": [
+        {
+          "id": "T1574.006",
+          "name": "Dynamic Linker Hijacking",
+          "url": "https://attack.mitre.org/techniques/T1574/006/"
+        }
+      ],
+      "tags": [
+        "library",
+        "ldd",
+        "dynamic linker",
+        "writable"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-ld-library-path",
+      "name": "Privileged LD_LIBRARY_PATH Trust",
+      "platform": "linux",
+      "category": "Libraries",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged execution mechanism that preserves or trusts user-controlled library search paths may permit unintended library resolution.",
+      "found": [
+        "A privileged program appears to accept user-controlled library search configuration."
+      ],
+      "requires": [
+        "The privileged mechanism must preserve or use the affected variable.",
+        "The target executable must dynamically load a matching library."
+      ],
+      "commands": [
+        "env | grep '^LD_'",
+        "sudo -l"
+      ],
+      "validation": [
+        "Confirm the environment variable reaches the privileged process.",
+        "Confirm dynamic linking behaviour.",
+        "Do not assume sudo preserves dangerous linker variables."
+      ],
+      "detection": [
+        "Audit privileged environment configuration.",
+        "Monitor unusual privileged library loading."
+      ],
+      "remediation": [
+        "Sanitise privileged environments.",
+        "Do not preserve dangerous linker variables.",
+        "Use trusted fixed library paths."
+      ],
+      "mitre": [
+        {
+          "id": "T1574.006",
+          "name": "Dynamic Linker Hijacking",
+          "url": "https://attack.mitre.org/techniques/T1574/006/"
+        }
+      ],
+      "tags": [
+        "ld_library_path",
+        "library",
+        "environment",
+        "dynamic linker"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-python-import",
+      "name": "Privileged Python Import Path",
+      "platform": "linux",
+      "category": "Libraries",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged Python program imports a module from a path that may be controlled by a lower-privileged user.",
+      "found": [
+        "A privileged Python script imports external modules.",
+        "A candidate module path is writable by a lower-privileged account."
+      ],
+      "requires": [
+        "The privileged script must import the affected module path.",
+        "The lower-privileged user must control the resolved module."
+      ],
+      "commands": [
+        "python3 -c 'import sys; print(\"\\n\".join(sys.path))'",
+        "ls -l /path/to/module.py",
+        "namei -l /path/to/module.py"
+      ],
+      "validation": [
+        "Determine the actual import resolution used by the privileged program.",
+        "Confirm module path and write access.",
+        "Do not modify the imported module merely to demonstrate impact."
+      ],
+      "detection": [
+        "Monitor privileged application module directories.",
+        "Review custom privileged Python applications."
+      ],
+      "remediation": [
+        "Protect imported modules and directories.",
+        "Use controlled virtual environments or packaged dependencies.",
+        "Avoid privileged imports from user-writable locations."
+      ],
+      "mitre": [
+        {
+          "id": "T1574",
+          "name": "Hijack Execution Flow",
+          "url": "https://attack.mitre.org/techniques/T1574/"
+        }
+      ],
+      "tags": [
+        "python",
+        "import",
+        "module",
+        "sys.path",
+        "library"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-config",
+      "name": "Writable Privileged Configuration",
+      "platform": "linux",
+      "category": "Applications",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged process consumes configuration writable by a lower-privileged user.",
+      "found": [
+        "A configuration file used by a privileged process is writable or replaceable."
+      ],
+      "requires": [
+        "The configuration must expose an option capable of changing privileged behaviour."
+      ],
+      "commands": [
+        "ls -l /path/to/config",
+        "namei -l /path/to/config",
+        "getfacl /path/to/config 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the privileged consumer.",
+        "Review the application's supported configuration directives.",
+        "Determine whether controlled values influence execution, plugins, file paths, or authentication."
+      ],
+      "detection": [
+        "Monitor privileged application configuration.",
+        "Use file-integrity monitoring."
+      ],
+      "remediation": [
+        "Restrict configuration write access.",
+        "Separate user-controlled data from privileged configuration."
+      ],
+      "mitre": [
+        {
+          "id": "T1574",
+          "name": "Hijack Execution Flow",
+          "url": "https://attack.mitre.org/techniques/T1574/"
+        }
+      ],
+      "tags": [
+        "configuration",
+        "writable config",
+        "application",
+        "permissions"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-writable-plugin",
+      "name": "Writable Privileged Plugin",
+      "platform": "linux",
+      "category": "Applications",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "A privileged application loads plugins or extensions from a location writable by a lower-privileged user.",
+      "found": [
+        "A privileged application's plugin path is lower-privileged writable."
+      ],
+      "requires": [
+        "The application must load content from the affected plugin path.",
+        "Plugin execution must occur in the privileged process context."
+      ],
+      "commands": [
+        "ls -ld /path/to/plugins",
+        "namei -l /path/to/plugins",
+        "getfacl /path/to/plugins 2>/dev/null"
+      ],
+      "validation": [
+        "Confirm plugin discovery behaviour.",
+        "Confirm execution identity.",
+        "Confirm effective write access.",
+        "Avoid placing test plugins in production applications where configuration evidence is sufficient."
+      ],
+      "detection": [
+        "Monitor privileged plugin directories.",
+        "Maintain approved plugin inventories."
+      ],
+      "remediation": [
+        "Restrict plugin directories to trusted administrators.",
+        "Use signed or allowlisted plugins where supported."
+      ],
+      "mitre": [
+        {
+          "id": "T1574",
+          "name": "Hijack Execution Flow",
+          "url": "https://attack.mitre.org/techniques/T1574/"
+        }
+      ],
+      "tags": [
+        "plugin",
+        "extension",
+        "application",
+        "writable"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-temp-file",
+      "name": "Privileged Temporary File",
+      "platform": "linux",
+      "category": "Filesystem",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged application uses temporary files in a way that may permit lower-privileged replacement, symlink manipulation, or race conditions.",
+      "found": [
+        "A privileged process creates or consumes files in a shared writable temporary location."
+      ],
+      "requires": [
+        "The temporary-file handling must permit attacker influence over a security-sensitive privileged operation."
+      ],
+      "commands": [
+        "ls -ld /tmp /var/tmp",
+        "find /tmp /var/tmp -maxdepth 2 -user root -ls 2>/dev/null"
+      ],
+      "validation": [
+        "Review file naming, creation flags, ownership, permissions, and symlink handling.",
+        "Do not race or replace production files without explicit approval."
+      ],
+      "detection": [
+        "Monitor unusual privileged temporary-file activity.",
+        "Review custom privileged applications for insecure temporary-file handling."
+      ],
+      "remediation": [
+        "Use secure temporary-file APIs.",
+        "Use unpredictable names and safe creation flags.",
+        "Validate ownership and avoid unsafe symlink following."
+      ],
+      "mitre": [
+        {
+          "id": "T1574",
+          "name": "Hijack Execution Flow",
+          "url": "https://attack.mitre.org/techniques/T1574/"
+        }
+      ],
+      "tags": [
+        "tmp",
+        "temporary file",
+        "symlink",
+        "race condition"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-backup-job",
+      "name": "Privileged Backup Job",
+      "platform": "linux",
+      "category": "Applications",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Privileged backup automation can create escalation paths when lower-privileged users control scripts, configuration, arguments, source directories, plugins, or executable dependencies.",
+      "found": [
+        "A privileged backup process or scheduled job is present."
+      ],
+      "requires": [
+        "A lower-privileged user must control a resource interpreted in a security-sensitive manner by the backup process."
+      ],
+      "commands": [
+        "ps aux | grep -Ei 'backup|restic|borg|rsync|tar' | grep -v grep",
+        "systemctl list-timers --all",
+        "ls -la /etc/cron.d 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the backup identity and schedule.",
+        "Review scripts, configuration, source directories, destinations, and external commands.",
+        "Review application-specific documentation."
+      ],
+      "detection": [
+        "Monitor backup configuration and privileged backup scripts.",
+        "Monitor unexpected changes to backup executable paths."
+      ],
+      "remediation": [
+        "Protect backup scripts and configuration.",
+        "Separate user-writable data from executable control.",
+        "Use dedicated least-privilege backup identities where possible."
+      ],
+      "mitre": [
+        {
+          "id": "T1053",
+          "name": "Scheduled Task/Job",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "tags": [
+        "backup",
+        "tar",
+        "rsync",
+        "cron",
+        "systemd timer"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-package-manager-sudo",
+      "name": "Privileged Package Manager Delegation",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "Broad sudo access to package-management utilities can amount to extensive administrative control because package installation and maintenance are privileged system operations.",
+      "found": [
+        "sudo permits a package-management command as root."
+      ],
+      "requires": [
+        "The delegated command must permit security-sensitive package-management functionality beyond the intended restriction."
+      ],
+      "commands": [
+        "sudo -l",
+        "command -v apt apt-get dpkg dnf yum rpm pacman zypper 2>/dev/null"
+      ],
+      "validation": [
+        "Record the exact permitted command and arguments.",
+        "Determine whether the delegation is intentionally equivalent to administrative package management."
+      ],
+      "detection": [
+        "Audit sudo access to package managers.",
+        "Monitor package installation and package-script activity."
+      ],
+      "remediation": [
+        "Do not delegate unrestricted package-management commands to non-administrators.",
+        "Use purpose-built workflows for narrowly scoped software-management requirements."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "apt",
+        "apt-get",
+        "dpkg",
+        "yum",
+        "dnf",
+        "rpm",
+        "pacman",
+        "sudo"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-interpreter-sudo",
+      "name": "Privileged Interpreter Delegation",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "critical",
+      "confidence": "confirmed",
+      "summary": "Unrestricted sudo execution of a general-purpose interpreter as root normally represents broad administrative code-execution capability.",
+      "found": [
+        "sudo permits a general-purpose interpreter as a privileged identity."
+      ],
+      "requires": [
+        "The sudo rule must not sufficiently restrict the interpreter's functionality."
+      ],
+      "commands": [
+        "sudo -l",
+        "command -v bash sh zsh python python3 perl ruby 2>/dev/null"
+      ],
+      "validation": [
+        "Record the exact sudo rule.",
+        "Determine whether arguments or interpreter functionality are restricted.",
+        "The rule itself may be sufficient evidence without launching an elevated shell."
+      ],
+      "detection": [
+        "Audit sudo rules for interpreters and shells.",
+        "Monitor privileged interpreter execution."
+      ],
+      "remediation": [
+        "Remove unrestricted interpreter delegation.",
+        "Use dedicated administrative commands or narrowly scoped helpers."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "bash",
+        "sh",
+        "python",
+        "perl",
+        "ruby",
+        "sudo",
+        "interpreter"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-editor-sudo",
+      "name": "Privileged Editor Delegation",
+      "platform": "linux",
+      "category": "sudo",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Some editors and pagers expose file, command, or shell functionality that may exceed the intended scope of a sudo delegation.",
+      "found": [
+        "sudo permits an editor or pager with elevated privilege."
+      ],
+      "requires": [
+        "The exact program and configuration must expose security-sensitive functionality.",
+        "sudo restrictions must not prevent the relevant behaviour."
+      ],
+      "commands": [
+        "sudo -l",
+        "command -v vim vi nano less more 2>/dev/null"
+      ],
+      "validation": [
+        "Review the program's documented features.",
+        "Compare the rule with GTFOBins where applicable.",
+        "Do not assume every editor configuration provides shell execution."
+      ],
+      "detection": [
+        "Audit sudo rules for general-purpose editors and pagers."
+      ],
+      "remediation": [
+        "Avoid privileged general-purpose editor delegation where narrower workflows are possible.",
+        "Use sudoedit for controlled file editing where appropriate and securely configured."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.003",
+          "name": "Sudo and Sudo Caching",
+          "url": "https://attack.mitre.org/techniques/T1548/003/"
+        }
+      ],
+      "tags": [
+        "vim",
+        "vi",
+        "nano",
+        "less",
+        "editor",
+        "sudo"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-container-detection",
+      "name": "Container Environment Detection",
+      "platform": "linux",
+      "category": "Containers",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "Determine whether the current Linux context is containerised before interpreting root, capabilities, devices, and filesystem access.",
+      "found": [
+        "Container-related indicators may be present."
+      ],
+      "requires": [
+        "Multiple contextual indicators should be considered before drawing conclusions."
+      ],
+      "commands": [
+        "cat /proc/1/cgroup",
+        "cat /proc/self/mountinfo",
+        "test -f /.dockerenv && echo 'Docker environment indicator present'",
+        "grep '^Cap' /proc/self/status"
+      ],
+      "validation": [
+        "Review namespaces, cgroups, mount information, capabilities, and runtime indicators.",
+        "Do not rely on a single detection file."
+      ],
+      "detection": [],
+      "remediation": [],
+      "mitre": [],
+      "tags": [
+        "container",
+        "docker",
+        "namespace",
+        "cgroup",
+        "dockerenv"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-privileged-container",
+      "name": "Over-Privileged Container",
+      "platform": "linux",
+      "category": "Containers",
+      "severity": "critical",
+      "confidence": "candidate",
+      "summary": "Excessive capabilities, devices, host mounts, namespaces, or runtime access can substantially weaken the isolation boundary between a container and its host.",
+      "found": [
+        "The current container appears to have elevated host-facing privileges."
+      ],
+      "requires": [
+        "The exposed capability or host resource must provide practical influence over the host security boundary."
+      ],
+      "commands": [
+        "grep '^Cap' /proc/self/status",
+        "capsh --print 2>/dev/null",
+        "mount",
+        "cat /proc/self/mountinfo"
+      ],
+      "validation": [
+        "Review capabilities.",
+        "Review host mounts.",
+        "Review device exposure.",
+        "Review user namespaces and runtime sockets.",
+        "Avoid attempting a host escape when configuration evidence is sufficient."
+      ],
+      "detection": [
+        "Audit container runtime configuration.",
+        "Monitor privileged container creation."
+      ],
+      "remediation": [
+        "Avoid privileged containers.",
+        "Drop unnecessary capabilities.",
+        "Restrict devices and host mounts.",
+        "Apply seccomp and LSM profiles.",
+        "Use user namespaces or rootless operation where appropriate."
+      ],
+      "mitre": [
+        {
+          "id": "T1611",
+          "name": "Escape to Host",
+          "url": "https://attack.mitre.org/techniques/T1611/"
+        }
+      ],
+      "tags": [
+        "container",
+        "privileged",
+        "capabilities",
+        "host mount",
+        "escape"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-host-mount",
+      "name": "Sensitive Host Filesystem Mount",
+      "platform": "linux",
+      "category": "Containers",
+      "severity": "critical",
+      "confidence": "likely",
+      "summary": "A container can access a sensitive host filesystem path through a bind mount or equivalent host-backed storage.",
+      "found": [
+        "Host-backed filesystem content is mounted inside the current container."
+      ],
+      "requires": [
+        "The mount must expose security-sensitive host content.",
+        "The current container identity must have relevant read or write access."
+      ],
+      "commands": [
+        "mount",
+        "cat /proc/self/mountinfo"
+      ],
+      "validation": [
+        "Record source, destination, filesystem, and read/write state.",
+        "Do not modify host files solely to demonstrate exposure."
+      ],
+      "detection": [
+        "Audit container host mounts.",
+        "Monitor creation of containers with sensitive bind mounts."
+      ],
+      "remediation": [
+        "Avoid unnecessary host filesystem mounts.",
+        "Use read-only mounts where practical.",
+        "Expose only the minimum required host paths."
+      ],
+      "mitre": [
+        {
+          "id": "T1611",
+          "name": "Escape to Host",
+          "url": "https://attack.mitre.org/techniques/T1611/"
+        }
+      ],
+      "tags": [
+        "container",
+        "host mount",
+        "bind mount",
+        "filesystem"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-local-services",
+      "name": "Privileged Local Service",
+      "platform": "linux",
+      "category": "Services",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Local-only TCP or UDP services may expose privileged administrative interfaces that are inaccessible from the network but reachable by local users.",
+      "found": [
+        "A service is listening locally.",
+        "The service may run with elevated privilege."
+      ],
+      "requires": [
+        "The service must expose security-sensitive functionality to the current identity."
+      ],
+      "commands": [
+        "ss -lntup",
+        "ss -lntu"
+      ],
+      "validation": [
+        "Identify process ownership where permitted.",
+        "Identify service protocol and authentication.",
+        "Review application documentation before interacting with administrative functions."
+      ],
+      "detection": [
+        "Maintain an inventory of local administrative services.",
+        "Monitor unexpected local listeners."
+      ],
+      "remediation": [
+        "Disable unnecessary services.",
+        "Require authentication and authorization.",
+        "Run services with least privilege."
+      ],
+      "mitre": [
+        {
+          "id": "T1049",
+          "name": "System Network Connections Discovery",
+          "url": "https://attack.mitre.org/techniques/T1049/"
+        }
+      ],
+      "tags": [
+        "localhost",
+        "service",
+        "socket",
+        "listener",
+        "127.0.0.1"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-management-agent",
+      "name": "Privileged Management Agent",
+      "platform": "linux",
+      "category": "Applications",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Backup, monitoring, deployment, configuration-management, update, and security agents often operate with elevated privilege and expose local configuration or control surfaces.",
+      "found": [
+        "A privileged management or automation agent is installed."
+      ],
+      "requires": [
+        "A lower-privileged user must control an agent resource or invoke an unsafe privileged operation."
+      ],
+      "commands": [
+        "ps auxf",
+        "systemctl --type=service --state=running"
+      ],
+      "validation": [
+        "Identify agent executable and service identity.",
+        "Review configuration, plugins, sockets, update mechanisms, credentials, and writable resources."
+      ],
+      "detection": [
+        "Monitor privileged management-agent configuration.",
+        "Audit administrative socket and plugin access."
+      ],
+      "remediation": [
+        "Harden management agents.",
+        "Protect configuration and plugin directories.",
+        "Use dedicated service identities and least privilege."
+      ],
+      "mitre": [
+        {
+          "id": "T1219",
+          "name": "Remote Access Software",
+          "url": "https://attack.mitre.org/techniques/T1219/"
+        }
+      ],
+      "tags": [
+        "agent",
+        "monitoring",
+        "backup",
+        "deployment",
+        "management"
+      ],
+      "related": [
+        "../linux/services.md",
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-kernel-version",
+      "name": "Kernel LPE Candidate Assessment",
+      "platform": "linux",
+      "category": "Kernel",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Collect exact kernel, distribution, architecture, package, and mitigation information before evaluating local kernel privilege escalation advisories.",
+      "found": [
+        "The host kernel can be compared with relevant vendor security advisories."
+      ],
+      "requires": [
+        "A vulnerability must affect the exact distribution package or kernel build.",
+        "Required exploit prerequisites must be present.",
+        "Vendor backports must be considered."
+      ],
+      "commands": [
+        "uname -a",
+        "uname -m",
+        "cat /etc/os-release",
+        "dpkg-query -W 'linux-image*' 2>/dev/null",
+        "rpm -qa | grep -i '^kernel' 2>/dev/null"
+      ],
+      "validation": [
+        "Use vendor advisories rather than version-string matching alone.",
+        "Check backported fixes.",
+        "Review architecture, namespace, capability, and mitigation prerequisites.",
+        "Avoid active kernel exploitation unless specifically necessary and authorised."
+      ],
+      "detection": [
+        "Maintain supported and patched kernels.",
+        "Track vendor security advisories."
+      ],
+      "remediation": [
+        "Apply vendor security updates.",
+        "Remove unsupported kernels.",
+        "Reboot into the updated kernel where required."
+      ],
+      "mitre": [
+        {
+          "id": "T1068",
+          "name": "Exploitation for Privilege Escalation",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "tags": [
+        "kernel",
+        "lpe",
+        "cve",
+        "uname",
+        "exploit"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-apparmor",
+      "name": "AppArmor Context",
+      "platform": "linux",
+      "category": "Kernel",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "AppArmor policy can restrict application behaviour and materially change whether a privilege escalation candidate is practical.",
+      "found": [
+        "AppArmor may be active on the host."
+      ],
+      "requires": [
+        "An affected process must be subject to a relevant AppArmor profile."
+      ],
+      "commands": [
+        "aa-status 2>/dev/null",
+        "cat /sys/module/apparmor/parameters/enabled 2>/dev/null"
+      ],
+      "validation": [
+        "Identify the profile applied to the affected process.",
+        "Treat AppArmor as an exploitability control rather than assuming it blocks all escalation."
+      ],
+      "detection": [],
+      "remediation": [
+        "Use enforcing profiles for security-sensitive applications where appropriate.",
+        "Maintain and test AppArmor policy."
+      ],
+      "mitre": [],
+      "tags": [
+        "apparmor",
+        "lsm",
+        "hardening",
+        "security control"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-selinux",
+      "name": "SELinux Context",
+      "platform": "linux",
+      "category": "Kernel",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "SELinux mandatory access controls can restrict privileged application behaviour beyond normal Unix permissions.",
+      "found": [
+        "SELinux may be enabled on the host."
+      ],
+      "requires": [
+        "The affected process and resource must be subject to relevant SELinux policy."
+      ],
+      "commands": [
+        "getenforce 2>/dev/null",
+        "id -Z 2>/dev/null",
+        "sestatus 2>/dev/null"
+      ],
+      "validation": [
+        "Record enforcing state and relevant context.",
+        "Consider SELinux when determining whether a candidate can reach its intended resource."
+      ],
+      "detection": [],
+      "remediation": [
+        "Use enforcing SELinux policy where appropriate.",
+        "Avoid disabling SELinux as a workaround for application issues."
+      ],
+      "mitre": [],
+      "tags": [
+        "selinux",
+        "lsm",
+        "mac",
+        "hardening"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-nonewprivs",
+      "name": "NoNewPrivileges Context",
+      "platform": "linux",
+      "category": "Kernel",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "NoNewPrivileges can prevent certain executable transitions from granting additional privilege and should be considered when analysing SUID and capability candidates.",
+      "found": [
+        "The current process exposes a NoNewPrivs state."
+      ],
+      "requires": [
+        "The candidate must depend on a privilege-granting executable transition affected by NoNewPrivileges."
+      ],
+      "commands": [
+        "grep '^NoNewPrivs' /proc/self/status"
+      ],
+      "validation": [
+        "Record whether NoNewPrivileges is enabled.",
+        "Evaluate its effect on the specific candidate rather than treating it as universal mitigation."
+      ],
+      "detection": [],
+      "remediation": [
+        "Use NoNewPrivileges for suitable services and sandboxed workloads."
+      ],
+      "mitre": [],
+      "tags": [
+        "nonewprivileges",
+        "nonewprivs",
+        "hardening",
+        "suid",
+        "capabilities"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-seccomp",
+      "name": "seccomp Context",
+      "platform": "linux",
+      "category": "Kernel",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "seccomp filters can restrict system calls available to processes and containers, affecting exploitability.",
+      "found": [
+        "The current process reports seccomp state."
+      ],
+      "requires": [
+        "A candidate must require a system call restricted by the active filter for seccomp to materially block it."
+      ],
+      "commands": [
+        "grep '^Seccomp' /proc/self/status"
+      ],
+      "validation": [
+        "Record seccomp state.",
+        "Review the actual filter or runtime profile when relevant."
+      ],
+      "detection": [],
+      "remediation": [
+        "Apply restrictive seccomp profiles to suitable workloads.",
+        "Avoid unnecessarily broad system-call access."
+      ],
+      "mitre": [],
+      "tags": [
+        "seccomp",
+        "container",
+        "sandbox",
+        "hardening"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-yama",
+      "name": "Yama ptrace_scope",
+      "platform": "linux",
+      "category": "Kernel",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "Yama ptrace_scope restricts process tracing and can affect ptrace-based privilege escalation candidates.",
+      "found": [
+        "Yama ptrace_scope is available on the host."
+      ],
+      "requires": [
+        "The candidate must depend on process tracing."
+      ],
+      "commands": [
+        "cat /proc/sys/kernel/yama/ptrace_scope 2>/dev/null"
+      ],
+      "validation": [
+        "Record the configured value.",
+        "Consider UID, process relationships, capabilities, and namespaces."
+      ],
+      "detection": [],
+      "remediation": [
+        "Use an appropriate ptrace_scope value for the host's operational requirements."
+      ],
+      "mitre": [],
+      "tags": [
+        "yama",
+        "ptrace_scope",
+        "ptrace",
+        "hardening"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-gtfobins-suid",
+      "name": "GTFOBins SUID Candidate",
+      "platform": "linux",
+      "category": "SUID",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A discovered SUID binary has security-sensitive SUID functionality documented by GTFOBins.",
+      "found": [
+        "A SUID executable matches a GTFOBins entry."
+      ],
+      "requires": [
+        "The binary must retain the relevant elevated effective identity.",
+        "The installed version and invocation context must support the documented behaviour."
+      ],
+      "commands": [
+        "find / -perm -4000 -type f 2>/dev/null",
+        "ls -l /path/to/binary"
+      ],
+      "validation": [
+        "Compare the exact executable with GTFOBins.",
+        "Confirm ownership and SUID state.",
+        "Review version-specific behaviour.",
+        "Treat the match as a candidate until the required conditions are confirmed."
+      ],
+      "detection": [
+        "Maintain an approved SUID inventory.",
+        "Review unexpected general-purpose SUID utilities."
+      ],
+      "remediation": [
+        "Remove unnecessary SUID permissions.",
+        "Use dedicated privileged helpers instead of general-purpose binaries."
+      ],
+      "mitre": [
+        {
+          "id": "T1548.001",
+          "name": "Setuid and Setgid",
+          "url": "https://attack.mitre.org/techniques/T1548/001/"
+        }
+      ],
+      "tags": [
+        "gtfobins",
+        "suid",
+        "setuid",
+        "binary"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-gtfobins-capabilities",
+      "name": "GTFOBins Capability Candidate",
+      "platform": "linux",
+      "category": "Capabilities",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A binary with Linux capabilities has relevant capability functionality documented by GTFOBins.",
+      "found": [
+        "A capable executable matches a GTFOBins capability entry."
+      ],
+      "requires": [
+        "The assigned capability must match the documented conditions.",
+        "The executable must expose the relevant functionality."
+      ],
+      "commands": [
+        "getcap -r / 2>/dev/null",
+        "getcap /path/to/binary"
+      ],
+      "validation": [
+        "Compare the exact binary and capability set with GTFOBins.",
+        "Consider namespaces, LSM policy, and NoNewPrivileges.",
+        "Treat the reference as candidate guidance rather than proof."
+      ],
+      "detection": [
+        "Maintain an approved capability inventory."
+      ],
+      "remediation": [
+        "Remove unnecessary capabilities.",
+        "Avoid capabilities on general-purpose interpreters and utilities."
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "gtfobins",
+        "capabilities",
+        "getcap",
+        "binary"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    },
+    {
+      "id": "linux-recent-custom-files",
+      "name": "Recently Modified Custom Privileged Files",
+      "platform": "linux",
+      "category": "Applications",
+      "severity": "informational",
+      "confidence": "candidate",
+      "summary": "Recently modified files in custom application locations can help identify deployment scripts, service components, and maintenance resources worth reviewing.",
+      "found": [
+        "Recently changed files exist in custom application locations."
+      ],
+      "requires": [
+        "A discovered file must participate in a privileged trust relationship before it becomes a privilege escalation candidate."
+      ],
+      "commands": [
+        "find /opt /srv /usr/local -type f -mtime -7 2>/dev/null"
+      ],
+      "validation": [
+        "Review relevant files based on host role and service context.",
+        "Avoid treating modification time alone as suspicious."
+      ],
+      "detection": [],
+      "remediation": [],
+      "mitre": [],
+      "tags": [
+        "recent files",
+        "opt",
+        "srv",
+        "usr local",
+        "custom application"
+      ],
+      "related": [
+        "../linux/privilege-escalation.md"
+      ]
+    }
+  ]
+}
