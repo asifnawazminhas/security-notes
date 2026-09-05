@@ -1,27 +1,33 @@
 ---
 title: Linux PrivEsc Explorer
-description: Interactive Linux privilege escalation technique explorer for authorised security assessments.
+description: Interactive Linux privilege escalation reference for authorised security assessments.
 ---
 
 # Linux PrivEsc Explorer
 
-<div class="privesc-hero" data-platform="linux">
+<div class="privesc-hero">
 
-## Linux PrivEsc Explorer
+<h2>Linux PrivEsc Explorer</h2>
 
-Search Linux privilege escalation techniques based on sudo permissions, SUID and SGID binaries, capabilities, services, scheduled jobs, filesystem permissions, credentials, containers, groups, sockets, and system configuration discovered during an authorised assessment.
+<p>
+Search Linux privilege escalation techniques based on sudo permissions,
+SUID and SGID binaries, capabilities, services, scheduled jobs, filesystem
+permissions, credentials, containers, groups, sockets, and system
+configuration discovered during an authorised assessment.
+</p>
 
-<div class="privesc-hero-badges">
-<span class="privesc-badge">LINUX</span>
-<span class="privesc-badge">PRIVESC</span>
-<span class="privesc-badge">INTERACTIVE</span>
+<div class="privesc-card-badges">
+<span class="privesc-badge privesc-severity-medium">Linux</span>
+<span class="privesc-badge privesc-badge-category">PrivEsc</span>
+<span class="privesc-badge privesc-badge-category">Interactive</span>
 </div>
 
 </div>
+
 
 ---
 
-# Explorer
+## Explorer
 
 <div id="privesc-explorer" data-platform="linux">
 
@@ -33,25 +39,20 @@ Search Linux privilege escalation techniques based on sudo permissions, SUID and
     id="privesc-search"
     class="privesc-search"
     type="search"
-    placeholder="Try: sudo, SUID, cap_setuid, systemd, cron, docker..."
+    placeholder="Try: sudo, SUID, cap_setuid, systemd, cron, Docker..."
     autocomplete="off"
 >
 </div>
 
 <div class="privesc-filter-wrapper">
-
 <label for="privesc-category">Category</label>
-
 <select id="privesc-category" class="privesc-filter">
 <option value="all">All categories</option>
 </select>
-
 </div>
 
 <div class="privesc-filter-wrapper">
-
 <label for="privesc-severity">Severity</label>
-
 <select id="privesc-severity" class="privesc-filter">
 <option value="all">All severities</option>
 <option value="critical">Critical</option>
@@ -60,7 +61,6 @@ Search Linux privilege escalation techniques based on sudo permissions, SUID and
 <option value="low">Low</option>
 <option value="informational">Informational</option>
 </select>
-
 </div>
 
 <button id="privesc-reset" class="privesc-reset" type="button">
@@ -94,598 +94,286 @@ PrivEsc Explorer requires JavaScript. The reference material below remains avail
 </div>
 
 <div id="privesc-empty" class="privesc-empty" hidden>
-
-## No techniques found
-
-Try another search term or reset the filters.
-
+No techniques found. Try another search term or reset the filters.
 </div>
 
 </div>
+
 
 ---
 
-# What Should I Search For?
+## Search Examples
 
-The explorer is designed around discoveries made during Linux enumeration.
-
-Examples:
+Try searching for:
 
 ```text
 sudo
-```
-
-```text
 NOPASSWD
-```
-
-```text
 SETENV
-```
-
-```text
 SUID
-```
-
-```text
 SGID
-```
-
-```text
 cap_setuid
-```
-
-```text
 cap_dac_override
-```
-
-```text
 cap_sys_admin
-```
-
-```text
 systemd
-```
-
-```text
 cron
-```
-
-```text
+writable
 PATH
-```
-
-```text
-docker
-```
-
-```text
+Docker
 docker.sock
-```
-
-```text
-lxd
-```
-
-```text
-disk
-```
-
-```text
-shadow
-```
-
-```text
+LXD
 NFS
-```
-
-```text
 no_root_squash
-```
-
-```text
-writable service
-```
-
-```text
-writable script
-```
-
-```text
 socket
-```
-
-```text
 credential
-```
-
-```text
+SSH
 kernel
 ```
 
+The explorer searches across technique names, categories, descriptions, prerequisites, commands, validation guidance, MITRE ATT&CK information, and tags.
+
+
 ---
 
-# Linux Privilege Escalation Model
+## Linux Privilege Escalation Model
 
-Linux privilege escalation usually involves identifying a resource or capability available to the current user that is trusted by a more privileged process, account, or security boundary.
+Linux privilege escalation commonly involves a lower-privileged user being able to influence a resource or execution path associated with a more privileged identity.
 
 ```text
-Unprivileged User
-       |
-       v
+Current User
+    |
+    v
 Enumeration
-       |
-       v
-Permission / Binary / Group / Capability
-       |
-       v
-Privileged Consumer or Kernel Boundary
-       |
-       v
-Precondition Analysis
-       |
-       v
-Controlled Validation
-       |
-       v
-Privilege Impact
+    |
+    +--> sudo
+    +--> SUID / SGID
+    +--> Capabilities
+    +--> Services
+    +--> systemd
+    +--> Cron
+    +--> Filesystem
+    +--> PATH
+    +--> Libraries
+    +--> Credentials
+    +--> Groups
+    +--> Containers
+    +--> Unix Sockets
+    +--> NFS
+    +--> Applications
+    +--> Kernel
+    |
+    v
+Candidate
+    |
+    v
+Validate Privilege Relationship
+    |
+    v
+Determine Impact
 ```
 
-The important question is not simply:
+The presence of an interesting configuration does not automatically prove privilege escalation.
 
-```text
-Is this writable?
-```
-
-or:
-
-```text
-Is this SUID?
-```
-
-The important question is:
-
-```text
-Can this capability influence a more privileged security context?
-```
 
 ---
 
-# Categories
+## Establish the Current Security Context
 
-The Linux explorer groups techniques into the following areas.
-
-| Category | Focus |
-|---|---|
-| sudo | Delegated command execution through sudo |
-| SUID | Executables running with the file owner's effective UID |
-| SGID | Executables running with the file group's effective GID |
-| Capabilities | Fine-grained Linux process capabilities |
-| Services | Privileged daemons and service dependencies |
-| systemd | Units, timers, environment files, and service resources |
-| Cron | Scheduled privileged commands and scripts |
-| Filesystem | Writable files, directories, and trusted resources |
-| PATH | Unsafe command resolution |
-| Credentials | Passwords, keys, tokens, and application secrets |
-| Groups | Security-sensitive group memberships |
-| Containers | Docker, LXD, container runtime, and host relationships |
-| NFS | Network filesystem configuration |
-| Sockets | Privileged Unix-domain sockets and local APIs |
-| Applications | Custom or third-party privileged software |
-| Libraries | Dynamic library and module loading |
-| Kernel | Kernel-level privilege escalation candidates |
-
----
-
-# Start With Context
-
-Before analysing individual techniques, establish the current security context.
-
-Identity:
+Start with:
 
 ```bash
 id
 ```
 
-Current user:
-
 ```bash
 whoami
 ```
-
-Groups:
 
 ```bash
 groups
 ```
 
-Detailed identity:
-
-```bash
-id -a
-```
-
-Kernel:
+Additional context:
 
 ```bash
 uname -a
 ```
 
-Operating system:
-
 ```bash
 cat /etc/os-release
 ```
 
-Architecture:
-
 ```bash
-uname -m
+hostname
 ```
+
+Understanding the current identity and system context prevents incorrect assumptions later in the assessment.
+
 
 ---
 
-# UID and GID
+## sudo
 
-Linux identity is represented primarily through:
-
-```text
-UID
-GID
-Supplementary groups
-Effective UID
-Effective GID
-```
-
-Typical root identity:
-
-```text
-uid=0(root)
-```
-
-A normal user might appear as:
-
-```text
-uid=1000(user)
-gid=1000(user)
-groups=1000(user)
-```
-
-Privilege escalation commonly aims to cross:
-
-```text
-UID != 0
-   |
-   v
-UID = 0
-```
-
-or obtain equivalent privileged control without necessarily creating an interactive root shell.
-
----
-
-# sudo
-
-One of the highest-value checks is:
+Inspect delegated sudo privileges:
 
 ```bash
 sudo -l
 ```
 
-This lists commands the current user may execute through sudo.
-
-Possible output can include:
+Look for:
 
 ```text
-(ALL : ALL) ALL
+NOPASSWD
+SETENV
+Wildcards
+Interpreters
+Editors
+File utilities
+Package managers
+Service-management commands
+Shell-capable applications
+User-controlled arguments
+User-controlled environment variables
 ```
 
-```text
-(root) NOPASSWD: /usr/bin/example
-```
+A sudo entry is not automatically vulnerable.
 
-```text
-(root) /usr/bin/systemctl restart example.service
-```
+The delegated command and its argument restrictions must be understood.
 
-```text
-(root) SETENV: /usr/bin/example
-```
-
-Each rule must be evaluated in context.
 
 ---
 
-# sudo Rule Model
-
-```text
-Current User
-     |
-     v
-sudo Rule
-     |
-     v
-Allowed Command
-     |
-     v
-Target User
-     |
-     v
-Command Behaviour
-```
-
-A sudo entry is security-sensitive when the delegated program exposes functionality beyond the intended administrative operation.
-
----
-
-# sudo NOPASSWD
+## sudo NOPASSWD
 
 Example:
 
 ```text
-(root) NOPASSWD: /usr/bin/example
+(ALL) NOPASSWD: /usr/bin/example
 ```
 
-This means the command may be executed as the specified target without re-entering the user's password.
-
-`NOPASSWD` alone is not automatically a vulnerability.
-
-The relevant question is:
+Questions include:
 
 ```text
-Can the delegated command perform unintended privileged operations?
+What can the executable do?
+Can it execute commands?
+Can it write files?
+Can it load plugins?
+Can it invoke an editor?
+Can it invoke a pager?
+Can it execute child processes?
+Can arguments influence files or commands?
 ```
+
+Use [GTFOBins](https://gtfobins.github.io/){ target="_blank" rel="noopener noreferrer" } as a reference where applicable, but verify the exact local binary and sudo rule.
+
 
 ---
 
-# sudo Command Analysis
+## sudo SETENV
 
-For each sudo rule determine:
+`SETENV` can allow environment variables to be preserved or supplied to delegated commands.
 
-```text
-Target identity
-Executable
-Arguments
-Wildcards
-Environment handling
-Working directory
-Files consumed
-Plugins
-Editors
-Shell escapes
-Subcommands
-External commands
-Configuration
-Writable dependencies
-```
+Potentially security-sensitive variables depend on the command and execution context.
+
+The presence of `SETENV` should be treated as a candidate requiring contextual analysis rather than automatic privilege escalation.
+
 
 ---
 
-# sudo Wildcards
+## sudo Wildcards
 
-Rules containing wildcards deserve careful analysis.
+Wildcard rules may become dangerous when a privileged program interprets attacker-controlled filenames as command-line options or arguments.
 
-Example concept:
-
-```text
-/usr/bin/example *
-```
-
-A wildcard may allow additional argument control beyond what the administrator intended.
-
-Do not assume every wildcard is exploitable.
-
-Understand how:
+The relevant relationship is:
 
 ```text
-sudo
+Privileged Command
+      |
+      v
+Wildcard Expansion
+      |
+      v
+User-Controlled Filename
+      |
+      v
+Argument Interpretation
 ```
 
-and:
+Validate the exact command behaviour before reporting the condition.
 
-```text
-the delegated program
-```
-
-interpret the resulting arguments.
 
 ---
 
-# sudo SETENV
+## SUID
 
-A rule containing:
-
-```text
-SETENV
-```
-
-may permit preservation or specification of environment variables for the delegated command.
-
-Potentially security-sensitive variables can include those affecting:
-
-```text
-Library loading
-Interpreter behaviour
-Module loading
-Application configuration
-PATH resolution
-```
-
-The practical impact depends on the delegated executable and sudo configuration.
-
----
-
-# GTFOBins
-
-[GTFOBins](https://gtfobins.org/){ target="_blank" rel="noopener noreferrer" } documents Unix binaries that can provide security-sensitive functionality when exposed through configurations such as:
-
-```text
-sudo
-SUID
-Capabilities
-```
-
-The presence of a GTFOBins-listed binary is not automatically a vulnerability.
-
-The relevant question is whether the binary is exposed through an unsafe privilege boundary.
-
----
-
-# SUID
-
-SUID executables can run with the effective UID of the file owner.
-
-Enumerate:
+Find SUID files:
 
 ```bash
 find / -perm -4000 -type f 2>/dev/null
 ```
 
-Alternative:
+SUID causes an executable to run with the effective UID of its owner.
 
-```bash
-find / -type f -perm -u=s 2>/dev/null
-```
+A SUID binary is not automatically vulnerable.
 
-Typical legitimate SUID binaries may exist on standard Linux installations.
-
-Do not report SUID merely because it exists.
-
----
-
-# SUID Permissions
-
-Inspect:
-
-```bash
-ls -l /path/to/binary
-```
-
-Example:
+Review:
 
 ```text
--rwsr-xr-x 1 root root ...
-```
-
-The:
-
-```text
-s
-```
-
-in the owner's execute position indicates SUID.
-
----
-
-# SUID Model
-
-```text
-User Executes Binary
-        |
-        v
-SUID Program
-        |
-        v
-Effective UID = File Owner
-        |
-        v
-Program Functionality
-```
-
-Security depends heavily on what the program does while operating with the elevated effective UID.
-
----
-
-# Interesting SUID Binaries
-
-Prioritise:
-
-```text
-Custom binaries
-Unusual binaries
-Interpreters
-Editors
-File-management tools
-Backup tools
-Archive utilities
-Legacy applications
-Organisation-specific executables
-Unexpected copies of common programs
-```
-
-Standard SUID binaries should still be checked against the expected package and system baseline.
-
----
-
-# Custom SUID Programs
-
-Custom SUID programs deserve detailed review.
-
-Inspect:
-
-```bash
-ls -l /path/to/program
-```
-
-```bash
-file /path/to/program
-```
-
-```bash
-stat /path/to/program
-```
-
-```bash
-ldd /path/to/program
-```
-
-where applicable.
-
-Look for unsafe assumptions involving:
-
-```text
-PATH
-Environment
-Relative commands
-Temporary files
+Owner
+Binary purpose
+Arguments
+Environment handling
+File operations
+External commands
+Library loading
 Configuration
-Dynamic libraries
-User input
-File ownership
-Symlinks
+Version
+Custom code
 ```
+
 
 ---
 
-# SGID
+## SGID
 
-Enumerate SGID executables:
+Find SGID files:
 
 ```bash
 find / -perm -2000 -type f 2>/dev/null
 ```
 
-SGID programs execute with the effective group identity of the file's group.
+SGID can provide access to security-sensitive groups or resources.
 
-This may provide access to:
+The impact depends on the owning group and the functionality exposed by the executable.
 
-```text
-Protected files
-Administrative groups
-Application resources
-Sockets
-Devices
-Logs
-Credentials
-```
-
-depending on the group.
 
 ---
 
-# Linux Capabilities
+## Custom SUID Applications
 
-Linux capabilities divide traditional root privileges into smaller units.
+Custom SUID applications deserve additional attention.
+
+Useful review areas include:
+
+```text
+system()
+popen()
+exec*()
+Relative executable paths
+Temporary files
+Environment variables
+Writable configuration
+Writable libraries
+Unsafe file handling
+User-controlled input
+```
+
+Prefer static analysis and permission inspection before executing invasive tests.
+
+
+---
+
+## Linux Capabilities
 
 Enumerate file capabilities:
 
@@ -693,19 +381,7 @@ Enumerate file capabilities:
 getcap -r / 2>/dev/null
 ```
 
-Example:
-
-```text
-/usr/bin/example cap_setuid=ep
-```
-
-Capabilities should be analysed together with the functionality of the executable.
-
----
-
-# Interesting Capabilities
-
-Potentially security-sensitive capabilities include:
+Common security-sensitive capabilities include:
 
 ```text
 CAP_SETUID
@@ -715,188 +391,115 @@ CAP_DAC_READ_SEARCH
 CAP_SYS_ADMIN
 CAP_SYS_PTRACE
 CAP_SYS_MODULE
-CAP_SYS_CHROOT
 CAP_NET_ADMIN
 CAP_NET_RAW
-CAP_CHOWN
-CAP_FOWNER
-CAP_SETFCAP
 ```
 
-Their impact depends on the program receiving the capability.
+Capabilities should always be interpreted in the context of the executable receiving them.
+
 
 ---
 
-# CAP_SETUID
+## CAP_SETUID
 
-`CAP_SETUID` can permit UID manipulation under applicable conditions.
+`CAP_SETUID` allows applicable processes to manipulate user IDs.
 
-A capable interpreter or flexible executable may therefore be particularly security-sensitive.
+When assigned to a flexible interpreter or executable capable of arbitrary code execution, this can represent a strong privilege escalation candidate.
 
-Check:
+Verify:
 
 ```bash
 getcap /path/to/binary
 ```
 
-Do not assume every `CAP_SETUID` binary provides a practical root path.
+Do not assume every executable with `CAP_SETUID` provides arbitrary code execution.
 
-Review the program's functionality.
-
----
-
-# CAP_SETGID
-
-`CAP_SETGID` can permit manipulation of group identity.
-
-Potential impact depends on which groups provide access to privileged resources.
 
 ---
 
-# CAP_DAC_OVERRIDE
+## CAP_SETGID
 
-`CAP_DAC_OVERRIDE` can bypass selected discretionary access-control checks.
+`CAP_SETGID` can allow manipulation of group IDs.
 
-This can provide access to files otherwise protected by normal Unix permissions.
+Impact depends on which groups can be assumed and what those groups can access.
 
-Avoid reading unrelated sensitive information merely because the capability permits it.
-
----
-
-# CAP_DAC_READ_SEARCH
-
-This capability can bypass selected file read and directory search permission checks.
-
-Assess whether security-sensitive resources become accessible.
 
 ---
 
-# CAP_SYS_ADMIN
+## CAP_DAC_OVERRIDE
 
-`CAP_SYS_ADMIN` covers a broad set of privileged operations.
+This capability can bypass discretionary access-control checks for applicable file operations.
 
-Its presence on a user-accessible executable or container can be highly security-sensitive.
+Potential impact includes access to otherwise protected files.
 
-Analyse the exact executable and namespace context before concluding impact.
+The exact executable functionality determines practical exploitability.
+
 
 ---
 
-# CAP_SYS_PTRACE
+## CAP_DAC_READ_SEARCH
 
-This capability can permit process tracing under applicable conditions.
+This capability can bypass certain file read and directory search restrictions.
 
-Potential impact depends on:
+It can be security sensitive where the executable exposes flexible file-reading functionality.
+
+
+---
+
+## CAP_SYS_ADMIN
+
+`CAP_SYS_ADMIN` is extremely broad.
+
+Depending on the context, it can expose security-sensitive operations involving:
+
+```text
+Mounts
+Namespaces
+Filesystem operations
+Kernel interfaces
+System administration
+```
+
+The presence of this capability warrants careful investigation.
+
+
+---
+
+## CAP_SYS_PTRACE
+
+This capability can permit tracing or inspection of processes outside normal restrictions.
+
+Impact depends on:
 
 ```text
 Target process
-UID relationships
-Yama configuration
-Namespaces
-LSM controls
+Credential material
 Process protections
+Namespace boundaries
+Kernel restrictions
 ```
+
 
 ---
 
-# CAP_SYS_MODULE
+## CAP_SYS_MODULE
 
-`CAP_SYS_MODULE` permits kernel module operations.
+This capability can permit kernel-module operations in applicable contexts.
 
-It represents a highly privileged capability and should normally be tightly restricted.
+Kernel module testing is potentially destabilising and should not be performed on production systems unless specifically authorised.
 
-Do not load kernel modules merely to prove impact.
-
----
-
-# Process Capabilities
-
-For a process:
-
-```bash
-grep '^Cap' /proc/self/status
-```
-
-Where available:
-
-```bash
-capsh --print
-```
-
-Capabilities may differ between:
-
-```text
-Permitted
-Effective
-Inheritable
-Bounding
-Ambient
-```
-
-sets.
 
 ---
 
-# Services
+## Services
 
-Linux systems commonly use privileged daemons for:
-
-```text
-Web applications
-Databases
-Monitoring
-Backup
-Networking
-Updates
-Management
-Security tooling
-Custom applications
-```
-
-Enumerate running processes:
+Enumerate services:
 
 ```bash
-ps aux
+systemctl list-units --type=service --all
 ```
 
-Process tree:
-
-```bash
-ps auxf
-```
-
-Alternative:
-
-```bash
-ps -ef
-```
-
----
-
-# Root Processes
-
-```bash
-ps -U root -u root u
-```
-
-A root process is not itself a vulnerability.
-
-The assessment question is:
-
-```text
-What lower-privileged resources does this root process trust?
-```
-
----
-
-# systemd
-
-List running services:
-
-```bash
-systemctl --type=service --state=running
-```
-
-List unit files:
+Installed service definitions:
 
 ```bash
 systemctl list-unit-files --type=service
@@ -905,593 +508,394 @@ systemctl list-unit-files --type=service
 Inspect a service:
 
 ```bash
-systemctl cat example.service
+systemctl cat <service>
 ```
 
-Properties:
-
-```bash
-systemctl show example.service
-```
-
----
-
-# systemd Unit Model
+Useful fields include:
 
 ```text
-systemd
-   |
-   v
-Unit File
-   |
-   +-- ExecStart
-   |
-   +-- ExecStartPre
-   |
-   +-- ExecStartPost
-   |
-   +-- EnvironmentFile
-   |
-   +-- WorkingDirectory
-   |
-   +-- User
-   |
-   +-- Group
-   |
-   +-- PermissionsStartOnly
+User=
+Group=
+ExecStart=
+ExecStartPre=
+ExecStartPost=
+Environment=
+EnvironmentFile=
+WorkingDirectory=
 ```
 
-The exact available directives depend on the unit type and systemd version.
 
 ---
 
-# Writable systemd Executable
+## systemd
 
-Suppose:
+A useful systemd assessment model is:
 
 ```text
-ExecStart=/opt/company/service.sh
+systemd Unit
+    |
+    v
+Privileged Identity
+    |
+    v
+ExecStart
+    |
+    +--> Binary
+    +--> Script
+    +--> EnvironmentFile
+    +--> Configuration
+    |
+    v
+Can Current User Modify It?
 ```
 
-and the unit executes as root.
+Inspect ownership and permissions before changing anything.
 
-Check:
 
-```bash
-ls -l /opt/company/service.sh
-```
+---
 
-```bash
-namei -l /opt/company/service.sh
-```
+## Writable systemd Executable
 
-The relationship becomes:
+Example relationship:
 
 ```text
-User
- |
- | write
- v
-service.sh
- |
- | executed by
- v
-root systemd service
+root service
+    |
+    v
+ExecStart=/opt/example/service.sh
+    |
+    v
+service.sh writable by normal user
 ```
 
-This can often be demonstrated without modifying the script.
+Validate:
+
+```bash
+ls -l /opt/example/service.sh
+```
+
+```bash
+namei -l /opt/example/service.sh
+```
+
+```bash
+getfacl /opt/example/service.sh
+```
+
+The permission relationship itself may provide sufficient evidence without modifying the script.
+
 
 ---
 
-# Writable systemd Unit
+## systemd Environment Files
 
-Locate:
-
-```bash
-systemctl cat example.service
-```
-
-Check the unit file:
-
-```bash
-ls -l /etc/systemd/system/example.service
-```
-
-A lower-privileged writable root service unit is highly security-sensitive.
-
-Do not edit the unit merely to demonstrate the issue.
-
----
-
-# EnvironmentFile
-
-Example unit directive:
+A privileged service may consume an environment file:
 
 ```text
 EnvironmentFile=/etc/example/example.env
 ```
 
-Check:
+Inspect:
 
 ```bash
 ls -l /etc/example/example.env
 ```
 
-Determine whether the variables influence privileged command execution.
+```bash
+getfacl /etc/example/example.env
+```
 
-A writable environment file is not automatically exploitable.
+Whether this creates privilege escalation depends on how the service uses those variables.
+
 
 ---
 
-# systemd Timers
+## Cron
 
-Enumerate:
-
-```bash
-systemctl list-timers --all
-```
-
-Inspect:
-
-```bash
-systemctl cat example.timer
-```
-
-and the corresponding service.
-
-A timer is analogous to other scheduled execution mechanisms:
-
-```text
-Timer
-  |
-  v
-Service
-  |
-  v
-Command
-  |
-  v
-Execution Identity
-```
-
----
-
-# Cron
-
-System cron configuration may exist in:
-
-```text
-/etc/crontab
-/etc/cron.d/
-/etc/cron.hourly/
-/etc/cron.daily/
-/etc/cron.weekly/
-/etc/cron.monthly/
-```
-
-Inspect:
+Enumerate system cron configuration:
 
 ```bash
 cat /etc/crontab
 ```
 
 ```bash
-ls -la /etc/cron.d
-```
-
----
-
-# Cron Process Model
-
-```text
-cron
- |
- v
-Schedule
- |
- v
-User
- |
- v
-Command / Script
- |
- v
-Dependencies
-```
-
-A root cron job becomes security-sensitive when a lower-privileged user controls the executed resource or its trusted dependencies.
-
----
-
-# Writable Cron Script
-
-Example:
-
-```text
-root /opt/company/backup.sh
-```
-
-Check:
-
-```bash
-ls -l /opt/company/backup.sh
+ls -la /etc/cron.d/
 ```
 
 ```bash
-namei -l /opt/company/backup.sh
+ls -la /etc/cron.daily/
 ```
 
-If a normal user can modify the script:
-
-```text
-User
- |
- | write
- v
-backup.sh
- |
- | executed by cron
- v
-root
+```bash
+ls -la /etc/cron.hourly/
 ```
 
-The privilege relationship can be established without modifying the script.
+User cron:
+
+```bash
+crontab -l
+```
+
+Look for privileged jobs executing writable resources.
+
 
 ---
 
-# Cron PATH
+## Writable Cron Script
 
-Review PATH definitions in:
+A strong candidate relationship is:
+
+```text
+root cron job
+    |
+    v
+Executes Script
+    |
+    v
+Script Writable by Normal User
+```
+
+Inspect:
+
+```bash
+ls -l /path/to/script
+```
+
+```bash
+getfacl /path/to/script
+```
+
+Prefer demonstrating permissions and execution identity without modifying the script.
+
+
+---
+
+## Cron PATH
+
+Review PATH definitions inside:
 
 ```text
 /etc/crontab
 /etc/cron.d/*
 ```
 
-A privilege escalation candidate may exist when:
+A candidate may exist when:
 
 ```text
-Privileged Cron Job
-        |
-        v
-Relative Command
-        |
-        v
-PATH Search
-        |
-        v
-Writable Earlier Directory
+Privileged cron job
+        +
+Relative executable name
+        +
+Writable earlier PATH directory
 ```
 
-Do not report a writable PATH without identifying a privileged relative command.
+All three conditions matter.
+
 
 ---
 
-# Wildcards in Scheduled Jobs
+## Filesystem Permissions
 
-Backup and archive commands sometimes operate on wildcard-expanded file sets.
-
-Review carefully when privileged jobs use:
-
-```text
-tar
-rsync
-cp
-find
-chown
-chmod
-```
-
-or custom utilities against user-writable directories.
-
-The impact depends on how the specific command interprets filenames and arguments.
-
----
-
-# Filesystem Permissions
-
-Find world-writable files:
+Useful commands:
 
 ```bash
-find / -xdev -type f -perm -0002 2>/dev/null
+ls -la
 ```
-
-World-writable directories:
 
 ```bash
-find / -xdev -type d -perm -0002 2>/dev/null
+stat /path/to/file
 ```
-
-These commands identify candidates, not vulnerabilities.
-
----
-
-# Sticky Bit
-
-A directory such as:
-
-```text
-/tmp
-```
-
-is commonly world-writable but protected by the sticky bit.
-
-Example:
-
-```text
-drwxrwxrwt
-```
-
-The final:
-
-```text
-t
-```
-
-changes deletion and replacement semantics.
-
-Do not treat standard `/tmp` permissions as a finding by themselves.
-
----
-
-# ACLs
-
-Traditional permission output may not show the complete access model.
-
-Check:
-
-```bash
-getfacl /path/to/resource
-```
-
-ACL entries may grant access beyond standard:
-
-```text
-owner
-group
-other
-```
-
-permissions.
-
----
-
-# Parent Directory Permissions
-
-Use:
 
 ```bash
 namei -l /path/to/file
 ```
 
-This is useful because a protected file may still be exposed through unsafe parent-directory permissions.
+```bash
+getfacl /path/to/file
+```
 
-Analyse the complete path.
+Interesting conditions include:
+
+```text
+Root-owned file writable by current user
+Root-owned directory writable by current user
+Privileged script writable by current user
+Privileged configuration writable by current user
+Writable parent directory
+Unexpected ACL
+```
+
 
 ---
 
-# Writable Root-Owned Script
+## Writable Directories
 
-A file can be:
-
-```text
-root-owned
-```
-
-while still being writable by another identity through:
-
-```text
-Group permissions
-ACL
-Parent-directory replacement
-```
-
-Ownership alone is not enough.
-
----
-
-# PATH
-
-Display:
+Find writable directories carefully:
 
 ```bash
-printf '%s\n' "$PATH"
+find / -type d -writable 2>/dev/null
 ```
 
-One entry per line:
+The result set may be large.
+
+Writable directories such as `/tmp` are expected and are not automatically vulnerabilities.
+
+Determine whether a privileged process consumes attacker-controlled resources from the directory.
+
+
+---
+
+## PATH
+
+Inspect:
+
+```bash
+echo "$PATH"
+```
+
+Readable format:
 
 ```bash
 printf '%s\n' "$PATH" | tr ':' '\n'
 ```
 
-Check permissions:
-
-```bash
-ls -ld /path/from/PATH
-```
-
----
-
-# Writable PATH Directory
-
-The required relationship is:
+A PATH candidate usually requires:
 
 ```text
 Privileged Process
-       |
-       v
-Executes Relative Command
-       |
-       v
-PATH Resolution
-       |
-       v
-Writable Directory
+       +
+Relative Command
+       +
+Writable PATH Directory
+       +
+Writable Directory Appears Earlier
 ```
 
-A writable PATH directory without a privileged consumer is usually not a privilege escalation finding.
 
 ---
 
-# Relative Commands in Scripts
+## Credentials
 
-Inspect privileged scripts for commands such as:
-
-```text
-cp
-mv
-tar
-python
-bash
-sh
-awk
-sed
-find
-```
-
-without explicit absolute paths.
-
-Then determine the PATH used by the privileged execution context.
-
----
-
-# Credentials
-
-Potential credential locations include:
+Potential locations include:
 
 ```text
 Shell history
-Configuration files
 Environment variables
-SSH keys
-Application configuration
-Database configuration
+Configuration files
 Backup files
-Deployment scripts
+SSH keys
+Application credentials
+Database configuration
+Deployment files
 Cloud credentials
-Container configuration
-Git repositories
-Service environment files
+Service configuration
 ```
 
-Detailed handling is covered in [Linux Credentials](../linux/credentials.md).
+Search only within authorised scope.
+
 
 ---
 
-# Shell History
+## Shell History
 
-Potential history files include:
-
-```text
-~/.bash_history
-~/.zsh_history
-~/.python_history
-```
-
-Targeted search:
+Examples:
 
 ```bash
-grep -Ei 'pass(word)?|secret|token|api[_-]?key|credential' ~/.bash_history 2>/dev/null
+cat ~/.bash_history
 ```
 
-Avoid printing secrets unnecessarily.
+```bash
+cat ~/.zsh_history
+```
+
+History may contain:
+
+```text
+Passwords
+Tokens
+SSH commands
+Database commands
+Administrative commands
+Internal hosts
+API keys
+```
+
+Treat discovered credentials as sensitive assessment evidence.
+
 
 ---
 
-# Environment
+## Environment Variables
+
+Inspect:
 
 ```bash
 env
 ```
 
-Targeted names:
+or:
 
 ```bash
-env | cut -d= -f1 | grep -Ei 'pass|secret|token|key|cred'
+printenv
 ```
 
-Searching names first reduces unnecessary exposure of secret values.
+Look for secrets only where authorised.
+
 
 ---
 
-# SSH Keys
+## SSH Keys
 
-Typical locations:
+Common location:
 
 ```text
 ~/.ssh/
 ```
 
-Inspect metadata:
+Inspect permissions:
 
 ```bash
-ls -la ~/.ssh
+ls -la ~/.ssh/
 ```
 
-Possible files include:
+Private keys should not be copied unnecessarily.
 
-```text
-id_rsa
-id_ed25519
-authorized_keys
-known_hosts
-config
-```
+Establish relevance and scope before using discovered authentication material.
 
-Private keys must be handled as sensitive credential material.
 
 ---
 
-# Application Configuration
+## Groups
 
-Potential locations include:
-
-```text
-/opt/
-/srv/
-/var/www/
-/etc/
-User home directories
-Application deployment directories
-```
-
-Search narrowly around known applications rather than recursively dumping every configuration file.
-
----
-
-# Group Membership
-
-Current groups:
+Enumerate:
 
 ```bash
 id
 ```
-
-or:
 
 ```bash
 groups
 ```
 
-Some groups can provide security-sensitive access depending on the host.
-
-Examples include:
+Security-sensitive group memberships can include:
 
 ```text
+sudo
+wheel
 docker
 lxd
 disk
 shadow
-adm
-systemd-journal
 libvirt
+adm
 ```
 
-Membership is a candidate requiring contextual analysis.
+The impact depends on system configuration.
+
 
 ---
 
-# docker Group
+## Docker
 
 Check:
 
@@ -1499,94 +903,47 @@ Check:
 id
 ```
 
-Docker socket:
+```bash
+docker info
+```
+
+Docker access can be highly privileged when the client can communicate with a rootful Docker daemon.
+
+Relevant factors include:
+
+```text
+docker group membership
+Docker socket permissions
+Rootful vs rootless daemon
+Remote API exposure
+Authorisation plugins
+Host mounts
+Container privileges
+```
+
+
+---
+
+## Docker Socket
+
+Inspect:
 
 ```bash
 ls -l /var/run/docker.sock
 ```
 
-Docker access can represent a host-equivalent administrative boundary on many standard configurations because the daemon commonly operates with root privileges.
-
-The exact impact depends on:
+The key question is:
 
 ```text
-Docker daemon configuration
-Rootless Docker
-Socket permissions
-Authorization plugins
-Container restrictions
-Host configuration
+Can the current user control a rootful Docker daemon?
 ```
+
+If yes, the access may effectively represent host-level administrative authority.
+
 
 ---
 
-# Docker Socket
-
-Check:
-
-```bash
-stat /var/run/docker.sock
-```
-
-or:
-
-```bash
-ls -l /var/run/docker.sock
-```
-
-Determine:
-
-```text
-Owner
-Group
-Permissions
-Daemon mode
-Current group membership
-```
-
-Do not launch privileged containers on production hosts merely to demonstrate the relationship.
-
----
-
-# Rootless Docker
-
-Rootless Docker changes the security relationship.
-
-Do not assume:
-
-```text
-docker group = root
-```
-
-without establishing whether the daemon itself operates with root privileges.
-
----
-
-# LXD
-
-Check groups:
-
-```bash
-id
-```
-
-Potential socket locations can be reviewed according to the installed LXD configuration.
-
-LXD administration can provide significant control over containers and potentially host resources depending on configuration.
-
-Confirm the actual daemon and storage model before concluding impact.
-
----
-
-# disk Group
-
-Membership in:
-
-```text
-disk
-```
-
-can provide direct access to block devices on many Linux systems.
+## LXD
 
 Check:
 
@@ -1594,717 +951,137 @@ Check:
 id
 ```
 
-Devices:
-
 ```bash
-ls -l /dev/sd* /dev/nvme* 2>/dev/null
+lxc list
 ```
 
-Direct block-device access can bypass normal filesystem permissions.
+Membership in an LXD administrative group can be security sensitive depending on configuration and available host integration.
 
-Do not read unrelated disk content merely to prove access.
+Do not assume all LXD environments are configured identically.
+
 
 ---
 
-# shadow Group
+## NFS
 
-Membership in a group capable of reading:
-
-```text
-/etc/shadow
-```
-
-is security-sensitive.
-
-Check metadata:
-
-```bash
-ls -l /etc/shadow
-```
-
-Do not copy password hashes unnecessarily.
-
-Permission evidence may be sufficient.
-
----
-
-# adm and systemd-journal
-
-These groups can provide access to extensive system logs.
-
-Logs may contain:
-
-```text
-Usernames
-Application data
-Tokens
-URLs
-Errors
-Operational secrets
-```
-
-Their security impact depends on what is actually logged.
-
-Do not classify log-reading groups as automatic root escalation.
-
----
-
-# libvirt
-
-Virtualisation management groups can provide extensive control over local virtual machines and storage.
-
-Assess:
-
-```text
-Daemon privilege
-Socket permissions
-Storage access
-VM configuration
-Host filesystem exposure
-```
-
-before determining impact.
-
----
-
-# Unix-Domain Sockets
-
-Find Unix sockets:
-
-```bash
-find / -type s 2>/dev/null
-```
-
-Target common runtime locations first where possible:
-
-```bash
-find /run /var/run /tmp -type s 2>/dev/null
-```
-
-A socket is only interesting when its server exposes security-sensitive functionality.
-
----
-
-# Socket Model
-
-```text
-User
- |
- | connect
- v
-Unix Socket
- |
- v
-Privileged Daemon
- |
- v
-Administrative API
-```
-
-Determine:
-
-```text
-Server process
-Server identity
-Socket owner
-Socket group
-Socket permissions
-Protocol
-Authentication
-Available operations
-```
-
----
-
-# D-Bus
-
-D-Bus can expose privileged system services.
-
-System bus:
-
-```bash
-busctl list
-```
-
-where available.
-
-A service being present does not mean it exposes unsafe privileged methods.
-
-Analyse:
-
-```text
-Service identity
-Policy
-Methods
-Authentication
-Polkit integration
-```
-
----
-
-# Polkit
-
-Polkit mediates authorisation for many privileged desktop and system services.
-
-Installed rules may exist under locations such as:
-
-```text
-/etc/polkit-1/rules.d/
-/usr/share/polkit-1/rules.d/
-```
-
-Assess:
-
-```text
-Custom rules
-Group-based authorisation
-Authentication requirements
-Service integration
-```
-
-Do not assume Polkit itself is a vulnerability.
-
----
-
-# NFS
-
-Review mounted filesystems:
+Inspect mounted filesystems:
 
 ```bash
 mount
 ```
 
-NFS mounts:
-
 ```bash
-mount -t nfs,nfs4
+findmnt
 ```
 
-Local export configuration, where accessible:
+Client-visible NFS configuration can provide useful context.
 
-```bash
-cat /etc/exports
-```
+Server-side export configuration should be reviewed where authorised.
 
----
-
-# root_squash
-
-NFS commonly uses:
-
-```text
-root_squash
-```
-
-to map remote root access to a less privileged identity.
-
-An export configured with:
+A security-sensitive configuration can include:
 
 ```text
 no_root_squash
 ```
 
-deserves careful review.
+but practical impact depends on export permissions, write access, mount access, and server configuration.
 
-The actual impact depends on:
-
-```text
-Export permissions
-Client restrictions
-Filesystem content
-Execution context
-Mount options
-Network accessibility
-```
 
 ---
 
-# Mount Options
+## Unix Sockets
 
-Review:
+Enumerate listening Unix sockets:
 
 ```bash
-mount
+ss -lx
 ```
 
-Security-relevant options can include:
-
-```text
-nosuid
-noexec
-nodev
-ro
-rw
-```
-
-These options affect exploitability and should be recorded when evaluating filesystem-based candidates.
-
----
-
-# Dynamic Libraries
-
-Inspect dependencies:
+Inspect:
 
 ```bash
-ldd /path/to/binary
+find / -type s 2>/dev/null
 ```
 
-where appropriate.
-
-Potential issues can involve:
-
-```text
-Writable library files
-Writable library directories
-Unsafe custom search paths
-Privileged programs loading user-controlled libraries
-```
-
----
-
-# ldconfig
-
-Review:
-
-```bash
-ldconfig -p
-```
-
-Configuration commonly exists under:
-
-```text
-/etc/ld.so.conf
-/etc/ld.so.conf.d/
-```
-
-A writable library configuration used by privileged system processes can be security-sensitive.
-
-Do not modify dynamic linker configuration merely to prove the condition.
-
----
-
-# LD_LIBRARY_PATH
-
-Environment-controlled library paths can become security-sensitive when preserved into a privileged execution context.
-
-Most normal privileged execution mechanisms deliberately restrict dangerous environment variables.
-
-Confirm actual behaviour rather than assuming inheritance.
-
----
-
-# Interpreters and Module Search Paths
-
-Privileged scripts using:
-
-```text
-Python
-Perl
-Ruby
-Node.js
-PHP
-Shell
-```
-
-may load modules, libraries, or configuration from search paths.
-
-For example, review Python's effective import behaviour only when a privileged Python application is identified.
-
-The presence of Python itself is not a privilege escalation issue.
-
----
-
-# Writable Imported Module
-
-Model:
-
-```text
-Root Python Script
-       |
-       v
-Imports Module
-       |
-       v
-Module Search
-       |
-       v
-User-Writable Module
-```
-
-Confirm the actual imported path before reporting.
-
----
-
-# Temporary Files
-
-Privileged applications sometimes use:
-
-```text
-/tmp
-/var/tmp
-Custom temporary directories
-```
-
-Potential weaknesses can involve:
-
-```text
-Predictable filenames
-Unsafe permissions
-Symlink handling
-Race conditions
-Insecure replacement
-```
-
-These conditions require application-specific validation.
-
----
-
-# Symlinks
-
-Check:
-
-```bash
-ls -l /path/to/resource
-```
-
-Resolve:
-
-```bash
-readlink -f /path/to/resource
-```
-
-Do not report symlink presence alone.
-
-Determine whether a privileged process follows a lower-privileged controlled link in a security-sensitive operation.
-
----
-
-# Backup Jobs
-
-Backup systems often execute with elevated privileges and interact with large filesystem areas.
+Privileged local APIs can be exposed through Unix sockets.
 
 Review:
 
 ```text
-Backup scripts
-Configuration
-Archive commands
-Destination permissions
-Source permissions
+Socket ownership
+Socket permissions
+Server identity
+Protocol
+Authentication
+Authorisation
+Available operations
+```
+
+
+---
+
+## Libraries
+
+Privilege escalation candidates can involve privileged applications loading resources from writable locations.
+
+Investigate:
+
+```text
+Shared libraries
+Plugin directories
+Python modules
+Application extensions
+Configuration-controlled paths
+Dynamic linker configuration
+```
+
+Do not report generic writable library directories without establishing a privileged consumer.
+
+
+---
+
+## Python Import Paths
+
+For privileged Python applications, inspect:
+
+```text
+Imports
+Working directory
+sys.path
+Custom modules
+Writable module directories
+Environment
+```
+
+The important question is whether a privileged Python process imports a module that a lower-privileged user can control.
+
+
+---
+
+## Custom Applications
+
+Custom privileged applications should be reviewed for:
+
+```text
+Relative commands
+Writable configuration
+Writable plugins
+Writable libraries
 Temporary files
-Credentials
+Environment variables
+Unsafe file permissions
+Local sockets
+Credential storage
+Service integration
 Scheduled execution
 ```
 
-Custom backup scripts are particularly valuable review targets.
 
 ---
 
-# tar
+## Kernel
 
-`tar` is a normal archive utility.
-
-It becomes relevant when:
-
-```text
-Privileged automation
-+
-User-controlled files or arguments
-+
-Unsafe command construction
-```
-
-interact.
-
-Do not report `tar` simply because root uses it.
-
----
-
-# rsync
-
-Review privileged `rsync` automation for:
-
-```text
-Source control
-Destination control
-Options
-Remote identities
-Scripts
-Writable configuration
-```
-
-Again, the binary itself is not the weakness.
-
----
-
-# logrotate
-
-Configuration can exist under:
-
-```text
-/etc/logrotate.conf
-/etc/logrotate.d/
-```
-
-Review custom entries where:
-
-```text
-Privileged logrotate
-+
-User-controlled file or directory
-+
-Unsafe configuration
-```
-
-may create a privilege boundary issue.
-
----
-
-# Custom Scripts
-
-Search known privileged execution paths for:
-
-```text
-Shell scripts
-Python scripts
-Perl scripts
-Backup scripts
-Deployment scripts
-Maintenance scripts
-Monitoring scripts
-```
-
-Review:
-
-```text
-Owner
-Permissions
-Parent directories
-PATH
-Environment
-External commands
-Input handling
-Configuration
-Imports
-Temporary files
-```
-
----
-
-# Writable Configuration
-
-A root-owned process may consume a configuration file writable by a lower-privileged user.
-
-Check:
-
-```bash
-ls -l /path/to/config
-```
-
-```bash
-namei -l /path/to/config
-```
-
-```bash
-getfacl /path/to/config
-```
-
-Determine what configuration options actually influence.
-
----
-
-# Plugins
-
-Applications supporting plugins or extensions deserve additional review.
-
-Model:
-
-```text
-Privileged Application
-       |
-       v
-Plugin Directory
-       |
-       v
-User-Writable Plugin
-```
-
-Confirm:
-
-```text
-Plugin discovery
-Plugin loading
-Directory permissions
-Application identity
-Activation condition
-```
-
----
-
-# Package Managers
-
-Package-management access can represent administrative control.
-
-Relevant tools include:
-
-```text
-apt
-apt-get
-dpkg
-dnf
-yum
-rpm
-pacman
-zypper
-```
-
-If sudo permits unrestricted package-management operations, evaluate whether that delegation effectively provides administrative control.
-
----
-
-# Editors
-
-Privileged editor delegation can expose functionality beyond editing a single intended file.
-
-Examples include:
-
-```text
-vim
-vi
-nano
-less
-```
-
-depending on configuration and restrictions.
-
-Evaluate the exact sudo rule and program functionality.
-
----
-
-# Shells and Interpreters
-
-Direct sudo access to:
-
-```text
-bash
-sh
-zsh
-python
-python3
-perl
-ruby
-```
-
-as root generally represents broad administrative capability.
-
-Record the sudo rule itself as the root cause rather than treating the interpreter as vulnerable software.
-
----
-
-# Compilers
-
-Access to compilers such as:
-
-```text
-gcc
-clang
-```
-
-is not itself a privilege escalation issue.
-
-It becomes relevant only when combined with a privileged execution mechanism or writable trusted resource.
-
----
-
-# Process Monitoring
-
-Privilege escalation opportunities sometimes depend on short-lived root processes.
-
-Native monitoring:
-
-```bash
-ps aux
-```
-
-Repeated process inspection can help identify recurring jobs.
-
-Tools such as [pspy](https://github.com/DominicBreuker/pspy){ target="_blank" rel="noopener noreferrer" } can assist with observing process activity without requiring root on supported systems.
-
-Use assessment tooling only where authorised.
-
----
-
-# Recently Modified Files
-
-Targeted review can identify deployment or maintenance resources.
-
-Example:
-
-```bash
-find /opt /srv /usr/local -type f -mtime -7 2>/dev/null
-```
-
-Avoid indiscriminate searches across very large production filesystems.
-
----
-
-# /usr/local
-
-Custom administrative software commonly exists under:
-
-```text
-/usr/local/bin
-/usr/local/sbin
-/usr/local/lib
-```
-
-Review:
-
-```bash
-ls -ld /usr/local/bin /usr/local/sbin /usr/local/lib
-```
-
-and relevant custom files.
-
----
-
-# /opt
-
-Third-party and organisation-specific applications frequently use:
-
-```text
-/opt
-```
-
-Prioritise:
-
-```text
-Custom services
-Scripts
-Configuration
-Plugins
-Update mechanisms
-Writable directories
-Credentials
-```
-
----
-
-# /srv
-
-Application and service data may exist under:
-
-```text
-/srv
-```
-
-Determine whether privileged services execute or import content from lower-privileged writable locations.
-
----
-
-# Kernel
-
-Kernel privilege escalation should normally be considered after deterministic configuration weaknesses.
+Kernel privilege escalation should generally be considered after configuration-based paths have been investigated.
 
 Collect:
 
@@ -2316,1449 +1093,452 @@ uname -a
 cat /etc/os-release
 ```
 
-Package information depends on distribution.
-
-Debian-based:
-
-```bash
-dpkg-query -W 'linux-image*' 2>/dev/null
-```
-
-RPM-based:
-
-```bash
-rpm -qa | grep -i '^kernel'
-```
-
----
-
-# Kernel Version Is Not Enough
-
-Do not conclude:
+Relevant factors include:
 
 ```text
-Kernel version appears old
-=
-Kernel LPE confirmed
-```
-
-Consider:
-
-```text
-Distribution
-Exact package build
-Vendor backports
+Exact kernel version
+Distribution patches
 Architecture
-Kernel configuration
-Required namespace
-Required capability
-Mitigations
-Patch status
 Exploit prerequisites
-```
-
-Vendor security advisories are more authoritative than generic version matching.
-
----
-
-# Kernel Exploit Validation
-
-Kernel exploitation carries greater operational risk than most configuration validation.
-
-Before attempting active validation determine:
-
-```text
-Is configuration evidence sufficient?
-Is a safer privilege path already available?
-Is the host production?
-Could the test crash the kernel?
-Could data be corrupted?
-Is explicit approval present?
-Is rollback available?
-```
-
-Avoid kernel exploit execution where unnecessary.
-
----
-
-# ASLR
-
-Check:
-
-```bash
-cat /proc/sys/kernel/randomize_va_space
-```
-
-Typical values:
-
-```text
-0
-1
-2
-```
-
-ASLR affects exploitability but does not determine whether a privilege escalation vulnerability exists.
-
----
-
-# Yama
-
-Where present:
-
-```bash
-cat /proc/sys/kernel/yama/ptrace_scope
-```
-
-Yama can restrict process tracing.
-
-This is relevant when evaluating ptrace-based conditions.
-
----
-
-# AppArmor
-
-Check where available:
-
-```bash
-aa-status
-```
-
-AppArmor can restrict application behaviour even when traditional Unix permissions would otherwise permit it.
-
-Do not assume root-equivalent behaviour without considering active mandatory access controls.
-
----
-
-# SELinux
-
-Check:
-
-```bash
-getenforce
-```
-
-Possible states include:
-
-```text
-Enforcing
-Permissive
-Disabled
-```
-
-Context:
-
-```bash
-id -Z
-```
-
-where supported.
-
-SELinux policy can materially affect exploitability.
-
----
-
-# seccomp
-
-Process status may expose:
-
-```bash
-grep '^Seccomp' /proc/self/status
-```
-
-Seccomp filters can restrict available system calls.
-
-This is particularly relevant in container and sandbox environments.
-
----
-
-# NoNewPrivileges
-
-Check:
-
-```bash
-grep '^NoNewPrivs' /proc/self/status
-```
-
-`NoNewPrivileges` can prevent certain privilege gains through executable transitions.
-
-Consider it when evaluating SUID and capability-based behaviour.
-
----
-
-# Containers
-
-Determine whether the current environment is containerised.
-
-Useful indicators can include:
-
-```bash
-cat /proc/1/cgroup
-```
-
-```bash
-cat /proc/self/mountinfo
-```
-
-```bash
-test -f /.dockerenv && echo "Docker environment indicator present"
-```
-
-Do not rely on a single indicator.
-
----
-
-# Container Privilege Model
-
-```text
-Container Process
-       |
-       v
 Namespaces
-       |
-       +-- User
-       +-- Mount
-       +-- PID
-       +-- Network
-       |
-       v
 Capabilities
-       |
-       v
-Devices / Host Mounts / Runtime Socket
-       |
-       v
-Host Boundary
+Security modules
+Exploit mitigations
+System stability
 ```
 
-A container root user is not necessarily host root.
+Do not infer vulnerability from a version string alone.
+
 
 ---
 
-# Privileged Containers
+## Security Controls
 
-Review:
+Understand controls such as:
 
 ```text
-Capabilities
-Devices
-Host mounts
-Runtime sockets
+SELinux
+AppArmor
+seccomp
 Namespaces
-Security profiles
-User namespace
+Capabilities
+sudo policy
+Filesystem mount options
+Container isolation
+Kernel hardening
 ```
 
-A highly privileged container may significantly weaken host isolation.
-
-Do not attempt host escape solely because the container appears privileged.
-
----
-
-# Host Filesystem Mounts
-
-Inspect:
+Examples:
 
 ```bash
-mount
+getenforce 2>/dev/null
 ```
-
-and:
 
 ```bash
-cat /proc/self/mountinfo
+aa-status 2>/dev/null
 ```
-
-Host filesystem mounts can expose security-sensitive host resources.
-
-Record:
-
-```text
-Source
-Destination
-Read/write state
-Namespace
-Permissions
-```
-
----
-
-# Excessive Container Capabilities
-
-Check:
 
 ```bash
-capsh --print
+findmnt
 ```
 
-or:
+Security controls may materially affect exploitability.
 
-```bash
-grep '^Cap' /proc/self/status
-```
-
-Capabilities such as:
-
-```text
-CAP_SYS_ADMIN
-CAP_SYS_PTRACE
-CAP_SYS_MODULE
-```
-
-can materially weaken isolation depending on namespace and runtime configuration.
 
 ---
 
-# Docker Socket in Container
-
-Check:
-
-```bash
-ls -l /var/run/docker.sock 2>/dev/null
-```
-
-A host Docker socket mounted into a container can expose extensive daemon control.
-
-Confirm whether the socket points to a rootful or rootless daemon and whether authorisation controls are present.
-
----
-
-# Local Network Services
-
-Listening sockets:
-
-```bash
-ss -lntup
-```
-
-Without process information where permissions restrict it:
-
-```bash
-ss -lntu
-```
-
-Local-only administrative services may expose privileged functionality.
-
----
-
-# Databases
-
-Local databases can contain:
-
-```text
-Application credentials
-Password hashes
-Tokens
-Session data
-Administrative configuration
-```
-
-Access should be assessed against scope and data-handling requirements.
-
-Do not dump entire databases unnecessarily.
-
----
-
-# Management Agents
-
-Prioritise privileged:
-
-```text
-Backup agents
-Monitoring agents
-Deployment agents
-Configuration-management agents
-Security agents
-Update services
-Custom management daemons
-```
-
-These often have:
-
-```text
-Root execution
-Network interfaces
-Local sockets
-Configuration files
-Plugins
-Update mechanisms
-Credentials
-```
-
----
-
-# Candidate Prioritisation
-
-A useful prioritisation order is:
-
-```text
-1. sudo rules
-
-2. Security-sensitive groups
-
-3. SUID / SGID
-
-4. File capabilities
-
-5. Writable root service resources
-
-6. Writable scheduled-job resources
-
-7. Credentials
-
-8. PATH and environment trust
-
-9. Privileged local sockets and APIs
-
-10. Container / runtime control
-
-11. Custom privileged applications
-
-12. Third-party software
-
-13. Kernel vulnerabilities
-```
-
-This prioritises deterministic configuration issues before riskier exploit paths.
-
----
-
-# Automated Enumeration
-
-Tools can accelerate candidate discovery.
-
-Examples include:
-
-[PEASS-ng / LinPEAS](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
-
-[Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration){ target="_blank" rel="noopener noreferrer" }
-
-[LinEnum](https://github.com/rebootuser/LinEnum){ target="_blank" rel="noopener noreferrer" }
-
-[pspy](https://github.com/DominicBreuker/pspy){ target="_blank" rel="noopener noreferrer" }
-
-Automated results must still be manually validated.
-
----
-
-# Native Enumeration First
-
-Where possible, establish the important security relationships with native commands:
-
-```bash
-id
-sudo -l
-find
-getcap
-ps
-systemctl
-ls
-stat
-namei
-getfacl
-mount
-ss
-```
-
-This provides transparent evidence and reduces dependence on scanner interpretation.
-
----
-
-# Candidate Validation
+## Candidate Validation
 
 Use:
-
-```text
-Candidate
-   |
-   v
-Confirm Current Identity
-   |
-   v
-Confirm Permission / Capability
-   |
-   v
-Identify Privileged Consumer
-   |
-   v
-Confirm Activation
-   |
-   v
-Review Security Controls
-   |
-   v
-Minimal Validation
-```
-
----
-
-# Example - Writable Root Service Script
-
-Discovery:
-
-```text
-/opt/company/service.sh
-```
-
-Permissions:
-
-```text
--rwxrwxr-x root developers
-```
-
-Current user:
-
-```text
-groups=user developers
-```
-
-Service:
-
-```text
-User=root
-ExecStart=/opt/company/service.sh
-```
-
-Model:
-
-```text
-Normal User
-    |
-    | group write
-    v
-service.sh
-    |
-    | executed by
-    v
-root service
-```
-
-The configuration and ACL evidence establish the privilege relationship.
-
----
-
-# Example - sudo Rule
-
-Discovery:
-
-```text
-(root) NOPASSWD: /usr/bin/example
-```
-
-Do not immediately conclude:
-
-```text
-root compromise
-```
-
-Instead analyse:
-
-```text
-What does example do?
-Can arguments be controlled?
-Does it launch external programs?
-Does it load configuration?
-Does it invoke an editor?
-Does it provide shell functionality?
-Does it consume writable files?
-Does it preserve dangerous environment variables?
-```
-
----
-
-# Example - Capability
-
-Discovery:
-
-```text
-/usr/bin/example cap_setuid=ep
-```
-
-Analyse:
-
-```text
-What functionality does the binary expose?
-Can it manipulate UID?
-Is the capability effective?
-Is the executable user-accessible?
-Are additional security controls present?
-```
-
----
-
-# Example - Docker
-
-Discovery:
-
-```text
-user belongs to docker group
-```
-
-Confirm:
-
-```bash
-ls -l /var/run/docker.sock
-```
-
-Then determine:
-
-```text
-Is the daemon rootful?
-Can the user access the socket?
-Are authorization controls present?
-What host resources can the daemon manage?
-```
-
-Do not automatically launch a privileged container.
-
----
-
-# Evidence Collection
-
-For each candidate record:
-
-| Field | Example |
-|---|---|
-| Host | `linux-app-01` |
-| Current user | `analyst` |
-| UID | `1001` |
-| Groups | `analyst,developers` |
-| Technique | Writable systemd Service Script |
-| Resource | `/opt/company/service.sh` |
-| Privileged consumer | `company.service` |
-| Consumer identity | `root` |
-| Permission | Group write |
-| Activation | Service start |
-| Validation | Permission and unit configuration |
-| Result | Privilege boundary confirmed |
-| MITRE | Applicable technique |
-
----
-
-# Confidence Levels
-
-## Candidate
-
-An interesting configuration exists.
-
-Example:
-
-```text
-SUID binary discovered.
-```
-
-## Likely
-
-Important prerequisites appear to exist.
-
-Example:
-
-```text
-Custom root-owned SUID binary performs unsafe relative command execution.
-```
-
-## Confirmed
-
-The privilege relationship has been established with sufficient evidence.
-
-Example:
-
-```text
-Normal user can modify a script executed by a root systemd service.
-```
-
----
-
-# Severity Considerations
-
-Severity depends on:
-
-```text
-Starting privilege
-Resulting privilege
-Reliability
-Interaction required
-Execution frequency
-System criticality
-Existing controls
-Scope of resulting access
-Operational impact
-```
-
-A deterministic:
-
-```text
-Unprivileged User -> root
-```
-
-configuration path normally carries greater impact than a speculative kernel candidate requiring unsafe active exploitation.
-
----
-
-# Detection Opportunities
-
-Linux privilege escalation monitoring can include:
-
-```text
-sudo activity
-SUID and SGID changes
-Capability changes
-systemd unit changes
-Cron changes
-Privileged script modification
-Sensitive file access
-Group membership changes
-Docker socket access
-Container creation
-Kernel module loading
-Unexpected root process execution
-Security-policy changes
-```
-
----
-
-# Authentication Logs
-
-Depending on distribution and configuration, sudo activity may appear in:
-
-```text
-/var/log/auth.log
-```
-
-or:
-
-```text
-/var/log/secure
-```
-
-systemd journal:
-
-```bash
-journalctl
-```
-
-sudo-specific review may be available through:
-
-```bash
-journalctl _COMM=sudo
-```
-
-depending on the logging environment.
-
----
-
-# auditd
-
-Where deployed, Linux Audit can provide detailed telemetry for:
-
-```text
-File changes
-Privilege use
-Process execution
-Identity changes
-Configuration changes
-```
-
-Actual coverage depends on configured audit rules.
-
----
-
-# File Integrity Monitoring
-
-Prioritise:
-
-```text
-/etc/
-/usr/local/
-/opt/
-/etc/systemd/system/
-/etc/cron.d/
-/etc/sudoers
-/etc/sudoers.d/
-Privileged application directories
-```
-
-according to the host role.
-
----
-
-# Remediation Model
 
 ```text
 Finding
    |
    v
-Identify Privileged Consumer
+Who Controls It?
    |
    v
-Identify Lower-Privilege Control
+Who Consumes It?
    |
    v
-Remove Excess Permission
+What UID/GID Is Used?
    |
    v
-Reduce Consumer Privilege
+Can Current User Influence It?
    |
    v
-Apply Hardening
+Are Security Controls Present?
    |
    v
-Add Monitoring
-   |
-   v
-Retest
+What Privilege Would Be Obtained?
 ```
 
----
-
-# sudo Remediation
+Example:
 
 ```text
-Delegate only required commands
-Avoid unrestricted interpreters and shells
-Avoid unsafe wildcards
-Restrict arguments where feasible
-Avoid unnecessary SETENV
-Protect delegated scripts and configuration
-Use dedicated administrative roles
-Review sudoers regularly
+Writable backup.sh
+       |
+       v
+Executed by cron?
+       |
+      Yes
+       |
+       v
+Cron runs as root?
+       |
+      Yes
+       |
+       v
+Current user can modify script?
+       |
+      Yes
+       |
+       v
+Strong PrivEsc Candidate
 ```
+
 
 ---
 
-# SUID and SGID Remediation
+## Evidence
+
+Strong evidence should establish:
 
 ```text
-Remove unnecessary SUID / SGID bits
-Use capabilities where narrowly appropriate
-Remove obsolete binaries
-Protect custom privileged executables
-Review package ownership
-Monitor SUID / SGID changes
+Current identity
+Controlled resource
+Permission
+Privileged consumer
+Execution identity
+Impact
 ```
 
----
-
-# Capability Remediation
+Example:
 
 ```text
-Remove unnecessary file capabilities
-Assign the minimum required capability
-Avoid broad capabilities such as CAP_SYS_ADMIN
-Review capable interpreters carefully
-Monitor capability changes
+Current identity:
+www-data
+
+Resource:
+/opt/example/backup.sh
+
+Permissions:
+-rwxrwxr-x root www-data
+
+Privileged consumer:
+root cron job
+
+Execution identity:
+root
 ```
 
-Remove a file capability where appropriate:
+This is stronger than simply stating that a file is writable.
 
-```bash
-setcap -r /path/to/binary
-```
-
-Only administrators should perform remediation changes.
 
 ---
 
-# Service Remediation
+## What Not to Report Automatically
+
+Do not automatically report:
 
 ```text
-Protect unit files
-Protect executables
-Protect scripts
-Protect configuration
-Protect environment files
-Use absolute command paths
-Use dedicated service users
-Use minimum required capabilities
-Apply systemd hardening
+SUID binary
+SGID binary
+Capability
+Writable /tmp
+Docker installed
+Cron present
+systemd service
+Kernel version
+sudo entry
+Unix socket
+Writable user file
+NFS mount
 ```
+
+Each observation requires security context.
+
 
 ---
 
-# Cron Remediation
+## Detection Opportunities
+
+Potential telemetry includes:
 
 ```text
-Protect cron configuration
-Protect scripts
-Protect parent directories
-Use absolute paths
-Use controlled PATH values
-Avoid unsafe wildcard processing
-Use least privilege
+sudo execution
+Process creation
+SUID execution
+Capability changes
+Filesystem permission changes
+systemd changes
+Cron changes
+Sensitive file access
+Container creation
+Docker API activity
+Kernel module operations
+Authentication events
+SSH activity
 ```
 
----
-
-# Filesystem Remediation
+Useful data sources may include:
 
 ```text
-Remove unnecessary world-write
-Restrict group write
-Review ACLs
-Protect parent directories
-Separate writable data from executable content
-Use correct ownership
-Use sticky bit where appropriate
+auditd
+journald
+syslog
+sudo logs
+EDR
+Container runtime logs
+File-integrity monitoring
 ```
+
 
 ---
 
-# Credential Remediation
+## Remediation Model
+
+Common remediation themes include:
 
 ```text
-Remove plaintext credentials
-Rotate exposed secrets
-Protect SSH private keys
-Use dedicated service identities
-Use secret-management systems
-Avoid secrets in shell history
-Avoid secrets in command lines
-Restrict configuration files
+Restrict sudo
+     |
+     v
+Remove unnecessary SUID / SGID
+     |
+     v
+Remove unnecessary capabilities
+     |
+     v
+Correct filesystem permissions
+     |
+     v
+Protect privileged scripts
+     |
+     v
+Protect systemd resources
+     |
+     v
+Protect cron resources
+     |
+     v
+Use safe PATH handling
+     |
+     v
+Restrict privileged groups
+     |
+     v
+Protect container sockets
+     |
+     v
+Remove exposed credentials
+     |
+     v
+Patch vulnerable software
+     |
+     v
+Harden kernel and mandatory access controls
 ```
 
----
-
-# Container Remediation
-
-```text
-Restrict runtime socket access
-Avoid unnecessary privileged containers
-Drop unnecessary capabilities
-Avoid host filesystem mounts
-Use user namespaces where appropriate
-Use rootless modes where appropriate
-Apply seccomp
-Apply AppArmor or SELinux
-Restrict devices
-Apply least privilege
-```
 
 ---
 
-# Kernel Remediation
-
-```text
-Use supported distributions
-Apply vendor security updates
-Track vendor advisories
-Remove unsupported kernels
-Reboot into updated kernels when required
-Use exploit mitigations
-Reduce unnecessary local access
-```
-
----
-
-# Linux Explorer Checklist
-
-## Context
-
-- [ ] Current user
-- [ ] UID
-- [ ] GID
-- [ ] Groups
-- [ ] Kernel
-- [ ] Distribution
-- [ ] Architecture
-- [ ] Container context
-- [ ] Security controls
-
-## sudo
-
-- [ ] `sudo -l`
-- [ ] Target user
-- [ ] NOPASSWD
-- [ ] SETENV
-- [ ] Wildcards
-- [ ] Arguments
-- [ ] Shell escapes
-- [ ] External commands
-- [ ] Writable dependencies
-- [ ] GTFOBins applicability
-
-## SUID / SGID
-
-- [ ] SUID inventory
-- [ ] SGID inventory
-- [ ] Custom binaries
-- [ ] Unexpected binaries
-- [ ] Owner
-- [ ] Group
-- [ ] Permissions
-- [ ] PATH usage
-- [ ] Environment
-- [ ] External commands
-
-## Capabilities
-
-- [ ] `getcap -r /`
-- [ ] CAP_SETUID
-- [ ] CAP_SETGID
-- [ ] CAP_DAC_OVERRIDE
-- [ ] CAP_DAC_READ_SEARCH
-- [ ] CAP_SYS_ADMIN
-- [ ] CAP_SYS_PTRACE
-- [ ] CAP_SYS_MODULE
-- [ ] Capable interpreters
-
-## Services
-
-- [ ] Root processes
-- [ ] systemd services
-- [ ] Unit files
-- [ ] ExecStart
-- [ ] Service user
-- [ ] Executable ACL
-- [ ] Script ACL
-- [ ] Configuration ACL
-- [ ] EnvironmentFile
-- [ ] Parent directories
-
-## Scheduled Execution
-
-- [ ] Cron
-- [ ] `/etc/crontab`
-- [ ] `/etc/cron.d`
-- [ ] systemd timers
-- [ ] Root scripts
-- [ ] PATH
-- [ ] Wildcards
-- [ ] Writable resources
-
-## Filesystem
-
-- [ ] World-writable files
-- [ ] World-writable directories
-- [ ] Group-writable privileged resources
-- [ ] ACLs
-- [ ] Parent directories
-- [ ] `/opt`
-- [ ] `/usr/local`
-- [ ] `/srv`
-- [ ] Temporary files
-- [ ] Symlinks
-
-## Credentials
-
-- [ ] Shell history
-- [ ] Environment
-- [ ] SSH keys
-- [ ] Application configuration
-- [ ] Database configuration
-- [ ] Backup files
-- [ ] Deployment scripts
-- [ ] Service environment files
-- [ ] Cloud credentials
-
-## Groups
-
-- [ ] docker
-- [ ] lxd
-- [ ] disk
-- [ ] shadow
-- [ ] adm
-- [ ] systemd-journal
-- [ ] libvirt
-- [ ] Custom privileged groups
-
-## Containers
-
-- [ ] Container detection
-- [ ] Runtime socket
-- [ ] Rootful / rootless
-- [ ] Capabilities
-- [ ] Host mounts
-- [ ] Devices
-- [ ] Namespaces
-- [ ] seccomp
-- [ ] AppArmor / SELinux
-
-## Local Interfaces
-
-- [ ] Unix sockets
-- [ ] Local TCP services
-- [ ] D-Bus
-- [ ] Polkit
-- [ ] Management agents
-- [ ] Custom administrative APIs
-
-## Kernel
-
-- [ ] Exact kernel package
-- [ ] Distribution
-- [ ] Vendor advisory
-- [ ] Backports
-- [ ] Architecture
-- [ ] Mitigations
-- [ ] Exploit prerequisites
-- [ ] Operational risk
-
-## Validation
-
-- [ ] Candidate confirmed
-- [ ] Privileged consumer identified
-- [ ] Lower-privileged control identified
-- [ ] Security controls considered
-- [ ] Minimal validation selected
-- [ ] Evidence collected
-- [ ] Destructive testing avoided
-- [ ] Cleanup completed where required
-
----
-
-# Quick Enumeration
-
-Identity:
+## Quick Enumeration
 
 ```bash
 id
 ```
-
-sudo:
-
-```bash
-sudo -l
-```
-
-SUID:
-
-```bash
-find / -perm -4000 -type f 2>/dev/null
-```
-
-SGID:
-
-```bash
-find / -perm -2000 -type f 2>/dev/null
-```
-
-Capabilities:
-
-```bash
-getcap -r / 2>/dev/null
-```
-
-Processes:
-
-```bash
-ps auxf
-```
-
-Root processes:
-
-```bash
-ps -U root -u root u
-```
-
-Services:
-
-```bash
-systemctl --type=service --state=running
-```
-
-Timers:
-
-```bash
-systemctl list-timers --all
-```
-
-Cron:
-
-```bash
-cat /etc/crontab
-```
-
-PATH:
-
-```bash
-printf '%s\n' "$PATH" | tr ':' '\n'
-```
-
-Mounts:
-
-```bash
-mount
-```
-
-Sockets:
-
-```bash
-ss -lntu
-```
-
-Unix sockets:
-
-```bash
-find /run /var/run /tmp -type s 2>/dev/null
-```
-
-Kernel:
 
 ```bash
 uname -a
 ```
 
-OS:
-
 ```bash
 cat /etc/os-release
 ```
 
----
-
-# Explorer Decision Tree
-
-```text
-Start
- |
- v
-id
- |
- v
+```bash
 sudo -l
- |
- +---- Interesting Rule? -----> Search sudo
- |
- v
-Check Groups
- |
- +---- docker/lxd/disk/etc? --> Search Group
- |
- v
-Enumerate SUID / SGID
- |
- +---- Interesting Binary? ---> Search SUID / SGID
- |
- v
-Enumerate Capabilities
- |
- +---- Sensitive Capability? -> Search Capability
- |
- v
-Enumerate Root Services
- |
- +---- Writable Resource? ----> Search Service
- |
- v
-Enumerate Cron / Timers
- |
- +---- Writable Action? ------> Search Cron / systemd
- |
- v
-Review Filesystem
- |
- +---- Privileged Consumer? --> Search Filesystem
- |
- v
-Review Credentials
- |
- +---- Higher Privilege? -----> Search Credentials
- |
- v
-Review PATH / Libraries
- |
- +---- Privileged Consumer? --> Search PATH / Libraries
- |
- v
-Review Sockets / APIs
- |
- +---- Privileged Service? ---> Search Socket
- |
- v
-Review Containers
- |
- +---- Host Control? ---------> Search Container
- |
- v
-Review Custom Software
- |
- +---- Privileged Candidate? -> Search Application
- |
- v
-Review Kernel
- |
- +---- Applicable Candidate? -> Risk Assessment
- |
- v
-No Confirmed Local PrivEsc Path
 ```
+
+```bash
+find / -perm -4000 -type f 2>/dev/null
+```
+
+```bash
+find / -perm -2000 -type f 2>/dev/null
+```
+
+```bash
+getcap -r / 2>/dev/null
+```
+
+```bash
+systemctl list-units --type=service --all
+```
+
+```bash
+cat /etc/crontab
+```
+
+```bash
+ss -lntup
+```
+
+```bash
+ss -lx
+```
+
+```bash
+findmnt
+```
+
+```bash
+env
+```
+
 
 ---
 
-# Final Testing Model
+## Checklist
 
-```text
-1. Establish the current identity.
+### Identity
 
-2. Record UID, GID, and supplementary groups.
+- [ ] Current user identified
+- [ ] UID and GID recorded
+- [ ] Group memberships reviewed
+- [ ] Distribution identified
+- [ ] Kernel identified
 
-3. Record kernel, distribution, and architecture.
+### sudo
 
-4. Determine whether the environment is containerised.
+- [ ] `sudo -l` reviewed
+- [ ] NOPASSWD rules reviewed
+- [ ] SETENV rules reviewed
+- [ ] Wildcards reviewed
+- [ ] Flexible delegated binaries reviewed
 
-5. Run sudo -l.
+### SUID and SGID
 
-6. Analyse each delegated command.
+- [ ] SUID files enumerated
+- [ ] SGID files enumerated
+- [ ] Custom binaries identified
+- [ ] GTFOBins relevance checked
+- [ ] Ownership and functionality understood
 
-7. Check NOPASSWD and SETENV.
+### Capabilities
 
-8. Review wildcard and argument handling.
+- [ ] File capabilities enumerated
+- [ ] CAP_SETUID reviewed
+- [ ] CAP_SETGID reviewed
+- [ ] CAP_DAC_OVERRIDE reviewed
+- [ ] CAP_DAC_READ_SEARCH reviewed
+- [ ] CAP_SYS_ADMIN reviewed
+- [ ] CAP_SYS_PTRACE reviewed
+- [ ] CAP_SYS_MODULE reviewed
 
-9. Compare relevant delegated binaries with GTFOBins where useful.
+### Services
 
-10. Enumerate SUID binaries.
+- [ ] Services enumerated
+- [ ] Privileged service identities reviewed
+- [ ] ExecStart resources reviewed
+- [ ] Writable scripts reviewed
+- [ ] Writable binaries reviewed
+- [ ] Environment files reviewed
 
-11. Enumerate SGID binaries.
+### Cron
 
-12. Prioritise custom and unusual privileged binaries.
+- [ ] System cron reviewed
+- [ ] User cron reviewed
+- [ ] Writable cron scripts investigated
+- [ ] Cron PATH reviewed
+- [ ] Wildcard behaviour considered
 
-13. Enumerate file capabilities.
+### Filesystem
 
-14. Analyse sensitive capabilities in application context.
+- [ ] Root-owned writable files investigated
+- [ ] Root-owned writable directories investigated
+- [ ] ACLs reviewed where relevant
+- [ ] Parent directories considered
+- [ ] PATH directories reviewed
 
-15. Enumerate root processes.
+### Credentials
 
-16. Enumerate systemd services.
+- [ ] Shell history considered
+- [ ] Environment variables reviewed
+- [ ] Configuration files reviewed
+- [ ] SSH keys reviewed where authorised
+- [ ] Backup files considered
 
-17. Review privileged service unit files.
+### Groups and Containers
 
-18. Review service executables and scripts.
+- [ ] docker membership reviewed
+- [ ] Docker socket reviewed
+- [ ] Rootless/rootful context understood
+- [ ] LXD membership reviewed
+- [ ] disk membership reviewed
+- [ ] shadow membership reviewed
+- [ ] libvirt membership reviewed
 
-19. Review service configuration and environment files.
+### Network and Local Interfaces
 
-20. Enumerate systemd timers.
+- [ ] Unix sockets reviewed
+- [ ] NFS configuration considered
+- [ ] Privileged local APIs investigated
 
-21. Enumerate cron configuration.
+### Applications
 
-22. Identify root scheduled jobs.
+- [ ] Custom privileged applications reviewed
+- [ ] Writable configuration reviewed
+- [ ] Writable plugins reviewed
+- [ ] Library loading considered
+- [ ] Python import behaviour considered
 
-23. Review scheduled scripts and dependencies.
+### Kernel and Security Controls
 
-24. Review PATH handling.
+- [ ] Kernel version identified
+- [ ] Distribution patches considered
+- [ ] SELinux/AppArmor considered
+- [ ] Mount options considered
+- [ ] Kernel LPE treated as contextual candidate
 
-25. Review filesystem permissions.
+### Reporting
 
-26. Review ACLs and parent-directory permissions.
+- [ ] Candidate distinguished from confirmed finding
+- [ ] Privileged consumer identified
+- [ ] Evidence collected
+- [ ] Impact established
+- [ ] Detection opportunities considered
+- [ ] Remediation provided
 
-27. Review credentials.
-
-28. Review security-sensitive group membership.
-
-29. Review Docker and container runtime access.
-
-30. Review LXD where installed.
-
-31. Review block-device access.
-
-32. Review Unix-domain sockets.
-
-33. Review local administrative services.
-
-34. Review D-Bus and Polkit where relevant.
-
-35. Review NFS and mount configuration.
-
-36. Review dynamic library trust.
-
-37. Review privileged interpreter module loading.
-
-38. Review custom applications.
-
-39. Review management agents.
-
-40. Review installed third-party software.
-
-41. Consider kernel vulnerabilities after deterministic paths.
-
-42. Verify vendor patch status and backports.
-
-43. Consider AppArmor, SELinux, seccomp, and NoNewPrivileges.
-
-44. Prioritise reproducible configuration weaknesses.
-
-45. Validate with permission and configuration evidence first.
-
-46. Avoid modifying privileged production resources unnecessarily.
-
-47. Avoid dumping credentials when access evidence is sufficient.
-
-48. Avoid launching privileged containers merely to prove daemon access.
-
-49. Avoid kernel exploitation where safer evidence exists.
-
-50. Record the complete privilege relationship.
-
-51. Identify the root cause.
-
-52. Recommend least-privilege remediation.
-
-53. Retest the corrected security boundary.
-```
-
-The Linux explorer should answer:
-
-```text
-What did I discover?
-        |
-        v
-What privilege does it provide?
-        |
-        v
-What privileged component trusts it?
-        |
-        v
-Are the required conditions present?
-        |
-        v
-How can I validate it safely?
-        |
-        v
-How should it be detected and fixed?
-```
-
-rather than simply:
-
-```text
-Which root exploit should I run?
-```
 
 ---
 
-# Related Notes
+## Related Notes
 
-- [PrivEsc Explorer](index.md)
-- [Windows PrivEsc Explorer](windows.md)
-- [Linux](../linux/index.md)
-- [Linux Enumeration](../linux/enumeration.md)
-- [Linux Services](../linux/services.md)
-- [Linux Credentials](../linux/credentials.md)
-- [Linux Privilege Escalation](../linux/privilege-escalation.md)
-- [Linux Cheatsheet](../cheatsheets/linux.md)
-- [Networking Cheatsheet](../cheatsheets/networking.md)
+- [PrivEsc Explorer](./)
+- [Windows PrivEsc Explorer](../windows/)
+- [Linux Overview](../../linux/)
+- [Linux Enumeration](../../linux/enumeration/)
+- [Linux Privilege Escalation](../../linux/privilege-escalation/)
+- [Linux Services](../../linux/services/)
+- [Linux Credentials](../../linux/credentials/)
+
 
 ---
 
-# References
+## References
 
-- [GTFOBins](https://gtfobins.org/){ target="_blank" rel="noopener noreferrer" }
-- [PEASS-ng](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
-- [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration){ target="_blank" rel="noopener noreferrer" }
-- [LinEnum](https://github.com/rebootuser/LinEnum){ target="_blank" rel="noopener noreferrer" }
-- [pspy](https://github.com/DominicBreuker/pspy){ target="_blank" rel="noopener noreferrer" }
-- [Linux man-pages](https://man7.org/linux/man-pages/){ target="_blank" rel="noopener noreferrer" }
+- [GTFOBins](https://gtfobins.github.io/){ target="_blank" rel="noopener noreferrer" }
+- [MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 - [sudo Documentation](https://www.sudo.ws/docs/){ target="_blank" rel="noopener noreferrer" }
-- [systemd](https://systemd.io/){ target="_blank" rel="noopener noreferrer" }
-- [Linux Kernel Documentation](https://docs.kernel.org/){ target="_blank" rel="noopener noreferrer" }
-- [Linux Capabilities - capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html){ target="_blank" rel="noopener noreferrer" }
+- [systemd Documentation](https://systemd.io/){ target="_blank" rel="noopener noreferrer" }
+- [Linux Capabilities Manual](https://man7.org/linux/man-pages/man7/capabilities.7.html){ target="_blank" rel="noopener noreferrer" }
 - [Docker Security](https://docs.docker.com/engine/security/){ target="_blank" rel="noopener noreferrer" }
-- [Docker Rootless Mode](https://docs.docker.com/engine/security/rootless/){ target="_blank" rel="noopener noreferrer" }
-- [AppArmor](https://apparmor.net/){ target="_blank" rel="noopener noreferrer" }
-- [SELinux Project](https://github.com/SELinuxProject){ target="_blank" rel="noopener noreferrer" }
-- [MITRE ATT&CK - Privilege Escalation](https://attack.mitre.org/tactics/TA0004/){ target="_blank" rel="noopener noreferrer" }
-- [MITRE ATT&CK - Abuse Elevation Control Mechanism](https://attack.mitre.org/techniques/T1548/){ target="_blank" rel="noopener noreferrer" }
-- [MITRE ATT&CK - Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068/){ target="_blank" rel="noopener noreferrer" }
-- [MITRE ATT&CK - Scheduled Task/Job](https://attack.mitre.org/techniques/T1053/){ target="_blank" rel="noopener noreferrer" }
-- [MITRE ATT&CK - Hijack Execution Flow](https://attack.mitre.org/techniques/T1574/){ target="_blank" rel="noopener noreferrer" }
+- [PEASS-ng](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
+
 
 ---
 
-> Use Linux privilege escalation techniques only on systems you own or have explicit permission to assess. Explorer results represent assessment candidates rather than automatically confirmed vulnerabilities. Prefer identity, permission, configuration, and privileged-consumer evidence before modifying SUID binaries, services, scheduled jobs, credentials, container configuration, filesystem resources, or kernel state.
+!!! warning "Authorised testing only"
+    Linux privilege escalation testing can affect services, scheduled jobs, filesystem permissions, containers, kernel state, authentication material, and security controls. Perform active validation only where explicitly authorised and prefer non-destructive evidence whenever possible.
