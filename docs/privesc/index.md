@@ -1,24 +1,21 @@
 ---
 title: PrivEsc Explorer
-description: Interactive Windows and Linux privilege escalation reference for authorised security assessments.
+description: Interactive Windows and Linux privilege escalation reference for authorised security testing.
 ---
 
 # PrivEsc Explorer
 
-<div class="privesc-hero">
+PrivEsc Explorer is an interactive privilege escalation reference for **Windows** and **Linux** systems.
 
-# PrivEsc Explorer
+Instead of starting with a technique name, the explorer is designed around a practical question:
 
-**Windows and Linux privilege escalation assessment reference**
+> **What did I find?**
 
-Search privilege escalation techniques based on the permissions, binaries, services, groups, credentials, and configuration discovered during an authorised security assessment.
+Search for an observation such as `SeImpersonatePrivilege`, `writable service`, `sudo`, `SUID`, `CAP_SETUID`, `Docker`, `cron`, or `PATH` and use the results to identify relevant privilege escalation candidates, validation steps, detection opportunities, and remediation guidance.
 
-<div class="privesc-platform-buttons">
-  <a href="windows/" class="privesc-platform-button">Windows Explorer</a>
-  <a href="linux/" class="privesc-platform-button">Linux Explorer</a>
-</div>
+!!! warning "Authorised testing only"
+    The techniques and commands in PrivEsc Explorer are intended for authorised penetration testing, security assessments, labs, CTF environments, and defensive research. Always remain within the agreed scope and rules of engagement.
 
-</div>
 
 ---
 
@@ -26,61 +23,46 @@ Search privilege escalation techniques based on the permissions, binaries, servi
 
 <div class="privesc-platform-grid">
 
-<a href="windows/" class="privesc-platform-card">
+<div class="privesc-platform-card privesc-platform-windows">
 
-### Windows PrivEsc Explorer
+<h3>Windows PrivEsc Explorer</h3>
 
-Explore Windows privilege escalation opportunities involving:
+<p>
+Explore Windows privilege escalation opportunities involving services,
+scheduled tasks, registry permissions, filesystem permissions, Windows
+privileges, access tokens, DLL loading, PATH configuration, credentials,
+application control, UAC, installed software, and drivers.
+</p>
 
-- Services
-- Scheduled tasks
-- Registry permissions
-- Filesystem permissions
-- Windows privileges
-- Access tokens
-- DLL loading
-- PATH configuration
-- Credentials
-- Application control
-- UAC
-- Installed software
-- Drivers
-
-**Open Windows Explorer ->**
-
-</a>
-
-<a href="linux/" class="privesc-platform-card">
-
-### Linux PrivEsc Explorer
-
-Explore Linux privilege escalation opportunities involving:
-
-- sudo
-- SUID
-- SGID
-- Linux capabilities
-- systemd
-- cron
-- Writable files
-- Writable directories
-- Credentials
-- Docker
-- LXD
-- NFS
-- Privileged sockets
-- Custom applications
-- Kernel vulnerabilities
-
-**Open Linux Explorer ->**
-
+<a class="md-button md-button--primary" href="windows/">
+Open Windows Explorer
 </a>
 
 </div>
 
+<div class="privesc-platform-card privesc-platform-linux">
+
+<h3>Linux PrivEsc Explorer</h3>
+
+<p>
+Explore Linux privilege escalation opportunities involving sudo, SUID,
+SGID, Linux capabilities, systemd, cron, writable files, writable
+directories, credentials, Docker, LXD, NFS, privileged sockets, custom
+applications, and kernel vulnerabilities.
+</p>
+
+<a class="md-button md-button--primary" href="linux/">
+Open Linux Explorer
+</a>
+
+</div>
+
+</div>
+
+
 ---
 
-# What Is PrivEsc Explorer?
+## What Is PrivEsc Explorer?
 
 PrivEsc Explorer is designed as a fast operational companion to the detailed Windows and Linux documentation in this knowledge base.
 
@@ -96,869 +78,1082 @@ Read Documentation
 Understand Technique
   |
   v
-Perform Assessment
+Perform Enumeration
+  |
+  v
+Identify Candidate
+  |
+  v
+Validate Candidate
 ```
 
-PrivEsc Explorer supports the reverse workflow commonly encountered during an assessment:
+PrivEsc Explorer also supports the reverse workflow commonly encountered during an assessment:
 
 ```text
-Discovery
-   |
-   v
+Enumeration Finding
+        |
+        v
 "What did I find?"
-   |
-   v
+        |
+        v
 Search PrivEsc Explorer
-   |
-   v
+        |
+        v
 Identify Relevant Technique
-   |
-   v
-Check Preconditions
-   |
-   v
-Validate Safely
-   |
-   v
-Open Detailed Notes
+        |
+        v
+Review Preconditions
+        |
+        v
+Perform Safe Validation
+        |
+        v
+Determine Impact
+        |
+        v
+Collect Evidence
+        |
+        v
+Report and Remediate
+```
+
+This makes the explorer useful when enumeration has already produced something interesting but the security significance is not immediately clear.
+
+
+---
+
+## Search by What You Found
+
+You do not need to know the exact technique name.
+
+Search using the evidence you already have.
+
+Examples include:
+
+```text
+SeImpersonate
+SeBackup
+SeDebug
+service
+scheduled task
+writable
+DLL
+PATH
+AlwaysInstallElevated
+AppLocker
+PowerShell
+credential
+driver
+sudo
+NOPASSWD
+SETENV
+SUID
+SGID
+CAP_SETUID
+CAP_SYS_ADMIN
+systemd
+cron
+Docker
+docker.sock
+LXD
+NFS
+no_root_squash
+socket
+kernel
+```
+
+The explorer searches across technique names, categories, summaries, prerequisites, enumeration commands, validation guidance, tags, and MITRE ATT&CK information.
+
+
+---
+
+## Explorer Workflow
+
+A useful privilege escalation assessment can be represented as:
+
+```text
+Enumeration
+    |
+    v
+Candidate
+    |
+    v
+Context
+    |
+    v
+Preconditions
+    |
+    v
+Safe Validation
+    |
+    v
+Exploitability
+    |
+    v
+Impact
+    |
+    v
+Evidence
+    |
+    v
+Remediation
+```
+
+The important distinction is between **finding something interesting** and **confirming a privilege escalation path**.
+
+For example:
+
+```text
+Writable File
+```
+
+does not automatically mean:
+
+```text
+Privilege Escalation
+```
+
+The real question is:
+
+```text
+Writable File
+    |
+    v
+Who Uses It?
+    |
+    +--> Current User Only
+    |       |
+    |       v
+    |     Low Interest
+    |
+    +--> Privileged Process
+            |
+            v
+       Can It Be Modified?
+            |
+            v
+       Is It Consumed?
+            |
+            v
+       PrivEsc Candidate
+```
+
+PrivEsc Explorer is designed to preserve this distinction.
+
+
+---
+
+## Windows Privilege Escalation Model
+
+Windows privilege escalation commonly involves relationships between:
+
+```text
+User
+ |
+ +--> Services
+ |
+ +--> Scheduled Tasks
+ |
+ +--> Filesystem Permissions
+ |
+ +--> Registry Permissions
+ |
+ +--> Windows Privileges
+ |
+ +--> Access Tokens
+ |
+ +--> DLL Loading
+ |
+ +--> PATH Resolution
+ |
+ +--> Credentials
+ |
+ +--> Application Control
+ |
+ +--> UAC
+ |
+ +--> Installed Applications
+ |
+ +--> Drivers
+ |
+ +--> Local Administrative Interfaces
+ |
+ +--> Security Configuration
+```
+
+The Windows explorer groups techniques into categories such as:
+
+| Category | Examples |
+|---|---|
+| Services | Writable service executable, weak service permissions, unquoted service paths |
+| Scheduled Tasks | Writable task actions and privileged scheduled execution |
+| Privileges | SeImpersonate, SeBackup, SeRestore, SeDebug, SeLoadDriver |
+| Filesystem | Writable privileged files and directories |
+| Registry | Writable security-sensitive registry configuration |
+| PATH | Writable PATH directories and unsafe executable resolution |
+| DLL | DLL search-order and writable dependency candidates |
+| Credentials | AutoLogon, PowerShell history, environment secrets, stored credentials |
+| Application Control | AppLocker and PowerShell execution-control context |
+| Drivers | Vulnerable or overly privileged driver candidates |
+| Applications | Custom privileged applications and writable application resources |
+
+Open the [Windows PrivEsc Explorer](windows/).
+
+
+---
+
+## Linux Privilege Escalation Model
+
+Linux privilege escalation commonly involves relationships between:
+
+```text
+User
+ |
+ +--> sudo
+ |
+ +--> SUID / SGID
+ |
+ +--> Linux Capabilities
+ |
+ +--> systemd
+ |
+ +--> Cron
+ |
+ +--> Filesystem Permissions
+ |
+ +--> PATH Resolution
+ |
+ +--> Libraries
+ |
+ +--> Credentials
+ |
+ +--> Groups
+ |
+ +--> Containers
+ |
+ +--> Unix Sockets
+ |
+ +--> NFS
+ |
+ +--> Custom Applications
+ |
+ +--> Kernel
+ |
+ +--> Security Controls
+```
+
+The Linux explorer groups techniques into categories such as:
+
+| Category | Examples |
+|---|---|
+| sudo | NOPASSWD, SETENV, wildcards, interpreters, editors |
+| SUID / SGID | SUID binaries, custom SUID applications, SGID binaries |
+| Capabilities | CAP_SETUID, CAP_DAC_OVERRIDE, CAP_SYS_ADMIN, CAP_SYS_PTRACE |
+| systemd | Writable units, service scripts, binaries, environment files, timers |
+| Cron | Writable scripts, unsafe PATH usage, privileged scheduled jobs |
+| Filesystem | Writable files, directories, ACLs, parent-directory replacement |
+| Credentials | Shell history, environment variables, SSH keys, application secrets |
+| Groups | docker, disk, shadow, LXD, libvirt and administrative groups |
+| Containers | Docker socket, privileged containers, sensitive host mounts |
+| NFS | Export configuration and no_root_squash candidates |
+| Libraries | Writable libraries, linker configuration and Python imports |
+| Applications | Writable configuration, plugins and privileged management agents |
+| Kernel | Kernel LPE candidates and exploitability controls |
+
+Open the [Linux PrivEsc Explorer](linux/).
+
+
+---
+
+## Technique Cards
+
+Explorer results are presented as technique cards.
+
+A card can contain:
+
+```text
+Technique
+ |
+ +--> Platform
+ |
+ +--> Category
+ |
+ +--> Severity
+ |
+ +--> Confidence
+ |
+ +--> Summary
+ |
+ +--> What You Found
+ |
+ +--> Preconditions
+ |
+ +--> Enumeration Commands
+ |
+ +--> Validation
+ |
+ +--> Detection
+ |
+ +--> Remediation
+ |
+ +--> MITRE ATT&CK
+ |
+ +--> Tags
+ |
+ +--> Related Notes
+```
+
+The goal is to provide enough context to move from an enumeration result to a defensible security conclusion.
+
+
+---
+
+## Candidate Does Not Mean Vulnerable
+
+One of the most important principles of the explorer is:
+
+> **A candidate is not automatically a vulnerability.**
+
+For example, finding:
+
+```text
+SeImpersonatePrivilege
+```
+
+does not by itself prove privilege escalation.
+
+Likewise:
+
+```text
+SUID binary
+```
+
+does not automatically mean the binary can be abused.
+
+And:
+
+```text
+docker group membership
+```
+
+must still be interpreted in the context of the Docker daemon, rootless operation, authorisation controls, and the intended administrative model.
+
+The explorer therefore separates discovery from validation.
+
+
+---
+
+## Confidence Levels
+
+Explorer entries use confidence levels to help communicate how strongly the discovered condition supports a privilege escalation conclusion.
+
+### Candidate
+
+A potentially relevant condition has been discovered, but additional context is required.
+
+```text
+Interesting Condition
+        |
+        v
+Candidate
+```
+
+Examples:
+
+```text
+SUID binary discovered
+CAP_SYS_PTRACE discovered
+custom privileged service discovered
+writable configuration discovered
+```
+
+These require further investigation.
+
+
+### Likely
+
+The important privilege relationship appears to exist, but practical impact may still depend on additional context.
+
+```text
+Condition
+    +
+Privilege Relationship
+    |
+    v
+Likely
+```
+
+Examples might include:
+
+```text
+CAP_SETUID on a flexible executable
+docker group access to a rootful daemon
+writable privileged library
+```
+
+Further validation should still be performed.
+
+
+### Confirmed
+
+The privilege boundary itself has been established with sufficient evidence.
+
+```text
+Lower-Privileged User
+        |
+        v
+Controls Resource
+        |
+        v
+Privileged Consumer
+        |
+        v
+Confirmed Boundary
 ```
 
 For example:
 
 ```text
-Discovery:
-
-SeImpersonatePrivilege
-        |
-        v
-Search:
-"SeImpersonate"
-        |
-        v
-Windows PrivEsc Explorer
-        |
-        v
-Token / Privilege Technique
-        |
-        v
-Prerequisites
-        |
-        v
-Enumeration
-        |
-        v
-Safe Validation
-        |
-        v
-Detection
-        |
-        v
-Remediation
+Root Service
+    |
+    v
+Executes Script
+    |
+    v
+Script Writable by Normal User
 ```
 
-Or on Linux:
+The relationship can often be confirmed without modifying the script or triggering privileged execution.
 
-```text
-Discovery:
-
-/usr/bin/python3 cap_setuid=ep
-        |
-        v
-Search:
-"python3" or "cap_setuid"
-        |
-        v
-Linux PrivEsc Explorer
-        |
-        v
-Linux Capabilities
-        |
-        v
-Prerequisites
-        |
-        v
-Validation
-        |
-        v
-Remediation
-```
 
 ---
 
-# Explorer Model
+## Severity Is Contextual
 
-Every technique follows the same structure:
+Severity is provided as an assessment aid rather than an automatic final rating.
+
+A technique may appear as:
 
 ```text
-Technique
-    |
-    +-- Platform
-    |
-    +-- Category
-    |
-    +-- Description
-    |
-    +-- What You Found
-    |
-    +-- Preconditions
-    |
-    +-- Enumeration
-    |
-    +-- Validation
-    |
-    +-- Detection
-    |
-    +-- Remediation
-    |
-    +-- MITRE ATT&CK
-    |
-    +-- References
-    |
-    +-- Related Notes
+Critical
+High
+Medium
+Low
+Informational
 ```
 
-This allows Windows and Linux techniques to use the same interface.
+but the final severity should consider:
+
+```text
+Required Access
+      +
+Exploit Preconditions
+      +
+Privilege Obtained
+      +
+Reliability
+      +
+Business Context
+      +
+Security Controls
+      =
+Final Risk
+```
+
+For example, a root-owned writable service executable is generally much more significant than an ordinary writable temporary file with no privileged consumer.
+
 
 ---
 
-# Search by Discovery
+## Safe Validation
 
-The explorer is intended to support searches such as:
+Privilege escalation testing can affect operating-system stability, services, scheduled jobs, authentication, and security controls.
 
-```text
-SeImpersonatePrivilege
-```
+Prefer the least invasive evidence that establishes the privilege relationship.
 
-```text
-AlwaysInstallElevated
-```
+### Preferred
 
 ```text
-unquoted service path
+Inspect permissions
+Inspect ownership
+Inspect ACLs
+Inspect service configuration
+Inspect sudo rules
+Inspect capabilities
+Inspect execution identity
+Inspect PATH
+Inspect task definitions
+Inspect mount configuration
+Inspect application configuration
 ```
+
+### Avoid When Not Required
+
+```text
+Replacing production binaries
+Modifying privileged scripts
+Restarting critical services
+Changing scheduled tasks
+Loading kernel modules
+Exploiting kernel vulnerabilities
+Creating persistent privileged users
+Disabling security controls
+Modifying production configuration
+```
+
+A strong assessment demonstrates the security boundary with the minimum necessary system modification.
+
+
+---
+
+## Evidence Model
+
+Useful evidence usually contains four elements:
+
+```text
+1. Identity
+2. Controlled Resource
+3. Privileged Consumer
+4. Security Impact
+```
+
+For example:
+
+```text
+Identity
+--------
+CORP\user
+
+Controlled Resource
+-------------------
+C:\Program Files\Example\Service.exe
+
+Privileged Consumer
+-------------------
+ExampleService
+
+Execution Identity
+------------------
+LocalSystem
+```
+
+or:
+
+```text
+Identity
+--------
+www-data
+
+Controlled Resource
+-------------------
+/opt/example/backup.sh
+
+Privileged Consumer
+-------------------
+root cron job
+
+Execution Identity
+------------------
+root
+```
+
+This is considerably stronger than reporting only:
+
+```text
+File is writable
+```
+
+because the evidence establishes the complete privilege relationship.
+
+
+---
+
+## Validation Questions
+
+When a candidate is discovered, ask:
+
+```text
+Who owns the resource?
+
+Who can modify it?
+
+Who consumes it?
+
+What identity does the consumer run as?
+
+When is it consumed?
+
+Can the current user influence execution?
+
+Are there additional security controls?
+
+Is the behaviour intentional?
+
+What privilege would actually be obtained?
+```
+
+Only then determine whether the condition represents a security finding.
+
+
+---
+
+## Detection
+
+Privilege escalation paths frequently produce observable behaviour.
+
+Useful defensive telemetry may include:
+
+```text
+Process creation
+Service changes
+Scheduled-task changes
+sudo execution
+File permission changes
+ACL changes
+SUID changes
+Capability changes
+systemd unit changes
+Cron changes
+Registry changes
+DLL loading
+Driver loading
+Container creation
+Docker API activity
+Authentication events
+Sensitive file access
+```
+
+Explorer cards include detection guidance where relevant so the same technique can support both offensive testing and defensive validation.
+
+
+---
+
+## Remediation
+
+Most privilege escalation findings ultimately involve one or more trust-boundary problems.
+
+Common remediation themes include:
+
+```text
+Least privilege
+        |
+        +--> Remove unnecessary administrative rights
+        |
+        +--> Restrict sudo delegation
+        |
+        +--> Remove unnecessary SUID / SGID
+        |
+        +--> Remove unnecessary capabilities
+        |
+        +--> Restrict privileged groups
+
+Trusted resources
+        |
+        +--> Protect executables
+        |
+        +--> Protect scripts
+        |
+        +--> Protect configuration
+        |
+        +--> Protect libraries
+        |
+        +--> Protect registry keys
+        |
+        +--> Protect service definitions
+
+Execution controls
+        |
+        +--> Use absolute paths
+        |
+        +--> Control PATH
+        |
+        +--> Harden application control
+        |
+        +--> Restrict privileged interpreters
+        |
+        +--> Harden service identities
+
+Credential protection
+        |
+        +--> Remove plaintext secrets
+        |
+        +--> Rotate exposed credentials
+        |
+        +--> Protect private keys
+        |
+        +--> Use secret-management systems
+```
+
+The objective is not simply to block one command. It is to remove the underlying unsafe privilege relationship.
+
+
+---
+
+## Structured Data
+
+The explorer interface is backed by structured JSON rather than hard-coded technique cards.
+
+The current data files are:
+
+```text
+docs/data/privesc/windows.json
+docs/data/privesc/linux.json
+```
+
+Each technique can contain fields such as:
+
+```json
+{
+  "id": "example-technique",
+  "name": "Example Technique",
+  "platform": "windows",
+  "category": "Services",
+  "severity": "high",
+  "confidence": "candidate",
+  "summary": "Short description of the condition.",
+  "found": [
+    "What the tester discovered."
+  ],
+  "requires": [
+    "Conditions required for practical impact."
+  ],
+  "commands": [
+    "enumeration command"
+  ],
+  "validation": [
+    "Safe validation guidance."
+  ],
+  "detection": [
+    "Defensive detection guidance."
+  ],
+  "remediation": [
+    "Recommended remediation."
+  ],
+  "mitre": [],
+  "tags": [
+    "example"
+  ],
+  "related": []
+}
+```
+
+Keeping the data separate from the interface makes it easier to expand and maintain the explorer.
+
+
+---
+
+## Search Architecture
+
+The explorer uses the following model:
+
+```text
+User Query
+    |
+    v
+Tokenise Search
+    |
+    v
+Search Technique Data
+    |
+    +--> Name
+    +--> ID
+    +--> Platform
+    +--> Category
+    +--> Severity
+    +--> Confidence
+    +--> Summary
+    +--> Findings
+    +--> Preconditions
+    +--> Commands
+    +--> Validation
+    +--> Detection
+    +--> Remediation
+    +--> MITRE ATT&CK
+    +--> Tags
+    |
+    v
+Apply Filters
+    |
+    v
+Sort Results
+    |
+    v
+Render Technique Cards
+```
+
+This allows searches such as:
 
 ```text
 writable service
 ```
 
-```text
-scheduled task
-```
+or:
 
 ```text
-docker
+docker root
 ```
 
+or:
+
 ```text
+SeBackup
+```
+
+without requiring the tester to know the internal technique ID.
+
+
+---
+
+## Recommended Assessment Workflow
+
+Use the explorer as part of a broader privilege escalation methodology.
+
+```text
+1. Establish current identity
+          |
+          v
+2. Enumerate privileges and groups
+          |
+          v
+3. Enumerate privileged execution
+          |
+          v
+4. Identify writable resources
+          |
+          v
+5. Search PrivEsc Explorer
+          |
+          v
+6. Review candidate prerequisites
+          |
+          v
+7. Validate safely
+          |
+          v
+8. Determine actual privilege impact
+          |
+          v
+9. Collect evidence
+          |
+          v
+10. Review detection opportunities
+          |
+          v
+11. Recommend remediation
+```
+
+Do not rely exclusively on automated enumeration.
+
+Automated tools are useful for finding candidates, but the tester still needs to understand the privilege relationship.
+
+
+---
+
+## Useful Enumeration Tools
+
+PrivEsc Explorer is designed to complement manual enumeration and established assessment tools.
+
+Examples include:
+
+### Windows
+
+```text
+WinPEAS
+PowerUp
+Seatbelt
+AccessChk
+Process Monitor
+Process Explorer
+PowerShell
+sc.exe
+schtasks.exe
+whoami.exe
+icacls.exe
+Get-Acl
+Get-AppLockerPolicy
+```
+
+### Linux
+
+```text
+LinPEAS
+LinEnum
+pspy
 sudo
+find
+getcap
+getfacl
+namei
+systemctl
+journalctl
+ss
+findmnt
+capsh
 ```
 
-```text
-SUID
-```
+Tool output should be treated as a starting point for investigation rather than automatic proof of a vulnerability.
 
-```text
-cap_setuid
-```
-
-```text
-systemd
-```
-
-```text
-cron
-```
-
-```text
-NFS
-```
-
-The search engine can match:
-
-```text
-Technique names
-Categories
-Tags
-Commands
-Privileges
-Binaries
-Configuration
-MITRE ATT&CK IDs
-Descriptions
-```
 
 ---
 
-# Windows Categories
+## GTFOBins and Related References
 
-The Windows explorer is organised around the major privilege escalation surfaces.
+For Linux, [GTFOBins](https://gtfobins.github.io/){ target="_blank" rel="noopener noreferrer" } is an important reference for understanding security-sensitive functionality exposed by Unix binaries.
 
-```text
-Windows
-|
-+-- Services
-|
-+-- Scheduled Tasks
-|
-+-- Filesystem
-|
-+-- Registry
-|
-+-- Windows Privileges
-|
-+-- Access Tokens
-|
-+-- DLL Loading
-|
-+-- PATH
-|
-+-- Credentials
-|
-+-- UAC
-|
-+-- Application Control
-|
-+-- Installed Software
-|
-+-- Drivers
-|
-+-- Configuration
-```
+For Windows, [LOLBAS](https://lolbas-project.github.io/){ target="_blank" rel="noopener noreferrer" } documents Windows binaries, scripts, and libraries that can provide security-relevant functionality.
 
-Examples include:
+For Active Directory, [LOlAD](https://lolad-project.github.io/){ target="_blank" rel="noopener noreferrer" } provides a useful reference for Active Directory attack techniques and commands.
+
+PrivEsc Explorer does not attempt to duplicate these projects.
+
+Instead, it focuses on the question:
 
 ```text
-Writable Service Executable
-Writable Service Directory
-Weak Service Permissions
-Unquoted Service Path
-Writable Scheduled Task Action
-AlwaysInstallElevated
-SeImpersonatePrivilege
-SeBackupPrivilege
-SeRestorePrivilege
-SeTakeOwnershipPrivilege
-Writable PATH Directory
-DLL Search Order Candidate
-Stored Credentials
-AutoLogon Credentials
-Vulnerable Driver
+What privilege escalation condition did I discover,
+what must be true for it to matter,
+and how should I validate and report it?
 ```
+
 
 ---
-
-# Linux Categories
-
-The Linux explorer is organised around:
-
-```text
-Linux
-|
-+-- sudo
-|
-+-- SUID
-|
-+-- SGID
-|
-+-- Capabilities
-|
-+-- Services
-|
-+-- systemd
-|
-+-- Cron
-|
-+-- Filesystem
-|
-+-- Credentials
-|
-+-- Groups
-|
-+-- Docker
-|
-+-- LXD
-|
-+-- NFS
-|
-+-- Sockets
-|
-+-- Applications
-|
-+-- Kernel
-```
-
-Examples include:
-
-```text
-sudo Command
-sudo NOPASSWD
-sudo SETENV
-SUID Binary
-SGID Binary
-CAP_SETUID
-CAP_DAC_OVERRIDE
-CAP_SYS_ADMIN
-Writable systemd Executable
-Writable systemd EnvironmentFile
-Writable Cron Script
-Writable PATH Directory
-Docker Group Membership
-Docker Socket Access
-LXD Group Membership
-NFS no_root_squash
-Privileged Local Socket
-Kernel LPE Candidate
-```
-
----
-
-# Technique Cards
-
-Explorer results are displayed as technique cards.
-
-A Windows example:
-
-```text
-+--------------------------------------------------+
-| Writable Service Executable                     |
-| WINDOWS | SERVICES | PRIVESC                    |
-+--------------------------------------------------+
-|                                                  |
-| A service running with elevated privileges      |
-| executes a binary writable by a lower-privileged|
-| user.                                            |
-|                                                  |
-| WHAT YOU FOUND                                   |
-|                                                  |
-| Writable executable used by privileged service. |
-|                                                  |
-| CHECK                                            |
-|                                                  |
-| sc.exe qc ServiceName                            |
-| icacls "C:\Path\service.exe"                     |
-|                                                  |
-| REQUIRES                                         |
-|                                                  |
-| [x] Elevated service context                     |
-| [x] Writable executable                         |
-| [ ] Execution/restart opportunity                |
-|                                                  |
-| MITRE                                            |
-|                                                  |
-| T1574.010                                        |
-|                                                  |
-| [View Technique]                                 |
-+--------------------------------------------------+
-```
-
-A Linux example:
-
-```text
-+--------------------------------------------------+
-| Dangerous File Capability                       |
-| LINUX | CAPABILITIES | PRIVESC                  |
-+--------------------------------------------------+
-|                                                  |
-| A user-accessible executable has a capability   |
-| that may permit privileged operations.           |
-|                                                  |
-| WHAT YOU FOUND                                   |
-|                                                  |
-| /usr/bin/example cap_setuid=ep                   |
-|                                                  |
-| CHECK                                            |
-|                                                  |
-| getcap /usr/bin/example                          |
-|                                                  |
-| REQUIRES                                         |
-|                                                  |
-| [x] Executable accessible                        |
-| [x] Security-sensitive capability               |
-| [ ] Binary functionality supports abuse          |
-|                                                  |
-| MITRE                                            |
-|                                                  |
-| T1548                                            |
-|                                                  |
-| [View Technique]                                 |
-+--------------------------------------------------+
-```
-
----
-
-# Technique Information
-
-Opening a technique should provide enough information to understand and validate the finding without requiring immediate exploitation.
-
-## What It Means
-
-A short explanation of the security condition.
-
-## What You Found
-
-Examples of discoveries that should lead to the technique.
-
-## Preconditions
-
-Conditions required before the technique becomes relevant.
-
-Example:
-
-```text
-[x] Service executes with elevated privileges
-
-[x] Current user can modify the executable
-
-[ ] Service can be restarted or otherwise executed
-```
-
-## Enumeration
-
-Commands used to confirm the configuration.
-
-## Validation
-
-The minimum testing required to demonstrate the security impact.
-
-## Detection
-
-Relevant defensive telemetry and monitoring opportunities.
-
-## Remediation
-
-The configuration changes required to remove the privilege escalation path.
 
 ## MITRE ATT&CK
 
-Where appropriate, techniques are mapped to MITRE ATT&CK.
+Where applicable, explorer techniques include mappings to [MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }.
+
+Common privilege escalation and execution-related areas include:
+
+```text
+T1548 - Abuse Elevation Control Mechanism
+T1548.001 - Setuid and Setgid
+T1548.003 - Sudo and Sudo Caching
+T1068 - Exploitation for Privilege Escalation
+T1574 - Hijack Execution Flow
+T1543 - Create or Modify System Process
+T1053 - Scheduled Task/Job
+T1552 - Unsecured Credentials
+```
+
+ATT&CK mappings provide useful context, but the presence of an ATT&CK technique does not determine exploitability or severity by itself.
+
+
+---
+
+## Explorer Principles
+
+PrivEsc Explorer follows several core principles.
+
+### Evidence Before Exploitation
+
+Prefer configuration and permission evidence before modifying privileged resources.
+
+### Context Before Severity
+
+A dangerous-looking permission is only meaningful when connected to a privileged consumer.
+
+### Candidates Before Conclusions
+
+Enumeration produces candidates. Validation produces findings.
+
+### Minimal Impact
+
+Use the least invasive technique necessary to establish the security boundary.
+
+### Offensive and Defensive Context
+
+Where practical, each technique includes both testing and defensive guidance.
+
+### Structured Knowledge
+
+Technique data is maintained separately from presentation logic so the explorer can grow without turning into an unmaintainable collection of hard-coded pages.
+
+
+---
+
+## Future Expansion
+
+The explorer architecture can be expanded without changing the overall workflow.
+
+Possible future areas include:
+
+```text
+Active Directory Explorer
+        |
+        +--> Kerberos
+        +--> Delegation
+        +--> ACL / ACE
+        +--> AD CS
+        +--> NTLM Relay
+        +--> Trusts
+
+Command Explorer
+        |
+        +--> Windows
+        +--> Linux
+        +--> PowerShell
+        +--> Active Directory
+        +--> Networking
+
+Detection Explorer
+        |
+        +--> ATT&CK Technique
+        +--> Data Source
+        +--> Event ID
+        +--> Sigma
+        +--> Detection Logic
+
+Web Testing Explorer
+        |
+        +--> Observation
+        +--> Vulnerability Class
+        +--> Validation
+        +--> Burp Workflow
+        +--> Remediation
+```
+
+The same structured-data approach can therefore support other operational areas of the knowledge base.
+
+
+---
 
 ## Related Notes
 
-Links to the detailed knowledge-base pages provide deeper explanations.
+### Windows
+
+- [Windows Overview](../windows/)
+- [Windows Enumeration](../windows/enumeration/)
+- [Windows Privilege Escalation](../windows/privilege-escalation/)
+- [Windows Services](../windows/services/)
+- [Windows Credentials](../windows/credentials/)
+- [PowerShell](../windows/powershell/)
+
+### Linux
+
+- [Linux Overview](../linux/)
+- [Linux Enumeration](../linux/enumeration/)
+- [Linux Privilege Escalation](../linux/privilege-escalation/)
+- [Linux Services](../linux/services/)
+- [Linux Credentials](../linux/credentials/)
+
 
 ---
 
-# Safe Validation
-
-PrivEsc Explorer is not intended to encourage unnecessary destructive exploitation.
-
-The preferred validation model is:
-
-```text
-Discovery
-    |
-    v
-Configuration Evidence
-    |
-    v
-Permission Evidence
-    |
-    v
-Privilege Relationship
-    |
-    v
-Minimal Validation
-    |
-    v
-Finding
-```
-
-For example:
-
-```text
-Standard User
-      |
-      | can write
-      v
-Service Executable
-      |
-      | executed by
-      v
-SYSTEM / root
-```
-
-If the privilege boundary can already be demonstrated from configuration and permission evidence, replacing the production executable may be unnecessary.
-
----
-
-# Confidence Levels
-
-Techniques can eventually expose a confidence indicator.
-
-```text
-CANDIDATE
-```
-
-A potentially interesting configuration has been identified.
-
-```text
-LIKELY
-```
-
-The important prerequisites appear to exist.
-
-```text
-CONFIRMED
-```
-
-The privilege boundary has been safely demonstrated.
-
-This helps distinguish:
-
-```text
-Interesting Configuration
-```
-
-from:
-
-```text
-Confirmed Privilege Escalation
-```
-
----
-
-# Technique Metadata
-
-The explorer uses structured data rather than hardcoding every technique into the interface.
-
-Conceptually, a technique contains:
-
-```yaml
-id: windows-writable-service-binary
-
-name: Writable Service Binary
-
-platform: windows
-
-category: services
-
-severity: high
-
-tags:
-  - service
-  - permissions
-  - filesystem
-  - system
-
-requires:
-  - Privileged service
-  - Writable service executable
-  - Service execution opportunity
-
-mitre:
-  - T1574.010
-
-related:
-  - /windows/services/
-  - /windows/privilege-escalation/
-```
-
-The interface renders this information dynamically.
-
----
-
-# Why Structured Data?
-
-Separating technique data from presentation means:
-
-```text
-Technique Database
-        |
-        v
-JSON
-        |
-        v
-Explorer Engine
-        |
-        +----------------+
-        |                |
-        v                v
-     Windows           Linux
-        |                |
-        v                v
- Technique Cards    Technique Cards
-```
-
-Adding another technique should not require rewriting the explorer.
-
-Instead:
-
-```text
-Add JSON Object
-       |
-       v
-Technique Automatically Appears
-```
-
----
-
-# Future Expansion
-
-The same framework can later support:
-
-```text
-AD Explorer
-```
-
-```text
-Command Explorer
-```
-
-```text
-Web Technique Explorer
-```
-
-```text
-Cloud Explorer
-```
-
-```text
-LOLBIN Explorer
-```
-
-The architecture therefore becomes:
-
-```text
-                    Explorer Engine
-                          |
-          +---------------+---------------+
-          |               |               |
-          v               v               v
-       PrivEsc         Active          Command
-       Explorer        Directory       Explorer
-          |            Explorer
-      +---+---+
-      |       |
-      v       v
-   Windows   Linux
-```
-
----
-
-# Operational Use
-
-During an assessment:
-
-```text
-1. Enumerate the host.
-
-2. Record interesting permissions and configuration.
-
-3. Search the relevant term in PrivEsc Explorer.
-
-4. Review prerequisites.
-
-5. Confirm the privilege relationship.
-
-6. Perform minimum necessary validation.
-
-7. Collect evidence.
-
-8. Open the detailed documentation where deeper analysis is required.
-
-9. Report the root cause.
-
-10. Recommend remediation.
-```
-
----
-
-# What Not to Report Automatically
-
-PrivEsc Explorer results are candidates.
-
-Do not automatically report:
-
-```text
-SUID binary exists
-```
-
-```text
-Docker is installed
-```
-
-```text
-User has a capability
-```
-
-```text
-Service path contains spaces
-```
-
-```text
-Old kernel version
-```
-
-```text
-Writable directory exists
-```
-
-Each candidate must be evaluated in context.
-
-For example:
-
-```text
-Writable Directory
-       |
-       v
-Does privileged software trust it?
-       |
-   +---+---+
-   |       |
-   No      Yes
-   |       |
-   v       v
-Low      Investigate
-Value
-```
-
----
-
-# Evidence Model
-
-For each confirmed technique, collect:
-
-```text
-Host
-Current identity
-Technique
-Affected resource
-Privilege level
-Permissions
-Configuration
-Required conditions
-Validation performed
-Observed result
-Security impact
-MITRE ATT&CK mapping
-Remediation
-```
-
----
-
-# Explorer Principles
-
-PrivEsc Explorer follows several principles.
-
-```text
-Fast Search
-```
-
-Find techniques from discoveries made during enumeration.
-
-```text
-Context First
-```
-
-A configuration is not automatically a vulnerability.
-
-```text
-Minimal Validation
-```
-
-Demonstrate the privilege boundary without unnecessary system modification.
-
-```text
-Defender Visibility
-```
-
-Include detection opportunities alongside offensive assessment information.
-
-```text
-Remediation First-Class
-```
-
-Every technique should explain how the root cause can be removed.
-
-```text
-Documentation Integration
-```
-
-Explorer cards should link directly into the detailed notes.
-
----
-
-# Windows Explorer
-
-Use the Windows explorer when assessing:
-
-```text
-Windows Workstations
-Windows Servers
-Application Servers
-Jump Hosts
-Management Servers
-Developer Workstations
-VDI Systems
-```
-
-Open:
-
-[Windows PrivEsc Explorer](windows.md)
-
-Detailed documentation:
-
-[Windows Privilege Escalation](../windows/privilege-escalation.md)
-
----
-
-# Linux Explorer
-
-Use the Linux explorer when assessing:
-
-```text
-Linux Servers
-Web Servers
-Application Servers
-Developer Systems
-Containers
-Cloud Workloads
-Infrastructure Servers
-```
-
-Open:
-
-[Linux PrivEsc Explorer](linux.md)
-
-Detailed documentation:
-
-[Linux Privilege Escalation](../linux/privilege-escalation.md)
-
----
-
-# Related Notes
-
-- [Windows](../windows/index.md)
-- [Windows Enumeration](../windows/enumeration.md)
-- [Windows Services](../windows/services.md)
-- [Windows Credentials](../windows/credentials.md)
-- [Windows Privilege Escalation](../windows/privilege-escalation.md)
-- [Linux](../linux/index.md)
-- [Linux Enumeration](../linux/enumeration.md)
-- [Linux Services](../linux/services.md)
-- [Linux Credentials](../linux/credentials.md)
-- [Linux Privilege Escalation](../linux/privilege-escalation.md)
-- [Windows Cheatsheet](../cheatsheets/windows.md)
-- [Linux Cheatsheet](../cheatsheets/linux.md)
-
----
-
-# References
+## References
 
 - [MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-- [MITRE ATT&CK - Privilege Escalation](https://attack.mitre.org/tactics/TA0004/){ target="_blank" rel="noopener noreferrer" }
-- [GTFOBins](https://gtfobins.org/){ target="_blank" rel="noopener noreferrer" }
+- [GTFOBins](https://gtfobins.github.io/){ target="_blank" rel="noopener noreferrer" }
 - [LOLBAS](https://lolbas-project.github.io/){ target="_blank" rel="noopener noreferrer" }
-- [LOLAD](https://lolad-project.github.io/){ target="_blank" rel="noopener noreferrer" }
+- [LOlAD](https://lolad-project.github.io/){ target="_blank" rel="noopener noreferrer" }
 - [WADComs](https://wadcoms.github.io/){ target="_blank" rel="noopener noreferrer" }
 - [Command Manager](https://commandmgr.com/){ target="_blank" rel="noopener noreferrer" }
 - [PEASS-ng](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
 - [Microsoft Windows Documentation](https://learn.microsoft.com/windows/){ target="_blank" rel="noopener noreferrer" }
-- [Linux man-pages](https://man7.org/linux/man-pages/){ target="_blank" rel="noopener noreferrer" }
 - [sudo Documentation](https://www.sudo.ws/docs/){ target="_blank" rel="noopener noreferrer" }
-- [systemd](https://systemd.io/){ target="_blank" rel="noopener noreferrer" }
+- [systemd Documentation](https://systemd.io/){ target="_blank" rel="noopener noreferrer" }
 - [Docker Security](https://docs.docker.com/engine/security/){ target="_blank" rel="noopener noreferrer" }
+
 
 ---
 
-> PrivEsc Explorer is intended for authorised security assessments, security research, defensive validation, and controlled lab environments. A technique appearing in the explorer represents an assessment candidate, not automatically a confirmed vulnerability. Validate the actual privilege boundary and use the minimum testing necessary to demonstrate security impact.
+!!! warning "Authorised testing only"
+    Privilege escalation testing can modify services, scheduled tasks, files, registry settings, processes, containers, authentication material, and operating-system security controls. Perform active validation only where explicitly authorised and use the least invasive method necessary to demonstrate the security impact.
