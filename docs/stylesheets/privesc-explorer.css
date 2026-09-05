@@ -1,0 +1,1466 @@
+/*
+ * PrivEsc Explorer
+ * ============================================================
+ * Interactive Windows and Linux privilege escalation explorer.
+ *
+ * Designed for MkDocs Material and compatible with:
+ * - Light mode
+ * - Dark / slate mode
+ * - navigation.instant
+ * - Desktop
+ * - Tablet
+ * - Mobile
+ *
+ * Used by:
+ *   docs/privesc/windows.md
+ *   docs/privesc/linux.md
+ *
+ * JavaScript:
+ *   docs/javascripts/privesc-explorer.js
+ */
+
+
+/* ============================================================
+   1. Explorer Variables
+   ============================================================ */
+
+:root {
+    --privesc-radius-xs: 0.3rem;
+    --privesc-radius-sm: 0.45rem;
+    --privesc-radius-md: 0.7rem;
+    --privesc-radius-lg: 1rem;
+
+    --privesc-spacing-xs: 0.35rem;
+    --privesc-spacing-sm: 0.65rem;
+    --privesc-spacing-md: 1rem;
+    --privesc-spacing-lg: 1.5rem;
+    --privesc-spacing-xl: 2rem;
+
+    --privesc-transition: 160ms ease;
+
+    --privesc-border: rgba(127, 127, 127, 0.22);
+    --privesc-border-strong: rgba(127, 127, 127, 0.38);
+
+    --privesc-surface: rgba(127, 127, 127, 0.045);
+    --privesc-surface-hover: rgba(127, 127, 127, 0.09);
+    --privesc-surface-active: rgba(127, 127, 127, 0.13);
+
+    --privesc-code-bg: rgba(0, 0, 0, 0.06);
+
+    --privesc-critical: #d32f2f;
+    --privesc-high: #e65100;
+    --privesc-medium: #b28704;
+    --privesc-low: #1976d2;
+    --privesc-info: #607d8b;
+
+    --privesc-candidate: #607d8b;
+    --privesc-likely: #e65100;
+    --privesc-confirmed: #2e7d32;
+
+    --privesc-windows: #0078d4;
+    --privesc-linux: #e9a400;
+
+    --privesc-success: #2e7d32;
+    --privesc-error: #c62828;
+
+    --privesc-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.05),
+        0 4px 16px rgba(0, 0, 0, 0.04);
+
+    --privesc-shadow-hover:
+        0 2px 4px rgba(0, 0, 0, 0.06),
+        0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ============================================================
+   2. Dark Theme Adjustments
+   ============================================================ */
+
+[data-md-color-scheme="slate"] {
+    --privesc-border: rgba(255, 255, 255, 0.12);
+    --privesc-border-strong: rgba(255, 255, 255, 0.22);
+
+    --privesc-surface: rgba(255, 255, 255, 0.035);
+    --privesc-surface-hover: rgba(255, 255, 255, 0.065);
+    --privesc-surface-active: rgba(255, 255, 255, 0.09);
+
+    --privesc-code-bg: rgba(0, 0, 0, 0.28);
+
+    --privesc-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.18),
+        0 5px 18px rgba(0, 0, 0, 0.18);
+
+    --privesc-shadow-hover:
+        0 2px 4px rgba(0, 0, 0, 0.22),
+        0 9px 28px rgba(0, 0, 0, 0.24);
+}
+
+
+/* ============================================================
+   3. Hero
+   ============================================================ */
+
+.privesc-hero {
+    position: relative;
+    overflow: hidden;
+
+    margin: 0 0 var(--privesc-spacing-xl);
+    padding: 2rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-lg);
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(0, 120, 212, 0.18),
+            transparent 38%
+        ),
+        var(--privesc-surface);
+
+    box-shadow: var(--privesc-shadow);
+}
+
+.privesc-hero[data-platform="linux"] {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(233, 164, 0, 0.18),
+            transparent 38%
+        ),
+        var(--privesc-surface);
+}
+
+.privesc-hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.025) 50%,
+            transparent 100%
+        );
+}
+
+.privesc-hero h2 {
+    position: relative;
+
+    margin: 0 0 0.5rem;
+
+    font-size: clamp(1.45rem, 3vw, 2.2rem);
+    line-height: 1.15;
+}
+
+.privesc-hero p {
+    position: relative;
+
+    max-width: 52rem;
+    margin-bottom: 0;
+}
+
+.privesc-hero-badges {
+    position: relative;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+
+    margin-top: 1rem;
+}
+
+
+/* ============================================================
+   4. Explorer Root
+   ============================================================ */
+
+#privesc-explorer {
+    width: 100%;
+    margin: var(--privesc-spacing-lg) 0 var(--privesc-spacing-xl);
+}
+
+
+/* ============================================================
+   5. Toolbar
+   ============================================================ */
+
+.privesc-toolbar {
+    display: grid;
+
+    grid-template-columns:
+        minmax(16rem, 2fr)
+        minmax(10rem, 1fr)
+        minmax(9rem, 1fr)
+        auto;
+
+    gap: 0.8rem;
+    align-items: end;
+
+    padding: 1rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-md);
+
+    background: var(--privesc-surface);
+
+    box-shadow: var(--privesc-shadow);
+}
+
+.privesc-search-wrapper,
+.privesc-filter-wrapper {
+    min-width: 0;
+}
+
+.privesc-toolbar label {
+    display: block;
+
+    margin: 0 0 0.35rem;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+
+    opacity: 0.76;
+}
+
+
+/* ============================================================
+   6. Search Input
+   ============================================================ */
+
+.privesc-search {
+    width: 100%;
+    min-height: 2.65rem;
+
+    padding: 0.62rem 0.8rem;
+
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-sm);
+
+    outline: none;
+
+    color: inherit;
+    background: var(--md-default-bg-color);
+
+    font: inherit;
+    font-size: 0.86rem;
+
+    transition:
+        border-color var(--privesc-transition),
+        box-shadow var(--privesc-transition),
+        background var(--privesc-transition);
+}
+
+.privesc-search::placeholder {
+    color: inherit;
+    opacity: 0.45;
+}
+
+.privesc-search:hover {
+    border-color: var(--md-accent-fg-color);
+}
+
+.privesc-search:focus {
+    border-color: var(--md-accent-fg-color);
+
+    box-shadow:
+        0 0 0 2px
+        color-mix(
+            in srgb,
+            var(--md-accent-fg-color) 22%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   7. Select Filters
+   ============================================================ */
+
+.privesc-filter,
+.privesc-sort {
+    width: 100%;
+    min-height: 2.65rem;
+
+    padding: 0.55rem 2rem 0.55rem 0.7rem;
+
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-sm);
+
+    outline: none;
+
+    color: inherit;
+    background: var(--md-default-bg-color);
+
+    font: inherit;
+    font-size: 0.82rem;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--privesc-transition),
+        box-shadow var(--privesc-transition);
+}
+
+.privesc-filter:hover,
+.privesc-sort:hover {
+    border-color: var(--md-accent-fg-color);
+}
+
+.privesc-filter:focus,
+.privesc-sort:focus {
+    border-color: var(--md-accent-fg-color);
+
+    box-shadow:
+        0 0 0 2px
+        color-mix(
+            in srgb,
+            var(--md-accent-fg-color) 22%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   8. Reset Button
+   ============================================================ */
+
+.privesc-reset {
+    min-height: 2.65rem;
+
+    padding: 0.55rem 1rem;
+
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-sm);
+
+    color: inherit;
+    background: var(--md-default-bg-color);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background var(--privesc-transition),
+        border-color var(--privesc-transition),
+        transform var(--privesc-transition);
+}
+
+.privesc-reset:hover {
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+}
+
+.privesc-reset:active {
+    transform: translateY(1px);
+}
+
+
+/* ============================================================
+   9. Active Filters
+   ============================================================ */
+
+.privesc-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+
+    margin: 0.8rem 0;
+}
+
+.privesc-active-filters[hidden] {
+    display: none;
+}
+
+.privesc-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+
+    padding: 0.32rem 0.6rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+
+    color: inherit;
+    background: var(--privesc-surface);
+
+    font: inherit;
+    font-size: 0.7rem;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--privesc-transition),
+        background var(--privesc-transition);
+}
+
+.privesc-filter-chip:hover {
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+}
+
+
+/* ============================================================
+   10. Results Header
+   ============================================================ */
+
+.privesc-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    margin: 1rem 0 0.7rem;
+}
+
+#privesc-result-count {
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    opacity: 0.72;
+}
+
+.privesc-sort {
+    width: auto;
+    min-width: 9.5rem;
+    min-height: 2.25rem;
+
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+
+/* ============================================================
+   11. Results
+   ============================================================ */
+
+.privesc-results {
+    display: grid;
+    gap: 0.85rem;
+}
+
+
+/* ============================================================
+   12. Technique Card
+   ============================================================ */
+
+.privesc-card {
+    overflow: hidden;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-md);
+
+    background: var(--md-default-bg-color);
+
+    box-shadow: var(--privesc-shadow);
+
+    transition:
+        border-color var(--privesc-transition),
+        box-shadow var(--privesc-transition),
+        transform var(--privesc-transition);
+}
+
+.privesc-card:hover {
+    border-color: var(--privesc-border-strong);
+    box-shadow: var(--privesc-shadow-hover);
+}
+
+.privesc-card.is-expanded {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--md-accent-fg-color) 48%,
+            var(--privesc-border)
+        );
+}
+
+
+/* ============================================================
+   13. Card Header
+   ============================================================ */
+
+.privesc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+
+    padding: 1rem 1.1rem;
+
+    cursor: pointer;
+
+    outline: none;
+
+    transition: background var(--privesc-transition);
+}
+
+.privesc-card-header:hover {
+    background: var(--privesc-surface-hover);
+}
+
+.privesc-card-header:focus-visible {
+    box-shadow:
+        inset 0 0 0 2px
+        var(--md-accent-fg-color);
+}
+
+.privesc-card-title-group {
+    min-width: 0;
+    flex: 1;
+}
+
+.privesc-card-title {
+    margin: 0.45rem 0 0.35rem !important;
+
+    font-size: 1.05rem !important;
+    line-height: 1.3;
+}
+
+.privesc-card-summary {
+    max-width: 65rem;
+
+    margin: 0 !important;
+
+    font-size: 0.78rem;
+    line-height: 1.55;
+
+    opacity: 0.78;
+}
+
+
+/* ============================================================
+   14. Card Chevron
+   ============================================================ */
+
+.privesc-card-chevron {
+    flex: 0 0 auto;
+
+    margin-top: 0.25rem;
+
+    font-size: 1rem;
+
+    opacity: 0.6;
+
+    transition:
+        transform var(--privesc-transition),
+        opacity var(--privesc-transition);
+}
+
+.privesc-card-header:hover .privesc-card-chevron {
+    opacity: 1;
+}
+
+.privesc-card.is-expanded .privesc-card-chevron {
+    transform: rotate(180deg);
+}
+
+
+/* ============================================================
+   15. Badges
+   ============================================================ */
+
+.privesc-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.privesc-badge {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 1.35rem;
+
+    padding: 0.18rem 0.48rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+
+    background: var(--privesc-surface);
+
+    font-size: 0.58rem;
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+}
+
+
+/* ============================================================
+   16. Platform Badges
+   ============================================================ */
+
+.privesc-badge-platform {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-windows) 50%,
+            transparent
+        );
+
+    color: var(--privesc-windows);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-windows) 9%,
+            transparent
+        );
+}
+
+.privesc-card[data-platform="linux"] .privesc-badge-platform,
+.privesc-hero[data-platform="linux"] .privesc-badge:first-child {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-linux) 50%,
+            transparent
+        );
+
+    color: var(--privesc-linux);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-linux) 9%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   17. Category Badge
+   ============================================================ */
+
+.privesc-badge-category {
+    opacity: 0.82;
+}
+
+
+/* ============================================================
+   18. Severity Badges
+   ============================================================ */
+
+.privesc-severity-critical {
+    color: var(--privesc-critical);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-critical) 55%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-critical) 10%,
+            transparent
+        );
+}
+
+.privesc-severity-high {
+    color: var(--privesc-high);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-high) 55%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-high) 10%,
+            transparent
+        );
+}
+
+.privesc-severity-medium {
+    color: var(--privesc-medium);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-medium) 55%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-medium) 10%,
+            transparent
+        );
+}
+
+.privesc-severity-low {
+    color: var(--privesc-low);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-low) 55%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-low) 10%,
+            transparent
+        );
+}
+
+.privesc-severity-informational {
+    color: var(--privesc-info);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-info) 55%,
+            transparent
+        );
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-info) 10%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   19. Confidence Badges
+   ============================================================ */
+
+.privesc-confidence-candidate {
+    color: var(--privesc-candidate);
+}
+
+.privesc-confidence-likely {
+    color: var(--privesc-likely);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-likely) 45%,
+            transparent
+        );
+}
+
+.privesc-confidence-confirmed {
+    color: var(--privesc-confirmed);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-confirmed) 45%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   20. Card Details
+   ============================================================ */
+
+.privesc-card-details {
+    padding: 0 1.1rem 1.1rem;
+
+    border-top: 1px solid var(--privesc-border);
+
+    background: var(--privesc-surface);
+}
+
+.privesc-card-details[hidden] {
+    display: none;
+}
+
+
+/* ============================================================
+   21. Detail Sections
+   ============================================================ */
+
+.privesc-detail-section {
+    margin-top: 1rem;
+}
+
+.privesc-detail-section + .privesc-detail-section {
+    padding-top: 0.9rem;
+
+    border-top: 1px solid var(--privesc-border);
+}
+
+.privesc-detail-section h3 {
+    margin: 0 0 0.55rem !important;
+
+    font-size: 0.78rem !important;
+    font-weight: 800;
+
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+
+    opacity: 0.86;
+}
+
+.privesc-detail-section ul {
+    margin: 0.35rem 0 0 1rem;
+    padding: 0;
+}
+
+.privesc-detail-section li {
+    margin: 0.3rem 0;
+
+    font-size: 0.76rem;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   22. What You Found
+   ============================================================ */
+
+.privesc-found {
+    padding-left: 0.8rem;
+
+    border-left: 3px solid var(--md-accent-fg-color);
+}
+
+
+/* ============================================================
+   23. Requirements
+   ============================================================ */
+
+.privesc-requirement-list {
+    list-style: none;
+
+    margin-left: 0 !important;
+}
+
+.privesc-requirement-list li {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+}
+
+.privesc-requirement-marker {
+    flex: 0 0 auto;
+
+    color: var(--md-accent-fg-color);
+
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   24. Command Blocks
+   ============================================================ */
+
+.privesc-command {
+    position: relative;
+
+    margin: 0.55rem 0;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-sm);
+
+    background: var(--privesc-code-bg);
+}
+
+.privesc-command pre {
+    margin: 0 !important;
+
+    padding: 0.8rem 4.7rem 0.8rem 0.85rem !important;
+
+    overflow-x: auto;
+
+    border: 0 !important;
+    border-radius: inherit !important;
+
+    background: transparent !important;
+}
+
+.privesc-command code {
+    padding: 0 !important;
+
+    color: inherit !important;
+    background: transparent !important;
+
+    font-size: 0.72rem !important;
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   25. Copy Button
+   ============================================================ */
+
+.privesc-copy-button {
+    position: absolute;
+
+    top: 0.48rem;
+    right: 0.48rem;
+
+    min-width: 3.6rem;
+
+    padding: 0.3rem 0.48rem;
+
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-xs);
+
+    color: inherit;
+    background: var(--md-default-bg-color);
+
+    font: inherit;
+    font-size: 0.62rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    opacity: 0.78;
+
+    transition:
+        opacity var(--privesc-transition),
+        border-color var(--privesc-transition),
+        background var(--privesc-transition);
+}
+
+.privesc-copy-button:hover {
+    opacity: 1;
+
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+}
+
+.privesc-copy-button.is-copied {
+    color: var(--privesc-success);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-success) 55%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   26. Validation
+   ============================================================ */
+
+.privesc-validation h3 {
+    color: var(--md-accent-fg-color);
+}
+
+
+/* ============================================================
+   27. Detection
+   ============================================================ */
+
+.privesc-detection h3 {
+    color: var(--privesc-low);
+}
+
+
+/* ============================================================
+   28. Remediation
+   ============================================================ */
+
+.privesc-remediation h3 {
+    color: var(--privesc-success);
+}
+
+
+/* ============================================================
+   29. MITRE ATT&CK
+   ============================================================ */
+
+.privesc-mitre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.privesc-mitre-entry {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.3rem 0.55rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-xs);
+
+    color: inherit !important;
+    background: var(--md-default-bg-color);
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    text-decoration: none !important;
+
+    transition:
+        border-color var(--privesc-transition),
+        background var(--privesc-transition);
+}
+
+a.privesc-mitre-entry:hover {
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+}
+
+
+/* ============================================================
+   30. Tags
+   ============================================================ */
+
+.privesc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.privesc-tag {
+    padding: 0.25rem 0.48rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+
+    color: inherit;
+    background: var(--md-default-bg-color);
+
+    font: inherit;
+    font-size: 0.62rem;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--privesc-transition),
+        background var(--privesc-transition),
+        color var(--privesc-transition);
+}
+
+.privesc-tag:hover {
+    color: var(--md-accent-fg-color);
+
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+}
+
+
+/* ============================================================
+   31. Related Notes
+   ============================================================ */
+
+.privesc-related-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.privesc-related-link {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.32rem 0.55rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-xs);
+
+    color: var(--md-accent-fg-color) !important;
+    background: var(--md-default-bg-color);
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    text-decoration: none !important;
+
+    transition:
+        border-color var(--privesc-transition),
+        background var(--privesc-transition);
+}
+
+.privesc-related-link:hover {
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+}
+
+
+/* ============================================================
+   32. Loading State
+   ============================================================ */
+
+.privesc-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+
+    min-height: 8rem;
+
+    padding: 1.5rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-md);
+
+    background: var(--privesc-surface);
+
+    font-size: 0.8rem;
+
+    opacity: 0.75;
+}
+
+.privesc-loading-indicator {
+    width: 1rem;
+    height: 1rem;
+
+    border: 2px solid var(--privesc-border-strong);
+    border-top-color: var(--md-accent-fg-color);
+    border-radius: 50%;
+
+    animation: privesc-spin 700ms linear infinite;
+}
+
+@keyframes privesc-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   33. Empty State
+   ============================================================ */
+
+.privesc-empty {
+    margin-top: 1rem;
+    padding: 2rem 1rem;
+
+    border: 1px dashed var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-md);
+
+    text-align: center;
+
+    background: var(--privesc-surface);
+}
+
+.privesc-empty[hidden] {
+    display: none;
+}
+
+.privesc-empty h2 {
+    margin: 0 0 0.4rem !important;
+
+    font-size: 1rem !important;
+}
+
+.privesc-empty p {
+    margin: 0 !important;
+
+    font-size: 0.76rem;
+
+    opacity: 0.7;
+}
+
+
+/* ============================================================
+   34. Error State
+   ============================================================ */
+
+.privesc-error {
+    padding: 1rem;
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--privesc-error) 50%,
+            transparent
+        );
+
+    border-left: 4px solid var(--privesc-error);
+    border-radius: var(--privesc-radius-sm);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--privesc-error) 7%,
+            transparent
+        );
+}
+
+.privesc-error strong {
+    color: var(--privesc-error);
+}
+
+.privesc-error p {
+    margin: 0.4rem 0 0 !important;
+
+    font-size: 0.76rem;
+}
+
+
+/* ============================================================
+   35. Noscript
+   ============================================================ */
+
+.privesc-results noscript {
+    display: block;
+
+    padding: 1rem;
+
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-sm);
+
+    background: var(--privesc-surface);
+
+    font-size: 0.78rem;
+}
+
+
+/* ============================================================
+   36. Windows Accent
+   ============================================================ */
+
+#privesc-explorer[data-platform="windows"] .privesc-card.is-expanded {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-windows) 45%,
+            var(--privesc-border)
+        );
+}
+
+#privesc-explorer[data-platform="windows"] .privesc-found {
+    border-left-color: var(--privesc-windows);
+}
+
+
+/* ============================================================
+   37. Linux Accent
+   ============================================================ */
+
+#privesc-explorer[data-platform="linux"] .privesc-card.is-expanded {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--privesc-linux) 45%,
+            var(--privesc-border)
+        );
+}
+
+#privesc-explorer[data-platform="linux"] .privesc-found {
+    border-left-color: var(--privesc-linux);
+}
+
+
+/* ============================================================
+   38. Keyboard Accessibility
+   ============================================================ */
+
+.privesc-reset:focus-visible,
+.privesc-copy-button:focus-visible,
+.privesc-tag:focus-visible,
+.privesc-filter-chip:focus-visible,
+.privesc-related-link:focus-visible,
+.privesc-mitre-entry:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   39. Selection
+   ============================================================ */
+
+#privesc-explorer ::selection {
+    background:
+        color-mix(
+            in srgb,
+            var(--md-accent-fg-color) 30%,
+            transparent
+        );
+}
+
+
+/* ============================================================
+   40. Tablet Layout
+   ============================================================ */
+
+@media screen and (max-width: 900px) {
+    .privesc-toolbar {
+        grid-template-columns:
+            minmax(12rem, 2fr)
+            minmax(9rem, 1fr)
+            minmax(9rem, 1fr);
+    }
+
+    .privesc-reset {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* ============================================================
+   41. Mobile Layout
+   ============================================================ */
+
+@media screen and (max-width: 650px) {
+    .privesc-hero {
+        padding: 1.25rem;
+    }
+
+    .privesc-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .privesc-reset {
+        grid-column: auto;
+    }
+
+    .privesc-results-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .privesc-sort {
+        width: 100%;
+    }
+
+    .privesc-card-header {
+        gap: 0.65rem;
+
+        padding: 0.9rem;
+    }
+
+    .privesc-card-details {
+        padding: 0 0.9rem 0.9rem;
+    }
+
+    .privesc-card-title {
+        font-size: 0.95rem !important;
+    }
+
+    .privesc-card-summary {
+        font-size: 0.74rem;
+    }
+
+    .privesc-command pre {
+        padding:
+            2.65rem
+            0.7rem
+            0.7rem
+            0.7rem !important;
+    }
+
+    .privesc-copy-button {
+        top: 0.42rem;
+        right: 0.42rem;
+    }
+}
+
+
+/* ============================================================
+   42. Very Small Screens
+   ============================================================ */
+
+@media screen and (max-width: 400px) {
+    .privesc-hero {
+        padding: 1rem;
+    }
+
+    .privesc-toolbar {
+        padding: 0.75rem;
+    }
+
+    .privesc-card-badges,
+    .privesc-tags,
+    .privesc-related-links,
+    .privesc-mitre-list {
+        gap: 0.28rem;
+    }
+
+    .privesc-badge {
+        font-size: 0.54rem;
+    }
+
+    .privesc-card-chevron {
+        display: none;
+    }
+}
+
+
+/* ============================================================
+   43. Reduced Motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .privesc-card,
+    .privesc-card-header,
+    .privesc-card-chevron,
+    .privesc-copy-button,
+    .privesc-tag,
+    .privesc-reset,
+    .privesc-filter-chip,
+    .privesc-related-link,
+    .privesc-mitre-entry,
+    .privesc-search,
+    .privesc-filter,
+    .privesc-sort {
+        transition: none !important;
+    }
+
+    .privesc-loading-indicator {
+        animation-duration: 1.5s;
+    }
+}
+
+
+/* ============================================================
+   44. Print
+   ============================================================ */
+
+@media print {
+    .privesc-toolbar,
+    .privesc-active-filters,
+    .privesc-results-header,
+    .privesc-copy-button {
+        display: none !important;
+    }
+
+    .privesc-card {
+        break-inside: avoid;
+
+        box-shadow: none;
+    }
+
+    .privesc-card-details {
+        display: block !important;
+    }
+
+    .privesc-card-chevron {
+        display: none;
+    }
+
+    .privesc-related-link,
+    .privesc-mitre-entry {
+        color: inherit !important;
+    }
+}
