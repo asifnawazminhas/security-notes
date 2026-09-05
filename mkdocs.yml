@@ -487,14 +487,93 @@ nav:
   # ==========================================================
 
   - Red Teaming:
+
+      # ------------------------------------------------------
+      # OVERVIEW AND METHODOLOGY
+      # ------------------------------------------------------
+
       - Overview: red-teaming/index.md
+      - Methodology: red-teaming/methodology.md
+
+
+      # ------------------------------------------------------
+      # PLANNING AND INFRASTRUCTURE
+      # ------------------------------------------------------
+
       - Infrastructure: red-teaming/infrastructure.md
+      - OPSEC: red-teaming/opsec.md
+
+
+      # ------------------------------------------------------
+      # RECONNAISSANCE AND INITIAL ACCESS
+      # ------------------------------------------------------
+
+      - Reconnaissance: red-teaming/reconnaissance.md
       - Initial Access: red-teaming/initial-access.md
-      - Command and Control: red-teaming/command-and-control.md
+
+
+      # ------------------------------------------------------
+      # EXECUTION AND DISCOVERY
+      # ------------------------------------------------------
+
+      - Execution: red-teaming/execution.md
+      - Discovery: red-teaming/discovery.md
+
+
+      # ------------------------------------------------------
+      # PRIVILEGE AND CREDENTIAL ACCESS
+      # ------------------------------------------------------
+
+      - Privilege Escalation: red-teaming/privilege-escalation.md
       - Credential Access: red-teaming/credential-access.md
+
+
+      # ------------------------------------------------------
+      # MOVEMENT, PERSISTENCE AND EVASION
+      # ------------------------------------------------------
+
       - Lateral Movement: red-teaming/lateral-movement.md
       - Persistence: red-teaming/persistence.md
       - Defence Evasion: red-teaming/defence-evasion.md
+
+
+      # ------------------------------------------------------
+      # COMMAND AND CONTROL
+      # ------------------------------------------------------
+
+      - Command and Control: red-teaming/command-and-control.md
+
+
+      # ------------------------------------------------------
+      # COLLECTION AND EXFILTRATION
+      # ------------------------------------------------------
+
+      - Collection: red-teaming/collection.md
+      - Exfiltration: red-teaming/exfiltration.md
+
+
+      # ------------------------------------------------------
+      # SOCIAL ENGINEERING
+      # ------------------------------------------------------
+
+      - Social Engineering: red-teaming/social-engineering.md
+      - Phishing: red-teaming/phishing.md
+
+
+      # ------------------------------------------------------
+      # ADVERSARY EMULATION AND DETECTION
+      # ------------------------------------------------------
+
+      - Adversary Emulation: red-teaming/adversary-emulation.md
+      - Detection Validation: red-teaming/detection-validation.md
+
+
+      # ------------------------------------------------------
+      # ENGAGEMENT COMPLETION
+      # ------------------------------------------------------
+
+      - Cleanup: red-teaming/cleanup.md
+      - Reporting: red-teaming/reporting.md
 
 
   # ==========================================================
