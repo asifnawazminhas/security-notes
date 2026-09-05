@@ -375,20 +375,15 @@ nav:
 
       - Active Directory Certificate Services:
 
-          # Existing nested AD CS files
           - Overview: active-directory/ad-cs/index.md
           - Enumeration: active-directory/ad-cs/enumeration.md
 
           - ESC Techniques:
-
-              # Existing nested files
               - ESC1: active-directory/ad-cs/esc1.md
               - ESC2: active-directory/ad-cs/esc2.md
               - ESC3: active-directory/ad-cs/esc3.md
               - ESC4: active-directory/ad-cs/esc4.md
               - ESC5: active-directory/ad-cs/esc5.md
-
-              # Existing flat files
               - ESC6: active-directory/ad-cs/esc6.md
               - ESC7: active-directory/ad-cs/esc7.md
               - ESC8: active-directory/ad-cs/esc8.md
@@ -475,6 +470,16 @@ nav:
       - Privilege Escalation: linux/privilege-escalation.md
       - Credentials: linux/credentials.md
       - Services: linux/services.md
+
+
+  # ==========================================================
+  # PRIVILEGE ESCALATION EXPLORER
+  # ==========================================================
+
+  - PrivEsc Explorer:
+      - Overview: privesc-explorer/index.md
+      - Windows PrivEsc Explorer: privesc-explorer/windows.md
+      - Linux PrivEsc Explorer: privesc-explorer/linux.md
 
 
   # ==========================================================
@@ -572,6 +577,7 @@ nav:
 
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/privesc-explorer.css
 
 
 # ============================================================
@@ -580,6 +586,7 @@ extra_css:
 
 extra_javascript:
   - javascripts/scroll-buttons.js
+  - javascripts/privesc-explorer.js
 
 
 # ============================================================
