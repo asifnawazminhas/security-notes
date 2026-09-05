@@ -1,0 +1,1015 @@
+/* ============================================================
+   PrivEsc Explorer
+   Shared styles for Windows and Linux privilege escalation
+   explorer pages.
+   ============================================================ */
+
+
+/* ============================================================
+   GLOBAL VARIABLES
+   ============================================================ */
+
+#privesc-explorer,
+.privesc-hero,
+.privesc-platform-grid {
+    --privesc-border: rgba(128, 128, 128, 0.28);
+    --privesc-border-strong: rgba(128, 128, 128, 0.42);
+    --privesc-surface: rgba(128, 128, 128, 0.055);
+    --privesc-surface-hover: rgba(128, 128, 128, 0.09);
+    --privesc-surface-active: rgba(128, 128, 128, 0.13);
+    --privesc-muted: rgba(128, 128, 128, 0.9);
+    --privesc-radius: 0.8rem;
+    --privesc-radius-small: 0.45rem;
+    --privesc-gap: 1rem;
+}
+
+
+/* ============================================================
+   LANDING PAGE HERO
+   ============================================================ */
+
+.privesc-hero {
+    position: relative;
+    overflow: hidden;
+    margin: 1.5rem 0 2rem;
+    padding: 2rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 1rem;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 188, 212, 0.08),
+            rgba(128, 128, 128, 0.03)
+        );
+}
+
+.privesc-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.22rem;
+    height: 100%;
+    background: var(--md-accent-fg-color);
+}
+
+.privesc-hero h1,
+.privesc-hero h2,
+.privesc-hero h3 {
+    margin-top: 0;
+}
+
+.privesc-hero p:last-child {
+    margin-bottom: 0;
+}
+
+.privesc-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+
+/* ============================================================
+   PLATFORM GRID
+   ============================================================ */
+
+.privesc-platform-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+}
+
+.privesc-platform-card {
+    position: relative;
+    min-width: 0;
+    padding: 1.5rem;
+    overflow: hidden;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius);
+    background: var(--privesc-surface);
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.privesc-platform-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--privesc-border-strong);
+    background: var(--privesc-surface-hover);
+    box-shadow: 0 0.45rem 1.4rem rgba(0, 0, 0, 0.08);
+}
+
+.privesc-platform-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.2rem;
+}
+
+.privesc-platform-windows::before {
+    background: #2196f3;
+}
+
+.privesc-platform-linux::before {
+    background: #f0b400;
+}
+
+.privesc-platform-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.privesc-platform-card p {
+    margin-bottom: 1.25rem;
+}
+
+.privesc-platform-card .md-button {
+    margin-top: auto;
+}
+
+
+/* ============================================================
+   EXPLORER ROOT
+   ============================================================ */
+
+#privesc-explorer {
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0 2rem;
+    box-sizing: border-box;
+}
+
+#privesc-explorer *,
+#privesc-explorer *::before,
+#privesc-explorer *::after {
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+
+.privesc-toolbar {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(150px, 1fr)
+        minmax(150px, 1fr)
+        auto;
+    gap: 1rem;
+    align-items: end;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 1.25rem;
+    padding: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius);
+    background: var(--privesc-surface);
+}
+
+.privesc-search-wrapper,
+.privesc-filter-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+}
+
+.privesc-search-wrapper label,
+.privesc-filter-wrapper label {
+    display: block;
+    margin: 0 0 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--md-default-fg-color--light);
+}
+
+
+/* ============================================================
+   INPUTS AND SELECTS
+   ============================================================ */
+
+.privesc-search,
+.privesc-filter,
+.privesc-sort {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 3rem;
+    margin: 0;
+    padding: 0 0.9rem;
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-small);
+    outline: none;
+    background: var(--md-default-bg-color);
+    color: var(--md-default-fg-color);
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background 150ms ease;
+}
+
+.privesc-search::placeholder {
+    color: var(--md-default-fg-color--lighter);
+    opacity: 1;
+}
+
+.privesc-search:hover,
+.privesc-filter:hover,
+.privesc-sort:hover {
+    border-color: var(--md-default-fg-color--lighter);
+}
+
+.privesc-search:focus,
+.privesc-filter:focus,
+.privesc-sort:focus {
+    border-color: var(--md-accent-fg-color);
+    box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.15);
+}
+
+.privesc-search:focus-visible,
+.privesc-filter:focus-visible,
+.privesc-sort:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   RESET BUTTON
+   ============================================================ */
+
+.privesc-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: end;
+    width: auto;
+    min-width: 5.5rem;
+    height: 3rem;
+    margin: 0;
+    padding: 0 1rem;
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: var(--privesc-radius-small);
+    cursor: pointer;
+    background: transparent;
+    color: var(--md-default-fg-color);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+        border-color 150ms ease,
+        background 150ms ease,
+        color 150ms ease,
+        transform 150ms ease;
+}
+
+.privesc-reset:hover {
+    border-color: var(--md-accent-fg-color);
+    background: var(--privesc-surface-hover);
+    color: var(--md-accent-fg-color);
+}
+
+.privesc-reset:active {
+    transform: translateY(1px);
+}
+
+.privesc-reset:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   ACTIVE FILTERS
+   ============================================================ */
+
+.privesc-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0 0 1rem;
+}
+
+.privesc-active-filters:empty {
+    display: none;
+}
+
+.privesc-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 100%;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+    cursor: pointer;
+    background: var(--privesc-surface);
+    color: var(--md-default-fg-color);
+    font: inherit;
+    font-size: 0.72rem;
+    line-height: 1.3;
+}
+
+.privesc-filter-chip:hover {
+    border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
+}
+
+.privesc-filter-chip:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   RESULTS HEADER
+   ============================================================ */
+
+.privesc-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    margin: 0 0 1rem;
+}
+
+#privesc-result-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--md-default-fg-color--light);
+}
+
+.privesc-sort {
+    width: auto;
+    min-width: 10.5rem;
+    height: 2.6rem;
+}
+
+
+/* ============================================================
+   RESULTS
+   ============================================================ */
+
+.privesc-results {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+    width: 100%;
+}
+
+
+/* ============================================================
+   TECHNIQUE CARD
+   ============================================================ */
+
+.privesc-card {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius);
+    background: var(--privesc-surface);
+    transition:
+        border-color 150ms ease,
+        background 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.privesc-card:hover {
+    border-color: var(--privesc-border-strong);
+}
+
+.privesc-card.is-expanded {
+    border-color: var(--privesc-border-strong);
+    background: var(--privesc-surface-hover);
+    box-shadow: 0 0.35rem 1.2rem rgba(0, 0, 0, 0.06);
+}
+
+.privesc-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.privesc-card-header:hover {
+    background: var(--privesc-surface-hover);
+}
+
+.privesc-card-header:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: -2px;
+}
+
+.privesc-card-title-group {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.privesc-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0 0 0.6rem;
+}
+
+.privesc-card-title {
+    margin: 0 0 0.35rem;
+    color: var(--md-default-fg-color);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.privesc-card-summary {
+    margin: 0;
+    color: var(--md-default-fg-color--light);
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+.privesc-card-chevron {
+    flex: 0 0 auto;
+    margin-top: 0.25rem;
+    color: var(--md-default-fg-color--light);
+    font-size: 1rem;
+    line-height: 1;
+    transition: transform 180ms ease;
+}
+
+.privesc-card.is-expanded .privesc-card-chevron {
+    transform: rotate(180deg);
+}
+
+.privesc-card-details {
+    padding: 0 1.1rem 1.2rem;
+    border-top: 1px solid var(--privesc-border);
+}
+
+.privesc-card-details[hidden] {
+    display: none;
+}
+
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+
+.privesc-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.22rem 0.55rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.privesc-badge-platform {
+    background: rgba(33, 150, 243, 0.1);
+    color: #42a5f5;
+}
+
+.privesc-badge-category {
+    background: var(--privesc-surface-active);
+    color: var(--md-default-fg-color--light);
+}
+
+.privesc-badge-severity {
+    font-weight: 800;
+}
+
+.privesc-severity-critical {
+    border-color: rgba(244, 67, 54, 0.5);
+    background: rgba(244, 67, 54, 0.13);
+    color: #ef5350;
+}
+
+.privesc-severity-high {
+    border-color: rgba(255, 112, 67, 0.5);
+    background: rgba(255, 112, 67, 0.13);
+    color: #ff7043;
+}
+
+.privesc-severity-medium {
+    border-color: rgba(255, 193, 7, 0.5);
+    background: rgba(255, 193, 7, 0.12);
+    color: #e0a800;
+}
+
+.privesc-severity-low {
+    border-color: rgba(76, 175, 80, 0.45);
+    background: rgba(76, 175, 80, 0.11);
+    color: #66bb6a;
+}
+
+.privesc-severity-informational {
+    border-color: rgba(3, 169, 244, 0.45);
+    background: rgba(3, 169, 244, 0.11);
+    color: #29b6f6;
+}
+
+.privesc-badge-confidence {
+    font-weight: 700;
+}
+
+.privesc-confidence-candidate {
+    background: rgba(158, 158, 158, 0.11);
+    color: var(--md-default-fg-color--light);
+}
+
+.privesc-confidence-likely {
+    border-color: rgba(255, 193, 7, 0.45);
+    background: rgba(255, 193, 7, 0.11);
+    color: #e0a800;
+}
+
+.privesc-confidence-confirmed {
+    border-color: rgba(76, 175, 80, 0.45);
+    background: rgba(76, 175, 80, 0.11);
+    color: #66bb6a;
+}
+
+
+/* ============================================================
+   DETAIL SECTIONS
+   ============================================================ */
+
+.privesc-detail-section {
+    margin-top: 1.2rem;
+}
+
+.privesc-detail-section h3,
+.privesc-detail-section h4 {
+    margin: 0 0 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.privesc-detail-section ul {
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+    padding-left: 1.25rem;
+}
+
+.privesc-detail-section li {
+    margin: 0.3rem 0;
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+.privesc-found,
+.privesc-requirements,
+.privesc-validation,
+.privesc-detection,
+.privesc-remediation,
+.privesc-mitre,
+.privesc-tags-section,
+.privesc-related {
+    width: 100%;
+}
+
+
+/* ============================================================
+   REQUIREMENTS
+   ============================================================ */
+
+.privesc-requirement-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.privesc-requirement-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin: 0;
+}
+
+.privesc-requirement-marker {
+    flex: 0 0 auto;
+    color: var(--md-accent-fg-color);
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   COMMANDS
+   ============================================================ */
+
+.privesc-commands {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.privesc-command {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-small);
+    background: var(--md-code-bg-color);
+}
+
+.privesc-command pre {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.9rem 4.5rem 0.9rem 1rem;
+    overflow-x: auto;
+    background: transparent;
+}
+
+.privesc-command code {
+    color: var(--md-code-fg-color);
+    font-size: 0.76rem;
+    white-space: pre;
+}
+
+.privesc-copy-button {
+    position: absolute;
+    top: 0.45rem;
+    right: 0.45rem;
+    z-index: 2;
+    min-width: 3.4rem;
+    padding: 0.32rem 0.55rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 0.35rem;
+    cursor: pointer;
+    background: var(--md-default-bg-color);
+    color: var(--md-default-fg-color--light);
+    font: inherit;
+    font-size: 0.64rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.privesc-copy-button:hover {
+    border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
+}
+
+.privesc-copy-button.is-copied {
+    border-color: rgba(76, 175, 80, 0.5);
+    color: #66bb6a;
+}
+
+.privesc-copy-button:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   MITRE ATT&CK
+   ============================================================ */
+
+.privesc-mitre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.privesc-mitre-entry {
+    margin: 0;
+}
+
+.privesc-mitre-entry a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.32rem 0.6rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.privesc-mitre-entry a:hover {
+    border-color: var(--md-accent-fg-color);
+}
+
+
+/* ============================================================
+   TAGS
+   ============================================================ */
+
+.privesc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.privesc-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--md-default-fg-color--light);
+    font: inherit;
+    font-size: 0.68rem;
+    line-height: 1.3;
+}
+
+.privesc-tag:hover {
+    border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
+}
+
+.privesc-tag:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   RELATED NOTES
+   ============================================================ */
+
+.privesc-related-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.privesc-related-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.32rem 0.6rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-small);
+    font-size: 0.72rem;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.privesc-related-link:hover {
+    border-color: var(--md-accent-fg-color);
+}
+
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.privesc-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    width: 100%;
+    min-height: 8rem;
+    padding: 2rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius);
+    color: var(--md-default-fg-color--light);
+    text-align: center;
+}
+
+.privesc-loading-indicator {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--privesc-border);
+    border-top-color: var(--md-accent-fg-color);
+    border-radius: 50%;
+    animation: privesc-spin 700ms linear infinite;
+}
+
+@keyframes privesc-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.privesc-empty {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 2rem 1.25rem;
+    border: 1px dashed var(--privesc-border-strong);
+    border-radius: var(--privesc-radius);
+    color: var(--md-default-fg-color--light);
+    text-align: center;
+}
+
+.privesc-empty[hidden] {
+    display: none;
+}
+
+.privesc-empty h2,
+.privesc-empty h3 {
+    margin-top: 0;
+}
+
+
+/* ============================================================
+   ERROR STATE
+   ============================================================ */
+
+.privesc-error {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(244, 67, 54, 0.45);
+    border-radius: var(--privesc-radius);
+    background: rgba(244, 67, 54, 0.07);
+    color: var(--md-default-fg-color);
+}
+
+.privesc-error strong {
+    color: #ef5350;
+}
+
+
+/* ============================================================
+   LIGHT THEME ADJUSTMENTS
+   ============================================================ */
+
+[data-md-color-scheme="default"] #privesc-explorer,
+[data-md-color-scheme="default"] .privesc-hero,
+[data-md-color-scheme="default"] .privesc-platform-grid {
+    --privesc-border: rgba(0, 0, 0, 0.14);
+    --privesc-border-strong: rgba(0, 0, 0, 0.25);
+    --privesc-surface: rgba(0, 0, 0, 0.025);
+    --privesc-surface-hover: rgba(0, 0, 0, 0.045);
+    --privesc-surface-active: rgba(0, 0, 0, 0.065);
+}
+
+
+/* ============================================================
+   DARK THEME ADJUSTMENTS
+   ============================================================ */
+
+[data-md-color-scheme="slate"] #privesc-explorer,
+[data-md-color-scheme="slate"] .privesc-hero,
+[data-md-color-scheme="slate"] .privesc-platform-grid {
+    --privesc-border: rgba(255, 255, 255, 0.14);
+    --privesc-border-strong: rgba(255, 255, 255, 0.24);
+    --privesc-surface: rgba(255, 255, 255, 0.035);
+    --privesc-surface-hover: rgba(255, 255, 255, 0.06);
+    --privesc-surface-active: rgba(255, 255, 255, 0.085);
+}
+
+
+/* ============================================================
+   RESPONSIVE - TABLET / NARROW DESKTOP
+   ============================================================ */
+
+@media screen and (max-width: 1100px) {
+    .privesc-toolbar {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+    }
+
+    .privesc-search-wrapper {
+        grid-column: 1 / -1;
+    }
+
+    .privesc-reset {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE - SMALL TABLET
+   ============================================================ */
+
+@media screen and (max-width: 800px) {
+    .privesc-platform-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .privesc-toolbar {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.85rem;
+    }
+
+    .privesc-search-wrapper,
+    .privesc-filter-wrapper,
+    .privesc-reset {
+        grid-column: 1;
+        width: 100%;
+    }
+
+    .privesc-results-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .privesc-sort {
+        width: 100%;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE - MOBILE
+   ============================================================ */
+
+@media screen and (max-width: 600px) {
+    .privesc-hero {
+        padding: 1.25rem;
+    }
+
+    .privesc-platform-card {
+        padding: 1.15rem;
+    }
+
+    .privesc-toolbar {
+        padding: 1rem;
+    }
+
+    .privesc-search,
+    .privesc-filter,
+    .privesc-reset {
+        height: 2.8rem;
+    }
+
+    .privesc-card-header {
+        gap: 0.6rem;
+        padding: 0.9rem;
+    }
+
+    .privesc-card-details {
+        padding: 0 0.9rem 1rem;
+    }
+
+    .privesc-command pre {
+        padding-right: 1rem;
+        padding-top: 2.8rem;
+    }
+
+    .privesc-copy-button {
+        top: 0.4rem;
+        right: 0.4rem;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .privesc-platform-card,
+    .privesc-card,
+    .privesc-card-chevron,
+    .privesc-reset,
+    .privesc-search,
+    .privesc-filter,
+    .privesc-sort {
+        transition: none;
+    }
+
+    .privesc-loading-indicator {
+        animation: none;
+    }
+}
