@@ -1,0 +1,1732 @@
+{
+  "platform": "windows",
+  "title": "Windows PrivEsc Explorer",
+  "description": "Structured Windows privilege escalation assessment techniques for authorised security testing.",
+  "version": "1.0",
+  "techniques": [
+    {
+      "id": "windows-writable-service-binary",
+      "name": "Writable Service Executable",
+      "platform": "windows",
+      "category": "Services",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged Windows service executes a binary that can be modified by a lower-privileged user.",
+      "found": [
+        "Service executes as LocalSystem or another privileged identity",
+        "Current user or one of their groups has Modify, Write, or FullControl over the service executable"
+      ],
+      "requires": [
+        "A service running with elevated privileges",
+        "A lower-privileged user can modify or replace the service executable",
+        "The service will execute again through a legitimate start, restart, boot, or recovery condition"
+      ],
+      "commands": [
+        "Get-CimInstance Win32_Service | Select-Object Name,StartName,State,StartMode,PathName",
+        "sc.exe qc ServiceName",
+        "icacls \"C:\\Path\\service.exe\"",
+        "Get-Acl -LiteralPath \"C:\\Path\\service.exe\" | Format-List Owner,AccessToString"
+      ],
+      "validation": [
+        "Confirm the service execution identity",
+        "Confirm the exact executable path",
+        "Confirm effective write or replacement permissions",
+        "Determine whether the service executes again under a realistic authorised condition",
+        "Prefer ACL and service configuration evidence over replacing the executable"
+      ],
+      "detection": [
+        "Monitor changes to service executables",
+        "Monitor unexpected service starts and restarts",
+        "Monitor service configuration changes",
+        "Use file integrity monitoring for privileged service directories"
+      ],
+      "remediation": [
+        "Remove unnecessary write permissions from the service executable",
+        "Protect the parent directory from lower-privileged modification",
+        "Apply least privilege to the service account",
+        "Monitor privileged service binaries for unexpected modification"
+      ],
+      "mitre": [
+        {
+          "id": "T1574.010",
+          "name": "Services File Permissions Weakness",
+          "url": "https://attack.mitre.org/techniques/T1574/010/"
+        }
+      ],
+      "tags": [
+        "service",
+        "services",
+        "writable",
+        "binary",
+        "executable",
+        "acl",
+        "permissions",
+        "system",
+        "localsystem",
+        "icacls"
+      ],
+      "related": [
+        "../../windows/services/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-service-directory",
+      "name": "Writable Service Directory",
+      "platform": "windows",
+      "category": "Services",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A lower-privileged user can modify a directory containing resources trusted by a privileged Windows service.",
+      "found": [
+        "Privileged service executable or dependencies are stored in a writable directory",
+        "Users, Authenticated Users, Everyone, or another lower-privileged group has dangerous directory rights"
+      ],
+      "requires": [
+        "A privileged service consumes resources from the directory",
+        "The lower-privileged identity has effective create, delete, rename, replace, modify, or equivalent control",
+        "The controlled resource affects privileged service execution"
+      ],
+      "commands": [
+        "sc.exe qc ServiceName",
+        "icacls \"C:\\Program Files\\Example\"",
+        "Get-Acl -LiteralPath \"C:\\Program Files\\Example\" | Format-List Owner,AccessToString"
+      ],
+      "validation": [
+        "Confirm the service identity",
+        "Confirm which resources are loaded from the directory",
+        "Evaluate directory rights separately from file rights",
+        "Determine whether parent-directory permissions permit replacement",
+        "Avoid changing production files during initial validation"
+      ],
+      "detection": [
+        "Monitor privileged application directories",
+        "Alert on unexpected file creation or replacement",
+        "Monitor service binary and dependency changes"
+      ],
+      "remediation": [
+        "Restrict write access to privileged service directories",
+        "Remove broad Modify and FullControl permissions",
+        "Separate user-writable data from executable content"
+      ],
+      "mitre": [
+        {
+          "id": "T1574.010",
+          "name": "Services File Permissions Weakness",
+          "url": "https://attack.mitre.org/techniques/T1574/010/"
+        }
+      ],
+      "tags": [
+        "service",
+        "directory",
+        "folder",
+        "acl",
+        "permissions",
+        "writable",
+        "replace"
+      ],
+      "related": [
+        "../../windows/services/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-weak-service-permissions",
+      "name": "Weak Service Object Permissions",
+      "platform": "windows",
+      "category": "Services",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A lower-privileged identity has security-sensitive control over a privileged Windows service object.",
+      "found": [
+        "Service security descriptor grants excessive rights to a lower-privileged principal",
+        "Current user may be able to change service configuration or other security-sensitive service properties"
+      ],
+      "requires": [
+        "A privileged service",
+        "Dangerous service-object rights assigned to a lower-privileged identity",
+        "The granted rights provide meaningful control over privileged service behaviour"
+      ],
+      "commands": [
+        "sc.exe qc ServiceName",
+        "sc.exe sdshow ServiceName"
+      ],
+      "validation": [
+        "Record the service security descriptor",
+        "Determine which rights apply to the current user and groups",
+        "Identify whether those rights permit security-sensitive service control",
+        "Do not change production service configuration merely to prove the issue"
+      ],
+      "detection": [
+        "Monitor service configuration changes",
+        "Monitor service security descriptor changes",
+        "Baseline privileged service permissions"
+      ],
+      "remediation": [
+        "Restrict service-object permissions",
+        "Grant service-management rights only to approved administrative identities",
+        "Review inherited or delegated service-management permissions"
+      ],
+      "mitre": [
+        {
+          "id": "T1543.003",
+          "name": "Windows Service",
+          "url": "https://attack.mitre.org/techniques/T1543/003/"
+        }
+      ],
+      "tags": [
+        "service",
+        "sdshow",
+        "service acl",
+        "permissions",
+        "configuration"
+      ],
+      "related": [
+        "../../windows/services/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-unquoted-service-path",
+      "name": "Unquoted Service Path",
+      "platform": "windows",
+      "category": "Services",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged service uses an unquoted executable path containing spaces and a lower-privileged user controls a candidate path Windows may evaluate during executable resolution.",
+      "found": [
+        "Service executable path contains spaces",
+        "Executable path is not correctly quoted",
+        "A candidate directory or path component is writable by the current user"
+      ],
+      "requires": [
+        "Unquoted service executable path containing spaces",
+        "Privileged service execution context",
+        "A writable candidate location relevant to Windows path parsing",
+        "An execution opportunity"
+      ],
+      "commands": [
+        "Get-CimInstance Win32_Service | Where-Object { $_.PathName -match ' ' } | Select-Object Name,StartName,State,PathName",
+        "sc.exe qc ServiceName",
+        "icacls \"C:\\CandidatePath\""
+      ],
+      "validation": [
+        "Confirm the executable path is actually unquoted",
+        "Determine the candidate executable paths Windows could evaluate",
+        "Check permissions on each candidate location",
+        "Confirm the service runs privileged",
+        "Do not create candidate executables during routine validation"
+      ],
+      "detection": [
+        "Audit privileged services for unquoted paths",
+        "Monitor executable creation in unusual parent directories",
+        "Monitor service starts involving unexpected executables"
+      ],
+      "remediation": [
+        "Quote service executable paths correctly",
+        "Restrict write permissions on parent directories",
+        "Review service installation procedures"
+      ],
+      "mitre": [
+        {
+          "id": "T1574.009",
+          "name": "Path Interception by Unquoted Path",
+          "url": "https://attack.mitre.org/techniques/T1574/009/"
+        }
+      ],
+      "tags": [
+        "service",
+        "unquoted",
+        "path",
+        "spaces",
+        "path interception"
+      ],
+      "related": [
+        "../../windows/services/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-service-config",
+      "name": "Writable Service Configuration Resource",
+      "platform": "windows",
+      "category": "Services",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged service consumes configuration or helper resources that can be modified by a lower-privileged identity.",
+      "found": [
+        "Service uses a writable configuration file, helper script, plugin, or supporting resource",
+        "The resource influences privileged service behaviour"
+      ],
+      "requires": [
+        "Privileged service",
+        "Lower-privileged write access to a trusted resource",
+        "The resource meaningfully influences service execution"
+      ],
+      "commands": [
+        "sc.exe qc ServiceName",
+        "Get-CimInstance Win32_Service -Filter \"Name='ServiceName'\" | Select-Object Name,StartName,PathName",
+        "icacls \"C:\\Path\\config.file\""
+      ],
+      "validation": [
+        "Identify how the service consumes the resource",
+        "Confirm effective permissions",
+        "Establish whether the resource influences privileged behaviour",
+        "Prefer configuration evidence over modifying the resource"
+      ],
+      "detection": [
+        "Monitor privileged service configuration files",
+        "Monitor unexpected modifications in application directories"
+      ],
+      "remediation": [
+        "Restrict configuration-file permissions",
+        "Separate writable data from privileged configuration",
+        "Run the service with minimum required privilege"
+      ],
+      "mitre": [
+        {
+          "id": "T1574",
+          "name": "Hijack Execution Flow",
+          "url": "https://attack.mitre.org/techniques/T1574/"
+        }
+      ],
+      "tags": [
+        "service",
+        "config",
+        "configuration",
+        "helper",
+        "plugin",
+        "writable"
+      ],
+      "related": [
+        "../../windows/services/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-scheduled-task-action",
+      "name": "Writable Scheduled Task Action",
+      "platform": "windows",
+      "category": "Scheduled Tasks",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A scheduled task running under an elevated identity executes a file that can be modified by a lower-privileged user.",
+      "found": [
+        "Scheduled task runs as SYSTEM, administrator, or another privileged identity",
+        "Task action references a lower-privileged writable executable or script"
+      ],
+      "requires": [
+        "Privileged scheduled task",
+        "Writable task action or trusted dependency",
+        "Task will execute through its configured trigger or another authorised activation condition"
+      ],
+      "commands": [
+        "Get-ScheduledTask | Select-Object TaskPath,TaskName,State",
+        "schtasks.exe /query /fo LIST /v",
+        "icacls \"C:\\Path\\task-script.ps1\""
+      ],
+      "validation": [
+        "Confirm the task principal",
+        "Confirm the exact action",
+        "Check file and parent-directory ACLs",
+        "Confirm the task trigger",
+        "Avoid modifying the scheduled task action"
+      ],
+      "detection": [
+        "Monitor scheduled task changes",
+        "Monitor privileged task action files",
+        "Alert on unexpected changes to scripts executed as SYSTEM"
+      ],
+      "remediation": [
+        "Protect scheduled task action files",
+        "Restrict task modification rights",
+        "Protect parent directories",
+        "Use minimum required task privilege"
+      ],
+      "mitre": [
+        {
+          "id": "T1053.005",
+          "name": "Scheduled Task",
+          "url": "https://attack.mitre.org/techniques/T1053/005/"
+        }
+      ],
+      "tags": [
+        "scheduled task",
+        "schtasks",
+        "task scheduler",
+        "script",
+        "system",
+        "writable"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-seimpersonate",
+      "name": "SeImpersonatePrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "The current token contains SeImpersonatePrivilege, which may become security-sensitive when the process can obtain a suitable privileged impersonation context.",
+      "found": [
+        "whoami /priv shows SeImpersonatePrivilege"
+      ],
+      "requires": [
+        "SeImpersonatePrivilege is available in the relevant token",
+        "A suitable privileged authentication or token context exists",
+        "The surrounding operating-system and application conditions permit meaningful impersonation"
+      ],
+      "commands": [
+        "whoami /priv",
+        "whoami /all"
+      ],
+      "validation": [
+        "Record whether the privilege is enabled or disabled",
+        "Identify why the account has the privilege",
+        "Determine whether a suitable privileged token or authentication context exists",
+        "Do not report the privilege alone as confirmed SYSTEM escalation"
+      ],
+      "detection": [
+        "Review assignment of impersonation privileges",
+        "Monitor unusual privileged process creation",
+        "Monitor suspicious token-manipulation activity where telemetry is available"
+      ],
+      "remediation": [
+        "Remove unnecessary SeImpersonatePrivilege assignments",
+        "Use least-privileged service identities",
+        "Reduce exposure of privileged authentication contexts"
+      ],
+      "mitre": [
+        {
+          "id": "T1134",
+          "name": "Access Token Manipulation",
+          "url": "https://attack.mitre.org/techniques/T1134/"
+        }
+      ],
+      "tags": [
+        "seimpersonate",
+        "seimpersonateprivilege",
+        "token",
+        "impersonation",
+        "privilege"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-seassignprimarytoken",
+      "name": "SeAssignPrimaryTokenPrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "The current security context has the ability to assign primary tokens under applicable Windows security rules.",
+      "found": [
+        "whoami /priv shows SeAssignPrimaryTokenPrivilege"
+      ],
+      "requires": [
+        "Relevant privilege is available",
+        "Suitable token and process conditions exist",
+        "Windows security controls permit the intended token operation"
+      ],
+      "commands": [
+        "whoami /priv",
+        "whoami /all"
+      ],
+      "validation": [
+        "Record the privilege state",
+        "Determine why the identity requires the privilege",
+        "Identify whether suitable token conditions actually exist"
+      ],
+      "detection": [
+        "Review privilege assignments",
+        "Monitor unexpected token-related process behaviour"
+      ],
+      "remediation": [
+        "Remove unnecessary privilege assignments",
+        "Use dedicated least-privileged service accounts"
+      ],
+      "mitre": [
+        {
+          "id": "T1134",
+          "name": "Access Token Manipulation",
+          "url": "https://attack.mitre.org/techniques/T1134/"
+        }
+      ],
+      "tags": [
+        "seassignprimarytoken",
+        "seassignprimarytokenprivilege",
+        "token",
+        "privilege"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-sebackup",
+      "name": "SeBackupPrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "The current identity has backup rights that can bypass selected normal file-read restrictions during authorised backup operations.",
+      "found": [
+        "whoami /priv shows SeBackupPrivilege"
+      ],
+      "requires": [
+        "SeBackupPrivilege is available",
+        "Security-sensitive resources are accessible through applicable backup semantics",
+        "Access creates a meaningful privilege or confidentiality impact"
+      ],
+      "commands": [
+        "whoami /priv",
+        "whoami /groups"
+      ],
+      "validation": [
+        "Record privilege state",
+        "Identify why the account has backup rights",
+        "Determine which protected resources become accessible",
+        "Avoid extracting credential databases when metadata and access evidence are sufficient"
+      ],
+      "detection": [
+        "Review Backup Operators membership",
+        "Review SeBackupPrivilege assignment",
+        "Monitor unusual access to sensitive operating-system files"
+      ],
+      "remediation": [
+        "Restrict backup rights to dedicated administrative identities",
+        "Remove unnecessary Backup Operators membership",
+        "Monitor privileged backup operations"
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "sebackup",
+        "sebackupprivilege",
+        "backup operators",
+        "backup",
+        "privilege"
+      ],
+      "related": [
+        "../../windows/credentials/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-serestore",
+      "name": "SeRestorePrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "The current identity has restore rights capable of bypassing selected normal write restrictions during authorised restoration operations.",
+      "found": [
+        "whoami /priv shows SeRestorePrivilege"
+      ],
+      "requires": [
+        "SeRestorePrivilege is available",
+        "The identity can affect a security-sensitive resource",
+        "The resource is trusted by a more privileged component"
+      ],
+      "commands": [
+        "whoami /priv",
+        "whoami /groups"
+      ],
+      "validation": [
+        "Record privilege state",
+        "Identify security-sensitive resources potentially affected",
+        "Do not overwrite protected production resources to prove the condition"
+      ],
+      "detection": [
+        "Review restore privilege assignments",
+        "Monitor modifications to protected operating-system and application resources"
+      ],
+      "remediation": [
+        "Restrict restore rights",
+        "Use dedicated administrative identities",
+        "Monitor privileged restoration operations"
+      ],
+      "mitre": [
+        {
+          "id": "T1548",
+          "name": "Abuse Elevation Control Mechanism",
+          "url": "https://attack.mitre.org/techniques/T1548/"
+        }
+      ],
+      "tags": [
+        "serestore",
+        "serestoreprivilege",
+        "restore",
+        "privilege"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-setakeownership",
+      "name": "SeTakeOwnershipPrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "The current identity can take ownership of securable objects under applicable Windows security rules.",
+      "found": [
+        "whoami /priv shows SeTakeOwnershipPrivilege"
+      ],
+      "requires": [
+        "SeTakeOwnershipPrivilege is available",
+        "A security-sensitive object can be targeted",
+        "Ownership would provide meaningful control over a privileged resource"
+      ],
+      "commands": [
+        "whoami /priv",
+        "whoami /all"
+      ],
+      "validation": [
+        "Identify relevant protected resources",
+        "Document the privilege assignment",
+        "Avoid changing production ownership merely to demonstrate impact"
+      ],
+      "detection": [
+        "Monitor ownership changes to privileged resources",
+        "Review privilege assignments"
+      ],
+      "remediation": [
+        "Remove unnecessary ownership privileges",
+        "Monitor security descriptor and ownership changes"
+      ],
+      "mitre": [
+        {
+          "id": "T1222.001",
+          "name": "Windows File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/001/"
+        }
+      ],
+      "tags": [
+        "setakeownership",
+        "setakeownershipprivilege",
+        "owner",
+        "ownership",
+        "acl"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-sedebug",
+      "name": "SeDebugPrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "The current identity has a highly sensitive process-debugging privilege that may allow extensive access to other processes.",
+      "found": [
+        "whoami /priv shows SeDebugPrivilege"
+      ],
+      "requires": [
+        "SeDebugPrivilege is available in the relevant token",
+        "A higher-privileged target process is accessible under applicable protections",
+        "The access produces meaningful security impact"
+      ],
+      "commands": [
+        "whoami /priv",
+        "whoami /all",
+        "Get-Process | Select-Object Name,Id"
+      ],
+      "validation": [
+        "Record privilege state",
+        "Identify whether protected process restrictions apply",
+        "Avoid dumping sensitive process memory unless explicitly authorised"
+      ],
+      "detection": [
+        "Review SeDebugPrivilege assignments",
+        "Monitor unusual process access",
+        "Monitor sensitive process handle activity where endpoint telemetry supports it"
+      ],
+      "remediation": [
+        "Restrict SeDebugPrivilege to identities that require it",
+        "Use privileged access management for administrative debugging"
+      ],
+      "mitre": [
+        {
+          "id": "T1055",
+          "name": "Process Injection",
+          "url": "https://attack.mitre.org/techniques/T1055/"
+        }
+      ],
+      "tags": [
+        "sedebug",
+        "sedebugprivilege",
+        "debug",
+        "process",
+        "privilege"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-seloaddriver",
+      "name": "SeLoadDriverPrivilege",
+      "platform": "windows",
+      "category": "Privileges",
+      "severity": "critical",
+      "confidence": "candidate",
+      "summary": "The current identity has the security-sensitive ability to load kernel drivers under applicable Windows policy and signing requirements.",
+      "found": [
+        "whoami /priv shows SeLoadDriverPrivilege"
+      ],
+      "requires": [
+        "SeLoadDriverPrivilege is available",
+        "Driver-loading policy permits a relevant driver",
+        "The driver or driver configuration exposes meaningful privileged functionality"
+      ],
+      "commands": [
+        "whoami /priv",
+        "driverquery.exe /v",
+        "Get-CimInstance Win32_SystemDriver | Select-Object Name,State,StartMode,PathName"
+      ],
+      "validation": [
+        "Record privilege state",
+        "Review installed and approved drivers",
+        "Review driver signing and application-control policy",
+        "Do not load arbitrary or vulnerable drivers to prove impact"
+      ],
+      "detection": [
+        "Monitor driver installation and loading",
+        "Review Code Integrity telemetry",
+        "Alert on unexpected kernel driver activity"
+      ],
+      "remediation": [
+        "Remove unnecessary SeLoadDriverPrivilege assignments",
+        "Maintain driver block policies",
+        "Restrict driver installation",
+        "Keep drivers supported and patched"
+      ],
+      "mitre": [
+        {
+          "id": "T1547.006",
+          "name": "Kernel Modules and Extensions",
+          "url": "https://attack.mitre.org/techniques/T1547/006/"
+        }
+      ],
+      "tags": [
+        "seloaddriver",
+        "seloaddriverprivilege",
+        "driver",
+        "kernel",
+        "privilege"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-privileged-file",
+      "name": "Writable Privileged File",
+      "platform": "windows",
+      "category": "Filesystem",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A lower-privileged user can modify a file consumed or executed by a more privileged component.",
+      "found": [
+        "Current user has dangerous rights over an executable, script, configuration file, plugin, or other privileged resource"
+      ],
+      "requires": [
+        "Lower-privileged write control",
+        "Higher-privileged consumer",
+        "The controlled file influences privileged behaviour"
+      ],
+      "commands": [
+        "icacls \"C:\\Path\\file\"",
+        "Get-Acl -LiteralPath \"C:\\Path\\file\" | Format-List Owner,AccessToString"
+      ],
+      "validation": [
+        "Confirm effective permissions",
+        "Identify the privileged consumer",
+        "Determine how the resource is used",
+        "Avoid changing the resource during initial validation"
+      ],
+      "detection": [
+        "Monitor privileged application files",
+        "Use file integrity monitoring",
+        "Alert on unexpected changes by standard-user identities"
+      ],
+      "remediation": [
+        "Remove broad write permissions",
+        "Protect privileged application resources",
+        "Separate writable data from executable and configuration content"
+      ],
+      "mitre": [
+        {
+          "id": "T1222.001",
+          "name": "Windows File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/001/"
+        }
+      ],
+      "tags": [
+        "filesystem",
+        "file",
+        "writable",
+        "acl",
+        "permissions"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-privileged-directory",
+      "name": "Writable Privileged Directory",
+      "platform": "windows",
+      "category": "Filesystem",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A lower-privileged user controls a directory from which a privileged application consumes security-sensitive resources.",
+      "found": [
+        "Writable directory under Program Files, ProgramData, Windows, or a custom privileged application path"
+      ],
+      "requires": [
+        "A privileged consumer uses the directory",
+        "The current identity has effective write, create, replace, delete, or equivalent rights",
+        "The writable resource can influence privileged behaviour"
+      ],
+      "commands": [
+        "icacls \"C:\\Path\\Directory\"",
+        "Get-Acl -LiteralPath \"C:\\Path\\Directory\" | Format-List Owner,AccessToString"
+      ],
+      "validation": [
+        "Do not report the writable directory by itself",
+        "Identify the privileged consumer",
+        "Determine which controlled resources are trusted",
+        "Prefer ACL evidence over creating files"
+      ],
+      "detection": [
+        "Monitor security-sensitive directories",
+        "Baseline application directory permissions"
+      ],
+      "remediation": [
+        "Restrict directory permissions",
+        "Separate user-generated data from privileged application content",
+        "Review inherited ACLs"
+      ],
+      "mitre": [
+        {
+          "id": "T1222.001",
+          "name": "Windows File and Directory Permissions Modification",
+          "url": "https://attack.mitre.org/techniques/T1222/001/"
+        }
+      ],
+      "tags": [
+        "directory",
+        "folder",
+        "programdata",
+        "program files",
+        "writable",
+        "acl"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-registry-key",
+      "name": "Writable Security-Sensitive Registry Key",
+      "platform": "windows",
+      "category": "Registry",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A lower-privileged identity can modify registry configuration trusted by a privileged Windows component.",
+      "found": [
+        "Current user has dangerous registry rights",
+        "The registry key controls privileged service, startup, application, or security-sensitive behaviour"
+      ],
+      "requires": [
+        "Lower-privileged registry write access",
+        "Privileged consumer",
+        "Registry values influence privileged behaviour"
+      ],
+      "commands": [
+        "Get-Acl -Path \"Registry::HKEY_LOCAL_MACHINE\\SOFTWARE\\Example\" | Format-List Owner,AccessToString",
+        "Get-ItemProperty \"HKLM:\\SOFTWARE\\Example\""
+      ],
+      "validation": [
+        "Confirm effective ACLs",
+        "Identify which values affect privileged behaviour",
+        "Do not modify registry values during routine validation"
+      ],
+      "detection": [
+        "Monitor security-sensitive registry changes",
+        "Baseline privileged application registry ACLs"
+      ],
+      "remediation": [
+        "Restrict registry write access",
+        "Remove unnecessary inherited permissions",
+        "Monitor privileged configuration changes"
+      ],
+      "mitre": [
+        {
+          "id": "T1112",
+          "name": "Modify Registry",
+          "url": "https://attack.mitre.org/techniques/T1112/"
+        }
+      ],
+      "tags": [
+        "registry",
+        "reg",
+        "acl",
+        "permissions",
+        "writable"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-always-install-elevated",
+      "name": "AlwaysInstallElevated",
+      "platform": "windows",
+      "category": "MSI",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Windows Installer policy is configured so that applicable MSI packages can install with elevated privileges when both required policy values are enabled.",
+      "found": [
+        "HKCU AlwaysInstallElevated equals 1",
+        "HKLM AlwaysInstallElevated equals 1"
+      ],
+      "requires": [
+        "AlwaysInstallElevated enabled in the relevant HKCU policy location",
+        "AlwaysInstallElevated enabled in the relevant HKLM policy location",
+        "Windows Installer behaviour and policy are applicable"
+      ],
+      "commands": [
+        "reg.exe query HKCU\\Software\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated",
+        "reg.exe query HKLM\\Software\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated"
+      ],
+      "validation": [
+        "Check both policy locations",
+        "Record the values",
+        "Do not install a test MSI on a production system merely to confirm configuration impact"
+      ],
+      "detection": [
+        "Audit Windows Installer policy",
+        "Monitor elevated MSI installation activity"
+      ],
+      "remediation": [
+        "Disable AlwaysInstallElevated",
+        "Ensure the policy is not enabled for both user and computer contexts",
+        "Use managed software deployment mechanisms"
+      ],
+      "mitre": [
+        {
+          "id": "T1548.002",
+          "name": "Bypass User Account Control",
+          "url": "https://attack.mitre.org/techniques/T1548/002/"
+        }
+      ],
+      "tags": [
+        "alwaysinstallelevated",
+        "msi",
+        "installer",
+        "registry",
+        "policy"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-writable-path-directory",
+      "name": "Writable PATH Directory",
+      "platform": "windows",
+      "category": "PATH",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged process may resolve an executable from a PATH directory writable by a lower-privileged user.",
+      "found": [
+        "A PATH directory is writable by the current user",
+        "A privileged application executes a command without a secure explicit path"
+      ],
+      "requires": [
+        "Writable PATH directory",
+        "Privileged process",
+        "Relevant executable lookup uses PATH",
+        "The writable location is selected before the intended executable or otherwise influences resolution"
+      ],
+      "commands": [
+        "$env:PATH -split ';'",
+        "icacls \"C:\\Path\\Bin\""
+      ],
+      "validation": [
+        "Identify the privileged consumer",
+        "Confirm relative executable lookup",
+        "Determine the actual search order",
+        "Do not create replacement executables during initial validation"
+      ],
+      "detection": [
+        "Monitor executable creation in PATH directories",
+        "Audit PATH directory permissions"
+      ],
+      "remediation": [
+        "Remove user-writable directories from privileged PATH contexts",
+        "Use absolute executable paths",
+        "Restrict PATH directory permissions"
+      ],
+      "mitre": [
+        {
+          "id": "T1574.007",
+          "name": "PATH Environment Variable Misconfiguration",
+          "url": "https://attack.mitre.org/techniques/T1574/007/"
+        }
+      ],
+      "tags": [
+        "path",
+        "environment",
+        "writable",
+        "search path",
+        "executable"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-dll-search-order",
+      "name": "DLL Search Order Candidate",
+      "platform": "windows",
+      "category": "DLL",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged application may search a lower-privileged writable location for a DLL loaded without a secure explicit path.",
+      "found": [
+        "Privileged application requests a DLL by name or otherwise uses search-order resolution",
+        "A searched location is writable by the current user"
+      ],
+      "requires": [
+        "Privileged process",
+        "Relevant DLL lookup behaviour",
+        "Writable location in the effective DLL search path",
+        "No earlier trusted resolution prevents the candidate from being used"
+      ],
+      "commands": [
+        "icacls \"C:\\Path\\Application\"",
+        "Get-Process | Select-Object Name,Id,Path"
+      ],
+      "validation": [
+        "Identify the exact DLL requested",
+        "Determine the actual search order",
+        "Confirm the writable candidate location",
+        "Avoid dropping DLLs into production directories during initial validation"
+      ],
+      "detection": [
+        "Monitor DLL loads from user-writable locations",
+        "Monitor unexpected DLL creation in application directories"
+      ],
+      "remediation": [
+        "Use secure explicit DLL paths",
+        "Restrict application-directory permissions",
+        "Remove unnecessary writable search locations"
+      ],
+      "mitre": [
+        {
+          "id": "T1574.001",
+          "name": "DLL",
+          "url": "https://attack.mitre.org/techniques/T1574/001/"
+        }
+      ],
+      "tags": [
+        "dll",
+        "dll hijacking",
+        "search order",
+        "loadlibrary",
+        "writable"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-autologon-credentials",
+      "name": "AutoLogon Credential Exposure",
+      "platform": "windows",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Windows AutoLogon configuration may expose credentials for an identity with greater privileges than the current user.",
+      "found": [
+        "AutoAdminLogon is configured",
+        "AutoLogon-related account information is present"
+      ],
+      "requires": [
+        "AutoLogon configuration exists",
+        "Credential material is accessible to the current identity",
+        "The exposed identity provides additional privilege or access"
+      ],
+      "commands": [
+        "reg.exe query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon",
+        "reg.exe query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultUserName",
+        "reg.exe query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultDomainName"
+      ],
+      "validation": [
+        "Confirm AutoLogon is configured",
+        "Record account metadata without unnecessarily exposing passwords",
+        "Determine the privilege of the configured identity",
+        "Protect credential evidence"
+      ],
+      "detection": [
+        "Audit AutoLogon configuration",
+        "Monitor access to sensitive Winlogon registry values"
+      ],
+      "remediation": [
+        "Avoid plaintext or recoverable AutoLogon credentials",
+        "Use approved managed logon mechanisms",
+        "Rotate exposed credentials"
+      ],
+      "mitre": [
+        {
+          "id": "T1552.002",
+          "name": "Credentials in Registry",
+          "url": "https://attack.mitre.org/techniques/T1552/002/"
+        }
+      ],
+      "tags": [
+        "autologon",
+        "winlogon",
+        "credential",
+        "password",
+        "registry"
+      ],
+      "related": [
+        "../../windows/credentials/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-powershell-history-credentials",
+      "name": "PowerShell History Credential Exposure",
+      "platform": "windows",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "PowerShell command history may contain secrets or credentials that provide access to a more privileged identity or system.",
+      "found": [
+        "PSReadLine history contains password, token, secret, key, or credential-related command material"
+      ],
+      "requires": [
+        "Sensitive material exists in accessible history",
+        "The material remains valid or otherwise security-sensitive",
+        "The exposed identity or secret provides additional access"
+      ],
+      "commands": [
+        "(Get-PSReadLineOption).HistorySavePath",
+        "$history = (Get-PSReadLineOption).HistorySavePath; if (Test-Path $history) { Select-String -Path $history -Pattern 'password|passwd|secret|token|credential|apikey|api_key' -CaseSensitive:$false }"
+      ],
+      "validation": [
+        "Use targeted searches",
+        "Avoid printing complete secret values unnecessarily",
+        "Determine whether exposed material is still valid only where authorised",
+        "Redact secrets from screenshots and reports"
+      ],
+      "detection": [
+        "Prevent secret entry into interactive shells",
+        "Monitor secret scanning findings",
+        "Review administrative scripting practices"
+      ],
+      "remediation": [
+        "Rotate exposed credentials",
+        "Remove secrets from shell history",
+        "Use secure secret-management mechanisms",
+        "Avoid passing secrets directly on command lines"
+      ],
+      "mitre": [
+        {
+          "id": "T1552.003",
+          "name": "Bash History",
+          "url": "https://attack.mitre.org/techniques/T1552/003/"
+        }
+      ],
+      "tags": [
+        "powershell",
+        "history",
+        "psreadline",
+        "credentials",
+        "password",
+        "token",
+        "secret"
+      ],
+      "related": [
+        "../../windows/credentials/",
+        "../../windows/powershell/"
+      ]
+    },
+    {
+      "id": "windows-environment-credentials",
+      "name": "Environment Variable Credential Exposure",
+      "platform": "windows",
+      "category": "Credentials",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "Environment variables accessible to the current user may contain credentials, API keys, tokens, or other sensitive material.",
+      "found": [
+        "Environment-variable names or values indicate stored secrets"
+      ],
+      "requires": [
+        "Sensitive material is present",
+        "The current identity can access it",
+        "The secret provides additional privilege or access"
+      ],
+      "commands": [
+        "Get-ChildItem Env:",
+        "Get-ChildItem Env: | Where-Object { $_.Name -match 'PASS|SECRET|TOKEN|KEY|CRED' }"
+      ],
+      "validation": [
+        "Search by variable name first",
+        "Avoid exposing values unnecessarily",
+        "Determine the associated identity or service",
+        "Protect discovered secret material"
+      ],
+      "detection": [
+        "Scan deployment configuration for secrets",
+        "Review process and service environment configuration"
+      ],
+      "remediation": [
+        "Remove secrets from insecure environment configuration",
+        "Use approved secret stores",
+        "Rotate exposed secrets"
+      ],
+      "mitre": [
+        {
+          "id": "T1552",
+          "name": "Unsecured Credentials",
+          "url": "https://attack.mitre.org/techniques/T1552/"
+        }
+      ],
+      "tags": [
+        "environment",
+        "env",
+        "credential",
+        "password",
+        "secret",
+        "token",
+        "api key"
+      ],
+      "related": [
+        "../../windows/credentials/"
+      ]
+    },
+    {
+      "id": "windows-credential-manager",
+      "name": "Stored Credential Target",
+      "platform": "windows",
+      "category": "Credentials",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Windows Credential Manager contains stored credential targets that may represent additional authenticated access.",
+      "found": [
+        "cmdkey.exe /list returns stored targets"
+      ],
+      "requires": [
+        "Stored credential exists",
+        "The current security context can use it in an applicable authentication flow",
+        "The target identity or destination provides additional privilege or access"
+      ],
+      "commands": [
+        "cmdkey.exe /list"
+      ],
+      "validation": [
+        "Record target metadata",
+        "Determine the intended credential scope",
+        "Do not assume stored credentials can be extracted",
+        "Do not attempt authentication outside the authorised scope"
+      ],
+      "detection": [
+        "Review unnecessary stored credentials",
+        "Monitor administrative credential use"
+      ],
+      "remediation": [
+        "Remove unnecessary stored credentials",
+        "Use managed identities or approved credential-management mechanisms",
+        "Apply least privilege to stored identities"
+      ],
+      "mitre": [
+        {
+          "id": "T1555",
+          "name": "Credentials from Password Stores",
+          "url": "https://attack.mitre.org/techniques/T1555/"
+        }
+      ],
+      "tags": [
+        "cmdkey",
+        "credential manager",
+        "stored credential",
+        "credentials"
+      ],
+      "related": [
+        "../../windows/credentials/"
+      ]
+    },
+    {
+      "id": "windows-uac-context",
+      "name": "UAC Elevated Administrator Context",
+      "platform": "windows",
+      "category": "UAC",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "The current user is a local administrator operating with a filtered token, making UAC configuration relevant to elevation analysis.",
+      "found": [
+        "Current identity belongs to Administrators",
+        "Current process is not operating at high integrity"
+      ],
+      "requires": [
+        "User already possesses administrative membership or equivalent administrative rights",
+        "UAC token filtering is applicable",
+        "An elevation path exists within the assessed configuration"
+      ],
+      "commands": [
+        "whoami /groups",
+        "whoami /all",
+        "reg.exe query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\""
+      ],
+      "validation": [
+        "Confirm administrative group membership",
+        "Confirm current integrity level",
+        "Review UAC policy",
+        "Do not treat UAC as a generic standard-user-to-administrator path"
+      ],
+      "detection": [
+        "Monitor unusual elevated process creation",
+        "Review UAC configuration against organisational baseline"
+      ],
+      "remediation": [
+        "Use standard-user accounts for routine activity",
+        "Maintain appropriate UAC configuration",
+        "Use privileged access workstations or equivalent controls for administration"
+      ],
+      "mitre": [
+        {
+          "id": "T1548.002",
+          "name": "Bypass User Account Control",
+          "url": "https://attack.mitre.org/techniques/T1548/002/"
+        }
+      ],
+      "tags": [
+        "uac",
+        "administrator",
+        "integrity",
+        "filtered token",
+        "elevation"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-applocker-policy-gap",
+      "name": "AppLocker Policy Gap",
+      "platform": "windows",
+      "category": "Application Control",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Effective AppLocker policy may leave a relevant rule collection unconfigured or allow functionality inconsistent with the intended application-control boundary.",
+      "found": [
+        "Relevant AppLocker collection is NotConfigured, AuditOnly, or contains unexpectedly broad allow rules",
+        "A tested executable or script is allowed where policy intent suggests it should be restricted"
+      ],
+      "requires": [
+        "AppLocker is part of the intended security boundary",
+        "The identified policy condition materially weakens that boundary",
+        "The allowed functionality is security-relevant in context"
+      ],
+      "commands": [
+        "(Get-AppLockerPolicy -Effective).RuleCollections | Select-Object CollectionType,EnforcementMode",
+        "Get-AppLockerPolicy -Effective | Test-AppLockerPolicy -Path \"C:\\Path\\program.exe\" -User \"$env:USERDOMAIN\\$env:USERNAME\""
+      ],
+      "validation": [
+        "Determine the intended policy design",
+        "Review each relevant rule collection",
+        "Test specific paths and users",
+        "Do not call an allowed executable a bypass without demonstrating policy impact"
+      ],
+      "detection": [
+        "Review AppLocker operational logs",
+        "Monitor policy changes",
+        "Baseline allowed application behaviour"
+      ],
+      "remediation": [
+        "Configure required rule collections",
+        "Avoid overly broad writable-path allow rules",
+        "Use publisher or appropriately controlled rules where practical",
+        "Test policy changes before enforcement"
+      ],
+      "mitre": [
+        {
+          "id": "T1218",
+          "name": "System Binary Proxy Execution",
+          "url": "https://attack.mitre.org/techniques/T1218/"
+        }
+      ],
+      "tags": [
+        "applocker",
+        "application control",
+        "allow",
+        "policy",
+        "lolbin"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/",
+        "../../windows/powershell/"
+      ]
+    },
+    {
+      "id": "windows-powershell-full-language",
+      "name": "PowerShell FullLanguage in Restricted Endpoint",
+      "platform": "windows",
+      "category": "Application Control",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "PowerShell operates in FullLanguage mode on an endpoint whose intended security architecture expects Constrained Language Mode or equivalent application-control restrictions.",
+      "found": [
+        "$ExecutionContext.SessionState.LanguageMode returns FullLanguage"
+      ],
+      "requires": [
+        "The endpoint security baseline intends PowerShell language restrictions",
+        "FullLanguage materially expands functionality available to the lower-privileged user",
+        "Other controls do not provide the intended equivalent restriction"
+      ],
+      "commands": [
+        "$ExecutionContext.SessionState.LanguageMode"
+      ],
+      "validation": [
+        "Record the language mode",
+        "Determine the intended endpoint baseline",
+        "Review AppLocker or WDAC context",
+        "Do not report FullLanguage alone as a vulnerability"
+      ],
+      "detection": [
+        "Monitor PowerShell operational telemetry",
+        "Audit application-control policy",
+        "Review endpoint hardening compliance"
+      ],
+      "remediation": [
+        "Where required by the security model, enforce appropriate application control",
+        "Use supported Windows application-control mechanisms",
+        "Apply PowerShell restrictions as part of a broader endpoint-control strategy"
+      ],
+      "mitre": [
+        {
+          "id": "T1059.001",
+          "name": "PowerShell",
+          "url": "https://attack.mitre.org/techniques/T1059/001/"
+        }
+      ],
+      "tags": [
+        "powershell",
+        "fulllanguage",
+        "constrainedlanguage",
+        "clm",
+        "wdac",
+        "applocker"
+      ],
+      "related": [
+        "../../windows/powershell/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-vulnerable-driver-candidate",
+      "name": "Vulnerable Driver Candidate",
+      "platform": "windows",
+      "category": "Drivers",
+      "severity": "critical",
+      "confidence": "candidate",
+      "summary": "An installed third-party kernel driver may contain a known local security weakness or expose an unsafe privileged interface.",
+      "found": [
+        "Third-party kernel driver is installed",
+        "Exact driver version or interface warrants security review"
+      ],
+      "requires": [
+        "Exact affected driver version or vulnerable implementation",
+        "Driver is loaded or otherwise reachable",
+        "Current user can interact with the relevant device or interface",
+        "Vendor advisory or controlled validation confirms applicability"
+      ],
+      "commands": [
+        "driverquery.exe /v",
+        "Get-CimInstance Win32_SystemDriver | Select-Object Name,State,StartMode,PathName",
+        "Get-AuthenticodeSignature \"C:\\Path\\driver.sys\""
+      ],
+      "validation": [
+        "Identify exact vendor and version",
+        "Confirm the driver is loaded or reachable",
+        "Check vendor advisories",
+        "Review device-interface permissions",
+        "Do not load a vulnerable driver merely to demonstrate impact"
+      ],
+      "detection": [
+        "Monitor driver loading",
+        "Use vulnerable-driver block policies",
+        "Monitor Code Integrity telemetry"
+      ],
+      "remediation": [
+        "Update or remove vulnerable drivers",
+        "Use supported driver versions",
+        "Apply driver block policies",
+        "Restrict driver installation"
+      ],
+      "mitre": [
+        {
+          "id": "T1068",
+          "name": "Exploitation for Privilege Escalation",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "tags": [
+        "driver",
+        "kernel",
+        "vulnerable driver",
+        "byovd",
+        "system driver"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-custom-privileged-application",
+      "name": "Custom Privileged Application",
+      "platform": "windows",
+      "category": "Software",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A custom or third-party application operates with elevated privileges and exposes lower-privileged writable resources or interfaces.",
+      "found": [
+        "Custom application or service runs privileged",
+        "Lower-privileged users can influence files, configuration, plugins, IPC, named pipes, registry settings, or update mechanisms"
+      ],
+      "requires": [
+        "Privileged application",
+        "Lower-privileged influence over a trusted input or resource",
+        "The controlled input affects privileged behaviour"
+      ],
+      "commands": [
+        "Get-CimInstance Win32_Service | Select-Object Name,StartName,PathName",
+        "Get-Process | Select-Object Name,Id,Path",
+        "Get-ChildItem \\\\.\\pipe\\"
+      ],
+      "validation": [
+        "Map the application trust boundary",
+        "Identify all lower-privileged controlled inputs",
+        "Confirm the application privilege",
+        "Use configuration evidence before active manipulation"
+      ],
+      "detection": [
+        "Monitor privileged custom applications",
+        "Monitor changes to application configuration and plugins",
+        "Monitor unusual IPC interactions where supported"
+      ],
+      "remediation": [
+        "Run applications with least privilege",
+        "Protect executable and configuration resources",
+        "Apply strong IPC access control",
+        "Secure update mechanisms"
+      ],
+      "mitre": [
+        {
+          "id": "T1068",
+          "name": "Exploitation for Privilege Escalation",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "tags": [
+        "custom application",
+        "software",
+        "third party",
+        "named pipe",
+        "ipc",
+        "plugin"
+      ],
+      "related": [
+        "../../windows/services/",
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-named-pipe-permissions",
+      "name": "Privileged Named Pipe Exposure",
+      "platform": "windows",
+      "category": "Configuration",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A privileged process exposes a named pipe whose access control or protocol may allow unsafe interaction from a lower-privileged identity.",
+      "found": [
+        "Privileged process owns or serves a named pipe",
+        "Lower-privileged users can access the pipe",
+        "The protocol exposes security-sensitive functionality"
+      ],
+      "requires": [
+        "Privileged pipe server",
+        "Lower-privileged pipe access",
+        "Security-sensitive operation, authentication weakness, or unsafe impersonation behaviour"
+      ],
+      "commands": [
+        "Get-ChildItem \\\\.\\pipe\\",
+        "Get-Process | Select-Object Name,Id,Path"
+      ],
+      "validation": [
+        "Identify the pipe server process",
+        "Determine the server security context",
+        "Review pipe access control",
+        "Understand the protocol before sending test data",
+        "Do not report a pipe simply because it exists"
+      ],
+      "detection": [
+        "Monitor privileged application IPC where endpoint telemetry supports it",
+        "Review unusual client connections to administrative IPC"
+      ],
+      "remediation": [
+        "Apply restrictive pipe ACLs",
+        "Authenticate clients",
+        "Validate client identity before privileged operations",
+        "Use least privilege for the pipe server"
+      ],
+      "mitre": [
+        {
+          "id": "T1559",
+          "name": "Inter-Process Communication",
+          "url": "https://attack.mitre.org/techniques/T1559/"
+        }
+      ],
+      "tags": [
+        "named pipe",
+        "pipe",
+        "ipc",
+        "permissions",
+        "impersonation"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-insecure-autorun",
+      "name": "Privileged Autorun Resource",
+      "platform": "windows",
+      "category": "Configuration",
+      "severity": "high",
+      "confidence": "candidate",
+      "summary": "A startup mechanism used by a privileged identity references a resource that can be modified by a lower-privileged user.",
+      "found": [
+        "Machine-level autorun or privileged startup mechanism references a writable resource"
+      ],
+      "requires": [
+        "Higher-privileged startup consumer",
+        "Lower-privileged control over the referenced resource",
+        "The startup mechanism executes in the higher-privileged context"
+      ],
+      "commands": [
+        "reg.exe query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"",
+        "reg.exe query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\""
+      ],
+      "validation": [
+        "Identify the startup identity",
+        "Resolve the exact executable or script",
+        "Check resource and parent-directory ACLs",
+        "Do not modify the autorun"
+      ],
+      "detection": [
+        "Monitor machine-level autorun changes",
+        "Monitor startup-resource modification"
+      ],
+      "remediation": [
+        "Protect autorun resources",
+        "Restrict machine-level startup configuration",
+        "Remove unnecessary startup entries"
+      ],
+      "mitre": [
+        {
+          "id": "T1060",
+          "name": "Registry Run Keys / Startup Folder",
+          "url": "https://attack.mitre.org/techniques/T1060/"
+        }
+      ],
+      "tags": [
+        "autorun",
+        "run key",
+        "startup",
+        "registry",
+        "persistence"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    },
+    {
+      "id": "windows-third-party-software",
+      "name": "Privileged Third-Party Software Candidate",
+      "platform": "windows",
+      "category": "Software",
+      "severity": "medium",
+      "confidence": "candidate",
+      "summary": "Installed third-party software with privileged components may expose a known or configuration-dependent local privilege escalation condition.",
+      "found": [
+        "Third-party software is installed",
+        "Software includes privileged services, drivers, update agents, or management components"
+      ],
+      "requires": [
+        "Exact vulnerable version or insecure configuration",
+        "Relevant privileged component is installed",
+        "The current user can reach the affected attack surface"
+      ],
+      "commands": [
+        "Get-ItemProperty HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* -ErrorAction SilentlyContinue | Select-Object DisplayName,DisplayVersion,Publisher,InstallLocation",
+        "Get-ItemProperty HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* -ErrorAction SilentlyContinue | Select-Object DisplayName,DisplayVersion,Publisher,InstallLocation"
+      ],
+      "validation": [
+        "Identify exact product and version",
+        "Check vendor security advisories",
+        "Confirm vulnerable component and configuration",
+        "Do not report based only on generic version matching"
+      ],
+      "detection": [
+        "Maintain software inventory",
+        "Monitor vulnerable software exposure",
+        "Track unsupported products"
+      ],
+      "remediation": [
+        "Apply vendor updates",
+        "Remove unsupported software",
+        "Disable unnecessary privileged components",
+        "Apply least privilege"
+      ],
+      "mitre": [
+        {
+          "id": "T1068",
+          "name": "Exploitation for Privilege Escalation",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "tags": [
+        "software",
+        "installed software",
+        "version",
+        "third party",
+        "cve",
+        "patch"
+      ],
+      "related": [
+        "../../windows/privilege-escalation/"
+      ]
+    }
+  ]
+}
