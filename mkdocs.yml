@@ -477,9 +477,9 @@ nav:
   # ==========================================================
 
   - PrivEsc Explorer:
-      - Overview: privesc-explorer/index.md
-      - Windows PrivEsc Explorer: privesc-explorer/windows.md
-      - Linux PrivEsc Explorer: privesc-explorer/linux.md
+      - Overview: privesc/index.md
+      - Windows PrivEsc Explorer: privesc/windows.md
+      - Linux PrivEsc Explorer: privesc/linux.md
 
 
   # ==========================================================
