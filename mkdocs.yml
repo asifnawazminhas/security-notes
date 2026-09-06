@@ -671,13 +671,28 @@ nav:
       # ------------------------------------------------------
 
       - Web Vulnerability Testing:
-          - SQL Injection: cheatsheets/sql-injection.md
-          - Cross-Site Scripting (XSS): cheatsheets/xss.md
-          - Server-Side Request Forgery (SSRF): cheatsheets/ssrf.md
-          - XML External Entity Injection (XXE): cheatsheets/xxe.md
-          - Path Traversal and File Inclusion: cheatsheets/path-traversal-file-inclusion.md
-          - File Upload Security: cheatsheets/file-upload.md
-          - OS Command Injection: cheatsheets/command-injection.md
+
+          - Injection:
+              - SQL Injection: cheatsheets/sql-injection.md
+              - Cross-Site Scripting (XSS): cheatsheets/xss.md
+              - OS Command Injection: cheatsheets/command-injection.md
+
+          - Server-Side:
+              - Server-Side Request Forgery (SSRF): cheatsheets/ssrf.md
+              - XML External Entity Injection (XXE): cheatsheets/xxe.md
+              - Path Traversal and File Inclusion: cheatsheets/path-traversal-file-inclusion.md
+              - File Upload Security: cheatsheets/file-upload.md
+
+          - Authentication and Access Control:
+              - Authentication and Session Testing: cheatsheets/authentication-session-testing.md
+              - Authorization, IDOR and BOLA: cheatsheets/authorization-access-control.md
+
+          - Tokens and Identity:
+              - JWT Security Testing: cheatsheets/jwt.md
+              - OAuth 2.0 and OpenID Connect: cheatsheets/oauth-oidc.md
+
+          - Browser Security:
+              - CORS and CSRF: cheatsheets/cors-csrf.md
 
 
       # ------------------------------------------------------
