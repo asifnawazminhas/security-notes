@@ -618,36 +618,77 @@ nav:
   # ==========================================================
 
   - Cheatsheets:
+
+      # ------------------------------------------------------
+      # OVERVIEW
+      # ------------------------------------------------------
+
       - Overview: cheatsheets/index.md
 
-      # ------------------------------------------------------
-      # OPERATING SYSTEMS
-      # ------------------------------------------------------
-
-      - Linux: cheatsheets/linux.md
-      - Windows: cheatsheets/windows.md
-      - PowerShell: cheatsheets/powershell.md
 
       # ------------------------------------------------------
-      # NETWORKING
+      # OPERATING SYSTEMS AND SHELLS
       # ------------------------------------------------------
 
-      - Networking: cheatsheets/networking.md
+      - Operating Systems and Shells:
+          - Linux: cheatsheets/linux.md
+          - Windows: cheatsheets/windows.md
+          - PowerShell: cheatsheets/powershell.md
+
 
       # ------------------------------------------------------
-      # WEB
+      # NETWORKING AND TRAFFIC ANALYSIS
       # ------------------------------------------------------
 
-      - Web: cheatsheets/web.md
+      - Networking and Traffic:
+          - Networking: cheatsheets/networking.md
+          - Nmap: cheatsheets/nmap.md
+          - Wireshark and tshark: cheatsheets/wireshark-tshark.md
+
+
+      # ------------------------------------------------------
+      # HTTP AND WEB TOOLING
+      # ------------------------------------------------------
+
+      - HTTP and Web Tooling:
+          - Web: cheatsheets/web.md
+          - Burp Suite: cheatsheets/burp-suite.md
+          - curl: cheatsheets/curl.md
+          - Content Discovery: cheatsheets/content-discovery.md
+          - jq: cheatsheets/jq.md
+
+
+      # ------------------------------------------------------
+      # SOURCE CODE AND REPOSITORY REVIEW
+      # ------------------------------------------------------
+
+      - Source Code and Repositories:
+          - Git and ripgrep: cheatsheets/git-ripgrep.md
+
+
+      # ------------------------------------------------------
+      # WEB VULNERABILITY TESTING
+      # ------------------------------------------------------
+
+      - Web Vulnerability Testing:
+          - SQL Injection: cheatsheets/sql-injection.md
+          - Cross-Site Scripting (XSS): cheatsheets/xss.md
+          - Server-Side Request Forgery (SSRF): cheatsheets/ssrf.md
+          - XML External Entity Injection (XXE): cheatsheets/xxe.md
+          - Path Traversal and File Inclusion: cheatsheets/path-traversal-file-inclusion.md
+          - File Upload Security: cheatsheets/file-upload.md
+          - OS Command Injection: cheatsheets/command-injection.md
+
 
       # ------------------------------------------------------
       # ACTIVE DIRECTORY
       # ------------------------------------------------------
 
-      - Active Directory: cheatsheets/active-directory.md
-      - NetExec: cheatsheets/netexec.md
-      - Impacket: cheatsheets/impacket.md
-      - BloodHound: cheatsheets/bloodhound.md
+      - Active Directory:
+          - Active Directory: cheatsheets/active-directory.md
+          - NetExec: cheatsheets/netexec.md
+          - Impacket: cheatsheets/impacket.md
+          - BloodHound: cheatsheets/bloodhound.md
 
 
 # ============================================================
