@@ -1,416 +1,905 @@
+---
+title: Impacket Cheatsheet
+description: Detailed practical Impacket reference for authorised Active Directory and Windows security assessments covering SMB, LDAP, Kerberos, SPNs, authentication, NTLM hashes, tickets, MSSQL, remote administration, secrets, result interpretation, troubleshooting, evidence and retesting.
+---
+
 # Impacket Cheatsheet
 
-Quick-reference commands and workflows for using Impacket during authorised Windows and Active Directory security assessments.
+Impacket is a collection of Python classes and command-line tools for working with network protocols commonly encountered in Windows and Active Directory environments.
 
-Impacket is a collection of Python classes and example tools for interacting with Microsoft network protocols.
-
-It is particularly useful for:
+It includes specialised utilities for:
 
 ```text
-Active Directory Enumeration
 SMB
+
 MSRPC
+
 Kerberos
+
 NTLM
-LDAP
+
+LDAP-related workflows
+
+MSSQL
+
 WMI
-DCOM
-MSSQL / TDS
-Remote Registry
-Service Control
-Task Scheduler
-Credential Assessment
-Delegation
-ACL Analysis
-NTLM Relay
+
+Windows services
+
+Remote administration
+
+Credential and ticket analysis
 ```
 
-!!! warning "Authorised testing only"
-    Some Impacket tools can access credentials, modify Active Directory objects, perform remote administration, create services or scheduled tasks, manipulate delegation, or interact with domain replication functionality. Use these capabilities only when explicitly permitted by the assessment scope and rules of engagement.
+This cheatsheet focuses on using Impacket as a **focused protocol toolkit** during authorised penetration tests, red team exercises and security labs.
 
-For detailed explanations of the underlying techniques see:
+The objective is not simply:
 
-[Impacket](../active-directory/impacket.md)
+```text
+Find Impacket command
+        |
+        v
+Run command
+```
 
-[Active Directory Cheatsheet](active-directory.md)
+Instead:
 
-[NetExec Cheatsheet](netexec.md)
+```text
+Identify Objective
+        |
+        v
+Choose Protocol
+        |
+        v
+Choose Impacket Tool
+        |
+        v
+Check Prerequisites
+        |
+        v
+Run Focused Test
+        |
+        v
+Interpret Result
+        |
+        v
+Determine What It Proves
+        |
+        v
+Validate Further If Required
+        |
+        v
+Collect Evidence
+```
 
-[BloodHound Cheatsheet](bloodhound.md)
+For the broader workflow, see:
 
----
+- [Active Directory Cheatsheet](active-directory.md)
+- [NetExec Cheatsheet](netexec.md)
 
-# Quick Tool Map
+!!! warning "Authorised Security Testing"
+    Only use these techniques against systems, accounts and environments you are explicitly authorised to test. Some Impacket utilities can perform remote administration, request authentication material, access sensitive credential stores or make changes to systems. Use the least intrusive method necessary to prove the assessment objective.
 
-| Goal | Impacket Tool |
+
+# Quick Start
+
+A useful way to think about Impacket is:
+
+```text
+What do I have?
+      |
+      +--> Password
+      |
+      +--> NTLM Hash
+      |
+      +--> Kerberos Ticket
+      |
+      +--> Kerberos Key
+      |
+      +--> Administrative Access
+      |
+      +--> SQL Credentials
+      |
+      v
+What am I trying to learn?
+      |
+      +--> Enumerate SPNs
+      |
+      +--> Check Preauthentication
+      |
+      +--> Access SMB
+      |
+      +--> Query MSSQL
+      |
+      +--> Validate Remote Administration
+      |
+      +--> Inspect Credential Stores
+      |
+      +--> Work with Kerberos Tickets
+      |
+      v
+Select the smallest appropriate Impacket utility
+```
+
+
+# Common Impacket Tools
+
+| Tool | Primary Purpose |
 |---|---|
-| Enumerate AD users | `GetADUsers` |
-| Enumerate AD computers | `GetADComputers` |
-| Find AS-REP candidates | `GetNPUsers` |
-| Enumerate SPNs | `GetUserSPNs` |
-| Enumerate SIDs / RIDs | `lookupsid` |
-| Enumerate delegation | `findDelegation` |
-| Read LAPS passwords where authorised | `GetLAPSPassword` |
-| Review legacy GPP passwords | `Get-GPPPassword` |
-| Enumerate RPC endpoints | `rpcdump` |
-| Map RPC interfaces | `rpcmap` |
-| Enumerate SAMR information | `samrdump` |
-| Query WMI | `wmiquery` |
-| Access SMB shares | `smbclient` |
-| Host an SMB share | `smbserver` |
-| Enumerate MSSQL instances | `mssqlinstance` |
-| Access MSSQL | `mssqlclient` |
-| Validate RDP authentication | `rdp_check` |
-| Request a TGT | `getTGT` |
-| Request a service ticket | `getST` |
-| Inspect delegation | `findDelegation` |
-| Convert Kerberos tickets | `ticketConverter` |
-| Describe Kerberos tickets | `describeTicket` |
-| Create Kerberos tickets | `ticketer` |
-| Inspect PAC information | `getPac` |
-| Access Windows secrets | `secretsdump` |
-| Service-based remote administration | `psexec` |
-| WMI remote administration | `wmiexec` |
-| SMB/service remote administration | `smbexec` |
-| DCOM remote administration | `dcomexec` |
-| Task Scheduler remote administration | `atexec` |
-| Change an authorised password | `changepasswd` |
-| Read/edit AD ACLs | `dacledit` |
-| Read/edit AD object ownership | `owneredit` |
-| Review/manage RBCD | `rbcd` |
-| NTLM relay testing | `ntlmrelayx` |
+| `GetUserSPNs.py` | Enumerate accounts with SPNs and Kerberos service-ticket candidates |
+| `GetNPUsers.py` | Identify/test accounts without Kerberos preauthentication |
+| `getTGT.py` | Request a Kerberos Ticket Granting Ticket |
+| `getST.py` | Request Kerberos service tickets in supported scenarios |
+| `ticketConverter.py` | Convert between Kerberos ticket-cache formats |
+| `secretsdump.py` | Access credential material where sufficient privilege exists |
+| `smbclient.py` | SMB share interaction |
+| `lookupsid.py` | SID/RPC-based domain enumeration |
+| `rpcdump.py` | Enumerate RPC endpoints |
+| `samrdump.py` | Query SAMR information |
+| `mssqlclient.py` | Microsoft SQL Server client |
+| `wmiexec.py` | WMI-based remote administration |
+| `psexec.py` | Service-based remote administration |
+| `smbexec.py` | SMB/service-based remote administration |
+| `atexec.py` | Scheduled-task-based remote administration |
+| `dcomexec.py` | DCOM-based remote administration |
 
----
+Depending on the installation, command names may be prefixed with:
 
-# Current Version
+```text
+impacket-
+```
 
-Check the installed version:
+For example:
 
 ```bash
-python3 -c "from importlib.metadata import version; print(version('impacket'))"
+impacket-GetUserSPNs
 ```
 
-At the time this cheatsheet was updated:
+instead of:
 
-```text
-Stable:      Impacket 0.13.1
-Development: Impacket 0.14.0-dev
+```bash
+GetUserSPNs.py
 ```
 
-Do not assume commands from `master` are available in the stable release.
-
----
 
 # Installation
 
-The upstream project recommends `pipx` for system-wide installations.
-
-```bash
-sudo apt update
-sudo apt install pipx
-```
-
-```bash
-pipx ensurepath
-```
-
-Install:
-
-```bash
-python3 -m pipx install impacket
-```
+On Kali Linux, Impacket may already be installed.
 
 Check:
 
 ```bash
-pipx list
+python3 -m pip show impacket
 ```
 
----
-
-# Kali Linux
-
-Kali may provide Impacket through its repositories:
-
-```bash
-sudo apt update
-sudo apt install python3-impacket
-```
-
-Check:
-
-```bash
-apt policy python3-impacket
-```
-
-Find a command:
-
-```bash
-which impacket-GetADUsers
-```
-
-The Kali package version may differ from upstream.
-
----
-
-# Command Naming
-
-Packaged commands commonly use:
-
-```text
-impacket-GetADUsers
-impacket-GetADComputers
-impacket-GetNPUsers
-impacket-GetUserSPNs
-impacket-lookupsid
-impacket-findDelegation
-impacket-smbclient
-impacket-getTGT
-impacket-getST
-impacket-secretsdump
-```
-
-Source installations may instead use:
-
-```text
-GetADUsers.py
-GetADComputers.py
-GetNPUsers.py
-GetUserSPNs.py
-lookupsid.py
-findDelegation.py
-smbclient.py
-getTGT.py
-getST.py
-secretsdump.py
-```
-
-List installed packaged tools:
+Check installed command wrappers:
 
 ```bash
 compgen -c | grep '^impacket-' | sort -u
 ```
 
----
-
-# Help First
-
-Always check the installed version:
+Package version:
 
 ```bash
-impacket-GetADUsers -h
+python3 -m pip show impacket | grep -E '^(Name|Version):'
 ```
 
-```bash
-impacket-GetADComputers -h
+Example:
+
+```text
+Name: impacket
+Version: <installed-version>
 ```
+
+
+# Help Before Execution
+
+For any utility:
 
 ```bash
 impacket-GetUserSPNs -h
 ```
 
 ```bash
-impacket-getTGT -h
-```
-
-```bash
-impacket-getST -h
+impacket-GetNPUsers -h
 ```
 
 ```bash
 impacket-secretsdump -h
 ```
 
-This is especially important for development-version features.
-
----
-
-# Assessment Variables
-
-A convenient shell setup:
+```bash
+impacket-wmiexec -h
+```
 
 ```bash
-export DOMAIN="example.local"
-export DC="dc01.example.local"
-export DC_IP="10.10.20.10"
-export USER="alice"
+impacket-mssqlclient -h
 ```
+
+This matters because syntax and supported authentication options can change between releases.
+
+
+# Example Environment
+
+Examples throughout this cheatsheet use:
+
+```text
+Domain:     corp.local
+DC:         dc01.corp.local
+DC IP:      10.10.10.10
+
+Server:     srv01.corp.local
+Server IP:  10.10.10.20
+
+SQL Server: sql01.corp.local
+SQL IP:     10.10.10.30
+
+Username:   asif
+Password:   Password123!
+```
+
+Example NTLM hash:
+
+```text
+0123456789abcdef0123456789abcdef
+```
+
+These are placeholders only.
+
+
+# Impacket Target Syntax
+
+Many Impacket utilities use a target string resembling:
+
+```text
+domain/username:password@target
+```
+
+Example:
+
+```text
+corp.local/asif:Password123!@10.10.10.20
+```
+
+Some tools instead take:
+
+```text
+domain/username:password
+```
+
+and a separate:
+
+```text
+-dc-ip
+```
+
+option.
+
+Always check:
+
+```bash
+impacket-<tool> -h
+```
+
+before assuming the target format.
+
+
+# Passwords with Special Characters
+
+Shell metacharacters can alter a command.
+
+Prefer single quotes around target strings where possible:
+
+```bash
+impacket-smbclient 'corp.local/asif:Password123!@10.10.10.20'
+```
+
+For complex credentials, interactive prompting or other supported authentication options may be safer than placing the password directly on the command line.
+
+
+# Command-Line Credential Exposure
+
+Be aware that passwords supplied directly as command arguments may be exposed through:
+
+```text
+Shell history
+
+Process listings
+
+Terminal recordings
+
+Screenshots
+
+Assessment logs
+```
+
+Where supported, prefer prompting for the password.
+
+In reports, always redact real credentials.
+
+
+# Domain Controller Discovery
+
+Before Kerberos-focused testing, identify the domain controller.
+
+From Linux:
+
+```bash
+dig _ldap._tcp.dc._msdcs.corp.local SRV
+```
+
+or:
+
+```bash
+nslookup -type=SRV _ldap._tcp.dc._msdcs.corp.local
+```
+
+Example:
+
+```text
+_ldap._tcp.dc._msdcs.corp.local. 600 IN SRV 0 100 389 dc01.corp.local.
+```
+
+
+# DNS Check
+
+```bash
+dig dc01.corp.local
+```
+
+```bash
+getent hosts dc01.corp.local
+```
+
+Kerberos problems are frequently caused by DNS rather than by Impacket itself.
+
+
+# Time Check
+
+Kerberos depends on reasonably synchronised clocks.
 
 Check:
-
-```bash
-printf 'DOMAIN=%s\nDC=%s\nDC_IP=%s\nUSER=%s\n' "$DOMAIN" "$DC" "$DC_IP" "$USER"
-```
-
----
-
-# Before Impacket - DNS
-
-Resolve the Domain Controller:
-
-```bash
-dig "$DC"
-```
-
-LDAP:
-
-```bash
-dig SRV "_ldap._tcp.dc._msdcs.$DOMAIN"
-```
-
-Kerberos:
-
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
-Resolver:
-
-```bash
-cat /etc/resolv.conf
-```
-
-Kerberos and LDAP operations frequently fail because of DNS rather than credentials.
-
----
-
-# Before Impacket - Time
 
 ```bash
 date
 ```
 
+If Kerberos errors indicate clock skew, compare the assessment host's time with the domain environment before changing authentication options.
+
+
+# SMBClient
+
+Impacket provides an SMB client for interacting with SMB shares.
+
+Check:
+
 ```bash
-timedatectl
+impacket-smbclient -h
 ```
 
-Kerberos is time-sensitive.
+Connect:
 
-Think:
+```bash
+impacket-smbclient 'corp.local/asif:Password123!@10.10.10.20'
+```
+
+### Representative Session
 
 ```text
-Kerberos Failure
-      |
-      +--> DNS?
-      |
-      +--> Time?
-      |
-      +--> Realm?
-      |
-      +--> FQDN?
-      |
-      +--> SPN?
-      |
-      +--> KDC?
-      |
-      +--> Ticket?
-      |
-      +--> Credential?
+Impacket v...
+
+Type help for list of commands
+# shares
+ADMIN$
+C$
+IPC$
+Public
+Software
 ```
 
----
-
-# Authentication Quick Reference
-
-Impacket commonly supports:
+Useful interactive commands may include:
 
 ```text
-Password
-NTLM Hash
-Kerberos Ticket
-AES Key
-Kerberos Credential Cache
+help
+
+shares
+
+use
+
+ls
+
+cd
+
+pwd
+
+get
+
+put
+
+mkdir
+
+exit
 ```
 
-The exact authentication options vary by tool.
+Check `help` inside the client for the installed version.
 
----
 
-# Password Authentication
-
-Common target form:
+# SMBClient Workflow
 
 ```text
-domain/user:password@target
+Credential
+    |
+    v
+SMB Authentication
+    |
+    v
+List Shares
+    |
+    v
+Select Relevant Share
+    |
+    v
+List Files
+    |
+    v
+Review Business Purpose
+    |
+    v
+Retrieve Only Relevant Evidence
 ```
+
+
+# Interpreting Share Access
+
+If you can list a share:
+
+```text
+Authentication
+      |
+      v
+Share Access
+```
+
+has been demonstrated.
+
+This does not automatically prove:
+
+```text
+Administrative access
+
+Sensitive-data exposure
+
+Remote code execution
+
+Privilege escalation
+```
+
+The contents and intended permissions determine the security significance.
+
+
+# Writable Share
+
+A writable share should trigger questions such as:
+
+```text
+Who is expected to write?
+
+Which systems consume files?
+
+Are files executed?
+
+Are configuration files loaded?
+
+Does a privileged service read the directory?
+
+Can application behaviour be changed?
+```
+
+Do not automatically conclude:
+
+```text
+WRITE = RCE
+```
+
+
+# LookUpSID
+
+`lookupsid` uses Windows RPC mechanisms to enumerate SID information.
+
+Help:
+
+```bash
+impacket-lookupsid -h
+```
+
+Authenticated example:
+
+```bash
+impacket-lookupsid 'corp.local/asif:Password123!@10.10.10.10'
+```
+
+### Representative Output
+
+```text
+[*] Brute forcing SIDs at 10.10.10.10
+[*] StringBinding ncacn_np:10.10.10.10[\pipe\lsarpc]
+[*] Domain SID is: S-1-5-21-...
+...
+500: CORP\Administrator
+501: CORP\Guest
+1104: CORP\asif
+```
+
+### Interpretation
+
+Useful information may include:
+
+```text
+Domain SID
+
+Usernames
+
+Group names
+
+Relative identifiers
+```
+
+The existence of a user or group is inventory information, not a vulnerability.
+
+
+# RPCDump
+
+Enumerate RPC endpoints:
+
+```bash
+impacket-rpcdump 10.10.10.20
+```
+
+or use the authentication syntax supported by the installed version.
+
+RPC endpoints can reveal:
+
+```text
+Available RPC interfaces
+
+Named pipes
+
+Protocol sequences
+
+Service exposure
+```
+
+
+# RPCDump Interpretation
+
+RPC endpoint enumeration is mainly reconnaissance.
+
+Do not report:
+
+```text
+RPC endpoint exists
+```
+
+as a vulnerability without identifying an actual insecure configuration or exploitable security consequence.
+
+
+# SAMRDump
+
+Check:
+
+```bash
+impacket-samrdump -h
+```
+
+Against an authorised target:
+
+```bash
+impacket-samrdump 'corp.local/asif:Password123!@10.10.10.20'
+```
+
+Depending on permissions and target configuration, SAMR information may include account-related information.
+
+Interpret returned data according to the account's expected directory visibility and the environment's security model.
+
+
+# Kerberos Overview
+
+A simplified Kerberos workflow is:
+
+```text
+User
+ |
+ v
+AS-REQ
+ |
+ v
+KDC
+ |
+ v
+TGT
+ |
+ v
+TGS-REQ
+ |
+ v
+Service Ticket
+ |
+ v
+Service
+```
+
+Important concepts:
+
+```text
+KDC
+
+TGT
+
+TGS
+
+SPN
+
+Realm
+
+Service Ticket
+
+Ticket Cache
+```
+
+
+# GetUserSPNs
+
+`GetUserSPNs` is commonly used to enumerate accounts associated with Service Principal Names.
+
+Help:
+
+```bash
+impacket-GetUserSPNs -h
+```
+
+Authenticated enumeration:
+
+```bash
+impacket-GetUserSPNs 'corp.local/asif:Password123!' -dc-ip 10.10.10.10
+```
+
+### Representative Output
+
+```text
+ServicePrincipalName             Name       MemberOf
+-------------------------------  ---------  ------------------------
+MSSQLSvc/sql01.corp.local:1433   svc_sql
+HTTP/web01.corp.local            svc_web
+```
+
+### What This Proves
+
+It identifies directory accounts associated with SPNs visible to the current principal.
+
+It does **not** prove:
+
+```text
+The account password is weak
+
+The account is compromised
+
+The account is privileged
+
+Kerberoasting will recover a password
+```
+
+
+# Interpreting SPNs
 
 Example:
 
-```bash
-impacket-smbclient 'example.local/alice:Password@file01.example.local'
+```text
+MSSQLSvc/sql01.corp.local:1433
 ```
 
-Prefer interactive prompting where supported:
+This indicates a service principal associated with Microsoft SQL Server.
 
-```bash
-impacket-smbclient 'example.local/alice@file01.example.local'
-```
-
-!!! warning
-    Passwords supplied directly on the command line can appear in shell history, process listings, screenshots and terminal logs.
-
----
-
-# NTLM Hash Authentication
-
-Common option:
+Investigate:
 
 ```text
--hashes LMHASH:NTHASH
+Which account owns the SPN?
+
+What service uses it?
+
+Is the identity a managed service account?
+
+What privileges does it hold?
+
+Is the service still active?
+
+Where can the account log on?
 ```
 
-When only the NT hash is available:
+
+# Kerberoasting Assessment Model
 
 ```text
--hashes :NTHASH
+Domain Credential
+      |
+      v
+Enumerate SPNs
+      |
+      v
+Service Account Found
+      |
+      v
+Determine Privilege
+      |
+      v
+Determine Credential Management
+      |
+      v
+Requesting Ticket Necessary?
+      |
+      v
+Authorised Controlled Validation
+      |
+      v
+Assess Password Resilience Offline
+      |
+      v
+Document Impact
 ```
 
-Example structure:
+The most important security question is not simply whether a service ticket can be requested.
+
+Service-ticket issuance is normal Kerberos behaviour.
+
+The risk arises when a service account uses crackable credential material and that account provides meaningful access.
+
+
+# Requesting Service Tickets
+
+Where explicitly authorised, `GetUserSPNs` supports requesting service tickets.
+
+Review the installed options:
 
 ```bash
-impacket-smbclient \
-    'example.local/alice@file01.example.local' \
-    -hashes ':<NT-HASH>'
+impacket-GetUserSPNs -h
 ```
 
-Treat hashes as credentials.
+Use only the minimum number of accounts required for the assessment objective.
 
----
+Avoid requesting tickets for every SPN merely because the tool supports it.
 
-# Kerberos Authentication
 
-Many Impacket examples support:
+# Kerberoasting Evidence
+
+Useful evidence includes:
 
 ```text
--k
--no-pass
--aesKey
--dc-ip
--target-ip
+Service account
+
+SPN
+
+Associated service
+
+Account privilege
+
+Password-management model
+
+Whether an authorised ticket request was performed
+
+Whether offline password testing was in scope
+
+Result of controlled validation
 ```
 
-Exact support depends on the tool.
+Avoid including reusable credential material in the final report.
 
-Check:
+
+# GetNPUsers
+
+`GetNPUsers` is used when assessing Kerberos accounts configured without preauthentication.
+
+Help:
 
 ```bash
-<tool> -h
+impacket-GetNPUsers -h
 ```
 
----
-
-# Kerberos Credential Cache
-
-Set:
+Authenticated directory assessment example:
 
 ```bash
-export KRB5CCNAME="$PWD/alice.ccache"
+impacket-GetNPUsers 'corp.local/asif:Password123!' -dc-ip 10.10.10.10
 ```
 
-Check:
+Exact options for user lists and ticket requests should be confirmed with:
 
 ```bash
-echo "$KRB5CCNAME"
+impacket-GetNPUsers -h
+```
+
+
+# AS-REP Roasting Prerequisite
+
+The relevant account configuration is:
+
+```text
+Do not require Kerberos preauthentication
+```
+
+Conceptually:
+
+```text
+User
+ |
+ v
+Preauthentication Required?
+   |
+ +---+---+
+ |       |
+Yes      No
+ |       |
+ v       v
+Normal   AS-REP Assessment Candidate
+```
+
+
+# What an AS-REP Candidate Means
+
+It does not automatically mean:
+
+```text
+Password recovered
+
+Account compromised
+
+Privilege escalation
+```
+
+It means the account has a security-relevant Kerberos configuration that may expose password-derived material to offline analysis.
+
+
+# AS-REP Follow-Up
+
+Determine:
+
+```text
+Why is preauthentication disabled?
+
+Is the account enabled?
+
+What privilege does it have?
+
+Is it a service account?
+
+Is the password strong?
+
+Is the configuration still required?
+```
+
+
+# GetTGT
+
+`getTGT` can request a Kerberos Ticket Granting Ticket when appropriate credential material is available.
+
+Help:
+
+```bash
+impacket-getTGT -h
+```
+
+A password-based example in a controlled environment may resemble:
+
+```bash
+impacket-getTGT 'corp.local/asif:Password123!' -dc-ip 10.10.10.10
+```
+
+Successful execution typically creates a Kerberos credential cache file.
+
+
+# Inspect the Ticket Cache
+
+Set the cache:
+
+```bash
+export KRB5CCNAME=/path/to/asif.ccache
 ```
 
 Inspect:
@@ -419,929 +908,103 @@ Inspect:
 klist
 ```
 
-Protect `.ccache` files like passwords.
-
----
-
-# Kerberos Checklist
+Representative output:
 
 ```text
-[ ] Correct domain
-[ ] Correct username
-[ ] Correct DC
-[ ] FQDN resolves
-[ ] Internal DNS works
-[ ] KDC reachable
-[ ] Time synchronised
-[ ] Correct ticket loaded
-[ ] Correct SPN used
-[ ] Correct realm used
+Ticket cache: FILE:/path/to/asif.ccache
+Default principal: asif@CORP.LOCAL
+
+Valid starting       Expires              Service principal
+...
+krbtgt/CORP.LOCAL@CORP.LOCAL
 ```
 
----
 
-# AES Authentication
+# What a TGT Proves
 
-Where supported:
+A valid TGT demonstrates that the represented principal has an authenticated Kerberos context.
+
+It does not mean:
 
 ```text
--aesKey <AES_KEY>
+Administrator
+
+Domain Admin
+
+Access to every service
 ```
+
+Authorisation still depends on the target service and the principal's permissions.
+
+
+# Ticket Cache Environment Variable
 
 Check:
 
 ```bash
-impacket-getTGT -h
+echo "$KRB5CCNAME"
 ```
 
-AES keys are authentication material and should receive the same protection as passwords and hashes.
-
----
-
-# AD User Enumeration
-
-## GetADUsers
-
-Help:
+Set:
 
 ```bash
-impacket-GetADUsers -h
+export KRB5CCNAME=/tmp/asif.ccache
 ```
 
-Enumerate users:
-
-```bash
-impacket-GetADUsers \
-    "$DOMAIN/$USER" \
-    -dc-ip "$DC_IP" \
-    -all
-```
-
-Enter the password interactively when prompted.
-
-Useful fields may include:
-
-```text
-Username
-Email
-Password Last Set
-Last Logon
-Description
-```
-
----
-
-# Specific AD User
-
-Current versions support querying specific user information.
-
-Check:
-
-```bash
-impacket-GetADUsers -h
-```
-
-Use targeted enumeration where possible rather than collecting unnecessary directory information.
-
----
-
-# AD Computer Enumeration
-
-## GetADComputers
-
-Help:
-
-```bash
-impacket-GetADComputers -h
-```
-
-Enumerate computer objects:
-
-```bash
-impacket-GetADComputers \
-    "$DOMAIN/$USER" \
-    -dc-ip "$DC_IP"
-```
-
-Resolve discovered computer addresses where supported:
-
-```bash
-impacket-GetADComputers \
-    "$DOMAIN/$USER" \
-    -dc-ip "$DC_IP" \
-    -resolveIP
-```
-
-Useful information can include:
-
-```text
-Computer Account
-DNS Hostname
-Operating System
-Operating System Version
-Last Logon
-IP Address
-```
-
----
-
-# Computer Enumeration Workflow
-
-```text
-GetADComputers
-       |
-       v
-Computer Objects
-       |
-       +--> Workstations
-       +--> Servers
-       +--> Domain Controllers
-       +--> Legacy Systems
-       +--> Stale Objects
-       |
-       v
-Network Validation
-```
-
-Remember:
-
-```text
-AD computer object
-        !=
-currently reachable host
-```
-
----
-
-# AS-REP Candidates
-
-## GetNPUsers
-
-Help:
-
-```bash
-impacket-GetNPUsers -h
-```
-
-This tool is relevant to accounts configured without Kerberos pre-authentication.
-
-Think:
-
-```text
-Domain User
-    |
-    v
-Preauthentication Required?
-    |
- +--+--+
- |     |
-Yes    No
- |     |
- v     v
-Normal Candidate
-```
-
-Do not assume an account is exploitable merely because pre-authentication is disabled.
-
-Consider:
-
-```text
-Password Strength
-Account Privilege
-Account Purpose
-Monitoring
-Compensating Controls
-```
-
-See:
-
-```text
-active-directory/asrep-roasting.md
-```
-
----
-
-# SPN Enumeration
-
-## GetUserSPNs
-
-Help:
-
-```bash
-impacket-GetUserSPNs -h
-```
-
-Enumerate SPN accounts:
-
-```bash
-impacket-GetUserSPNs \
-    "$DOMAIN/$USER" \
-    -dc-ip "$DC_IP"
-```
-
-Useful output can include:
-
-```text
-ServicePrincipalName
-Account
-Group Membership
-Password Last Set
-Last Logon
-Delegation
-```
-
----
-
-# SPN Analysis
-
-Do not report:
-
-```text
-SPN exists
-```
-
-as a vulnerability.
-
-Use:
-
-```text
-SPN
- |
- v
-Account
- |
- v
-Service Account?
- |
- v
-Password Age
- |
- v
-Password Strength
- |
- v
-Privileges
- |
- v
-Security Impact
-```
-
----
-
-# Cross-Domain SPN Enumeration
-
-Current versions may support:
-
-```text
--target-domain
-```
-
-Check:
-
-```bash
-impacket-GetUserSPNs -h
-```
-
-This is useful where trusted domains are explicitly in scope.
-
----
-
-# SID and RID Enumeration
-
-## lookupsid
-
-Help:
-
-```bash
-impacket-lookupsid -h
-```
-
-Example:
-
-```bash
-impacket-lookupsid \
-    "$DOMAIN/$USER@$DC"
-```
-
----
-
-# SID Structure
-
-Example:
-
-```text
-S-1-5-21-111111111-222222222-333333333-1105
-```
-
-Domain SID:
-
-```text
-S-1-5-21-111111111-222222222-333333333
-```
-
-RID:
-
-```text
-1105
-```
-
----
-
-# Delegation Enumeration
-
-## findDelegation
-
-Help:
-
-```bash
-impacket-findDelegation -h
-```
-
-Enumerate:
-
-```bash
-impacket-findDelegation \
-    "$DOMAIN/$USER" \
-    -dc-ip "$DC_IP"
-```
-
-Review:
-
-```text
-Unconstrained Delegation
-Constrained Delegation
-Resource-Based Constrained Delegation
-```
-
----
-
-# Delegation Analysis
-
-```text
-Principal
-    |
-    v
-Delegation Type
-    |
-    v
-Target Service
-    |
-    v
-Who Controls Principal?
-    |
-    v
-Prerequisites
-    |
-    v
-Security Boundary
-    |
-    v
-Potential Path
-```
-
-Do not equate:
-
-```text
-Delegation configured
-```
-
-with:
-
-```text
-Exploitable privilege escalation
-```
-
----
-
-# LAPS
-
-## GetLAPSPassword
-
-Modern Impacket includes LAPS-related functionality.
-
-Check:
-
-```bash
-impacket-GetLAPSPassword -h
-```
-
-Use only with an identity that is explicitly authorised for the assessment.
-
-The important security question is:
-
-```text
-Who can read the managed local administrator password?
-```
-
-not merely:
-
-```text
-Does LAPS exist?
-```
-
----
-
-# LAPS Assessment Model
-
-```text
-Computer
-   |
-   v
-LAPS Enabled?
-   |
-   v
-Password Attribute
-   |
-   v
-Who Can Read?
-   |
-   v
-Expected?
-   |
-   v
-Privilege Boundary
-```
-
-See:
-
-```text
-active-directory/laps.md
-```
-
----
-
-# Group Policy Preferences Passwords
-
-## Get-GPPPassword
-
-Check:
-
-```bash
-impacket-Get-GPPPassword -h
-```
-
-This tool is relevant to legacy Group Policy Preferences credentials stored in SYSVOL.
-
-The assessment question is:
-
-```text
-Does SYSVOL contain legacy GPP credential material?
-```
-
-rather than indiscriminately searching every domain file.
-
-See:
-
-```text
-active-directory/gpp-passwords.md
-```
-
----
-
-# RPC Endpoint Enumeration
-
-## rpcdump
-
-Help:
-
-```bash
-impacket-rpcdump -h
-```
-
-Typical form:
-
-```bash
-impacket-rpcdump \
-    "$DOMAIN/$USER@$DC"
-```
-
-Useful for identifying:
-
-```text
-RPC Interfaces
-Endpoints
-Protocol Sequences
-Exposed Windows Services
-```
-
----
-
-# RPC Mapping
-
-## rpcmap
-
-Help:
-
-```bash
-impacket-rpcmap -h
-```
-
-Use it when a specific RPC interface or transport needs investigation.
-
-RPC exposure itself is not automatically a vulnerability.
-
----
-
-# SAMR Enumeration
-
-## samrdump
-
-Help:
-
-```bash
-impacket-samrdump -h
-```
-
-Typical structure:
-
-```bash
-impacket-samrdump \
-    "$DOMAIN/$USER@$DC"
-```
-
-Depending on permissions, SAMR may expose:
-
-```text
-Users
-Groups
-Account Information
-Domain Information
-```
-
----
-
-# SMB Client
-
-## smbclient
-
-Connect:
-
-```bash
-impacket-smbclient \
-    "$DOMAIN/$USER@file01.$DOMAIN"
-```
-
-Use:
-
-```text
-help
-```
-
-inside the interactive client.
-
----
-
-# SMB Workflow
-
-```text
-NetExec --shares
-       |
-       v
-Interesting Share
-       |
-       v
-impacket-smbclient
-       |
-       v
-Focused Inspection
-       |
-       v
-Evidence
-```
-
-Avoid recursively downloading entire corporate file shares.
-
----
-
-# Interesting Share Content
-
-Depending on scope, review:
-
-```text
-Configuration Files
-Deployment Scripts
-PowerShell Scripts
-Batch Files
-Backup Files
-Connection Strings
-Certificates
-Keys
-Administrative Documentation
-Software Deployment Content
-```
-
-Validate whether discovered information is actually sensitive before reporting.
-
----
-
-# SMB Server
-
-## smbserver
-
-Help:
-
-```bash
-impacket-smbserver -h
-```
-
-Create a controlled share directory:
-
-```bash
-mkdir -p /tmp/assessment-share
-```
-
-Start:
-
-```bash
-impacket-smbserver ASSESSMENT /tmp/assessment-share
-```
-
-Bind/expose the server only as required by the engagement.
-
----
-
-# SMB Server Checklist
-
-```text
-[ ] Correct interface
-[ ] Firewall understood
-[ ] Share contents reviewed
-[ ] Authentication considered
-[ ] No customer secrets exposed
-[ ] Server stopped after testing
-```
-
----
-
-# SMB Information
-
-Impacket also contains tools useful for obtaining SMB/NTLM information.
-
-List your installation:
-
-```bash
-compgen -c | grep '^impacket-' | grep -Ei 'smb|ntlm'
-```
-
-Use tool-specific help before testing.
-
----
-
-# WMI Querying
-
-## wmiquery
-
-Help:
-
-```bash
-impacket-wmiquery -h
-```
-
-Connect:
-
-```bash
-impacket-wmiquery \
-    "$DOMAIN/$USER@server01.$DOMAIN"
-```
-
-This provides a WQL-oriented shell.
-
-Safe inventory-style examples include:
-
-```text
-select Caption,Version from Win32_OperatingSystem
-```
-
-```text
-select Name,State,StartMode from Win32_Service
-```
-
-```text
-select Name,ProcessId from Win32_Process
-```
-
-Use:
-
-```text
-describe Win32_Process
-```
-
-to inspect a class.
-
----
-
-# WMI Security Model
-
-WMI access depends on more than successful SMB authentication.
-
-Think:
-
-```text
-Identity
-   |
-   v
-DCOM Connectivity
-   |
-   v
-WMI Namespace
-   |
-   v
-Namespace Permissions
-   |
-   v
-RPC Authentication Level
-   |
-   v
-Query / Management Access
-```
-
----
-
-# MSSQL Instance Discovery
-
-## mssqlinstance
-
-Help:
-
-```bash
-impacket-mssqlinstance -h
-```
-
-This can assist with identifying Microsoft SQL Server instances where the relevant discovery service is reachable.
-
-Confirm results with normal network/service enumeration.
-
----
-
-# MSSQL Client
-
-## mssqlclient
-
-Help:
-
-```bash
-impacket-mssqlclient -h
-```
-
-Connect using an authorised account:
-
-```bash
-impacket-mssqlclient \
-    "$DOMAIN/$USER@sql01.$DOMAIN"
-```
-
-Authentication may involve:
-
-```text
-SQL Authentication
-Windows Authentication
-NTLM
-Kerberos
-```
-
-depending on configuration and command options.
-
----
-
-# MSSQL Assessment Questions
-
-Determine:
-
-```text
-Authentication Method
-Database User
-Database Roles
-Server Roles
-Accessible Databases
-Linked Servers
-Service Account
-Domain Context
-Impersonation Rights
-Network Reachability
-```
-
-Do not enable command-execution functionality merely because the account can connect.
-
----
-
-# RDP Authentication Check
-
-## rdp_check
-
-Help:
-
-```bash
-impacket-rdp_check -h
-```
-
-Use it for targeted authentication validation where RDP is in scope.
-
-Successful authentication means:
-
-```text
-Credential accepted by RDP
-```
-
-It does not automatically mean:
-
-```text
-Local administrator
-```
-
-or:
-
-```text
-Unrestricted interactive access
-```
-
----
-
-# Requesting a TGT
-
-## getTGT
-
-Help:
-
-```bash
-impacket-getTGT -h
-```
-
-Concept:
-
-```text
-Credential
-    |
-    v
-getTGT
-    |
-    v
-KDC
-    |
-    v
-TGT
-    |
-    v
-ccache
-```
-
-Typical password-based structure:
-
-```bash
-impacket-getTGT \
-    "$DOMAIN/$USER"
-```
-
-Enter the password when prompted.
-
-After obtaining a ticket:
-
-```bash
-export KRB5CCNAME="$PWD/$USER.ccache"
-```
-
-Check:
+Then:
 
 ```bash
 klist
 ```
 
----
 
-# TGT with NTLM Hash
+# Kerberos Authentication with Impacket
 
-Where explicitly authorised:
+Many Impacket utilities support Kerberos options such as:
 
-```bash
-impacket-getTGT \
-    "$DOMAIN/$USER" \
-    -hashes ':<NT-HASH>'
+```text
+-k
 ```
 
-Check your installed version's syntax first:
+and:
 
-```bash
-impacket-getTGT -h
+```text
+-no-pass
 ```
 
----
+depending on the utility.
 
-# TGT with AES Key
+Always check the relevant help output.
 
-Where authorised:
+Example pattern:
 
 ```bash
-impacket-getTGT \
-    "$DOMAIN/$USER" \
-    -aesKey '<AES-KEY>'
+impacket-<tool> -k -no-pass <target>
 ```
 
-Protect the resulting ticket and key material.
+The exact target syntax depends on the utility.
 
----
 
-# Requesting a Service Ticket
+# Kerberos Name Resolution
 
-## getST
+Kerberos usually works best when:
+
+```text
+DNS is correct
+
+Hostnames match SPNs
+
+Realm is correct
+
+Clock is synchronised
+```
+
+If an IP-based command fails but a hostname-based command works, the difference may be Kerberos/SPN related rather than a network problem.
+
+
+# GetST
+
+`getST` handles Kerberos service-ticket operations used in several legitimate administration and delegation-related testing scenarios.
 
 Help:
 
@@ -1349,59 +1012,63 @@ Help:
 impacket-getST -h
 ```
 
-`getST` is relevant to:
+Before using it, understand:
 
 ```text
-Service-Specific Kerberos Access
-Constrained Delegation
-S4U2Self
-S4U2Proxy
-RBCD
-Impersonation Workflows
+Which principal you control
+
+Which service is involved
+
+Which delegation configuration exists
+
+Which SPN is required
+
+What the resulting ticket represents
 ```
 
-The exact command depends heavily on the delegation relationship.
+For delegation concepts see:
 
-Use the dedicated notes:
+- [Constrained Delegation](../active-directory/constrained-delegation.md)
+- [RBCD](../active-directory/rbcd.md)
+- [S4U](../active-directory/s4u.md)
 
-```text
-active-directory/constrained-delegation.md
-active-directory/rbcd.md
-active-directory/s4u.md
-```
 
----
+# Do Not Treat getST as a Generic Command
 
-# S4U Model
+The correct model is:
 
 ```text
-Controlled Principal
-       |
-       v
+Directory Relationship
+        |
+        v
 Delegation Configuration
-       |
-       v
-S4U2Self
-       |
-       v
-S4U2Proxy
-       |
-       v
-Service Ticket
-       |
-       v
+        |
+        v
+Controlled Principal
+        |
+        v
 Target Service
+        |
+        v
+Required Ticket
+        |
+        v
+getST
 ```
 
-Do not run an impersonation workflow simply because `findDelegation` returned an entry.
+not:
 
-Validate the relationship first.
+```text
+Run getST
+    |
+    v
+See What Happens
+```
 
----
 
-# Kerberos Ticket Conversion
+# TicketConverter
 
-## ticketConverter
+Impacket can convert between Kerberos ticket formats.
 
 Help:
 
@@ -1409,519 +1076,215 @@ Help:
 impacket-ticketConverter -h
 ```
 
-Concept:
+Conceptually:
 
 ```text
-kirbi
+Kirbi
   |
   v
 ticketConverter
   |
   v
-ccache
+CCache
 ```
 
-or:
+or the reverse where supported.
+
+
+# Why Ticket Conversion Matters
+
+Different tooling ecosystems may use different ticket formats.
+
+For example:
 
 ```text
-ccache
-  |
-  v
-ticketConverter
-  |
-  v
-kirbi
+Windows-oriented tooling
+
+Linux Kerberos tooling
 ```
 
-Conversion changes the storage format.
+may expect different representations.
 
-It does not change:
+Conversion changes the file format. It does not grant additional privilege.
+
+
+# Kerberos Ticket Workflow
 
 ```text
-Identity
-Privileges
-Lifetime
-Service
-Cryptographic Validity
+Credential / Existing Ticket
+          |
+          v
+Identify Principal
+          |
+          v
+Identify Realm
+          |
+          v
+Identify Ticket Type
+          |
+          v
+Check Validity
+          |
+          v
+Set KRB5CCNAME If Needed
+          |
+          v
+klist
+          |
+          v
+Use Against Authorised Service
+          |
+          v
+Interpret Authorisation
 ```
 
----
 
-# Ticket Inspection
+# NTLM Hash Authentication
 
-## describeTicket
+Several Impacket utilities support NTLM hash authentication.
 
-Where present in your installed version:
+Check the specific utility:
 
 ```bash
-impacket-describeTicket -h
+impacket-wmiexec -h
 ```
 
-Use ticket inspection to understand:
+Common options may include:
 
 ```text
-Client Principal
-Service Principal
-Realm
-Flags
-Validity
-Encryption Type
-PAC-related Information
+-hashes
 ```
 
-without immediately attempting to use the ticket.
-
----
-
-# PAC Inspection
-
-## getPac
-
-Check:
-
-```bash
-impacket-getPac -h
-```
-
-PAC-related tooling is useful when investigating Kerberos authorisation information and advanced Kerberos behaviour.
-
-Use it only when relevant to the assessment objective.
-
----
-
-# Ticket Creation
-
-## ticketer
-
-Help:
-
-```bash
-impacket-ticketer -h
-```
-
-This is advanced Kerberos functionality associated with:
+A typical hash pair format is:
 
 ```text
-Golden Tickets
-Silver Tickets
-Trust Tickets
-Kerberos Persistence
+LMHASH:NTHASH
 ```
 
-!!! danger
-    Ticket creation can materially alter the security context of an assessment and should only be used where explicitly authorised.
-
-Use the dedicated Kerberos and persistence notes rather than treating `ticketer` as a routine enumeration tool.
-
----
-
-# Password Changes
-
-## changepasswd
-
-Help:
-
-```bash
-impacket-changepasswd -h
-```
-
-Password modification is a state-changing operation.
-
-Use it only where:
+When the LM hash is unavailable, tools commonly accept an empty LM component:
 
 ```text
-The account is approved
-The password change is approved
-Impact is understood
-Rollback is defined
+:NTHASH
 ```
 
-For most assessments, password-change capability can be documented without actually changing a production user's password.
-
----
-
-# AD ACLs
-
-## dacledit
-
-Check:
-
-```bash
-impacket-dacledit -h
-```
-
-This tool can inspect or modify Active Directory DACL information.
-
-Prefer read-only inspection first.
-
-Think:
+Example placeholder:
 
 ```text
-Principal
-   |
-   v
-ACE
-   |
-   v
-Object
-   |
-   v
-Right
-   |
-   v
-Security Impact
+:0123456789abcdef0123456789abcdef
 ```
 
-Examples of rights worth understanding include:
+
+# What Hash Authentication Proves
+
+If the target accepts the NTLM credential material:
 
 ```text
-GenericAll
-GenericWrite
-WriteDACL
-WriteOwner
-Extended Rights
-Property-Specific Rights
-```
-
-Do not modify ACLs merely to prove that an ACE exists.
-
----
-
-# Object Ownership
-
-## owneredit
-
-Check:
-
-```bash
-impacket-owneredit -h
-```
-
-Ownership can influence an identity's ability to modify an object's DACL.
-
-Assess:
-
-```text
-Current Owner
-Who Can Change Owner?
-What Object?
-What Security Boundary?
-What Additional Rights Become Possible?
-```
-
-Prefer read-only validation unless modification is explicitly authorised.
-
----
-
-# Resource-Based Constrained Delegation
-
-## rbcd
-
-Check:
-
-```bash
-impacket-rbcd -h
-```
-
-Current Impacket supports operations around:
-
-```text
-msDS-AllowedToActOnBehalfOfOtherIdentity
-```
-
-Read-only assessment should come first.
-
-Concept:
-
-```text
-Controlled Principal
+Credential Material
         |
         v
-RBCD Attribute
-        |
-        v
-Target Computer
-        |
-        v
-S4U
-        |
-        v
-Target Service
+Authentication
 ```
 
-See:
+has been demonstrated.
+
+It does not prove:
 
 ```text
-active-directory/rbcd.md
+Plaintext password known
+
+Domain Admin
+
+Credential works everywhere
 ```
 
----
 
-# Machine Accounts
-
-Some Impacket tooling can interact with computer accounts.
-
-Before any state-changing machine-account operation, understand:
+# Pass-the-Hash Assessment Model
 
 ```text
-MachineAccountQuota
-Existing Computer Objects
-Delegated Create/Delete Rights
-Target OU
-RBCD Relationship
-Cleanup Requirements
+NTLM Hash
+    |
+    v
+Identify Account
+    |
+    v
+Determine Expected Scope
+    |
+    v
+Choose One Authorised Target
+    |
+    v
+Validate Authentication
+    |
+    v
+Determine Privilege
+    |
+    v
+Expand Only If Required
 ```
 
-See:
+
+# Remote Administration Tools
+
+Impacket includes several utilities capable of remote administration when sufficient permissions exist.
+
+Important examples:
 
 ```text
-active-directory/machine-account-quota.md
-```
-
----
-
-# Credential Access
-
-## secretsdump
-
-Help:
-
-```bash
-impacket-secretsdump -h
-```
-
-Potential credential sources include:
-
-```text
-SAM
-LSA Secrets
-Cached Domain Credentials
-NTDS
-Domain Replication
-```
-
-!!! danger
-    Credential dumping is highly sensitive. Only perform it when credential-access testing is explicitly authorised.
-
----
-
-# secretsdump Security Model
-
-Do not think:
-
-```text
-Admin Credential
-      =
-Dump Everything
-```
-
-Use:
-
-```text
-Assessment Objective
-       |
-       v
-Credential Access Required?
-       |
-    +--+--+
-    |     |
-   No    Yes
-    |     |
-    v     v
-   Stop  Minimum
-         Required
-         Collection
-```
-
----
-
-# Local Secrets vs Domain Replication
-
-These are different security boundaries.
-
-```text
-Remote Windows Host
-       |
-       +--> SAM
-       +--> LSA Secrets
-       +--> Cached Credentials
-```
-
-versus:
-
-```text
-Domain Controller
-       |
-       v
-Directory Replication
-       |
-       v
-Domain Credential Material
-```
-
-Domain replication access has substantially greater impact.
-
----
-
-# DRSUAPI
-
-`secretsdump` can use directory replication mechanisms when the identity has the necessary rights.
-
-This should be treated as a high-impact capability.
-
-The important finding may be:
-
-```text
-Unexpected Identity
-       |
-       v
-Directory Replication Rights
-       |
-       v
-Domain Credential Exposure
-```
-
-rather than the volume of credentials that can be collected.
-
----
-
-# Targeted Replication Validation
-
-Current `secretsdump` versions provide options for narrowing domain-controller collection.
-
-Check:
-
-```bash
-impacket-secretsdump -h
-```
-
-Prefer targeted validation over full-domain extraction whenever the assessment objective can be proven with less sensitive data.
-
----
-
-# Offline Secrets Assessment
-
-`secretsdump` can also work with authorised offline registry/database material.
-
-This can be preferable in a controlled lab or forensic assessment because it avoids interacting with a live production host.
-
-Check:
-
-```bash
-impacket-secretsdump -h
-```
-
-for the exact offline-input options supported by the installed version.
-
----
-
-# Credential Evidence Handling
-
-Credential-related evidence may contain:
-
-```text
-NTLM Hashes
-AES Keys
-Passwords
-Cached Credentials
-Service Secrets
-Machine Secrets
-Kerberos Keys
-```
-
-Store it separately from normal screenshots and notes where possible.
-
-Apply the engagement's data-retention requirements.
-
----
-
-# Remote Administration
-
-Common tools:
-
-```text
-psexec
-smbexec
 wmiexec
-dcomexec
+
+psexec
+
+smbexec
+
 atexec
+
+dcomexec
 ```
 
-They use different Windows mechanisms.
+These tools use different Windows mechanisms.
 
----
+Do not treat them as interchangeable.
+
 
 # Remote Administration Comparison
 
-| Tool | Primary Mechanism | Typical Dependencies | Operational Consideration |
-|---|---|---|---|
-| `psexec` | SMB + SCM | SMB, Service Control Manager | Creates/uses a service |
-| `smbexec` | SMB + SCM | SMB, Service Control Manager | Service-based activity |
-| `wmiexec` | WMI/DCOM | RPC, DCOM, WMI | WMI/DCOM telemetry |
-| `dcomexec` | DCOM | RPC/DCOM | DCOM-specific activity |
-| `atexec` | Task Scheduler | RPC/Task Scheduler | Scheduled-task activity |
+| Tool | General Mechanism | Important Consideration |
+|---|---|---|
+| `wmiexec` | WMI | Requires appropriate WMI/DCOM permissions |
+| `psexec` | SMB + service creation | Creates/uses a service mechanism |
+| `smbexec` | SMB/service-based execution | Service-related artefacts may be created |
+| `atexec` | Task Scheduler | Scheduled-task artefacts and logs |
+| `dcomexec` | DCOM | DCOM/RPC connectivity and permissions |
 
-The exact telemetry depends on Windows version, configuration, security products and tool version.
+Operational footprint differs significantly between methods.
 
----
 
-# Remote Administration Decision
+# Before Remote Execution
+
+Confirm:
 
 ```text
-Need Remote Administration?
-          |
-          v
-Is It Explicitly Authorised?
-          |
-       +--+--+
-       |     |
-      No    Yes
-       |     |
-       v     v
-      Stop  Which
-            Protocol?
-              |
-       +------+------+------+
-       |      |      |      |
-       v      v      v      v
-      SCM    WMI    DCOM   TSCH
-       |      |      |      |
-       v      v      v      v
-    psexec wmiexec dcomexec atexec
-    smbexec
+Is remote execution explicitly authorised?
+
+Do I already have enough evidence?
+
+Is the target production-critical?
+
+What artefacts will be created?
+
+What logs will be generated?
+
+Will a service be created?
+
+Will a scheduled task be created?
+
+Is cleanup required?
+
+Can the same conclusion be proven more safely?
 ```
 
----
 
-# psexec
-
-Help:
-
-```bash
-impacket-psexec -h
-```
-
-This uses SMB and service-management functionality.
-
-Consider it intrusive because service creation or service-control activity may occur.
-
----
-
-# smbexec
-
-Help:
-
-```bash
-impacket-smbexec -h
-```
-
-Also relies on SMB/service-management mechanisms.
-
-Do not treat it as "stealthy" simply because it behaves differently from `psexec`.
-
----
-
-# wmiexec
+# WMIExec
 
 Help:
 
@@ -1929,31 +1292,101 @@ Help:
 impacket-wmiexec -h
 ```
 
-Typical dependencies include:
+Password-based authorised example:
 
-```text
-RPC Endpoint Mapper
-DCOM
-WMI
-Dynamic RPC Ports
-Appropriate Permissions
+```bash
+impacket-wmiexec 'corp.local/asif:Password123!@10.10.10.20'
 ```
 
----
+### What Success Proves
 
-# dcomexec
+A successful remote administrative session demonstrates that:
+
+```text
+The supplied credential authenticates
++
+The account has sufficient permissions for the WMI-based path
+```
+
+This is stronger evidence than simple SMB authentication.
+
+
+# WMIExec with Hash Authentication
+
+Where explicitly authorised, inspect:
+
+```bash
+impacket-wmiexec -h
+```
+
+for the current `-hashes` syntax.
+
+Use a single authorised target first.
+
+
+# WMIExec Interpretation
+
+If WMI-based administration succeeds, investigate:
+
+```text
+Why does the account have remote WMI rights?
+
+Is it local administrator?
+
+Is access inherited from a domain group?
+
+Is the access expected?
+
+Which other systems share the same administrative model?
+```
+
+
+# PSExec
 
 Help:
 
 ```bash
-impacket-dcomexec -h
+impacket-psexec -h
 ```
 
-Use only when DCOM remote administration is explicitly within scope.
+`psexec` uses a service-based remote administration mechanism.
 
----
+Because this can create service-related artefacts, it generally has a different operational footprint from WMI-based approaches.
 
-# atexec
+
+# PSExec Safety
+
+Before using it, understand:
+
+```text
+Service creation
+
+File/service artefacts
+
+Windows event logging
+
+EDR visibility
+
+Cleanup requirements
+```
+
+Do not use it merely to prove credentials are valid.
+
+
+# SMBExec
+
+Help:
+
+```bash
+impacket-smbexec -h
+```
+
+This also uses SMB/service-related mechanisms.
+
+The exact artefacts and behaviour should be understood before production use.
+
+
+# ATExec
 
 Help:
 
@@ -1961,412 +1394,810 @@ Help:
 impacket-atexec -h
 ```
 
-Uses Task Scheduler interfaces.
+This uses Task Scheduler-related functionality.
 
-Scheduled-task creation is state-changing and can generate security telemetry.
-
----
-
-# Authentication Before Execution
-
-Prefer:
+Potential telemetry includes:
 
 ```text
-Credential
-    |
-    v
-Authentication Test
-    |
-    v
-Privilege Determination
-    |
-    v
-Remote Management Exposure
-    |
-    v
-Authorisation Check
-    |
-    v
-Controlled Execution
+Task creation
+
+Task execution
+
+Process creation
+
+Authentication events
 ```
 
-Do not use remote execution merely to establish whether a password is valid.
+Use only where the engagement objective requires remote execution.
 
----
 
-# NTLM Relay
-
-## ntlmrelayx
+# DCOMExec
 
 Help:
 
 ```bash
-impacket-ntlmrelayx -h
+impacket-dcomexec -h
 ```
 
-Concept:
+DCOM-based remote administration depends on:
 
 ```text
-Authentication Source
+RPC connectivity
+
+DCOM availability
+
+Authentication
+
+Relevant permissions
+```
+
+For deeper context see [DCOM](../active-directory/dcom.md).
+
+
+# Choosing a Remote Administration Method
+
+Do not choose based on:
+
+```text
+Which command is shortest?
+```
+
+Choose based on:
+
+```text
+Assessment objective
+
+Permissions
+
+Protocol availability
+
+Operational impact
+
+Telemetry
+
+Cleanup
+
+Rules of engagement
+```
+
+
+# Remote Administration Decision Tree
+
+```text
+Administrative Credential
+         |
+         v
+Do I Need Remote Execution?
+      /       \
+    No         Yes
+    |           |
+    v           v
+ Stop       What Protocols
+            Are Available?
+                 |
+       +---------+---------+
+       |         |         |
+       v         v         v
+      WMI       SMB       DCOM
+       |         |         |
+       v         v         v
+   wmiexec   psexec/    dcomexec
+             smbexec
+                 |
+                 v
+          Minimal Validation
+                 |
+                 v
+              Cleanup
+```
+
+
+# MSSQLClient
+
+Impacket includes a Microsoft SQL Server client.
+
+Help:
+
+```bash
+impacket-mssqlclient -h
+```
+
+A controlled Windows-authentication example may resemble:
+
+```bash
+impacket-mssqlclient 'corp.local/asif:Password123!@10.10.10.30' -windows-auth
+```
+
+Exact authentication options should be confirmed with:
+
+```bash
+impacket-mssqlclient -h
+```
+
+
+# Representative MSSQL Session
+
+```text
+[*] Encryption required, switching to TLS
+[*] ENVCHANGE(DATABASE): Old Value: master, New Value: master
+SQL>
+```
+
+
+# Initial SQL Questions
+
+After authentication, determine:
+
+```text
+Who am I?
+
+Which database am I using?
+
+Which roles do I have?
+
+Which databases are accessible?
+
+Is the account sysadmin?
+
+Are linked servers configured?
+```
+
+
+# Safe SQL Context Queries
+
+Current login:
+
+```sql
+SELECT SYSTEM_USER;
+```
+
+Current database:
+
+```sql
+SELECT DB_NAME();
+```
+
+Server name:
+
+```sql
+SELECT @@SERVERNAME;
+```
+
+Version:
+
+```sql
+SELECT @@VERSION;
+```
+
+Check sysadmin membership:
+
+```sql
+SELECT IS_SRVROLEMEMBER('sysadmin');
+```
+
+
+# Interpret `IS_SRVROLEMEMBER`
+
+Example:
+
+```text
+1
+```
+
+generally indicates membership in the requested server role.
+
+Example:
+
+```text
+0
+```
+
+indicates the current login is not a member.
+
+This provides much stronger evidence than simply assuming that successful SQL authentication means administrative database access.
+
+
+# SQL Linked Servers
+
+Linked servers can create trust relationships between SQL systems.
+
+List them using an appropriate SQL query or client functionality supported in the environment.
+
+Then determine:
+
+```text
+Which server is linked?
+
+Which authentication context is used?
+
+What permissions exist remotely?
+
+Is the link bidirectional?
+
+Does it cross a security boundary?
+```
+
+
+# MSSQL Attack-Path Thinking
+
+```text
+Domain User
+    |
+    v
+SQL Login
+    |
+    v
+Database Role
+    |
+    v
+Linked Server
+    |
+    v
+Different Security Context
+    |
+    v
+Sensitive Database / Server
+```
+
+Do not assume the path exists until each relationship is validated.
+
+
+# SecretsDump
+
+`secretsdump` is one of the most sensitive Impacket utilities.
+
+It can access credential material from Windows systems and Active Directory where sufficient privileges and conditions exist.
+
+Help:
+
+```bash
+impacket-secretsdump -h
+```
+
+Potential data can include:
+
+```text
+Local SAM hashes
+
+LSA secrets
+
+Cached domain logons
+
+Service-account secrets
+
+Domain credential material
+```
+
+!!! danger "Sensitive Operation"
+    Credential extraction should only be performed when it is explicitly authorised and necessary to meet the assessment objective. Domain-controller credential extraction can expose highly sensitive domain-wide authentication material.
+
+
+# Before Using SecretsDump
+
+Ask:
+
+```text
+Do I need credential material to prove the finding?
+
+Is credential extraction explicitly in scope?
+
+Can I demonstrate the privilege without collecting secrets?
+
+Is the target a domain controller?
+
+How will evidence be protected?
+
+What data-retention requirements apply?
+
+Will the command create temporary artefacts?
+```
+
+
+# Local Administrative Context
+
+Against a specifically authorised test host where administrative access is already established, `secretsdump` can be used to validate whether that level of access exposes local credential stores.
+
+Do not run it simply because an account receives `(Pwn3d!)` in NetExec.
+
+
+# SecretsDump Result Interpretation
+
+If credential material is retrieved:
+
+```text
+Administrative Access
         |
         v
-      Relay
+Sensitive Credential Store Accessible
         |
         v
- Target Protocol
-        |
-        v
- Target Identity Context
-        |
-        v
- Authorised Action
+Credential Material Retrieved
 ```
 
----
+has been demonstrated.
 
-# Capture vs Relay
+Next determine:
 
 ```text
-Capture
+Which accounts are represented?
 
-Client
-  |
-  v
-Assessment Host
-  |
-  v
-Authentication Material
+Are they local or domain accounts?
+
+Are any credentials reusable?
+
+What privilege do they provide?
+
+Is further validation necessary?
 ```
 
-versus:
+
+# Do Not Over-Collect
+
+If the objective is:
+
+> Determine whether local administrative compromise exposes reusable credentials.
+
+you may only need enough evidence to demonstrate that sensitive credential material is accessible.
+
+You do not necessarily need to validate every recovered credential against every system.
+
+
+# Domain Controller Considerations
+
+A domain controller represents a significantly different risk level.
+
+Potential credential data may affect:
 
 ```text
-Relay
+Entire domain
 
-Client
-  |
-  v
-Assessment Host
-  |
-  v
-Target Service
+Privileged users
+
+Service accounts
+
+Machine accounts
+
+Trust relationships
+
+Kerberos infrastructure
 ```
 
-Therefore:
+Treat any DC credential-access activity as a high-impact assessment step requiring explicit authorisation.
+
+
+# Credential Handling
+
+Never place real credential material in public notes or final reports.
+
+Prefer:
 
 ```text
-Capture != Relay
+Administrator:500:<REDACTED>
 ```
 
----
+instead of preserving a reusable hash.
 
-# Relay Preconditions
 
-Assess:
+# Credential Validation Workflow
 
 ```text
-Authentication Source
-Target Protocol
-SMB Signing
-LDAP Signing
-LDAP Channel Binding
-Extended Protection
-Target Authentication
-Identity Privileges
-Network Reachability
+Credential Material
+       |
+       v
+Identify Principal
+       |
+       v
+Determine Type
+       |
+       +--> Password
+       +--> NTLM
+       +--> Kerberos
+       |
+       v
+Determine Expected Scope
+       |
+       v
+Select One Relevant Target
+       |
+       v
+Minimal Validation
+       |
+       v
+Determine Privilege
+       |
+       v
+Stop When Proven
 ```
 
-Do not report:
+
+# Impacket and NetExec
+
+These tools complement each other.
+
+A practical workflow is:
 
 ```text
-SMB signing not required
-```
-
-as:
-
-```text
-NTLM relay confirmed
-```
-
-without validating the complete path.
-
----
-
-# Relay Safety
-
-Relay testing can cause real authentication and state changes.
-
-Before testing:
-
-```text
-[ ] Relay explicitly in scope
-[ ] Source understood
-[ ] Target approved
-[ ] Protocol approved
-[ ] Expected identity understood
-[ ] Security controls reviewed
-[ ] State-changing action understood
-[ ] Rollback defined where relevant
-```
-
----
-
-# NetExec + Impacket
-
-A useful model:
-
-```text
-Nmap
-  |
-  v
 NetExec
-  |
-  v
-Broad Network Enumeration
-  |
-  v
-Interesting Host / Identity
-  |
-  v
+   |
+   v
+Broad Access Mapping
+   |
+   v
+Interesting Target
+   |
+   v
 Impacket
-  |
-  v
-Targeted Protocol Investigation
+   |
+   v
+Focused Protocol Validation
 ```
 
-NetExec answers:
 
-```text
-Where should I look?
+# Example
+
+NetExec:
+
+```bash
+nxc smb 10.10.10.20 -d corp.local -u 'asif' -p 'Password123!'
 ```
 
-Impacket often answers:
+Suppose the result shows administrative access.
 
-```text
-What exactly can this identity do through this protocol?
-```
+Rather than running every Impacket remote-administration tool, determine what you need to prove.
 
----
+If WMI access is specifically relevant, a focused WMI validation may be appropriate.
 
-# BloodHound + Impacket
+If SMB share access is the objective, use an SMB client instead.
+
+Choose the tool according to the question.
+
+
+# Impacket and BloodHound
+
+BloodHound identifies relationships.
+
+Impacket can help validate selected protocol-level paths.
 
 ```text
 BloodHound
     |
     v
-Potential Relationship
+Interesting Relationship
     |
     v
-Understand Edge
+Understand Preconditions
     |
     v
-Check Preconditions
+Choose Appropriate Impacket Tool
     |
     v
-Impacket
+Minimal Validation
     |
     v
-Controlled Validation
+Evidence
 ```
 
-BloodHound paths are hypotheses until their prerequisites are understood.
 
----
+# Impacket and Kerberos
 
-# Protocol and Port Reference
-
-| Function | Common Ports |
-|---|---|
-| SMB | TCP 445 |
-| RPC Endpoint Mapper | TCP 135 |
-| Dynamic RPC | High TCP ports |
-| LDAP | TCP 389 |
-| LDAPS | TCP 636 |
-| Kerberos | TCP/UDP 88 |
-| Global Catalog | TCP 3268 |
-| Global Catalog TLS | TCP 3269 |
-| MSSQL | TCP 1433 |
-| SQL Browser | UDP 1434 |
-| RDP | TCP/UDP 3389 |
-
-Actual environments may use non-default ports or firewall restrictions.
-
----
-
-# Tool Connectivity Model
-
-## SMB Tools
-
-Commonly require:
+Impacket's Kerberos utilities are particularly useful for:
 
 ```text
-TCP 445
+SPN enumeration
+
+Preauthentication assessment
+
+TGT handling
+
+Service tickets
+
+Delegation validation
+
+Kerberos authentication
 ```
 
-Examples:
+Use them after understanding the underlying Kerberos relationship.
+
+
+# Impacket and AD CS
+
+Impacket is not the primary toolkit for all AD CS assessment workflows.
+
+For AD CS-specific enumeration and certificate analysis, specialised tools such as Certipy are often more appropriate.
+
+See:
+
+[Active Directory Certificate Services](../active-directory/ad-cs/index.md)
+
+
+# "I Have a Domain Password - What Next?"
 
 ```text
-smbclient
-smbserver
-psexec
-smbexec
-secretsdump - some workflows
+Domain Password
+      |
+      v
+Confirm Domain
+      |
+      v
+Confirm DC
+      |
+      v
+Validate Authentication
+      |
+      +--> SMB
+      |
+      +--> LDAP / Directory Context
+      |
+      v
+Enumerate SPNs
+      |
+      v
+Review Preauthentication
+      |
+      v
+Review Shares
+      |
+      v
+BloodHound
+      |
+      v
+Select Specific Privilege Path
+      |
+      v
+Focused Impacket Validation
 ```
 
----
 
-# RPC Tools
-
-May require:
+# "I Have an NTLM Hash - What Next?"
 
 ```text
-TCP 135
-Dynamic RPC Ports
-TCP 445 depending on transport
+NTLM Hash
+   |
+   v
+Identify Account
+   |
+   v
+Determine Domain or Local Context
+   |
+   v
+Identify One Relevant Target
+   |
+   v
+Choose Protocol
+   |
+   v
+Validate Authentication
+   |
+   v
+Determine Privilege
+   |
+   v
+Stop or Expand Based on Objective
 ```
 
-Examples:
+
+# "I Have a Kerberos Ticket - What Next?"
+
+First:
+
+```bash
+klist
+```
+
+Then determine:
 
 ```text
-rpcdump
-rpcmap
-wmiexec
-dcomexec
-atexec
+Who is the client?
+
+What realm?
+
+TGT or service ticket?
+
+Which service?
+
+When does it expire?
+
+What target is relevant?
 ```
 
----
+If required:
 
-# LDAP Tools
-
-Commonly require:
-
-```text
-389/tcp
+```bash
+export KRB5CCNAME=/path/to/ticket.ccache
 ```
 
-or:
+Then use a compatible Impacket utility with the appropriate Kerberos options.
 
-```text
-636/tcp
-```
 
-depending on LDAP/LDAPS.
-
-Examples include directory-enumeration and AD-object management tools.
-
----
-
-# Kerberos Tools
-
-Commonly require:
-
-```text
-88/tcp
-88/udp
-```
-
-plus:
-
-```text
-DNS
-Correct Time
-Correct Hostnames
-```
-
----
-
-# MSSQL
-
-Usually:
-
-```text
-1433/tcp
-```
-
-but named instances can use other ports.
-
-Do not assume every SQL Server listens on 1433.
-
----
-
-# Troubleshooting - STATUS_LOGON_FAILURE
-
-Usually investigate:
-
-```text
-Username
-Password
-Domain
-Local vs Domain Account
-Authentication Method
-Account State
-```
-
-Do not repeatedly retry a credential without understanding lockout policy.
-
----
-
-# Troubleshooting - STATUS_ACCESS_DENIED
-
-This often means:
-
-```text
-Authentication succeeded
-        |
-        v
-Requested operation not authorised
-```
-
-Distinguish:
-
-```text
-Authentication
-```
-
-from:
-
-```text
-Authorisation
-```
-
----
-
-# Troubleshooting - KDC_ERR_PREAUTH_FAILED
-
-Investigate:
-
-```text
-Credential
-AES Key
-NT Hash
-Account
-Realm
-Encryption Type
-```
-
-Do not assume the KDC itself is unavailable.
-
----
-
-# Troubleshooting - KDC_ERR_S_PRINCIPAL_UNKNOWN
-
-Investigate:
+# "I Found an SPN - What Next?"
 
 ```text
 SPN
-Hostname
-FQDN
-Service Name
-DNS
-Realm
+ |
+ v
+Identify Account
+ |
+ v
+Identify Service
+ |
+ v
+Check Account Privilege
+ |
+ v
+Check Credential Management
+ |
+ v
+Is Ticket Request Required?
+ |
+ v
+Controlled Validation
+ |
+ v
+Assess Password Resilience If Authorised
 ```
 
-Kerberos is service-principal oriented.
 
----
+# "I Found an Account Without Preauthentication"
 
-# Troubleshooting - KRB_AP_ERR_SKEW
+```text
+Account
+   |
+   v
+Confirm Configuration
+   |
+   v
+Determine Account Status
+   |
+   v
+Determine Privilege
+   |
+   v
+Understand Business Reason
+   |
+   v
+Controlled AS-REP Assessment
+   |
+   v
+Remediation
+```
+
+
+# "I Have Local Admin"
+
+Do not automatically run:
+
+```text
+secretsdump
+
+psexec
+
+smbexec
+
+wmiexec
+
+atexec
+```
+
+Instead:
+
+```text
+Local Admin
+    |
+    v
+What Is the Objective?
+    |
+    +--> Prove Admin Access?
+    |       |
+    |       v
+    |    Already Proven
+    |
+    +--> Review Credential Exposure?
+    |       |
+    |       v
+    |    Controlled Credential Assessment
+    |
+    +--> Validate Remote Management?
+    |       |
+    |       v
+    |    Select One Method
+    |
+    +--> Collect Host Evidence?
+            |
+            v
+         Minimal Queries
+```
+
+
+# "I Have SQL Credentials"
+
+```text
+SQL Credential
+     |
+     v
+Authenticate
+     |
+     v
+SYSTEM_USER
+     |
+     v
+Server Role
+     |
+     v
+Accessible Databases
+     |
+     v
+Linked Servers
+     |
+     v
+Determine Actual Privilege
+```
+
+
+# Candidate vs Confirmed
+
+Impacket output should be interpreted in stages.
+
+## Candidate
+
+Examples:
+
+```text
+SPN identified
+
+Account without preauthentication identified
+
+RPC endpoint exposed
+
+SQL server reachable
+
+Administrative credential available
+```
+
+These indicate something worth investigating.
+
+
+## Likely
+
+Examples:
+
+```text
+Account has SPN and weak credential policy
+
+Administrative credential authenticates to target
+
+SQL login has elevated server role
+
+Sensitive credential store is accessible
+```
+
+
+## Confirmed
+
+A controlled test demonstrates the actual security consequence.
+
+Examples:
+
+```text
+Authorised account successfully performs the relevant
+administrative action.
+
+Controlled credential analysis demonstrates that a service
+account uses weak password-derived material.
+
+SQL role query confirms sysadmin membership.
+```
+
+
+# Common Errors
+
+# `KRB_AP_ERR_SKEW`
+
+Meaning:
+
+```text
+Clock difference between client and Kerberos infrastructure
+is too large.
+```
 
 Check:
 
@@ -2374,1786 +2205,1418 @@ Check:
 date
 ```
 
-Compare against the domain environment.
+Then compare against the domain environment.
 
-This error commonly indicates clock skew.
 
----
+# `KDC_ERR_PREAUTH_FAILED`
 
-# Troubleshooting - Kerberos Uses IP
+Possible causes:
+
+```text
+Incorrect password
+
+Incorrect key
+
+Wrong principal
+
+Wrong realm
+
+Authentication mismatch
+```
+
+
+# `KDC_ERR_C_PRINCIPAL_UNKNOWN`
+
+Possible causes:
+
+```text
+Incorrect username
+
+Incorrect realm
+
+Principal does not exist
+
+Naming issue
+```
+
+
+# `KDC_ERR_S_PRINCIPAL_UNKNOWN`
+
+Often related to:
+
+```text
+Incorrect SPN
+
+Wrong hostname
+
+DNS issue
+
+Service principal not registered
+```
+
+
+# `STATUS_LOGON_FAILURE`
+
+Possible causes:
+
+```text
+Incorrect username
+
+Incorrect password/hash
+
+Wrong domain
+
+Authentication restriction
+```
+
+
+# `STATUS_ACCOUNT_LOCKED_OUT`
+
+Stop testing that account.
+
+Do not repeatedly retry credentials.
+
+
+# `STATUS_ACCESS_DENIED`
+
+This often means:
+
+```text
+Authentication succeeded
+```
+
+but:
+
+```text
+Requested action is not authorised
+```
+
+Separate authentication from authorisation.
+
+
+# `rpc_s_access_denied`
+
+The account does not have sufficient permission for the requested RPC operation.
+
+This is not necessarily an authentication failure.
+
+
+# `Connection Refused`
+
+Possible causes:
+
+```text
+Service not listening
+
+Firewall
+
+Wrong port
+
+Wrong host
+
+Service disabled
+```
+
+
+# `Name or Service Not Known`
+
+Check:
+
+```bash
+getent hosts target.corp.local
+```
+
+```bash
+dig target.corp.local
+```
+
+DNS problems are especially important with Kerberos.
+
+
+# Kerberos Works by Hostname but Not IP
+
+This can be expected.
+
+Kerberos uses service principal names that are normally associated with hostnames.
+
+Prefer correct DNS names for Kerberos workflows.
+
+
+# Ticket Not Found
+
+Check:
+
+```bash
+echo "$KRB5CCNAME"
+```
+
+Then:
+
+```bash
+ls -l "$KRB5CCNAME"
+```
+
+if the variable contains a direct file path.
+
+Finally:
+
+```bash
+klist
+```
+
+
+# Expired Ticket
+
+`klist` shows ticket validity.
+
+Do not troubleshoot network connectivity when the actual problem is simply an expired credential cache.
+
+
+# Special Characters Break Target String
+
+Use quoting:
+
+```bash
+'impacket-target-string'
+```
+
+rather than leaving shell-sensitive characters unquoted.
+
+
+# Old Impacket Writeup Does Not Work
+
+Check:
+
+```bash
+python3 -m pip show impacket
+```
+
+Then:
+
+```bash
+impacket-<tool> -h
+```
+
+Old examples may use different:
+
+```text
+Executable names
+
+Arguments
+
+Authentication flags
+
+Target formats
+```
+
+
+# Tool Selection Guide
+
+| Objective | Consider |
+|---|---|
+| List SMB shares | `smbclient` |
+| Enumerate SPNs | `GetUserSPNs` |
+| Assess no-preauth users | `GetNPUsers` |
+| Request TGT | `getTGT` |
+| Work with service tickets | `getST` |
+| Convert ticket format | `ticketConverter` |
+| Enumerate SIDs | `lookupsid` |
+| Enumerate RPC endpoints | `rpcdump` |
+| Query SAMR information | `samrdump` |
+| Connect to MSSQL | `mssqlclient` |
+| Validate WMI administration | `wmiexec` |
+| Validate service-based administration | `psexec` / `smbexec` |
+| Validate scheduled-task administration | `atexec` |
+| Validate DCOM administration | `dcomexec` |
+| Assess sensitive credential stores | `secretsdump` |
+
+
+# Do Not Default to the Most Powerful Tool
+
+Example:
+
+```text
+Question:
+Can this user read the Finance share?
+```
+
+Use:
+
+```text
+SMB client
+```
+
+not:
+
+```text
+secretsdump
+```
+
+Another example:
+
+```text
+Question:
+Does this account have SQL sysadmin?
+```
+
+Use:
+
+```text
+mssqlclient
++
+SELECT IS_SRVROLEMEMBER('sysadmin');
+```
+
+not:
+
+```text
+Remote OS execution
+```
+
+Match the validation to the question.
+
+
+# Evidence Collection
+
+For each important Impacket test record:
+
+```text
+Test ID
+
+Timestamp
+
+Tool
+
+Impacket version
+
+Source system
+
+Target system
+
+Domain
+
+Account
+
+Protocol
+
+Objective
+
+Command
+
+Relevant output
+
+Interpretation
+
+Security consequence
+
+Cleanup
+```
+
+
+# Example Evidence Record
+
+```text
+Test ID:
+AD-IMP-003
+
+Timestamp:
+2026-09-06 15:20 UTC
+
+Tool:
+Impacket GetUserSPNs
+
+Version:
+<installed version>
+
+Source:
+Assessment workstation
+
+Target:
+DC01 / 10.10.10.10
+
+Domain:
+corp.local
+
+Identity:
+CORP\asif
+
+Objective:
+Identify domain accounts associated with Service Principal Names.
+
+Command:
+impacket-GetUserSPNs 'corp.local/asif:<REDACTED>' -dc-ip 10.10.10.10
+
+Result:
+svc_sql associated with MSSQLSvc/sql01.corp.local:1433.
+
+Interpretation:
+The account is associated with an MSSQL service principal and
+is therefore relevant to the Kerberos service-account review.
+
+Security Conclusion:
+No password weakness or account compromise is established by
+SPN enumeration alone.
+```
+
+
+# Evidence for Remote Administration
+
+Record:
+
+```text
+Account
+
+Target
+
+Protocol/mechanism
+
+Authentication result
+
+Privilege demonstrated
+
+Command used
+
+Minimal output
+
+Any artefacts created
+
+Cleanup performed
+```
+
+
+# Evidence for Credential Access
+
+Do not preserve unnecessary credential material.
 
 Prefer:
 
 ```text
-server01.example.local
+Credential store access confirmed.
+2 local account hashes were accessible.
+Values redacted.
 ```
 
-over:
+rather than including the reusable secrets.
+
+
+# Evidence for Kerberos
+
+Useful fields:
 
 ```text
-10.10.20.25
+Principal
+
+Realm
+
+SPN
+
+Ticket type
+
+Target service
+
+Timestamp
+
+Relevant configuration
+
+Result
 ```
 
-for Kerberos-oriented operations where possible.
+Avoid publishing complete reusable tickets.
 
-SPNs are normally hostname/service based.
 
----
+# Reporting Example - Service Account
 
-# Troubleshooting - SMB Works, WMI Fails
+Avoid:
 
-Think:
+> `GetUserSPNs` found `svc_sql`, therefore the account is vulnerable to Kerberoasting.
+
+Prefer:
+
+> The domain account `CORP\svc_sql` is associated with the MSSQL service principal `MSSQLSvc/sql01.corp.local:1433`. This makes the account eligible for normal Kerberos service-ticket issuance. The security impact depends on the strength and management of the account credential and the privileges assigned to the service account. Further controlled validation should therefore focus on password resilience and account privilege rather than treating the SPN itself as a vulnerability.
+
+
+# Reporting Example - No Preauthentication
+
+Prefer:
+
+> The account `CORP\legacy_service` is configured so that Kerberos preauthentication is not required. This configuration permits an unauthenticated requester to obtain password-derived authentication material for offline analysis. Review whether the configuration remains necessary and ensure the account uses a sufficiently strong managed credential.
+
+
+# Reporting Example - Administrative Access
+
+Prefer:
+
+> The supplied domain credential successfully established a WMI-based administrative session on `SRV01`. This confirms that the account has sufficient remote-management privileges on the server. Review identified that the privilege is inherited through the `Server-Admins` domain group.
+
+
+# Reporting Example - SQL Privilege
+
+Prefer:
+
+> The tested domain account successfully authenticated to `SQL01` using Windows authentication. A direct server-role query returned `1` for `IS_SRVROLEMEMBER('sysadmin')`, confirming that the account is a member of the SQL Server `sysadmin` role.
+
+
+# Reporting Example - Credential Store Access
+
+Prefer:
+
+> Controlled validation confirmed that local administrative access to `SRV01` permits access to sensitive local credential material. Reusable credential values were not included in the report. This increases the impact of compromise of accounts with local administrative privileges and reinforces the need for unique managed local credentials and protection of privileged logon sessions.
+
+
+# Remediation - Kerberoasting
+
+Focus on:
 
 ```text
-SMB Authentication
-        |
-        v
-Credential Valid
+Long, high-entropy service-account passwords
+
+gMSA where appropriate
+
+Least privilege
+
+Remove unnecessary SPNs
+
+Reduce service-account privileges
+
+Monitor abnormal service-ticket activity
+
+Review legacy service identities
 ```
 
-but WMI additionally needs:
+
+# Remediation - AS-REP
+
+Focus on:
 
 ```text
+Require Kerberos preauthentication
+
+Use strong managed credentials
+
+Review why the setting was disabled
+
+Remove stale accounts
+
+Restrict service-account privilege
+```
+
+
+# Remediation - Administrative Access
+
+Focus on:
+
+```text
+Least privilege
+
+Separate administrative accounts
+
+Tiered administration
+
+Restrict remote administration
+
+Review local administrator membership
+
+Use Windows LAPS
+
+Reduce credential reuse
+```
+
+
+# Remediation - Credential Exposure
+
+Focus on:
+
+```text
+Windows LAPS
+
+gMSA
+
+Credential Guard
+
+Privileged access workstations
+
+Administrative tiering
+
+Limit privileged sessions
+
+Reduce local administrator access
+
+Monitor credential-access behaviour
+```
+
+
+# Remediation - SQL
+
+Focus on:
+
+```text
+Least privilege
+
+Remove unnecessary sysadmin membership
+
+Separate application and administrative identities
+
+Review linked servers
+
+Restrict remote SQL exposure
+
+Use managed service identities where appropriate
+
+Audit privileged SQL operations
+```
+
+
+# Retesting
+
+A retest should verify the root cause.
+
+## Kerberos Preauthentication
+
+Original:
+
+```text
+legacy_service
+    |
+    v
+Preauthentication disabled
+```
+
+Retest:
+
+```text
+1. Re-query account configuration.
+2. Confirm preauthentication is required.
+3. Confirm the previous AS-REP condition is no longer present.
+```
+
+
+# Service Account Password
+
+Original:
+
+```text
+Service Account
+     |
+     v
+Weak Password
+```
+
+Retest:
+
+```text
+1. Confirm credential rotation.
+2. Confirm password-management mechanism.
+3. Verify account privilege was reviewed.
+4. Repeat only the minimum authorised password-resilience test if required.
+```
+
+
+# Administrative Access
+
+Original:
+
+```text
+CORP\asif
+    |
+    v
+Admin on SRV01
+```
+
+After remediation:
+
+```text
+1. Validate normal authentication if still expected.
+2. Confirm administrative remote-management action is denied.
+3. Confirm group/policy assignment has been removed.
+```
+
+
+# SQL Privilege
+
+Original:
+
+```sql
+SELECT IS_SRVROLEMEMBER('sysadmin');
+```
+
+Result:
+
+```text
+1
+```
+
+After remediation, repeat the same query.
+
+Expected:
+
+```text
+0
+```
+
+assuming sysadmin membership was the issue being remediated.
+
+
+# Detection Perspective
+
+Impacket activity can generate telemetry across:
+
+```text
+Domain controllers
+
+Windows Security logs
+
+SMB
+
+Kerberos
+
 RPC
-DCOM
-WMI Namespace Access
-Firewall
-Dynamic RPC
-Appropriate Permissions
+
+WMI
+
+Service Control Manager
+
+Task Scheduler
+
+MSSQL
+
+EDR
+
+Network monitoring
+
+SIEM
 ```
 
-Therefore:
+
+# Useful Windows Events
+
+| Event ID | General Area |
+|---:|---|
+| 4624 | Successful logon |
+| 4625 | Failed logon |
+| 4648 | Explicit credentials |
+| 4672 | Special privileges assigned |
+| 4688 | Process creation |
+| 4697 | Service installation |
+| 4698 | Scheduled task created |
+| 4768 | Kerberos TGT request |
+| 4769 | Kerberos service-ticket request |
+| 4771 | Kerberos preauthentication failure |
+| 4776 | NTLM credential validation |
+
+Telemetry depends on:
 
 ```text
-SMB success != WMI success
+Audit policy
+
+Operating system
+
+Protocol
+
+Tool
+
+Target role
+
+EDR configuration
+
+SIEM collection
 ```
 
----
 
-# Troubleshooting - SMB Works, psexec Fails
+# Kerberoasting Detection Questions
 
-Investigate:
+During controlled purple-team validation ask:
 
 ```text
-Administrative Rights
-Service Control Manager Access
-ADMIN$ Access
-SMB Configuration
-UAC Remote Restrictions
-Endpoint Security
+Was the service-ticket request logged?
+
+Which account requested it?
+
+Which service account was targeted?
+
+Which encryption type was used?
+
+Was the volume unusual?
+
+Did a detection fire?
+
+Could the SOC distinguish normal application traffic from suspicious enumeration?
 ```
 
----
 
-# Troubleshooting - DNS
+# AS-REP Detection Questions
+
+Ask:
+
+```text
+Was the Kerberos request visible?
+
+Was the account identified?
+
+Was preauthentication state visible?
+
+Did the SOC detect unusual requests?
+
+Could analysts identify the source?
+```
+
+
+# Remote Administration Detection Questions
+
+For WMI/service/task/DCOM-based validation ask:
+
+```text
+Was authentication visible?
+
+Was the source host visible?
+
+Was the account visible?
+
+Was remote process execution visible?
+
+Was service creation visible?
+
+Was task creation visible?
+
+Did EDR alert?
+
+Could analysts reconstruct the complete sequence?
+```
+
+
+# Credential Access Detection Questions
+
+Ask:
+
+```text
+Was sensitive process access visible?
+
+Were registry/service interactions visible?
+
+Was credential-store access detected?
+
+Was remote administrative activity correlated?
+
+Did the SOC identify the affected account and host?
+```
+
+
+# Impacket Operational Safety Checklist
+
+Before a test:
+
+```text
+[ ] Target is in scope
+[ ] Account is authorised
+[ ] Objective is clear
+[ ] Tool version checked
+[ ] Help reviewed
+[ ] DNS verified
+[ ] Time verified for Kerberos
+[ ] Potential system changes understood
+[ ] Sensitive-data handling understood
+[ ] Cleanup understood
+```
+
+
+# Impacket Assessment Checklist
+
+## Environment
+
+- [ ] Domain identified
+- [ ] Domain controller identified
+- [ ] DNS functioning
+- [ ] Time synchronisation checked
+- [ ] Target hostnames known
+- [ ] Scope confirmed
+
+## Tooling
+
+- [ ] Impacket version recorded
+- [ ] Installed command names confirmed
+- [ ] Relevant `-h` output reviewed
+- [ ] Old writeup syntax not assumed
+
+## SMB
+
+- [ ] SMB target identified
+- [ ] Authentication validated where required
+- [ ] Shares reviewed
+- [ ] Share permissions interpreted
+- [ ] Writable shares investigated in context
+- [ ] Sensitive files handled appropriately
+
+## RPC
+
+- [ ] SID enumeration considered where relevant
+- [ ] RPC endpoints considered
+- [ ] SAMR information considered
+- [ ] Enumeration distinguished from vulnerability
+
+## Kerberos
+
+- [ ] SPNs reviewed
+- [ ] Service accounts identified
+- [ ] Account privilege reviewed
+- [ ] Preauthentication configuration reviewed
+- [ ] TGT context understood
+- [ ] Ticket cache inspected
+- [ ] Delegation relationships understood before service-ticket operations
+- [ ] Hostnames used correctly
+- [ ] Clock skew considered
+
+## Credential Material
+
+- [ ] Password use kept narrow
+- [ ] NTLM hash use kept narrow
+- [ ] Kerberos ticket context understood
+- [ ] Real secrets excluded from reports
+- [ ] Sensitive evidence protected
+
+## Remote Administration
+
+- [ ] Need for remote execution established
+- [ ] Appropriate mechanism selected
+- [ ] WMI considered
+- [ ] Service-based execution considered carefully
+- [ ] Task-based execution considered carefully
+- [ ] DCOM considered
+- [ ] Artefacts understood
+- [ ] Cleanup completed
+
+## MSSQL
+
+- [ ] Authentication validated
+- [ ] Current identity queried
+- [ ] Current database identified
+- [ ] SQL role checked
+- [ ] Linked servers considered
+- [ ] OS privilege not assumed
+- [ ] Database privilege documented accurately
+
+## Secrets
+
+- [ ] Credential extraction explicitly authorised
+- [ ] Need established
+- [ ] Target sensitivity considered
+- [ ] DC actions treated as high impact
+- [ ] Collection minimised
+- [ ] Secrets redacted
+- [ ] Evidence protected
+
+## Interpretation
+
+- [ ] Candidate distinguished from confirmed issue
+- [ ] Authentication distinguished from authorisation
+- [ ] SPN not treated as vulnerability by itself
+- [ ] Ticket issuance not treated as compromise
+- [ ] Administrative privilege independently understood
+- [ ] Root cause identified
+
+## Evidence
+
+- [ ] Timestamp recorded
+- [ ] Tool recorded
+- [ ] Version recorded
+- [ ] Source recorded
+- [ ] Target recorded
+- [ ] Account recorded
+- [ ] Command recorded
+- [ ] Credentials redacted
+- [ ] Relevant output captured
+- [ ] Interpretation written
+- [ ] Cleanup recorded
+
+## Retest
+
+- [ ] Original condition identified
+- [ ] Remediation confirmed
+- [ ] Same narrow validation repeated
+- [ ] Security consequence no longer reproducible
+- [ ] Evidence captured
+
+
+# Quick Command Reference
+
+## Version
 
 ```bash
-dig "$DC"
+python3 -m pip show impacket
+```
+
+## Installed Tools
+
+```bash
+compgen -c | grep '^impacket-' | sort -u
+```
+
+## SMB Client
+
+```bash
+impacket-smbclient 'corp.local/asif:Password123!@10.10.10.20'
+```
+
+## SID Enumeration
+
+```bash
+impacket-lookupsid 'corp.local/asif:Password123!@10.10.10.10'
+```
+
+## RPC Endpoints
+
+```bash
+impacket-rpcdump 10.10.10.20
+```
+
+## SAMR Query
+
+```bash
+impacket-samrdump 'corp.local/asif:Password123!@10.10.10.20'
+```
+
+## SPN Enumeration
+
+```bash
+impacket-GetUserSPNs 'corp.local/asif:Password123!' -dc-ip 10.10.10.10
+```
+
+## No-Preauthentication Review
+
+```bash
+impacket-GetNPUsers -h
+```
+
+## Request TGT
+
+```bash
+impacket-getTGT 'corp.local/asif:Password123!' -dc-ip 10.10.10.10
+```
+
+## Ticket Cache
+
+```bash
+export KRB5CCNAME=/path/to/asif.ccache
+klist
+```
+
+## Service-Ticket Tool
+
+```bash
+impacket-getST -h
+```
+
+## Ticket Conversion
+
+```bash
+impacket-ticketConverter -h
+```
+
+## WMI Administration
+
+```bash
+impacket-wmiexec 'corp.local/asif:Password123!@10.10.10.20'
+```
+
+## PSExec Help
+
+```bash
+impacket-psexec -h
+```
+
+## SMBExec Help
+
+```bash
+impacket-smbexec -h
+```
+
+## ATExec Help
+
+```bash
+impacket-atexec -h
+```
+
+## DCOMExec Help
+
+```bash
+impacket-dcomexec -h
+```
+
+## MSSQL
+
+```bash
+impacket-mssqlclient 'corp.local/asif:Password123!@10.10.10.30' -windows-auth
+```
+
+## SecretsDump Help
+
+```bash
+impacket-secretsdump -h
+```
+
+
+# Quick SQL Queries
+
+Current identity:
+
+```sql
+SELECT SYSTEM_USER;
+```
+
+Server:
+
+```sql
+SELECT @@SERVERNAME;
+```
+
+Version:
+
+```sql
+SELECT @@VERSION;
+```
+
+Current database:
+
+```sql
+SELECT DB_NAME();
+```
+
+Sysadmin:
+
+```sql
+SELECT IS_SRVROLEMEMBER('sysadmin');
+```
+
+
+# Quick Kerberos Troubleshooting
+
+```bash
+date
 ```
 
 ```bash
-dig SRV "_ldap._tcp.dc._msdcs.$DOMAIN"
+klist
 ```
-
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
----
-
-# Troubleshooting - Ticket Cache
 
 ```bash
 echo "$KRB5CCNAME"
 ```
 
 ```bash
-klist
+getent hosts dc01.corp.local
 ```
-
-Check:
-
-```text
-Principal
-Realm
-Service
-Start Time
-Expiry
-Renewal
-```
-
----
-
-# Authentication != Authorisation
-
-Always remember:
-
-```text
-SMB Authentication
-        !=
-Local Administrator
-
-Local Administrator
-        !=
-Domain Administrator
-
-SMB Authentication
-        !=
-WMI Access
-
-SMB Authentication
-        !=
-SCM Access
-
-SMB Authentication
-        !=
-Remote Registry Access
-
-LDAP Authentication
-        !=
-Write Access
-
-Kerberos Ticket
-        !=
-Access to Every Service
-```
-
----
-
-# Domain vs Local Accounts
-
-Always distinguish:
-
-```text
-EXAMPLE\alice
-```
-
-from:
-
-```text
-FILE01\alice
-```
-
-Same username does not mean same security principal.
-
----
-
-# Credential Type Model
-
-```text
-Password
-   |
-NTLM Hash
-   |
-AES Key
-   |
-Kerberos Ticket
-   |
-Certificate
-```
-
-All can represent authentication capability.
-
-Protect them accordingly.
-
----
-
-# Evidence Directory
-
-Create:
 
 ```bash
-mkdir -p evidence/impacket/{ldap,kerberos,smb,rpc,mssql,delegation,credentials,remote-access,relay}
+dig _kerberos._tcp.corp.local SRV
 ```
-
-Result:
-
-```text
-evidence/
-└── impacket/
-    ├── ldap/
-    ├── kerberos/
-    ├── smb/
-    ├── rpc/
-    ├── mssql/
-    ├── delegation/
-    ├── credentials/
-    ├── remote-access/
-    └── relay/
-```
-
----
-
-# Save Output
-
-Example:
 
 ```bash
-impacket-GetADUsers \
-    "$DOMAIN/$USER" \
-    -dc-ip "$DC_IP" \
-    -all |
-    tee evidence/impacket/ldap/users.txt
+dig _ldap._tcp.dc._msdcs.corp.local SRV
 ```
 
-Avoid putting credentials directly in screenshots or evidence filenames.
 
----
+# Quick Interpretation Table
 
-# Evidence Record
+| Observation | What It Proves | What It Does Not Prove |
+|---|---|---|
+| SPN returned | Account is associated with a service principal | Weak password |
+| No-preauth account | Kerberos preauthentication is not required | Password recovered |
+| TGT obtained | Kerberos authentication context obtained | Administrative privilege |
+| SMB share listed | Account can enumerate/access that share as shown | Admin access |
+| NTLM hash accepted | Hash material authenticates in tested context | Plaintext password known |
+| WMI session succeeds | Remote WMI administration is permitted | Domain Admin |
+| SQL login succeeds | SQL authentication succeeded | SQL sysadmin |
+| `IS_SRVROLEMEMBER('sysadmin') = 1` | Current SQL identity is sysadmin | Windows/domain admin |
+| Credential store accessible | Tested privilege exposes sensitive credentials | Every recovered credential is reusable |
+| RPC endpoint exists | RPC interface is exposed | Vulnerability exists |
 
-For an important result record:
+
+# Impacket Decision Tree
 
 ```text
-Timestamp:
-Source:
-Target:
-Target IP:
-Domain:
-Identity:
-Authentication Type:
-Protocol:
-Tool:
-Operation:
-Observed Result:
-Privileges Required:
-State Changed:
-Security Impact:
-```
-
----
-
-# Timestamp
-
-```bash
-date -Is
-```
-
-This helps correlate testing with:
-
-```text
-Windows Event Logs
-EDR
-SIEM
-Firewall Logs
-Domain Controller Logs
-SOC Alerts
-```
-
----
-
-# New Credential Workflow
-
-```text
-NEW CREDENTIAL
-      |
-      v
-Password / Hash / Ticket / Key?
-      |
-      v
-Domain or Local?
-      |
-      v
-Validate Carefully
-      |
-      +--> SMB
-      +--> LDAP
-      +--> Kerberos
-      +--> MSSQL
-      |
-      v
-Enumerate Identity
-      |
-      v
-Enumerate SPNs
-      |
-      v
-Enumerate Delegation
-      |
-      v
-Check Shares
-      |
-      v
-Update BloodHound
-      |
-      v
-Map Administrative Access
-```
-
----
-
-# New Host Workflow
-
-```text
-NEW HOST
-   |
-   v
-Resolve Hostname
-   |
-   v
-SMB?
-   |
-   +--> Shares
-   +--> Signing
-   |
-   v
-RPC?
-   |
-   +--> WMI
-   +--> DCOM
-   +--> SCM
-   |
-   v
-MSSQL?
-   |
-   v
-Credentials Valid?
-   |
-   v
-Administrative?
-   |
-   v
-New Relationships?
-```
-
----
-
-# New Domain Workflow
-
-```text
-NEW DOMAIN
-    |
-    v
-DNS
-    |
-    v
-Find DCs
-    |
-    v
-Understand Trust
-    |
-    v
-Users
-    |
-    v
-Computers
-    |
-    v
-SPNs
-    |
-    v
-Delegation
-    |
-    v
-BloodHound
-    |
-    v
-Cross-Domain Relationships
-```
-
----
-
-# Unauthenticated Internal Workflow
-
-From an internal network with no domain credentials:
-
-```text
-Network Position
-      |
-      v
-Nmap / NetExec
-      |
-      v
-Identify Windows Hosts
-      |
-      v
-Identify Domain
-      |
-      v
-Identify DC
-      |
-      v
-DNS
-      |
-      v
-SMB / RPC Exposure
-      |
-      v
-Determine Whether Anonymous
-Enumeration Is Available
-      |
-      v
-Obtain Approved Credential
-```
-
-Impacket is most useful once a specific protocol, identity or target relationship has been identified.
-
----
-
-# Authenticated Domain User Workflow
-
-```text
-Domain User
-    |
-    v
-GetADUsers
-    |
-    v
-GetADComputers
-    |
-    v
-GetUserSPNs
-    |
-    v
-findDelegation
-    |
-    v
-LAPS / GPP Review
-where authorised
-    |
-    v
-Shares
-    |
-    v
-BloodHound
-    |
-    v
-Candidate Paths
-    |
-    v
-Focused Impacket Validation
-```
-
----
-
-# Local Administrator Workflow
-
-```text
-Local Administrator
-       |
-       v
-Which Host?
-       |
-       v
-Credential Reused?
-       |
-       v
-Remote Management Available?
-       |
-       v
-Expected?
-       |
-       v
-Controlled Validation
-```
-
-Do not automatically perform credential dumping or remote execution.
-
----
-
-# Domain Privileged Identity Workflow
-
-Highly privileged credentials should be used sparingly.
-
-```text
-Privileged Identity
-       |
-       v
-What Must Be Proven?
-       |
-       v
-Can a Lower Privileged
-Account Prove It?
-       |
-   +---+---+
-   |       |
-  Yes      No
-   |       |
-   v       v
-Use Low   Targeted
-Privilege Validation
-```
-
-Avoid unnecessarily authenticating Domain Admin-equivalent identities to workstations.
-
----
-
-# What Do I Have?
-
-## I Have a Username
-
-Consider:
-
-```text
-GetADUsers
-GetNPUsers
-lookupsid
-```
-
-depending on authentication availability and scope.
-
----
-
-# I Have a Domain User
-
-Start with:
-
-```text
-GetADUsers
-GetADComputers
-GetUserSPNs
-findDelegation
-smbclient
-BloodHound
-```
-
-Then investigate only the relationships that matter.
-
----
-
-# I Have an NTLM Hash
-
-Ask:
-
-```text
-Which account?
-Local or domain?
-Which hosts?
-Is hash authentication permitted?
-Is Kerberos preferable?
-```
-
-Do not spray the hash across the entire environment by default.
-
----
-
-# I Have a Kerberos Ticket
-
-Check:
-
-```bash
-klist
-```
-
-Determine:
-
-```text
-TGT or TGS?
-Which principal?
-Which service?
-Which realm?
-Expiry?
-```
-
-Then choose a tool that supports:
-
-```text
--k -no-pass
-```
-
-where appropriate.
-
----
-
-# I Have Local Admin
-
-Ask:
-
-```text
-What needs to be validated?
-```
-
-Possible protocol areas:
-
-```text
-SMB
-SCM
-WMI
-DCOM
-Task Scheduler
-Remote Registry
-```
-
-Credential dumping should remain a separate explicit decision.
-
----
-
-# I Have an Interesting BloodHound Edge
-
-Use:
-
-```text
-BloodHound Edge
-      |
-      v
-Read Edge Documentation
-      |
-      v
-Understand Required Right
-      |
-      v
-Check Identity
-      |
-      v
-Check Target
-      |
-      v
-Choose Relevant Impacket Tool
-      |
-      v
-Read-Only Validation First
-```
-
----
-
-# I Have WriteDACL
-
-Investigate:
-
-```text
-Which object?
-Which identity?
-Inherited?
-Explicit?
-Which rights can be delegated?
-Is modification authorised?
-```
-
-`dacledit` may be relevant for inspection.
-
-Do not alter a production ACL simply to prove the permission exists.
-
----
-
-# I Have WriteOwner
-
-Investigate ownership and DACL implications.
-
-`owneredit` may be relevant.
-
-Again, read-only confirmation is preferable where sufficient.
-
----
-
-# I Have RBCD-Related Rights
-
-Investigate:
-
-```text
-Controlled Principal
-Target Computer
-MachineAccountQuota
-Existing Computer Accounts
-msDS-AllowedToActOnBehalfOfOtherIdentity
-S4U Prerequisites
-```
-
-Use the dedicated RBCD note.
-
----
-
-# I Have MSSQL Credentials
-
-Use:
-
-```text
-mssqlclient
-```
-
-to determine:
-
-```text
-Authentication
-Database Access
-Roles
-Linked Servers
-Server Context
-```
-
-Do not immediately enable OS-level command execution.
-
----
-
-# I Have a Service Account
-
-Investigate:
-
-```text
-SPNs
-Privileges
-Delegation
-Password Age
-Group Membership
-Logon Rights
-Where Account Is Used
-```
-
-Use BloodHound and directory enumeration before attempting further operations.
-
----
-
-# Fast Enumeration Workflow
-
-Assume:
-
-```text
-Domain: example.local
-DC: dc01.example.local
-DC IP: 10.10.20.10
-User: alice
-```
-
-Users:
-
-```bash
-impacket-GetADUsers \
-    example.local/alice \
-    -dc-ip 10.10.20.10 \
-    -all
-```
-
-Computers:
-
-```bash
-impacket-GetADComputers \
-    example.local/alice \
-    -dc-ip 10.10.20.10
-```
-
-SPNs:
-
-```bash
-impacket-GetUserSPNs \
-    example.local/alice \
-    -dc-ip 10.10.20.10
-```
-
-Delegation:
-
-```bash
-impacket-findDelegation \
-    example.local/alice \
-    -dc-ip 10.10.20.10
-```
-
-SIDs:
-
-```bash
-impacket-lookupsid \
-    example.local/alice@dc01.example.local
-```
-
-Then:
-
-```text
-Review
-  |
-  v
-BloodHound
-  |
-  v
-Candidate Relationships
-  |
-  v
-Focused Validation
-```
-
----
-
-# Operational Noise
-
-Do not use simplistic labels such as:
-
-```text
-Tool X = stealthy
-Tool Y = noisy
-```
-
-Detection depends on:
-
-```text
-Windows Version
-Security Configuration
-EDR
-SIEM
-Audit Policy
-Network Monitoring
-Identity
-Command
-Target
-Tool Version
-```
-
-Instead document the mechanism.
-
----
-
-# Common Telemetry Areas
-
-Depending on the operation, defenders may observe:
-
-```text
-Authentication Events
-Kerberos Events
-SMB Connections
-Service Creation
-Scheduled Task Creation
-WMI Activity
-DCOM Activity
-LDAP Queries
-Directory Changes
-Directory Replication
-Remote Registry
-Process Creation
-Network Connections
-```
-
----
-
-# Read Before Write
-
-For tools that support modification, prefer:
-
-```text
-Read
- |
- v
-Understand
- |
- v
-Document
- |
- v
-Determine Whether Modification
-Is Necessary
- |
- +---+---+
- |       |
-No      Yes
- |       |
- v       v
-Stop   Obtain
-       Approval
-         |
-         v
-      Minimal
-      Change
-         |
-         v
-      Validate
-         |
-         v
-      Restore
-```
-
----
-
-# State-Changing Operations
-
-Treat these especially carefully:
-
-```text
-Password Changes
-ACL Changes
-Owner Changes
-RBCD Changes
-Machine Account Creation
-Service Creation
-Scheduled Tasks
-Ticket Creation
-Relay Actions
-Remote Execution
-```
-
-Document rollback before making the change.
-
----
-
-# Cleanup Checklist
-
-After state-changing tests:
-
-```text
-[ ] Temporary services removed
-[ ] Scheduled tasks removed
-[ ] Temporary accounts removed
-[ ] ACL changes restored
-[ ] Ownership restored
-[ ] RBCD changes restored
-[ ] Temporary files removed
-[ ] SMB server stopped
-[ ] Sensitive ticket files protected/deleted
-[ ] Credential dumps handled per retention policy
-[ ] Evidence retained securely
-```
-
----
-
-# Do Not Overreport
-
-Do not automatically report:
-
-```text
-SMB Is Open
-RPC Is Open
-LDAP Is Open
-An SPN Exists
-Delegation Exists
-A User Can Authenticate
-A Computer Object Exists
-LAPS Is Enabled
-MSSQL Is Reachable
-RDP Authentication Works
-A Kerberos Ticket Can Be Requested
-Impacket Can Connect
-```
-
-Instead determine:
-
-```text
-Configuration
-     +
-Identity
-     +
-Permission
-     +
-Reachability
-     +
-Security Boundary
-     +
-Impact
-     =
-Finding
-```
-
----
-
-# Examples of Better Interpretation
-
-## SPN
-
-Weak:
-
-```text
-Kerberoasting possible because an SPN exists.
-```
-
-Better:
-
-```text
-A service account has an SPN. Assess the account's password
-strength, age and privileges before determining whether the
-configuration creates meaningful offline password-guessing risk.
-```
-
----
-
-## Delegation
-
-Weak:
-
-```text
-Constrained delegation found.
-```
-
-Better:
-
-```text
-The account is configured for constrained delegation to the
-identified service. Determine who controls the account and whether
-the relationship permits an unintended privilege boundary to be crossed.
-```
-
----
-
-## SMB Authentication
-
-Weak:
-
-```text
-User can access SMB.
-```
-
-Better:
-
-```text
-The domain user successfully authenticated to SMB. Review accessible
-shares and permissions to determine whether the access exceeds the
-user's intended role.
-```
-
----
-
-## LAPS
-
-Weak:
-
-```text
-LAPS password accessible.
-```
-
-Better:
-
-```text
-The tested identity can read the managed local administrator
-credential for the specified computer. Determine whether this
-permission is expected for the identity and whether it creates an
-unintended administrative path.
-```
-
----
-
-## Replication Rights
-
-Weak:
-
-```text
-DCSync possible.
-```
-
-Better:
-
-```text
-The identity possesses directory replication rights capable of
-accessing domain credential material. This represents a domain-level
-security boundary and should be validated using the minimum evidence
-necessary.
-```
-
----
-
-# What Tool Do I Need?
-
-```text
-                         IMPACKET
-                            |
-       +--------------------+--------------------+
-       |                    |                    |
-       v                    v                    v
-   DIRECTORY             KERBEROS              SMB
-       |                    |                    |
-       +--> Users            +--> TGT             +--> Client
-       |    GetADUsers       |    getTGT           |    smbclient
-       |                    |                    |
-       +--> Computers        +--> Service          +--> Server
-       |    GetADComputers   |    Ticket           |    smbserver
-       |                    |    getST             |
-       +--> AS-REP           |                    |
-       |    GetNPUsers       +--> Convert          |
-       |                    |    ticketConverter  |
-       +--> SPNs             |                    |
-       |    GetUserSPNs      +--> Inspect          |
-       |                    |    describeTicket   |
-       +--> Delegation       |                    |
-       |    findDelegation   +--> PAC              |
-       |                    |    getPac            |
-       +--> LAPS                                  |
-       |    GetLAPSPassword                       |
-       |                                         |
-       +--> GPP                                   |
-            Get-GPPPassword                       |
-                                                  |
-       +--------------------+---------------------+
-                            |
-                            v
-                     REMOTE WINDOWS
-                            |
-          +-----------------+------------------+
-          |                 |                  |
-          v                 v                  v
-        Service            WMI                DCOM
-     psexec/smbexec      wmiexec            dcomexec
-          |
-          v
-     Task Scheduler
-        atexec
-
-
-                     ACTIVE DIRECTORY
-                            |
-          +-----------------+------------------+
-          |                 |                  |
-          v                 v                  v
-         ACL              Owner               RBCD
-       dacledit          owneredit             rbcd
-
-
-                        DATABASE
-                            |
-                            v
-                       MSSQL / TDS
-                            |
-                     +------+------+
-                     |             |
-                     v             v
-                Discovery       Client
-               mssqlinstance  mssqlclient
-
-
-                    CREDENTIAL ACCESS
-                            |
-                            v
-                       secretsdump
-
-
-                          RELAY
-                            |
-                            v
-                       ntlmrelayx
-```
-
----
-
-# One-Minute Reference
-
-```text
-Users
-    -> GetADUsers
-
-Computers
-    -> GetADComputers
-
-AS-REP
-    -> GetNPUsers
-
-SPNs
-    -> GetUserSPNs
-
-SIDs
-    -> lookupsid
-
-Delegation
-    -> findDelegation
-
-LAPS
-    -> GetLAPSPassword
-
-GPP
-    -> Get-GPPPassword
-
-RPC
-    -> rpcdump / rpcmap
-
-WMI query
-    -> wmiquery
-
-SMB files
-    -> smbclient
-
-SMB server
-    -> smbserver
-
-MSSQL
-    -> mssqlinstance / mssqlclient
-
-RDP auth
-    -> rdp_check
-
-TGT
-    -> getTGT
-
-Service ticket
-    -> getST
-
-Ticket conversion
-    -> ticketConverter
-
-Ticket inspection
-    -> describeTicket
-
-PAC
-    -> getPac
-
-ACL
-    -> dacledit
-
-Owner
-    -> owneredit
-
-RBCD
-    -> rbcd
-
-Credential access
-    -> secretsdump
-
-Service administration
-    -> psexec / smbexec
-
-WMI administration
-    -> wmiexec
-
-DCOM
-    -> dcomexec
-
-Task Scheduler
-    -> atexec
-
-NTLM relay
-    -> ntlmrelayx
-```
-
----
-
-# Assessment Checklist
-
-## Environment
-
-```text
-[ ] Impacket version
-[ ] Domain
-[ ] DC hostname
-[ ] DC IP
-[ ] DNS
-[ ] Time
-[ ] Routes
-[ ] Required ports
-```
-
-## Credentials
-
-```text
-[ ] Username
-[ ] Domain/local context
-[ ] Password or approved authentication material
-[ ] Hash format understood
-[ ] AES key protected
-[ ] Kerberos cache checked
-```
-
-## Enumeration
-
-```text
-[ ] Users
-[ ] Computers
-[ ] SPNs
-[ ] AS-REP configuration
-[ ] SIDs where relevant
-[ ] Delegation
-[ ] LAPS permissions
-[ ] Legacy GPP exposure
-[ ] SMB shares
-[ ] RPC where relevant
-[ ] MSSQL where relevant
-```
-
-## Kerberos
-
-```text
-[ ] DNS correct
-[ ] FQDN correct
-[ ] Time correct
-[ ] KDC reachable
-[ ] Ticket type understood
-[ ] KRB5CCNAME correct
-[ ] SPN correct
-[ ] Realm correct
-```
-
-## Active Directory Rights
-
-```text
-[ ] ACLs reviewed
-[ ] Ownership reviewed
-[ ] RBCD relationships reviewed
-[ ] Machine account rights reviewed
-[ ] Replication rights reviewed
-[ ] BloodHound relationships correlated
-```
-
-## Remote Administration
-
-```text
-[ ] Administrative rights confirmed
-[ ] Remote execution authorised
-[ ] Protocol chosen deliberately
-[ ] Operational impact understood
-[ ] State changes documented
-[ ] Cleanup defined
-```
-
-## Credential Access
-
-```text
-[ ] Explicitly authorised
-[ ] Target approved
-[ ] Sensitive-data handling defined
-[ ] Minimum evidence collected
-[ ] Storage protected
-[ ] Retention policy followed
-```
-
-## Relay
-
-```text
-[ ] Explicitly authorised
-[ ] Source understood
-[ ] Target understood
-[ ] Signing/protection reviewed
-[ ] Identity privilege understood
-[ ] State-changing action understood
-[ ] Impact validated
-```
-
----
-
-# Core Mental Model
-
-```text
-                       IMPACKET
-                          |
-                          v
-                       CONTEXT
-                          |
-             +------------+------------+
-             |                         |
-             v                         v
-          IDENTITY                   TARGET
-             |                         |
-             v                         v
-       AUTHENTICATION               PROTOCOL
-             |                         |
-    +--------+--------+       +--------+--------+
-    |        |        |       |        |        |
-    v        v        v       v        v        v
- Password   Hash   Kerberos   SMB     LDAP     RPC
-                      |                  |
-                      v                  |
-                    Ticket               |
-                      |                  |
-             +--------+--------+         |
-             |                 |         |
-             v                 v         |
-        ENUMERATION          ACCESS <----+
-             |                 |
-             v                 v
-       Relationships       Privilege
-             |                 |
-             +--------+--------+
-                      |
-                      v
-                   ANALYSE
-                      |
-                      v
-              READ-ONLY VALIDATION
-                      |
-                      v
-             STATE CHANGE NEEDED?
-                      |
-                 +----+----+
-                 |         |
-                No        Yes
-                 |         |
-                 v         v
-              Evidence   Approval
+                         START
                            |
                            v
-                        Minimal
-                         Change
+                     WHAT DO I HAVE?
+                           |
+        +------------------+------------------+
+        |                  |                  |
+        v                  v                  v
+     PASSWORD          NTLM HASH        KERBEROS TICKET
+        |                  |                  |
+        +------------------+------------------+
                            |
                            v
-                        Cleanup
+                   WHAT IS THE OBJECTIVE?
+                           |
+       +-------------------+-------------------+
+       |                   |                   |
+       v                   v                   v
+   ENUMERATION         AUTHENTICATION      ADMINISTRATION
+       |                   |                   |
+       v                   v                   v
+ GetUserSPNs          SMB / Kerberos      WMI / SMB / DCOM
+ GetNPUsers           MSSQL               Task / Service
+ lookupsid                |                   |
+ rpcdump                  |                   |
+       |                   |                   |
+       +-------------------+-------------------+
                            |
                            v
-                        Evidence
+                     RUN NARROW TEST
+                           |
+                           v
+                    INTERPRET RESULT
+                           |
+                           v
+                    WHAT DOES IT PROVE?
+                           |
+                           v
+                  MORE VALIDATION NEEDED?
+                       /          \
+                     No            Yes
+                     |              |
+                     v              v
+                  EVIDENCE     NEXT NARROW TEST
+                     |              |
+                     +------+-------+
+                            |
+                            v
+                          REPORT
+                            |
+                            v
+                         REMEDIATE
+                            |
+                            v
+                          RETEST
 ```
 
----
 
-# Rules to Remember
+# Complete Active Directory Workflow with Impacket
 
 ```text
-Tool output != vulnerability
-
-SPN != weak password
-
-Delegation != exploitable path
-
-SMB signing not required != successful relay
-
-Authentication != administration
-
-Local administrator != Domain Admin
-
-Ticket != access to every service
-
-Credential found != permission to dump more credentials
-
-Administrative access != permission to execute remotely
-
-Write permission != permission to modify production
-
-BloodHound edge != automatically exploitable path
-
-Successful Impacket command != security finding
+                    AUTHORISED DOMAIN ACCESS
+                             |
+                             v
+                       IDENTIFY DOMAIN
+                             |
+                             v
+                          FIND DC
+                             |
+                             v
+                      DNS / TIME CHECK
+                             |
+                             v
+                    VALIDATE CREDENTIAL
+                             |
+               +-------------+-------------+
+               |                           |
+               v                           v
+              SMB                       KERBEROS
+               |                           |
+               v                           v
+            SHARES                       SPNs
+               |                           |
+               v                           v
+        FILE / CONFIG REVIEW         PREAUTH REVIEW
+               |                           |
+               +-------------+-------------+
+                             |
+                             v
+                         BLOODHOUND
+                             |
+                             v
+                    PRIVILEGE RELATIONSHIP
+                             |
+                             v
+                    CHOOSE TARGET SERVICE
+                             |
+            +----------------+----------------+
+            |                |                |
+            v                v                v
+           SMB              WMI             MSSQL
+            |                |                |
+            +----------------+----------------+
+                             |
+                             v
+                      MINIMAL VALIDATION
+                             |
+                             v
+                        NEW ACCESS?
+                         /       \
+                       No         Yes
+                       |           |
+                       v           v
+                    EVIDENCE    RE-ENUMERATE
+                                   |
+                                   v
+                                EVIDENCE
+                                   |
+                       +-----------+
+                       |
+                       v
+                     REPORT
+                       |
+                       v
+                    REMEDIATE
+                       |
+                       v
+                     RETEST
 ```
 
----
+
+# Final Testing Principle
+
+Impacket should not become:
+
+```text
+Tool List
+   |
+   v
+Copy Commands
+   |
+   v
+Run Everything
+```
+
+The stronger methodology is:
+
+```text
+Question
+   |
+   v
+Protocol
+   |
+   v
+Prerequisites
+   |
+   v
+Specific Impacket Utility
+   |
+   v
+Focused Command
+   |
+   v
+Representative Result
+   |
+   v
+Interpretation
+   |
+   v
+Alternative Explanation
+   |
+   v
+Minimal Additional Validation
+   |
+   v
+Defensible Conclusion
+```
+
+For every Impacket result, be able to answer:
+
+```text
+What exactly did I test?
+
+Why did I use this tool?
+
+What prerequisite did I already establish?
+
+What did the result prove?
+
+What did it not prove?
+
+What is the security consequence?
+
+What additional evidence is actually necessary?
+
+Can I stop here?
+```
+
 
 # Related Cheatsheets
 
-[Active Directory Cheatsheet](active-directory.md)
+- [Active Directory Cheatsheet](active-directory.md)
+- [NetExec Cheatsheet](netexec.md)
+- [BloodHound Cheatsheet](bloodhound.md)
+- [Windows Cheatsheet](windows.md)
+- [PowerShell Cheatsheet](powershell.md)
+- [Networking Cheatsheet](networking.md)
 
-[NetExec Cheatsheet](netexec.md)
-
-[BloodHound Cheatsheet](bloodhound.md)
-
-[Networking Cheatsheet](networking.md)
-
-[Windows Cheatsheet](windows.md)
-
-[PowerShell Cheatsheet](powershell.md)
-
----
 
 # Detailed Notes
 
-Relevant detailed notes include:
+## Core Active Directory
 
-```text
-active-directory/impacket.md
-active-directory/enumeration.md
-active-directory/kerberos.md
-active-directory/ntlm.md
-active-directory/asrep-roasting.md
-active-directory/kerberoasting.md
-active-directory/ntlm-relay.md
-active-directory/constrained-delegation.md
-active-directory/rbcd.md
-active-directory/s4u.md
-active-directory/laps.md
-active-directory/gpp-passwords.md
-active-directory/machine-account-quota.md
-active-directory/lateral-movement.md
-active-directory/pivoting.md
-active-directory/credential-access.md
-active-directory/ntds.md
-```
+- [Active Directory Overview](../active-directory/index.md)
+- [Methodology](../active-directory/methodology.md)
+- [Enumeration](../active-directory/enumeration.md)
+- [Impacket](../active-directory/impacket.md)
+- [NetExec](../active-directory/netexec.md)
+- [BloodHound](../active-directory/bloodhound.md)
 
----
+## Authentication
+
+- [Kerberos](../active-directory/kerberos.md)
+- [NTLM](../active-directory/ntlm.md)
+- [Kerberoasting](../active-directory/kerberoasting.md)
+- [AS-REP Roasting](../active-directory/asrep-roasting.md)
+- [Pass-the-Hash](../active-directory/pass-the-hash.md)
+- [Pass-the-Ticket](../active-directory/pass-the-ticket.md)
+- [Pass-the-Key](../active-directory/pass-the-key.md)
+- [OverPass-the-Hash](../active-directory/overpass-the-hash.md)
+
+## Delegation
+
+- [Unconstrained Delegation](../active-directory/unconstrained-delegation.md)
+- [Constrained Delegation](../active-directory/constrained-delegation.md)
+- [Resource-Based Constrained Delegation](../active-directory/rbcd.md)
+- [S4U](../active-directory/s4u.md)
+
+## Credential Access
+
+- [Credential Access](../active-directory/credential-access.md)
+- [NTDS](../active-directory/ntds.md)
+- [LAPS](../active-directory/laps.md)
+- [gMSA](../active-directory/gmsa.md)
+
+## Remote Access
+
+- [SMB](../active-directory/smb.md)
+- [WinRM](../active-directory/winrm.md)
+- [WMI](../active-directory/wmi.md)
+- [DCOM](../active-directory/dcom.md)
+- [Lateral Movement](../active-directory/lateral-movement.md)
+
+## Privilege Relationships
+
+- [ACL and ACE](../active-directory/acl-ace.md)
+- [Privilege Escalation](../active-directory/privilege-escalation.md)
+- [Trusts](../active-directory/trusts.md)
+- [Trust Relationships](../active-directory/trust-relationships.md)
+
 
 # References
 
-## Impacket
+- [Impacket GitHub](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
+- [Impacket Examples](https://github.com/fortra/impacket/tree/master/examples){ target="_blank" rel="noopener noreferrer" }
+- [Fortra Impacket Documentation](https://www.secureauth.com/labs/open-source-tools/impacket/){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - Kerberos Authentication Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - NTLM Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - SMB Overview](https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-overview){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - Windows Management Instrumentation](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - SQL Server](https://learn.microsoft.com/en-us/sql/sql-server/){ target="_blank" rel="noopener noreferrer" }
+- [MITRE ATT&CK - Enterprise](https://attack.mitre.org/matrices/enterprise/){ target="_blank" rel="noopener noreferrer" }
 
-[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
 
-Primary upstream project.
+!!! tip "Use the smallest tool that answers the question"
+    If the objective is to determine whether an account can read a share, use an SMB client. If the objective is to determine whether a SQL login is sysadmin, query the SQL role. Do not use a more intrusive remote-administration or credential-access technique when a smaller test already provides sufficient evidence.
 
----
 
-## Impacket Examples
+!!! tip "Read the output, not just the exit status"
+    A successful Impacket connection may prove authentication while still showing that the requested operation is denied. Separate authentication, authorisation and security impact when interpreting results.
 
-[Impacket Examples](https://github.com/fortra/impacket/tree/master/examples){ target="_blank" rel="noopener noreferrer" }
 
-The current example scripts are one of the best references for version-specific options.
+!!! warning "Credential access is not routine enumeration"
+    Utilities capable of accessing password hashes, tickets, secrets or domain credential material should be treated as sensitive assessment actions. Establish the need, authorisation, evidence-handling requirements and stop condition before using them.
 
----
 
-## Impacket Releases
-
-[Impacket Releases](https://github.com/fortra/impacket/releases){ target="_blank" rel="noopener noreferrer" }
-
-Check stable releases and release notes before relying on development-version functionality.
-
----
-
-## GetADUsers
-
-[GetADUsers](https://github.com/fortra/impacket/blob/master/examples/GetADUsers.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## GetADComputers
-
-[GetADComputers](https://github.com/fortra/impacket/blob/master/examples/GetADComputers.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## GetNPUsers
-
-[GetNPUsers](https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## GetUserSPNs
-
-[GetUserSPNs](https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## findDelegation
-
-[findDelegation](https://github.com/fortra/impacket/blob/master/examples/findDelegation.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## lookupsid
-
-[lookupsid](https://github.com/fortra/impacket/blob/master/examples/lookupsid.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## GetLAPSPassword
-
-[GetLAPSPassword](https://github.com/fortra/impacket/blob/master/examples/GetLAPSPassword.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Get-GPPPassword
-
-[Get-GPPPassword](https://github.com/fortra/impacket/blob/master/examples/Get-GPPPassword.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## getTGT
-
-[getTGT](https://github.com/fortra/impacket/blob/master/examples/getTGT.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## getST
-
-[getST](https://github.com/fortra/impacket/blob/master/examples/getST.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## smbclient
-
-[smbclient](https://github.com/fortra/impacket/blob/master/examples/smbclient.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## smbserver
-
-[smbserver](https://github.com/fortra/impacket/blob/master/examples/smbserver.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## rpcdump
-
-[rpcdump](https://github.com/fortra/impacket/blob/master/examples/rpcdump.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## rpcmap
-
-[rpcmap](https://github.com/fortra/impacket/blob/master/examples/rpcmap.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## wmiquery
-
-[wmiquery](https://github.com/fortra/impacket/blob/master/examples/wmiquery.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## mssqlclient
-
-[mssqlclient](https://github.com/fortra/impacket/blob/master/examples/mssqlclient.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## secretsdump
-
-[secretsdump](https://github.com/fortra/impacket/blob/master/examples/secretsdump.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## psexec
-
-[psexec](https://github.com/fortra/impacket/blob/master/examples/psexec.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## wmiexec
-
-[wmiexec](https://github.com/fortra/impacket/blob/master/examples/wmiexec.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## smbexec
-
-[smbexec](https://github.com/fortra/impacket/blob/master/examples/smbexec.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## dcomexec
-
-[dcomexec](https://github.com/fortra/impacket/blob/master/examples/dcomexec.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## atexec
-
-[atexec](https://github.com/fortra/impacket/blob/master/examples/atexec.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## dacledit
-
-[dacledit](https://github.com/fortra/impacket/blob/master/examples/dacledit.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## owneredit
-
-[owneredit](https://github.com/fortra/impacket/blob/master/examples/owneredit.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## rbcd
-
-[rbcd](https://github.com/fortra/impacket/blob/master/examples/rbcd.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## changepasswd
-
-[changepasswd](https://github.com/fortra/impacket/blob/master/examples/changepasswd.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## ntlmrelayx
-
-[ntlmrelayx](https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## ticketer
-
-[ticketer](https://github.com/fortra/impacket/blob/master/examples/ticketer.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## ticketConverter
-
-[ticketConverter](https://github.com/fortra/impacket/blob/master/examples/ticketConverter.py){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Exploit Notes - Active Directory
-
-[Exploit Notes - Active Directory](https://exploitnotes.org/exploit/windows/active-directory/){ target="_blank" rel="noopener noreferrer" }
-
-Additional Active Directory enumeration and assessment reference.
-
----
-
-## InternalAllTheThings - Active Directory
-
-[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/){ target="_blank" rel="noopener noreferrer" }
-
-Additional Active Directory technique reference.
-
----
-
-## HackTricks - Active Directory
-
-[HackTricks - Active Directory Methodology](https://hacktricks.wiki/en/windows-hardening/active-directory-methodology/index.html){ target="_blank" rel="noopener noreferrer" }
-
-Additional methodology and testing reference.
-
----
-
-## Microsoft Kerberos Documentation
-
-[Kerberos Authentication Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
-
-Useful when interpreting Kerberos behaviour rather than relying solely on tool output.
-
----
-
-# Final Impacket Model
-
-Do not use Impacket as:
-
-```text
-Credential
-    |
-    v
-Run Every Tool
-    |
-    v
-Dump Everything
-    |
-    v
-Execute Everywhere
-```
-
-Use:
-
-```text
-Understand Scope
-      |
-      v
-Understand Network
-      |
-      v
-Understand Identity
-      |
-      v
-Identify Protocol
-      |
-      v
-Choose Specific Tool
-      |
-      v
-Read-Only Enumeration
-      |
-      v
-Understand Relationship
-      |
-      v
-Manual Validation
-      |
-      v
-Need State Change?
-      |
-   +--+--+
-   |     |
-  No    Yes
-   |     |
-   v     v
-Evidence Approval
-          |
-          v
-       Minimal
-       Change
-          |
-          v
-       Cleanup
-          |
-          v
-       Evidence
-```
-
-The goal is not:
-
-```text
-How many Impacket commands can I run?
-```
-
-The goal is:
-
-```text
-Which protocol, identity, permission or Active Directory
-relationship explains the observed security boundary?
-```
-
-Impacket is most valuable when it turns:
-
-```text
-Potential Relationship
-```
-
-into:
-
-```text
-Protocol-Level Understanding
-        +
-Permission Validation
-        +
-Minimal Evidence
-        =
-Defensible Security Finding
-```
+!!! warning "A successful technique is not the end of the analysis"
+    After a technique succeeds, determine why it succeeded, which permission or configuration enabled it, what security boundary was crossed, whether the access was expected, how defenders could observe it, and what change would remove the root cause.
