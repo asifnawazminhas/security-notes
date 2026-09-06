@@ -1,493 +1,579 @@
+---
+title: BloodHound Cheatsheet
+description: Detailed practical BloodHound reference for authorised Active Directory security assessments covering collection, SharpHound, NetExec, BloodHound CE, data import, graph analysis, attack paths, Cypher queries, edge interpretation, validation, false positives, evidence, remediation and retesting.
+---
+
 # BloodHound Cheatsheet
 
-Quick-reference guide for BloodHound collection, ingestion, graph analysis, attack-path analysis, validation, remediation, troubleshooting and evidence handling during authorised Active Directory security assessments.
+BloodHound maps relationships between Active Directory identities, computers, groups, sessions, permissions and other security objects into a graph that can be analysed for privilege and attack paths.
 
-This cheatsheet covers:
+Instead of looking at Active Directory as isolated objects:
 
 ```text
-BloodHound Community Edition
-SharpHound CE
-BloodHound.py CE
-NetExec BloodHound collection
-BloodBash
-Legacy BloodHound / Neo4j
-Cypher
-Attack-path analysis
-ACL analysis
-Session analysis
-Delegation
-AD CS
-Trusts
-Path remediation
-Evidence
-Reporting
+User
+
+Group
+
+Computer
+
+Session
+
+ACL
+
+GPO
+
+Domain
+
+OU
 ```
 
-For detailed BloodHound methodology see:
-
-[BloodHound](../active-directory/bloodhound.md)
-
-Related cheatsheets:
-
-[Active Directory](active-directory.md)
-
-[NetExec](netexec.md)
-
-[Impacket](impacket.md)
-
----
-
-# Authorised Use
-
-Use BloodHound and related collectors only for authorised:
+BloodHound focuses on the relationships between them:
 
 ```text
-Penetration testing
-Internal security assessments
-Red team exercises
-Purple team exercises
-Identity security reviews
-Active Directory reviews
-Training environments
-CTFs
-Security research
+User
+ |
+ v
+MemberOf
+ |
+ v
+Group
+ |
+ v
+AdminTo
+ |
+ v
+Server
+ |
+ v
+HasSession
+ |
+ v
+Privileged User
 ```
 
-BloodHound collection can generate:
+This makes it particularly useful for understanding **how apparently low-privileged access can connect to more privileged systems or identities**.
+
+The core methodology should be:
 
 ```text
-LDAP queries
-DNS queries
-Kerberos activity
-SMB connections
-RPC connections
-Session enumeration
-Local group enumeration
-Registry queries
-Authentication events
-Endpoint telemetry
+Collect
+   |
+   v
+Import
+   |
+   v
+Verify Dataset
+   |
+   v
+Identify Relationship
+   |
+   v
+Understand Edge
+   |
+   v
+Validate Preconditions
+   |
+   v
+Confirm Real-World Access
+   |
+   v
+Determine Impact
+   |
+   v
+Capture Evidence
+   |
+   v
+Remediate
+   |
+   v
+Retest
 ```
 
-Always remain within the agreed scope and rules of engagement.
+!!! warning "Authorised Security Testing"
+    BloodHound and its collectors should only be used in environments you are authorised to assess. Collection can generate substantial LDAP, SMB and other Active Directory traffic depending on the selected methods. Session and local-group collection can be significantly more intrusive than basic directory enumeration.
 
----
 
-# What BloodHound Does
+# Quick Start
 
-BloodHound models identity relationships as a graph.
-
-Instead of asking only:
+A practical BloodHound workflow is:
 
 ```text
-Who is Domain Admin?
+Identify Domain
+      |
+      v
+Identify Domain Controller
+      |
+      v
+Choose Collection Method
+      |
+      v
+Collect Data
+      |
+      v
+Import Data
+      |
+      v
+Verify Import
+      |
+      v
+Search Owned / Controlled User
+      |
+      v
+Find Interesting Paths
+      |
+      v
+Understand Every Edge
+      |
+      v
+Validate Important Relationships
+      |
+      v
+Report Root Cause
 ```
 
-BloodHound helps answer:
+
+# What BloodHound Answers
+
+BloodHound is particularly useful for questions such as:
 
 ```text
-Who can influence Domain Admin?
+Which users can become administrators?
 
-Who controls privileged groups?
+Which systems can this user administer?
 
-Who controls computers used by privileged users?
+Which groups indirectly grant privilege?
 
-Which identities have dangerous ACL rights?
+Where are privileged users logged on?
 
-Which identities can modify GPOs?
+Which ACLs provide escalation opportunities?
 
-Where do privileged sessions exist?
+Which computers expose paths to privileged identities?
 
-Which delegation relationships create risk?
+Which accounts can modify sensitive groups?
 
-Which certificate relationships create privilege paths?
+Which objects have dangerous delegated permissions?
 
-Which trusts create cross-domain paths?
+Which trust relationships create cross-domain paths?
 
-Which permissions connect low privilege to high privilege?
+Which principals can control another principal?
 ```
 
----
 
-# Core Mental Model
+# What BloodHound Does Not Automatically Prove
+
+A graph path does not automatically mean:
 
 ```text
+Compromise succeeded.
+
+The entire path is currently exploitable.
+
+Every edge is current.
+
+Every session still exists.
+
+The target is online.
+
+Network connectivity exists.
+
+Required protocols are reachable.
+
+EDR controls can be bypassed.
+
+Credentials are available.
+
+The operator has satisfied every prerequisite.
+```
+
+BloodHound identifies **relationships and potential paths**.
+
+Important paths should be independently validated.
+
+
+# BloodHound Graph Model
+
+A simplified graph:
+
+```text
+             +------------+
+             |   USER A   |
+             +-----+------+
+                   |
+                   | MemberOf
+                   v
+             +------------+
+             |   GROUP A  |
+             +-----+------+
+                   |
+                   | AdminTo
+                   v
+             +------------+
+             |   SERVER1  |
+             +-----+------+
+                   |
+                   | HasSession
+                   v
+             +------------+
+             |   USER B   |
+             +------------+
+```
+
+BloodHound analyses both:
+
+```text
+Nodes
+```
+
+and:
+
+```text
+Edges
+```
+
+
+# Nodes
+
+Common nodes include:
+
+```text
+Users
+
+Groups
+
+Computers
+
+Domains
+
+Organisational Units
+
+Group Policy Objects
+
+Containers
+
+Certificate Authorities
+
+Certificate Templates
+```
+
+Available object types depend on BloodHound version, collector and imported dataset.
+
+
+# Edges
+
+Edges describe relationships.
+
+Examples include:
+
+```text
+MemberOf
+
+AdminTo
+
+HasSession
+
+GenericAll
+
+GenericWrite
+
+WriteDacl
+
+WriteOwner
+
+AddMember
+
+ForceChangePassword
+
+CanRDP
+
+CanPSRemote
+
+ExecuteDCOM
+
+AllowedToDelegate
+
+AllowedToAct
+
+Owns
+```
+
+The exact edge set depends on BloodHound version and available data.
+
+
+# Edge Interpretation Model
+
+For every interesting edge ask:
+
+```text
+1. What does the edge represent?
+
+2. What permission or observation created it?
+
+3. Is the source object controlled?
+
+4. Is the destination object reachable?
+
+5. Are additional prerequisites required?
+
+6. Is the relationship current?
+
+7. Can it be independently verified?
+
+8. What security boundary does it cross?
+```
+
+
+# Example Environment
+
+Examples throughout this page use:
+
+```text
+Domain:
+corp.local
+
+Domain Controller:
+dc01.corp.local
+
+DC IP:
+10.10.10.10
+
+User:
+CORP\asif
+
+Workstation:
+WS01
+
+Server:
+SRV01
+
+Privileged Group:
+Domain Admins
+```
+
+These are placeholders for a controlled environment.
+
+
+# BloodHound Components
+
+A BloodHound deployment generally consists of:
+
+```text
+Collector
+   |
+   v
 Active Directory
-      |
-      v
-Collection
-      |
-      +--> SharpHound CE
-      |
-      +--> BloodHound.py CE
-      |
-      +--> NetExec
-      |
-      v
-JSON / ZIP
-      |
-      +------------------+
-      |                  |
-      v                  v
-BloodHound CE        BloodBash
-      |                  |
-      v                  v
-Visual Graph         CLI Analysis
-      |                  |
-      +--------+---------+
-               |
-               v
-         Relationships
-               |
-               v
-        Candidate Paths
-               |
-               v
-          Prerequisites
-               |
-               v
-          Verification
-               |
-               v
-           Validation
-               |
-               v
-            Evidence
-               |
-               v
-             Report
+   |
+   v
+Collection Data
+   |
+   v
+BloodHound
+   |
+   v
+Graph Database / Application
+   |
+   v
+Queries and Analysis
 ```
 
----
+Collection and analysis should be considered separate phases.
 
-# BloodHound Is Not an Exploit Tool
 
-BloodHound primarily answers:
+# BloodHound Community Edition
+
+BloodHound Community Edition is the modern BloodHound platform maintained by SpecterOps.
+
+Before following older installation guides, determine whether the guide refers to:
 
 ```text
-What relationships exist?
+BloodHound Legacy
+
+BloodHound Community Edition
+
+Older Neo4j-based deployment
+
+Current BloodHound deployment model
 ```
 
-It does not automatically prove:
+Do not mix installation instructions from different generations.
+
+
+# Verify BloodHound Version
+
+Use the version information exposed by the deployment or installation method.
+
+Record the version in assessment evidence when graph behaviour or edge definitions matter.
+
+
+# Collector Selection
+
+Common collection approaches include:
 
 ```text
-The relationship is currently usable
+SharpHound
 
-The target is reachable
+BloodHound.py
 
-The credential is valid
+NetExec BloodHound collection
 
-The service is exposed
-
-The required protocol is allowed
-
-Endpoint controls permit the action
-
-The path is safe to validate
-
-The path is authorised to validate
+Other compatible collectors
 ```
+
+The correct collector depends on:
+
+```text
+Operating system
+
+Available credentials
+
+Network position
+
+Assessment restrictions
+
+Required data
+
+BloodHound version
+```
+
+
+# Collection Strategy
+
+Do not immediately collect everything.
 
 Use:
 
 ```text
-Graph Relationship
+Assessment Objective
        |
        v
-Understand Edge
+Required Relationships
        |
        v
-Verify Configuration
+Minimum Collection Methods
        |
        v
-Check Preconditions
+Collect
        |
        v
-Check Reachability
+Analyse
        |
        v
-Authorised Validation
+Expand Collection If Required
 ```
 
----
 
-# Starting Position Model
+# Collection Categories
 
-BloodHound usage changes depending on the access available.
+Collection may include information about:
 
 ```text
-External / No Foothold
-        |
-        v
-BloodHound Usually Not Yet Relevant
+Directory objects
 
-Internal / No Credentials
-        |
-        v
-Discover AD Infrastructure
-        |
-        v
-Obtain Approved Authentication Context
+Group memberships
 
-Authenticated Domain User
-        |
-        v
-Directory Collection
-        |
-        v
-Attack-Path Analysis
+ACLs
 
-Local Windows User
-        |
-        v
-Determine Domain Context
-        |
-        v
-Use Available Domain Identity
+Local administrators
 
-Local Administrator
-        |
-        v
-Additional Computer / Session Context
-        |
-        v
-Re-Collect
+Remote-management rights
 
-Privileged Domain Identity
-        |
-        v
-Targeted Collection
-        |
-        v
-Defensive / Exposure Analysis
+Sessions
+
+Trusts
+
+Containers
+
+GPO relationships
+
+Object properties
 ```
 
----
+Different collection methods have different network and operational footprints.
 
-# Tool Selection
+
+# Collection Safety
+
+Before collecting ask:
 
 ```text
-Need official Windows collection?
-        |
-        +--> SharpHound CE
+How many domain objects exist?
 
-Need Linux / Kali collection?
-        |
-        +--> BloodHound.py CE
+How many computers exist?
 
-Already using NetExec?
-        |
-        +--> NetExec BloodHound collection
+Will hosts be contacted directly?
 
-Need interactive graph analysis?
-        |
-        +--> BloodHound CE
+Will SMB be used?
 
-Need offline CLI analysis?
-        |
-        +--> BloodBash
+Will session enumeration occur?
 
-Working with legacy BloodHound?
-        |
-        +--> Neo4j / Legacy BloodHound
+Will local groups be queried?
 
-Need protocol-level validation?
-        |
-        +--> NetExec
-        +--> Impacket
-        +--> PowerView
-        +--> Certipy
+Could endpoint security alert?
+
+Could unavailable systems cause delays?
+
+Is the SOC aware where required?
+
+Do I actually need every collection method?
 ```
 
----
 
-# Environment Variables
+# SharpHound
 
-Useful Linux assessment variables:
+SharpHound is the official BloodHound data collector for Active Directory environments.
 
-```bash
-export DOMAIN="example.local"
-export DC="dc01.example.local"
-export DC_IP="10.10.20.10"
-export USER="alice"
+Before using it, review the options for the installed version:
+
+```powershell
+.\SharpHound.exe --help
 ```
 
-Check:
+Do not rely solely on old blog posts because collection method names and behaviour can change.
 
-```bash
-printf 'DOMAIN=%s\nDC=%s\nDC_IP=%s\nUSER=%s\n' "$DOMAIN" "$DC" "$DC_IP" "$USER"
-```
 
----
-
-# DNS First
-
-BloodHound collection frequently depends on correct DNS.
-
-Domain Controller:
-
-```bash
-dig "$DC"
-```
-
-LDAP:
-
-```bash
-dig SRV "_ldap._tcp.dc._msdcs.$DOMAIN"
-```
-
-Kerberos:
-
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
-Resolver:
-
-```bash
-cat /etc/resolv.conf
-```
-
----
-
-# Time
-
-Kerberos requires reasonably synchronised time.
-
-```bash
-date
-```
-
-```bash
-timedatectl
-```
-
-If Kerberos authentication fails unexpectedly, verify:
+# SharpHound Basic Methodology
 
 ```text
-DNS
-Time
-Domain
-Realm
-KDC
-FQDN
-Credential
-Ticket
-SPN
-```
-
----
-
-# Core Ports
-
-Commonly relevant ports:
-
-| Port | Protocol / Purpose |
-|---:|---|
-| 53 | DNS |
-| 88 | Kerberos |
-| 135 | RPC Endpoint Mapper |
-| 389 | LDAP |
-| 445 | SMB |
-| 464 | Kerberos password operations |
-| 636 | LDAPS |
-| 3268 | Global Catalog |
-| 3269 | Global Catalog over TLS |
-| Dynamic | RPC |
-
-Basic checks:
-
-```bash
-nc -vz "$DC" 389
-```
-
-```bash
-nc -vz "$DC" 445
-```
-
-```bash
-nc -vz "$DC" 88
-```
-
----
-
-# Collection Decision
-
-```text
-Where am I?
+SharpHound
     |
-    +--> Windows
-    |      |
-    |      +--> SharpHound CE
+    v
+Authenticate as Current User
     |
-    +--> Linux / Kali
-           |
-           +--> BloodHound.py CE
-           |
-           +--> NetExec
+    v
+Query Active Directory
+    |
+    v
+Collect Selected Relationships
+    |
+    v
+Create Output
+    |
+    v
+Import into BloodHound
 ```
 
----
 
-# Collection Strategy
+# Check Current Identity
 
-Do not automatically begin with the broadest possible collection.
+Before collection:
 
-Prefer:
-
-```text
-Directory Relationships
-       |
-       v
-Initial Analysis
-       |
-       v
-Identify Interesting Systems
-       |
-       v
-Focused Computer Collection
-       |
-       v
-Session Collection
-       |
-       v
-Re-Analyse
+```powershell
+whoami
 ```
 
-This can reduce unnecessary:
+Domain information:
 
-```text
-SMB connections
-RPC connections
-Endpoint enumeration
-Session queries
-Authentication activity
+```powershell
+$env:USERDOMAIN
 ```
 
----
+Current DNS domain:
 
-# SharpHound CE
-
-SharpHound CE is the official Active Directory collector for BloodHound CE.
-
-Typical workflow:
-
-```text
-Windows Host
-     |
-     v
-SharpHound CE
-     |
-     v
-Collection
-     |
-     v
-ZIP
-     |
-     v
-BloodHound CE
+```powershell
+$env:USERDNSDOMAIN
 ```
 
----
+This helps document which identity performed the collection.
+
 
 # SharpHound Help
 
@@ -495,1635 +581,1535 @@ BloodHound CE
 .\SharpHound.exe --help
 ```
 
-Always review the installed collector version before relying on a specific flag.
+Review available collection methods rather than assuming an old command remains valid.
 
----
 
-# Basic SharpHound Collection
-
-```powershell
-.\SharpHound.exe
-```
-
----
-
-# Specify Domain
-
-```powershell
-.\SharpHound.exe --Domain example.local
-```
-
-Short form:
-
-```powershell
-.\SharpHound.exe -d example.local
-```
-
----
-
-# DCOnly Collection
-
-For directory-focused collection:
-
-```powershell
-.\SharpHound.exe --CollectionMethods DCOnly
-```
-
-This is useful for an initial directory-oriented pass.
+# Collection Method Selection
 
 Conceptually:
 
 ```text
-Domain Controller
-      |
-      +--> Users
-      +--> Groups
-      +--> Computers
-      +--> Trusts
-      +--> ACLs
-      +--> OUs
-      +--> GPOs
-      +--> Object Properties
-      +--> Certificate Objects
+Need Basic Directory Relationships?
+             |
+             v
+      Directory Collection
+             |
+             v
+Need ACL Relationships?
+             |
+             v
+        ACL Collection
+             |
+             v
+Need Local Admin Information?
+             |
+             v
+     Host-Based Collection
+             |
+             v
+Need Session Information?
+             |
+             v
+       Session Collection
 ```
 
----
+Increase collection depth only when it supports the assessment objective.
 
-# Session Collection
 
-```powershell
-.\SharpHound.exe --CollectionMethods Session
-```
+# SharpHound Output
 
-Session data can reveal:
+Collection commonly produces archive or JSON data suitable for import into BloodHound.
+
+After collection, record:
 
 ```text
-User
- |
- | HasSession
- v
-Computer
+Collector version
+
+Collection methods
+
+Domain
+
+Identity
+
+Timestamp
+
+Output filename
+
+Number of objects if available
 ```
 
-Session information is highly time-sensitive.
 
----
+# Do Not Modify Collection Data
 
-# Session Loop
+Preserve the original collection archive where evidence requirements justify it.
 
-PowerShell example:
-
-```powershell
-.\SharpHound.exe --CollectionMethods Session --Loop
-```
-
-Custom duration:
-
-```powershell
-.\SharpHound.exe --CollectionMethods Session --Loop --LoopDuration 03:00:00
-```
-
-!!! warning
-    Session looping can generate substantially more network and endpoint activity. Use it only when the assessment requires it.
-
----
-
-# SharpHound Stealth Mode
-
-Where supported by the installed version:
-
-```powershell
-.\SharpHound.exe --CollectionMethods Session --Stealth
-```
-
-Remember:
+Use a copy for:
 
 ```text
-Stealth
-   !=
-Invisible
+Analysis
 
-Stealth
-   !=
-Undetectable
+Processing
+
+Testing
+
+Screenshots
 ```
 
----
 
-# SharpHound Collection Methods
+# Linux-Based Collection
 
-Collection capabilities evolve.
-
-Common concepts include:
+When collecting from Linux, options may include:
 
 ```text
-Default
-All
-DCOnly
-ComputerOnly
-Session
-LoggedOn
-Group
-ACL
-GPOLocalGroup
-Trusts
-Container
-LocalGroup
-LocalAdmin
-RDP
-DCOM
-PSRemote
-ObjectProps
-UserRights
-CertServices
+BloodHound.py
+
+NetExec-supported BloodHound collection
 ```
 
-Always confirm:
+Linux collection can be particularly useful when the assessment workstation is Kali Linux and domain credentials are available.
 
-```powershell
-.\SharpHound.exe --help
-```
-
----
-
-# SharpHound Collection Questions
-
-Before running SharpHound ask:
-
-```text
-What data do I need?
-
-Do I need endpoint contact?
-
-Do I need session data?
-
-Do I need local group data?
-
-Do I need certificate data?
-
-How long should collection run?
-
-Which systems are excluded?
-
-Which identity is being used?
-
-How will the ZIP be protected?
-```
-
----
-
-# Preserve SharpHound Output
-
-Suggested evidence structure:
-
-```text
-evidence/
-└── bloodhound/
-    └── collection/
-        ├── original/
-        └── working/
-```
-
-Do not modify the original collection archive.
-
----
 
 # BloodHound.py
 
-BloodHound.py provides Linux-native BloodHound collection.
-
-Important distinction:
-
-```text
-Legacy BloodHound
-       |
-       +--> bloodhound-python
-
-BloodHound CE
-       |
-       +--> bloodhound-ce-python
-```
-
-Do not accidentally use documentation for the wrong collector generation.
-
----
-
-# Install BloodHound.py CE
-
-Using pipx:
+Check the installed tool:
 
 ```bash
-pipx install bloodhound-ce
+bloodhound-python -h
 ```
+
+Depending on installation, the command name may differ.
+
+Review:
+
+```text
+Domain
+
+Username
+
+Password
+
+Nameserver
+
+Domain controller
+
+Collection methods
+```
+
+before execution.
+
+
+# DNS Is Critical
+
+Linux BloodHound collection frequently fails because of DNS configuration.
 
 Check:
 
 ```bash
-bloodhound-ce-python --help
+cat /etc/resolv.conf
 ```
 
----
-
-# Legacy BloodHound.py
-
-Legacy environments may use:
+Resolve the domain controller:
 
 ```bash
-pipx install bloodhound
+getent hosts dc01.corp.local
 ```
 
-Command:
+Query:
 
 ```bash
-bloodhound-python
+dig dc01.corp.local
 ```
 
-Use the collector matching the BloodHound generation being analysed.
-
----
-
-# BloodHound.py CE Help
+Query LDAP SRV records:
 
 ```bash
-bloodhound-ce-python --help
+dig _ldap._tcp.dc._msdcs.corp.local SRV
 ```
 
-Treat the installed command's help as the version-specific reference.
+Query Kerberos:
 
----
+```bash
+dig _kerberos._tcp.corp.local SRV
+```
 
-# BloodHound.py Authentication
 
-Depending on collector version, authentication can involve:
+# Example DNS Model
+
+Your assessment host should ideally be able to resolve:
 
 ```text
-Username + Password
-NTLM
+corp.local
+
+dc01.corp.local
+
+srv01.corp.local
+
+ws01.corp.local
+```
+
+Using only IP addresses can create problems for:
+
+```text
 Kerberos
-Kerberos Credential Cache
+
+LDAP discovery
+
+SPNs
+
+Collector domain discovery
 ```
 
-Confirm exact options:
+
+# BloodHound.py Collection
+
+Because collection flags can change, start with:
 
 ```bash
-bloodhound-ce-python --help
+bloodhound-python -h
 ```
 
----
-
-# Basic BloodHound.py CE Pattern
-
-```bash
-bloodhound-ce-python -u alice -p 'Password' -d example.local -ns 10.10.20.10 -c All
-```
-
-!!! warning
-    Supplying passwords on the command line can expose them through shell history, screenshots and process inspection.
-
----
-
-# ZIP Output
-
-Where supported:
-
-```bash
-bloodhound-ce-python -u alice -p 'Password' -d example.local -ns 10.10.20.10 -c All --zip
-```
-
----
-
-# Specify Domain Controller
-
-Typical pattern:
-
-```bash
-bloodhound-ce-python -u alice -p 'Password' -d example.local -dc dc01.example.local -ns 10.10.20.10 -c All --zip
-```
-
-Verify current syntax:
-
-```bash
-bloodhound-ce-python --help
-```
-
----
-
-# Focused BloodHound.py Collection
-
-Instead of immediately using:
+A collection command generally needs to establish:
 
 ```text
--c All
+Domain
+
+Credential
+
+Domain controller / nameserver
+
+Collection methods
 ```
 
-consider focused methods such as:
+Use the current tool help to build the exact command.
 
-```bash
-bloodhound-ce-python -u alice -p 'Password' -d example.local -ns 10.10.20.10 -c Group,ACL,Trusts
-```
-
-Exact collection methods depend on collector version.
-
----
-
-# Kerberos Collection
-
-If using a credential cache:
-
-```bash
-export KRB5CCNAME="$PWD/alice.ccache"
-```
-
-Check:
-
-```bash
-echo "$KRB5CCNAME"
-```
-
-```bash
-klist
-```
-
-Then inspect supported Kerberos options:
-
-```bash
-bloodhound-ce-python --help
-```
-
----
-
-# Kerberos Collection Model
-
-```text
-ccache
-   |
-   v
-Correct Principal?
-   |
-   v
-Correct Realm?
-   |
-   v
-DNS Working?
-   |
-   v
-DC FQDN?
-   |
-   v
-Time Correct?
-   |
-   v
-Collection
-```
-
----
-
-# BloodHound.py Troubleshooting
-
-If collection fails:
-
-```text
-1. Verify CE vs legacy collector
-2. Verify DNS
-3. Verify domain
-4. Verify DC FQDN
-5. Verify credentials
-6. Verify LDAP
-7. Verify SMB if required
-8. Verify Kerberos
-9. Verify collection methods
-10. Verify collector version
-```
-
----
-
-# Collector Differences
-
-Do not assume:
-
-```text
-BloodHound.py All
-       =
-SharpHound All
-```
-
-Different collectors may have different capabilities or implementation details.
-
-Therefore:
-
-```text
-Relationship Missing
-       |
-       v
-Configuration Absent?
-       |
-       OR
-       |
-Collector Did Not Collect It?
-```
-
----
 
 # NetExec BloodHound Collection
 
-NetExec can integrate BloodHound-oriented collection into an existing LDAP workflow.
+Some NetExec versions expose BloodHound collection through LDAP.
 
-Concept:
-
-```text
-NetExec
-   |
-   v
-LDAP Authentication
-   |
-   v
-Directory Collection
-   |
-   v
-BloodHound Data
-   |
-   v
-Analysis
-```
-
----
-
-# Validate LDAP First
-
-```bash
-nxc ldap "$DC" -d "$DOMAIN" -u "$USER" -p 'Password'
-```
-
----
-
-# NetExec LDAP Help
+Check:
 
 ```bash
 nxc ldap --help
 ```
 
-Confirm the current BloodHound-related flags before using them.
+Look for the installed version's BloodHound options.
 
----
+Do not copy an old NetExec or CrackMapExec BloodHound command without verifying the available flags.
 
-# NetExec BloodHound Workflow
 
-```text
-nxc smb
-   |
-   v
-Discover Hosts
-   |
-   v
-Validate Credential
-   |
-   v
-nxc ldap
-   |
-   v
-Directory Context
-   |
-   v
-BloodHound Collection
-   |
-   v
-BloodHound CE / Offline Analysis
-```
-
----
-
-# Why Use NetExec?
-
-Useful when:
+# NetExec Collection Workflow
 
 ```text
-NetExec is already part of the assessment
-
-LDAP access has already been confirmed
-
-Credentials have already been validated
-
-You want fewer tool transitions
-
-You want collection integrated into the existing workflow
-```
-
----
-
-# Collector Comparison
-
-| Collector | Platform | Primary Use |
-|---|---|---|
-| SharpHound CE | Windows | Official CE AD collection |
-| BloodHound.py CE | Linux / Kali | Linux-native CE collection |
-| NetExec | Linux / Kali | AD collection within NetExec workflows |
-
-Remember:
-
-```text
-Different Collector
+Domain Credential
        |
        v
-Potentially Different Coverage
+Validate LDAP
+       |
+       v
+Check nxc ldap --help
+       |
+       v
+Select BloodHound Collection
+       |
+       v
+Specify Correct DNS / DC
+       |
+       v
+Collect
+       |
+       v
+Import
+       |
+       v
+Verify Dataset
 ```
 
----
 
-# BloodHound CE
+# Why `--help` Matters Here
 
-BloodHound CE provides interactive graph analysis.
-
-Typical workflow:
+BloodHound integration has changed across:
 
 ```text
-Collection
-    |
-    v
+CrackMapExec
+
+Early NetExec versions
+
+Current NetExec releases
+
+BloodHound Legacy
+
 BloodHound CE
-    |
-    v
-Ingest
-    |
-    v
-Graph
-    |
-    v
-Relationships
-    |
-    v
-Paths
 ```
 
-Follow the official CE installation documentation for the current deployment method.
-
-Do not expose assessment infrastructure to untrusted networks.
-
----
-
-# First Analysis Steps
-
-After ingestion:
+The stable lesson is therefore:
 
 ```text
-1. Confirm domain
-2. Confirm collection timestamp
-3. Review collection health
-4. Confirm collector and methods
-5. Mark controlled principals
-6. Identify high-value assets
-7. Review group relationships
-8. Review administrative relationships
-9. Review ACLs
-10. Review sessions
-11. Review delegation
-12. Review GPO control
-13. Review AD CS
-14. Review trusts
-15. Review replication rights
-16. Investigate candidate paths
+Understand required inputs
++
+Verify current syntax locally
++
+Record the exact command used
 ```
 
----
 
-# Mark Owned Principals
+# Importing Data
 
-When an identity is confirmed under the assessment:
+After collection, import the resulting dataset into BloodHound.
+
+The exact interface depends on the BloodHound deployment.
+
+After import, do **not** immediately begin analysing paths.
+
+First verify the dataset.
+
+
+# Dataset Verification
+
+Check that expected object categories exist.
+
+For example:
 
 ```text
-Known Credential
-      |
-      v
-Confirmed Identity
-      |
-      v
-Mark Owned
-      |
-      v
-Analyse Outbound Paths
+Users
+
+Groups
+
+Computers
+
+Domain
+
+OUs
+
+GPOs
 ```
 
-Only mark identities as owned when control has actually been established.
-
----
-
-# Mark High-Value Assets
-
-Default high-value objects are useful, but also consider organisation-specific assets.
-
-Examples:
+Then check relationships such as:
 
 ```text
-Domain Controllers
-Domain Admins
-Enterprise Admins
-Certificate Authorities
-Identity Servers
-Backup Infrastructure
-Virtualisation Platforms
-SCCM
-AD FS
-Privileged Access Workstations
-Tier-0 Systems
-Critical Application Servers
+MemberOf
+
+AdminTo
+
+ACL edges
+
+Sessions
 ```
 
----
+where those collection methods were expected.
 
-# Graph Basics
+
+# Why Dataset Verification Matters
+
+Suppose BloodHound shows:
 
 ```text
-Node
-   =
-Object
-
-Edge
-   =
-Relationship
+0 HasSession relationships
 ```
+
+This could mean:
+
+```text
+No sessions existed.
+```
+
+But it could also mean:
+
+```text
+Session collection was not performed.
+
+Hosts were unreachable.
+
+SMB was blocked.
+
+Collector lacked permissions.
+
+Collection failed.
+
+Endpoint controls interfered.
+
+Data was not imported correctly.
+```
+
+Therefore:
+
+```text
+No Edge
+```
+
+does not always mean:
+
+```text
+No Relationship
+```
+
+
+# Dataset Completeness Model
+
+```text
+Graph Result
+    |
+    v
+Was Relevant Data Collected?
+    |
+   / \
+ No   Yes
+ |     |
+ v     v
+Cannot  Analyse
+Conclude
+```
+
+
+# Record Collection Metadata
+
+For every dataset record:
+
+```text
+Collector:
+SharpHound
+
+Collector Version:
+<version>
+
+Collection Date:
+<timestamp>
+
+Collection Identity:
+CORP\asif
+
+Domain:
+corp.local
+
+Collection Methods:
+<methods used>
+
+Known Limitations:
+<unreachable hosts / blocked protocols / permissions>
+```
+
+
+# Search for a User
+
+In BloodHound, begin with a principal you actually control or are authorised to assess.
 
 Example:
 
 ```text
-ALICE
-  |
-  | MemberOf
-  v
-HELPDESK
-  |
-  | AdminTo
-  v
-APP01
+ASIF@CORP.LOCAL
 ```
 
----
-
-# Common Node Types
-
-Examples include:
+Review:
 
 ```text
-User
+Group memberships
+
+Outbound control
+
+Local administrative relationships
+
+Remote-management rights
+
+Sessions
+
+Object permissions
+```
+
+
+# Marking Owned Principals
+
+Where the interface supports ownership marking, mark only identities actually controlled during the assessment.
+
+Do not mark:
+
+```text
+Hypothetical users
+
+Unverified credentials
+
+Accounts you merely discovered
+```
+
+as owned.
+
+
+# Owned vs Compromised
+
+A useful assessment distinction:
+
+```text
+Discovered
+```
+
+means:
+
+```text
+Account exists.
+```
+
+```text
+Credential Found
+```
+
+means:
+
+```text
+Potential authentication material exists.
+```
+
+```text
+Owned
+```
+
+should mean:
+
+```text
+Control has been established within the authorised assessment.
+```
+
+
+# Search for Domain Admins
+
+A useful high-value group is:
+
+```text
+DOMAIN ADMINS@CORP.LOCAL
+```
+
+But do not focus exclusively on Domain Admin.
+
+Other sensitive groups may include:
+
+```text
+Enterprise Admins
+
+Administrators
+
+Account Operators
+
+Backup Operators
+
+Server administration groups
+
+Virtualisation administrators
+
+Application administrators
+
+PKI administrators
+
+Custom delegated groups
+```
+
+
+# Shortest Paths
+
+One of BloodHound's most useful concepts is:
+
+```text
+Shortest Path
+```
+
+For example:
+
+```text
+Owned User
+    |
+    v
 Group
+    |
+    v
 Computer
-Domain
-OU
-GPO
-Certificate Authority
-Certificate Template
-Root CA
-Enterprise CA
+    |
+    v
+Privileged Session
+    |
+    v
+Domain Admin
 ```
 
-The BloodHound schema evolves over time.
 
----
+# Do Not Blindly Trust Shortest Path
 
-# Relationship Families
-
-Think about edges in categories.
+The shortest graph path is not necessarily:
 
 ```text
-Identity Relationships
-    |
-    +--> MemberOf
-    +--> SIDHistory
+The easiest path
 
-Host Relationships
-    |
-    +--> AdminTo
-    +--> HasSession
-    +--> CanRDP
-    +--> CanPSRemote
-    +--> ExecuteDCOM
+The safest path
 
-ACL Relationships
-    |
-    +--> GenericAll
-    +--> GenericWrite
-    +--> WriteDacl
-    +--> WriteOwner
-    +--> AddMember
-    +--> ForceChangePassword
+The most reliable path
 
-Kerberos Relationships
-    |
-    +--> Delegation
-    +--> RBCD
+The least detectable path
 
-Policy Relationships
-    |
-    +--> GPO Control
-    +--> OU / Container Relationships
-
-PKI Relationships
-    |
-    +--> Enrollment
-    +--> Template Control
-    +--> CA Control
-
-Domain Relationships
-    |
-    +--> Trusts
-    +--> Replication Rights
+The currently exploitable path
 ```
 
----
+A longer path may be more realistic.
 
-# Edge Interpretation Rule
 
-Never use:
+# Path Validation Model
+
+For a path:
 
 ```text
-Edge Exists
-    =
-Exploit Confirmed
+A -> B -> C -> D
 ```
 
-Use:
+validate:
 
 ```text
-Edge
- |
- v
-Read Edge Meaning
- |
- v
-Identify Required Permission
- |
- v
-Identify Target Object
- |
- v
-Check Preconditions
- |
- v
-Check Reachability
- |
- v
-Check Controls
- |
- v
-Determine Impact
- |
- v
-Validate Only If Necessary
+A -> B
 ```
 
----
-
-# MemberOf
+then:
 
 ```text
-User
+B -> C
+```
+
+then:
+
+```text
+C -> D
+```
+
+Do not jump directly from:
+
+```text
+A
+```
+
+to:
+
+```text
+D
+```
+
+in the report.
+
+
+# Worked Example
+
+Assume BloodHound identifies:
+
+```text
+ASIF@CORP.LOCAL
+       |
+       | MemberOf
+       v
+HELPDESK@CORP.LOCAL
+       |
+       | GenericAll
+       v
+SERVER-ADMINS@CORP.LOCAL
+       |
+       | AdminTo
+       v
+SRV01.CORP.LOCAL
+```
+
+This is an interesting path.
+
+Now interpret each edge.
+
+
+# Step 1 - MemberOf
+
+```text
+ASIF
  |
  | MemberOf
  v
-Group
+HELPDESK
 ```
 
-Always account for nested membership:
+This means the user is a member of the Helpdesk group.
 
-```text
-User
- |
- v
-Group A
- |
- v
-Group B
- |
- v
-Privileged Group
+Verify with directory tooling where necessary.
+
+From Windows:
+
+```powershell
+whoami /groups
 ```
 
----
+or appropriate Active Directory queries.
 
-# AdminTo
+The important question:
 
 ```text
-Principal
-   |
-   | AdminTo
-   v
-Computer
+Is this membership current and expected?
 ```
 
-This indicates an administrative relationship.
 
-It does not automatically prove:
-
-```text
-Host reachable
-SMB reachable
-WinRM reachable
-Remote execution possible
-Endpoint controls permit execution
-Testing is authorised
-```
-
----
-
-# HasSession
+# Step 2 - GenericAll
 
 ```text
-User
- |
- | HasSession
- v
-Computer
-```
-
-Treat session data as:
-
-```text
-Dynamic
-Time-Sensitive
-Collector-Dependent
-```
-
-A session observed yesterday may not exist today.
-
----
-
-# CanRDP
-
-```text
-Principal
-   |
-   | CanRDP
-   v
-Computer
-```
-
-Validate separately:
-
-```text
-3389 reachable
-RDP enabled
-Network path exists
-Identity accepted
-NLA requirements
-MFA requirements
-Host restrictions
-```
-
----
-
-# CanPSRemote
-
-```text
-Principal
-   |
-   | CanPSRemote
-   v
-Computer
-```
-
-Check:
-
-```text
-WinRM reachable
-5985 / 5986
-Authentication
-Remote management permissions
-Network controls
-PowerShell policy
-Endpoint configuration
-```
-
----
-
-# ExecuteDCOM
-
-```text
-Principal
-   |
-   | ExecuteDCOM
-   v
-Computer
-```
-
-Usability can depend on:
-
-```text
-RPC
-DCOM
-Firewall
-Permissions
-Endpoint controls
-```
-
----
-
-# ACL Relationships
-
-High-value ACL relationships can include:
-
-```text
-GenericAll
-GenericWrite
-WriteDacl
-WriteOwner
-ForceChangePassword
-AddMember
-Owns
-Property-Specific Rights
-Extended Rights
-```
-
----
-
-# GenericAll
-
-```text
-Principal
+HELPDESK
    |
    | GenericAll
    v
-Object
+SERVER-ADMINS
 ```
 
-Impact depends on object type.
+This is much more security relevant.
 
-```text
-User
-Group
-Computer
-OU
-GPO
-Certificate Template
-Other AD Object
-```
-
-Do not describe all `GenericAll` relationships as equivalent.
-
----
-
-# GenericWrite
-
-```text
-Principal
-   |
-   | GenericWrite
-   v
-Object
-```
-
-Remember:
-
-```text
-GenericWrite
-    !=
-GenericAll
-```
-
-Determine which attributes are relevant to the target object.
-
----
-
-# WriteDacl
-
-```text
-Principal
-   |
-   | WriteDacl
-   v
-Object
-```
-
-Potentially high impact because ACLs define who can perform actions on the object.
-
-Validation that changes a DACL modifies directory state.
-
-Prefer ACL inspection as evidence where possible.
-
----
-
-# WriteOwner
-
-```text
-Principal
-   |
-   | WriteOwner
-   v
-Object
-```
-
-Changing ownership is a state-changing operation.
-
-Ask:
-
-```text
-Who currently owns it?
-
-Who can change ownership?
-
-What can the new owner subsequently modify?
-
-Is ownership change necessary to prove impact?
-```
-
----
-
-# ForceChangePassword
-
-```text
-Principal
-   |
-   | ForceChangePassword
-   v
-User
-```
-
-Do not reset a production user's password merely to prove the edge.
-
-The ACL may already provide sufficient evidence.
-
----
-
-# AddMember
-
-Concept:
-
-```text
-Principal
-   |
-   | AddMember
-   v
-Group
-```
-
-Then ask:
-
-```text
-What does the group control?
-
-Is membership nested?
-
-Is the group privileged?
-
-Would adding a member change production state?
-
-Can the impact be demonstrated without modifying membership?
-```
-
----
-
-# Owns
-
-```text
-Principal
-   |
-   | Owns
-   v
-Object
-```
-
-Ownership can influence the ability to modify the object's security descriptor.
-
-Investigate the actual ACL and owner semantics before determining impact.
-
----
-
-# ACL Analysis Workflow
-
-```text
-Interesting ACL
-      |
-      v
-Which Principal?
-      |
-      v
-Which Object?
-      |
-      v
-Which Right?
-      |
-      v
-Inherited or Explicit?
-      |
-      v
-What Can Actually Be Changed?
-      |
-      v
-What Security Boundary Changes?
-      |
-      v
-Evidence Sufficient?
-```
-
----
-
-# DCSync
-
-BloodHound can identify principals with directory replication relationships.
-
-Concept:
-
-```text
-Principal
-   |
-   +--> GetChanges
-   |
-   +--> GetChangesAll
-   |
-   v
-Domain
-```
-
-Depending on configuration, additional replication-related rights can also matter.
-
-Treat unexpected replication rights as high impact.
-
-Do not replicate production credential material unless explicitly authorised.
-
----
-
-# DCSync Analysis
-
-Ask:
-
-```text
-Which identity has the rights?
-
-Are the rights direct or inherited?
-
-Were they intentionally delegated?
-
-Is the identity Tier-0?
-
-Can the rights access domain credential material?
-
-Can the condition be demonstrated without dumping the domain?
-```
-
----
-
-# Kerberoastable Accounts
-
-BloodHound can help identify service accounts and their relationships.
-
-Do not report:
-
-```text
-Kerberoastable
-```
-
-as a vulnerability by itself.
-
-Assess:
-
-```text
-SPN
- |
- v
-Account
- |
- v
-Password Age
- |
- v
-Password Strength
- |
- v
-Privileges
- |
- v
-Reachable Assets
- |
- v
-Security Impact
-```
-
----
-
-# AS-REP Roastable Accounts
-
-Likewise:
-
-```text
-Preauthentication Disabled
-        |
-        v
-Account Context
-        |
-        v
-Password Security
-        |
-        v
-Privileges
-        |
-        v
-Impact
-```
-
-The configuration matters more when combined with weak credential hygiene or excessive privilege.
-
----
-
-# Delegation
-
-Review:
-
-```text
-Unconstrained Delegation
-Constrained Delegation
-Resource-Based Constrained Delegation
-S4U Relationships
-```
-
-BloodHound provides relationship context.
-
-Use:
-
-[Active Directory Cheatsheet](active-directory.md)
-
-and the detailed delegation notes for prerequisite analysis.
-
----
-
-# Unconstrained Delegation
-
-Investigate:
-
-```text
-Which computer/account?
-
-Domain Controller or non-DC?
-
-Which users can authenticate there?
-
-Are privileged identities protected?
-
-Is the configuration still required?
-```
-
----
-
-# Constrained Delegation
-
-Investigate:
-
-```text
-Delegating Principal
-Target SPN
-Protocol Transition
-Who Controls Delegating Principal
-Target Service
-Security Boundary
-```
-
----
-
-# RBCD
-
-Relevant relationships may involve:
-
-```text
-Computer Control
-AllowedToAct
-Object ACLs
-Machine Accounts
-```
-
-Concept:
-
-```text
-Controlled Principal
-       |
-       v
-RBCD Relationship
-       |
-       v
-Target Computer
-       |
-       v
-Kerberos S4U
-       |
-       v
-Target Service
-```
-
-See:
-
-[Resource-Based Constrained Delegation](../active-directory/rbcd.md)
-
----
-
-# Machine Account Relationships
-
-When a path involves computer creation or control, also consider:
-
-```text
-MachineAccountQuota
-Existing Computer Objects
-Computer ACLs
-RBCD
-Who Can Create Computer Objects
-Which OU Receives Them
-```
-
----
-
-# Group Policy
-
-Investigate:
-
-```text
-Who can modify the GPO?
-
-Who owns the GPO?
-
-Where is it linked?
-
-Which OUs receive it?
-
-Which computers receive it?
-
-Which users receive it?
-
-Can a low-privileged identity influence it?
-
-Is the GPO Tier-0 relevant?
-```
-
-Concept:
-
-```text
-Principal
-   |
-   v
-GPO
-   |
-   v
-OU
-   |
-   v
-Computers / Users
-```
-
----
-
-# GPO Path Analysis
-
-```text
-Write Right
-    |
-    v
-GPO
-    |
-    v
-Linked OU
-    |
-    v
-Affected Objects
-    |
-    v
-Privilege Context
-```
-
-Do not stop analysis at:
-
-```text
-Can modify GPO
-```
-
-Determine what the GPO actually influences.
-
----
-
-# AD CS
-
-Modern BloodHound can model certificate-related relationships.
-
-Review:
-
-```text
-Certificate Authorities
-Enterprise CAs
-Certificate Templates
-Enrollment Rights
-Template Permissions
-CA Permissions
-Certificate Mappings
-Authentication Relationships
-```
-
-Use Certipy and the dedicated AD CS notes for deeper validation.
-
----
-
-# AD CS Analysis Model
-
-```text
-Principal
-    |
-    v
-Enrollment / Control Right
-    |
-    v
-Certificate Template
-    |
-    v
-Certificate Authority
-    |
-    v
-Authentication Capability
-    |
-    v
-Privilege Boundary
-```
-
-Do not rely only on an ESC label.
-
-Understand the underlying configuration.
-
----
-
-# AD CS Questions
-
-Ask:
-
-```text
-Who can enroll?
-
-Who controls the template?
-
-Who controls the CA?
-
-What EKUs are configured?
-
-Can the subject be supplied?
-
-Is manager approval required?
-
-Are authorised signatures required?
-
-How are certificates mapped?
-
-Which identities could be represented?
-
-Is the CA trusted for authentication?
-```
-
----
-
-# Trusts
-
-Review:
-
-```text
-Trust Direction
-Trust Type
-Transitivity
-SID Filtering
-Selective Authentication
-Cross-Domain Groups
-Cross-Domain ACLs
-Cross-Domain Sessions
-Cross-Domain Administrative Rights
-```
-
----
-
-# Trust Mental Model
-
-```text
-Domain A
-   |
-   | Trust
-   v
-Domain B
-   |
-   v
-Authentication Boundary
-   |
-   v
-Authorisation Relationships
-```
-
-A trust does not automatically mean:
-
-```text
-Domain A owns Domain B
-```
-
----
-
-# SIDHistory
-
-SID history can create cross-object or cross-domain privilege relationships.
-
-Investigate:
-
-```text
-Which object has SIDHistory?
-
-Which SID is present?
-
-Does the SID still map to a privileged object?
-
-Is SID filtering relevant?
-
-Is the value expected?
-```
-
----
-
-# High-Value Targets
-
-Common examples:
-
-```text
-Domain Admins
-Enterprise Admins
-Domain Controllers
-Tier-0 Systems
-Certificate Authorities
-Identity Infrastructure
-Privileged Service Accounts
-Backup Infrastructure
-SCCM
-AD FS
-Virtualisation Management
-Privileged Access Workstations
-```
-
-Also define organisation-specific high-value systems.
-
----
-
-# Tier-0 Analysis
-
-Do not limit Tier-0 to:
-
-```text
-Domain Controllers
-```
-
-Consider systems or identities capable of controlling:
-
-```text
-Active Directory
-Domain Controllers
-PKI
-Identity Federation
-Privileged Management
-Virtualisation Hosting DCs
-Backup / Restore of DCs
-Security Management of Tier-0
-```
-
----
-
-# Sessions on Privileged Systems
-
-Review:
-
-```text
-Privileged User
-      |
-      v
-HasSession
-      |
-      v
-Lower-Trust Computer
-```
-
-This may indicate a tiering issue even without constructing an offensive path.
-
----
-
-# Local Administrator Sprawl
-
-BloodHound is useful defensively for identifying:
-
-```text
-One User
-   |
-   +--> AdminTo Host A
-   +--> AdminTo Host B
-   +--> AdminTo Host C
-   +--> AdminTo Host D
-```
+It indicates broad control over the destination object in the graph model.
 
 Questions:
 
 ```text
-Is this expected?
+What object grants the permission?
 
-Is a shared admin account used?
+Is it direct or inherited?
 
-Are workstation and server tiers separated?
+Which ACE provides it?
 
-Could compromise of one credential affect many systems?
+Is Helpdesk supposed to manage this group?
+
+Can group membership actually be changed?
+
+Are protected-object behaviours relevant?
 ```
 
----
 
-# Shortest Paths
+# Step 3 - AdminTo
 
-Shortest paths are useful for triage.
+```text
+SERVER-ADMINS
+      |
+      | AdminTo
+      v
+SRV01
+```
+
+This indicates the group has administrative control over the computer according to collected data.
+
+Validate:
+
+```text
+Is SRV01 online?
+
+Is the group still a local administrator?
+
+Which mechanism grants access?
+
+GPO?
+
+Local group?
+
+Manual assignment?
+```
+
+
+# Worked Example Conclusion
+
+Do **not** report:
+
+> BloodHound says ASIF can become admin on SRV01.
+
+Prefer:
+
+> BloodHound identified a path from `CORP\asif` to administrative control of `SRV01` through membership of `CORP\Helpdesk`, delegated control over `CORP\Server-Admins`, and the administrative rights of `Server-Admins` on `SRV01`. Independent validation should confirm the delegated directory permission and the current local administrative assignment before the complete privilege path is treated as confirmed.
+
+
+# Common Edge - MemberOf
+
+```text
+USER
+ |
+ | MemberOf
+ v
+GROUP
+```
+
+Meaning:
+
+```text
+The source principal is a member of the destination group.
+```
+
+Security significance depends on the group's privileges.
+
+
+# Nested Group Membership
+
+Example:
+
+```text
+ASIF
+ |
+ v
+HELPDESK
+ |
+ v
+IT-USERS
+ |
+ v
+SERVER-OPERATORS
+```
+
+Nested groups can make effective privileges difficult to identify manually.
+
+BloodHound is particularly useful for exposing these chains.
+
+
+# Common Edge - AdminTo
+
+```text
+USER/GROUP
+     |
+     | AdminTo
+     v
+COMPUTER
+```
+
+Meaning:
+
+```text
+The principal has administrative-level rights over the computer
+according to the collected relationship.
+```
+
+Validate the current local group or policy configuration where the edge is important.
+
+
+# AdminTo Does Not Mean Online
+
+A computer object may be:
+
+```text
+Offline
+
+Decommissioned
+
+Firewalled
+
+Unreachable
+
+Stale
+```
+
+BloodHound describes the relationship represented by the dataset, not necessarily current network reachability.
+
+
+# Common Edge - HasSession
+
+```text
+COMPUTER
+   |
+   | HasSession
+   v
+USER
+```
+
+This indicates the collector observed a session relationship.
+
+Session data is especially time-sensitive.
+
+
+# Session Data Can Become Stale Quickly
+
+A session observed at:
+
+```text
+09:00
+```
+
+may not exist at:
+
+```text
+15:00
+```
+
+Always record:
+
+```text
+Collection timestamp
+
+Session collection method
+
+Host
+
+User
+```
+
+
+# Session Edge Interpretation
+
+A session relationship can be security relevant when:
+
+```text
+You control the computer
++
+A privileged user has a session
+```
+
+But additional questions remain:
+
+```text
+Can credential material actually be accessed?
+
+What protections exist?
+
+Is Credential Guard enabled?
+
+Is the session still active?
+
+What privilege does the user hold?
+```
+
+
+# Common Edge - GenericAll
+
+```text
+PRINCIPAL
+    |
+    | GenericAll
+    v
+OBJECT
+```
+
+`GenericAll` generally represents broad control over the destination object.
+
+The practical impact depends heavily on object type.
+
+
+# GenericAll Over User
+
+Potential implications may include account-control operations depending on effective permissions and environment configuration.
+
+Validate the actual ACE and allowed operations before reporting a specific impact.
+
+
+# GenericAll Over Group
+
+Potentially relevant to group membership management.
+
+Questions:
+
+```text
+Can the controlled principal modify membership?
+
+Is the target group privileged?
+
+Is the permission inherited?
+
+Is the object protected?
+
+Would modification cross a security boundary?
+```
+
+
+# GenericAll Over Computer
+
+Potential implications differ from user/group objects.
+
+Do not apply a generic "GenericAll exploit" without understanding the destination object's semantics.
+
+
+# Common Edge - GenericWrite
+
+```text
+PRINCIPAL
+    |
+    | GenericWrite
+    v
+OBJECT
+```
+
+This indicates write access to certain attributes of the destination object.
+
+The security consequence depends on:
+
+```text
+Object type
+
+Writable attributes
+
+Existing configuration
+
+Effective permissions
+```
+
+
+# Common Edge - WriteDacl
+
+```text
+PRINCIPAL
+    |
+    | WriteDacl
+    v
+OBJECT
+```
+
+This indicates the principal can modify the object's discretionary access-control list.
+
+This can be highly security relevant because permissions may potentially be delegated to another principal.
+
+
+# WriteDacl Validation
+
+Before reporting:
+
+```text
+Confirm the ACE.
+
+Confirm effective permission.
+
+Identify target object.
+
+Determine whether the permission is inherited.
+
+Determine whether changing the DACL would create meaningful control.
+```
+
+
+# Common Edge - WriteOwner
+
+```text
+PRINCIPAL
+    |
+    | WriteOwner
+    v
+OBJECT
+```
+
+Ownership can influence an object's security descriptor.
+
+Again, the important issue is the resulting security control, not simply the edge label.
+
+
+# Common Edge - Owns
+
+```text
+PRINCIPAL
+    |
+    | Owns
+    v
+OBJECT
+```
+
+Ownership should be analysed together with:
+
+```text
+DACL
+
+Object type
+
+Inheritance
+
+Effective rights
+```
+
+
+# Common Edge - AddMember
+
+```text
+PRINCIPAL
+    |
+    | AddMember
+    v
+GROUP
+```
+
+This can indicate the ability to add members to a group.
+
+If the destination is privileged, this may create a direct privilege-escalation path.
+
+
+# AddMember Validation
+
+Confirm:
+
+```text
+Exact group
+
+Exact source principal
+
+Permission source
+
+Inheritance
+
+Current membership-management controls
+
+Privilege granted by the group
+```
+
+
+# Common Edge - ForceChangePassword
+
+```text
+PRINCIPAL
+    |
+    | ForceChangePassword
+    v
+USER
+```
+
+This indicates a password-management relationship.
+
+Security significance depends on:
+
+```text
+Target account privilege
+
+Whether the permission is expected
+
+Operational consequences
+
+Identity protections
+```
+
+
+# Common Edge - CanRDP
+
+```text
+PRINCIPAL
+    |
+    | CanRDP
+    v
+COMPUTER
+```
+
+This indicates remote desktop rights represented in the graph.
+
+It does not automatically mean:
+
+```text
+RDP is reachable.
+
+Interactive logon will succeed.
+
+The user is administrator.
+```
+
+
+# Validate RDP Relationship
+
+Check:
+
+```text
+Network reachability
+
+RDP service
+
+Authentication
+
+Logon rights
+
+NLA
+
+Firewall
+
+Account restrictions
+```
+
+
+# Common Edge - CanPSRemote
+
+```text
+PRINCIPAL
+    |
+    | CanPSRemote
+    v
+COMPUTER
+```
+
+This indicates PowerShell remoting/WinRM-related access.
+
+Validate:
+
+```text
+WinRM reachable?
+
+Account authorised?
+
+Which group grants access?
+
+Administrative or non-administrative session?
+```
+
+
+# Common Edge - ExecuteDCOM
+
+```text
+PRINCIPAL
+    |
+    | ExecuteDCOM
+    v
+COMPUTER
+```
+
+This indicates a DCOM-related remote execution relationship.
+
+Validate:
+
+```text
+RPC reachability
+
+DCOM configuration
+
+Account permission
+
+Firewall
+
+Target availability
+```
+
+See [DCOM](../active-directory/dcom.md).
+
+
+# Delegation Edges
+
+BloodHound can identify delegation relationships including configurations related to:
+
+```text
+Unconstrained Delegation
+
+Constrained Delegation
+
+Resource-Based Constrained Delegation
+```
+
+These relationships require careful Kerberos interpretation.
+
+See:
+
+- [Unconstrained Delegation](../active-directory/unconstrained-delegation.md)
+- [Constrained Delegation](../active-directory/constrained-delegation.md)
+- [RBCD](../active-directory/rbcd.md)
+- [S4U](../active-directory/s4u.md)
+
+
+# AllowedToDelegate
+
+Conceptually:
+
+```text
+ACCOUNT
+   |
+   | AllowedToDelegate
+   v
+SERVICE
+```
+
+Do not treat the edge as a complete exploitation path without understanding:
+
+```text
+Delegation type
+
+Controlled account
+
+SPN
+
+Target service
+
+Kerberos requirements
+
+Account flags
+```
+
+
+# AllowedToAct
+
+This relationship is relevant to resource-based constrained delegation.
+
+Again:
+
+```text
+Graph Edge
+   !=
+Complete Exploit
+```
+
+Validate the actual directory configuration before drawing conclusions.
+
+
+# ACL Analysis
+
+ACL edges are among the most valuable BloodHound relationships.
+
+Examples:
+
+```text
+GenericAll
+
+GenericWrite
+
+WriteDacl
+
+WriteOwner
+
+AddMember
+
+ForceChangePassword
+```
+
+Use BloodHound to locate them, then independently inspect the underlying directory permission for important findings.
+
+
+# ACL Validation Workflow
+
+```text
+BloodHound Edge
+      |
+      v
+Identify Source
+      |
+      v
+Identify Destination
+      |
+      v
+Identify Permission
+      |
+      v
+Determine Direct / Inherited
+      |
+      v
+Inspect Actual ACE
+      |
+      v
+Determine Effective Rights
+      |
+      v
+Determine Security Consequence
+```
+
+
+# ACL False Positives
+
+Potential reasons an apparent path may not produce the expected outcome:
+
+```text
+Stale collection
+
+Permission inherited differently than expected
+
+Protected object behaviour
+
+Permission removed after collection
+
+Object disabled
+
+Target group no longer privileged
+
+Application-specific controls
+
+Collector interpretation differs from current state
+```
+
+
+# Group Policy Relationships
+
+BloodHound may expose relationships involving:
+
+```text
+GPOs
+
+OUs
+
+Computers
+
+Users
+
+Groups
+```
+
+GPO-related paths can be highly significant because a single GPO may affect many systems.
+
+
+# GPO Analysis Questions
+
+Ask:
+
+```text
+Who can modify the GPO?
+
+Where is it linked?
+
+Which systems/users receive it?
+
+Is inheritance blocked?
+
+Are security filters present?
+
+Is the GPO actually applied?
+
+What privilege would modification provide?
+```
+
+
+# Do Not Assume Linked Means Applied
+
+A GPO relationship may be affected by:
+
+```text
+Security filtering
+
+WMI filtering
+
+Inheritance
+
+Enforced links
+
+Blocked inheritance
+
+Object location
+```
+
+Validate effective application where it matters.
+
+
+# Computer Analysis
+
+For an interesting computer review:
+
+```text
+Local administrators
+
+Inbound administrative relationships
+
+Outbound relationships
+
+Sessions
+
+Remote-management rights
+
+Operating system
+
+Group memberships
+
+GPO relationships
+```
+
+
+# High-Value Computers
+
+Do not limit analysis to domain controllers.
+
+High-value systems may include:
+
+```text
+Certificate authorities
+
+SCCM infrastructure
+
+Backup servers
+
+Virtualisation hosts
+
+Identity-management servers
+
+Jump hosts
+
+Management servers
+
+Database servers
+
+Deployment systems
+
+Monitoring systems
+```
+
+
+# User Analysis
+
+For an interesting user review:
+
+```text
+Group memberships
+
+Outbound object control
+
+Inbound control
+
+Sessions
+
+SPNs
+
+Delegation
+
+Administrative relationships
+
+Password-related properties
+
+Certificate relationships
+```
+
+
+# Group Analysis
+
+For an interesting group:
+
+```text
+Direct members
+
+Nested members
+
+Object control
+
+Systems administered
+
+GPO rights
+
+Delegated directory rights
+
+Inbound control
+```
+
+
+# Domain Analysis
+
+Review:
+
+```text
+Domain trusts
+
+High-value groups
+
+Domain controllers
+
+Privilege paths
+
+ACL delegation
+
+GPO relationships
+
+Certificate services
+
+Administrative tiers
+```
+
+
+# Trust Analysis
+
+BloodHound can help visualise trust relationships between domains.
+
+Trust alone does not automatically create a privilege path.
+
+Analyse:
+
+```text
+Trust direction
+
+Trust type
+
+Transitivity
+
+SID filtering
+
+Selective authentication
+
+Cross-domain group memberships
+
+Actual privileged relationships
+```
+
+
+# Path to Domain Admin
+
+A common query objective is:
 
 ```text
 Owned Principal
@@ -2132,919 +2118,127 @@ Owned Principal
 Shortest Path
       |
       v
-High-Value Target
+Domain Admin
 ```
 
-But:
+This is useful, but not sufficient by itself.
+
+
+# Better Question
+
+Instead of only asking:
+
+> How do I get Domain Admin?
+
+also ask:
 
 ```text
-Shortest
-   !=
-Safest
+Which security control failed?
 
-Shortest
-   !=
-Most Reliable
+Why can this low-privileged principal control this object?
 
-Shortest
-   !=
-Least Detectable
+Which delegation created the path?
 
-Shortest
-   !=
-Most Important
+Which group assignment is excessive?
+
+Which system creates credential exposure?
+
+How can the organisation break the path?
 ```
 
----
 
-# Path Prioritisation
+# Path Breaking
 
-Consider:
-
-```text
-Path Length
-Privileges Required
-Credential Availability
-Network Reachability
-State Changes
-Operational Impact
-Detection Surface
-Business Impact
-Rules of Engagement
-Reliability
-Currentness of Data
-```
-
----
-
-# Path Validation
-
-```text
-Candidate Path
-      |
-      v
-Relationship Current?
-      |
-      v
-Correct Identity?
-      |
-      v
-Reachable?
-      |
-      v
-Prerequisites Present?
-      |
-      v
-Security Controls?
-      |
-      v
-Safe?
-      |
-      v
-Authorised?
-      |
-      v
-Minimal Validation
-```
-
----
-
-# Attack Path vs Finding
-
-A path can contain multiple security conditions.
+BloodHound is valuable defensively because an attack path can often be broken at several locations.
 
 Example:
 
 ```text
-Low-Privilege User
-       |
-       v
-WriteDacl
-       |
-       v
-Helpdesk Group
-       |
-       v
-AdminTo
-       |
-       v
-Application Server
+USER
+ |
+ v
+HELPDESK
+ |
+ v
+SERVER-ADMINS
+ |
+ v
+SRV01
+ |
+ v
+PRIVILEGED SESSION
 ```
 
-Possible findings might concern:
-
-```text
-Excessive AD ACL
-Excessive Group Privilege
-Administrative Tiering
-```
-
-Do not automatically report the entire graph path as one vague finding.
-
----
-
-# Choke Points
-
-Some relationships appear in many paths.
-
-Concept:
+Potential remediation points:
 
 ```text
-Path A ---+
-          |
-Path B ---+--> Shared Relationship --> High Value
-          |
-Path C ---+
+Remove unnecessary Helpdesk membership
+
+Remove excessive ACL over Server-Admins
+
+Remove unnecessary Server-Admins local admin
+
+Prevent privileged sessions on SRV01
 ```
 
-These are particularly useful for defensive remediation.
 
-Removing one unnecessary relationship may eliminate many attack paths.
+# Attack Path Choke Points
 
----
+A choke point is a relationship that appears in many attack paths.
 
-# Path Remediation Model
-
-```text
-Attack Paths
-      |
-      v
-Common Relationship
-      |
-      v
-Why Does It Exist?
-      |
-      v
-Business Requirement?
-      |
-   +--+--+
-   |     |
-  Yes    No
-   |     |
-   v     v
-Harden Remove
-   |     |
-   +--+--+
-      |
-      v
-Re-Collect
-      |
-      v
-Verify Paths Removed
-```
-
----
-
-# New Credential Workflow
+Examples:
 
 ```text
-New Credential
-      |
-      v
-Validate Identity
-      |
-      v
-Mark Owned
-      |
-      v
-Review Outbound Relationships
-      |
-      v
-Paths to High Value
-      |
-      v
-Need New Collection?
-      |
-      v
-Re-Analyse
+Over-privileged group
+
+Management server
+
+Shared administrator account
+
+Dangerous ACL
+
+Tier-crossing system
+
+GPO
+
+Certificate template
 ```
 
----
+These can be higher remediation priorities than fixing individual paths one by one.
 
-# New Privilege Workflow
 
-```text
-New Privilege
-     |
-     v
-Update Controlled Context
-     |
-     v
-Re-Collect if Required
-     |
-     v
-Recalculate Paths
-     |
-     v
-Investigate New Relationships
-```
+# Cypher Queries
 
----
+BloodHound uses graph queries for advanced analysis.
 
-# New Subnet Workflow
+The exact query language and supported schema can differ between BloodHound generations.
+
+Verify the current BloodHound documentation before relying on old query collections.
+
+
+# Basic Cypher Concept
+
+A conceptual graph query looks for:
 
 ```text
-New Subnet
-    |
-    v
-New Computers
-    |
-    v
-Additional Collection
-    |
-    v
-Import
-    |
-    v
-Graph Expansion
-    |
-    v
-New Relationships
+Node
+ |
+ v
+Relationship
+ |
+ v
+Node
 ```
 
----
-
-# New Domain Workflow
-
-```text
-New Domain
-    |
-    v
-Identify DC
-    |
-    v
-Configure DNS
-    |
-    v
-Understand Trust
-    |
-    v
-Collect
-    |
-    v
-Import
-    |
-    v
-Cross-Domain Analysis
-```
-
----
-
-# BloodBash
-
-BloodBash provides offline analysis of SharpHound and AzureHound collection data without requiring a BloodHound server.
-
-It is useful for:
-
-```text
-Fast day-zero triage
-Offline analysis
-Terminal workflows
-Attack-path analysis
-Owned-user analysis
-Collection comparison
-AD / Entra analysis
-Remediation analysis
-Report generation
-Large dataset triage
-```
-
----
-
-# BloodBash Installation
-
-Using pipx:
-
-```bash
-pipx install git+https://github.com/DotNetRussell/BloodBash
-```
-
-Check:
-
-```bash
-bloodbash --help
-```
-
-Advanced help:
-
-```bash
-bloodbash --help-advanced
-```
-
----
-
-# BloodBash Standalone Binary
-
-The project also publishes standalone binaries.
-
-After obtaining the approved release:
-
-```bash
-chmod +x bloodbash-linux-x64
-```
-
-Run:
-
-```bash
-./bloodbash-linux-x64 ./sharpout --all
-```
-
-Verify release provenance before using downloaded security tooling.
-
----
-
-# BloodBash Quick Analysis
-
-Directory:
-
-```bash
-bloodbash ./sharpout
-```
-
-The default performs quick-win analysis.
-
-Explicit:
-
-```bash
-bloodbash ./sharpout --quick-wins
-```
-
-ZIP:
-
-```bash
-bloodbash ./collection.zip --quick-wins
-```
-
----
-
-# BloodBash Quick-Wins Model
-
-Current quick-win analysis can surface high-signal areas such as:
-
-```text
-Unexpected DCSync
-AD CS
-Dangerous ACLs
-Interesting non-high-value ACLs
-RBCD
-Can-configure RBCD
-Unconstrained Delegation
-Constrained Delegation
-Shadow Credentials
-LAPS Readers
-Trusts
-Kerberoastable Accounts
-AS-REP Accounts
-Privileged Roastable Accounts
-Password-in-Description
-PasswordNotRequired
-Sessions
-Local Admin Relationships
-Collection Health
-Shortest Paths
-Busiest Paths
-Path Breaks
-```
-
-Treat these as analysis leads, not automatically confirmed vulnerabilities.
-
----
-
-# BloodBash Full Analysis
-
-```bash
-bloodbash ./sharpout --all
-```
-
-Large graph:
-
-```bash
-bloodbash ./sharpout --all --fast
-```
-
----
-
-# BloodBash Wizard
-
-```bash
-bloodbash ./sharpout --wizard
-```
-
-Useful when exploring an unfamiliar collection.
-
----
-
-# List Domains
-
-```bash
-bloodbash ./sharpout --list-domains
-```
-
----
-
-# Domain Filter
-
-```bash
-bloodbash ./sharpout --all --domain EXAMPLE.LOCAL
-```
-
----
-
-# Owned User Workflow
-
-If `alice` is a confirmed controlled identity:
-
-```bash
-bloodbash ./sharpout --from-user alice --from-user-export
-```
-
-Concept:
-
-```text
-Owned User
-    |
-    v
-Nested Groups
-    |
-    v
-Administrative Rights
-    |
-    v
-ACL Rights
-    |
-    v
-Paths to High Value
-```
-
----
-
-# Inspect Owned User
-
-```bash
-bloodbash ./sharpout --from-user alice --inspect alice
-```
-
----
-
-# Explicit Path
-
-```bash
-bloodbash ./sharpout --path-from alice --path-to 'domain admins@corp.local'
-```
-
-Multiple sources:
-
-```bash
-bloodbash ./sharpout --path-from alice,bob --path-to 'domain admins,enterprise admins'
-```
-
----
-
-# Shortest Paths
-
-```bash
-bloodbash ./sharpout --shortest-paths
-```
-
-Include indirect relationships:
-
-```bash
-bloodbash ./sharpout --shortest-paths --indirect --fast
-```
-
----
-
-# Busiest Paths
-
-```bash
-bloodbash ./sharpout --busiest-paths short --busiest-paths-top 10
-```
-
-This can help identify principals or relationships appearing repeatedly across paths.
-
----
-
-# Path Break Analysis
-
-```bash
-bloodbash ./sharpout --path-break --path-break-top 20
-```
-
-This is especially useful defensively.
-
-```text
-Many Paths
-    |
-    v
-Shared Edge
-    |
-    v
-Path Break Candidate
-    |
-    v
-Business Review
-    |
-    v
-Remediation
-```
-
----
-
-# Deep Analysis
-
-```bash
-bloodbash ./sharpout --deep-analysis
-```
-
-Useful for slower graph operations such as group nesting and cycle analysis.
-
----
-
-# Inspect Node
-
-```bash
-bloodbash ./sharpout --inspect 'DOMAIN ADMINS@CORP.LOCAL'
-```
-
----
-
-# Merge Collections
-
-```bash
-bloodbash ./lowpriv.zip --merge ./additional.zip --all --fast
-```
-
-Multiple collections:
-
-```bash
-bloodbash ./forest-root --merge ./child-a.zip ./child-b.zip --quick-wins
-```
-
----
-
-# Why Merge Collections?
-
-Useful when:
-
-```text
-Initial low-privilege collection exists
-
-New privilege produced additional data
-
-Another subnet became reachable
-
-A child domain was discovered
-
-Collection occurred at different stages
-
-Multiple collectors produced complementary data
-```
-
----
-
-# Collection Comparison Model
-
-```text
-Collection A
-    |
-    +----+
-         |
-         v
-      Merge
-         ^
-         |
-    +----+
-    |
-Collection B
-```
-
-Be careful with time-sensitive relationships such as sessions when merging collections from different times.
-
----
-
-# BloodBash Inventory
-
-```bash
-bloodbash ./sharpout --inventory
-```
-
----
-
-# Password Age
-
-```bash
-bloodbash ./sharpout --password-age
-```
-
----
-
-# Stale Accounts
-
-```bash
-bloodbash ./sharpout --stale-accounts
-```
-
----
-
-# Privilege Inventory
-
-```bash
-bloodbash ./sharpout --privilege-inventory
-```
-
----
-
-# Combined Inventory
-
-```bash
-bloodbash ./sharpout --stale-accounts --password-age --privilege-inventory
-```
-
----
-
-# Owned Inventory
-
-```bash
-bloodbash ./sharpout --owned alice --owned-inventory
-```
-
-Note the distinction:
-
-```text
---from-user
-    =
-Outbound analysis from controlled principal
-
---owned
-    =
-Owned-principal-oriented path/inventory analysis
-```
-
-Use current help for exact semantics.
-
----
-
-# BloodBash Profiles
-
-Quick:
-
-```bash
-bloodbash ./sharpout --profile quick
-```
-
-Quick wins:
-
-```bash
-bloodbash ./sharpout --profile quick-wins
-```
-
-AD CS:
-
-```bash
-bloodbash ./sharpout --profile adcs-heavy
-```
-
-Hygiene:
-
-```bash
-bloodbash ./sharpout --profile hygiene
-```
-
-Custom:
-
-```bash
-bloodbash ./sharpout --profile ./my-engagement.yaml
-```
-
----
-
-# Trust Analysis
-
-```bash
-bloodbash ./sharpout --trust
-```
-
-Combined:
-
-```bash
-bloodbash ./sharpout --all --trust
-```
-
----
-
-# BloodBash Report Pack
-
-```bash
-bloodbash ./sharpout --inventory --busiest-paths short --path-break --report-pack ./reports
-```
-
----
-
-# Zip Report Pack
-
-```bash
-bloodbash ./sharpout --inventory --busiest-paths short --path-break --report-pack ./reports --export-zip bloodbash-reports.zip
-```
-
----
-
-# CSV Pack
-
-```bash
-bloodbash ./sharpout --csv-pack ./reports
-```
-
-ZIP:
-
-```bash
-bloodbash ./sharpout --csv-pack ./reports --export-zip reports.zip
-```
-
----
-
-# Markdown Export
-
-```bash
-bloodbash ./sharpout --all --export=md
-```
-
----
-
-# HTML Export
-
-```bash
-bloodbash ./sharpout --all --export=html
-```
-
----
-
-# CSV Export
-
-```bash
-bloodbash ./sharpout --all --export=csv
-```
-
----
-
-# JSON Export
-
-```bash
-bloodbash ./sharpout --all --export=json
-```
-
----
-
-# YAML Export
-
-```bash
-bloodbash ./sharpout --all --export=yaml
-```
-
----
-
-# Graphviz Export
-
-```bash
-bloodbash ./sharpout --all --dot graph.dot
-```
-
----
-
-# SQLite Graph Cache
-
-```bash
-bloodbash ./sharpout --all --db bloodbash.db
-```
-
-Later:
-
-```bash
-bloodbash . --db bloodbash.db --from-user alice --from-user-export
-```
-
----
-
-# BloodBash Engagement Workflow
-
-```text
-Collection
-    |
-    v
-Quick Wins
-    |
-    v
-Collection Health
-    |
-    v
-Owned Principal?
-    |
- +--+--+
- |     |
-No    Yes
- |     |
- |     v
- |  Dossier
- |     |
- +-----+
-    |
-    v
-Shortest Paths
-    |
-    v
-Busiest Paths
-    |
-    v
-Path Break
-    |
-    v
-Inventory
-    |
-    v
-Report Pack
-```
-
----
-
-# BloodBash vs BloodHound CE
-
-```text
-Need visual graph?
-       |
-       +--> BloodHound CE
-
-Need interactive exploration?
-       |
-       +--> BloodHound CE
-
-Need fast CLI triage?
-       |
-       +--> BloodBash
-
-Need offline analysis?
-       |
-       +--> BloodBash
-
-Need path-break analysis?
-       |
-       +--> BloodBash
-
-Need serverless workflow?
-       |
-       +--> BloodBash
-```
-
-Using both can be useful.
-
----
-
-# Legacy BloodHound and Neo4j
-
-Legacy BloodHound commonly used Neo4j directly.
-
-Concept:
-
-```text
-Legacy BloodHound
-       |
-       v
-Neo4j
-       |
-       v
-Graph Database
-       |
-       v
-Cypher
-```
-
-This remains relevant when:
-
-```text
-Working with older BloodHound deployments
-
-Reviewing historical assessment environments
-
-Running custom Neo4j queries
-
-Analysing older datasets
-```
-
-Do not assume BloodHound CE uses the same architecture or graph schema as legacy BloodHound.
-
----
-
-# Cypher Basics
-
-Legacy/general graph example:
+Example conceptual pattern:
 
 ```cypher
-MATCH (n)
-RETURN n
-LIMIT 10
+MATCH (u:User)-[:MemberOf]->(g:Group)
+RETURN u, g
 ```
 
----
 
-# List Users
+# Find Users
 
 ```cypher
 MATCH (u:User)
@@ -3052,9 +2246,10 @@ RETURN u
 LIMIT 25
 ```
 
----
+Use this as a simple graph exploration example where supported by the deployment.
 
-# List Groups
+
+# Find Groups
 
 ```cypher
 MATCH (g:Group)
@@ -3062,9 +2257,8 @@ RETURN g
 LIMIT 25
 ```
 
----
 
-# List Computers
+# Find Computers
 
 ```cypher
 MATCH (c:Computer)
@@ -3072,1982 +2266,2063 @@ RETURN c
 LIMIT 25
 ```
 
----
 
-# MemberOf Relationships
+# Membership Relationships
 
 ```cypher
-MATCH (u:User)-[:MemberOf]->(g:Group)
-RETURN u,g
+MATCH (u:User)-[r:MemberOf]->(g:Group)
+RETURN u, r, g
 LIMIT 50
 ```
 
----
+This helps visualise direct membership relationships.
 
-# Nested Group Membership
+
+# GenericAll Relationships
 
 ```cypher
-MATCH p=(u:User)-[:MemberOf*1..]->(g:Group)
-RETURN p
+MATCH (a)-[r:GenericAll]->(b)
+RETURN a, r, b
 LIMIT 50
 ```
 
----
+Do not assume every returned relationship is exploitable without validating object type and current permissions.
+
+
+# GenericWrite Relationships
+
+```cypher
+MATCH (a)-[r:GenericWrite]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
+
+# WriteDacl Relationships
+
+```cypher
+MATCH (a)-[r:WriteDacl]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
+
+# WriteOwner Relationships
+
+```cypher
+MATCH (a)-[r:WriteOwner]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
 
 # Administrative Relationships
 
+A conceptual query:
+
 ```cypher
-MATCH (u:User)-[:AdminTo]->(c:Computer)
-RETURN u,c
+MATCH (a)-[r:AdminTo]->(c:Computer)
+RETURN a, r, c
 LIMIT 50
 ```
 
----
 
-# Sessions
+# Session Relationships
+
+A conceptual query:
 
 ```cypher
-MATCH (u:User)-[:HasSession]->(c:Computer)
-RETURN u,c
+MATCH (c:Computer)-[r:HasSession]->(u:User)
+RETURN c, r, u
 LIMIT 50
 ```
 
----
+Remember that session data is highly time-sensitive.
 
-# Domain Admin Membership
 
-Conceptual legacy query:
+# Query Results Are Leads
 
-```cypher
-MATCH p=(u)-[:MemberOf*1..]->(g:Group)
-WHERE g.name CONTAINS 'DOMAIN ADMINS'
-RETURN p
-```
-
-Graph schemas differ between BloodHound generations.
-
-Always validate queries against the environment being used.
-
----
-
-# Better Analysis Questions
-
-Do not ask only:
+The correct process is:
 
 ```text
-How do I reach Domain Admin?
-```
-
-Also ask:
-
-```text
-Which users have excessive ACL rights?
-
-Which groups control many systems?
-
-Which identities have broad local admin rights?
-
-Where are privileged sessions appearing?
-
-Who can modify GPOs?
-
-Which principals have replication rights?
-
-Which delegation relationships cross tiers?
-
-Which AD CS relationships create identity risk?
-
-Which trusts create cross-domain exposure?
-
-Which identities can modify Tier-0 objects?
-
-Which service accounts have excessive privilege?
-
-Which computers create privilege concentration?
-
-Which edges appear on many paths?
-
-Which single remediation removes the most paths?
-```
-
----
-
-# Exposure Analysis
-
-BloodHound is useful even when no exploitation is planned.
-
-Examples:
-
-```text
-Administrative Sprawl
-Privilege Concentration
-Tiering Violations
-Excessive ACL Delegation
-Privileged Session Exposure
-Weak GPO Delegation
-Dangerous Trust Relationships
-Excessive PKI Permissions
-Replication Rights
-Legacy Delegation
-```
-
----
-
-# Blast Radius Analysis
-
-Ask:
-
-```text
-If this identity is compromised, what can it influence?
-```
-
-Concept:
-
-```text
-Identity
-   |
-   +--> Groups
-   |
-   +--> Computers
-   |
-   +--> ACLs
-   |
-   +--> GPOs
-   |
-   +--> PKI
-   |
-   +--> Domains
-```
-
-This is often more useful to management than a single attack path.
-
----
-
-# Privilege Concentration
-
-Look for identities that control many objects.
-
-```text
-One Principal
-     |
-     +--> Many Computers
-     +--> Many Groups
-     +--> Many ACLs
-     +--> Critical GPOs
-```
-
-A compromise of such an identity can create disproportionate impact.
-
----
-
-# Identity Tiering
-
-Concept:
-
-```text
-Tier 0
-  |
-  | should not routinely authenticate to
-  v
-Lower-Trust Systems
-```
-
-BloodHound session and administrative relationships can help identify potential tiering violations.
-
----
-
-# Collection Health
-
-Record:
-
-```text
-Collector
-Collector Version
-Collection Date
-Collection Time
-Collection Methods
-Identity Used
-Domain
-Domain Controller
-DNS Server
-Failed Hosts
-Excluded Hosts
-Scope Restrictions
-Pivot / Route
-```
-
----
-
-# Collection Health Rule
-
-```text
-Incomplete Collection
-        |
-        v
-Incomplete Graph
-        |
-        v
-Missing Relationships
-        |
-        v
-Potentially Missed Paths
-```
-
-Never interpret absence of an edge as proof that the relationship cannot exist unless collection coverage supports that conclusion.
-
----
-
-# BloodHound Is a Snapshot
-
-```text
-Collection
-    |
-    v
-Point in Time
-```
-
-Especially dynamic:
-
-```text
-Sessions
-Computer Availability
-Group Membership
-ACLs
-Delegation
-Certificate Configuration
-Trust Configuration
-```
-
----
-
-# Re-Collection Triggers
-
-Consider re-collection after:
-
-```text
-New credential
-
-New privilege
-
-New subnet
-
-New domain
-
-New trust
-
-New reachable systems
-
-Previously inaccessible systems
-
-New endpoint permissions
-
-Major environment change
-
-Remediation
-```
-
----
-
-# Re-Collection After Remediation
-
-BloodHound can also validate remediation.
-
-```text
-Original Collection
-       |
-       v
-Attack Path
-       |
-       v
-Remediation
-       |
-       v
-New Collection
-       |
-       v
-Compare
-       |
-       v
-Path Removed?
-```
-
----
-
-# Layered Collection
-
-Prefer:
-
-```text
-Directory Collection
-      |
-      v
-Analyse
-      |
-      v
-Interesting Systems
-      |
-      v
-Focused Computer Collection
-      |
-      v
-Session Collection
-      |
-      v
-Re-Analyse
-```
-
-rather than indiscriminately collecting everything from every endpoint.
-
----
-
-# BloodHound + NetExec
-
-```text
-NetExec
-   |
-   v
-Discover
-   |
-   v
-Validate Credential
-   |
-   v
-BloodHound Collection
-   |
-   v
-Graph Analysis
-   |
-   v
-Interesting Host / Identity
-   |
-   v
-NetExec Focused Validation
-```
-
-See:
-
-[NetExec Cheatsheet](netexec.md)
-
----
-
-# BloodHound + Impacket
-
-```text
-BloodHound
+Cypher Result
     |
     v
 Interesting Relationship
     |
-    +--> SMB
-    +--> RPC
-    +--> Kerberos
-    +--> Delegation
-    +--> ACL
+    v
+Inspect Object
     |
     v
-Impacket
+Inspect Edge
+    |
+    v
+Validate Outside BloodHound
+    |
+    v
+Determine Impact
 ```
 
-Use Impacket for focused protocol-level validation.
 
-See:
+# Built-In Queries
 
-[Impacket Cheatsheet](impacket.md)
+Depending on BloodHound version, built-in analysis may provide queries for areas such as:
 
----
+```text
+Shortest paths to high-value targets
 
-# BloodHound + PowerView
+Domain Admin relationships
+
+Kerberoastable accounts
+
+AS-REP roastable accounts
+
+Local administrative rights
+
+Sessions
+
+Dangerous object control
+```
+
+Treat built-in queries as investigation starting points.
+
+
+# BloodHound + NetExec Workflow
+
+A strong combination is:
 
 ```text
 BloodHound
     |
     v
-Interesting AD Relationship
+ASIF AdminTo SRV01
+    |
+    v
+NetExec
+    |
+    v
+Validate Authentication / Admin Context
+    |
+    v
+Confirm Relationship
+```
+
+
+# Example
+
+BloodHound suggests:
+
+```text
+ASIF@CORP.LOCAL
+      |
+      | AdminTo
+      v
+SRV01.CORP.LOCAL
+```
+
+A narrow validation can then determine whether the tested account currently has administrative access to that host.
+
+Do not test every host merely because the graph contains many relationships.
+
+
+# BloodHound + Impacket Workflow
+
+```text
+BloodHound
+    |
+    v
+Specific Protocol Relationship
+    |
+    v
+Understand Preconditions
+    |
+    v
+Impacket
+    |
+    v
+Focused Validation
+```
+
+For example, a Kerberos or remote-administration relationship may justify selecting one specialised Impacket utility.
+
+See the [Impacket Cheatsheet](impacket.md).
+
+
+# BloodHound + PowerView
+
+PowerView can be useful for independently validating directory relationships discovered in BloodHound.
+
+Conceptually:
+
+```text
+BloodHound
+    |
+    v
+Interesting ACL
     |
     v
 PowerView / Native AD Query
     |
     v
-Independent Validation
+Actual ACE
+    |
+    v
+Interpretation
 ```
 
-Useful for:
+
+# BloodHound + Native PowerShell
+
+Native Windows tooling can also verify many relationships.
+
+Current groups:
+
+```powershell
+whoami /groups
+```
+
+Local administrators where authorised:
+
+```powershell
+Get-LocalGroupMember -Group Administrators
+```
+
+Domain information where AD tooling is available can provide additional validation.
+
+
+# BloodHound + Active Directory Users and Computers
+
+For some findings, graphical administrative tools can provide useful supporting evidence.
+
+Examples:
 
 ```text
-ACLs
-Ownership
-Groups
-GPOs
+Group membership
+
+OU placement
+
 Delegation
-Object Properties
+
+Object properties
 ```
 
----
+Do not rely on a single interface if the finding depends on subtle ACL behaviour.
 
-# BloodHound + Certipy
+
+# Data Freshness
+
+BloodHound data is a snapshot.
+
+It should always be associated with:
 
 ```text
-BloodHound
-    |
-    v
-AD CS Relationship
-    |
-    v
-Certipy
-    |
-    v
-Detailed Certificate Analysis
+Collection time
 ```
 
-BloodHound provides graph context.
+rather than interpreted as permanently current.
 
-Certipy can provide certificate-specific configuration detail.
 
----
+# Stale Users
 
-# BloodHound + BloodBash
+Possible indicators:
 
 ```text
-Collection
-    |
-    +----------+----------+
-    |                     |
-    v                     v
-BloodHound CE          BloodBash
-    |                     |
-    v                     v
-Visual Analysis        CLI Triage
-    |                     |
-    +----------+----------+
-               |
-               v
-        Candidate Findings
+Disabled accounts
+
+Old logon timestamps
+
+Legacy service accounts
+
+Accounts no longer used
 ```
 
----
+A stale object can still be security relevant, but its current operational role must be verified.
 
-# Collection Through a Pivot
 
-First verify:
+# Stale Computers
 
-```bash
-ip addr
-```
-
-```bash
-ip route
-```
-
-```bash
-cat /etc/resolv.conf
-```
-
-Then:
-
-```bash
-dig "$DC"
-```
-
-```bash
-nc -vz "$DC" 389
-```
-
-```bash
-nc -vz "$DC" 445
-```
-
----
-
-# Pivot Requirements
-
-Depending on collection method, BloodHound may need:
+Computer objects may represent:
 
 ```text
-DNS
-LDAP
-SMB
-Kerberos
-RPC
-Dynamic RPC
+Decommissioned systems
+
+Offline systems
+
+Reimaged systems
+
+Old test systems
+
+Cloud-hosted systems no longer active
 ```
 
-A working TCP route alone does not guarantee successful collection.
+Validate reachability before using them in an attack-path conclusion.
 
----
 
-# TUN-Based Pivot
+# Stale Sessions
 
-Concept:
+Session data should be treated as especially volatile.
 
 ```text
-Kali
+Collection at 10:00
+```
+
+does not prove:
+
+```text
+Session exists at 16:00
+```
+
+
+# Incomplete Collection
+
+Common reasons include:
+
+```text
+DNS failure
+
+Firewall restrictions
+
+SMB blocked
+
+RPC blocked
+
+Insufficient privileges
+
+Collector errors
+
+EDR interference
+
+Offline systems
+
+Collection method not selected
+
+Timeouts
+```
+
+
+# Recognising Incomplete Data
+
+Warning signs:
+
+```text
+Very few computers
+
+No local admin edges
+
+No sessions
+
+No ACL edges
+
+Missing expected domain controllers
+
+Missing expected groups
+
+Collection errors
+```
+
+
+# Incomplete Dataset Example
+
+Suppose the organisation has:
+
+```text
+2,500 computers
+```
+
+but BloodHound contains:
+
+```text
+183 computers
+```
+
+Do not conclude:
+
+```text
+The remaining systems have no attack paths.
+```
+
+The dataset is likely incomplete.
+
+
+# Collection Coverage
+
+Track:
+
+```text
+Expected Computers:
+2500
+
+Collected Computers:
+183
+
+Coverage:
+7.3%
+```
+
+This changes the confidence level of the analysis.
+
+
+# Confidence Levels
+
+You can classify BloodHound conclusions as:
+
+```text
+Observed
+
+Validated
+
+Incomplete
+
+Stale
+
+Unconfirmed
+```
+
+
+# Observed
+
+Example:
+
+```text
+BloodHound contains an AdminTo relationship between
+CORP\asif and SRV01.
+```
+
+
+# Validated
+
+Example:
+
+```text
+The relationship was independently confirmed against the
+current local administrator configuration.
+```
+
+
+# Incomplete
+
+Example:
+
+```text
+Session collection failed against a significant portion of
+workstations.
+```
+
+
+# Stale
+
+Example:
+
+```text
+The session was collected several hours before validation and
+could no longer be reproduced.
+```
+
+
+# Unconfirmed
+
+Example:
+
+```text
+The relationship could not be independently validated within
+the assessment window.
+```
+
+
+# False Positive Example - AdminTo
+
+BloodHound:
+
+```text
+HELPDESK
+   |
+   | AdminTo
+   v
+WS01
+```
+
+Independent validation:
+
+```text
+HELPDESK is no longer present in the local Administrators group.
+```
+
+Possible explanation:
+
+```text
+Collection predates a policy change.
+```
+
+Conclusion:
+
+```text
+Do not report current administrative access.
+```
+
+
+# False Positive Example - Session
+
+BloodHound:
+
+```text
+SRV01
  |
+ | HasSession
  v
-TUN Interface
- |
- v
-Pivot
- |
- v
-Internal AD
- |
- +--> DNS
- +--> LDAP
- +--> SMB
- +--> Kerberos
- +--> RPC
+DOMAIN ADMIN
 ```
 
-TUN-based routing can simplify multi-protocol AD tooling.
-
----
-
-# Evidence Directory
-
-Create:
-
-```bash
-mkdir -p evidence/bloodhound/{collection,analysis,queries,exports,screenshots,reports}
-```
-
-Suggested structure:
+Later validation:
 
 ```text
-evidence/
-└── bloodhound/
-    ├── collection/
-    │   ├── original/
-    │   └── working/
-    ├── analysis/
-    ├── queries/
-    ├── exports/
-    ├── screenshots/
-    └── reports/
+Session no longer exists.
 ```
 
----
-
-# Preserve Original Collection
-
-Keep:
+Conclusion:
 
 ```text
-Original ZIP / JSON
-Collector Version
-Collection Timestamp
-Collection Methods
-Identity
-Domain
-DC
-Scope
+The session was observed during collection but was transient.
 ```
 
-Do not alter original collector output.
 
----
+# Alternative Explanation Example - Missing Sessions
 
-# Hash Collection Files
+BloodHound:
 
-For evidence integrity:
-
-```bash
-sha256sum collection.zip
+```text
+No sessions found.
 ```
 
-Save:
+Collector log:
 
-```bash
-sha256sum collection.zip > collection.zip.sha256
+```text
+Host enumeration failed because SMB was blocked.
 ```
 
----
+Correct conclusion:
+
+```text
+Session state could not be determined.
+```
+
+Incorrect conclusion:
+
+```text
+No privileged users have sessions.
+```
+
+
+# Attack Path Validation
+
+For every significant path create a table.
+
+| Step | BloodHound Edge | Validation | Result |
+|---|---|---|---|
+| 1 | `ASIF -> MemberOf -> HELPDESK` | Directory membership | Confirmed |
+| 2 | `HELPDESK -> GenericAll -> SERVER-ADMINS` | ACL review | Confirmed |
+| 3 | `SERVER-ADMINS -> AdminTo -> SRV01` | Local admin review | Confirmed |
+| 4 | `SRV01 -> HasSession -> ADMIN1` | Session recheck | Not confirmed |
+
+This prevents a partially valid path from being reported as fully exploitable.
+
+
+# Evidence Capture
+
+For each important path record:
+
+```text
+Collection timestamp
+
+Collector
+
+Collector version
+
+Collection methods
+
+BloodHound version
+
+Source principal
+
+Destination
+
+Path
+
+Edges
+
+Independent validation
+
+Limitations
+```
+
 
 # Screenshot Evidence
 
-Capture focused paths.
-
-Good:
+A useful BloodHound screenshot should show:
 
 ```text
-Starting Principal
-       |
-       v
-Relationship
-       |
-       v
-Intermediate Object
-       |
-       v
-Relationship
-       |
-       v
-Target
+Source principal
+
+Destination
+
+Complete relevant path
+
+Edge names
 ```
 
-Avoid screenshots containing hundreds of unrelated nodes.
-
----
-
-# Evidence for an Edge
-
-Record:
+Avoid screenshots containing:
 
 ```text
-Source Principal:
-Relationship:
-Target Object:
+Unrelated user data
+
+Large unreadable graphs
+
+Sensitive usernames not relevant to the finding
+```
+
+
+# Evidence Example
+
+```text
+Test ID:
+AD-BH-004
+
+Timestamp:
+2026-09-06 16:00 UTC
+
+Tool:
+BloodHound
+
 Collector:
-Collection Time:
-Independent Validation:
-Prerequisites:
-Potential Impact:
-State Change Required:
+SharpHound
+
+Collection Identity:
+CORP\asif
+
+Domain:
+corp.local
+
+Source:
+ASIF@CORP.LOCAL
+
+Target:
+SRV01.CORP.LOCAL
+
+Observed Path:
+ASIF
+ -> MemberOf
+HELPDESK
+ -> GenericAll
+SERVER-ADMINS
+ -> AdminTo
+SRV01
+
+Validation:
+Membership confirmed.
+GenericAll ACE independently confirmed.
+SERVER-ADMINS local administrative assignment confirmed.
+
+Conclusion:
+The tested user can influence a group that provides
+administrative access to SRV01.
+
+Limitations:
+No modification was performed during validation.
 ```
 
----
 
-# Sensitive Information
-
-BloodHound data can contain:
-
-```text
-Usernames
-Computer Names
-Group Membership
-Sessions
-Administrative Relationships
-ACLs
-Trusts
-Certificate Infrastructure
-Privileged Identities
-Attack Paths
-Internal Topology
-```
-
-Treat collections as sensitive assessment material.
-
----
-
-# Reporting Principle
+# Reporting BloodHound Findings
 
 Do not report:
 
-```text
-BloodHound found an attack path.
-```
+> BloodHound found an attack path.
 
-Prefer:
+BloodHound is evidence and analysis tooling, not the root cause.
 
-```text
-The tested user possesses permissions over a group that
-provides administrative access to multiple application servers.
-```
 
-BloodHound is evidence.
-
-The underlying security condition is the finding.
-
----
-
-# Reporting an Attack Path
-
-Document:
-
-```text
-Starting Identity
-Relationship
-Intermediate Object
-Relationship
-Target
-Prerequisites
-Validation
-Impact
-Remediation
-```
-
----
-
-# Reporting ACLs
-
-Avoid:
-
-```text
-BloodHound shows GenericAll.
-```
-
-Prefer:
-
-```text
-The tested domain user possesses GenericAll permissions
-over the target Active Directory group, providing broad
-control over that directory object.
-```
-
----
-
-# Reporting Sessions
-
-Avoid:
-
-```text
-BloodHound found Domain Admin on APP01.
-```
-
-Prefer:
-
-```text
-Collection data indicated that a privileged domain account
-had an active session associated with APP01 at the time of
-collection.
-```
-
-Always preserve the collection timestamp.
-
----
-
-# Reporting Local Admin Sprawl
+# Better Finding Title
 
 Instead of:
 
 ```text
-BloodHound found lots of AdminTo edges.
+BloodHound Attack Path to Server
 ```
 
-Prefer:
+prefer:
 
 ```text
-The tested administrative identity has local administrator
-rights across a broad set of workstations and servers,
-increasing the potential blast radius of credential compromise.
+Excessive Active Directory Delegation Enables Privilege Escalation
 ```
 
----
-
-# Reporting Path Remediation
-
-A useful defensive format:
+or:
 
 ```text
-Observed path:
-User -> Group -> Server -> Privileged Session
-
-Root condition:
-Excessive local administrator assignment
-
-Recommended change:
-Restrict administrative membership to systems required
-for the user's operational role
-
-Verification:
-Re-collect and confirm the administrative relationship
-and dependent attack paths are removed
+Helpdesk Group Can Modify Privileged Server Administration Group
 ```
 
----
 
-# Detection
+# Reporting Example
 
-Collection may generate:
+## Observation
 
 ```text
-LDAP Enumeration
-SMB Connections
-RPC Connections
-Session Enumeration
-Local Group Enumeration
-Registry Queries
-DNS Queries
-Kerberos Requests
-Authentication Events
-Process Telemetry
-EDR Alerts
-```
-
----
-
-# Detection Model
-
-```text
-Single Directory Query
-        |
-        v
-Lower Signal
-
-Broad LDAP Enumeration
-        +
-Many Endpoint Connections
-        +
-Session Queries
-        +
-Local Group Queries
-        +
-Unusual Source Host
-        |
-        v
-Higher Signal
-```
-
-This is not a guarantee of detection.
-
----
-
-# Defensive Monitoring Ideas
-
-Defenders can consider monitoring:
-
-```text
-Unusual LDAP Query Breadth
-Large Numbers of Computer Connections
-Remote SAM / Local Group Queries
-Session Enumeration
-Unexpected RPC Activity
-Unexpected SMB Enumeration
-SharpHound Process Execution
-Collector File Creation
-Repeated Directory Queries from Workstations
-```
-
-Detection should focus on behaviour as well as tool names.
-
----
-
-# Defensive Analysis
-
-BloodHound can help defenders identify:
-
-```text
-Dangerous ACLs
-Local Administrator Sprawl
-Tiering Violations
-Privileged Sessions
-Dangerous Delegation
-Weak GPO Permissions
-AD CS Paths
-Cross-Domain Exposure
-Overprivileged Groups
-Replication Rights
-Privilege Concentration
-Stale Privileged Accounts
-```
-
----
-
-# Remediation Prioritisation
-
-Prioritise relationships that are:
-
-```text
-High Impact
-
-Unnecessary
-
-Widely Reused
-
-Present on Many Paths
-
-Connected to Tier-0
-
-Easy to Remove
-
-Easy to Monitor
-
-Historically Stale
-```
-
----
-
-# Common Mistakes
-
-```text
-Edge exists
-   !=
-Exploit works
-
-Shortest path
-   !=
-Best path
-
-No edge
-   !=
-Relationship impossible
-
-No session
-   !=
-No user logged on
-
-Old collection
-   !=
-Current state
-
-Collection completed
-   !=
-Collection complete
-
-Owned
-   !=
-Permission to exploit everything
-
-AdminTo
-   !=
-Remote execution confirmed
-
-CanRDP
-   !=
-RDP currently reachable
-
-WriteDacl
-   !=
-Permission to modify production
-
-DCSync edge
-   !=
-Permission to dump all credentials during assessment
-```
-
----
-
-# Troubleshooting - DNS
-
-```bash
-dig "$DC"
-```
-
-```bash
-dig SRV "_ldap._tcp.dc._msdcs.$DOMAIN"
-```
-
-```bash
-dig SRV "_kerberos._tcp.$DOMAIN"
-```
-
----
-
-# Troubleshooting - LDAP
-
-```bash
-nc -vz "$DC" 389
-```
-
-LDAPS:
-
-```bash
-nc -vz "$DC" 636
-```
-
----
-
-# Troubleshooting - SMB
-
-```bash
-nc -vz "$DC" 445
-```
-
----
-
-# Troubleshooting - Kerberos
-
-```bash
-nc -vz "$DC" 88
-```
-
-Check time:
-
-```bash
-date
-```
-
-Ticket:
-
-```bash
-klist
-```
-
----
-
-# BloodHound.py Fails
-
-Check:
-
-```text
-Correct CE vs Legacy Collector
-DNS
-Domain
-DC FQDN
-Credentials
-LDAP
-SMB
-Kerberos
-Collection Methods
-Collector Version
-Routes
-Firewall
-```
-
----
-
-# Missing Sessions
-
-Possible reasons:
-
-```text
-Session ended
-Session method omitted
-Insufficient access
-Endpoint unreachable
-Firewall
-Collector limitation
-Collection timing
-```
-
----
-
-# Missing ACLs
-
-Check:
-
-```text
-ACL collection enabled
-LDAP access
-Collector compatibility
-Scope
-Collection completeness
-Object visibility
-```
-
----
-
-# Missing Computer Data
-
-Check:
-
-```text
-Computer reachable
-SMB
-RPC
-Firewall
-Privileges
-Collection method
-Scope
-Collector support
-```
-
----
-
-# Missing AD CS Data
-
-Check:
-
-```text
-Collector version
-Certificate collection enabled
-Directory visibility
-CA/template presence
-BloodHound version
-Ingestion compatibility
-```
-
-Use Certipy for independent certificate-specific enumeration where appropriate.
-
----
-
-# Graph Appears Empty
-
-Check:
-
-```text
-Correct collection imported
-Import completed
-Correct domain selected
-Collection files valid
-Collector generation compatible
-Search filters
-Time filters
-Node type filters
-```
-
----
-
-# Quick Assessment Workflow
-
-```text
-1. Confirm scope
-2. Identify domain
-3. Identify DC
-4. Configure DNS
-5. Verify time
-6. Choose collector
-7. Select collection methods
-8. Perform initial collection
-9. Preserve original data
-10. Import/analyse
-11. Mark controlled identities
-12. Mark organisation-specific high-value assets
-13. Review groups
-14. Review admin relationships
-15. Review ACLs
-16. Review sessions
-17. Review delegation
-18. Review GPO control
-19. Review AD CS
-20. Review trusts
-21. Review replication rights
-22. Identify candidate paths
-23. Verify edge semantics
-24. Validate prerequisites
-25. Perform minimal authorised validation
-26. Re-collect after context changes
-27. Identify remediation choke points
-28. Preserve evidence
-29. Report underlying conditions
-```
-
----
-
-# Authenticated Domain User Workflow
-
-```text
-Domain User
-    |
-    v
-Directory Collection
-    |
-    v
-Mark Owned
-    |
-    v
-Group Membership
-    |
-    v
-Outbound ACLs
-    |
-    v
-Computer Rights
-    |
-    v
-GPO Rights
-    |
-    v
-Delegation
-    |
-    v
-AD CS
-    |
-    v
-Trusts
-    |
-    v
-Paths to High Value
-```
-
----
-
-# Local Administrator Workflow
-
-```text
-Local Admin
-    |
-    v
-Which Computer?
-    |
-    v
-BloodHound AdminTo?
-    |
-    v
-Who Uses Computer?
-    |
-    v
-Sessions
-    |
-    v
-Other Administrative Relationships
-    |
-    v
-Potential Blast Radius
-```
-
-Do not automatically collect credentials simply because administrative control exists.
-
----
-
-# Privileged User Workflow
-
-```text
-Privileged Identity
-       |
-       v
-Where Does It Log On?
-       |
-       v
-Which Lower-Tier Systems?
-       |
-       v
-Which Groups?
-       |
-       v
-Which ACLs?
-       |
-       v
-Which Delegation?
-       |
-       v
-Which PKI Rights?
-       |
-       v
-Tiering / Exposure Findings
-```
-
----
-
-# Defensive Review Workflow
-
-```text
-Full Collection
-      |
-      v
-Tier-0 Assets
-      |
-      v
-Inbound Paths
-      |
-      v
-Privilege Concentration
-      |
-      v
-Administrative Sprawl
-      |
-      v
-Privileged Sessions
-      |
-      v
-Dangerous ACLs
-      |
-      v
-Delegation
-      |
-      v
-AD CS
-      |
-      v
-Trusts
-      |
-      v
-Path Break Analysis
-      |
-      v
-Remediation
-      |
-      v
-Re-Collection
-```
-
----
-
-# One-Minute BloodHound Reference
-
-```text
-SharpHound help
-    .\SharpHound.exe --help
-
-SharpHound basic
-    .\SharpHound.exe
-
-SharpHound domain
-    .\SharpHound.exe -d example.local
-
-SharpHound DCOnly
-    .\SharpHound.exe --CollectionMethods DCOnly
-
-SharpHound sessions
-    .\SharpHound.exe --CollectionMethods Session
-
-BloodHound.py CE install
-    pipx install bloodhound-ce
-
-BloodHound.py CE help
-    bloodhound-ce-python --help
-
-BloodHound.py CE
-    bloodhound-ce-python -u USER -p 'PASSWORD' -d DOMAIN -ns DNS -c All --zip
-
-NetExec LDAP
-    nxc ldap DC -d DOMAIN -u USER -p 'PASSWORD'
-
-NetExec BloodHound options
-    nxc ldap --help
-
-BloodBash install
-    pipx install git+https://github.com/DotNetRussell/BloodBash
-
-BloodBash quick
-    bloodbash ./sharpout
-
-BloodBash full
-    bloodbash ./sharpout --all --fast
-
-BloodBash owned user
-    bloodbash ./sharpout --from-user alice --from-user-export
-
-BloodBash shortest paths
-    bloodbash ./sharpout --shortest-paths
-
-BloodBash explicit path
-    bloodbash ./sharpout --path-from alice --path-to 'domain admins@corp.local'
-
-BloodBash inspect
-    bloodbash ./sharpout --inspect alice
-
-BloodBash path break
-    bloodbash ./sharpout --path-break --path-break-top 20
-
-BloodBash merge
-    bloodbash ./lowpriv.zip --merge ./additional.zip --all --fast
-
-BloodBash report
-    bloodbash ./sharpout --all --export=html
-```
-
----
-
-# Fast Collector Selection
-
-```text
-Windows
-   |
-   +--> SharpHound CE
-
-Linux
-   |
-   +--> BloodHound.py CE
-   |
-   +--> NetExec
-
-Existing Collection
-   |
-   +--> BloodHound CE
-   |
-   +--> BloodBash
-```
-
----
-
-# Fast Analysis Selection
-
-```text
-Need visual exploration?
-        |
-        +--> BloodHound CE
-
-Need CLI triage?
-        |
-        +--> BloodBash
-
-Need controlled-user paths?
-        |
-        +--> BloodHound CE
-        |
-        +--> BloodBash --from-user
-
-Need custom graph queries?
-        |
-        +--> BloodHound / Cypher
-
-Need offline analysis?
-        |
-        +--> BloodBash
-
-Need remediation choke points?
-        |
-        +--> BloodBash --path-break
-```
-
----
-
-# Assessment Checklist
-
-## Preparation
-
-```text
-[ ] Scope confirmed
-[ ] Domain known
-[ ] DC known
-[ ] DNS configured
-[ ] Time checked
-[ ] Routes verified
-[ ] Credential context understood
-[ ] Collector selected
-```
-
-## Collection
-
-```text
-[ ] Correct collector generation
-[ ] Collector version recorded
-[ ] Collection methods recorded
-[ ] Collection time recorded
-[ ] Identity recorded
-[ ] Failed systems recorded
-[ ] Exclusions recorded
-[ ] Scope restrictions recorded
-[ ] Original data preserved
-```
-
-## Analysis
-
-```text
-[ ] Controlled principals marked
-[ ] High-value targets reviewed
-[ ] Organisation-specific Tier-0 assets reviewed
-[ ] Group memberships reviewed
-[ ] Local admin relationships reviewed
-[ ] Sessions reviewed
-[ ] ACLs reviewed
-[ ] GPO relationships reviewed
-[ ] Delegation reviewed
-[ ] AD CS reviewed
-[ ] Trusts reviewed
-[ ] Replication rights reviewed
-[ ] Cross-domain paths reviewed
-[ ] Choke points reviewed
-```
-
-## Validation
-
-```text
-[ ] Edge semantics understood
-[ ] Relationship current
-[ ] Edge independently verified where necessary
-[ ] Network reachability checked
-[ ] Credentials checked
-[ ] Required privileges understood
-[ ] Security controls considered
-[ ] State-changing validation authorised
-[ ] Operational impact considered
+Members of the CORP\Helpdesk group have excessive directory
+permissions over CORP\Server-Admins.
 ```
 
 ## Evidence
 
 ```text
-[ ] Original collection preserved
-[ ] Collection hash recorded
-[ ] Collection metadata recorded
-[ ] Queries saved
-[ ] Focused screenshots captured
-[ ] Relevant exports saved
-[ ] Sensitive data protected
+BloodHound identified a GenericAll relationship from Helpdesk
+to Server-Admins. Independent ACL review confirmed the
+permission.
 ```
+
+## Security Consequence
+
+```text
+Server-Admins provides administrative access to SRV01.
+Consequently, compromise of a Helpdesk account could permit
+unauthorised administrative access to the server.
+```
+
+## Recommendation
+
+```text
+Remove unnecessary delegated control over Server-Admins and
+review other privileged groups for similar permissions.
+```
+
+
+# Do Not Report the Tool
+
+Avoid:
+
+```text
+BloodHound vulnerability
+```
+
+Report:
+
+```text
+Excessive ACL
+
+Excessive group membership
+
+Unnecessary local administrator rights
+
+Unsafe delegation
+
+Privileged session exposure
+
+Insecure GPO permissions
+```
+
+BloodHound reveals the condition.
+
+
+# Remediation - ACL Paths
+
+Review:
+
+```text
+GenericAll
+
+GenericWrite
+
+WriteDacl
+
+WriteOwner
+
+AddMember
+
+ForceChangePassword
+```
+
+Remove permissions that are not required by the principal's operational role.
+
+
+# Remediation - Group Membership
+
+Apply:
+
+```text
+Least privilege
+
+Role-based administration
+
+Separate privileged identities
+
+Regular membership review
+
+Remove nested privilege where unnecessary
+```
+
+
+# Remediation - Local Administrators
+
+Review:
+
+```text
+Domain groups in local Administrators
+
+Legacy helpdesk access
+
+Shared administrator groups
+
+Application service accounts
+
+Deployment accounts
+```
+
+Use appropriate privileged-access management.
+
+
+# Remediation - Privileged Sessions
+
+Reduce unnecessary privileged logons to lower-trust systems.
+
+Consider:
+
+```text
+Administrative tiering
+
+Privileged Access Workstations
+
+Dedicated administration hosts
+
+Remote Credential Guard where appropriate
+
+Credential Guard
+
+Restricted administrative workflows
+```
+
+
+# Remediation - GPO Control
+
+Restrict:
+
+```text
+Who can modify GPOs
+
+Who can modify GPO links
+
+Who can modify related files
+
+Who controls sensitive OUs
+```
+
+
+# Remediation - Delegation
+
+Review:
+
+```text
+Unconstrained delegation
+
+Constrained delegation
+
+RBCD
+
+Legacy delegation
+
+Service-account privilege
+```
+
+Remove delegation that is no longer required.
+
+
+# Retesting BloodHound Findings
+
+A good retest verifies the root cause rather than merely importing a new graph.
+
+
+# Example Retest - GenericAll
+
+Before:
+
+```text
+HELPDESK
+   |
+   | GenericAll
+   v
+SERVER-ADMINS
+```
+
+Remediation:
+
+```text
+Excessive ACE removed.
+```
+
+Retest:
+
+```text
+1. Inspect the target object's ACL.
+2. Confirm the ACE is absent.
+3. Recollect relevant BloodHound ACL data.
+4. Import the new dataset.
+5. Confirm the edge is absent.
+6. Confirm no equivalent privilege path remains.
+```
+
+
+# Example Retest - Local Admin
+
+Before:
+
+```text
+HELPDESK
+   |
+   | AdminTo
+   v
+SRV01
+```
+
+Retest:
+
+```text
+1. Confirm Helpdesk is no longer a local administrator.
+2. Recollect local-group information.
+3. Confirm BloodHound no longer produces the edge.
+4. Validate that another nested group does not recreate access.
+```
+
+
+# Why Edge Disappearance Is Not Enough
+
+Suppose an edge disappears because:
+
+```text
+Collection failed.
+```
+
+That is not remediation.
+
+Therefore:
+
+```text
+No Edge
+    |
+    v
+Was Data Successfully Collected?
+    |
+   / \
+ No   Yes
+ |     |
+ v     v
+Unknown Remediation
+        Candidate
+```
+
+
+# Retest Dataset Comparison
+
+Track:
+
+| Metric | Before | After |
+|---|---:|---:|
+| Users | 5,200 | 5,198 |
+| Groups | 1,120 | 1,121 |
+| Computers | 2,480 | 2,477 |
+| GenericAll edges | 83 | 62 |
+| WriteDacl edges | 41 | 29 |
+| High-value attack paths | 17 | 5 |
+
+Counts alone do not prove security improvement, but they can help measure changes when collection conditions are comparable.
+
+
+# BloodHound for Purple Teaming
+
+BloodHound can support purple-team exercises by helping select realistic privilege paths.
+
+Example:
+
+```text
+BloodHound Path
+      |
+      v
+Select One Relationship
+      |
+      v
+Define Expected Telemetry
+      |
+      v
+Controlled Validation
+      |
+      v
+Blue Team Observation
+      |
+      v
+Detection Gap
+      |
+      v
+Remediation
+```
+
+
+# Purple Team Example
+
+Path:
+
+```text
+Helpdesk User
+     |
+     v
+Dangerous ACL
+     |
+     v
+Server Admin Group
+```
+
+Exercise objective:
+
+```text
+Can defenders detect and investigate unauthorised modification
+of a privileged Active Directory group?
+```
+
+
+# Detection Questions
+
+Ask:
+
+```text
+Was the directory modification logged?
+
+Was the initiating account identified?
+
+Was the target object identified?
+
+Was an alert generated?
+
+Did the SOC understand the privilege consequence?
+
+Could analysts reconstruct the complete path?
+```
+
+
+# Defensive BloodHound Analysis
+
+Blue teams can use BloodHound to identify:
+
+```text
+Privilege concentration
+
+Dangerous ACLs
+
+Excessive administrative access
+
+Tier violations
+
+Privileged session exposure
+
+Attack-path choke points
+
+Overly broad delegation
+
+High-value systems with excessive inbound control
+```
+
+
+# Continuous Analysis
+
+A mature defensive workflow could be:
+
+```text
+Scheduled Collection
+       |
+       v
+Graph Analysis
+       |
+       v
+Identify New Privilege Relationships
+       |
+       v
+Validate Change
+       |
+       v
+Remediate
+       |
+       v
+Recollect
+```
+
+
+# Compare Snapshots
+
+Useful questions:
+
+```text
+Which new AdminTo edges appeared?
+
+Which new ACL edges appeared?
+
+Which accounts gained control over privileged groups?
+
+Which new systems became high value?
+
+Which attack paths disappeared?
+
+Which privileged session patterns changed?
+```
+
+
+# Common BloodHound Mistakes
+
+## Collect Everything Immediately
+
+Problem:
+
+```text
+Unnecessary traffic and noise.
+```
+
+Better:
+
+```text
+Collect what is needed for the current objective.
+```
+
+
+## Assume No Edge Means No Risk
+
+Problem:
+
+```text
+Dataset may be incomplete.
+```
+
+Better:
+
+```text
+Check collection coverage.
+```
+
+
+## Assume Every Path Is Exploitable
+
+Problem:
+
+```text
+Edges may be stale or have unmet prerequisites.
+```
+
+Better:
+
+```text
+Validate important edges independently.
+```
+
+
+## Focus Only on Domain Admin
+
+Problem:
+
+```text
+Other identities and systems may be equally important.
+```
+
+Better:
+
+```text
+Define organisational high-value assets.
+```
+
+
+## Report BloodHound Instead of Root Cause
+
+Problem:
+
+```text
+"BloodHound found..."
+```
+
+Better:
+
+```text
+"Excessive delegated ACL..."
+```
+
+
+## Ignore Collection Time
+
+Problem:
+
+```text
+Sessions and relationships may change.
+```
+
+Better:
+
+```text
+Record collection timestamps.
+```
+
+
+## Ignore Collector Errors
+
+Problem:
+
+```text
+Missing data can appear as missing relationships.
+```
+
+Better:
+
+```text
+Review collector output and coverage.
+```
+
+
+## Use Giant Graph Screenshots
+
+Problem:
+
+```text
+Evidence becomes unreadable.
+```
+
+Better:
+
+```text
+Capture the smallest graph that demonstrates the relationship.
+```
+
+
+# Troubleshooting
+
+# BloodHound Contains No Data
+
+Check:
+
+```text
+Was import successful?
+
+Was the correct archive imported?
+
+Did collection complete?
+
+Did the collector produce objects?
+
+Are filters hiding results?
+```
+
+
+# Users Exist but Computers Are Missing
+
+Possible causes:
+
+```text
+Collection method
+
+LDAP query limitations
+
+Domain selection
+
+Collector failure
+
+Import issue
+```
+
+
+# Computers Exist but No Sessions
+
+Possible causes:
+
+```text
+Session collection not selected
+
+SMB blocked
+
+Hosts unreachable
+
+Permission restrictions
+
+No sessions observed
+
+Collection errors
+```
+
+Do not assume the last explanation without checking the others.
+
+
+# No AdminTo Edges
+
+Possible causes:
+
+```text
+Local-group collection not performed
+
+Hosts unreachable
+
+Permissions insufficient
+
+Firewall
+
+Collector errors
+
+No such relationships
+```
+
+
+# Linux Collector Cannot Find Domain
+
+Check:
+
+```bash
+cat /etc/resolv.conf
+```
+
+```bash
+dig corp.local
+```
+
+```bash
+dig _ldap._tcp.dc._msdcs.corp.local SRV
+```
+
+```bash
+getent hosts dc01.corp.local
+```
+
+
+# Kerberos Errors During Collection
+
+Check:
+
+```bash
+date
+```
+
+```bash
+klist
+```
+
+```bash
+echo "$KRB5CCNAME"
+```
+
+and verify DNS.
+
+
+# Collection Is Very Slow
+
+Possible reasons:
+
+```text
+Large domain
+
+Unreachable hosts
+
+Timeouts
+
+Session collection
+
+Local-group enumeration
+
+Network filtering
+
+DNS delays
+```
+
+Reduce collection scope if appropriate rather than repeatedly restarting broad collection.
+
+
+# Collector Produces Errors for Some Hosts
+
+Record them.
+
+Example:
+
+```text
+Total Computers:
+2000
+
+Successfully Contacted:
+1480
+
+Failed:
+520
+```
+
+This is important context for the confidence of host-level analysis.
+
+
+# Graph Looks Different After New Collection
+
+Possible reasons:
+
+```text
+Environment changed
+
+Sessions changed
+
+Groups changed
+
+Permissions changed
+
+Different collection methods used
+
+Different collector version
+
+Different scope
+
+Previous data remained in database
+```
+
+Make sure snapshot comparisons use comparable collection conditions.
+
+
+# BloodHound Assessment Checklist
+
+## Preparation
+
+- [ ] Assessment scope confirmed
+- [ ] Domain identified
+- [ ] Domain controller identified
+- [ ] Collection identity recorded
+- [ ] Collector selected
+- [ ] Collector version recorded
+- [ ] BloodHound version recorded
+- [ ] DNS verified
+- [ ] Kerberos time checked where relevant
+- [ ] Collection methods understood
+- [ ] Operational impact considered
+
+## Collection
+
+- [ ] Minimum required collection selected
+- [ ] Directory data collected
+- [ ] ACL data collected where required
+- [ ] Local-group data collected where required
+- [ ] Session data collected only where required
+- [ ] Collector errors reviewed
+- [ ] Output preserved
+- [ ] Timestamp recorded
+
+## Import
+
+- [ ] Correct dataset imported
+- [ ] Users present
+- [ ] Groups present
+- [ ] Computers present
+- [ ] Domain present
+- [ ] Expected edge types present
+- [ ] Import errors reviewed
+
+## Dataset Quality
+
+- [ ] Expected object count considered
+- [ ] Computer coverage considered
+- [ ] Session coverage considered
+- [ ] Host failures recorded
+- [ ] Missing edges not automatically interpreted as absence
+- [ ] Collection limitations documented
+
+## User Analysis
+
+- [ ] Owned users marked accurately
+- [ ] Group memberships reviewed
+- [ ] Outbound control reviewed
+- [ ] Administrative rights reviewed
+- [ ] Sessions reviewed
+- [ ] Delegation reviewed
+- [ ] SPNs considered where relevant
+
+## Group Analysis
+
+- [ ] Privileged groups identified
+- [ ] Nested membership reviewed
+- [ ] Inbound control reviewed
+- [ ] Outbound control reviewed
+- [ ] Administrative relationships reviewed
+- [ ] Delegated permissions reviewed
+
+## Computer Analysis
+
+- [ ] High-value computers identified
+- [ ] Local admin relationships reviewed
+- [ ] Sessions reviewed
+- [ ] Remote-management rights reviewed
+- [ ] GPO relationships reviewed
+- [ ] Reachability considered
+
+## ACL Analysis
+
+- [ ] GenericAll reviewed
+- [ ] GenericWrite reviewed
+- [ ] WriteDacl reviewed
+- [ ] WriteOwner reviewed
+- [ ] AddMember reviewed
+- [ ] ForceChangePassword reviewed
+- [ ] Important ACEs independently validated
+- [ ] Inheritance considered
+
+## Attack Paths
+
+- [ ] Source principal actually controlled
+- [ ] Destination actually high value
+- [ ] Every edge understood
+- [ ] Every important edge validated
+- [ ] Stale relationships considered
+- [ ] Network prerequisites considered
+- [ ] Security consequence established
+- [ ] Path not overstated
+
+## Evidence
+
+- [ ] Collection timestamp recorded
+- [ ] Collector recorded
+- [ ] Collector version recorded
+- [ ] Collection methods recorded
+- [ ] BloodHound version recorded
+- [ ] Source principal recorded
+- [ ] Target recorded
+- [ ] Path recorded
+- [ ] Important edges recorded
+- [ ] Validation recorded
+- [ ] Limitations recorded
+- [ ] Screenshot readable
 
 ## Reporting
 
-```text
-[ ] Underlying condition reported
-[ ] Tool output not treated as finding
-[ ] Attack path explained
-[ ] Prerequisites documented
-[ ] Impact documented
-[ ] Root relationship identified
-[ ] Remediation addresses root cause
-[ ] Re-collection recommended where useful
-```
-
----
-
-# Relationship Interpretation Cheatsheet
-
-```text
-MemberOf
-    -> Group membership relationship
-
-AdminTo
-    -> Administrative relationship to computer
-
-HasSession
-    -> Session relationship observed around collection time
-
-CanRDP
-    -> Potential RDP access relationship
-
-CanPSRemote
-    -> Potential PowerShell remoting relationship
-
-ExecuteDCOM
-    -> Potential DCOM access relationship
-
-GenericAll
-    -> Broad control over target object
-
-GenericWrite
-    -> Ability to modify supported target properties
-
-WriteDacl
-    -> Ability to modify target security descriptor permissions
-
-WriteOwner
-    -> Ability to change object ownership
-
-ForceChangePassword
-    -> Ability to reset target user's password
-
-AddMember
-    -> Ability to influence group membership
-
-Owns
-    -> Ownership relationship
-
-AllowedToDelegate
-    -> Kerberos delegation relationship
-
-AllowedToAct
-    -> RBCD-related relationship
-
-DCSync
-    -> Directory replication capability relationship
-```
-
-Always consult current BloodHound edge documentation for precise semantics.
-
----
-
-# What Should I Investigate First?
-
-```text
-Controlled Low-Privilege User
-          |
-          v
-Outbound Relationships
-          |
-          +--> ACL Rights
-          +--> Group Rights
-          +--> Computer Rights
-          +--> GPO Rights
-          +--> AD CS Rights
-          |
-          v
-Shortest Paths
-```
-
-For defensive review:
-
-```text
-Tier-0 Asset
-    |
-    v
-Inbound Relationships
-    |
-    +--> ACL Control
-    +--> Group Membership
-    +--> Administrative Access
-    +--> Sessions
-    +--> Delegation
-    +--> PKI
-    |
-    v
-Reduce Exposure
-```
-
----
-
-# Final Decision Tree
-
-```text
-                    ACTIVE DIRECTORY
-                           |
-                           v
-                       COLLECTION
-                           |
-             +-------------+-------------+
-             |             |             |
-             v             v             v
-        SharpHound   BloodHound.py     NetExec
-             |             |             |
-             +-------------+-------------+
-                           |
-                           v
-                       JSON / ZIP
-                           |
-                 +---------+---------+
-                 |                   |
-                 v                   v
-           BloodHound CE          BloodBash
-                 |                   |
-                 v                   v
-           Visual Analysis       CLI Analysis
-                 |                   |
-                 +---------+---------+
-                           |
-                           v
-                    RELATIONSHIPS
-                           |
-         +-----------------+-----------------+
-         |                 |                 |
-         v                 v                 v
-        ACLs            Sessions          Groups
-         |                 |                 |
-         +-----------------+-----------------+
-                           |
-         +-----------------+-----------------+
-         |                 |                 |
-         v                 v                 v
-     Delegation           AD CS            Trusts
-         |                 |                 |
-         +-----------------+-----------------+
-                           |
-                           v
-                     TIER-0 / HIGH VALUE
-                           |
-                           v
-                    CANDIDATE PATHS
-                           |
-                           v
-                      CHOKE POINTS
-                           |
-                           v
-                     PREREQUISITES
-                           |
-                           v
-                       VALIDATION
-                           |
-                           v
-                         IMPACT
-                           |
-                           v
-                        EVIDENCE
-                           |
-                           v
-                         REPORT
-                           |
-                           v
-                      REMEDIATION
-                           |
-                           v
-                      RE-COLLECTION
-```
-
----
-
-# Rules to Remember
-
-```text
-BloodHound visualises relationships.
-
-SharpHound collects Windows/AD data.
-
-BloodHound.py provides Linux-native collection.
-
-NetExec can integrate collection into an existing AD workflow.
-
-BloodBash provides offline CLI analysis.
-
-Legacy Neo4j knowledge remains useful for older deployments.
-
-An edge is evidence of a relationship, not automatic proof of exploitation.
-
-A path is a hypothesis until its prerequisites are understood.
-
-Collection is a point-in-time snapshot.
-
-Session data is especially time-sensitive.
-
-Incomplete collection means an incomplete graph.
-
-Different collectors can produce different coverage.
-
-Shortest path does not mean best path.
-
-BloodHound is useful for offensive and defensive analysis.
-
-Path-break analysis can identify high-value remediation opportunities.
-
-Re-collect when security context changes.
-
-Report the underlying security condition, not the tool output.
-```
-
----
-
-# Related Detailed Notes
-
-Existing detailed notes:
-
-```text
-active-directory/bloodhound.md
-active-directory/enumeration.md
-active-directory/netexec.md
-active-directory/impacket.md
-active-directory/kerberos.md
-active-directory/ntlm.md
-active-directory/acl-ace.md
-active-directory/group-policy.md
-active-directory/rbcd.md
-active-directory/lateral-movement.md
-active-directory/pivoting.md
-```
-
-Depending on the final filesystem cleanup, related material may also include:
-
-```text
-active-directory/trusts.md
-active-directory/ad-cs/index.md
-active-directory/powerview.md
-```
-
-Verify those paths against the repository before creating internal links.
-
----
-
-# Related Cheatsheets
-
-[Active Directory Cheatsheet](active-directory.md)
-
-[NetExec Cheatsheet](netexec.md)
-
-[Impacket Cheatsheet](impacket.md)
-
-[Networking Cheatsheet](networking.md)
-
-[Windows Cheatsheet](windows.md)
-
-[PowerShell Cheatsheet](powershell.md)
-
----
-
-# References
-
-## BloodHound Documentation
-
-[BloodHound Documentation](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
-
-Primary documentation for BloodHound.
-
----
-
-## BloodHound Community Edition
-
-[BloodHound Community Edition Quickstart](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart){ target="_blank" rel="noopener noreferrer" }
-
-Use the current CE documentation for installation and deployment.
-
----
-
-## SharpHound CE
-
-[SharpHound CE](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound){ target="_blank" rel="noopener noreferrer" }
-
-Official SharpHound CE collection documentation.
-
----
-
-## SharpHound Flags
-
-[SharpHound Flags](https://bloodhound.specterops.io/collect-data/ce-collection/sharphound-flags){ target="_blank" rel="noopener noreferrer" }
-
-Check this alongside:
+- [ ] Root cause reported instead of tool
+- [ ] Excessive permission identified
+- [ ] Privilege boundary explained
+- [ ] Path validated
+- [ ] Alternative explanations considered
+- [ ] Remediation targets root cause
+- [ ] Retest procedure documented
+
+## Retest
+
+- [ ] Original edge reviewed
+- [ ] Underlying configuration checked
+- [ ] New collection performed
+- [ ] Collection success confirmed
+- [ ] Edge removed where expected
+- [ ] Equivalent alternative path checked
+- [ ] Evidence captured
+
+
+# Quick Reference
+
+## SharpHound Help
 
 ```powershell
 .\SharpHound.exe --help
 ```
 
-because collector options evolve.
+## Current Windows Identity
 
----
+```powershell
+whoami
+```
 
-## BloodHound.py
+## Current Groups
 
-[BloodHound.py](https://github.com/dirkjanm/BloodHound.py){ target="_blank" rel="noopener noreferrer" }
+```powershell
+whoami /groups
+```
 
-Linux-native BloodHound collection project.
+## Domain
 
----
+```powershell
+$env:USERDNSDOMAIN
+```
 
-## NetExec
+## Linux Collector Help
 
-[NetExec](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
+```bash
+bloodhound-python -h
+```
 
-Useful for Active Directory enumeration and BloodHound-oriented LDAP workflows.
-
----
-
-## NetExec BloodHound Ingestor
-
-[NetExec BloodHound Ingestor](https://www.netexec.wiki/ldap-protocol/bloodhound-ingestor){ target="_blank" rel="noopener noreferrer" }
-
-Verify current NetExec syntax against:
+## NetExec LDAP Help
 
 ```bash
 nxc ldap --help
 ```
 
----
+## DNS Configuration
 
-## BloodBash
-
-[BloodBash](https://github.com/DotNetRussell/BloodBash){ target="_blank" rel="noopener noreferrer" }
-
-Offline SharpHound and AzureHound graph analysis, attack-path triage, owned-user analysis and remediation-oriented path analysis.
-
----
-
-## BloodBash Releases
-
-[BloodBash Releases](https://github.com/DotNetRussell/BloodBash/releases){ target="_blank" rel="noopener noreferrer" }
-
-Use releases when obtaining standalone binaries.
-
----
-
-## Neo4j
-
-[Neo4j](https://neo4j.com/){ target="_blank" rel="noopener noreferrer" }
-
-Relevant primarily to legacy BloodHound and general graph/Cypher workflows.
-
----
-
-## Certipy
-
-[Certipy](https://github.com/ly4k/Certipy){ target="_blank" rel="noopener noreferrer" }
-
-Useful for detailed Active Directory Certificate Services analysis.
-
----
-
-## NetExec GitHub
-
-[NetExec GitHub](https://github.com/Pennyw0rth/NetExec){ target="_blank" rel="noopener noreferrer" }
-
-Source repository for NetExec.
-
----
-
-## Impacket
-
-[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
-
-Useful for focused protocol-level validation of relationships discovered during AD analysis.
-
----
-
-# Final Quick Reference
-
-```text
-                         BLOODHOUND
-                             |
-                             v
-                          COLLECT
-                             |
-             +---------------+---------------+
-             |               |               |
-             v               v               v
-        SharpHound     BloodHound.py       NetExec
-             |               |               |
-             +---------------+---------------+
-                             |
-                             v
-                         JSON / ZIP
-                             |
-                   +---------+---------+
-                   |                   |
-                   v                   v
-             BloodHound CE          BloodBash
-                   |                   |
-                   v                   v
-              Visual Graph         CLI Triage
-                   |                   |
-                   +---------+---------+
-                             |
-                             v
-                        MARK OWNED
-                             |
-                             v
-                    REVIEW RELATIONSHIPS
-                             |
-        +--------------------+--------------------+
-        |                    |                    |
-        v                    v                    v
-       ACLs               Sessions            Groups
-        |                    |                    |
-        +--------------------+--------------------+
-                             |
-        +--------------------+--------------------+
-        |                    |                    |
-        v                    v                    v
-    Delegation              AD CS               Trusts
-        |                    |                    |
-        +--------------------+--------------------+
-                             |
-                             v
-                         TIER-0
-                             |
-                             v
-                       ATTACK PATHS
-                             |
-                             v
-                       CHOKE POINTS
-                             |
-                             v
-                       VERIFY EDGES
-                             |
-                             v
-                      PREREQUISITES
-                             |
-                             v
-                   AUTHORISED VALIDATION
-                             |
-                             v
-                          EVIDENCE
-                             |
-                             v
-                           REPORT
-                             |
-                             v
-                       REMEDIATION
-                             |
-                             v
-                        RE-COLLECT
+```bash
+cat /etc/resolv.conf
 ```
 
-The operational principle is:
+## Resolve DC
+
+```bash
+getent hosts dc01.corp.local
+```
+
+## LDAP SRV
+
+```bash
+dig _ldap._tcp.dc._msdcs.corp.local SRV
+```
+
+## Kerberos SRV
+
+```bash
+dig _kerberos._tcp.corp.local SRV
+```
+
+## Kerberos Cache
+
+```bash
+klist
+```
+
+## GenericAll Cypher
+
+```cypher
+MATCH (a)-[r:GenericAll]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
+## GenericWrite Cypher
+
+```cypher
+MATCH (a)-[r:GenericWrite]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
+## WriteDacl Cypher
+
+```cypher
+MATCH (a)-[r:WriteDacl]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
+## WriteOwner Cypher
+
+```cypher
+MATCH (a)-[r:WriteOwner]->(b)
+RETURN a, r, b
+LIMIT 50
+```
+
+## AdminTo Cypher
+
+```cypher
+MATCH (a)-[r:AdminTo]->(c:Computer)
+RETURN a, r, c
+LIMIT 50
+```
+
+## Session Cypher
+
+```cypher
+MATCH (c:Computer)-[r:HasSession]->(u:User)
+RETURN c, r, u
+LIMIT 50
+```
+
+
+# Quick Edge Reference
+
+| Edge | General Meaning | Validate |
+|---|---|---|
+| `MemberOf` | Group membership | Current directory membership |
+| `AdminTo` | Administrative rights over computer | Current local/group policy |
+| `HasSession` | Session observed on computer | Session still active |
+| `GenericAll` | Broad object control | Actual ACE and object type |
+| `GenericWrite` | Attribute write rights | Writable attributes |
+| `WriteDacl` | Can modify DACL | Effective ACL permission |
+| `WriteOwner` | Can modify owner | Effective ownership rights |
+| `Owns` | Owns object | DACL/object context |
+| `AddMember` | Can influence group membership | Effective group permission |
+| `ForceChangePassword` | Password-management relationship | Current effective right |
+| `CanRDP` | RDP logon relationship | Reachability and logon rights |
+| `CanPSRemote` | PowerShell remoting relationship | WinRM and authorisation |
+| `ExecuteDCOM` | DCOM execution relationship | RPC/DCOM access |
+| `AllowedToDelegate` | Delegation relationship | Kerberos configuration |
+| `AllowedToAct` | RBCD-related relationship | Actual AD attribute/configuration |
+
+
+# Quick Result Interpretation
+
+| Observation | What It Means | What It Does Not Prove |
+|---|---|---|
+| User node exists | User was collected | Credential available |
+| `MemberOf` | Membership relationship exists in dataset | Group is privileged |
+| `AdminTo` | Administrative relationship represented | Host online |
+| `HasSession` | Session observed during collection | Session still exists |
+| `GenericAll` | Broad object-control relationship | Complete privilege escalation |
+| `WriteDacl` | DACL modification relationship | ACL has been modified |
+| Shortest path exists | Graph relationship connects objects | Entire path currently exploitable |
+| No session edges | No sessions represented | No sessions exist |
+| No AdminTo edges | No such edges represented | No administrators exist |
+| Edge disappears after recollection | Relationship no longer represented | Remediation succeeded unless collection also succeeded |
+
+
+# BloodHound Validation Matrix
+
+Use a matrix like this during an assessment:
+
+| Graph Observation | Independent Validation | Security Conclusion |
+|---|---|---|
+| User `MemberOf` Helpdesk | AD membership query | Membership confirmed |
+| Helpdesk `GenericAll` Server-Admins | ACL review | Excessive delegated control confirmed |
+| Server-Admins `AdminTo` SRV01 | Local admin/GPO review | Administrative access confirmed |
+| SRV01 `HasSession` Admin1 | Session recheck | Time-sensitive, validate current state |
+| User `CanRDP` SRV02 | RDP rights + network validation | Interactive access candidate |
+| User `CanPSRemote` SRV03 | WinRM validation | Remote-management candidate |
+
+
+# BloodHound Path Quality Model
+
+A high-quality path should satisfy:
 
 ```text
+Controlled Source
+      |
+      v
+Current Relationship
+      |
+      v
+Validated Permission
+      |
+      v
+Reachable Destination
+      |
+      v
+Required Service Available
+      |
+      v
+Security Boundary Crossed
+      |
+      v
+Meaningful Impact
+```
+
+If one component is unknown, state that limitation.
+
+
+# Collection Quality Model
+
+```text
+                         COLLECTION
+                             |
+              +--------------+--------------+
+              |              |              |
+              v              v              v
+          DIRECTORY         ACLS          HOST DATA
+              |              |              |
+              |              |        +-----+-----+
+              |              |        |           |
+              v              v        v           v
+           USERS          CONTROL   ADMINS      SESSIONS
+           GROUPS          EDGES       |           |
+           OUs                         |           |
+           GPOs                        |           |
+              |                        |           |
+              +------------+-----------+-----------+
+                           |
+                           v
+                    VERIFY COVERAGE
+                           |
+                           v
+                     IMPORT DATASET
+                           |
+                           v
+                      GRAPH ANALYSIS
+```
+
+
+# Attack Path Analysis Model
+
+```text
+                     CONTROLLED USER
+                           |
+                           v
+                    GROUP MEMBERSHIP
+                           |
+                           v
+                    OBJECT CONTROL
+                           |
+                           v
+                   ADMIN RELATIONSHIP
+                           |
+                           v
+                    TARGET COMPUTER
+                           |
+                           v
+                   PRIVILEGED CONTEXT
+                           |
+                           v
+                    HIGH-VALUE ASSET
+```
+
+At every transition ask:
+
+```text
+Is this relationship current?
+
+Can I independently prove it?
+
+What prerequisite is required?
+
+What does it actually grant?
+```
+
+
+# Defensive Path-Breaking Model
+
+```text
+                         ATTACK PATH
+                             |
+          +------------------+------------------+
+          |                  |                  |
+          v                  v                  v
+       IDENTITY           DIRECTORY           HOST
+          |                  |                  |
+          v                  v                  v
+    Group Membership      ACL / GPO       Local Admin
+    Privileged Account    Delegation      Sessions
+    Credential Reuse      Ownership       Remote Rights
+          |                  |                  |
+          +------------------+------------------+
+                             |
+                             v
+                       BREAK THE PATH
+```
+
+
+# Final BloodHound Workflow
+
+```text
+                        AUTHORISED DOMAIN
+                               |
+                               v
+                         DEFINE OBJECTIVE
+                               |
+                               v
+                       CHOOSE COLLECTION
+                               |
+                               v
+                            COLLECT
+                               |
+                               v
+                     REVIEW COLLECTOR LOGS
+                               |
+                               v
+                         IMPORT DATA
+                               |
+                               v
+                      VERIFY COMPLETENESS
+                               |
+                               v
+                    IDENTIFY OWNED PRINCIPAL
+                               |
+                               v
+                     SEARCH INTERESTING PATHS
+                               |
+                               v
+                      INSPECT EVERY EDGE
+                               |
+                               v
+                  VALIDATE IMPORTANT RELATIONSHIPS
+                               |
+                               v
+                      PATH STILL COMPLETE?
+                          /           \
+                        No             Yes
+                        |               |
+                        v               v
+                  DOCUMENT LIMIT     ESTABLISH IMPACT
+                                        |
+                                        v
+                                 CAPTURE EVIDENCE
+                                        |
+                                        v
+                                  IDENTIFY ROOT CAUSE
+                                        |
+                                        v
+                                     REMEDIATE
+                                        |
+                                        v
+                                     RECOLLECT
+                                        |
+                                        v
+                                      RETEST
+```
+
+
+# Command-to-Conclusion Model
+
+Do not use BloodHound like this:
+
+```text
+Run Collector
+     |
+     v
+Import ZIP
+     |
+     v
+Click Shortest Path
+     |
+     v
+Screenshot
+     |
+     v
+Critical Finding
+```
+
+Use:
+
+```text
+Define Question
+     |
+     v
+Choose Collection
+     |
+     v
 Collect
-   |
-   v
-Analyse
-   |
-   v
-Understand Relationships
-   |
-   v
-Mark Controlled Principals
-   |
-   v
-Identify High-Value Assets
-   |
-   v
-Find Candidate Paths
-   |
-   v
-Verify Preconditions
-   |
-   v
-Validate Minimally
-   |
-   v
-Identify Choke Points
-   |
-   v
-Report Root Conditions
-   |
-   v
-Remediate
-   |
-   v
-Re-Collect
+     |
+     v
+Verify Coverage
+     |
+     v
+Identify Path
+     |
+     v
+Understand Edge Semantics
+     |
+     v
+Validate Current Configuration
+     |
+     v
+Validate Preconditions
+     |
+     v
+Determine Security Boundary
+     |
+     v
+Establish Impact
+     |
+     v
+Report Root Cause
 ```
 
-The most important rule is:
+
+# Final Testing Principle
+
+BloodHound should help answer:
 
 ```text
-BloodHound does not tell you what to exploit.
+Who controls what?
 
-BloodHound tells you which identity relationships deserve investigation.
+Why do they control it?
+
+Through which relationship?
+
+Is the relationship current?
+
+What does the relationship permit?
+
+What additional prerequisite exists?
+
+Can the relationship be independently confirmed?
+
+What security boundary can be crossed?
+
+Which configuration created the path?
+
+Where should the organisation break the path?
 ```
+
+The graph is the beginning of the analysis, not the end.
+
+
+# Related Cheatsheets
+
+- [Active Directory Cheatsheet](active-directory.md)
+- [NetExec Cheatsheet](netexec.md)
+- [Impacket Cheatsheet](impacket.md)
+- [Windows Cheatsheet](windows.md)
+- [PowerShell Cheatsheet](powershell.md)
+- [Networking Cheatsheet](networking.md)
+
+
+# Detailed Notes
+
+## Active Directory
+
+- [Active Directory Overview](../active-directory/index.md)
+- [Methodology](../active-directory/methodology.md)
+- [Enumeration](../active-directory/enumeration.md)
+- [BloodHound](../active-directory/bloodhound.md)
+- [NetExec](../active-directory/netexec.md)
+- [Impacket](../active-directory/impacket.md)
+
+## Permissions and Privilege
+
+- [ACL and ACE](../active-directory/acl-ace.md)
+- [Groups](../active-directory/groups.md)
+- [Privilege Escalation](../active-directory/privilege-escalation.md)
+- [Group Policy](../active-directory/group-policy.md)
+
+## Remote Access
+
+- [SMB](../active-directory/smb.md)
+- [WinRM](../active-directory/winrm.md)
+- [WMI](../active-directory/wmi.md)
+- [DCOM](../active-directory/dcom.md)
+- [Lateral Movement](../active-directory/lateral-movement.md)
+
+## Kerberos and Delegation
+
+- [Kerberos](../active-directory/kerberos.md)
+- [Unconstrained Delegation](../active-directory/unconstrained-delegation.md)
+- [Constrained Delegation](../active-directory/constrained-delegation.md)
+- [Resource-Based Constrained Delegation](../active-directory/rbcd.md)
+- [S4U](../active-directory/s4u.md)
+
+## Trusts
+
+- [Trusts](../active-directory/trusts.md)
+- [Trust Relationships](../active-directory/trust-relationships.md)
+
+## Active Directory Certificate Services
+
+- [AD CS](../active-directory/ad-cs/index.md)
+- [AD CS Enumeration](../active-directory/ad-cs/enumeration.md)
+
+
+# References
+
+- [BloodHound Documentation](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
+- [BloodHound GitHub](https://github.com/SpecterOps/BloodHound){ target="_blank" rel="noopener noreferrer" }
+- [SharpHound GitHub](https://github.com/SpecterOps/SharpHound){ target="_blank" rel="noopener noreferrer" }
+- [BloodHound.py GitHub](https://github.com/dirkjanm/BloodHound.py){ target="_blank" rel="noopener noreferrer" }
+- [NetExec Documentation](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - Active Directory Security Groups](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - Group Policy](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft Learn - Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
+- [MITRE ATT&CK - Enterprise](https://attack.mitre.org/matrices/enterprise/){ target="_blank" rel="noopener noreferrer" }
+
+
+!!! tip "Validate the edge, not just the path"
+    A BloodHound path is made of individual relationships. Validate the security-relevant edges independently before treating the complete path as confirmed.
+
+
+!!! tip "Missing data is not negative evidence"
+    If host collection failed, the absence of `AdminTo` or `HasSession` relationships does not prove those relationships do not exist. Record collection coverage and limitations alongside the graph analysis.
+
+
+!!! tip "Report the root cause"
+    BloodHound is the analysis tool. The finding is usually the excessive ACL, unnecessary group membership, administrative assignment, unsafe delegation, GPO permission or privileged-session exposure that created the path.
+
+
+!!! warning "Session information is volatile"
+    `HasSession` data represents an observation made during collection. Treat it as time-sensitive and revalidate important session relationships before relying on them in an attack-path conclusion.
+
+
+!!! warning "Do not optimise for the shortest graph"
+    The shortest path is mathematically interesting, but it is not automatically the most realistic security path. Prefer paths whose prerequisites, permissions, reachability and current state can be defensibly established.
