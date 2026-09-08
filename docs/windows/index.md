@@ -1,176 +1,284 @@
+---
+title: Windows Security Testing
+description: Structured Windows security assessment methodology covering enumeration, services, scheduled tasks, permissions, registry security, credentials, application control, Microsoft Defender, UAC and privilege escalation.
+---
+
 # Windows
 
-Windows systems are a major part of enterprise environments and are frequently encountered during authorised penetration tests, red team assessments, security reviews, and Active Directory engagements.
+Windows systems are a major part of enterprise environments and are frequently encountered during authorised penetration tests, red team assessments, security reviews and Active Directory engagements.
 
 This section provides a structured reference for assessing Windows hosts from the perspective of an authorised security tester.
 
-The objective is not simply to collect commands. The objective is to understand the system, identify meaningful attack paths, evaluate security controls, validate observations, and document evidence in a repeatable way.
+The objective is not simply to collect commands. The objective is to:
+
+- establish the current security context;
+- understand the host and its role;
+- identify meaningful attack paths;
+- evaluate Windows security controls;
+- determine whether lower-privileged users can influence privileged resources;
+- validate observations safely;
+- distinguish configuration weaknesses from exploitable conditions;
+- collect reproducible evidence; and
+- produce defensible findings and remediation advice.
+
+!!! warning "Authorised Security Testing"
+
+    Use these notes only on systems you own or have explicit permission to assess. Prefer read-only enumeration and controlled validation. Avoid unnecessary changes to services, tasks, registry values, security controls or production data.
 
 ---
 
-## Scope
+# Windows Assessment Model
 
-The Windows section focuses primarily on host-level assessment.
-
-It covers:
-
-- Windows system enumeration
-- Local users and groups
-- Network configuration
-- Processes and services
-- Installed software
-- File and directory permissions
-- Registry configuration
-- Scheduled tasks
-- Windows privileges
-- PowerShell
-- Credential exposure
-- Local privilege escalation
-- Windows security controls
-- Application control
-- Logging and defensive controls
-
-Active Directory-specific techniques are documented separately in the [Active Directory](../active-directory/index.md) section.
-
----
-
-# Windows Assessment Flow
-
-A Windows assessment should follow a structured process.
+A Windows assessment should follow a structured process rather than executing unrelated enumeration commands.
 
 ```text
 Initial Access / User Context
         |
         v
-Identify Current Context
+Identity and Token
+        |
+        +---- Current user
+        +---- Local / domain account
+        +---- Groups
+        +---- Privileges
+        +---- Integrity level
+        +---- UAC state
         |
         v
 System Enumeration
         |
-        +---- OS / architecture
-        +---- hostname / domain
-        +---- users / groups
-        +---- privileges
-        +---- network configuration
+        +---- OS / build / architecture
+        +---- Hostname / domain
+        +---- Users / groups
+        +---- Network
+        +---- Processes
+        +---- Installed software
         |
         v
 Security Control Enumeration
         |
         +---- Microsoft Defender
+        +---- ASR
+        +---- Windows Firewall
         +---- AppLocker
         +---- WDAC
         +---- PowerShell Language Mode
-        +---- AMSI
-        +---- ASR rules
-        +---- Windows Firewall
+        +---- UAC
         |
         v
-Process / Service Enumeration
+Privileged Execution Paths
         |
-        +---- running processes
-        +---- services
-        +---- service accounts
-        +---- permissions
-        |
-        v
-Application / Software Enumeration
-        |
-        +---- installed software
-        +---- versions
-        +---- development tools
-        +---- management agents
+        +---- Services
+        +---- Scheduled tasks
+        +---- Startup mechanisms
+        +---- Administrative applications
         |
         v
-Filesystem / Registry Review
+Permission Analysis
         |
-        +---- writable directories
-        +---- configuration files
-        +---- registry permissions
-        +---- sensitive files
+        +---- Files
+        +---- Directories
+        +---- Registry
+        +---- Service objects
+        +---- Task resources
         |
         v
 Credential Exposure Review
         |
-        +---- configuration files
+        +---- Configuration
+        +---- Scripts
         +---- PowerShell history
-        +---- Credential Manager
-        +---- registry
-        +---- application secrets
+        +---- Application secrets
+        +---- Credential stores
         |
         v
 Privilege Escalation Analysis
         |
-        +---- services
-        +---- scheduled tasks
-        +---- permissions
-        +---- privileges
-        +---- software
-        +---- credential material
+        +---- What can I control?
+        +---- Who consumes it?
+        +---- Under which identity?
+        +---- Can privileged behaviour be influenced?
         |
         v
-Validate Findings
+Safe Validation
         |
         v
-Collect Evidence
+Evidence
         |
         v
-Report and Remediate
+Reporting
+        |
+        v
+Remediation
+        |
+        v
+Retest
 ```
 
 ---
 
-# 1. Establish the Current Context
+# Windows Notes
 
-Before testing anything, determine the security context in which commands are executing.
+<div class="grid cards" markdown>
 
-Questions to answer include:
+-   :material-magnify:{ .lg .middle } **Windows Enumeration**
 
-- Which user am I?
-- Is the account local or domain-based?
-- Which groups does the user belong to?
-- Is the process elevated?
-- Which Windows privileges are assigned?
-- Is the host domain joined?
-- What integrity level is being used?
+    ---
 
-Basic commands:
+    Establish the host, user, token, operating system, network, users, groups, processes, software and security context.
+
+    [:octicons-arrow-right-24: Windows Enumeration](enumeration.md)
+
+-   :material-console:{ .lg .middle } **PowerShell**
+
+    ---
+
+    PowerShell enumeration, execution context, language modes, logging, security controls and assessment workflows.
+
+    [:octicons-arrow-right-24: PowerShell](powershell.md)
+
+-   :material-cog:{ .lg .middle } **Windows Services**
+
+    ---
+
+    Service accounts, executable paths, permissions, service configuration and privileged service relationships.
+
+    [:octicons-arrow-right-24: Windows Services](services.md)
+
+-   :material-calendar-clock:{ .lg .middle } **Scheduled Tasks**
+
+    ---
+
+    Task principals, actions, triggers, run levels, referenced resources and privileged task relationships.
+
+    [:octicons-arrow-right-24: Scheduled Tasks](scheduled-tasks.md)
+
+-   :material-folder-lock:{ .lg .middle } **Filesystem Permissions**
+
+    ---
+
+    NTFS ACLs, inheritance, writable files and directories, ownership and privileged filesystem relationships.
+
+    [:octicons-arrow-right-24: Filesystem Permissions](filesystem-permissions.md)
+
+-   :material-database-cog:{ .lg .middle } **Registry Security**
+
+    ---
+
+    Registry enumeration, ACL analysis, startup configuration, service settings and security-sensitive registry relationships.
+
+    [:octicons-arrow-right-24: Registry Security](registry.md)
+
+-   :material-key:{ .lg .middle } **Windows Credentials**
+
+    ---
+
+    Credential exposure, PowerShell history, application configuration, scripts, deployment artifacts and sensitive authentication material.
+
+    [:octicons-arrow-right-24: Windows Credentials](credentials.md)
+
+-   :material-shield-lock:{ .lg .middle } **Application Control**
+
+    ---
+
+    AppLocker, WDAC, effective policy, rule collections, enforcement modes and execution-control validation.
+
+    [:octicons-arrow-right-24: Application Control](application-control.md)
+
+-   :material-shield-check:{ .lg .middle } **Microsoft Defender**
+
+    ---
+
+    Defender status, protection features, exclusions, ASR, tamper protection and endpoint security posture.
+
+    [:octicons-arrow-right-24: Microsoft Defender](defender.md)
+
+-   :material-account-lock:{ .lg .middle } **User Account Control**
+
+    ---
+
+    UAC configuration, integrity levels, split tokens, Admin Approval Mode, secure desktop and elevation behavior.
+
+    [:octicons-arrow-right-24: User Account Control](uac.md)
+
+-   :material-arrow-up-bold-circle:{ .lg .middle } **Privilege Escalation**
+
+    ---
+
+    Correlate services, tasks, permissions, credentials, privileges and software into validated privilege escalation paths.
+
+    [:octicons-arrow-right-24: Windows Privilege Escalation](privilege-escalation.md)
+
+</div>
+
+---
+
+# 1. Establish the Current Security Context
+
+Before investigating potential vulnerabilities, determine exactly who you are and which token the current process is using.
+
+Start with:
 
 ```cmd
 whoami
 whoami /user
 whoami /groups
 whoami /priv
+whoami /all
 hostname
 ```
 
 PowerShell:
 
 ```powershell
-whoami
 $env:USERNAME
 $env:USERDOMAIN
 $env:COMPUTERNAME
+$ExecutionContext.SessionState.LanguageMode
 ```
 
-Check group membership:
+Important questions include:
 
-```powershell
-whoami /groups
+```text
+Who is the current user?
+
+Is the account local or domain based?
+
+Which groups does it belong to?
+
+Is it a local administrator?
+
+Which privileges are assigned?
+
+Which privileges are enabled?
+
+What integrity level is active?
+
+Is the current process elevated?
+
+Is the machine domain joined?
 ```
 
-Look for membership in groups such as:
+Do not assume that membership in:
 
 ```text
 BUILTIN\Administrators
 ```
 
-Do not assume that membership automatically means the current process is elevated. User Account Control can result in different access tokens being used.
+means the current process is elevated.
+
+UAC can result in an administrator operating with a filtered medium-integrity token.
+
+See:
+
+- [Windows Enumeration](enumeration.md)
+- [User Account Control](uac.md)
 
 ---
 
-# 2. Identify the Operating System
+# 2. Identify the System
 
-Determine the Windows version, architecture, build number, and patch level.
+Determine the Windows edition, build, architecture and system role.
 
 ```cmd
 systeminfo
@@ -182,162 +290,120 @@ PowerShell:
 Get-ComputerInfo
 ```
 
-Useful properties:
+Focused output:
 
 ```powershell
-Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber, OsArchitecture
-```
-
-Alternative:
-
-```cmd
-ver
+Get-ComputerInfo |
+    Select-Object WindowsProductName,
+                  WindowsVersion,
+                  OsBuildNumber,
+                  OsArchitecture
 ```
 
 Architecture:
-
-```cmd
-echo %PROCESSOR_ARCHITECTURE%
-```
-
-PowerShell:
 
 ```powershell
 [Environment]::Is64BitOperatingSystem
 ```
 
-The operating system version matters because security features, configuration options, and potential weaknesses vary between Windows releases and builds.
+Computer and domain information:
 
-Do not report a vulnerability solely from an operating system or software version. Confirm that the relevant condition actually applies.
+```powershell
+Get-CimInstance Win32_ComputerSystem |
+    Select-Object Name,Domain,PartOfDomain
+```
+
+The operating system version provides context, but version information alone is not sufficient evidence that a vulnerability exists.
+
+Use:
+
+```text
+Version
+    +
+Configuration
+    +
+Exposure
+    +
+Applicable vulnerable condition
+    +
+Validation
+```
+
+before reaching a security conclusion.
 
 ---
 
 # 3. Determine Domain Membership
 
-Determine whether the system is standalone, workgroup joined, or joined to Active Directory.
-
-```cmd
-systeminfo | findstr /B /C:"Domain"
-```
-
-PowerShell:
+Domain membership changes the scope of the assessment significantly.
 
 ```powershell
-Get-CimInstance Win32_ComputerSystem | Select-Object Name, Domain, PartOfDomain
+Get-CimInstance Win32_ComputerSystem |
+    Select-Object Name,Domain,PartOfDomain
 ```
 
-Environment variables can provide additional context:
+Additional context:
 
 ```powershell
 $env:USERDOMAIN
 $env:LOGONSERVER
-```
-
-Current computer:
-
-```powershell
 $env:COMPUTERNAME
 ```
 
-If the machine is domain joined, continue domain-specific investigation using the [Active Directory](../active-directory/index.md) section.
+If the host is domain joined, host-level Windows assessment should normally be combined with the separate [Active Directory](../active-directory/index.md) methodology.
+
+Keep the two scopes conceptually separate:
+
+```text
+Windows Host Assessment
+        |
+        +---- Local configuration
+        +---- Local permissions
+        +---- Services
+        +---- Tasks
+        +---- Credentials
+        +---- Endpoint controls
+
+Active Directory Assessment
+        |
+        +---- Domain identities
+        +---- Kerberos
+        +---- NTLM
+        +---- Delegation
+        +---- ACLs
+        +---- AD CS
+        +---- Trusts
+```
 
 ---
 
-# 4. Enumerate Users
+# 4. Enumerate Users, Groups and Privileges
 
 Local users:
-
-```cmd
-net user
-```
-
-PowerShell:
 
 ```powershell
 Get-LocalUser
 ```
 
-Inspect a particular account:
-
-```powershell
-Get-LocalUser -Name "username"
-```
-
-Useful properties include:
-
-```text
-Enabled
-LastLogon
-PasswordExpires
-PasswordRequired
-UserMayChangePassword
-```
-
-Current user:
-
-```cmd
-whoami
-```
-
-Detailed identity information:
-
-```cmd
-whoami /all
-```
-
-Testing should focus on identifying accounts that materially affect the security posture rather than simply producing a list of usernames.
-
----
-
-# 5. Enumerate Local Groups
-
-List local groups:
-
-```cmd
-net localgroup
-```
-
-Administrators:
-
-```cmd
-net localgroup Administrators
-```
-
-PowerShell:
+Local groups:
 
 ```powershell
 Get-LocalGroup
 ```
 
-Members of the local Administrators group:
+Administrators:
 
 ```powershell
-Get-LocalGroupMember -Group "Administrators"
+Get-LocalGroupMember -Group 'Administrators'
 ```
 
-Pay attention to:
-
-- Local administrator accounts
-- Domain groups
-- Service accounts
-- Support accounts
-- Deployment accounts
-- Unexpected users
-- Nested administrative membership
-
-Group membership should always be interpreted together with the current access token and integrity level.
-
----
-
-# 6. Enumerate Windows Privileges
-
-Windows privileges can significantly affect the security impact of an account.
+Privileges:
 
 ```cmd
 whoami /priv
 ```
 
-Examples worth reviewing include:
+Privileges commonly worth understanding include:
 
 ```text
 SeBackupPrivilege
@@ -350,115 +416,91 @@ SeLoadDriverPrivilege
 SeManageVolumePrivilege
 ```
 
-The presence of a privilege does not automatically prove that privilege escalation is possible.
+The existence of a privilege does not automatically demonstrate privilege escalation.
 
-Record:
+Determine:
 
 ```text
 Privilege
-State
-Current integrity level
-Execution context
-Relevant system configuration
+    |
+    v
+Assigned?
+    |
+    v
+Enabled?
+    |
+    v
+Usable from current token?
+    |
+    v
+Relevant target/configuration exists?
+    |
+    v
+Security boundary can be crossed?
 ```
-
-The practical impact should be validated separately.
 
 ---
 
-# 7. Network Enumeration
+# 5. Enumerate the Network
 
-Display network configuration:
+Basic network information:
 
 ```cmd
 ipconfig /all
-```
-
-PowerShell:
-
-```powershell
-Get-NetIPConfiguration
-```
-
-Interfaces:
-
-```powershell
-Get-NetAdapter
-```
-
-IP addresses:
-
-```powershell
-Get-NetIPAddress
-```
-
-Routes:
-
-```cmd
 route print
-```
-
-PowerShell:
-
-```powershell
-Get-NetRoute
-```
-
-ARP cache:
-
-```cmd
 arp -a
-```
-
-DNS cache:
-
-```cmd
-ipconfig /displaydns
-```
-
-PowerShell:
-
-```powershell
-Get-DnsClientCache
-```
-
-Listening ports and network connections:
-
-```cmd
 netstat -ano
 ```
 
 PowerShell:
 
 ```powershell
+Get-NetIPConfiguration
+Get-NetAdapter
+Get-NetIPAddress
+Get-NetRoute
 Get-NetTCPConnection
 ```
 
-Map a PID to a process:
+DNS:
+
+```powershell
+Get-DnsClientCache
+```
+
+Network enumeration can reveal:
+
+- internal networks;
+- management interfaces;
+- DNS infrastructure;
+- domain infrastructure;
+- locally listening services;
+- remote connections;
+- administrative interfaces; and
+- potential pivoting relationships.
+
+Correlate network listeners with their owning processes.
+
+For example:
+
+```powershell
+Get-NetTCPConnection -State Listen |
+    Select-Object LocalAddress,LocalPort,OwningProcess
+```
+
+Then:
 
 ```powershell
 Get-Process -Id 1234
 ```
 
-Network enumeration can reveal:
-
-- Internal networks
-- Management networks
-- Listening services
-- Locally bound services
-- Remote connections
-- DNS infrastructure
-- Domain infrastructure
-- Proxy configuration
-- Potential pivoting opportunities
-
-Network findings should be correlated with processes and services.
+The existence of a listening port alone does not demonstrate a vulnerability.
 
 ---
 
-# 8. Process Enumeration
+# 6. Processes and Software
 
-List running processes:
+Processes:
 
 ```cmd
 tasklist
@@ -470,127 +512,98 @@ PowerShell:
 Get-Process
 ```
 
-Detailed process information can help identify:
+Installed 64-bit software:
 
-- Security software
-- Management agents
-- Backup software
-- Monitoring agents
-- Database software
-- Web servers
-- Development tools
-- Administrative utilities
-- User applications
-
-Process enumeration should be correlated with:
-
-```text
-Services
-Installed applications
-Network listeners
-Filesystem permissions
-Execution context
-Security products
+```powershell
+Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
+    Select-Object DisplayName,DisplayVersion,Publisher
 ```
 
-A process name alone should not be treated as evidence of a vulnerability.
+Installed 32-bit software on 64-bit Windows:
+
+```powershell
+Get-ItemProperty 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
+    Select-Object DisplayName,DisplayVersion,Publisher
+```
+
+Look for software that changes the security model, including:
+
+```text
+Endpoint protection
+Management agents
+Backup software
+Remote administration tools
+Development environments
+Database software
+Web servers
+Deployment agents
+Custom enterprise applications
+Privileged utilities
+```
+
+Version information is a starting point for research, not a finding by itself.
 
 ---
 
-# 9. Service Enumeration
+# 7. Services
 
-Services are one of the most important Windows assessment areas.
+Windows services are one of the most important privileged execution mechanisms on a Windows host.
 
-Basic enumeration:
-
-```cmd
-sc query
-```
-
-PowerShell:
+Enumerate them with:
 
 ```powershell
-Get-Service
+Get-CimInstance Win32_Service |
+    Select-Object Name,
+                  DisplayName,
+                  State,
+                  StartMode,
+                  StartName,
+                  PathName
 ```
 
-Detailed service information:
-
-```powershell
-Get-CimInstance Win32_Service | Select-Object Name, DisplayName, State, StartMode, StartName, PathName
-```
-
-Important properties include:
+The assessment should correlate:
 
 ```text
-Name
-Display name
-State
-Start mode
-Service account
-Executable path
-Arguments
-Permissions
+Service
+    |
+    v
+Service Account
+    |
+    v
+Executable / Arguments
+    |
+    v
+Service Object Permissions
+    |
+    v
+Executable Permissions
+    |
+    v
+Directory Permissions
+    |
+    v
+Configuration Dependencies
 ```
 
-Potentially important relationships include:
+A service running as:
 
 ```text
-Low-privileged user
-        |
-        v
-Writable service resource
-        |
-        v
-Privileged service
-        |
-        v
-Potential privilege boundary
+LocalSystem
 ```
 
-A service running as `LocalSystem` is not itself a vulnerability.
+is not a vulnerability.
 
-The security question is whether a lower-privileged user can influence the service configuration, executable, DLLs, configuration files, or another resource consumed by that service.
+The relevant question is whether a lower-privileged principal can influence something that the privileged service executes or consumes.
 
 Continue with [Windows Services](services.md).
 
 ---
 
-# 10. Installed Software
+# 8. Scheduled Tasks
 
-Enumerate installed applications using the registry.
+Scheduled tasks represent another important privileged execution path.
 
-```powershell
-Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* -ErrorAction SilentlyContinue | Select-Object DisplayName, DisplayVersion, Publisher
-```
-
-Check 32-bit applications on 64-bit systems:
-
-```powershell
-Get-ItemProperty HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* -ErrorAction SilentlyContinue | Select-Object DisplayName, DisplayVersion, Publisher
-```
-
-Review software for:
-
-- Unsupported versions
-- Privileged applications
-- Management agents
-- Backup clients
-- Development environments
-- Database clients
-- Remote management software
-- Security products
-- Deployment software
-- Custom enterprise applications
-
-Do not conclude that software is vulnerable based only on a version string.
-
-Confirm applicability before reporting a vulnerability.
-
----
-
-# 11. Scheduled Tasks
-
-List scheduled tasks:
+Basic enumeration:
 
 ```cmd
 schtasks /query /fo LIST /v
@@ -602,70 +615,67 @@ PowerShell:
 Get-ScheduledTask
 ```
 
-Useful properties include:
+Review:
 
 ```text
 Task name
 Principal
-Trigger
-Action
+Run level
+Triggers
+Actions
 Executable
 Arguments
-Run level
+Working directory
+Referenced scripts
+Referenced configuration
 ```
-
-When assessing scheduled tasks, review both configuration and filesystem permissions.
-
-A task running with elevated privileges is not itself a vulnerability.
-
-The security issue arises when an untrusted user can influence something the privileged task executes or consumes.
 
 Assessment logic:
 
 ```text
-Scheduled Task
-      |
-      v
-Execution Context
-      |
-      v
-Action / Executable
-      |
-      v
-File Permissions
-      |
-      v
-Directory Permissions
-      |
-      v
-Can Lower-Privileged User Influence It?
+Task Runs Privileged
+        |
+        v
+What Does It Execute?
+        |
+        v
+Can Current User Modify It?
+        |
+        +---- Executable
+        +---- Script
+        +---- Directory
+        +---- Configuration
+        +---- Arguments / dependencies
+        |
+        v
+Can Privileged Behaviour Be Influenced?
 ```
+
+A privileged scheduled task is not inherently vulnerable.
+
+The security issue exists when an untrusted principal can influence a resource used by that privileged task.
+
+Continue with [Scheduled Tasks](scheduled-tasks.md).
 
 ---
 
-# 12. Filesystem Permissions
+# 9. Filesystem Permissions
 
-Windows filesystem permissions are critical during privilege escalation analysis.
+Windows filesystem security should be assessed as a relationship rather than as a list of writable directories.
 
-Inspect permissions:
-
-```powershell
-Get-Acl "C:\Path"
-```
-
-Example:
+PowerShell:
 
 ```powershell
-Get-Acl "C:\ProgramData" | Format-List
+Get-Acl 'C:\Path'
 ```
 
-Using `icacls`:
+Native Windows tooling:
 
 ```cmd
-icacls C:\Path
+icacls "C:\Path"
 ```
 
-Look for inappropriate permissions granted to groups such as:
+Pay particular attention to permissions granted to principals such as:
 
 ```text
 Everyone
@@ -674,7 +684,7 @@ Authenticated Users
 BUILTIN\Users
 ```
 
-Permissions of interest include:
+and rights such as:
 
 ```text
 Write
@@ -682,68 +692,48 @@ Modify
 FullControl
 ```
 
-However, a writable directory alone is not necessarily a vulnerability.
-
-The important question is:
-
-> Can a lower-privileged user modify content that will later be consumed or executed by a more privileged security context?
-
-This distinction is important when reporting findings.
-
----
-
-# 13. Writable Locations
-
-A writable location can become security relevant when privileged software relies on files stored there.
-
-Example permission inspection:
-
-```powershell
-Get-Acl "C:\ProgramData\Example"
-```
-
-Using `icacls`:
-
-```cmd
-icacls "C:\ProgramData\Example"
-```
-
-Assessment logic:
+However:
 
 ```text
-Can the user write?
-        |
-        v
-What can be modified?
-        |
-        v
-Does another process consume it?
-        |
-        v
-Which account runs that process?
-        |
-        v
-Can execution or configuration be influenced?
-        |
-        v
-Validate practical security impact
+Writable Directory
 ```
 
-This prevents reporting writable folders without demonstrating why they matter.
+does not automatically mean:
+
+```text
+Privilege Escalation
+```
+
+Use:
+
+```text
+Writable Resource
+        |
+        v
+What Can Be Modified?
+        |
+        v
+Who Consumes It?
+        |
+        v
+Under Which Security Context?
+        |
+        v
+Can Behavior Be Influenced?
+        |
+        v
+Can the Impact Be Safely Validated?
+```
+
+Continue with [Filesystem Permissions](filesystem-permissions.md).
 
 ---
 
-# 14. Registry Enumeration
+# 10. Registry Security
 
-The Windows Registry contains extensive system and application configuration.
+The Registry contains operating system and application configuration that can become security relevant when permissions and privileged consumers interact.
 
-PowerShell provides registry drives:
-
-```powershell
-Get-PSDrive -PSProvider Registry
-```
-
-Common locations include:
+Useful locations include:
 
 ```text
 HKLM:\SOFTWARE
@@ -751,39 +741,98 @@ HKLM:\SYSTEM
 HKCU:\Software
 ```
 
-Registry analysis can reveal:
+PowerShell:
 
-- Application configuration
-- Service configuration
-- Startup entries
-- Security settings
-- Stored paths
-- User-specific configuration
-- Potential credential material
+```powershell
+Get-PSDrive -PSProvider Registry
+```
 
 Example:
 
 ```powershell
-Get-ChildItem HKLM:\SOFTWARE
+Get-ChildItem 'HKLM:\SOFTWARE'
 ```
 
-Registry findings should always be evaluated in context.
+Registry analysis can reveal:
 
-A writable registry key only becomes security relevant when it can influence a security-sensitive or privileged operation.
+- service configuration;
+- startup mechanisms;
+- application settings;
+- security configuration;
+- executable paths;
+- user-specific configuration; and
+- potentially sensitive values.
+
+A writable registry key is not automatically a vulnerability.
+
+Determine whether changing that key can influence a privileged or security-sensitive operation.
+
+Continue with [Registry Security](registry.md).
 
 ---
 
-# 15. PowerShell
+# 11. Credential Exposure
 
-PowerShell is both an administrative platform and an important Windows security assessment interface.
+Potential credential material may exist in:
 
-Determine the PowerShell version:
+```text
+Application configuration
+Scripts
+PowerShell history
+Deployment files
+Scheduled tasks
+Service configuration
+Backup files
+Registry values
+Credential stores
+User profiles
+```
+
+PowerShell history location:
+
+```powershell
+(Get-PSReadLineOption).HistorySavePath
+```
+
+Where authorised:
+
+```powershell
+Get-Content (Get-PSReadLineOption).HistorySavePath
+```
+
+Credential discovery should be targeted and proportionate.
+
+Sensitive material should not be unnecessarily:
+
+```text
+Copied
+
+Displayed
+
+Stored in shell history
+
+Included unredacted in screenshots
+
+Committed to repositories
+
+Placed in reports
+```
+
+Continue with [Windows Credentials](credentials.md).
+
+---
+
+# 12. PowerShell Security Context
+
+PowerShell is an important Windows administration and assessment interface.
+
+Version:
 
 ```powershell
 $PSVersionTable
 ```
 
-Check Language Mode:
+Language Mode:
 
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
@@ -798,37 +847,42 @@ RestrictedLanguage
 NoLanguage
 ```
 
-Language Mode should be considered together with the broader application-control architecture.
+`FullLanguage` alone is not automatically a security weakness.
 
-`FullLanguage` by itself is not automatically a vulnerability.
+Language Mode should be interpreted together with:
 
-PowerShell can also be used for:
-
-- System enumeration
-- Registry inspection
-- File permission analysis
-- Network enumeration
-- Service inspection
-- Event log inspection
-- Security-control assessment
-- Evidence collection
+```text
+AppLocker
+WDAC
+PowerShell policy
+Logging
+Endpoint protection
+User privilege
+System role
+```
 
 Continue with [PowerShell](powershell.md).
 
 ---
 
-# 16. Microsoft Defender
+# 13. Microsoft Defender and ASR
 
-Where permitted, inspect Microsoft Defender configuration.
+Where permitted:
 
 ```powershell
 Get-MpComputerStatus
 ```
 
-Selected information:
+Focused status:
 
 ```powershell
-Get-MpComputerStatus | Select-Object AntivirusEnabled, AntispywareEnabled, RealTimeProtectionEnabled, BehaviorMonitorEnabled, IoavProtectionEnabled
+Get-MpComputerStatus |
+    Select-Object AntivirusEnabled,
+                  AntispywareEnabled,
+                  RealTimeProtectionEnabled,
+                  BehaviorMonitorEnabled,
+                  IoavProtectionEnabled,
+                  IsTamperProtected
 ```
 
 Preferences:
@@ -837,108 +891,65 @@ Preferences:
 Get-MpPreference
 ```
 
-Potential assessment areas include:
+Attack Surface Reduction:
+
+```powershell
+Get-MpPreference |
+    Select-Object AttackSurfaceReductionRules_Ids,
+                  AttackSurfaceReductionRules_Actions
+```
+
+Assess:
 
 ```text
-Antivirus status
+Antivirus state
 Real-time protection
 Behaviour monitoring
-Signature state
-Exclusions
 Cloud protection
-Attack Surface Reduction
 Tamper protection
+Exclusions
+ASR configuration
+Signature state
 ```
 
-During an assessment, security controls should primarily be documented and evaluated rather than disabled.
+Do not disable endpoint protection simply to demonstrate that it can be disabled.
+
+The preferred model is:
+
+```text
+Inspect
+   |
+   v
+Understand Effective Configuration
+   |
+   v
+Perform Approved Validation
+   |
+   v
+Observe Detection / Prevention
+   |
+   v
+Collect Evidence
+```
+
+Continue with [Microsoft Defender](defender.md).
 
 ---
 
-# 17. Attack Surface Reduction
+# 14. Application Control
 
-Microsoft Defender Attack Surface Reduction rules can restrict commonly abused behaviours.
+Application control can significantly affect which binaries, scripts, installers, DLLs and packaged applications are permitted to execute.
 
-Where available:
-
-```powershell
-Get-MpPreference | Select-Object AttackSurfaceReductionRules_Ids, AttackSurfaceReductionRules_Actions
-```
-
-When analysing ASR configuration, determine whether relevant rules are:
+The main Windows technologies covered in these notes are:
 
 ```text
-Disabled
-Block
-Audit
-Warn
+AppLocker
+
+Windows Defender Application Control
+Application Control for Business
 ```
 
-The exact representation can vary depending on Windows version and management configuration.
-
-ASR configuration should be assessed together with:
-
-```text
-Microsoft Defender
-Application control
-PowerShell restrictions
-Office security controls
-Endpoint management
-```
-
----
-
-# 18. Windows Firewall
-
-Basic status:
-
-```cmd
-netsh advfirewall show allprofiles
-```
-
-PowerShell:
-
-```powershell
-Get-NetFirewallProfile
-```
-
-Review enabled rules:
-
-```powershell
-Get-NetFirewallRule -Enabled True
-```
-
-Firewall analysis should consider:
-
-```text
-Profile
-Direction
-Action
-Protocol
-Local port
-Remote address
-Application
-Service
-```
-
-The existence of an allow rule does not automatically represent a weakness.
-
-Consider:
-
-```text
-Who can reach the service?
-What service is listening?
-Which account runs it?
-Is authentication required?
-Is the exposure necessary?
-```
-
----
-
-# 19. AppLocker
-
-AppLocker can restrict executable, script, installer, packaged application, and DLL execution depending on policy configuration.
-
-Inspect the effective policy:
+Effective AppLocker policy:
 
 ```powershell
 Get-AppLockerPolicy -Effective
@@ -950,250 +961,155 @@ Rule collections:
 (Get-AppLockerPolicy -Effective).RuleCollections
 ```
 
-Test a specific file against the effective policy:
+A file can be evaluated against effective AppLocker policy using:
 
 ```powershell
-Get-AppLockerPolicy -Effective | Test-AppLockerPolicy -Path "C:\Path\test.exe" -User "$env:USERDOMAIN\$env:USERNAME"
+Get-AppLockerPolicy -Effective |
+    Test-AppLockerPolicy -Path 'C:\Path\test.exe' -User "$env:USERDOMAIN\$env:USERNAME"
 ```
 
-Possible policy decisions can include:
+Application-control assessment should answer:
 
 ```text
-Allowed
-Denied
-DeniedByDefault
+Which policy exists?
+
+Which collections are configured?
+
+Which collections are enforced?
+
+Which identities are affected?
+
+Which paths / publishers / hashes are trusted?
+
+What does the effective policy permit?
+
+Does runtime behavior match the policy?
 ```
 
-The effective policy matters more than simply determining that AppLocker components exist.
-
-Review the relationship between:
+Do not assume:
 
 ```text
-Rule collection
-        |
-        v
-Enforcement mode
-        |
-        v
-Path / publisher / hash rules
-        |
-        v
-User or group scope
-        |
-        v
-Effective execution decision
+AppLocker Installed = Application Control Enforced
 ```
+
+or:
+
+```text
+One Allowed Executable = Application Control Bypass
+```
+
+Continue with [Application Control](application-control.md).
 
 ---
 
-# 20. Windows Defender Application Control
+# 15. User Account Control
 
-Windows Defender Application Control, or WDAC, provides application-control capabilities based on Windows Code Integrity.
+UAC affects administrative elevation and token behavior.
 
-Assessment should determine:
-
-```text
-Is application control deployed?
-Which policies are active?
-Which files are trusted?
-Which users or contexts are affected?
-Is audit or enforcement mode being used?
-```
-
-Application-control assessment should focus on the effective security boundary rather than testing isolated executables without context.
-
-WDAC and AppLocker are related areas of Windows application control, but they should not automatically be treated as equivalent controls.
-
----
-
-# 21. AMSI
-
-The Antimalware Scan Interface, commonly referred to as AMSI, provides an interface through which applications and services can integrate with antimalware products.
-
-During an assessment, AMSI should be considered as part of the broader Windows security-control architecture.
-
-Relevant context includes:
+Important questions include:
 
 ```text
-PowerShell
-Script execution
-Microsoft Defender
-Third-party endpoint protection
-Application control
-Logging
-Execution policy
-Language Mode
+Is UAC enabled?
+
+Is the user already an administrator?
+
+What integrity level is active?
+
+Is the current token filtered?
+
+How are administrators prompted?
+
+How are standard users handled?
+
+Is secure desktop enabled?
 ```
 
-The presence of AMSI does not guarantee that every script or execution path will be blocked.
-
-Likewise, the ability to execute PowerShell does not demonstrate that AMSI is ineffective.
-
-Security controls should be evaluated based on observed behaviour and effective policy.
-
----
-
-# 22. Credential Exposure
-
-Potential credential material may exist in:
-
-```text
-Configuration files
-Application settings
-PowerShell history
-Scripts
-Scheduled tasks
-Service configuration
-Deployment files
-Backup files
-Registry entries
-Credential Manager
-User profiles
-```
-
-Credential searches should be targeted and authorised.
-
-Sensitive material discovered during an assessment should be handled carefully and should not be unnecessarily copied into reports, screenshots, shell history, or shared storage.
-
-Continue with [Windows Credentials](credentials.md).
-
----
-
-# 23. PowerShell History
-
-PowerShell command history can sometimes expose operational information or sensitive values.
-
-Common PSReadLine history location:
+Core configuration:
 
 ```powershell
-(Get-PSReadLineOption).HistorySavePath
+Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
 ```
 
-Display the history file where accessible:
-
-```powershell
-Get-Content (Get-PSReadLineOption).HistorySavePath
-```
-
-Potentially interesting content includes:
+Remember the distinction:
 
 ```text
-Administrative commands
-Network locations
-Application configuration
-Authentication commands
-Deployment operations
-Hard-coded secrets
+Standard User
+     |
+     v
+Administrator
 ```
 
-Treat any discovered credentials, tokens, or secrets as sensitive assessment evidence.
+is not equivalent to:
+
+```text
+Administrator
+Medium Integrity
+     |
+     v
+Administrator
+High Integrity
+```
+
+The second is an elevation within an already administrative identity.
+
+Continue with [User Account Control](uac.md).
 
 ---
 
-# 24. Environment Variables
+# 16. Windows Firewall
 
-List environment variables:
+Review firewall profiles:
+
+```powershell
+Get-NetFirewallProfile
+```
+
+Enabled rules:
+
+```powershell
+Get-NetFirewallRule -Enabled True
+```
+
+Native command:
 
 ```cmd
-set
+netsh advfirewall show allprofiles
 ```
 
-PowerShell:
-
-```powershell
-Get-ChildItem Env:
-```
-
-Interesting variables can include:
+Interpret firewall rules using:
 
 ```text
-USERNAME
-USERDOMAIN
-COMPUTERNAME
-USERPROFILE
-APPDATA
-LOCALAPPDATA
-TEMP
-TMP
-PATH
-PSModulePath
+Profile
+Direction
+Action
+Protocol
+Port
+Remote Address
+Application
+Service
 ```
 
-Application-specific environment variables can also expose useful configuration.
+An allow rule does not automatically constitute a vulnerability.
 
-Do not assume that an interesting value is sensitive simply because it appears in an environment variable. Determine what the value represents and whether it provides meaningful access.
+Determine:
+
+```text
+What is exposed?
+
+Who can reach it?
+
+What service receives the connection?
+
+What authentication protects it?
+
+Is the exposure required?
+```
 
 ---
 
-# 25. PATH Analysis
+# 17. Startup and Automatic Execution
 
-Inspect the executable search path:
-
-```powershell
-$env:PATH -split ";"
-```
-
-Check permissions on relevant directories rather than assuming a PATH entry is dangerous.
-
-The important relationship is:
-
-```text
-Search order
-        +
-Writable directory
-        +
-Privileged execution
-        =
-Potential security impact
-```
-
-All conditions must be investigated.
-
----
-
-# 26. Interesting Directories
-
-Common locations worth understanding include:
-
-```text
-C:\Users
-C:\ProgramData
-C:\Program Files
-C:\Program Files (x86)
-C:\Windows
-C:\Windows\Temp
-C:\Temp
-```
-
-User-specific locations include:
-
-```text
-%USERPROFILE%
-%APPDATA%
-%LOCALAPPDATA%
-%TEMP%
-```
-
-These locations can contain:
-
-- Application configuration
-- User configuration
-- Logs
-- Temporary files
-- Scripts
-- Deployment artifacts
-- Service resources
-- Cached information
-
-Do not recursively search an entire filesystem without considering scope, performance, privacy, and operational impact.
-
----
-
-# 27. Startup and Persistence Locations
-
-Windows contains several mechanisms that can cause software to execute automatically.
-
-Assessment areas can include:
+Windows supports multiple automatic execution mechanisms, including:
 
 ```text
 Services
@@ -1201,132 +1117,127 @@ Scheduled tasks
 Startup folders
 Registry Run keys
 Logon scripts
-Application-specific startup mechanisms
+Application-specific mechanisms
 ```
 
-Examples of common Run key locations include:
+Common Run keys include:
 
 ```text
 HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+
 HKLM\Software\Microsoft\Windows\CurrentVersion\Run
 ```
 
-These locations are not inherently vulnerable.
-
-The important questions are:
+For every startup mechanism determine:
 
 ```text
 What executes?
-Who configured it?
-Which account executes it?
-Who can modify the referenced resource?
-Is the behaviour expected?
+
+Which identity executes it?
+
+Who can modify the configuration?
+
+Who can modify the referenced file?
+
+Who can modify its parent directory?
+
+Is the behavior expected?
 ```
+
+Autorun presence alone is not a vulnerability.
 
 ---
 
-# 28. Security Tooling
+# 18. Privilege Escalation Analysis
 
-Several tools can assist with authorised Windows security assessment.
+Privilege escalation should bring together evidence from all earlier phases.
 
-## Sysinternals
-
-Microsoft Sysinternals contains utilities for Windows troubleshooting, administration, and security analysis.
-
-Useful tools include:
+The central question is:
 
 ```text
-Autoruns
-Process Explorer
-Process Monitor
-AccessChk
-TCPView
-Sigcheck
-Strings
-PsExec
+What can the current user control?
 ```
 
-[Microsoft Sysinternals](https://learn.microsoft.com/en-us/sysinternals/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Seatbelt
-
-Seatbelt performs Windows host security enumeration.
-
-Typical areas include:
+Then:
 
 ```text
-System information
-Security products
-Processes
-Services
-Users
-Interesting files
-Windows configuration
+Controlled Resource
+        |
+        v
+Who Consumes It?
+        |
+        v
+Under Which Identity?
+        |
+        v
+When Is It Consumed?
+        |
+        v
+Can Its Behaviour Be Influenced?
+        |
+        v
+Does This Cross a Security Boundary?
 ```
 
-[Seatbelt](https://github.com/GhostPack/Seatbelt){ target="_blank" rel="noopener noreferrer" }
+Common relationships include:
 
-Use automated enumeration as a supplement to manual validation rather than treating every result as a finding.
+```text
+User
+  |
+  +----> Service configuration
+  |
+  +----> Service executable
+  |
+  +----> Scheduled task resource
+  |
+  +----> Writable privileged file
+  |
+  +----> Writable privileged directory
+  |
+  +----> Registry configuration
+  |
+  +----> Credential material
+  |
+  +----> Assigned Windows privilege
+  |
+  +----> Vulnerable privileged software
+  |
+  v
+Higher-Privileged Execution
+```
 
----
-
-## SharpUp
-
-SharpUp assists with identifying potential Windows privilege escalation conditions.
-
-[SharpUp](https://github.com/GhostPack/SharpUp){ target="_blank" rel="noopener noreferrer" }
-
-Findings should still be manually verified.
-
----
-
-## PrivescCheck
-
-PrivescCheck is a PowerShell-based Windows privilege escalation enumeration project.
-
-[PrivescCheck](https://github.com/itm4n/PrivescCheck){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## WinPEAS
-
-WinPEAS provides extensive Windows privilege escalation enumeration.
-
-[PEASS-ng](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
-
-Large automated enumeration tools can generate substantial output.
-
-Use targeted execution where possible and manually validate significant findings.
+Continue with [Windows Privilege Escalation](privilege-escalation.md).
 
 ---
 
-# 29. Manual and Automated Enumeration
+# 19. Manual and Automated Enumeration
 
-A strong assessment combines both approaches.
+A strong assessment combines manual understanding with automated coverage.
 
 ```text
 Manual Enumeration
         |
-        +---- Understand environment
-        +---- Establish security context
+        +---- Understand context
+        +---- Identify controls
         +---- Form hypotheses
         |
         v
 Automated Enumeration
         |
         +---- Increase coverage
-        +---- Identify overlooked configuration
-        +---- Prioritise candidates
+        +---- Identify candidates
+        +---- Highlight unusual configuration
         |
         v
 Manual Validation
         |
         +---- Confirm permissions
+        +---- Confirm identity
         +---- Confirm execution context
         +---- Confirm relationships
-        +---- Confirm practical impact
+        |
+        v
+Safe Impact Validation
         |
         v
 Evidence
@@ -1335,121 +1246,254 @@ Evidence
 Reporting
 ```
 
-Automated tool output should not be copied directly into a penetration test report without validation.
+Automated tool output should be treated as:
+
+```text
+Candidate Evidence
+```
+
+rather than:
+
+```text
+Confirmed Finding
+```
+
+until manually validated.
 
 ---
 
-# 30. Privilege Escalation Mindset
+# 20. Useful Windows Assessment Tools
 
-Privilege escalation should be treated as relationship analysis.
+## Microsoft Sysinternals
+
+Useful Sysinternals tools include:
+
+| Tool | Typical Use |
+|---|---|
+| Autoruns | Automatic execution and persistence review |
+| Process Explorer | Process, token and integrity inspection |
+| Process Monitor | Runtime filesystem, Registry and process activity |
+| AccessChk | Windows object permission analysis |
+| TCPView | Network connection inspection |
+| Sigcheck | File signature and metadata inspection |
+| Strings | Printable string extraction |
+| PsExec | Approved remote/local administration scenarios |
+
+[Microsoft Sysinternals](https://learn.microsoft.com/en-us/sysinternals/){ target="_blank" rel="noopener noreferrer" }
+
+## Seatbelt
+
+Seatbelt can assist with broad Windows host enumeration and security-context discovery.
+
+[GhostPack Seatbelt](https://github.com/GhostPack/Seatbelt){ target="_blank" rel="noopener noreferrer" }
+
+## SharpUp
+
+SharpUp focuses on potential Windows privilege escalation conditions.
+
+[GhostPack SharpUp](https://github.com/GhostPack/SharpUp){ target="_blank" rel="noopener noreferrer" }
+
+## PrivescCheck
+
+PrivescCheck provides PowerShell-based Windows privilege escalation enumeration.
+
+[PrivescCheck](https://github.com/itm4n/PrivescCheck){ target="_blank" rel="noopener noreferrer" }
+
+## WinPEAS
+
+WinPEAS provides broad Windows privilege escalation enumeration.
+
+[PEASS-ng](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
+
+!!! tip "Automation supports analysis"
+
+    Automated tools are useful for coverage and prioritisation, but their output should be manually validated before being treated as assessment evidence.
+
+---
+
+# 21. Practical Validation Model
+
+For potentially significant observations, use the same validation model throughout the Windows section.
+
+```text
+Observation
+     |
+     v
+Applicability
+     |
+     v
+Security Context
+     |
+     v
+Permissions / Configuration
+     |
+     v
+Privileged Consumer
+     |
+     v
+Influence
+     |
+     v
+Safe Validation
+     |
+     v
+Evidence
+     |
+     v
+Conclusion
+```
+
+## Example
+
+Suppose enumeration identifies:
+
+```text
+C:\ProgramData\Vendor\App\
+```
+
+as writable by a standard user.
+
+Do not stop at:
+
+```text
+Directory is writable.
+```
+
+Determine:
+
+```text
+What files are stored there?
+
+Which files can actually be modified?
+
+Does a privileged service or task use them?
+
+Under which account does that process execute?
+
+Are permissions inherited?
+
+Can the user replace or modify the relevant resource?
+
+Will the privileged process actually consume the changed resource?
+```
+
+Only after establishing the relationship should the observation be classified.
+
+---
+
+# 22. False Positives and Alternative Explanations
+
+Windows enumeration frequently produces observations that look more significant than they are.
+
+Examples include:
+
+```text
+Writable directory with no privileged consumer
+
+Privileged service with protected executable
+
+Scheduled task running as SYSTEM with protected resources
+
+Administrator account running at medium integrity
+
+FullLanguage PowerShell without a requirement for CLM
+
+AppLocker installed but not intended as the primary control
+
+Allowed executable covered by a deliberate policy rule
+
+Old software version where vulnerable functionality is absent
+
+Interesting privilege that cannot affect a relevant resource
+```
+
+Before reporting, ask:
+
+```text
+Does the condition actually apply?
+
+Can the current user reach it?
+
+Can the relevant resource be influenced?
+
+Does a higher-privileged component consume it?
+
+Does another security control prevent the behavior?
+
+Is the configuration intentional?
+
+Can the impact be reproduced safely?
+```
+
+---
+
+# 23. Evidence Collection
+
+For each potentially significant Windows finding, capture:
+
+```text
+Hostname
+Windows version
+Current user
+User SID
+Group membership
+Integrity level
+Relevant privileges
+Affected object
+Object owner
+Relevant ACL
+Privileged consumer
+Consumer identity
+Security-control state
+Command used
+Observed result
+Validation result
+```
+
+Evidence should show the complete relationship.
 
 For example:
 
 ```text
-Low-privileged user
-        |
-        v
-Writable resource
-        |
-        v
-Privileged process uses resource
-        |
-        v
-User can influence behaviour
-        |
-        v
-Privilege boundary crossed
+Current User
+    |
+    v
+Modify Permission
+    |
+    v
+C:\ProgramData\Vendor\Service\
+    |
+    v
+Service.exe
+    |
+    v
+Windows Service
+    |
+    v
+LocalSystem
 ```
 
-The existence of only one component does not necessarily create a vulnerability.
-
-A better assessment asks:
+That is considerably stronger than a screenshot showing only:
 
 ```text
-What can I control?
-        |
-        v
-Who consumes it?
-        |
-        v
-Under which security context?
-        |
-        v
-Can my control influence privileged behaviour?
-        |
-        v
-Can the condition be safely validated?
-```
-
-Continue with [Windows Privilege Escalation](privilege-escalation.md).
-
----
-
-# 31. Evidence Collection
-
-For each potentially significant finding, record:
-
-```text
-Host
-User
-Integrity level
-Relevant groups
-Relevant privileges
-Object or resource
-Permissions
-Security control state
-Command used
-Observed result
-Security impact
-```
-
-Prefer reproducible evidence.
-
-Example:
-
-```text
-Observation:
-A standard user has Modify permission on a directory.
-
-Context:
-The directory contains an executable used by a privileged Windows service.
-
-Validation:
-The service account and executable path were independently confirmed.
-
-Impact:
-The writable resource may allow the lower-privileged user to influence
-execution performed by a higher-privileged service.
-
-Recommendation:
-Restrict write permissions and ensure privileged service resources can only
-be modified by trusted administrative principals.
+BUILTIN\Users:(M)
 ```
 
 ---
 
-# 32. Reporting
+# 24. Reporting
 
-A useful Windows finding should explain the relationship between configuration and security impact.
+A Windows finding should explain why a configuration matters.
 
-Avoid reporting only:
+Avoid:
 
-```text
-C:\Example is writable.
-```
+> `C:\Example` is writable.
 
 Prefer:
 
-```text
-A standard user has Modify permission on C:\Example. The directory contains
-a binary executed by a service running under a privileged account. This
-creates a trust-boundary issue because an unprivileged user can influence a
-resource consumed by a higher-privileged process.
-```
+> A standard user has Modify permission on `C:\Example`, which contains an executable used by a Windows service running as LocalSystem. This creates a privileged resource trust issue because a lower-privileged user can modify content consumed by a higher-privileged process.
 
-The second statement explains why the configuration matters.
-
-A good finding generally contains:
+A defensible finding generally contains:
 
 ```text
 Observation
@@ -1458,7 +1502,10 @@ Observation
 Affected Resource
         |
         v
-Security Context
+Affected Principal
+        |
+        v
+Privileged Consumer
         |
         v
 Attack Preconditions
@@ -1467,200 +1514,272 @@ Attack Preconditions
 Validated Impact
         |
         v
-Recommendation
+Remediation
+        |
+        v
+Retest
 ```
 
 ---
 
-# 33. Remediation Principles
+# 25. Remediation Principles
 
 Common Windows hardening principles include:
 
-- Apply least privilege.
-- Restrict administrative membership.
-- Protect privileged service resources.
-- Harden filesystem ACLs.
-- Harden registry ACLs.
-- Protect credential material.
-- Remove unnecessary software.
-- Patch supported software.
-- Restrict unnecessary services.
-- Configure host firewall rules.
-- Deploy endpoint protection.
-- Apply application control where appropriate.
-- Enable appropriate PowerShell logging.
-- Monitor privileged execution.
-- Review scheduled tasks.
-- Protect administrative interfaces.
-- Centralise security telemetry.
+- apply least privilege;
+- restrict local administrator membership;
+- protect privileged service resources;
+- protect scheduled-task resources;
+- harden NTFS ACLs;
+- harden Registry ACLs;
+- protect credential material;
+- remove unnecessary software;
+- maintain supported and patched software;
+- restrict unnecessary services;
+- configure host firewall rules;
+- maintain endpoint protection;
+- deploy application control where appropriate;
+- configure appropriate PowerShell security controls;
+- monitor privileged execution;
+- protect administrative interfaces; and
+- centralise security telemetry.
 
-Remediation should be proportional to the demonstrated risk.
+Remediation should address the root cause rather than only the proof-of-concept path.
 
 ---
 
-# 34. Windows Testing Checklist
+# 26. Retesting
+
+Retesting should demonstrate that the original security relationship no longer exists.
+
+Example:
+
+```text
+Original Condition
+
+Standard User
+     |
+     v
+Modify Permission
+     |
+     v
+Privileged Service Executable
+```
+
+After remediation:
+
+```text
+Standard User
+     |
+     v
+No Modification Permission
+     X
+Privileged Service Executable
+```
+
+Retest:
+
+```text
+Original ACL
+
+New ACL
+
+Current effective user rights
+
+Service configuration
+
+Service identity
+
+Referenced executable
+
+Runtime functionality
+```
+
+Also confirm that remediation did not break legitimate application or administrative functionality.
+
+---
+
+# Windows Assessment Checklist
 
 ## Context
 
 - [ ] Identify current user
-- [ ] Identify user SID
-- [ ] Identify groups
-- [ ] Identify privileges
+- [ ] Record SID
+- [ ] Review groups
+- [ ] Review privileges
 - [ ] Determine integrity level
+- [ ] Determine elevation state
 - [ ] Determine domain membership
+- [ ] Review UAC context
 
 ## System
 
 - [ ] Identify Windows version
 - [ ] Identify architecture
 - [ ] Identify build
-- [ ] Review patch state
-- [ ] Identify installed software
+- [ ] Review patch context
+- [ ] Enumerate installed software
 
 ## Network
 
 - [ ] Enumerate interfaces
-- [ ] Enumerate IP addresses
+- [ ] Enumerate addresses
 - [ ] Enumerate routes
 - [ ] Review DNS configuration
-- [ ] Review ARP cache where relevant
 - [ ] Enumerate listeners
 - [ ] Review active connections
-- [ ] Review firewall configuration
+- [ ] Review firewall profiles and relevant rules
 
 ## Users and Groups
 
 - [ ] Enumerate local users
 - [ ] Enumerate local groups
-- [ ] Review Administrators membership
+- [ ] Review local Administrators
 - [ ] Identify service accounts
-- [ ] Identify unexpected privileged accounts
+- [ ] Identify unexpected privileged identities
 
-## Processes
+## Processes and Services
 
 - [ ] Enumerate processes
-- [ ] Identify privileged processes
+- [ ] Correlate listeners with processes
 - [ ] Identify security products
-- [ ] Identify management software
-- [ ] Correlate processes with network listeners
-
-## Services
-
 - [ ] Enumerate services
-- [ ] Review service accounts
+- [ ] Review service identities
 - [ ] Review executable paths
 - [ ] Review service permissions
 - [ ] Review associated filesystem permissions
-- [ ] Identify privileged service relationships
-
-## Filesystem
-
-- [ ] Identify interesting directories
-- [ ] Review writable locations
-- [ ] Review sensitive files
-- [ ] Review application configuration
-- [ ] Validate ACL findings
-
-## Registry
-
-- [ ] Review relevant application keys
-- [ ] Review startup configuration
-- [ ] Review service configuration
-- [ ] Review permissions where relevant
-- [ ] Identify sensitive configuration
 
 ## Scheduled Tasks
 
-- [ ] Enumerate scheduled tasks
+- [ ] Enumerate tasks
 - [ ] Review principals
+- [ ] Review run levels
+- [ ] Review triggers
 - [ ] Review actions
 - [ ] Review referenced files
-- [ ] Review permissions
-- [ ] Determine execution context
+- [ ] Review referenced directories
+- [ ] Determine whether lower-privileged users can influence resources
+
+## Filesystem
+
+- [ ] Review security-sensitive directories
+- [ ] Review privileged executable ACLs
+- [ ] Review parent-directory ACLs
+- [ ] Review configuration-file ACLs
+- [ ] Review ownership
+- [ ] Validate effective permissions
+
+## Registry
+
+- [ ] Review security-sensitive configuration
+- [ ] Review service configuration
+- [ ] Review startup configuration
+- [ ] Review relevant Registry ACLs
+- [ ] Identify privileged consumers
 
 ## Credentials
 
-- [ ] Review configuration files
-- [ ] Review PowerShell history
-- [ ] Review Credential Manager where authorised
-- [ ] Review application configuration
+- [ ] Review relevant configuration files
 - [ ] Review scripts
+- [ ] Review PowerShell history where authorised
 - [ ] Review deployment artifacts
-- [ ] Protect collected evidence
+- [ ] Review application configuration
+- [ ] Protect collected secrets and evidence
 
 ## Security Controls
 
 - [ ] Review Microsoft Defender
-- [ ] Review ASR configuration
+- [ ] Review Defender exclusions
+- [ ] Review ASR
 - [ ] Review Windows Firewall
 - [ ] Review AppLocker
-- [ ] Review WDAC where deployed
+- [ ] Review WDAC/Application Control
 - [ ] Review PowerShell Language Mode
-- [ ] Consider AMSI context
-- [ ] Review relevant logging controls
+- [ ] Review UAC
+- [ ] Consider AMSI and logging context
 
-## Validation
+## Privilege Escalation
 
-- [ ] Manually verify automated findings
-- [ ] Determine affected security boundary
-- [ ] Confirm practical impact
-- [ ] Collect reproducible evidence
-- [ ] Avoid unnecessary system modification
-- [ ] Document remediation
+- [ ] Identify controllable resources
+- [ ] Identify privileged consumers
+- [ ] Establish execution context
+- [ ] Validate permissions
+- [ ] Identify alternative explanations
+- [ ] Safely validate meaningful relationships
+- [ ] Determine the actual security boundary crossed
 
----
+## Reporting
 
-# 35. Windows Documentation Flow
-
-Use the Windows pages in approximately this order during an assessment:
-
-```text
-Windows Overview
-        |
-        v
-Windows Enumeration
-        |
-        +-----------------------+
-        |                       |
-        v                       v
-   PowerShell                Services
-        |                       |
-        +-----------+-----------+
-                    |
-                    v
-               Credentials
-                    |
-                    v
-          Privilege Escalation
-                    |
-                    v
-             Validate Findings
-                    |
-                    v
-                Reporting
-```
-
-The pages are intentionally connected.
-
-**Enumeration** establishes what exists and the current security context.
-
-**PowerShell** provides an important administrative and assessment interface.
-
-**Services** focuses on privileged service relationships, permissions, executable paths, and service accounts.
-
-**Credentials** focuses on sensitive authentication material and secret exposure.
-
-**Privilege Escalation** brings evidence from the other areas together to determine whether a security boundary can actually be crossed.
+- [ ] Capture reproducible commands
+- [ ] Record relevant output
+- [ ] Record affected identity
+- [ ] Record privileged identity
+- [ ] Record permissions
+- [ ] Explain preconditions
+- [ ] Explain impact
+- [ ] Provide root-cause remediation
+- [ ] Define retest procedure
 
 ---
 
 # Recommended Reading Order
 
+For a complete host-level assessment, use the Windows notes in approximately this order:
+
+```text
+1. Windows Overview
+        |
+        v
+2. Enumeration
+        |
+        v
+3. PowerShell
+        |
+        +------------------+
+        |                  |
+        v                  v
+4. Services       5. Scheduled Tasks
+        |                  |
+        +--------+---------+
+                 |
+                 v
+6. Filesystem Permissions
+                 |
+                 v
+7. Registry Security
+                 |
+                 v
+8. Credentials
+                 |
+                 v
+9. Application Control
+                 |
+                 v
+10. Microsoft Defender
+                 |
+                 v
+11. UAC
+                 |
+                 v
+12. Privilege Escalation
+                 |
+                 v
+Validation / Evidence / Reporting
+```
+
+Direct links:
+
 1. [Windows Enumeration](enumeration.md)
 2. [PowerShell](powershell.md)
 3. [Windows Services](services.md)
-4. [Windows Credentials](credentials.md)
-5. [Windows Privilege Escalation](privilege-escalation.md)
+4. [Scheduled Tasks](scheduled-tasks.md)
+5. [Filesystem Permissions](filesystem-permissions.md)
+6. [Registry Security](registry.md)
+7. [Windows Credentials](credentials.md)
+8. [Application Control](application-control.md)
+9. [Microsoft Defender](defender.md)
+10. [User Account Control](uac.md)
+11. [Windows Privilege Escalation](privilege-escalation.md)
 
 For domain-joined systems, also use:
 
@@ -1671,14 +1790,62 @@ For domain-joined systems, also use:
 
 # Related Notes
 
-- [Windows Enumeration](enumeration.md)
-- [Windows Privilege Escalation](privilege-escalation.md)
-- [PowerShell](powershell.md)
-- [Windows Services](services.md)
-- [Windows Credentials](credentials.md)
 - [Active Directory](../active-directory/index.md)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
 - [Windows Cheatsheet](../cheatsheets/windows.md)
 - [PowerShell Cheatsheet](../cheatsheets/powershell.md)
+- [Networking Cheatsheet](../cheatsheets/networking.md)
+
+---
+
+# Windows Security Testing Mindset
+
+The most important principle in this section is correlation.
+
+Do not think:
+
+```text
+Writable = Vulnerable
+
+SYSTEM = Vulnerable
+
+Old Version = Vulnerable
+
+FullLanguage = Vulnerable
+
+Allowed = Vulnerable
+
+Administrator = Vulnerable
+```
+
+Instead think:
+
+```text
+Observation
+      |
+      v
+What Does It Mean?
+      |
+      v
+Who Can Influence It?
+      |
+      v
+Who Consumes It?
+      |
+      v
+Under Which Security Context?
+      |
+      v
+What Controls Apply?
+      |
+      v
+Can a Security Boundary Be Crossed?
+      |
+      v
+Can That Be Safely Demonstrated?
+```
+
+This produces better testing and substantially stronger reporting.
 
 ---
 
@@ -1688,14 +1855,23 @@ For domain-joined systems, also use:
 - [Microsoft Windows security documentation](https://learn.microsoft.com/en-us/windows/security/){ target="_blank" rel="noopener noreferrer" }
 - [Microsoft Sysinternals](https://learn.microsoft.com/en-us/sysinternals/){ target="_blank" rel="noopener noreferrer" }
 - [Microsoft Defender for Endpoint documentation](https://learn.microsoft.com/en-us/defender-endpoint/){ target="_blank" rel="noopener noreferrer" }
-- [AppLocker documentation](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/applocker-overview){ target="_blank" rel="noopener noreferrer" }
-- [Windows application control documentation](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft - User Account Control](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft - AppLocker](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/applocker-overview){ target="_blank" rel="noopener noreferrer" }
+- [Microsoft - Application Control for Business](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/){ target="_blank" rel="noopener noreferrer" }
 - [MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-- [Seatbelt](https://github.com/GhostPack/Seatbelt){ target="_blank" rel="noopener noreferrer" }
-- [SharpUp](https://github.com/GhostPack/SharpUp){ target="_blank" rel="noopener noreferrer" }
+- [GhostPack Seatbelt](https://github.com/GhostPack/Seatbelt){ target="_blank" rel="noopener noreferrer" }
+- [GhostPack SharpUp](https://github.com/GhostPack/SharpUp){ target="_blank" rel="noopener noreferrer" }
 - [PrivescCheck](https://github.com/itm4n/PrivescCheck){ target="_blank" rel="noopener noreferrer" }
 - [PEASS-ng](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
 
----
+!!! tip "Correlate before reporting"
 
-> Use these notes only on systems you own or have explicit permission to assess.
+    The strongest Windows findings demonstrate a complete relationship between a lower-privileged principal, a controllable resource, a higher-privileged consumer and a realistic security impact.
+
+!!! tip "Use dedicated pages for depth"
+
+    This page is the Windows assessment map. Use the dedicated pages for detailed enumeration, validation, interpretation, remediation and retesting procedures.
+
+!!! warning "Validate automated findings"
+
+    Seatbelt, SharpUp, PrivescCheck, WinPEAS and similar tools identify candidate conditions. Their output should not be treated as a confirmed vulnerability until the relevant permissions, execution context and security impact have been manually verified.
