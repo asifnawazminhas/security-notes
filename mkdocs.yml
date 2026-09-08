@@ -452,12 +452,62 @@ nav:
   # ==========================================================
 
   - Windows:
+
+      # ------------------------------------------------------
+      # OVERVIEW
+      # ------------------------------------------------------
+
       - Overview: windows/index.md
       - Enumeration: windows/enumeration.md
-      - Privilege Escalation: windows/privilege-escalation.md
+
+
+      # ------------------------------------------------------
+      # POWERSHELL
+      # ------------------------------------------------------
+
       - PowerShell: windows/powershell.md
-      - Services: windows/services.md
+
+
+      # ------------------------------------------------------
+      # SERVICES AND SCHEDULED EXECUTION
+      # ------------------------------------------------------
+
+      - Services and Scheduled Execution:
+          - Services: windows/services.md
+          - Scheduled Tasks: windows/scheduled-tasks.md
+
+
+      # ------------------------------------------------------
+      # FILESYSTEM AND REGISTRY
+      # ------------------------------------------------------
+
+      - Filesystem and Registry:
+          - Filesystem Permissions: windows/filesystem-permissions.md
+          - Registry Security: windows/registry.md
+
+
+      # ------------------------------------------------------
+      # CREDENTIALS
+      # ------------------------------------------------------
+
       - Credentials: windows/credentials.md
+
+
+      # ------------------------------------------------------
+      # SECURITY CONTROLS
+      # ------------------------------------------------------
+
+      - Security Controls:
+          - Application Control: windows/application-control.md
+          - Microsoft Defender: windows/defender.md
+          - User Account Control (UAC): windows/uac.md
+
+
+      # ------------------------------------------------------
+      # PRIVILEGE ESCALATION
+      # ------------------------------------------------------
+
+      - Privilege Escalation: windows/privilege-escalation.md
 
 
   # ==========================================================
@@ -465,11 +515,52 @@ nav:
   # ==========================================================
 
   - Linux:
+
+      # ------------------------------------------------------
+      # OVERVIEW
+      # ------------------------------------------------------
+
       - Overview: linux/index.md
       - Enumeration: linux/enumeration.md
-      - Privilege Escalation: linux/privilege-escalation.md
+
+
+      # ------------------------------------------------------
+      # SERVICES AND SCHEDULED EXECUTION
+      # ------------------------------------------------------
+
+      - Services and Scheduled Execution:
+          - Services: linux/services.md
+          - Scheduled Jobs: linux/scheduled-jobs.md
+
+
+      # ------------------------------------------------------
+      # FILESYSTEM AND PERMISSIONS
+      # ------------------------------------------------------
+
+      - Filesystem and Permissions:
+          - Filesystem Permissions: linux/filesystem-permissions.md
+
+
+      # ------------------------------------------------------
+      # PRIVILEGED ACCESS
+      # ------------------------------------------------------
+
+      - Privileged Access:
+          - sudo Security: linux/sudo.md
+
+
+      # ------------------------------------------------------
+      # CREDENTIALS
+      # ------------------------------------------------------
+
       - Credentials: linux/credentials.md
-      - Services: linux/services.md
+
+
+      # ------------------------------------------------------
+      # PRIVILEGE ESCALATION
+      # ------------------------------------------------------
+
+      - Privilege Escalation: linux/privilege-escalation.md
 
 
   # ==========================================================
