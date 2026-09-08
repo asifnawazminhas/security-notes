@@ -547,6 +547,8 @@ nav:
 
       - Privileged Access:
           - sudo Security: linux/sudo.md
+          - SUID and SGID Security: linux/suid-sgid.md
+          - Linux Capabilities: linux/capabilities.md
 
 
       # ------------------------------------------------------
@@ -554,6 +556,14 @@ nav:
       # ------------------------------------------------------
 
       - Credentials: linux/credentials.md
+
+
+      # ------------------------------------------------------
+      # SECURITY CONTROLS
+      # ------------------------------------------------------
+
+      - Security Controls:
+          - Linux Security Controls: linux/security-controls.md
 
 
       # ------------------------------------------------------
