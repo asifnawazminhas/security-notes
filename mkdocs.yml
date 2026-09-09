@@ -682,11 +682,46 @@ nav:
   # ==========================================================
 
   - Purple Teaming:
+
+      # ------------------------------------------------------
+      # OVERVIEW AND METHODOLOGY
+      # ------------------------------------------------------
+
       - Overview: purple-teaming/index.md
       - Methodology: purple-teaming/methodology.md
+
+
+      # ------------------------------------------------------
+      # EXERCISES AND ADVERSARY BEHAVIOR
+      # ------------------------------------------------------
+
       - Exercises: purple-teaming/exercises.md
-      - Detection Engineering: purple-teaming/detection-engineering.md
       - MITRE ATT&CK: purple-teaming/mitre-attack.md
+
+
+      # ------------------------------------------------------
+      # DETECTION ENGINEERING
+      # ------------------------------------------------------
+
+      - Detection Engineering: purple-teaming/detection-engineering.md
+
+
+      # ------------------------------------------------------
+      # LEARNING AND MEASUREMENT
+      # ------------------------------------------------------
+
+      - Learning and Measurement:
+          - Knowledge Transfer: purple-teaming/knowledge-transfer.md
+          - Metrics and Measurement: purple-teaming/metrics-and-measurement.md
+
+
+      # ------------------------------------------------------
+      # REVIEW AND CONTINUOUS IMPROVEMENT
+      # ------------------------------------------------------
+
+      - Review and Continuous Improvement:
+          - After-Action Review: purple-teaming/after-action-review.md
+          - Continuous Validation: purple-teaming/continuous-validation.md
 
 
   # ==========================================================
