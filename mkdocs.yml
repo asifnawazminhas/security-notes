@@ -236,10 +236,6 @@ nav:
 
   - Source Code Review:
 
-      # ------------------------------------------------------
-      # OVERVIEW AND METHODOLOGY
-      # ------------------------------------------------------
-
       - Overview: source-code-review/index.md
       - Methodology: source-code-review/methodology.md
       - Routes and Entry Points: source-code-review/routes-and-entry-points.md
@@ -248,22 +244,12 @@ nav:
       - Secrets and Configuration: source-code-review/secrets-and-configuration.md
       - Variant Analysis: source-code-review/variant-analysis.md
 
-
-      # ------------------------------------------------------
-      # STATIC ANALYSIS
-      # ------------------------------------------------------
-
       - Static Analysis:
           - Overview: source-code-review/static-analysis/index.md
           - ripgrep: source-code-review/static-analysis/ripgrep.md
           - Semgrep: source-code-review/static-analysis/semgrep.md
           - OpenGrep: source-code-review/static-analysis/opengrep.md
           - CodeQL: source-code-review/static-analysis/codeql.md
-
-
-      # ------------------------------------------------------
-      # LANGUAGES AND FRAMEWORKS
-      # ------------------------------------------------------
 
       - Languages and Frameworks:
 
@@ -289,28 +275,14 @@ nav:
 
   - Active Directory:
 
-      # ------------------------------------------------------
-      # OVERVIEW AND METHODOLOGY
-      # ------------------------------------------------------
-
       - Overview: active-directory/index.md
       - Methodology: active-directory/methodology.md
       - Enumeration: active-directory/enumeration.md
-
-
-      # ------------------------------------------------------
-      # CORE TOOLING
-      # ------------------------------------------------------
 
       - Tooling:
           - NetExec: active-directory/netexec.md
           - Impacket: active-directory/impacket.md
           - BloodHound: active-directory/bloodhound.md
-
-
-      # ------------------------------------------------------
-      # AUTHENTICATION
-      # ------------------------------------------------------
 
       - Authentication:
           - Kerberos: active-directory/kerberos.md
@@ -323,21 +295,11 @@ nav:
           - Pass-the-Key: active-directory/pass-the-key.md
           - Pass-the-Ticket: active-directory/pass-the-ticket.md
 
-
-      # ------------------------------------------------------
-      # USERS, GROUPS AND ACCESS CONTROL
-      # ------------------------------------------------------
-
       - Access Control:
           - ACL and ACE: active-directory/acl-ace.md
           - Groups: active-directory/groups.md
           - Group Policy: active-directory/group-policy.md
           - Machine Account Quota: active-directory/machine-account-quota.md
-
-
-      # ------------------------------------------------------
-      # KERBEROS AND DELEGATION
-      # ------------------------------------------------------
 
       - Kerberos and Delegation:
           - Kerberos Tickets: active-directory/kerberos-tickets.md
@@ -346,11 +308,6 @@ nav:
           - Resource-Based Constrained Delegation: active-directory/rbcd.md
           - S4U: active-directory/s4u.md
 
-
-      # ------------------------------------------------------
-      # CREDENTIAL ACCESS
-      # ------------------------------------------------------
-
       - Credential Access:
           - Overview: active-directory/credential-access.md
           - LAPS: active-directory/laps.md
@@ -358,20 +315,10 @@ nav:
           - Shadow Credentials: active-directory/shadow-credentials.md
           - NTDS: active-directory/ntds.md
 
-
-      # ------------------------------------------------------
-      # RELAY AND COERCION
-      # ------------------------------------------------------
-
       - Relay and Coercion:
           - NTLM Relay: active-directory/ntlm-relay.md
           - Kerberos Relay: active-directory/kerberos-relay.md
           - Authentication Coercion: active-directory/authentication-coercion.md
-
-
-      # ------------------------------------------------------
-      # ACTIVE DIRECTORY CERTIFICATE SERVICES
-      # ------------------------------------------------------
 
       - Active Directory Certificate Services:
 
@@ -399,11 +346,6 @@ nav:
 
           - Golden Certificate: active-directory/ad-cs/golden-certificate.md
 
-
-      # ------------------------------------------------------
-      # LATERAL MOVEMENT AND PIVOTING
-      # ------------------------------------------------------
-
       - Lateral Movement and Pivoting:
           - Lateral Movement: active-directory/lateral-movement.md
           - SMB: active-directory/smb.md
@@ -412,21 +354,11 @@ nav:
           - DCOM: active-directory/dcom.md
           - Pivoting: active-directory/pivoting.md
 
-
-      # ------------------------------------------------------
-      # TRUSTS
-      # ------------------------------------------------------
-
       - Trusts:
           - Overview: active-directory/trusts.md
           - Trust Relationships: active-directory/trust-relationships.md
           - SID History: active-directory/sid-history.md
           - Trust Tickets: active-directory/trust-tickets.md
-
-
-      # ------------------------------------------------------
-      # ACTIVE DIRECTORY INFRASTRUCTURE
-      # ------------------------------------------------------
 
       - Infrastructure:
           - Active Directory Integrated DNS: active-directory/adidns.md
@@ -438,11 +370,6 @@ nav:
           - ADFS: active-directory/adfs.md
           - Read-Only Domain Controllers: active-directory/rodc.md
 
-
-      # ------------------------------------------------------
-      # PRIVILEGE ESCALATION AND PERSISTENCE
-      # ------------------------------------------------------
-
       - Privilege Escalation: active-directory/privilege-escalation.md
       - Persistence: active-directory/persistence.md
 
@@ -453,59 +380,25 @@ nav:
 
   - Windows:
 
-      # ------------------------------------------------------
-      # OVERVIEW
-      # ------------------------------------------------------
-
       - Overview: windows/index.md
       - Enumeration: windows/enumeration.md
 
-
-      # ------------------------------------------------------
-      # POWERSHELL
-      # ------------------------------------------------------
-
       - PowerShell: windows/powershell.md
-
-
-      # ------------------------------------------------------
-      # SERVICES AND SCHEDULED EXECUTION
-      # ------------------------------------------------------
 
       - Services and Scheduled Execution:
           - Services: windows/services.md
           - Scheduled Tasks: windows/scheduled-tasks.md
 
-
-      # ------------------------------------------------------
-      # FILESYSTEM AND REGISTRY
-      # ------------------------------------------------------
-
       - Filesystem and Registry:
           - Filesystem Permissions: windows/filesystem-permissions.md
           - Registry Security: windows/registry.md
 
-
-      # ------------------------------------------------------
-      # CREDENTIALS
-      # ------------------------------------------------------
-
       - Credentials: windows/credentials.md
-
-
-      # ------------------------------------------------------
-      # SECURITY CONTROLS
-      # ------------------------------------------------------
 
       - Security Controls:
           - Application Control: windows/application-control.md
           - Microsoft Defender: windows/defender.md
           - User Account Control (UAC): windows/uac.md
-
-
-      # ------------------------------------------------------
-      # PRIVILEGE ESCALATION
-      # ------------------------------------------------------
 
       - Privilege Escalation: windows/privilege-escalation.md
 
@@ -516,59 +409,25 @@ nav:
 
   - Linux:
 
-      # ------------------------------------------------------
-      # OVERVIEW
-      # ------------------------------------------------------
-
       - Overview: linux/index.md
       - Enumeration: linux/enumeration.md
-
-
-      # ------------------------------------------------------
-      # SERVICES AND SCHEDULED EXECUTION
-      # ------------------------------------------------------
 
       - Services and Scheduled Execution:
           - Services: linux/services.md
           - Scheduled Jobs: linux/scheduled-jobs.md
 
-
-      # ------------------------------------------------------
-      # FILESYSTEM AND PERMISSIONS
-      # ------------------------------------------------------
-
       - Filesystem and Permissions:
           - Filesystem Permissions: linux/filesystem-permissions.md
-
-
-      # ------------------------------------------------------
-      # PRIVILEGED ACCESS
-      # ------------------------------------------------------
 
       - Privileged Access:
           - sudo Security: linux/sudo.md
           - SUID and SGID Security: linux/suid-sgid.md
           - Linux Capabilities: linux/capabilities.md
 
-
-      # ------------------------------------------------------
-      # CREDENTIALS
-      # ------------------------------------------------------
-
       - Credentials: linux/credentials.md
-
-
-      # ------------------------------------------------------
-      # SECURITY CONTROLS
-      # ------------------------------------------------------
 
       - Security Controls:
           - Linux Security Controls: linux/security-controls.md
-
-
-      # ------------------------------------------------------
-      # PRIVILEGE ESCALATION
-      # ------------------------------------------------------
 
       - Privilege Escalation: linux/privilege-escalation.md
 
@@ -589,89 +448,35 @@ nav:
 
   - Red Teaming:
 
-      # ------------------------------------------------------
-      # OVERVIEW AND METHODOLOGY
-      # ------------------------------------------------------
-
       - Overview: red-teaming/index.md
       - Methodology: red-teaming/methodology.md
-
-
-      # ------------------------------------------------------
-      # PLANNING AND INFRASTRUCTURE
-      # ------------------------------------------------------
 
       - Infrastructure: red-teaming/infrastructure.md
       - OPSEC: red-teaming/opsec.md
 
-
-      # ------------------------------------------------------
-      # RECONNAISSANCE AND INITIAL ACCESS
-      # ------------------------------------------------------
-
       - Reconnaissance: red-teaming/reconnaissance.md
       - Initial Access: red-teaming/initial-access.md
-
-
-      # ------------------------------------------------------
-      # EXECUTION AND DISCOVERY
-      # ------------------------------------------------------
 
       - Execution: red-teaming/execution.md
       - Discovery: red-teaming/discovery.md
 
-
-      # ------------------------------------------------------
-      # PRIVILEGE AND CREDENTIAL ACCESS
-      # ------------------------------------------------------
-
       - Privilege Escalation: red-teaming/privilege-escalation.md
       - Credential Access: red-teaming/credential-access.md
-
-
-      # ------------------------------------------------------
-      # MOVEMENT, PERSISTENCE AND EVASION
-      # ------------------------------------------------------
 
       - Lateral Movement: red-teaming/lateral-movement.md
       - Persistence: red-teaming/persistence.md
       - Defence Evasion: red-teaming/defence-evasion.md
 
-
-      # ------------------------------------------------------
-      # COMMAND AND CONTROL
-      # ------------------------------------------------------
-
       - Command and Control: red-teaming/command-and-control.md
-
-
-      # ------------------------------------------------------
-      # COLLECTION AND EXFILTRATION
-      # ------------------------------------------------------
 
       - Collection: red-teaming/collection.md
       - Exfiltration: red-teaming/exfiltration.md
 
-
-      # ------------------------------------------------------
-      # SOCIAL ENGINEERING
-      # ------------------------------------------------------
-
       - Social Engineering: red-teaming/social-engineering.md
       - Phishing: red-teaming/phishing.md
 
-
-      # ------------------------------------------------------
-      # ADVERSARY EMULATION AND DETECTION
-      # ------------------------------------------------------
-
       - Adversary Emulation: red-teaming/adversary-emulation.md
       - Detection Validation: red-teaming/detection-validation.md
-
-
-      # ------------------------------------------------------
-      # ENGAGEMENT COMPLETION
-      # ------------------------------------------------------
 
       - Cleanup: red-teaming/cleanup.md
       - Reporting: red-teaming/reporting.md
@@ -690,7 +495,6 @@ nav:
       - Overview: purple-teaming/index.md
       - Methodology: purple-teaming/methodology.md
 
-
       # ------------------------------------------------------
       # EXERCISES AND ADVERSARY BEHAVIOR
       # ------------------------------------------------------
@@ -698,13 +502,11 @@ nav:
       - Exercises: purple-teaming/exercises.md
       - MITRE ATT&CK: purple-teaming/mitre-attack.md
 
-
       # ------------------------------------------------------
       # DETECTION ENGINEERING
       # ------------------------------------------------------
 
       - Detection Engineering: purple-teaming/detection-engineering.md
-
 
       # ------------------------------------------------------
       # LEARNING AND MEASUREMENT
@@ -713,7 +515,6 @@ nav:
       - Learning and Measurement:
           - Knowledge Transfer: purple-teaming/knowledge-transfer.md
           - Metrics and Measurement: purple-teaming/metrics-and-measurement.md
-
 
       # ------------------------------------------------------
       # REVIEW AND CONTINUOUS IMPROVEMENT
@@ -729,10 +530,46 @@ nav:
   # ==========================================================
 
   - Vulnerability Research:
+
+      # ------------------------------------------------------
+      # OVERVIEW AND METHODOLOGY
+      # ------------------------------------------------------
+
       - Overview: vulnerability-research/index.md
       - Methodology: vulnerability-research/methodology.md
-      - CVE Research: vulnerability-research/cve-research.md
-      - Responsible Disclosure: vulnerability-research/responsible-disclosure.md
+
+      # ------------------------------------------------------
+      # RESEARCH AND ANALYSIS
+      # ------------------------------------------------------
+
+      - Research and Analysis:
+          - Attack Surface Analysis: vulnerability-research/attack-surface-analysis.md
+          - Debugging and Dynamic Analysis: vulnerability-research/debugging-dynamic-analysis.md
+          - Fuzzing: vulnerability-research/fuzzing.md
+          - Crash Analysis: vulnerability-research/crash-analysis.md
+
+      # ------------------------------------------------------
+      # ROOT CAUSE AND VARIANT RESEARCH
+      # ------------------------------------------------------
+
+      - Root Cause and Variants:
+          - Patch Diffing: vulnerability-research/patch-diffing.md
+          - Variant Analysis: vulnerability-research/variant-analysis.md
+
+      # ------------------------------------------------------
+      # VALIDATION
+      # ------------------------------------------------------
+
+      - Validation:
+          - Proof of Concept Development: vulnerability-research/poc-development.md
+
+      # ------------------------------------------------------
+      # CVE RESEARCH AND DISCLOSURE
+      # ------------------------------------------------------
+
+      - CVE Research and Disclosure:
+          - CVE Research: vulnerability-research/cve-research.md
+          - Responsible Disclosure: vulnerability-research/responsible-disclosure.md
 
 
   # ==========================================================
@@ -755,36 +592,17 @@ nav:
 
   - Cheatsheets:
 
-      # ------------------------------------------------------
-      # OVERVIEW
-      # ------------------------------------------------------
-
       - Overview: cheatsheets/index.md
-
-
-      # ------------------------------------------------------
-      # OPERATING SYSTEMS AND SHELLS
-      # ------------------------------------------------------
 
       - Operating Systems and Shells:
           - Linux: cheatsheets/linux.md
           - Windows: cheatsheets/windows.md
           - PowerShell: cheatsheets/powershell.md
 
-
-      # ------------------------------------------------------
-      # NETWORKING AND TRAFFIC ANALYSIS
-      # ------------------------------------------------------
-
       - Networking and Traffic:
           - Networking: cheatsheets/networking.md
           - Nmap: cheatsheets/nmap.md
           - Wireshark and tshark: cheatsheets/wireshark-tshark.md
-
-
-      # ------------------------------------------------------
-      # HTTP AND WEB TOOLING
-      # ------------------------------------------------------
 
       - HTTP and Web Tooling:
           - Web: cheatsheets/web.md
@@ -793,18 +611,8 @@ nav:
           - Content Discovery: cheatsheets/content-discovery.md
           - jq: cheatsheets/jq.md
 
-
-      # ------------------------------------------------------
-      # SOURCE CODE AND REPOSITORY REVIEW
-      # ------------------------------------------------------
-
       - Source Code and Repositories:
           - Git and ripgrep: cheatsheets/git-ripgrep.md
-
-
-      # ------------------------------------------------------
-      # WEB VULNERABILITY TESTING
-      # ------------------------------------------------------
 
       - Web Vulnerability Testing:
 
@@ -829,11 +637,6 @@ nav:
 
           - Browser Security:
               - CORS and CSRF: cheatsheets/cors-csrf.md
-
-
-      # ------------------------------------------------------
-      # ACTIVE DIRECTORY
-      # ------------------------------------------------------
 
       - Active Directory:
           - Active Directory: cheatsheets/active-directory.md
