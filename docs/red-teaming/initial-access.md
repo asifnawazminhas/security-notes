@@ -426,7 +426,7 @@ Administrative functionality
 
 Use the dedicated web application security notes for detailed testing.
 
-[Web Application Security](../web/)
+[Web Application Security](../web/index.md)
 
 
 ---
@@ -2008,8 +2008,8 @@ Privilege Escalation Candidate
 
 Use:
 
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
 
 
 ---
@@ -2033,7 +2033,7 @@ Attack Path Analysis
 
 Use the dedicated:
 
-[Active Directory Notes](../active-directory/)
+[Active Directory Notes](../active-directory/index.md)
 
 
 ---
@@ -2042,7 +2042,7 @@ Use the dedicated:
 
 Where the entry path begins with an internet-facing application, use the dedicated:
 
-[Web Application Security Notes](../web/)
+[Web Application Security Notes](../web/index.md)
 
 The web vulnerability should remain documented separately from any later host or identity compromise it enables.
 
@@ -2051,18 +2051,18 @@ The web vulnerability should remain documented separately from any later host or
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Command and Control](command-and-control.md)
 - [Credential Access](credential-access.md)
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Active Directory](../active-directory/)
-- [PrivEsc Explorer](../privesc/)
-- [Web Application Security](../web/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Active Directory](../active-directory/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
+- [Web Application Security](../web/index.md)
 
 
 ---

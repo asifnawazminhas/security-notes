@@ -4009,7 +4009,7 @@ Did the improvement survive retesting?
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
@@ -4018,9 +4018,9 @@ Did the improvement survive retesting?
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
+- [Windows](../windows/index.md)
 - [PowerShell](../windows/powershell.md)
-- [Active Directory](../active-directory/)
+- [Active Directory](../active-directory/index.md)
 - [BloodHound](../active-directory/bloodhound.md)
 
 

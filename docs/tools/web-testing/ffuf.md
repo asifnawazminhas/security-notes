@@ -1271,7 +1271,7 @@ These can be converted into a focused wordlist.
 
 Related note:
 
-[JavaScript Analysis](../../reconnaissance/javascript-analysis.md)
+[JavaScript Analysis](../../web/reconnaissance/javascript-analysis.md)
 
 ---
 

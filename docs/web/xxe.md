@@ -728,7 +728,7 @@ The referenced DTD contains a declaration conceptually resembling:
 <!ENTITY % condition "and | or | not | equal | contains | exists | subdomain-of">
 ```
 
-The research explains that XML entities behave as constants in this context. By defining the same entity name before the local DTD is loaded, the attacker-controlled definition is used. :contentReference[oaicite:1]{index=1}
+The research explains that XML entities behave as constants in this context. By defining the same entity name before the local DTD is loaded, the attacker-controlled definition is used.
 
 ---
 
@@ -2070,7 +2070,7 @@ Normal output is unavailable
 Outbound access prevents external DTD retrieval
 ```
 
-The research includes examples for environments including IBM WebSphere, Windows, Linux, Cisco WebEx and Citrix XenMobile. :contentReference[oaicite:2]{index=2}
+The research includes examples for environments including IBM WebSphere, Windows, Linux, Cisco WebEx and Citrix XenMobile.
 
 ---
 

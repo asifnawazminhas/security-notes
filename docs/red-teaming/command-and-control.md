@@ -2114,17 +2114,17 @@ Verify Cleanup
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Credential Access](credential-access.md)
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Active Directory](../active-directory/)
-- [PrivEsc Explorer](../privesc/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Active Directory](../active-directory/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
 
 
 ---

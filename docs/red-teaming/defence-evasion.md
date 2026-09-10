@@ -3286,18 +3286,18 @@ Test-NetConnection HOST -Port 443
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Command and Control](command-and-control.md)
 - [Credential Access](credential-access.md)
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
-- [Windows](../windows/)
+- [Windows](../windows/index.md)
 - [PowerShell](../windows/powershell.md)
 - [Windows Privilege Escalation](../windows/privilege-escalation.md)
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Active Directory](../active-directory/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Active Directory](../active-directory/index.md)
 - [Credential Access - AD](../active-directory/credential-access.md)
 - [Lateral Movement - AD](../active-directory/lateral-movement.md)
 

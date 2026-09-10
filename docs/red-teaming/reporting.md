@@ -3461,7 +3461,7 @@ Retest the complete path where appropriate.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
@@ -3472,10 +3472,10 @@ Retest the complete path where appropriate.
 - [Defence Evasion](defence-evasion.md)
 - [Detection Validation](detection-validation.md)
 - [Red Team OPSEC](opsec.md)
-- [Active Directory](../active-directory/)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [PrivEsc Explorer](../privesc/)
+- [Active Directory](../active-directory/index.md)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
 
 
 ---

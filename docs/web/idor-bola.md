@@ -1723,7 +1723,7 @@ Example payloads:
 
 Prefer known controlled IDs over broad enumeration whenever possible.
 
-PortSwigger's current IDOR testing workflow specifically demonstrates using Intruder against exposed object references. :contentReference[oaicite:2]{index=2}
+PortSwigger's current IDOR testing workflow specifically demonstrates using Intruder against exposed object references.
 
 ---
 
@@ -1740,7 +1740,7 @@ browse the application as both users.
 
 Then compare their accessible application surfaces.
 
-PortSwigger recommends comparing site maps when testing horizontal access controls, alongside targeted Repeater testing. :contentReference[oaicite:3]{index=3}
+PortSwigger recommends comparing site maps when testing horizontal access controls, alongside targeted Repeater testing.
 
 This can reveal:
 
@@ -1759,7 +1759,7 @@ Unexpected cross-user access
 
 Its purpose is to automatically detect authorisation enforcement issues by replaying requests with alternative authentication context.
 
-The current PortSwigger BApp Store lists Autorize as an authorisation-enforcement extension and shows it was updated in February 2026. :contentReference[oaicite:4]{index=4}
+The current PortSwigger BApp Store lists Autorize as an authorisation-enforcement extension and shows it was updated in February 2026.
 
 Typical workflow:
 
@@ -1799,7 +1799,7 @@ Always manually verify results.
 
 **AuthMatrix** provides a matrix-based approach to authorisation testing.
 
-The current BApp Store describes it as providing a simple way to test authorisation in web applications and web services. :contentReference[oaicite:5]{index=5}
+The current BApp Store describes it as providing a simple way to test authorisation in web applications and web services.
 
 Conceptually:
 
@@ -1827,7 +1827,7 @@ Complex access rules
 
 **Auth Analyzer** can repeat proxy requests using user-defined authentication headers or tokens.
 
-The current BApp Store describes it as an extension for finding authorisation bugs by repeating Proxy requests with alternative headers and tokens. :contentReference[oaicite:6]{index=6}
+The current BApp Store describes it as an extension for finding authorisation bugs by repeating Proxy requests with alternative headers and tokens.
 
 This can be useful where authentication uses:
 
@@ -1842,7 +1842,7 @@ Session tokens
 
 # Agartha
 
-The current BApp Store also lists **Agartha**, which includes an access matrix for authentication and authorisation auditing in addition to its injection and bypass functionality. :contentReference[oaicite:7]{index=7}
+The current BApp Store also lists **Agartha**, which includes an access matrix for authentication and authorisation auditing in addition to its injection and bypass functionality.
 
 It can therefore be useful as a broader testing assistant.
 
@@ -1874,7 +1874,7 @@ Replay
 Compare
 ```
 
-The current BApp Store lists AutoRepeater as supporting automatic request repetition, replacement rules, and response diffing. :contentReference[oaicite:8]{index=8}
+The current BApp Store lists AutoRepeater as supporting automatic request repetition, replacement rules, and response diffing.
 
 ---
 
@@ -1889,7 +1889,7 @@ Send requests
 Access sensitive assessment data
 ```
 
-PortSwigger notes that BApp extensions are third-party code and recommends reviewing them before installation. :contentReference[oaicite:9]{index=9}
+PortSwigger notes that BApp extensions are third-party code and recommends reviewing them before installation.
 
 For sensitive engagements:
 

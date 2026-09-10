@@ -875,8 +875,8 @@ Broader Environment Access
 
 Use:
 
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
 
 
 ---
@@ -1061,7 +1061,7 @@ Privileged identities
 
 Use the dedicated section:
 
-[Active Directory](../active-directory/)
+[Active Directory](../active-directory/index.md)
 
 
 ---
@@ -2562,7 +2562,7 @@ Explain the attack path and its root causes.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Command and Control](command-and-control.md)
@@ -2570,11 +2570,11 @@ Explain the attack path and its root causes.
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
-- [Active Directory](../active-directory/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
+- [Active Directory](../active-directory/index.md)
 - [BloodHound](../active-directory/bloodhound.md)
 - [NetExec](../active-directory/netexec.md)
 - [Impacket](../active-directory/impacket.md)

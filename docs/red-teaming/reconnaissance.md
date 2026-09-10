@@ -3524,14 +3524,14 @@ Revalidate scope before active testing.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Command and Control](command-and-control.md)
 - [Red Team OPSEC](opsec.md)
 - [Red Team Reporting](reporting.md)
-- [Web Reconnaissance](../web/reconnaissance/)
+- [Web Reconnaissance](../web/reconnaissance/index.md)
 - [Subdomain Enumeration](../web/reconnaissance/subdomain-enumeration.md)
 - [Technology Identification](../web/reconnaissance/technology-identification.md)
 - [Content Discovery](../web/reconnaissance/content-discovery.md)

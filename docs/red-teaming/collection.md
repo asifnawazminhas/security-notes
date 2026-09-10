@@ -3588,7 +3588,7 @@ Retain only the evidence required for reporting.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Discovery](discovery.md)
 - [Credential Access](credential-access.md)
@@ -3600,7 +3600,7 @@ Retain only the evidence required for reporting.
 - [Detection Validation](detection-validation.md)
 - [Red Team OPSEC](opsec.md)
 - [Red Team Reporting](reporting.md)
-- [Active Directory](../active-directory/)
+- [Active Directory](../active-directory/index.md)
 - [Active Directory Shares](../active-directory/shares.md)
 - [BloodHound](../active-directory/bloodhound.md)
 

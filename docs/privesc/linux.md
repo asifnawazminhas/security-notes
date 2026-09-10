@@ -1516,13 +1516,13 @@ env
 
 ## Related Notes
 
-- [PrivEsc Explorer](./)
-- [Windows PrivEsc Explorer](../windows/)
-- [Linux Overview](../../linux/)
-- [Linux Enumeration](../../linux/enumeration/)
-- [Linux Privilege Escalation](../../linux/privilege-escalation/)
-- [Linux Services](../../linux/services/)
-- [Linux Credentials](../../linux/credentials/)
+- [PrivEsc Explorer](index.md)
+- [Windows PrivEsc Explorer](../windows/index.md)
+- [Linux Overview](../linux/index.md)
+- [Linux Enumeration](../linux/enumeration.md)
+- [Linux Privilege Escalation](../linux/privilege-escalation.md)
+- [Linux Services](../linux/services.md)
+- [Linux Credentials](../linux/credentials.md)
 
 
 ---

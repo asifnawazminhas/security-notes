@@ -635,8 +635,8 @@ Kernel
 
 Use the interactive privilege escalation references:
 
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
 
 
 ---
@@ -715,7 +715,7 @@ Credential exposure
 
 Use the dedicated documentation:
 
-[Active Directory](../active-directory/)
+[Active Directory](../active-directory/index.md)
 
 
 ---
@@ -1562,13 +1562,13 @@ Security Improvement
 
 # Related Notes
 
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [PrivEsc Explorer](../privesc/)
-- [Active Directory](../active-directory/)
-- [Web Application Security](../web/)
-- [Purple Teaming](../purple-teaming/)
-- [Cheatsheets](../cheatsheets/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
+- [Active Directory](../active-directory/index.md)
+- [Web Application Security](../web/index.md)
+- [Purple Teaming](../purple-teaming/index.md)
+- [Cheatsheets](../cheatsheets/index.md)
 
 
 ---

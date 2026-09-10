@@ -3783,12 +3783,12 @@ That distinction turns a payload collection into a defensible XSS testing method
 - [HTML Injection](../web/html-injection.md)
 - [Authentication](../web/authentication.md)
 - [Authorisation](../web/authorisation.md)
-- [CSP](../web/csp.md)
+- [CSP](../web/http-security-headers.md)
 - [Open Redirect](../web/open-redirect.md)
 - [SSTI](../web/ssti.md)
 - [File Upload](../web/file-upload.md)
 - [API Security](../web/api-security.md)
-- [JavaScript Analysis](../reconnaissance/javascript-analysis.md)
+- [JavaScript Analysis](../web/reconnaissance/javascript-analysis.md)
 - [Source Code Review](../source-code-review/index.md)
 
 

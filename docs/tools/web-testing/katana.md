@@ -1564,7 +1564,7 @@ Manual Validation
 
 Related note:
 
-[JavaScript Analysis](../../reconnaissance/javascript-analysis.md)
+[JavaScript Analysis](../../web/reconnaissance/javascript-analysis.md)
 
 ---
 
@@ -2361,7 +2361,7 @@ curl -i https://example.test/api/example
 
 [Server Side Request Forgery](../../web/ssrf.md)
 
-[JavaScript Analysis](../../reconnaissance/javascript-analysis.md)
+[JavaScript Analysis](../../web/reconnaissance/javascript-analysis.md)
 
 ---
 

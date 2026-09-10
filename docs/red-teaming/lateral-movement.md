@@ -3170,16 +3170,16 @@ proxychains4 nmap -sT -Pn -p 445 172.16.20.10
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Command and Control](command-and-control.md)
 - [Credential Access](credential-access.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Active Directory](../active-directory/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Active Directory](../active-directory/index.md)
 - [Kerberos](../active-directory/kerberos.md)
 - [Kerberos Tickets](../active-directory/kerberos-tickets.md)
 - [Pass-the-Hash](../active-directory/pass-the-hash.md)
@@ -3192,8 +3192,8 @@ proxychains4 nmap -sT -Pn -p 445 172.16.20.10
 - [Pivoting](../active-directory/pivoting.md)
 - [NetExec Cheatsheet](../cheatsheets/netexec.md)
 - [Impacket Cheatsheet](../cheatsheets/impacket.md)
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
 
 
 ---

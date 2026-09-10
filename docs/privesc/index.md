@@ -297,7 +297,7 @@ The Windows explorer groups techniques into categories such as:
 | Drivers | Vulnerable or overly privileged driver candidates |
 | Applications | Custom privileged applications and writable application resources |
 
-Open the [Windows PrivEsc Explorer](windows/).
+Open the [Windows PrivEsc Explorer](windows.md).
 
 
 ---
@@ -360,7 +360,7 @@ The Linux explorer groups techniques into categories such as:
 | Applications | Writable configuration, plugins and privileged management agents |
 | Kernel | Kernel LPE candidates and exploitability controls |
 
-Open the [Linux PrivEsc Explorer](linux/).
+Open the [Linux PrivEsc Explorer](linux.md).
 
 
 ---
@@ -1120,20 +1120,20 @@ The same structured-data approach can therefore support other operational areas 
 
 ### Windows
 
-- [Windows Overview](../windows/)
-- [Windows Enumeration](../windows/enumeration/)
-- [Windows Privilege Escalation](../windows/privilege-escalation/)
-- [Windows Services](../windows/services/)
-- [Windows Credentials](../windows/credentials/)
-- [PowerShell](../windows/powershell/)
+- [Windows Overview](../windows/index.md)
+- [Windows Enumeration](../windows/enumeration.md)
+- [Windows Privilege Escalation](../windows/privilege-escalation.md)
+- [Windows Services](../windows/services.md)
+- [Windows Credentials](../windows/credentials.md)
+- [PowerShell](../windows/powershell.md)
 
 ### Linux
 
-- [Linux Overview](../linux/)
-- [Linux Enumeration](../linux/enumeration/)
-- [Linux Privilege Escalation](../linux/privilege-escalation/)
-- [Linux Services](../linux/services/)
-- [Linux Credentials](../linux/credentials/)
+- [Linux Overview](../linux/index.md)
+- [Linux Enumeration](../linux/enumeration.md)
+- [Linux Privilege Escalation](../linux/privilege-escalation.md)
+- [Linux Services](../linux/services.md)
+- [Linux Credentials](../linux/credentials.md)
 
 
 ---

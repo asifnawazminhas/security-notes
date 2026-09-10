@@ -1407,14 +1407,14 @@ Get-ChildItem Env:
 
 ## Related Notes
 
-- [PrivEsc Explorer](./)
-- [Linux PrivEsc Explorer](../linux/)
-- [Windows Overview](../../windows/)
-- [Windows Enumeration](../../windows/enumeration/)
-- [Windows Privilege Escalation](../../windows/privilege-escalation/)
-- [Windows Services](../../windows/services/)
-- [Windows Credentials](../../windows/credentials/)
-- [PowerShell](../../windows/powershell/)
+- [PrivEsc Explorer](index.md)
+- [Linux PrivEsc Explorer](../linux/index.md)
+- [Windows Overview](../windows/index.md)
+- [Windows Enumeration](../windows/enumeration.md)
+- [Windows Privilege Escalation](../windows/privilege-escalation.md)
+- [Windows Services](../windows/services.md)
+- [Windows Credentials](../windows/credentials.md)
+- [PowerShell](../windows/powershell.md)
 
 
 ---

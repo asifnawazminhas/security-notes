@@ -1303,7 +1303,7 @@ rg -n \
 .
 ```
 
-DRF's default permission policy is unrestricted unless the application configures a different default. Therefore, explicit application policy is important when reviewing APIs. :contentReference[oaicite:0]{index=0}
+DRF's default permission policy is unrestricted unless the application configures a different default. Therefore, explicit application policy is important when reviewing APIs.
 
 ---
 
@@ -1333,7 +1333,7 @@ rg -n \
 .
 ```
 
-DRF generic views call object-level permission checks during normal object retrieval, but custom object retrieval logic may need to call `check_object_permissions()` explicitly. List endpoints also require queryset filtering because object-level permission checks are not automatically applied to every returned object. :contentReference[oaicite:1]{index=1}
+DRF generic views call object-level permission checks during normal object retrieval, but custom object retrieval logic may need to call `check_object_permissions()` explicitly. List endpoints also require queryset filtering because object-level permission checks are not automatically applied to every returned object.
 
 ---
 
@@ -1440,7 +1440,7 @@ Object updates
 Output
 ```
 
-DRF serializers deserialize and validate incoming data before exposing it as `validated_data`. :contentReference[oaicite:2]{index=2}
+DRF serializers deserialize and validate incoming data before exposing it as `validated_data`.
 
 ---
 
@@ -1516,7 +1516,7 @@ class UserSerializer(
         ]
 ```
 
-DRF read-only fields appear in output but are not accepted as writable input. :contentReference[oaicite:3]{index=3}
+DRF read-only fields appear in output but are not accepted as writable input.
 
 ---
 
@@ -1801,7 +1801,7 @@ rg -n \
 .
 ```
 
-Raw SQL constructs require manual review because the developer controls the SQL. Django's security documentation specifically notes that raw SQL mechanisms require safe handling of user input. :contentReference[oaicite:4]{index=4}
+Raw SQL constructs require manual review because the developer controls the SQL. Django's security documentation specifically notes that raw SQL mechanisms require safe handling of user input.
 
 ---
 

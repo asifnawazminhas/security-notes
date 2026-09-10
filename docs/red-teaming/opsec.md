@@ -4077,7 +4077,7 @@ Verify cleanup rather than assuming it succeeded.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Detection Validation](detection-validation.md)
 - [Infrastructure](infrastructure.md)
@@ -4087,9 +4087,9 @@ Verify cleanup rather than assuming it succeeded.
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Active Directory](../active-directory/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Active Directory](../active-directory/index.md)
 
 
 ---

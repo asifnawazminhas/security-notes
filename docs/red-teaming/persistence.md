@@ -1596,7 +1596,7 @@ Testing CA key compromise should be considered exceptionally sensitive and is ra
 
 Use the dedicated AD CS section for certificate-service attack paths:
 
-[Active Directory Certificate Services](../active-directory/ad-cs/)
+[Active Directory Certificate Services](../active-directory/ad-cs/index.md)
 
 
 ---
@@ -1910,8 +1910,8 @@ Privileged Persistence
 
 Use:
 
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
 
 
 ---
@@ -2991,18 +2991,18 @@ sudo -l
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Command and Control](command-and-control.md)
 - [Credential Access](credential-access.md)
 - [Lateral Movement](lateral-movement.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
-- [Active Directory](../active-directory/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
+- [Active Directory](../active-directory/index.md)
 - [ACL and ACE](../active-directory/acl-ace.md)
 - [BloodHound](../active-directory/bloodhound.md)
 - [Group Policy](../active-directory/group-policy.md)
@@ -3013,7 +3013,7 @@ sudo -l
 - [Machine Account Quota](../active-directory/machine-account-quota.md)
 - [Trust Relationships](../active-directory/trust-relationships.md)
 - [Trust Tickets](../active-directory/trust-tickets.md)
-- [AD CS](../active-directory/ad-cs/)
+- [AD CS](../active-directory/ad-cs/index.md)
 - [Golden Certificate](../active-directory/ad-cs/golden-certificate.md)
 
 

@@ -1928,7 +1928,7 @@ Active Directory Certificate Services can create identity privilege paths throug
 
 See:
 
-[Active Directory Certificate Services](../active-directory/ad-cs/)
+[Active Directory Certificate Services](../active-directory/ad-cs/index.md)
 
 
 ---
@@ -2294,7 +2294,7 @@ Finding
 
 Your integrated PrivEsc Explorer can be used as a fast decision layer:
 
-[PrivEsc Explorer](../privesc/)
+[PrivEsc Explorer](../privesc/index.md)
 
 Windows:
 
@@ -3640,7 +3640,7 @@ Connect the escalation to the wider attack path.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Reconnaissance](reconnaissance.md)
 - [Initial Access](initial-access.md)
@@ -3653,13 +3653,13 @@ Connect the escalation to the wider attack path.
 - [Red Team Reporting](reporting.md)
 - [Windows Privilege Escalation](../windows/privilege-escalation.md)
 - [Linux Privilege Escalation](../linux/privilege-escalation.md)
-- [PrivEsc Explorer](../privesc/)
+- [PrivEsc Explorer](../privesc/index.md)
 - [Windows PrivEsc Explorer](../privesc/windows.md)
 - [Linux PrivEsc Explorer](../privesc/linux.md)
-- [Active Directory](../active-directory/)
+- [Active Directory](../active-directory/index.md)
 - [BloodHound](../active-directory/bloodhound.md)
 - [AD ACL and ACE](../active-directory/acl-ace.md)
-- [AD CS](../active-directory/ad-cs/)
+- [AD CS](../active-directory/ad-cs/index.md)
 
 
 ---

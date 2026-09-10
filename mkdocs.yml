@@ -640,9 +640,6 @@ nav:
       # OTHER STANDALONE TOOLS
       # ------------------------------------------------------
 
-      - Other Tools:
-          - Nmap: tools/nmap.md
-          - Metasploit: tools/metasploit.md
 
 
   # ==========================================================
@@ -668,7 +665,6 @@ nav:
           - Burp Suite: cheatsheets/burp-suite.md
           - curl: cheatsheets/curl.md
           - Content Discovery: cheatsheets/content-discovery.md
-          - jq: cheatsheets/jq.md
 
       - Source Code and Repositories:
           - Git and ripgrep: cheatsheets/git-ripgrep.md
@@ -683,6 +679,8 @@ nav:
           - Server-Side:
               - Server-Side Request Forgery (SSRF): cheatsheets/ssrf.md
               - XML External Entity Injection (XXE): cheatsheets/xxe.md
+              - Server-Side Template Injection (SSTI): cheatsheets/ssti.md
+              - Insecure Deserialization: cheatsheets/deserialization.md
               - Path Traversal and File Inclusion: cheatsheets/path-traversal-file-inclusion.md
               - File Upload Security: cheatsheets/file-upload.md
 

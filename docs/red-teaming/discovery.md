@@ -1774,7 +1774,7 @@ Certificate-related Active Directory objects
 
 See:
 
-[Active Directory Certificate Services](../active-directory/ad-cs/)
+[Active Directory Certificate Services](../active-directory/ad-cs/index.md)
 
 
 ---
@@ -2892,7 +2892,7 @@ See:
 
 [Privilege Escalation](privilege-escalation.md)
 
-[PrivEsc Explorer](../privesc/)
+[PrivEsc Explorer](../privesc/index.md)
 
 
 ---
@@ -4260,7 +4260,7 @@ Use discovery to decide what to test next.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Reconnaissance](reconnaissance.md)
 - [Initial Access](initial-access.md)
@@ -4279,7 +4279,7 @@ Use discovery to decide what to test next.
 - [Active Directory Enumeration](../active-directory/enumeration.md)
 - [BloodHound](../active-directory/bloodhound.md)
 - [Active Directory Shares](../active-directory/shares.md)
-- [PrivEsc Explorer](../privesc/)
+- [PrivEsc Explorer](../privesc/index.md)
 
 
 ---

@@ -4703,7 +4703,7 @@ Close the engagement only after cleanup is verified.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Red Team Infrastructure](infrastructure.md)
 - [Reconnaissance](reconnaissance.md)

@@ -3893,7 +3893,7 @@ followed by:
 
 [SpecterOps - Misconfiguration Manager](https://docs.specterops.io/misconfiguration-manager-docs/README){ target="_blank" rel="noopener noreferrer" }
 
-Misconfiguration Manager is a living knowledge base of Configuration Manager attack techniques and corresponding defensive guidance. :contentReference[oaicite:0]{index=0}
+Misconfiguration Manager is a living knowledge base of Configuration Manager attack techniques and corresponding defensive guidance.
 
 ---
 
@@ -3901,7 +3901,7 @@ Misconfiguration Manager is a living knowledge base of Configuration Manager att
 
 [SpecterOps - ConfigManBearPig 2.0](https://specterops.io/blog/2026/08/03/configmanbearpig-2-0/){ target="_blank" rel="noopener noreferrer" }
 
-ConfigManBearPig 2.0 provides Python-based SCCM data collection that can be used with BloodHound/OpenGraph to visualise Configuration Manager attack paths. :contentReference[oaicite:1]{index=1}
+ConfigManBearPig 2.0 provides Python-based SCCM data collection that can be used with BloodHound/OpenGraph to visualise Configuration Manager attack paths.
 
 ---
 
@@ -3915,7 +3915,7 @@ ConfigManBearPig 2.0 provides Python-based SCCM data collection that can be used
 
 [SpecterOps - Misconfiguration Manager RECON-1](https://docs.specterops.io/misconfiguration-manager-docs/attack-techniques/RECON/RECON-1/recon-1_description){ target="_blank" rel="noopener noreferrer" }
 
-The documented discovery technique covers SCCM publication in Active Directory, including `mSSMSSite`, `mSMSManagementPoint`, site codes and management-point hostnames. :contentReference[oaicite:2]{index=2}
+The documented discovery technique covers SCCM publication in Active Directory, including `mSSMSSite`, `mSMSManagementPoint`, site codes and management-point hostnames.
 
 ---
 
@@ -4013,7 +4013,7 @@ What Privilege Does It Have?
 What Is the Blast Radius?
 ```
 
-Modern SCCM assessment should incorporate Microsoft's current security guidance together with dedicated Configuration Manager attack-path research such as Misconfiguration Manager. Microsoft currently recommends HTTPS or Enhanced HTTP rather than legacy plain HTTP client communication, and specifically warns against using Domain Admin privileges for client push accounts. :contentReference[oaicite:3]{index=3}
+Modern SCCM assessment should incorporate Microsoft's current security guidance together with dedicated Configuration Manager attack-path research such as Misconfiguration Manager. Microsoft currently recommends HTTPS or Enhanced HTTP rather than legacy plain HTTP client communication, and specifically warns against using Domain Admin privileges for client push accounts.
 
 The defensive objective is:
 

@@ -1227,7 +1227,7 @@ The security impact depends on signature validation, claims handling, token scop
 
 Use:
 
-[JWT](../web/jwt/)
+[JWT](../web/jwt.md)
 
 
 ---
@@ -1559,8 +1559,8 @@ Elevated Access
 
 Use:
 
-- [Windows PrivEsc Explorer](../privesc/windows/)
-- [Linux PrivEsc Explorer](../privesc/linux/)
+- [Windows PrivEsc Explorer](../privesc/windows.md)
+- [Linux PrivEsc Explorer](../privesc/linux.md)
 
 
 ---
@@ -1584,7 +1584,7 @@ Trust relationships
 
 Use:
 
-[Active Directory](../active-directory/)
+[Active Directory](../active-directory/index.md)
 
 
 ---
@@ -1606,7 +1606,7 @@ Authentication
 
 Use:
 
-[Active Directory Certificate Services](../active-directory/ad-cs/)
+[Active Directory Certificate Services](../active-directory/ad-cs/index.md)
 
 
 ---
@@ -2328,22 +2328,22 @@ Cleanup
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
 - [Command and Control](command-and-control.md)
 - [Lateral Movement](lateral-movement.md)
 - [Persistence](persistence.md)
 - [Defence Evasion](defence-evasion.md)
-- [Windows](../windows/)
-- [Linux](../linux/)
-- [Active Directory](../active-directory/)
+- [Windows](../windows/index.md)
+- [Linux](../linux/index.md)
+- [Active Directory](../active-directory/index.md)
 - [Kerberos](../active-directory/kerberos.md)
 - [NTLM](../active-directory/ntlm.md)
 - [gMSA](../active-directory/gmsa.md)
 - [LAPS](../active-directory/laps.md)
-- [AD CS](../active-directory/ad-cs/)
-- [PrivEsc Explorer](../privesc/)
+- [AD CS](../active-directory/ad-cs/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
 
 
 ---

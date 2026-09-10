@@ -3665,7 +3665,7 @@ Convert valuable procedures into repeatable regression tests.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Red Team Infrastructure](infrastructure.md)
 - [Reconnaissance](reconnaissance.md)

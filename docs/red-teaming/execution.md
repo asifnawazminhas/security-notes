@@ -2127,7 +2127,7 @@ See:
 
 [Linux Privilege Escalation](../linux/privilege-escalation.md)
 
-[PrivEsc Explorer](../privesc/)
+[PrivEsc Explorer](../privesc/index.md)
 
 
 ---
@@ -3284,7 +3284,7 @@ Report the actual security boundary that was validated.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Reconnaissance](reconnaissance.md)
 - [Initial Access](initial-access.md)
@@ -3296,12 +3296,12 @@ Report the actual security boundary that was validated.
 - [Detection Validation](detection-validation.md)
 - [Red Team OPSEC](opsec.md)
 - [Red Team Reporting](reporting.md)
-- [Windows](../windows/)
+- [Windows](../windows/index.md)
 - [Windows PowerShell](../windows/powershell.md)
 - [Windows Privilege Escalation](../windows/privilege-escalation.md)
-- [Linux](../linux/)
+- [Linux](../linux/index.md)
 - [Linux Privilege Escalation](../linux/privilege-escalation.md)
-- [PrivEsc Explorer](../privesc/)
+- [PrivEsc Explorer](../privesc/index.md)
 
 
 ---

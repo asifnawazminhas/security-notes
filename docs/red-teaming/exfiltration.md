@@ -3142,7 +3142,7 @@ Report exactly what was demonstrated.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Discovery](discovery.md)
 - [Collection](collection.md)

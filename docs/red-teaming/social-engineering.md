@@ -3021,7 +3021,7 @@ Retest the process after remediation.
 
 # Related Notes
 
-- [Red Teaming](./)
+- [Red Teaming](index.md)
 - [Red Team Methodology](methodology.md)
 - [Infrastructure](infrastructure.md)
 - [Initial Access](initial-access.md)
