@@ -1,146 +1,153 @@
 ---
 title: Security Tools
-description: Practical security tooling reference for web application testing, reconnaissance, Active Directory, privilege escalation, source code review, red teaming, vulnerability research, network analysis, and AI-assisted security workflows.
+description: Practical security tooling reference for web enumeration, web application testing, Active Directory, privilege escalation, source code review, red teaming, vulnerability research, network analysis, and AI-assisted security workflows.
 ---
 
 # Security Tools
 
 Security tools are most useful when they are connected to a clear testing objective.
 
-This section is not intended to be a collection of commands without context. Each tool should answer questions such as:
+This section is not intended to be a collection of commands without context.
 
-- What problem does the tool help solve?
-- At what stage of an assessment should it be used?
-- What information does it require?
-- What does useful output look like?
-- What conclusions can and cannot be drawn from the output?
-- What manual validation should follow?
-- Which security topic explains the underlying technique?
-- What evidence should be retained for reporting?
-- What other tools can confirm or complement the result?
-
-The goal is to connect **methodology, tooling, interpretation, validation, and evidence**.
+The purpose is to connect:
 
 ```text
-Security Objective
-       |
-       v
-Choose Appropriate Tool
-       |
-       v
-Collect Result
-       |
-       v
-Interpret Result
-       |
-       v
-Validate Manually
-       |
-       v
-Correlate With Other Evidence
-       |
-       v
+Security Question
+      |
+      v
+Methodology
+      |
+      v
+Appropriate Tool
+      |
+      v
+Observation
+      |
+      v
+Interpretation
+      |
+      v
+Manual Validation
+      |
+      v
+Evidence
+      |
+      v
 Security Conclusion
 ```
 
+A tool can help collect evidence.
+
+It does not determine the final security conclusion.
+
 !!! warning "Authorised testing only"
-    The tools documented in this knowledge base are intended for systems, applications, networks, and environments that you own or are explicitly authorised to assess. Some tools can generate significant traffic or perform intrusive actions. Confirm scope, testing restrictions, rate limits, and operational risk before use.
+    The tools documented in this knowledge base are intended for systems, applications, networks, software and environments that you own or are explicitly authorised to assess. Some tools can generate significant traffic, change system state, interact with sensitive data, or affect availability. Confirm scope, testing restrictions, rate limits and operational risk before use.
 
 ---
 
-## How This Section Is Organised
+## Start Here
 
-Tools are grouped by the security activity they support rather than by programming language, operating system, or popularity.
+Choose the tool category based on the security question you are trying to answer.
 
-```text
-Tools
-|
-+-- Web Enumeration
-|   +-- WhatWeb
-|   +-- Wappalyzer
-|   +-- httpx
-|
-+-- Web Application Testing
-|   +-- Burp Suite
-|   +-- ffuf
-|   +-- Nuclei
-|   +-- sqlmap
-|   +-- Katana
-|   +-- Interactsh
-|
-+-- Active Directory
-|   +-- NetExec
-|   +-- Impacket
-|   +-- BloodHound
-|   +-- Certipy
-|
-+-- Privilege Escalation
-|   +-- WinPEAS
-|   +-- LinPEAS
-|   +-- PowerUp
-|   +-- PrivescCheck
-|   +-- linux-smart-enumeration
-|
-+-- Source Code Review
-|   +-- ripgrep
-|   +-- Semgrep
-|   +-- OpenGrep
-|   +-- CodeQL
-|
-+-- Red Teaming
-|   +-- Command-and-Control Frameworks
-|   +-- Supporting Infrastructure
-|
-+-- Vulnerability Research
-|   +-- Debuggers
-|   +-- Fuzzers
-|   +-- Binary Analysis
-|
-+-- Network and Protocol Analysis
-|   +-- Nmap
-|   +-- Wireshark
-|   +-- TShark
-|   +-- tcpdump
-|
-+-- AI-Assisted Security
-    +-- LLM-Assisted Security Testing
-```
+<div class="grid cards" markdown>
 
-The categories are intentionally connected to the main sections of this knowledge base.
+-   :material-web:{ .lg .middle } **Web Enumeration**
+
+    ---
+
+    Identify technologies, HTTP services, titles, redirects, headers and other application-surface indicators.
+
+    [:octicons-arrow-right-24: Web Enumeration Tools](web-enumeration/index.md)
+
+-   :material-bug-outline:{ .lg .middle } **Web Application Testing**
+
+    ---
+
+    Intercept, crawl, discover, scan and validate web application behavior using Burp Suite, ffuf, Katana, Nuclei, sqlmap and Interactsh.
+
+    [:octicons-arrow-right-24: Web Testing Tools](web-testing/index.md)
+
+-   :material-microsoft-windows:{ .lg .middle } **Active Directory**
+
+    ---
+
+    Select tooling for directory enumeration, authentication, relationship analysis, certificate services and protocol-specific assessment.
+
+    [:octicons-arrow-right-24: Active Directory Tools](active-directory/index.md)
+
+-   :material-shield-key:{ .lg .middle } **Privilege Escalation**
+
+    ---
+
+    Accelerate Windows and Linux privilege escalation enumeration with WinPEAS, LinPEAS, PowerUp, PrivescCheck and linux-smart-enumeration.
+
+    [:octicons-arrow-right-24: Privilege Escalation Tools](privilege-escalation/index.md)
+
+-   :material-code-braces:{ .lg .middle } **Source Code Review**
+
+    ---
+
+    Use ripgrep, Semgrep, OpenGrep and CodeQL to support manual source-to-sink analysis and variant research.
+
+    [:octicons-arrow-right-24: Source Code Review Tools](source-code-review/index.md)
+
+-   :material-sword-cross:{ .lg .middle } **Red Teaming**
+
+    ---
+
+    Connect red team tooling to objectives, infrastructure, command and control, operational safety, detection and evidence.
+
+    [:octicons-arrow-right-24: Red Teaming Tools](red-teaming/index.md)
+
+-   :material-shield-search:{ .lg .middle } **Vulnerability Research**
+
+    ---
+
+    Select debuggers, reverse-engineering tools, fuzzers, tracing utilities and supporting analysis tools.
+
+    [:octicons-arrow-right-24: Vulnerability Research Tools](vulnerability-research/index.md)
+
+-   :material-robot-outline:{ .lg .middle } **AI-Assisted Security**
+
+    ---
+
+    Use LLMs to assist security analysis while maintaining independent validation, scope controls and evidence quality.
+
+    [:octicons-arrow-right-24: AI-Assisted Security](ai/index.md)
+
+</div>
 
 ---
 
 # Tool Selection
 
-Do not start an assessment by asking:
+Do not begin with:
 
 > Which tool should I run?
 
-Start with:
+Begin with:
 
 > What security question am I trying to answer?
 
-Examples:
-
-| Security Question | Possible Tools |
+| Security Question | Useful Tools |
 |---|---|
 | What technologies are exposed by this website? | WhatWeb, Wappalyzer, httpx |
-| Which hosts respond over HTTP or HTTPS? | httpx, Nmap |
-| Which content is exposed but not directly linked? | ffuf, Katana |
-| What does the application do with this request? | Burp Suite |
-| Can a suspected issue be reproduced manually? | Burp Suite, curl |
-| Can known checks identify additional candidates? | Nuclei |
-| What subdomains belong to the target scope? | Subfinder, Amass |
+| Which discovered hosts respond over HTTP or HTTPS? | httpx |
+| Which content or routes are not directly linked? | ffuf, Katana |
+| What does this HTTP request actually do? | Burp Suite |
+| Can a suspected web issue be reproduced manually? | Burp Suite |
+| Can repeatable checks identify additional candidates? | Nuclei |
+| Does a parameter appear vulnerable to SQL injection? | Burp Suite, sqlmap |
+| Did the server perform an out-of-band interaction? | Interactsh |
 | What Active Directory relationships exist? | BloodHound |
-| What AD protocols and services are accessible? | NetExec, Impacket |
-| Are certificate services exposed or misconfigured? | Certipy |
-| What privilege escalation opportunities exist on Windows? | WinPEAS, PowerUp, PrivescCheck |
-| What privilege escalation opportunities exist on Linux? | LinPEAS, linux-smart-enumeration |
-| Where does untrusted input reach dangerous functionality? | ripgrep, Semgrep, OpenGrep, CodeQL |
-| What is happening on the network? | Wireshark, TShark, tcpdump |
-| How does a binary behave when it crashes? | GDB, WinDbg, x64dbg |
-| Can a suspected code pattern occur elsewhere? | CodeQL, Semgrep, ripgrep |
-| Can an LLM help understand unfamiliar code or output? | LLM-assisted analysis followed by independent validation |
+| Which AD protocols and services are accessible? | NetExec, Impacket |
+| Are AD CS configurations security relevant? | Certipy |
+| What privilege escalation candidates exist on Windows? | WinPEAS, PowerUp, PrivescCheck |
+| What privilege escalation candidates exist on Linux? | LinPEAS, linux-smart-enumeration |
+| Where does untrusted input reach sensitive code? | ripgrep, Semgrep, OpenGrep, CodeQL |
+| How does a crashing program behave? | GDB, WinDbg, x64dbg |
+| Can the same vulnerable code pattern exist elsewhere? | CodeQL, Semgrep, ripgrep |
+| Can an LLM help explain unfamiliar code or output? | LLM-assisted analysis followed by independent validation |
 
 A tool is an **evidence collection mechanism**, not the conclusion itself.
 
@@ -155,261 +162,100 @@ Typical objectives include:
 - identifying web servers;
 - identifying frameworks and CMS platforms;
 - identifying JavaScript technologies;
-- collecting HTTP status codes;
-- identifying page titles;
+- identifying live HTTP services;
+- collecting status codes and titles;
 - examining redirects;
-- identifying TLS configuration;
-- detecting virtual hosts;
-- discovering default application behaviour;
 - identifying unusual headers;
-- identifying technologies that require more focused testing.
+- recognising default error pages;
+- prioritising targets for deeper testing.
 
-Related methodology:
-
-[Technology Identification](../web/reconnaissance/technology-identification.md)
-
-[Web Reconnaissance](../web/reconnaissance/index.md)
-
-[Attack Surface Analysis](../web/attack-surface-analysis.md)
-
----
+```text
+Assets
+  |
+  v
+HTTP Services
+  |
+  v
+Technology Indicators
+  |
+  v
+Manual Correlation
+  |
+  v
+Prioritised Targets
+```
 
 ## WhatWeb
 
-**WhatWeb** fingerprints technologies used by websites.
+WhatWeb fingerprints technologies based on indicators in HTTP responses and page content.
 
-It can identify indicators associated with:
+Useful for:
 
-- web servers;
-- frameworks;
-- CMS platforms;
-- JavaScript libraries;
-- analytics platforms;
-- application components;
-- HTTP headers;
+- server identification;
+- framework indicators;
+- CMS indicators;
 - cookies;
 - page metadata;
-- characteristic HTML content.
+- characteristic HTML.
 
-A basic authorised assessment might begin with:
-
-```bash
-whatweb https://example.test
-```
-
-More aggressive fingerprinting modes may perform additional requests and should only be used where permitted by the engagement rules.
-
-The important workflow is:
-
-```text
-Target
-  |
-  v
-WhatWeb
-  |
-  +-- Server indicators
-  +-- Framework indicators
-  +-- CMS indicators
-  +-- Header indicators
-  +-- JavaScript indicators
-  |
-  v
-Candidate Technology
-  |
-  v
-Manual Validation
-```
-
-A WhatWeb result should normally be treated as a **technology hypothesis** until corroborated.
-
-For example, a response header, cookie name, HTML structure, JavaScript path, or default error page may provide additional evidence.
-
-Planned detailed note:
-
-```text
-docs/tools/web-enumeration/whatweb.md
-```
-
-Official project:
-
-[WhatWeb - GitHub](https://github.com/urbanadventurer/WhatWeb){ target="_blank" rel="noopener noreferrer" }
-
----
+[WhatWeb](web-enumeration/whatweb.md)
 
 ## Wappalyzer
 
-**Wappalyzer** identifies technologies associated with websites and web applications.
+Wappalyzer provides technology identification while browsing an application.
 
-Depending on the interface being used, it may identify:
+Useful for:
 
-- CMS platforms;
 - frameworks;
 - JavaScript libraries;
-- analytics products;
-- CDN providers;
-- web servers;
-- e-commerce platforms;
-- tag managers;
-- development technologies;
-- infrastructure components.
+- CMS platforms;
+- infrastructure;
+- analytics;
+- frontend technologies.
 
-Wappalyzer is particularly useful during interactive browsing because technologies can be reviewed while navigating an application.
-
-```text
-Browser
-   |
-   v
-Application
-   |
-   v
-Wappalyzer
-   |
-   +-- Framework
-   +-- Libraries
-   +-- CMS
-   +-- Infrastructure
-   |
-   v
-Validate Indicators
-```
-
-Technology identification should not rely on Wappalyzer alone.
-
-Combine results with:
-
-- HTTP headers;
-- cookies;
-- HTML source;
-- JavaScript bundles;
-- asset paths;
-- default responses;
-- application behaviour;
-- WhatWeb;
-- httpx;
-- manual inspection.
-
-Planned detailed note:
-
-```text
-docs/tools/web-enumeration/wappalyzer.md
-```
-
-Official resource:
-
-[Wappalyzer](https://www.wappalyzer.com/){ target="_blank" rel="noopener noreferrer" }
-
----
+[Wappalyzer](web-enumeration/wappalyzer.md)
 
 ## httpx
 
-ProjectDiscovery **httpx** is useful for probing HTTP services and enriching discovered assets.
+ProjectDiscovery httpx enriches discovered hosts and URLs with HTTP information.
 
-It can collect information such as:
+Useful for:
 
-- HTTP status code;
-- content length;
-- content type;
-- redirect location;
-- page title;
-- detected technologies;
-- response hashes;
-- favicon information;
+- live HTTP services;
+- status codes;
+- page titles;
+- technologies;
+- redirects;
 - TLS information;
-- IP address;
-- ASN information;
-- server information.
+- service prioritisation.
 
-A common workflow is:
+[httpx](web-enumeration/httpx.md)
 
-```text
-Domains / Subdomains
-        |
-        v
-      httpx
-        |
-        +-- Alive HTTP services
-        +-- Status codes
-        +-- Titles
-        +-- Technologies
-        +-- Redirects
-        +-- TLS information
-        |
-        v
-Prioritised Web Targets
-```
+## Fingerprints Beyond Tools
 
-This makes httpx particularly useful between asset discovery and deeper web testing.
-
-Related methodology:
-
-[Technology Identification](../web/reconnaissance/technology-identification.md)
-
-[Subdomain Enumeration](../web/reconnaissance/subdomain-enumeration.md)
-
-[Attack Surface Analysis](../web/attack-surface-analysis.md)
-
-Planned detailed note:
-
-```text
-docs/tools/web-enumeration/httpx.md
-```
-
-Official documentation:
-
-[ProjectDiscovery httpx](https://docs.projectdiscovery.io/opensource/httpx/overview){ target="_blank" rel="noopener noreferrer" }
-
-[httpx Usage](https://docs.projectdiscovery.io/opensource/httpx/usage){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Default Error Pages and Other Fingerprints
-
-Technology fingerprinting is not limited to automated tools.
-
-Useful indicators can include:
+Automated fingerprinting should be combined with:
 
 - default 404 pages;
 - default 403 pages;
-- framework exception pages;
-- server error templates;
-- cookie names;
 - HTTP headers;
-- favicon hashes;
-- default login interfaces;
+- cookie names;
+- error templates;
 - static asset paths;
-- JavaScript bundle names;
-- API error formats;
-- framework-specific response structures.
+- JavaScript bundles;
+- favicon behavior;
+- API error formats.
 
-For example:
-
-```text
-Unknown Application
-       |
-       v
-Request Non-Existing Resource
-       |
-       v
-Observe 404 Response
-       |
-       +-- HTML structure
-       +-- Error wording
-       +-- Response headers
-       +-- Cookies
-       +-- Server behaviour
-       |
-       v
-Candidate Technology
-       |
-       v
-Confirm With Additional Evidence
-```
-
-A useful external reference for visually comparing common default 404 pages is:
+A useful visual reference is:
 
 [0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404){ target="_blank" rel="noopener noreferrer" }
 
-This should be used as a comparison reference rather than as proof that a particular technology is present.
+Related methodology:
+
+[Web Reconnaissance](../web/reconnaissance/index.md)
+
+[Technology Identification](../web/reconnaissance/technology-identification.md)
+
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
 
 ---
 
@@ -417,328 +263,133 @@ This should be used as a comparison reference rather than as proof that a partic
 
 Enumeration identifies what may exist.
 
-Web application testing determines how the application behaves and whether security controls can be bypassed or misused.
+Web application testing investigates how the application behaves and whether a security boundary can be crossed.
 
-Related sections:
-
-[Web Application Security](../web/index.md)
-
-[Web Application Testing Methodology](../web/methodology.md)
-
-[Web Application Pentesting Checklist](../web/checklist.md)
-
----
+```text
+Application Surface
+      |
+      v
+Candidate Behavior
+      |
+      v
+Focused Tool
+      |
+      v
+Manual Reproduction
+      |
+      v
+Impact Validation
+```
 
 ## Burp Suite
 
-Burp Suite is one of the central tools used throughout web application security testing.
+Burp Suite is the central interactive tool for many web application testing workflows.
 
-Its capabilities support activities such as:
+Useful for:
 
-- intercepting HTTP requests and responses;
+- intercepting requests;
 - modifying requests;
 - replaying requests;
 - comparing responses;
-- analysing parameters;
-- encoding and decoding data;
-- testing authentication;
-- testing authorisation;
-- examining sessions;
-- testing APIs;
-- testing WebSockets;
-- testing GraphQL;
-- analysing application behaviour;
-- extending functionality through extensions.
+- authentication testing;
+- authorisation testing;
+- session analysis;
+- APIs;
+- WebSockets;
+- GraphQL;
+- extension-assisted testing.
 
-```text
-Browser
-   |
-   v
-Burp Proxy
-   |
-   +--> HTTP History
-   |
-   +--> Repeater
-   |
-   +--> Intruder
-   |
-   +--> Comparer
-   |
-   +--> Decoder
-   |
-   +--> Extensions
-```
-
-### Community and Professional Editions
-
-Both Burp Suite Community Edition and Professional can support manual testing.
-
-Burp Suite Professional additionally provides functionality intended to support larger and more automated testing workflows, including Burp Scanner and other Professional-only capabilities.
-
-The correct approach is not:
-
-```text
-Scanner finds issue
-        |
-        v
-Report issue
-```
-
-It should be:
-
-```text
-Scanner / Manual Observation
-            |
-            v
-Candidate Finding
-            |
-            v
-Manual Reproduction
-            |
-            v
-Impact Validation
-            |
-            v
-Evidence
-            |
-            v
-Finding
-```
-
-Planned detailed note:
-
-```text
-docs/tools/web-testing/burp-suite.md
-```
-
-Official documentation:
-
-[Burp Suite Documentation](https://portswigger.net/burp/documentation){ target="_blank" rel="noopener noreferrer" }
-
-[PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
-
----
+[Burp Suite](web-testing/burp-suite.md)
 
 ## ffuf
 
-**ffuf** is commonly used for content, parameter, host, and input discovery.
+ffuf is useful for focused content and input discovery.
 
 Typical uses include:
 
-- directory discovery;
-- file discovery;
-- extension discovery;
-- virtual host discovery;
-- parameter discovery;
-- value fuzzing;
-- API route discovery.
+- directories;
+- files;
+- extensions;
+- virtual hosts;
+- parameters;
+- API paths.
 
-Its usefulness depends heavily on understanding the application's baseline response.
+Its effectiveness depends heavily on understanding the baseline response and filtering noise correctly.
 
-```text
-Baseline
-   |
-   v
-Candidate Requests
-   |
-   v
-Filter Noise
-   |
-   +-- Status
-   +-- Size
-   +-- Words
-   +-- Lines
-   |
-   v
-Interesting Responses
-   |
-   v
-Manual Validation
-```
-
-Automated discovery without baseline comparison often produces misleading results.
-
-Planned detailed note:
-
-```text
-docs/tools/web-testing/ffuf.md
-```
-
-Official project:
-
-[ffuf - GitHub](https://github.com/ffuf/ffuf){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Nuclei
-
-**Nuclei** is a template-driven scanner commonly used for repeatable security checks.
-
-It can assist with:
-
-- exposed services;
-- known vulnerabilities;
-- configuration issues;
-- technology detection;
-- exposed files;
-- security misconfigurations;
-- custom organisational checks.
-
-The result of a Nuclei template should be considered a **candidate security observation** until validated.
-
-```text
-Nuclei Match
-    |
-    v
-Inspect Template
-    |
-    v
-Understand Matcher
-    |
-    v
-Reproduce Manually
-    |
-    v
-Validate Security Impact
-```
-
-Planned detailed note:
-
-```text
-docs/tools/web-testing/nuclei.md
-```
-
-Official documentation:
-
-[ProjectDiscovery Nuclei](https://docs.projectdiscovery.io/opensource/nuclei/overview){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## sqlmap
-
-**sqlmap** automates many aspects of SQL injection testing.
-
-It may assist with:
-
-- confirming suspected SQL injection;
-- determining database behaviour;
-- identifying DBMS characteristics;
-- reproducing injection behaviour;
-- evaluating injection techniques.
-
-It should generally complement manual understanding rather than replace it.
-
-```text
-Suspicious Parameter
-        |
-        v
-Manual Behaviour Analysis
-        |
-        v
-sqlmap Validation
-        |
-        v
-Manual Confirmation
-        |
-        v
-Impact Assessment
-```
-
-Planned detailed note:
-
-```text
-docs/tools/web-testing/sqlmap.md
-```
-
-Official project:
-
-[sqlmap](https://sqlmap.org/){ target="_blank" rel="noopener noreferrer" }
-
-[sqlmap - GitHub](https://github.com/sqlmapproject/sqlmap){ target="_blank" rel="noopener noreferrer" }
-
----
+[ffuf](web-testing/ffuf.md)
 
 ## Katana
 
-ProjectDiscovery **Katana** is a web crawler useful for discovering endpoints and application content.
+Katana is a crawler from ProjectDiscovery.
 
-It can assist with:
+It helps discover:
 
-- crawling application paths;
-- discovering linked endpoints;
-- analysing JavaScript-referenced resources;
-- collecting URLs;
-- identifying additional application surface;
-- feeding discovered URLs into other tooling.
+- linked routes;
+- forms;
+- JavaScript-referenced resources;
+- API endpoints;
+- additional application surface.
+
+[Katana](web-testing/katana.md)
+
+## Nuclei
+
+Nuclei uses templates to perform repeatable security checks.
+
+It can identify candidates related to:
+
+- known vulnerabilities;
+- exposures;
+- misconfiguration;
+- technologies;
+- exposed files.
+
+A template match should be manually understood and validated before becoming a finding.
+
+[Nuclei](web-testing/nuclei.md)
+
+## sqlmap
+
+sqlmap automates SQL injection testing.
+
+It is most useful after manual testing has identified a plausible SQL injection candidate.
 
 ```text
-Target
-  |
-  v
-Katana
-  |
-  +-- HTML links
-  +-- Forms
-  +-- Scripts
-  +-- Endpoints
-  |
-  v
-Normalised URL Set
-  |
-  v
-Further Testing
+Candidate Parameter
+      |
+      v
+Manual SQLi Hypothesis
+      |
+      v
+Focused sqlmap Validation
+      |
+      v
+Manual Confirmation
 ```
 
-Planned detailed note:
-
-```text
-docs/tools/web-testing/katana.md
-```
-
-Official documentation:
-
-[ProjectDiscovery Katana](https://docs.projectdiscovery.io/opensource/katana/overview){ target="_blank" rel="noopener noreferrer" }
-
----
+[sqlmap](web-testing/sqlmap.md)
 
 ## Interactsh
 
-**Interactsh** provides out-of-band interaction infrastructure.
+Interactsh provides out-of-band interaction infrastructure.
 
-It can be useful when the vulnerable behaviour occurs away from the direct HTTP response.
-
-Typical authorised testing scenarios include validation of suspected:
+It is useful for investigating behavior such as:
 
 - blind SSRF;
 - blind XXE;
 - asynchronous callbacks;
 - DNS interactions;
-- HTTP interactions;
-- other out-of-band behaviour.
+- HTTP interactions.
 
-```text
-Application
-    |
-    +--> Outbound Interaction
-                |
-                v
-            Interactsh
-                |
-                v
-       Correlated Evidence
-```
+A callback confirms an interaction occurred.
 
-An interaction should still be correlated to the exact request that caused it.
+The tester must still establish which component caused it and what security boundary was affected.
 
-Planned detailed note:
+[Interactsh](web-testing/interactsh.md)
 
-```text
-docs/tools/web-testing/interactsh.md
-```
+Related section:
 
-Official documentation:
-
-[ProjectDiscovery Interactsh](https://docs.projectdiscovery.io/opensource/interactsh/overview){ target="_blank" rel="noopener noreferrer" }
+[Web Application Security](../web/index.md)
 
 ---
 
@@ -746,136 +397,84 @@ Official documentation:
 
 Active Directory testing often requires combining information from several protocols and data sources.
 
-The canonical methodology and technical notes remain in:
-
-[Active Directory](../active-directory/index.md)
-
-The Tools section should help readers understand **which tool is appropriate for which AD task** without duplicating the detailed Active Directory content.
+The purpose of this tool category is to help answer:
 
 ```text
-Active Directory
-       |
-       +-- Enumeration
-       |      +-- NetExec
-       |      +-- Impacket
-       |
-       +-- Relationship Analysis
-       |      +-- BloodHound
-       |
-       +-- Certificate Services
-       |      +-- Certipy
-       |
-       +-- Kerberos / Authentication
-              +-- Impacket
-              +-- specialised tooling
+What should I use
+for this AD question?
 ```
 
----
+rather than duplicate the full Active Directory methodology.
+
+[Active Directory Tools](active-directory/index.md)
 
 ## NetExec
 
-NetExec provides protocol-oriented functionality useful during authorised Windows and Active Directory assessments.
+Useful for protocol-oriented Windows and Active Directory assessment involving areas such as:
 
-Typical uses include:
+- SMB;
+- LDAP;
+- WinRM;
+- authentication;
+- hosts;
+- shares;
+- users;
+- groups.
 
-- SMB enumeration;
-- LDAP enumeration;
-- WinRM testing;
-- authentication validation;
-- host enumeration;
-- share discovery;
-- domain information collection;
-- protocol-specific checks.
+The detailed canonical page remains:
 
-Where a detailed NetExec note already exists in the Active Directory section, that page should remain the canonical technical reference rather than duplicating the same material here.
-
-[NetExec Active Directory Notes](../active-directory/netexec.md)
-
-Official documentation:
-
-[NetExec Documentation](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
-
----
+[NetExec](../active-directory/netexec.md)
 
 ## Impacket
 
-**Impacket** is a collection of Python classes and scripts for working with network protocols commonly encountered in Windows and Active Directory environments.
+Impacket provides Python implementations of many protocols encountered in Windows and Active Directory environments.
 
-Its tools cover areas such as:
+Its scripts are commonly associated with:
 
 - SMB;
 - MSRPC;
-- LDAP-related workflows;
 - Kerberos;
 - NTLM;
 - authentication;
-- remote service interaction;
-- credential and ticket-related assessment workflows.
+- remote administration.
 
-Impacket contains many independent utilities, so it is usually more useful to document them in the context of the technique they support rather than treat Impacket as one command.
+Canonical page:
 
-Official project:
-
-[Impacket - GitHub](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
-
----
+[Impacket](../active-directory/impacket.md)
 
 ## BloodHound
 
-BloodHound models Active Directory relationships as a graph.
-
-Its value is not merely collecting objects but understanding relationships between:
-
-- users;
-- groups;
-- computers;
-- sessions;
-- permissions;
-- delegation;
-- administration rights;
-- trust relationships;
-- potential attack paths.
+BloodHound models identity and privilege relationships as a graph.
 
 ```text
 Directory Data
       |
       v
-BloodHound Graph
-      |
-      +-- Nodes
-      +-- Relationships
-      +-- Permissions
+Relationships
       |
       v
-Candidate Paths
+Candidate Attack Paths
       |
       v
 Manual Validation
 ```
 
-Related notes:
+Canonical page:
 
 [BloodHound](../active-directory/bloodhound.md)
 
-Official project:
-
-[BloodHound](https://github.com/SpecterOps/BloodHound){ target="_blank" rel="noopener noreferrer" }
-
----
-
 ## Certipy
 
-Certipy assists with authorised assessment of Active Directory Certificate Services.
+Certipy supports assessment of Active Directory Certificate Services.
 
-Its output may help identify:
+Its results should be interpreted in the context of:
 
 - certificate authorities;
 - certificate templates;
-- enrolment configuration;
+- enrolment rights;
 - security descriptors;
-- potentially risky certificate-service configurations.
-
-The result must be interpreted in the context of AD CS permissions and configuration.
+- authentication;
+- AD CS trust relationships.
 
 Related section:
 
@@ -889,36 +488,68 @@ Official project:
 
 # Privilege Escalation Tools
 
-Privilege escalation enumeration tools are particularly useful because Windows and Linux systems contain a large number of security-relevant configuration locations.
+Privilege escalation tools can quickly enumerate large numbers of system settings.
 
-However:
-
-> A highlighted line from an enumeration script is not automatically a privilege escalation vulnerability.
-
-The correct model is:
+They should be used to identify **candidates**, not to automatically declare vulnerabilities.
 
 ```text
-Enumeration Tool
-      |
-      v
-Candidate Condition
-      |
-      v
-Understand Configuration
-      |
-      v
-Check Effective Permissions
-      |
-      v
-Validate Reachability
-      |
-      v
-Determine Security Impact
+Enumeration
+    |
+    v
+Candidate
+    |
+    v
+Manual Configuration Review
+    |
+    v
+Effective Permission Check
+    |
+    v
+Execution Context
+    |
+    v
+Controlled Validation
 ```
+
+[Privilege Escalation Tools](privilege-escalation/index.md)
+
+## Windows
+
+### WinPEAS
+
+Broad Windows privilege escalation enumeration.
+
+[WinPEAS](privilege-escalation/winpeas.md)
+
+### PowerUp
+
+PowerShell-based Windows privilege escalation checks.
+
+[PowerUp](privilege-escalation/powerup.md)
+
+### PrivescCheck
+
+PowerShell-based Windows privilege escalation enumeration with structured security checks.
+
+[PrivescCheck](privilege-escalation/privesccheck.md)
+
+## Linux
+
+### LinPEAS
+
+Broad Linux privilege escalation enumeration.
+
+[LinPEAS](privilege-escalation/linpeas.md)
+
+### linux-smart-enumeration
+
+An additional Linux enumeration perspective that complements LinPEAS and manual investigation.
+
+[linux-smart-enumeration](privilege-escalation/linux-smart-enumeration.md)
 
 Related sections:
 
-[Privilege Escalation Explorer](../privesc/index.md)
+[PrivEsc Explorer](../privesc/index.md)
 
 [Windows Privilege Escalation](../windows/privilege-escalation.md)
 
@@ -926,286 +557,77 @@ Related sections:
 
 ---
 
-## WinPEAS
-
-**WinPEAS** is part of the PEASS-ng project and performs extensive Windows privilege escalation enumeration.
-
-It can inspect areas such as:
-
-- system information;
-- users and groups;
-- services;
-- scheduled tasks;
-- file permissions;
-- registry permissions;
-- credentials;
-- environment configuration;
-- installed applications;
-- networking;
-- security products;
-- potentially interesting files.
-
-Use WinPEAS as an enumeration accelerator.
-
-Do not assume that coloured or highlighted output confirms exploitability.
-
-```text
-WinPEAS Output
-     |
-     v
-Interesting Condition
-     |
-     v
-Manual Permission Check
-     |
-     v
-Understand Execution Context
-     |
-     v
-Validate Impact
-```
-
-Planned detailed note:
-
-```text
-docs/tools/privilege-escalation/winpeas.md
-```
-
-Official project:
-
-[PEASS-ng - GitHub](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## LinPEAS
-
-**LinPEAS** performs broad Linux privilege escalation enumeration.
-
-It can assist with identifying:
-
-- sudo configuration;
-- SUID and SGID binaries;
-- Linux capabilities;
-- cron jobs;
-- writable locations;
-- credentials;
-- containers;
-- services;
-- processes;
-- environment configuration;
-- interesting files.
-
-Related notes:
-
-[Linux Privilege Escalation](../linux/privilege-escalation.md)
-
-[Linux sudo](../linux/sudo.md)
-
-[Linux SUID and SGID](../linux/suid-sgid.md)
-
-[Linux Capabilities](../linux/capabilities.md)
-
-[Linux Scheduled Jobs](../linux/scheduled-jobs.md)
-
-Planned detailed note:
-
-```text
-docs/tools/privilege-escalation/linpeas.md
-```
-
-Official project:
-
-[PEASS-ng - GitHub](https://github.com/peass-ng/PEASS-ng){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## PowerUp
-
-**PowerUp** is a PowerShell-based collection of Windows privilege escalation checks associated with PowerSploit.
-
-It can help assess Windows configuration areas related to potential privilege escalation opportunities.
-
-The important distinction is between:
-
-```text
-Check reports condition
-        |
-        v
-Condition is technically present
-        |
-        v
-Current user can influence it
-        |
-        v
-Privileged execution path exists
-        |
-        v
-Security impact is demonstrated
-```
-
-Planned detailed note:
-
-```text
-docs/tools/privilege-escalation/powerup.md
-```
-
-Project reference:
-
-[PowerUp - PowerSploit](https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## PrivescCheck
-
-**PrivescCheck** is a PowerShell-based Windows privilege escalation enumeration tool.
-
-It performs a broad set of checks intended to identify security-relevant configurations that warrant further analysis.
-
-Use its findings as investigation leads rather than automatic conclusions.
-
-Planned detailed note:
-
-```text
-docs/tools/privilege-escalation/privesccheck.md
-```
-
-Official project:
-
-[PrivescCheck - GitHub](https://github.com/itm4n/PrivescCheck){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## linux-smart-enumeration
-
-**linux-smart-enumeration**, commonly referred to as LSE, provides Linux enumeration aimed at identifying information relevant to privilege escalation.
-
-It is useful as an additional perspective alongside:
-
-- manual enumeration;
-- LinPEAS;
-- system-specific investigation.
-
-Planned detailed note:
-
-```text
-docs/tools/privilege-escalation/linux-smart-enumeration.md
-```
-
-Official project:
-
-[linux-smart-enumeration - GitHub](https://github.com/diego-treitos/linux-smart-enumeration){ target="_blank" rel="noopener noreferrer" }
-
----
-
 # Source Code Review Tools
 
-Source code review tools can accelerate discovery, but the objective remains understanding how data and trust move through the application.
+Source code review tools help locate and prioritise interesting code.
+
+They do not replace manual data-flow analysis.
 
 ```text
-Source
-  |
-  v
+Entry Point
+    |
+    v
+User-Controlled Data
+    |
+    v
 Transformation
-  |
-  v
+    |
+    v
 Validation
-  |
-  v
-Security-Sensitive Sink
+    |
+    v
+Sensitive Sink
 ```
+
+[Source Code Review Tools](source-code-review/index.md)
+
+The detailed static-analysis pages remain canonical under Source Code Review.
+
+## ripgrep
+
+Useful for rapidly locating:
+
+- routes;
+- security-sensitive APIs;
+- authentication logic;
+- authorisation logic;
+- secrets;
+- configuration;
+- file operations;
+- process execution;
+- database queries.
+
+[ripgrep](../source-code-review/static-analysis/ripgrep.md)
+
+## Semgrep
+
+Useful for language-aware security pattern matching across larger repositories.
+
+[Semgrep](../source-code-review/static-analysis/semgrep.md)
+
+## OpenGrep
+
+Useful for static-analysis workflows based on rule-driven source inspection.
+
+[OpenGrep](../source-code-review/static-analysis/opengrep.md)
+
+## CodeQL
+
+Useful for deeper semantic analysis, data-flow analysis and variant research.
+
+[CodeQL](../source-code-review/static-analysis/codeql.md)
 
 Related methodology:
 
 [Source Code Review](../source-code-review/index.md)
 
-[Source Code Review Methodology](../source-code-review/methodology.md)
-
 [Source-to-Sink Analysis](../source-code-review/source-to-sink-analysis.md)
-
-The detailed tool pages already belong to the Source Code Review section and should remain canonical there.
-
----
-
-## ripgrep
-
-ripgrep is extremely useful during manual source review for quickly locating:
-
-- routes;
-- dangerous functions;
-- authentication logic;
-- authorisation checks;
-- configuration;
-- secrets;
-- database queries;
-- file operations;
-- process execution;
-- deserialisation;
-- cryptographic operations;
-- security-sensitive APIs.
-
-[Security Source Review with ripgrep](../source-code-review/static-analysis/ripgrep.md)
-
----
-
-## Semgrep
-
-Semgrep combines pattern matching with language-aware analysis and is useful for finding security-relevant code patterns across large codebases.
-
-[Semgrep for Security Source Code Review](../source-code-review/static-analysis/semgrep.md)
-
-Official documentation:
-
-[Semgrep Documentation](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## OpenGrep
-
-OpenGrep provides static-analysis capabilities that can be incorporated into security source review workflows.
-
-[OpenGrep for Security Source Code Review](../source-code-review/static-analysis/opengrep.md)
-
-Official resource:
-
-[OpenGrep](https://opengrep.dev/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## CodeQL
-
-CodeQL treats source code as data that can be queried.
-
-It is particularly useful for deeper semantic analysis and variant analysis across larger codebases.
-
-[CodeQL for Security Source Code Review](../source-code-review/static-analysis/codeql.md)
-
-Official documentation:
-
-[GitHub CodeQL Documentation](https://docs.github.com/en/code-security/code-scanning/managing-your-code-scanning-configuration/about-code-scanning-with-codeql){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 # Red Teaming Tools
 
-Red team tooling should be connected to an objective, control hypothesis, and engagement scenario.
-
-Related section:
-
-[Red Teaming](../red-teaming/index.md)
-
-A red team operation may involve tooling for:
-
-- command and control;
-- infrastructure;
-- payload delivery;
-- identity operations;
-- lateral movement;
-- situational awareness;
-- collection;
-- detection testing;
-- operational logging.
-
-The tool should never become the methodology.
+Red team tooling should be selected according to:
 
 ```text
 Objective
@@ -1214,61 +636,101 @@ Objective
 Technique
    |
    v
-Tool Selection
+Operational Requirement
+   |
+   v
+Tool
    |
    v
 Controlled Execution
    |
    v
-Evidence
-   |
-   v
-Blue-Team Observation
+Evidence + Detection
 ```
 
----
+[Red Teaming Tools](red-teaming/index.md)
 
 ## Command-and-Control Frameworks
 
-Command-and-control platforms provide infrastructure for managing controlled red team agents and interactions during authorised exercises.
+Command-and-control platforms support controlled red team operations.
 
-Different frameworks vary in:
+Framework selection may depend on:
 
 - architecture;
-- supported operating systems;
+- operator model;
+- supported systems;
+- infrastructure requirements;
 - communication protocols;
 - extensibility;
-- operator workflow;
-- payload formats;
-- team collaboration;
 - logging;
-- infrastructure requirements;
+- team collaboration;
 - defensive visibility.
 
-Rather than declaring one framework universally best, the detailed C2 page should compare frameworks according to the engagement requirements.
-
-Potential frameworks covered in that comparison may include:
+The detailed comparison currently covers frameworks such as:
 
 - Sliver;
 - Mythic;
-- Havoc;
-- other actively maintained and relevant frameworks.
+- Havoc.
 
-Planned detailed note:
+[C2 Frameworks](red-teaming/c2-frameworks.md)
 
-```text
-docs/tools/red-teaming/c2-frameworks.md
-```
+Related section:
+
+[Red Teaming](../red-teaming/index.md)
 
 ---
 
 # Vulnerability Research Tools
 
-Vulnerability research requires a different toolset from normal application penetration testing.
+Vulnerability research requires tools that help answer questions about software behavior rather than simply target exposure.
 
-Related section:
+[Vulnerability Research Tools](vulnerability-research/index.md)
+
+Typical categories include:
+
+| Activity | Example Tools |
+|---|---|
+| Linux debugging | GDB |
+| GDB enhancement | GEF, pwndbg |
+| Windows debugging | WinDbg |
+| Windows user-mode debugging | x64dbg |
+| Reverse engineering | Ghidra, IDA, Binary Ninja |
+| Coverage-guided fuzzing | AFL++ |
+| Compiler-integrated fuzzing | libFuzzer |
+| Runtime instrumentation | Frida |
+| Linux tracing | strace, ltrace |
+| Windows runtime observation | Process Monitor, Process Explorer |
+| Network analysis | Wireshark, tcpdump |
+
+The research workflow is:
+
+```text
+Input / Trigger
+      |
+      v
+Program Behavior
+      |
+      v
+Crash / Security Anomaly
+      |
+      v
+Debugger / Tracing
+      |
+      v
+Root Cause
+      |
+      v
+Variant Analysis
+      |
+      v
+Minimal PoC
+```
+
+Related methodology:
 
 [Vulnerability Research](../vulnerability-research/index.md)
+
+[Vulnerability Research Methodology](../vulnerability-research/methodology.md)
 
 [Debugging and Dynamic Analysis](../vulnerability-research/debugging-dynamic-analysis.md)
 
@@ -1278,164 +740,107 @@ Related section:
 
 [Patch Diffing](../vulnerability-research/patch-diffing.md)
 
-[Variant Analysis](../vulnerability-research/variant-analysis.md)
-
-Typical tool categories include:
-
-| Activity | Example Tools |
-|---|---|
-| Linux debugging | GDB |
-| GDB enhancements | GEF, pwndbg |
-| Windows debugging | WinDbg |
-| Windows user-mode debugging | x64dbg |
-| Coverage-guided fuzzing | AFL++ |
-| Compiler-integrated fuzzing | libFuzzer |
-| Disassembly / reverse engineering | Ghidra |
-| Binary inspection | objdump, readelf |
-| Windows binary inspection | dumpbin and debugger tooling |
-| Patch analysis | diffing and reverse-engineering tools |
-
-The objective is to connect each tool to the research process:
-
-```text
-Input / Trigger
-      |
-      v
-Program Behaviour
-      |
-      v
-Crash / Unexpected State
-      |
-      v
-Debugger
-      |
-      v
-Root Cause
-      |
-      v
-Variant Analysis
-      |
-      v
-Proof of Concept
-```
-
-Detailed vulnerability-research tool coverage should be added only where it improves the existing methodology rather than duplicating it.
-
 ---
 
 # Network and Protocol Analysis
 
-Some tools cross multiple security disciplines.
+Some tools support several security disciplines rather than belonging to one category.
 
-These include:
+Examples include:
 
 - Nmap;
 - Wireshark;
 - TShark;
 - tcpdump;
 - curl;
-- Netcat;
 - OpenSSL;
 - protocol-specific clients.
 
-They are useful because many security findings ultimately depend on understanding how systems communicate.
-
----
+These are useful because many security conclusions depend on understanding how systems communicate.
 
 ## Nmap
 
-Nmap supports host and service discovery, port scanning, service identification, and protocol-oriented investigation.
+Nmap supports:
 
-A typical workflow is:
+- host discovery;
+- port discovery;
+- service identification;
+- protocol investigation.
 
 ```text
-Target Scope
-    |
-    v
-Host Discovery
-    |
-    v
-Port Discovery
-    |
-    v
-Service Identification
-    |
-    v
+Scope
+  |
+  v
+Hosts
+  |
+  v
+Ports
+  |
+  v
+Services
+  |
+  v
 Manual Protocol Validation
 ```
 
-Scanner output is not automatically proof of vulnerability.
+Version detection should be treated cautiously because banners may be:
 
-Version detection in particular should be treated carefully because:
-
-- banners may be modified;
-- vendors may backport security fixes;
-- proxies may obscure backend services;
-- protocol behaviour may differ from the reported banner;
-- network controls may alter responses.
+- modified;
+- proxied;
+- incomplete;
+- affected by backported patches.
 
 Official documentation:
 
 [Nmap Reference Guide](https://nmap.org/book/man.html){ target="_blank" rel="noopener noreferrer" }
 
----
-
 ## Wireshark and TShark
 
-Wireshark and TShark support packet-level protocol analysis.
+Packet analysis can help determine:
 
-They can help answer questions such as:
-
-- Which hosts communicated?
-- Which protocol was used?
-- Was DNS resolution performed?
-- Was TCP connectivity established?
-- Did TLS negotiation complete?
-- Which HTTP requests were transmitted?
-- Was a connection reset?
-- Was traffic retransmitted?
-- Did an application send unexpected network traffic?
-
-```text
-Capture
-   |
-   v
-Filter
-   |
-   v
-Protocol Analysis
-   |
-   v
-Conversation / Stream
-   |
-   v
-Interpretation
-```
+- which hosts communicated;
+- which protocol was used;
+- whether DNS resolution occurred;
+- whether TCP completed;
+- whether TLS negotiated;
+- which requests were transmitted;
+- whether resets or retransmissions occurred.
 
 Official documentation:
 
 [Wireshark Documentation](https://www.wireshark.org/docs/){ target="_blank" rel="noopener noreferrer" }
 
+Related cheatsheets:
+
+[Networking Cheatsheet](../cheatsheets/networking.md)
+
+[Nmap Cheatsheet](../cheatsheets/nmap.md)
+
+[Wireshark and tshark Cheatsheet](../cheatsheets/wireshark-tshark.md)
+
 ---
 
-# AI-Assisted Security Workflows
+# AI-Assisted Security
 
-Large language models can assist security professionals with analysis and knowledge work, but LLM output should not be treated as verified security evidence.
+Large language models can assist with security analysis and knowledge work.
 
-Useful applications may include:
+They should not be treated as authoritative security evidence.
 
-- understanding unfamiliar source code;
-- explaining APIs;
-- identifying candidate sources and sinks;
-- generating search patterns;
+[AI-Assisted Security](ai/index.md)
+
+[LLM-Assisted Security Testing](ai/llm-assisted-security-testing.md)
+
+Useful applications include:
+
+- explaining unfamiliar source code;
 - reviewing tool output;
+- generating search ideas;
 - comparing configurations;
-- explaining protocol behaviour;
-- assisting with log analysis;
-- generating test cases;
-- summarising large bodies of technical information;
-- supporting variant-analysis hypotheses;
-- helping structure reports and remediation guidance.
+- summarising logs;
+- assisting with research;
+- developing test hypotheses;
+- structuring findings;
+- supporting variant-analysis workflows.
 
 The correct model is:
 
@@ -1449,7 +854,7 @@ Security Data / Code
 Hypothesis / Explanation
         |
         v
-Independent Technical Validation
+Independent Validation
         |
         v
 Evidence
@@ -1458,148 +863,110 @@ Evidence
 Conclusion
 ```
 
-Not:
-
-```text
-LLM says vulnerable
-        |
-        v
-Report vulnerability
-```
-
 Important considerations include:
 
 - hallucinations;
-- incomplete context;
-- outdated technical knowledge;
-- incorrect assumptions;
+- missing context;
 - confidentiality;
 - source-code sensitivity;
-- credential and secret handling;
+- credentials and secrets;
+- prompt injection;
 - organisational policy;
-- data retention;
-- reproducibility;
-- independent validation.
-
-Planned detailed note:
-
-```text
-docs/tools/ai/llm-assisted-security-testing.md
-```
+- reproducibility.
 
 ---
 
 # Tool Output Is Not a Finding
 
-One of the most important principles throughout this knowledge base is:
+One of the core principles of this knowledge base is:
 
 > A tool finding is not automatically a security finding.
 
-For example:
+Examples:
 
 ```text
-Scanner reports:
-"Potential SQL injection"
-
-This means:
-
-Candidate behaviour requires validation.
-
-It does NOT yet mean:
-
-Confirmed exploitable SQL injection.
-```
-
-Similarly:
-
-```text
-WinPEAS highlights service
-        !=
-Confirmed privilege escalation
-
-Nuclei template matches
+Nuclei template match
         !=
 Confirmed vulnerability
-
-BloodHound displays path
-        !=
-Path is currently exploitable
-
-Wappalyzer detects framework
-        !=
-Framework identification is certain
-
-Semgrep finds pattern
-        !=
-Code is definitely vulnerable
 ```
 
-Tool output is evidence that contributes to a conclusion.
+```text
+WinPEAS highlight
+        !=
+Confirmed privilege escalation
+```
+
+```text
+BloodHound path
+        !=
+Currently exploitable path
+```
+
+```text
+Wappalyzer fingerprint
+        !=
+Certain technology identification
+```
+
+```text
+Semgrep finding
+        !=
+Confirmed vulnerable data flow
+```
+
+The tool result is an observation.
+
+The tester must determine what that observation actually proves.
 
 ---
 
 # Evidence Strength
 
-Tool observations can be considered at different confidence levels.
+A useful confidence model is:
 
 | Level | Meaning |
 |---|---|
-| Observation | Something interesting was seen |
+| Observation | Something potentially relevant was seen |
 | Indicator | Evidence suggests a particular condition |
-| Candidate | A potential security issue warrants investigation |
-| Validated | The technical behaviour has been reproduced |
-| Confirmed | Sufficient evidence demonstrates the security condition and impact |
+| Candidate | The condition warrants further investigation |
+| Validated | The technical behavior has been reproduced |
+| Confirmed | Evidence demonstrates the security condition and supported impact |
 
 For example:
 
 ```text
-WhatWeb says "nginx"
-        |
-        v
-Indicator
-
-Server header says "nginx"
-        |
-        v
-Additional Indicator
-
-Behaviour matches nginx
-        |
-        v
-Higher Confidence
-```
-
-Another example:
-
-```text
-Nuclei template matches
-        |
-        v
+Nuclei Match
+     |
+     v
 Candidate
-
-Manual request reproduces behaviour
-        |
-        v
+     |
+     v
+Manual Reproduction
+     |
+     v
 Validated
-
-Impact demonstrated
-        |
-        v
-Confirmed Finding
+     |
+     v
+Impact Demonstrated
+     |
+     v
+Confirmed
 ```
 
 ---
 
 # Correlating Tools
 
-Confidence generally increases when independent observations agree.
+Independent evidence increases confidence.
+
+Web example:
 
 ```text
 WhatWeb --------+
                 |
-Wappalyzer -----+----> Candidate Framework
+Wappalyzer -----+
                 |
-httpx ----------+
+httpx ----------+----> Technology Hypothesis
                 |
 Manual Review --+
                 |
@@ -1607,19 +974,19 @@ Manual Review --+
           Higher Confidence
 ```
 
-The same principle applies elsewhere.
+Privilege escalation example:
 
 ```text
 WinPEAS --------+
                 |
 PowerUp --------+
                 |
-Manual ACL -----+----> Privilege Escalation Condition
+Manual ACL -----+----> Candidate Privileged Path
                 |
 Service Config -+
 ```
 
-And source review:
+Source-review example:
 
 ```text
 ripgrep --------+
@@ -1631,185 +998,200 @@ CodeQL ---------+----> Candidate Data Flow
 Manual Review --+
 ```
 
-Tool correlation should increase understanding, not merely increase the number of scanner findings.
+The purpose of correlation is to improve understanding, not to increase the number of findings.
 
 ---
 
 # Tool Chaining
 
-Security tools are often most useful when used as components of a workflow.
+Tools are often most useful as components of a workflow.
 
-For example:
+## Web
 
 ```text
-Subfinder
-    |
-    v
+Subdomain Discovery
+        |
+        v
 httpx
-    |
-    v
+        |
+        v
 Katana
-    |
-    v
-Interesting URLs
-    |
-    +--> Burp Suite
-    |
-    +--> Nuclei
-    |
-    +--> Manual Testing
+        |
+        +--> ffuf
+        |
+        +--> Nuclei
+        |
+        +--> Burp Suite
+        |
+        v
+Manual Testing
 ```
 
-Another example:
+## Source Code Review
 
 ```text
-Source Repository
-      |
-      +--> ripgrep
-      |
-      +--> Semgrep
-      |
-      +--> CodeQL
-      |
-      v
+Repository
+    |
+    +--> ripgrep
+    |
+    +--> Semgrep
+    |
+    +--> CodeQL
+    |
+    v
 Candidate Code Paths
-      |
-      v
-Manual Source-to-Sink Review
+    |
+    v
+Manual Source-to-Sink Analysis
 ```
 
-And privilege escalation:
+## Privilege Escalation
 
 ```text
 System Access
-    |
-    +--> WinPEAS / LinPEAS
-    |
-    +--> Manual Enumeration
-    |
-    v
-Candidate Conditions
-    |
-    v
+      |
+      +--> WinPEAS / LinPEAS
+      |
+      +--> Manual Enumeration
+      |
+      v
+Candidate Condition
+      |
+      v
+PrivEsc Explorer
+      |
+      v
 Focused Validation
 ```
 
-Tool chaining should remain within the defined assessment scope.
+## Vulnerability Research
+
+```text
+Attack Surface
+      |
+      v
+Interesting Component
+      |
+      v
+Static / Dynamic Analysis
+      |
+      v
+Fuzzing
+      |
+      v
+Crash
+      |
+      v
+Debugger
+      |
+      v
+Root Cause
+```
 
 ---
 
-# Choosing Between Automated and Manual Testing
+# Automated vs Manual Testing
 
-Automation is useful when:
+Automation provides:
 
-- there are many assets;
-- checks are repetitive;
-- results can be filtered;
-- a technique can be safely repeated;
-- consistent output is useful;
-- coverage would otherwise be impractical.
+```text
+Breadth
+Repeatability
+Consistency
+Scale
+```
 
-Manual analysis is particularly important when:
+Manual testing provides:
 
-- business logic is involved;
-- user roles matter;
-- authentication state matters;
-- context changes the interpretation;
-- several systems interact;
-- automated output is ambiguous;
-- the security impact depends on application-specific behaviour.
+```text
+Context
+Reasoning
+Depth
+Business Logic
+Impact Validation
+```
 
-Most strong assessments combine both.
+Strong assessments combine both.
 
 ```text
 Automation
     |
-    +--> Breadth
-    |
-    +--> Repeatability
+    +-- Broad discovery
 
-Manual Testing
+Manual Analysis
     |
-    +--> Context
-    |
-    +--> Depth
+    +-- Deep understanding
 
 Together
     |
     v
-Better Assessment
+Defensible Security Conclusion
 ```
 
 ---
 
-# Safe Defaults
+# Safe Tool Usage
 
-Before running security tooling, consider:
+Before running a tool, understand its operational characteristics.
 
-### Scope
+## Scope
 
 Confirm:
 
-- target domains;
+- domains;
 - IP ranges;
 - applications;
 - APIs;
-- cloud resources;
 - accounts;
 - environments;
 - exclusions.
 
-### Rate
+## Request Volume
 
-Understand whether the tool:
+Determine whether it:
 
-- sends requests concurrently;
+- sends concurrent requests;
 - performs recursion;
 - retries automatically;
+- brute-forces inputs;
 - follows redirects;
-- brute-forces content;
-- enumerates large wordlists;
-- creates significant network load.
+- processes large wordlists.
 
-### Authentication
+## Authentication
 
-Avoid accidentally:
+Avoid unintentionally:
 
 - locking accounts;
 - invalidating sessions;
-- changing passwords;
-- triggering MFA repeatedly;
-- exhausting API quotas;
+- repeatedly triggering MFA;
+- exhausting quotas;
 - testing unintended identities.
 
-### State Changes
+## State Changes
 
-Determine whether the tool may:
+Determine whether it can:
 
 - upload files;
-- create users;
-- change configuration;
+- create accounts;
+- modify configuration;
 - execute code;
-- create scheduled tasks;
-- modify services;
 - write database content;
-- trigger workflows.
+- alter services;
+- trigger background workflows.
 
-### Third Parties
+## Third Parties
 
-Do not assume that a third-party service referenced by the target is automatically in scope.
+A third-party domain referenced by an in-scope application is not automatically in scope.
 
 ---
 
 # Reproducibility
 
-Useful tool notes should make results reproducible.
-
-Record where appropriate:
+Record relevant tool context:
 
 ```text
 Tool:
-Tool version:
+Version:
 Date/time:
 Target:
 Input:
@@ -1821,32 +1203,13 @@ Manual validation:
 Conclusion:
 ```
 
-For example:
-
-```bash
-whatweb --version
-```
-
-```bash
-nmap --version
-```
-
-```bash
-nuclei -version
-```
-
-```bash
-httpx -version
-```
-
-Version information matters because:
+Tool versions matter because:
 
 - flags change;
-- templates change;
-- detection logic changes;
 - APIs change;
-- output formats change;
-- default behaviour changes.
+- templates change;
+- defaults change;
+- output formats change.
 
 ---
 
@@ -1854,44 +1217,40 @@ Version information matters because:
 
 Useful evidence may include:
 
-- the exact command;
-- relevant tool version;
+- exact command;
+- tool version;
+- affected target;
+- timestamp;
 - request and response;
 - selected terminal output;
 - packet capture;
 - screenshot;
-- affected asset;
-- timestamp;
 - authentication context;
-- manual reproduction;
 - relevant configuration;
-- explanation of security impact.
+- manual reproduction.
 
-Avoid attaching massive raw scanner output to a report without interpretation.
+Do not attach enormous raw scanner outputs without interpretation.
 
-Extract the evidence that supports the conclusion.
+Extract the evidence that supports the security conclusion.
 
 ---
 
 # False Positives
 
-False positives can result from:
+False positives may be caused by:
 
-- generic response matching;
 - wildcard DNS;
-- custom error pages;
-- catch-all routing;
-- reverse proxies;
-- WAF behaviour;
+- generic responses;
+- catch-all routes;
 - authentication redirects;
-- CDN responses;
-- shared infrastructure;
+- reverse proxies;
+- WAF behavior;
+- CDNs;
 - stale signatures;
-- version backporting;
-- scanner assumptions;
-- misleading banners.
+- misleading banners;
+- scanner assumptions.
 
-A useful validation workflow is:
+A useful process is:
 
 ```text
 Tool Match
@@ -1906,39 +1265,35 @@ Establish Baseline
 Reproduce Independently
     |
     v
-Compare Responses
+Compare Results
     |
     v
-Determine Whether Condition Is Real
+Confirm or Reject
 ```
 
 ---
 
 # False Negatives
 
-Tools can also fail to identify real security issues.
+Security tools can also miss real issues because of:
 
-Causes include:
-
-- authentication requirements;
-- unusual application flows;
-- custom protocols;
+- authentication;
+- unusual workflows;
 - JavaScript-heavy applications;
 - WAF interference;
-- inaccessible routes;
-- missing scanner signatures;
+- missing routes;
+- custom protocols;
 - business logic;
-- multi-step vulnerabilities;
-- state-dependent behaviour;
+- state-dependent behavior;
 - environment-specific conditions.
 
-A clean scanner result does not prove that the target is secure.
+A clean scan does not prove that the target is secure.
 
 ---
 
 # Reporting Tool-Assisted Findings
 
-Avoid report statements such as:
+Avoid:
 
 ```text
 Nuclei found a vulnerability.
@@ -1947,33 +1302,32 @@ Nuclei found a vulnerability.
 Prefer:
 
 ```text
-Automated testing identified behaviour consistent with the suspected
-condition. The behaviour was subsequently reproduced manually and the
-affected request, response, and security impact were validated.
+Automated testing identified behavior consistent with the suspected
+condition. Manual validation subsequently reproduced the behavior and
+confirmed the security impact.
 ```
 
-Similarly, avoid:
+Avoid:
 
 ```text
-WinPEAS reported a privilege escalation vulnerability.
+WinPEAS found privilege escalation.
 ```
 
 Prefer:
 
 ```text
-Enumeration identified a potentially security-relevant configuration.
-Manual validation confirmed that the current user could modify the
-affected resource and that the resource participated in a privileged
-execution path.
+Enumeration identified a security-relevant configuration. Manual
+validation confirmed that the current user could influence the affected
+resource and that it participated in a privileged execution path.
 ```
 
-The finding should describe the **security condition**, not the name of the tool.
+The report should describe the **security condition** rather than the tool.
 
 ---
 
 # Tool Documentation Model
 
-Detailed tool pages in this knowledge base should generally follow this model:
+Detailed tool pages in this knowledge base generally follow:
 
 ```text
 Purpose
@@ -1991,7 +1345,7 @@ Core Workflow
 Practical Examples
    |
    v
-Representative Output
+Representative Result
    |
    v
 Interpretation
@@ -2003,37 +1357,32 @@ Common Mistakes
 Manual Validation
    |
    v
-Evidence Collection
+Evidence
    |
    v
 Related Security Topics
-   |
-   v
-Official and External References
 ```
 
-This keeps tool documentation connected to security methodology rather than turning it into a command dump.
+This keeps tooling connected to methodology.
 
 ---
 
 # External References
 
-External resources are used when they provide strong specialist material that does not need to be duplicated locally.
+External resources are used where they add specialist depth rather than duplicating local notes.
 
 Priority is generally given to:
 
-1. official project documentation;
-2. official project repositories;
+1. official documentation;
+2. official repositories;
 3. vendor documentation;
-4. PortSwigger Web Security Academy for web security;
+4. PortSwigger for web application security;
 5. Microsoft Learn for Windows and Active Directory;
-6. ProjectDiscovery documentation for ProjectDiscovery tools;
-7. specialist practical references such as 0xdf;
+6. ProjectDiscovery documentation;
+7. strong specialist references such as 0xdf;
 8. HackTricks where broader offensive-security context is useful.
 
-Examples:
-
-[0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404){ target="_blank" rel="noopener noreferrer" }
+Useful references:
 
 [PortSwigger Web Security Academy](https://portswigger.net/web-security){ target="_blank" rel="noopener noreferrer" }
 
@@ -2043,15 +1392,13 @@ Examples:
 
 [Microsoft Learn](https://learn.microsoft.com/){ target="_blank" rel="noopener noreferrer" }
 
-[HackTricks](https://book.hacktricks.wiki/){ target="_blank" rel="noopener noreferrer" }
+[0xdf - Default 404 Pages](https://0xdf.gitlab.io/cheatsheets/404){ target="_blank" rel="noopener noreferrer" }
 
-External references complement these notes; they do not replace validation of the target environment.
+[HackTricks](https://book.hacktricks.wiki/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 # Related Knowledge Base Sections
-
-The Tools section connects directly to the main security disciplines documented on this site.
 
 [Web Application Security](../web/index.md)
 
@@ -2075,40 +1422,53 @@ The Tools section connects directly to the main security disciplines documented 
 
 ---
 
-# Final Testing Model
+# Final Tooling Model
 
-Use tools to improve visibility, consistency, and coverage.
-
-Do not allow the tool to become the conclusion.
+Do not use security tools like this:
 
 ```text
-Question
+Run Tool
    |
    v
-Methodology
+Read Highlight
    |
    v
-Tool
-   |
-   v
-Observation
-   |
-   v
-Interpretation
-   |
-   v
-Manual Validation
-   |
-   v
-Corroborating Evidence
-   |
-   v
-Conclusion
-   |
-   v
-Remediation
-   |
-   v
+Report Finding
+```
+
+Use them like this:
+
+```text
+Security Question
+       |
+       v
+Understand Methodology
+       |
+       v
+Choose Appropriate Tool
+       |
+       v
+Collect Observation
+       |
+       v
+Interpret Context
+       |
+       v
+Validate Manually
+       |
+       v
+Correlate Evidence
+       |
+       v
+Determine Supported Impact
+       |
+       v
+Report
+       |
+       v
+Remediate
+       |
+       v
 Retest
 ```
 
@@ -2119,7 +1479,7 @@ It is knowing:
 - what question to ask;
 - which tool can help answer it;
 - what the output actually means;
-- when the output may be wrong;
+- when that output may be misleading;
 - how to validate it;
 - how it connects to the underlying security concept;
 - and when enough evidence exists to support a defensible conclusion.
