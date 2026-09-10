@@ -6,11 +6,11 @@
 
 # Security Knowledge Base
 
-Practical notes covering **offensive security**, **penetration testing**, **red teaming**, **vulnerability research**, **Active Directory**, **Windows**, **Linux** and **purple teaming**.
+Practical notes for **offensive security**, **penetration testing**, **red teaming**, **purple teaming**, **vulnerability research**, **source code review**, **Active Directory**, **Windows** and **Linux**.
 
 <span class="security-badge">OFFENSIVE SECURITY</span>
+<span class="security-badge">SECURITY RESEARCH</span>
 <span class="security-badge">RED TEAMING</span>
-<span class="security-badge">VULNERABILITY RESEARCH</span>
 <span class="security-badge">PURPLE TEAMING</span>
 
 </div>
@@ -19,12 +19,12 @@ Practical notes covering **offensive security**, **penetration testing**, **red 
 
 !!! warning "Authorised Security Testing"
 
-    The material in these notes is intended for educational purposes, security research and authorised security testing.
+    The material in these notes is intended for educational purposes, security research and authorised security testing only.
 
 
 ## Start Here
 
-Use the knowledge base to study security topics in depth, or jump directly into the practical references when working through an authorised security assessment or lab.
+Use the knowledge base to study a security topic in depth or jump directly into practical references during an authorised assessment, lab or research project.
 
 <div class="grid cards" markdown>
 
@@ -32,15 +32,23 @@ Use the knowledge base to study security topics in depth, or jump directly into 
 
     ---
 
-    Detailed security notes covering concepts, methodology, testing approaches, security impact, detection and remediation.
+    Study security concepts, methodology, testing approaches, impact, detection, remediation and retesting.
 
     [:octicons-arrow-right-24: Explore the Knowledge Base](#explore-the-knowledge-base)
+
+-   :material-tools:{ .lg .middle } **Need a Security Tool?**
+
+    ---
+
+    Practical tooling workflows for web enumeration, application testing, privilege escalation, red teaming, vulnerability research and AI-assisted security testing.
+
+    [:octicons-arrow-right-24: Open Tools](tools/index.md)
 
 -   :material-file-document-multiple-outline:{ .lg .middle } **Testing Right Now?**
 
     ---
 
-    Practical cheatsheets with commands, workflows, expected results, interpretation and next steps for security assessments.
+    Use practical cheatsheets for commands, workflows, expected results, interpretation and next steps.
 
     [:octicons-arrow-right-24: Open Cheatsheets](cheatsheets/index.md)
 
@@ -48,7 +56,7 @@ Use the knowledge base to study security topics in depth, or jump directly into 
 
     ---
 
-    Search Windows and Linux privilege escalation techniques by services, permissions, scheduled tasks, SUID binaries, capabilities, credentials and more.
+    Investigate Windows and Linux privilege escalation candidates including services, permissions, scheduled execution, SUID binaries, capabilities and credentials.
 
     [:octicons-arrow-right-24: Open PrivEsc Explorer](privesc/index.md)
 
@@ -60,14 +68,167 @@ Use the knowledge base to study security topics in depth, or jump directly into 
 
     [:octicons-arrow-right-24: Red Teaming](red-teaming/index.md)
 
+-   :material-shield-half-full:{ .lg .middle } **Validating Detection?**
+
+    ---
+
+    Connect offensive techniques with detection engineering, knowledge transfer, measurement and continuous security improvement.
+
+    [:octicons-arrow-right-24: Purple Teaming](purple-teaming/index.md)
+
 </div>
+
+
+## Explore the Knowledge Base
+
+<div class="grid cards" markdown>
+
+-   :material-web:{ .lg .middle } **Web Application Security**
+
+    ---
+
+    Reconnaissance, authentication, authorisation, injection, server-side attacks, APIs, HTTP security, browser security and application logic.
+
+    [:octicons-arrow-right-24: Web Security Notes](web/index.md)
+
+-   :material-code-braces:{ .lg .middle } **Source Code Review**
+
+    ---
+
+    Routes and entry points, source-to-sink analysis, authentication, authorisation, secrets, variant analysis and static analysis.
+
+    [:octicons-arrow-right-24: Source Code Review](source-code-review/index.md)
+
+-   :material-microsoft-windows:{ .lg .middle } **Active Directory**
+
+    ---
+
+    Enumeration, Kerberos, NTLM, AD CS, delegation, credential access, attack paths, privilege escalation and lateral movement.
+
+    [:octicons-arrow-right-24: Active Directory Notes](active-directory/index.md)
+
+-   :material-microsoft-windows-classic:{ .lg .middle } **Windows**
+
+    ---
+
+    Windows enumeration, PowerShell, services, scheduled tasks, credentials, permissions, security controls and privilege escalation.
+
+    [:octicons-arrow-right-24: Windows Notes](windows/index.md)
+
+-   :material-linux:{ .lg .middle } **Linux**
+
+    ---
+
+    Linux enumeration, services, scheduled jobs, filesystem permissions, sudo, SUID/SGID, capabilities, credentials and privilege escalation.
+
+    [:octicons-arrow-right-24: Linux Notes](linux/index.md)
+
+-   :material-shield-key:{ .lg .middle } **PrivEsc Explorer**
+
+    ---
+
+    Interactive Windows and Linux privilege escalation reference for investigating discovered services, permissions, capabilities, scheduled execution and other candidates.
+
+    [:octicons-arrow-right-24: PrivEsc Explorer](privesc/index.md)
+
+-   :material-console:{ .lg .middle } **Red Teaming**
+
+    ---
+
+    Infrastructure, OPSEC, reconnaissance, initial access, execution, discovery, credential access, lateral movement, persistence, C2, exfiltration and reporting.
+
+    [:octicons-arrow-right-24: Red Team Notes](red-teaming/index.md)
+
+-   :material-shield-half-full:{ .lg .middle } **Purple Teaming**
+
+    ---
+
+    Exercises, MITRE ATT&CK, detection engineering, knowledge transfer, measurement, after-action review and continuous validation.
+
+    [:octicons-arrow-right-24: Purple Team Notes](purple-teaming/index.md)
+
+-   :material-shield-search:{ .lg .middle } **Vulnerability Research**
+
+    ---
+
+    Attack-surface analysis, debugging, fuzzing, crash analysis, patch diffing, variant analysis, PoC development, CVE research and responsible disclosure.
+
+    [:octicons-arrow-right-24: Vulnerability Research](vulnerability-research/index.md)
+
+-   :material-tools:{ .lg .middle } **Tools**
+
+    ---
+
+    Practical workflows for web enumeration, web testing, privilege escalation, Active Directory, red teaming, vulnerability research and AI-assisted security testing.
+
+    [:octicons-arrow-right-24: Security Tools](tools/index.md)
+
+-   :material-file-document-multiple-outline:{ .lg .middle } **Cheatsheets**
+
+    ---
+
+    Fast practical references for commands, tools, workflows, prerequisites, representative output, interpretation and next steps.
+
+    [:octicons-arrow-right-24: Cheatsheets](cheatsheets/index.md)
+
+</div>
+
+
+## Practical Reference Layer
+
+The knowledge base is designed around several complementary layers.
+
+```text
+Need to understand a security topic?
+        |
+        v
+Detailed Security Notes
+
+
+Need a practical tool workflow?
+        |
+        v
+Tools
+
+
+Testing something right now?
+        |
+        v
+Cheatsheets
+
+
+Found a privilege escalation candidate?
+        |
+        v
+PrivEsc Explorer
+
+
+Need a complete offensive workflow?
+        |
+        v
+Red Teaming
+
+
+Need to validate detection and learning?
+        |
+        v
+Purple Teaming
+```
+
+The detailed notes explain the security concept.
+
+The Tools section explains how individual tools fit into practical assessment workflows.
+
+The Cheatsheets provide fast command and procedure references.
+
+The PrivEsc Explorer helps convert enumeration results into structured privilege escalation validation paths.
 
 
 ## Practical Cheatsheets
 
-The cheatsheets are the **hands-on reference layer** of the knowledge base.
+The cheatsheets are the fast-reference layer of the knowledge base.
 
-They are designed for situations where you already understand the underlying concept and need to quickly answer questions such as:
+They are designed for situations where you already understand the underlying topic and need to quickly answer:
 
 ```text
 What should I check?
@@ -78,7 +239,7 @@ What prerequisites are required?
 
 What should the result look like?
 
-What does the output mean?
+What does the result mean?
 
 What should I verify next?
 ```
@@ -89,7 +250,7 @@ What should I verify next?
 
     ---
 
-    Linux enumeration, users, permissions, services, networking, credentials and privilege escalation quick references.
+    Enumeration, users, permissions, services, networking, credentials and privilege escalation.
 
     [:octicons-arrow-right-24: Linux Cheatsheet](cheatsheets/linux.md)
 
@@ -97,7 +258,7 @@ What should I verify next?
 
     ---
 
-    Windows enumeration, users, groups, services, processes, permissions, security controls and privilege escalation workflows.
+    Enumeration, users, groups, services, processes, permissions, security controls and privilege escalation.
 
     [:octicons-arrow-right-24: Windows Cheatsheet](cheatsheets/windows.md)
 
@@ -109,27 +270,27 @@ What should I verify next?
 
     [:octicons-arrow-right-24: PowerShell Cheatsheet](cheatsheets/powershell.md)
 
--   :material-network:{ .lg .middle } **Networking**
-
-    ---
-
-    Network discovery, DNS, ports, connectivity, routing, tunnelling and common network troubleshooting references.
-
-    [:octicons-arrow-right-24: Networking Cheatsheet](cheatsheets/networking.md)
-
 -   :material-web:{ .lg .middle } **Web Application Security**
 
     ---
 
-    Practical web testing workflows for authentication, authorisation, injection, SSRF, file handling, APIs, HTTP and other common attack surfaces.
+    Practical web testing workflows covering authentication, authorisation, injection, server-side vulnerabilities, APIs and HTTP security.
 
     [:octicons-arrow-right-24: Web Cheatsheet](cheatsheets/web.md)
+
+-   :material-network:{ .lg .middle } **Networking**
+
+    ---
+
+    Network discovery, DNS, ports, connectivity, routing and traffic-analysis references.
+
+    [:octicons-arrow-right-24: Networking Cheatsheet](cheatsheets/networking.md)
 
 -   :material-microsoft-windows:{ .lg .middle } **Active Directory**
 
     ---
 
-    Active Directory enumeration, authentication, Kerberos, NTLM, AD CS, delegation, credential access and attack-path workflows.
+    Enumeration, authentication, Kerberos, NTLM, AD CS, delegation, credential access and attack-path workflows.
 
     [:octicons-arrow-right-24: Active Directory Cheatsheet](cheatsheets/active-directory.md)
 
@@ -137,7 +298,7 @@ What should I verify next?
 
     ---
 
-    Practical NetExec reference for authentication, SMB, hosts, shares, users, groups and Active Directory assessment workflows.
+    Authentication, SMB, hosts, shares, users, groups and Active Directory assessment workflows.
 
     [:octicons-arrow-right-24: NetExec Cheatsheet](cheatsheets/netexec.md)
 
@@ -145,7 +306,7 @@ What should I verify next?
 
     ---
 
-    Practical Impacket reference covering authentication, SMB, Kerberos, remote administration and Active Directory tooling.
+    SMB, Kerberos, authentication, remote administration and Active Directory tooling.
 
     [:octicons-arrow-right-24: Impacket Cheatsheet](cheatsheets/impacket.md)
 
@@ -153,7 +314,7 @@ What should I verify next?
 
     ---
 
-    BloodHound collection, data import, analysis, attack paths, Cypher queries and interpretation.
+    Collection, data import, analysis, attack paths, Cypher queries and interpretation.
 
     [:octicons-arrow-right-24: BloodHound Cheatsheet](cheatsheets/bloodhound.md)
 
@@ -162,153 +323,78 @@ What should I verify next?
 [:octicons-arrow-right-24: Browse All Cheatsheets](cheatsheets/index.md)
 
 
-## Explore the Knowledge Base
-
-<div class="grid cards" markdown>
-
--   :material-web:{ .lg .middle } **Web Application Security**
-
-    ---
-
-    Reconnaissance, authentication, authorisation, injection, server-side attacks, APIs, HTTP security and web application vulnerability research.
-
-    [:octicons-arrow-right-24: Web Security Notes](web/index.md)
-
--   :material-code-braces:{ .lg .middle } **Source Code Review**
-
-    ---
-
-    Source-to-sink analysis, routes and entry points, secrets, variant analysis, static analysis and framework-specific secure code review.
-
-    [:octicons-arrow-right-24: Source Code Review](source-code-review/index.md)
-
--   :material-microsoft-windows:{ .lg .middle } **Active Directory**
-
-    ---
-
-    Enumeration, Kerberos, NTLM, AD CS, delegation, credential access, privilege escalation and lateral movement.
-
-    [:octicons-arrow-right-24: Active Directory Notes](active-directory/index.md)
-
--   :material-console:{ .lg .middle } **Red Teaming**
-
-    ---
-
-    Infrastructure, reconnaissance, initial access, execution, discovery, credential access, lateral movement, persistence, C2, detection validation and reporting.
-
-    [:octicons-arrow-right-24: Red Team Notes](red-teaming/index.md)
-
--   :material-shield-half-full:{ .lg .middle } **Purple Teaming**
-
-    ---
-
-    Red and blue team collaboration, adversary emulation, MITRE ATT&CK, detection validation, knowledge transfer and continuous security improvement.
-
-    [:octicons-arrow-right-24: Purple Team Notes](purple-teaming/index.md)
-
--   :material-linux:{ .lg .middle } **Linux**
-
-    ---
-
-    Linux enumeration, services, credentials, security testing and privilege escalation.
-
-    [:octicons-arrow-right-24: Linux Notes](linux/index.md)
-
--   :material-microsoft-windows-classic:{ .lg .middle } **Windows**
-
-    ---
-
-    Windows enumeration, PowerShell, services, credentials, security controls and privilege escalation.
-
-    [:octicons-arrow-right-24: Windows Notes](windows/index.md)
-
--   :material-shield-key:{ .lg .middle } **PrivEsc Explorer**
-
-    ---
-
-    Interactive Windows and Linux privilege escalation reference for quickly investigating discovered services, permissions, capabilities, scheduled tasks and other candidates.
-
-    [:octicons-arrow-right-24: PrivEsc Explorer](privesc/index.md)
-
--   :material-shield-search:{ .lg .middle } **Vulnerability Research**
-
-    ---
-
-    Vulnerability discovery, research methodology, CVE research and responsible disclosure.
-
-    [:octicons-arrow-right-24: Vulnerability Research](vulnerability-research/index.md)
-
--   :material-tools:{ .lg .middle } **Tools**
-
-    ---
-
-    Security tooling, commands, installation notes and practical references used during assessments.
-
-    [:octicons-arrow-right-24: Security Tools](tools/index.md)
-
--   :material-file-document-multiple-outline:{ .lg .middle } **Cheatsheets**
-
-    ---
-
-    Practical quick references for commands, tools, workflows, expected results, interpretation and next steps.
-
-    [:octicons-arrow-right-24: Cheatsheets](cheatsheets/index.md)
-
-</div>
-
-
 ## How to Use These Notes
 
-The knowledge base is organised into complementary layers.
-
-```text
-Need to understand a topic?
-        |
-        v
-Detailed Security Notes
-
-
-Testing something right now?
-        |
-        v
-Practical Cheatsheets
-
-
-Found a privilege escalation candidate?
-        |
-        v
-PrivEsc Explorer
-
-
-Need a specific command?
-        |
-        v
-Tool and Cheatsheet References
-
-
-Need the complete assessment process?
-        |
-        v
-Methodology and Red Teaming Notes
-```
-
-### Detailed Notes
+### Detailed Security Notes
 
 Use the main topic sections when you want to understand:
 
 - how a vulnerability or technique works;
 - where it applies;
-- the security impact;
+- required conditions;
+- security impact;
 - testing methodology;
 - defensive considerations;
-- remediation; and
+- remediation;
+- retesting;
 - related techniques.
+
+The objective is to understand the underlying security behaviour rather than memorise individual commands.
+
+
+### Tools
+
+Use the [Tools](tools/index.md) section when you know which type of activity you need to perform and want a practical tool workflow.
+
+Examples include:
+
+```text
+Technology identification
+        |
+        v
+WhatWeb / Wappalyzer / httpx
+
+
+Web application testing
+        |
+        v
+Burp Suite / ffuf / Katana / Nuclei / sqlmap / Interactsh
+
+
+Windows privilege escalation enumeration
+        |
+        v
+WinPEAS / PowerUp / PrivescCheck
+
+
+Linux privilege escalation enumeration
+        |
+        v
+LinPEAS / linux-smart-enumeration
+
+
+Red team operations
+        |
+        v
+C2 framework selection and operational planning
+
+
+Vulnerability research
+        |
+        v
+Debugging / reverse engineering / fuzzing / tracing
+```
+
+A tool result is not automatically a vulnerability.
+
+The result should feed back into the underlying methodology and security concept.
+
 
 ### Cheatsheets
 
-Use the cheatsheets when you need a practical reference during an assessment.
+Use the [Cheatsheets](cheatsheets/index.md) when you need a fast practical reference during testing.
 
-The cheatsheets focus on:
+The general model is:
 
 ```text
 Prerequisites
@@ -326,16 +412,25 @@ Interpretation
 Next Step
 ```
 
-The objective is not simply to provide commands. The practical references should help explain what the result means and what should be verified next.
+The objective is not simply to provide commands.
+
+The practical references should explain what the result means and what should be verified next.
+
 
 ### PrivEsc Explorer
 
-Use the PrivEsc Explorer when enumeration has already identified something interesting.
+Use the [PrivEsc Explorer](privesc/index.md) after enumeration identifies something potentially interesting.
 
 For example:
 
 ```text
 Writable Service
+        |
+        v
+Windows PrivEsc Explorer
+
+
+Scheduled Task
         |
         v
 Windows PrivEsc Explorer
@@ -351,45 +446,43 @@ Linux Capability
         |
         v
 Linux PrivEsc Explorer
-
-
-Scheduled Task
-        |
-        v
-Windows PrivEsc Explorer
 ```
 
-The explorer helps turn enumeration results into structured validation paths.
+The explorer helps turn enumeration findings into structured validation paths.
 
 
 ## Core Security Areas
 
-The knowledge base covers several connected areas of security testing.
+The different sections are designed to connect rather than operate as isolated collections of notes.
 
 ```text
-                        SECURITY TESTING
-                              |
-          +-------------------+-------------------+
-          |                   |                   |
-          v                   v                   v
-         Web             Infrastructure      Source Code
-          |                   |                   |
-          v                   v                   v
-     Applications         Windows/Linux       Static Analysis
+                         SECURITY TESTING
+                               |
+        +----------------------+----------------------+
+        |                      |                      |
+        v                      v                      v
+       Web                Infrastructure          Source Code
+        |                      |                      |
+        v                      v                      v
+ Applications           Windows / Linux       Static + Manual Review
+        |                      |                      |
+        |                      v                      |
+        |               Active Directory             |
+        |                      |                      |
+        +-----------+----------+----------------------+
+                    |
+                    v
+               Red Teaming
+                    |
+          +---------+---------+
           |                   |
-          |                   v
-          |             Active Directory
+          v                   v
+    Purple Teaming      Vulnerability Research
           |                   |
           +---------+---------+
                     |
                     v
-                Red Teaming
-                    |
-                    v
-               Purple Teaming
-                    |
-                    v
-          Detection Improvement
+          Security Improvement
 ```
 
 
@@ -425,14 +518,14 @@ Remediate
 Retest
 ```
 
-A discovered configuration, permission, endpoint, service or security-control behaviour should not automatically be treated as a confirmed vulnerability.
+A discovered configuration, permission, endpoint, service, tool result or security-control behaviour should not automatically be treated as a confirmed vulnerability.
 
 The surrounding context and evidence determine what the observation actually proves.
 
 
 ## Evidence Before Conclusions
 
-During security testing, distinguish between:
+A recurring principle throughout the knowledge base is to distinguish between:
 
 ```text
 Candidate
@@ -444,7 +537,7 @@ Potentially interesting observation
 Likely
    |
    v
-Multiple prerequisites appear to be present
+Multiple required conditions appear to exist
 
 
 Confirmed
@@ -453,36 +546,93 @@ Confirmed
 Controlled validation demonstrates the security impact
 ```
 
-This distinction is especially important when assessing:
+This distinction is particularly important when assessing:
+
+- authentication;
+- authorisation;
+- permissions;
+- privilege escalation;
+- credential access;
+- network exposure;
+- application behaviour;
+- security controls;
+- attack paths;
+- scanner findings.
+
+
+## From Tool Output to Finding
+
+Security tools produce observations.
+
+The assessment process determines whether those observations represent a vulnerability.
 
 ```text
-Permissions
-
-Privilege escalation paths
-
-Authorisation
-
-Authentication
-
-Security controls
-
-Network exposure
-
-Credential access
-
-Attack paths
+Tool Output
+     |
+     v
+Observation
+     |
+     v
+Context
+     |
+     v
+Hypothesis
+     |
+     v
+Controlled Validation
+     |
+     v
+Evidence
+     |
+     v
+Security Conclusion
 ```
+
+For example:
+
+```text
+WinPEAS reports writable directory
+              |
+              v
+Check exact ACL
+              |
+              v
+Determine execution context
+              |
+              v
+Identify privileged dependency
+              |
+              v
+Validate controlled impact
+```
+
+or:
+
+```text
+Nuclei reports CVE candidate
+              |
+              v
+Read template
+              |
+              v
+Verify product/version
+              |
+              v
+Reproduce manually
+              |
+              v
+Confirm or reject
+```
+
+This is the difference between collecting tool output and performing security testing.
 
 
 ## Offensive and Defensive Perspective
 
-The notes cover both how security weaknesses can be identified and how organisations can understand and defend against them.
+The notes connect offensive testing with defensive understanding.
 
 ```text
-Offensive Perspective
-        |
-        v
-Technique
+Offensive Technique
         |
         v
 System Behaviour
@@ -498,16 +648,93 @@ Response
         |
         v
 Remediation
+        |
+        v
+Retest
 ```
 
-This is particularly important for red teaming and purple teaming, where successful execution is only one part of the assessment.
+This is especially important for red teaming and purple teaming, where successful technique execution is only one part of the assessment.
+
+The broader objective is measurable security improvement.
+
+
+## Vulnerability Research Perspective
+
+Vulnerability research follows a similar evidence-driven process:
+
+```text
+Attack Surface
+      |
+      v
+Interesting Component
+      |
+      v
+Static / Dynamic Analysis
+      |
+      v
+Security Hypothesis
+      |
+      v
+Controlled Testing / Fuzzing
+      |
+      v
+Reproducible Condition
+      |
+      v
+Root Cause
+      |
+      v
+Supported Impact
+      |
+      v
+Variant Analysis
+      |
+      v
+PoC
+      |
+      v
+Responsible Disclosure
+```
+
+Related section:
+
+[Vulnerability Research](vulnerability-research/index.md)
+
+
+## Source Code Review Perspective
+
+Source code review helps connect externally visible behaviour to implementation.
+
+```text
+Entry Point
+    |
+    v
+User-Controlled Data
+    |
+    v
+Validation / Transformation
+    |
+    v
+Sensitive Sink
+    |
+    v
+Security Decision
+```
+
+Static analysis tools help identify candidates.
+
+Manual source-to-sink analysis determines whether the path is meaningful.
+
+Related section:
+
+[Source Code Review](source-code-review/index.md)
 
 
 ## About This Knowledge Base
 
-This knowledge base documents practical techniques, methodologies, tooling and research across offensive and defensive cybersecurity.
+This knowledge base documents practical techniques, methodology, tooling and research across offensive and defensive cybersecurity.
 
-It is designed to serve several purposes:
+It is intended to support several complementary activities:
 
 ```text
 Study
@@ -519,7 +746,7 @@ Understand security concepts
 Reference
   |
   v
-Quickly find commands and procedures
+Find commands, tools and procedures
 
 
 Assess
@@ -528,10 +755,16 @@ Assess
 Support authorised security testing
 
 
+Research
+  |
+  v
+Investigate vulnerabilities and software behaviour
+
+
 Interpret
   |
   v
-Understand what test results mean
+Understand what evidence actually proves
 
 
 Improve
@@ -546,13 +779,19 @@ Document
 Preserve reusable security knowledge
 ```
 
-The detailed notes provide the background and methodology.
+The detailed notes provide background, methodology and interpretation.
 
-The cheatsheets provide the fast practical reference.
+The Tools section connects security tooling to practical workflows.
+
+The Cheatsheets provide fast operational references.
 
 The PrivEsc Explorer helps investigate privilege escalation candidates.
 
-The red and purple teaming sections connect individual techniques into broader attack, detection and improvement workflows.
+The Red Teaming section connects individual techniques into complete offensive workflows.
+
+The Purple Teaming section connects offensive activity with detection, learning, measurement and continuous improvement.
+
+The Vulnerability Research section focuses on identifying, understanding, validating and responsibly documenting software vulnerabilities.
 
 
 <div class="terminal">
@@ -565,9 +804,14 @@ Research. Learn. Test. Understand. Improve. Share.
     These notes are continuously expanded as new techniques, research, tooling and defensive approaches are explored.
 
 
+!!! tip "Need a practical tool?"
+
+    Start with the [Tools](tools/index.md) section for practical workflows involving web enumeration, web testing, privilege escalation, red teaming, vulnerability research and AI-assisted security testing.
+
+
 !!! tip "Looking for commands?"
 
-    Start with the [Cheatsheets](cheatsheets/index.md). They are intended to provide the quickest route to practical commands, workflows, expected results and interpretation.
+    Start with the [Cheatsheets](cheatsheets/index.md) for quick access to practical commands, workflows, expected results and interpretation.
 
 
 !!! tip "Found a privilege escalation candidate?"
