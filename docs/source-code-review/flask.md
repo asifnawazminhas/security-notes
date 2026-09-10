@@ -1991,9 +1991,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -2046,9 +2044,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2283,9 +2279,7 @@ Do not automatically flag it as path traversal.
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2452,9 +2446,7 @@ Do not flag `safe_load()` merely because YAML is involved.
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -3165,9 +3157,7 @@ This deserves careful field-level analysis.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -3413,9 +3403,7 @@ Validate actual responses.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -3434,9 +3422,7 @@ Again, reverse proxies may supply these headers.
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](../web/clickjacking.md)
 
 ---
 
@@ -3485,10 +3471,9 @@ Determine whether the cache varies appropriately for authenticated users.
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
 
 ---
 
@@ -3662,9 +3647,7 @@ Use secret-scanning tools where authorised.
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](../web/secrets-exposure.md)
 
 ---
 

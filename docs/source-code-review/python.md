@@ -516,9 +516,7 @@ rg -n \
 
 Django is covered in more detail in:
 
-```text
-docs/source-code-review/django.md
-```
+[Django Source Code Review](django.md)
 
 ---
 
@@ -1103,9 +1101,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -1162,9 +1158,7 @@ Determine whether the attacker controls the query structure.
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -1671,9 +1665,7 @@ rg -n \
 
 Django-specific behaviour is covered in:
 
-```text
-docs/source-code-review/django.md
-```
+[Django Source Code Review](django.md)
 
 ---
 
@@ -2037,9 +2029,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2202,10 +2192,9 @@ Trace whether archive-controlled names can escape the destination.
 
 Refer to:
 
-```text
-docs/web/file-upload.md
-docs/web/path-traversal.md
-```
+[File Upload Security](../web/file-upload.md)
+
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2360,9 +2349,7 @@ Treat these as high-value deserialization review targets.
 
 Refer to:
 
-```text
-docs/web/deserialization.md
-```
+[Insecure Deserialization](../web/deserialization.md)
 
 ---
 
@@ -2525,9 +2512,7 @@ Review actual usage rather than simply noting the dependency.
 
 Refer to:
 
-```text
-docs/web/xxe.md
-```
+[XML External Entity Injection](../web/xxe.md)
 
 ---
 
@@ -2647,9 +2632,7 @@ Prefer trusted application configuration when generating security-sensitive abso
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -2799,9 +2782,7 @@ Check deployment and framework configuration.
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](../web/session-management.md)
 
 ---
 
@@ -2870,9 +2851,7 @@ Trace actual configuration and code paths.
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -3474,9 +3453,7 @@ Review state shared between asynchronous requests/tasks.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -3522,9 +3499,7 @@ If rate limiting depends on IP addresses, review trusted-proxy handling.
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -4043,9 +4018,7 @@ Do not report request smuggling solely from application code.
 
 Refer to:
 
-```text
-docs/web/http-request-smuggling.md
-```
+[HTTP Request Smuggling](../web/http-request-smuggling.md)
 
 ---
 
@@ -4437,9 +4410,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/api-security.md
-```
+[API Security](../web/api-security.md)
 
 ---
 

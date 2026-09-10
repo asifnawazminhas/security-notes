@@ -3038,13 +3038,15 @@ getenforce
 
 The following Linux pages build further on the permission relationships described here:
 
-```text
-sudo.md
-scheduled-jobs.md
-suid-sgid.md
-capabilities.md
-security-controls.md
-```
+[sudo Security](sudo.md)
+
+[Linux Scheduled Jobs](scheduled-jobs.md)
+
+[Linux SUID and SGID Security](suid-sgid.md)
+
+[Linux Capabilities Security](capabilities.md)
+
+[Linux Security Controls](security-controls.md)
 
 ---
 

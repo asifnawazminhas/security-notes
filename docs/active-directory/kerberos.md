@@ -328,9 +328,7 @@ AS-REP Roasting
 
 Detailed testing belongs in:
 
-```text
-active-directory/asrep-roasting.md
-```
+[AS-REP Roasting](asrep-roasting.md)
 
 ---
 
@@ -1306,9 +1304,7 @@ TGT
 
 Detailed methodology belongs in:
 
-```text
-active-directory/pass-the-key.md
-```
+[Pass-the-Key](pass-the-key.md)
 
 ---
 
@@ -1330,9 +1326,7 @@ TGT
 
 Detailed testing belongs in:
 
-```text
-active-directory/overpass-the-hash.md
-```
+[OverPass-the-Hash](overpass-the-hash.md)
 
 ---
 
@@ -1354,9 +1348,7 @@ Kerberos Service Access
 
 Ticket handling is covered in:
 
-```text
-active-directory/kerberos-tickets.md
-```
+[Kerberos Tickets](kerberos-tickets.md)
 
 ---
 
@@ -1400,9 +1392,7 @@ Service ticket can be requested
 
 Detailed methodology belongs in:
 
-```text
-active-directory/kerberoasting.md
-```
+[Kerberoasting](kerberoasting.md)
 
 ---
 
@@ -1441,9 +1431,7 @@ Offline Password Analysis
 
 Detailed methodology belongs in:
 
-```text
-active-directory/asrep-roasting.md
-```
+[AS-REP Roasting](asrep-roasting.md)
 
 ---
 
@@ -1545,9 +1533,7 @@ Potential ability to act using delegated credentials
 
 See:
 
-```text
-active-directory/unconstrained-delegation.md
-```
+[Unconstrained Delegation](unconstrained-delegation.md)
 
 ---
 
@@ -1565,9 +1551,7 @@ Specific Service B
 
 See:
 
-```text
-active-directory/constrained-delegation.md
-```
+[Constrained Delegation](constrained-delegation.md)
 
 ---
 
@@ -1587,9 +1571,7 @@ Computer B
 
 See:
 
-```text
-active-directory/rbcd.md
-```
+[Resource-Based Constrained Delegation](rbcd.md)
 
 ---
 
@@ -1620,9 +1602,7 @@ Service obtains ticket to another permitted service
 
 See:
 
-```text
-active-directory/s4u.md
-```
+[Kerberos S4U](s4u.md)
 
 ---
 
@@ -1779,9 +1759,7 @@ Cross-domain ACLs
 
 See:
 
-```text
-active-directory/trusts.md
-```
+[Active Directory Domain and Forest Trusts](trusts.md)
 
 ---
 
@@ -2360,9 +2338,7 @@ Service-focused identity management
 
 See:
 
-```text
-active-directory/gmsa.md
-```
+[Group Managed Service Accounts - gMSA](gmsa.md)
 
 ---
 
@@ -2572,9 +2548,7 @@ This represents domain-level compromise.
 
 Detailed discussion belongs in:
 
-```text
-active-directory/kerberos-tickets.md
-```
+[Kerberos Tickets](kerberos-tickets.md)
 
 ---
 

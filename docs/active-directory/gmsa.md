@@ -2069,9 +2069,7 @@ Alternative Authentication
 
 A dedicated page should cover:
 
-```text
-active-directory/shadow-credentials.md
-```
+[Active Directory Shadow Credentials](shadow-credentials.md)
 
 ---
 

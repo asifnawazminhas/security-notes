@@ -649,9 +649,7 @@ Target Computer
 
 LAPS should be covered in detail in:
 
-```text
-active-directory/laps.md
-```
+[Active Directory LAPS](laps.md)
 
 ---
 
@@ -774,9 +772,7 @@ Authenticate as gMSA
 
 A dedicated page should cover:
 
-```text
-active-directory/gmsa.md
-```
+[Group Managed Service Accounts - gMSA](gmsa.md)
 
 ---
 
@@ -816,9 +812,7 @@ This should be treated as credential-access and persistence-related behaviour.
 
 A dedicated page should cover:
 
-```text
-active-directory/shadow-credentials.md
-```
+[Active Directory Shadow Credentials](shadow-credentials.md)
 
 ---
 
@@ -1424,9 +1418,7 @@ Access to this data represents severe credential exposure.
 
 A dedicated page should cover:
 
-```text
-active-directory/ntds.md
-```
+[NTDS.dit and Active Directory Credential Extraction](ntds.md)
 
 ---
 

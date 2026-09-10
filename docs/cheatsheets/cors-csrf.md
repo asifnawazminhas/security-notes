@@ -4526,14 +4526,17 @@ Have session cookies and tokens been redacted from evidence?
 
 Useful deeper notes include:
 
-```text
-docs/web/cors.md
-docs/web/csrf.md
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/api-security.md
-docs/web/clickjacking.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
+
+[Cross-Site Request Forgery](../web/csrf.md)
+
+[Authentication Testing](../web/authentication.md)
+
+[Authorisation Testing](../web/authorisation.md)
+
+[API Security](../web/api-security.md)
+
+[Clickjacking](../web/clickjacking.md)
 
 
 # References

@@ -2324,9 +2324,7 @@ Each permission should be evaluated independently.
 
 A dedicated page should cover:
 
-```text
-active-directory/shadow-credentials.md
-```
+[Active Directory Shadow Credentials](shadow-credentials.md)
 
 ---
 
@@ -2364,9 +2362,7 @@ Both reduce reliance on manually managed reusable passwords.
 
 A dedicated page should cover:
 
-```text
-active-directory/gmsa.md
-```
+[Group Managed Service Accounts - gMSA](gmsa.md)
 
 ---
 
@@ -4151,11 +4147,11 @@ Impacket:
 
 The following Credential Access pages complement LAPS:
 
-```text
-active-directory/gmsa.md
-active-directory/shadow-credentials.md
-active-directory/ntds.md
-```
+[Group Managed Service Accounts - gMSA](gmsa.md)
+
+[Active Directory Shadow Credentials](shadow-credentials.md)
+
+[NTDS.dit and Active Directory Credential Extraction](ntds.md)
 
 ---
 

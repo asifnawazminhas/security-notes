@@ -4676,13 +4676,15 @@ Have access tokens, refresh tokens, codes and secrets been redacted from evidenc
 
 Useful deeper notes include:
 
-```text
-docs/web/oauth-oidc.md
-docs/web/jwt.md
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/api-security.md
-```
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
+
+[JSON Web Token Security](../web/jwt.md)
+
+[Authentication Testing](../web/authentication.md)
+
+[Authorisation Testing](../web/authorisation.md)
+
+[API Security](../web/api-security.md)
 
 
 # References

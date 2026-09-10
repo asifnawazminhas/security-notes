@@ -1531,9 +1531,7 @@ Get-ADObject -SearchBase $base -LDAPFilter '(objectClass=pKICertificateTemplate)
 
 More detailed template analysis belongs in:
 
-```text
-active-directory/ad-cs/enumeration.md
-```
+[Active Directory Certificate Services Enumeration](enumeration.md)
 
 ---
 

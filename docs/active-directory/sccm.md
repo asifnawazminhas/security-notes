@@ -391,9 +391,7 @@ WSUS
 
 See the planned page:
 
-```text
-docs/active-directory/wsus.md
-```
+[Windows Server Update Services - WSUS](wsus.md)
 
 ---
 
@@ -2957,9 +2955,7 @@ Maintain Revocation
 
 See the AD CS notes:
 
-```text
-docs/active-directory/ad-cs/index.md
-```
+[Active Directory Certificate Services](ad-cs/index.md)
 
 ---
 

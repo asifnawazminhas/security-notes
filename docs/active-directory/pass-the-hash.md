@@ -2838,16 +2838,21 @@ BloodHound:
 
 The following topics complement Pass-the-Hash and can be linked once their dedicated notes are available:
 
-```text
-active-directory/overpass-the-hash.md
-active-directory/pass-the-key.md
-active-directory/ntlm-relay.md
-active-directory/lateral-movement.md
-active-directory/smb.md
-active-directory/winrm.md
-active-directory/wmi.md
-active-directory/laps.md
-```
+[OverPass-the-Hash](overpass-the-hash.md)
+
+[Pass-the-Key](pass-the-key.md)
+
+[NTLM Relay](ntlm-relay.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Active Directory SMB - Enumeration, Authentication and Lateral Movement](smb.md)
+
+[Active Directory WinRM - PowerShell Remoting and Lateral Movement](winrm.md)
+
+[Active Directory WMI - Enumeration, Remote Administration and Lateral Movement](wmi.md)
+
+[Active Directory LAPS](laps.md)
 
 ---
 

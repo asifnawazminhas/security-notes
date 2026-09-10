@@ -1059,9 +1059,7 @@ An Open Redirect requires an existing application mechanism that performs the na
 
 Refer to:
 
-```text
-docs/web/html-injection.md
-```
+[HTML Injection](html-injection.md)
 
 ---
 

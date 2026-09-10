@@ -1998,9 +1998,7 @@ The exact effective permission should be validated.
 
 Future detailed ACL notes:
 
-```text
-active-directory/acl-ace.md
-```
+[Active Directory ACL and ACE Abuse](acl-ace.md)
 
 ---
 
@@ -4287,14 +4285,17 @@ NetExec:
 
 The following topics complement RBCD and can be linked once their dedicated notes are available:
 
-```text
-active-directory/s4u.md
-active-directory/acl-ace.md
-active-directory/machine-account-quota.md
-active-directory/shadow-credentials.md
-active-directory/authentication-coercion.md
-active-directory/lateral-movement.md
-```
+[Kerberos S4U](s4u.md)
+
+[Active Directory ACL and ACE Abuse](acl-ace.md)
+
+[Active Directory Machine Account Quota](machine-account-quota.md)
+
+[Active Directory Shadow Credentials](shadow-credentials.md)
+
+[Active Directory Authentication Coercion](authentication-coercion.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
 
 ---
 

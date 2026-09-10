@@ -4008,9 +4008,7 @@ An endpoint may correctly validate every request but still permit unlimited atte
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](rate-limiting.md)
 
 ---
 

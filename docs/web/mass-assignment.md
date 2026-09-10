@@ -1399,9 +1399,7 @@ grep -RniE \
 
 Refer to:
 
-```text
-docs/web/reconnaissance/javascript-analysis.md
-```
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
 
 ---
 

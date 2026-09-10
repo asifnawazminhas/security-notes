@@ -2114,10 +2114,9 @@ Caching vulnerabilities can become much more serious than a missing header.
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](web-cache-poisoning.md)
+
+[Web Cache Deception](web-cache-deception.md)
 
 ---
 

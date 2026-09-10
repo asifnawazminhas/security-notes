@@ -3135,15 +3135,19 @@ BloodHound:
 
 The following topics complement OverPass-the-Hash and can be linked once their dedicated notes are available:
 
-```text
-active-directory/pass-the-key.md
-active-directory/pass-the-ticket.md
-active-directory/kerberos-tickets.md
-active-directory/lateral-movement.md
-active-directory/smb.md
-active-directory/winrm.md
-active-directory/wmi.md
-```
+[Pass-the-Key](pass-the-key.md)
+
+[Pass-the-Ticket](pass-the-ticket.md)
+
+[Kerberos Tickets](kerberos-tickets.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Active Directory SMB - Enumeration, Authentication and Lateral Movement](smb.md)
+
+[Active Directory WinRM - PowerShell Remoting and Lateral Movement](winrm.md)
+
+[Active Directory WMI - Enumeration, Remote Administration and Lateral Movement](wmi.md)
 
 ---
 

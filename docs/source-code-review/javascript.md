@@ -2031,9 +2031,7 @@ It should not replace safe source-to-sink handling.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -2534,9 +2532,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/cors.md
-```
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
 
 ---
 
@@ -2584,9 +2580,7 @@ Do not conclude CSRF is absent merely because no token is visible in JavaScript.
 
 Refer to:
 
-```text
-docs/web/csrf.md
-```
+[Cross-Site Request Forgery](../web/csrf.md)
 
 ---
 
@@ -3365,9 +3359,7 @@ Browser behaviour and cross-origin response differences must be tested.
 
 Refer to:
 
-```text
-docs/web/xs-leaks.md
-```
+[XS-Leaks](../web/xs-leaks.md)
 
 ---
 

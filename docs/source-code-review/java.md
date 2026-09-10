@@ -1192,9 +1192,7 @@ Then explicitly map permitted fields.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](../web/mass-assignment.md)
 
 ---
 
@@ -1476,9 +1474,7 @@ Then manually trace input into query construction.
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -2053,9 +2049,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/file-inclusion.md
-```
+[File Inclusion](../web/file-inclusion.md)
 
 ---
 
@@ -3754,9 +3748,7 @@ Review transaction boundaries around security-sensitive workflows.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -4147,10 +4139,9 @@ find . -type f \( \
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-docs/source-code-review/javascript.md
-```
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
+
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 ---
 

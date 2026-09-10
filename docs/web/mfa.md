@@ -3077,9 +3077,7 @@ A user must not be able to delete another user's factor.
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-```
+[IDOR and BOLA](idor-bola.md)
 
 ---
 
@@ -3099,9 +3097,7 @@ Unexpected fields should not alter authentication state.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](mass-assignment.md)
 
 ---
 

@@ -3164,16 +3164,21 @@ BloodHound:
 
 The following topics complement Pass-the-Key and can be linked once their dedicated notes are available:
 
-```text
-active-directory/kerberos-tickets.md
-active-directory/pass-the-ticket.md
-active-directory/lateral-movement.md
-active-directory/smb.md
-active-directory/winrm.md
-active-directory/wmi.md
-active-directory/gmsa.md
-active-directory/trusts.md
-```
+[Kerberos Tickets](kerberos-tickets.md)
+
+[Pass-the-Ticket](pass-the-ticket.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Active Directory SMB - Enumeration, Authentication and Lateral Movement](smb.md)
+
+[Active Directory WinRM - PowerShell Remoting and Lateral Movement](winrm.md)
+
+[Active Directory WMI - Enumeration, Remote Administration and Lateral Movement](wmi.md)
+
+[Group Managed Service Accounts - gMSA](gmsa.md)
+
+[Active Directory Domain and Forest Trusts](trusts.md)
 
 ---
 

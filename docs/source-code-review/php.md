@@ -1384,9 +1384,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -1436,9 +1434,7 @@ Determine whether attacker-controlled arrays can introduce query operators.
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -1894,9 +1890,7 @@ returns `false` when the target does not exist, which matters for file-creation 
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2015,9 +2009,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/file-inclusion.md
-```
+[File Inclusion](../web/file-inclusion.md)
 
 ---
 
@@ -2797,9 +2789,7 @@ Determine whether the host is validated or derived from trusted configuration.
 
 Refer to:
 
-```text
-docs/web/host-header-attacks.md
-```
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
 
 ---
 
@@ -3041,9 +3031,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -3706,9 +3694,7 @@ If rate limiting or authorisation depends on client IP, review trusted-proxy con
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 
@@ -4529,9 +4515,7 @@ Review unexpected package repositories.
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 
@@ -4552,10 +4536,9 @@ find . -type f \( \
 
 Refer to:
 
-```text
-docs/web/third-party-javascript.md
-docs/source-code-review/javascript.md
-```
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
+
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 ---
 

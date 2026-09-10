@@ -2794,9 +2794,7 @@ The security conclusion comes from how those building blocks are exposed to the 
 
 The remaining dedicated Linux expansion page is:
 
-```text
-security-controls.md
-```
+[Linux Security Controls](security-controls.md)
 
 ---
 

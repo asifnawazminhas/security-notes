@@ -1402,9 +1402,7 @@ through network infrastructure.
 
 See the planned page:
 
-```text
-docs/active-directory/sccm.md
-```
+[Microsoft Configuration Manager - SCCM](sccm.md)
 
 ---
 
@@ -1420,9 +1418,7 @@ A typical share might resemble:
 
 See:
 
-```text
-docs/active-directory/mdt.md
-```
+[Microsoft Deployment Toolkit - MDT](mdt.md)
 
 ---
 
@@ -1432,9 +1428,7 @@ Windows Server Update Services can also introduce infrastructure and content-man
 
 See:
 
-```text
-docs/active-directory/wsus.md
-```
+[Windows Server Update Services - WSUS](wsus.md)
 
 ---
 

@@ -1612,9 +1612,7 @@ Trace how the resolver handles the file identifier.
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](path-traversal.md)
 
 ---
 
@@ -2028,9 +2026,7 @@ JWT security should be tested independently from GraphQL security.
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 ---
 

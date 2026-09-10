@@ -2503,9 +2503,7 @@ This should trigger SSRF threat modelling.
 
 Refer to:
 
-```text
-docs/web/ssrf.md
-```
+[Server Side Request Forgery](ssrf.md)
 
 ---
 

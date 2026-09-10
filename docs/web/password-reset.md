@@ -2695,9 +2695,7 @@ Unexpected object properties should not influence recovery state.
 
 Refer to:
 
-```text
-docs/web/mass-assignment.md
-```
+[Mass Assignment](mass-assignment.md)
 
 ---
 

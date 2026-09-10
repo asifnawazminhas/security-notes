@@ -1253,9 +1253,7 @@ Authorisation controls whether the user may perform the action.
 
 Refer to:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 
@@ -1626,9 +1624,7 @@ This should be investigated as part of cache behaviour rather than assuming a vu
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-```
+[Web Cache Poisoning](web-cache-poisoning.md)
 
 once that page is added.
 

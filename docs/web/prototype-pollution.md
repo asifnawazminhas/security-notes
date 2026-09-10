@@ -1928,9 +1928,7 @@ If arbitrary nested objects are merged server-side or client-side, prototype pol
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 
@@ -2994,9 +2992,7 @@ when HTML interpretation is not required.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](xss.md)
 
 ---
 

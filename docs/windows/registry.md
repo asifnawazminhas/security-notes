@@ -1719,9 +1719,7 @@ UAC deserves separate analysis.
 
 See the planned note:
 
-```text
-docs/windows/uac.md
-```
+[Windows User Account Control](uac.md)
 
 
 # Registry and Application Control

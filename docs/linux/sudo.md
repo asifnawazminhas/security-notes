@@ -2616,12 +2616,13 @@ If these questions cannot be answered, the sudo assessment is incomplete.
 
 The following Linux pages build further on sudo-related privilege relationships:
 
-```text
-scheduled-jobs.md
-suid-sgid.md
-capabilities.md
-security-controls.md
-```
+[Linux Scheduled Jobs](scheduled-jobs.md)
+
+[Linux SUID and SGID Security](suid-sgid.md)
+
+[Linux Capabilities Security](capabilities.md)
+
+[Linux Security Controls](security-controls.md)
 
 ---
 

@@ -947,10 +947,9 @@ The exact secure implementation depends on the application's authorisation model
 
 Refer to:
 
-```text
-docs/web/idor-bola.md
-docs/web/authorisation.md
-```
+[IDOR and BOLA](../web/idor-bola.md)
+
+[Authorisation Testing](../web/authorisation.md)
 
 ---
 
@@ -1361,9 +1360,7 @@ Review dynamic query construction and attacker-controlled query structures.
 
 Refer to:
 
-```text
-docs/web/nosql-injection.md
-```
+[NoSQL Injection](../web/nosql-injection.md)
 
 ---
 
@@ -2147,9 +2144,7 @@ HTML encoding is not equivalent to JavaScript-context encoding.
 
 Refer to:
 
-```text
-docs/web/xss.md
-```
+[Cross-Site Scripting](../web/xss.md)
 
 ---
 
@@ -2380,9 +2375,7 @@ Also inspect reverse-proxy and deployment configuration because headers may be a
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -2477,9 +2470,7 @@ Trace actual values and keys.
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](../web/jwt.md)
 
 ---
 
@@ -3044,9 +3035,7 @@ Understand the database transaction and concurrency model.
 
 Refer to:
 
-```text
-docs/web/race-conditions.md
-```
+[Race Conditions](../web/race-conditions.md)
 
 ---
 
@@ -4321,10 +4310,9 @@ Review the complete authentication flow.
 
 Refer to:
 
-```text
-docs/web/rate-limiting.md
-docs/web/authentication.md
-```
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
+
+[Authentication Testing](../web/authentication.md)
 
 ---
 

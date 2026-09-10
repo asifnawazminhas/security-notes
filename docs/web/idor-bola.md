@@ -1216,9 +1216,7 @@ Test whether User A can subscribe to User B's controlled conversation.
 
 Refer to:
 
-```text
-docs/web/websockets.md
-```
+[WebSocket Security](websockets.md)
 
 ---
 

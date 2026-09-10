@@ -2028,9 +2028,7 @@ For broad internal assessment work, a routed/TUN-style pivot can often be easier
 
 See:
 
-```text
-active-directory/pivoting.md
-```
+[Active Directory Pivoting - Tunnelling, Port Forwarding and Network Access](pivoting.md)
 
 ---
 

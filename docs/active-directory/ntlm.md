@@ -1210,9 +1210,7 @@ Forward authentication
 
 Detailed Pass-the-Hash coverage belongs in:
 
-```text
-active-directory/pass-the-hash.md
-```
+[Pass-the-Hash](pass-the-hash.md)
 
 ---
 
@@ -1337,9 +1335,7 @@ Password spraying differs from traditional brute force because it generally atte
 
 Detailed coverage belongs in:
 
-```text
-active-directory/password-spraying.md
-```
+[Password Spraying](password-spraying.md)
 
 ---
 
@@ -1870,9 +1866,7 @@ Potential target protocols and capabilities depend on:
 
 Detailed relay testing belongs in:
 
-```text
-active-directory/ntlm-relay.md
-```
+[NTLM Relay](ntlm-relay.md)
 
 ---
 

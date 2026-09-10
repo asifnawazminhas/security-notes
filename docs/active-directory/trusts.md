@@ -3691,9 +3691,7 @@ Active Directory Certificate Services:
 
 The next trust-specific page should cover:
 
-```text
-docs/active-directory/trust-relationships.md
-```
+[Active Directory Trust Relationships](trust-relationships.md)
 
 followed by:
 

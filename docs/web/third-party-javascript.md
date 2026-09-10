@@ -1116,9 +1116,7 @@ Therefore sensitive tokens in Web Storage increase the consequences of malicious
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](session-management.md)
 
 ---
 
@@ -2117,9 +2115,7 @@ Prefer an explicit expected target origin where possible.
 
 Refer to:
 
-```text
-docs/web/dom-based-vulnerabilities.md
-```
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
 
 ---
 

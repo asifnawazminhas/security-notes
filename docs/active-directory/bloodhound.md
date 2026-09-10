@@ -1492,9 +1492,7 @@ BloodHound can help reveal who controls the objects involved.
 
 Detailed analysis belongs in:
 
-```text
-active-directory/rbcd.md
-```
+[Resource-Based Constrained Delegation](rbcd.md)
 
 ---
 

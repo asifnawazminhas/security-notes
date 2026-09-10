@@ -751,9 +751,7 @@ Controlled Validation
 
 The detailed technique belongs in:
 
-```text
-active-directory/asrep-roasting.md
-```
+[AS-REP Roasting](asrep-roasting.md)
 
 ---
 
@@ -862,9 +860,7 @@ Offline Password Strength Assessment
 
 See:
 
-```text
-active-directory/kerberoasting.md
-```
+[Kerberoasting](kerberoasting.md)
 
 ---
 
@@ -984,11 +980,11 @@ Do not treat every delegation relationship as automatically exploitable.
 
 See:
 
-```text
-active-directory/unconstrained-delegation.md
-active-directory/constrained-delegation.md
-active-directory/rbcd.md
-```
+[Unconstrained Delegation](unconstrained-delegation.md)
+
+[Constrained Delegation](constrained-delegation.md)
+
+[Resource-Based Constrained Delegation](rbcd.md)
 
 ---
 
@@ -1306,9 +1302,7 @@ Delegated Service
 
 See:
 
-```text
-active-directory/s4u.md
-```
+[Kerberos S4U](s4u.md)
 
 for the detailed security model.
 
@@ -1477,9 +1471,7 @@ Potential Domain-Wide Impact
 
 See:
 
-```text
-active-directory/ntds.md
-```
+[NTDS.dit and Active Directory Credential Extraction](ntds.md)
 
 for detailed methodology.
 
@@ -1838,9 +1830,7 @@ Record Exact Impact
 
 See:
 
-```text
-active-directory/ntlm-relay.md
-```
+[NTLM Relay](ntlm-relay.md)
 
 for the full technique.
 
@@ -2011,9 +2001,7 @@ A routed/TUN-based pivot can therefore be more convenient for broad AD testing.
 
 See:
 
-```text
-active-directory/pivoting.md
-```
+[Active Directory Pivoting - Tunnelling, Port Forwarding and Network Access](pivoting.md)
 
 ---
 

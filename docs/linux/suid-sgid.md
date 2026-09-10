@@ -3038,9 +3038,7 @@ For an interesting privileged executable, use:
 
 The next dedicated Linux privilege mechanism is:
 
-```text
-capabilities.md
-```
+[Linux Capabilities Security](capabilities.md)
 
 ---
 

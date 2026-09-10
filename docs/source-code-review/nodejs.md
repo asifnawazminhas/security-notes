@@ -1955,9 +1955,7 @@ Validate destinations using an explicit policy.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -2176,9 +2174,7 @@ Trace attacker-controlled paths.
 
 Refer to:
 
-```text
-docs/web/path-traversal.md
-```
+[Path Traversal](../web/path-traversal.md)
 
 ---
 
@@ -2761,9 +2757,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/session-management.md
-```
+[Session Management](../web/session-management.md)
 
 ---
 
@@ -2987,9 +2981,7 @@ For security tokens, cryptographically secure randomness is required.
 
 Refer to:
 
-```text
-docs/web/password-reset.md
-```
+[Password Reset Security](../web/password-reset.md)
 
 ---
 
@@ -3271,9 +3263,7 @@ Validate actual responses.
 
 Refer to:
 
-```text
-docs/web/http-security-headers.md
-```
+[HTTP Security Headers](../web/http-security-headers.md)
 
 ---
 
@@ -3290,9 +3280,7 @@ rg -n -i \
 
 Refer to:
 
-```text
-docs/web/clickjacking.md
-```
+[Clickjacking](../web/clickjacking.md)
 
 ---
 
@@ -4080,9 +4068,7 @@ git log -S 'SECRET' --all
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](../web/secrets-exposure.md)
 
 ---
 
@@ -4237,9 +4223,7 @@ package.json
 
 Refer to:
 
-```text
-docs/web/dependency-security.md
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 

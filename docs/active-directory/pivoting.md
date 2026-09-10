@@ -3912,9 +3912,7 @@ NTLM:
 
 The next Active Directory section should cover domain and forest trust relationships:
 
-```text
-docs/active-directory/trusts.md
-```
+[Active Directory Domain and Forest Trusts](trusts.md)
 
 ---
 

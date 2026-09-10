@@ -2382,9 +2382,7 @@ Shadow Credentials
 
 Detailed coverage belongs in:
 
-```text
-active-directory/shadow-credentials.md
-```
+[Active Directory Shadow Credentials](shadow-credentials.md)
 
 ---
 

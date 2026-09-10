@@ -3028,9 +3028,7 @@ A compromised SCCM administrative path may provide broad endpoint control.
 
 A dedicated SCCM page will cover this in detail:
 
-```text
-docs/active-directory/sccm.md
-```
+[Microsoft Configuration Manager - SCCM](sccm.md)
 
 ---
 

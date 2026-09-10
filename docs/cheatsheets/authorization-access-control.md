@@ -4240,12 +4240,13 @@ RESULT VERIFIED
 
 Known deeper notes that are useful alongside this cheatsheet include:
 
-```text
-docs/web/authorisation.md
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/business-logic.md
-```
+[Authorisation Testing](../web/authorisation.md)
+
+[API Security](../web/api-security.md)
+
+[GraphQL API Security](../web/graphql.md)
+
+[Business Logic Vulnerabilities](../web/business-logic.md)
 
 
 # References

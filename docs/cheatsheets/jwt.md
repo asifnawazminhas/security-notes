@@ -4047,13 +4047,15 @@ Have token values been redacted from evidence?
 
 Useful deeper notes include:
 
-```text
-docs/web/jwt.md
-docs/web/oauth-oidc.md
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/api-security.md
-```
+[JSON Web Token Security](../web/jwt.md)
+
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
+
+[Authentication Testing](../web/authentication.md)
+
+[Authorisation Testing](../web/authorisation.md)
+
+[API Security](../web/api-security.md)
 
 
 # References

@@ -1636,9 +1636,7 @@ Do not place unnecessary sensitive information in readable token claims.
 
 Refer to:
 
-```text
-docs/web/jwt.md
-```
+[JSON Web Token Security](jwt.md)
 
 ---
 

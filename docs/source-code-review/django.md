@@ -1881,9 +1881,7 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/sql-injection.md
-```
+[SQL Injection](../web/sql-injection.md)
 
 ---
 
@@ -2095,10 +2093,9 @@ rg -n \
 
 Refer to:
 
-```text
-docs/web/xss.md
-docs/web/html-injection.md
-```
+[Cross-Site Scripting](../web/xss.md)
+
+[HTML Injection](../web/html-injection.md)
 
 ---
 
@@ -2421,9 +2418,7 @@ Review the arguments and trusted-host set.
 
 Refer to:
 
-```text
-docs/web/open-redirect.md
-```
+[Open Redirect](../web/open-redirect.md)
 
 ---
 
@@ -3393,10 +3388,9 @@ If the response is user-specific, determine whether the cache is appropriately s
 
 Refer to:
 
-```text
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-```
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
 
 ---
 
@@ -3901,9 +3895,7 @@ rg -n -i \
 
 Refer to:
 
-```text
-docs/web/secrets-exposure.md
-```
+[Secrets Exposure](../web/secrets-exposure.md)
 
 ---
 

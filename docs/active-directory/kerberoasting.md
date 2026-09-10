@@ -2680,13 +2680,15 @@ BloodHound:
 
 The following topics complement Kerberoasting and can be linked once their dedicated notes are available:
 
-```text
-active-directory/pass-the-hash.md
-active-directory/overpass-the-hash.md
-active-directory/pass-the-key.md
-active-directory/lateral-movement.md
-active-directory/gmsa.md
-```
+[Pass-the-Hash](pass-the-hash.md)
+
+[OverPass-the-Hash](overpass-the-hash.md)
+
+[Pass-the-Key](pass-the-key.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Group Managed Service Accounts - gMSA](gmsa.md)
 
 ---
 

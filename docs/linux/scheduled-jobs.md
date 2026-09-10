@@ -2833,11 +2833,11 @@ This approach separates ordinary scheduled administration from a defensible priv
 
 The following Linux pages build further on scheduled-job privilege relationships:
 
-```text
-suid-sgid.md
-capabilities.md
-security-controls.md
-```
+[Linux SUID and SGID Security](suid-sgid.md)
+
+[Linux Capabilities Security](capabilities.md)
+
+[Linux Security Controls](security-controls.md)
 
 ---
 
