@@ -488,37 +488,17 @@ nav:
 
   - Purple Teaming:
 
-      # ------------------------------------------------------
-      # OVERVIEW AND METHODOLOGY
-      # ------------------------------------------------------
-
       - Overview: purple-teaming/index.md
       - Methodology: purple-teaming/methodology.md
-
-      # ------------------------------------------------------
-      # EXERCISES AND ADVERSARY BEHAVIOR
-      # ------------------------------------------------------
 
       - Exercises: purple-teaming/exercises.md
       - MITRE ATT&CK: purple-teaming/mitre-attack.md
 
-      # ------------------------------------------------------
-      # DETECTION ENGINEERING
-      # ------------------------------------------------------
-
       - Detection Engineering: purple-teaming/detection-engineering.md
-
-      # ------------------------------------------------------
-      # LEARNING AND MEASUREMENT
-      # ------------------------------------------------------
 
       - Learning and Measurement:
           - Knowledge Transfer: purple-teaming/knowledge-transfer.md
           - Metrics and Measurement: purple-teaming/metrics-and-measurement.md
-
-      # ------------------------------------------------------
-      # REVIEW AND CONTINUOUS IMPROVEMENT
-      # ------------------------------------------------------
 
       - Review and Continuous Improvement:
           - After-Action Review: purple-teaming/after-action-review.md
@@ -531,16 +511,8 @@ nav:
 
   - Vulnerability Research:
 
-      # ------------------------------------------------------
-      # OVERVIEW AND METHODOLOGY
-      # ------------------------------------------------------
-
       - Overview: vulnerability-research/index.md
       - Methodology: vulnerability-research/methodology.md
-
-      # ------------------------------------------------------
-      # RESEARCH AND ANALYSIS
-      # ------------------------------------------------------
 
       - Research and Analysis:
           - Attack Surface Analysis: vulnerability-research/attack-surface-analysis.md
@@ -548,24 +520,12 @@ nav:
           - Fuzzing: vulnerability-research/fuzzing.md
           - Crash Analysis: vulnerability-research/crash-analysis.md
 
-      # ------------------------------------------------------
-      # ROOT CAUSE AND VARIANT RESEARCH
-      # ------------------------------------------------------
-
       - Root Cause and Variants:
           - Patch Diffing: vulnerability-research/patch-diffing.md
           - Variant Analysis: vulnerability-research/variant-analysis.md
 
-      # ------------------------------------------------------
-      # VALIDATION
-      # ------------------------------------------------------
-
       - Validation:
           - Proof of Concept Development: vulnerability-research/poc-development.md
-
-      # ------------------------------------------------------
-      # CVE RESEARCH AND DISCLOSURE
-      # ------------------------------------------------------
 
       - CVE Research and Disclosure:
           - CVE Research: vulnerability-research/cve-research.md
@@ -577,13 +537,112 @@ nav:
   # ==========================================================
 
   - Tools:
+
+      # ------------------------------------------------------
+      # OVERVIEW
+      # ------------------------------------------------------
+
       - Overview: tools/index.md
-      - Burp Suite: tools/burp-suite.md
-      - Nmap: tools/nmap.md
-      - Nuclei: tools/nuclei.md
-      - ffuf: tools/ffuf.md
-      - SQLMap: tools/sqlmap.md
-      - Metasploit: tools/metasploit.md
+
+
+      # ------------------------------------------------------
+      # WEB ENUMERATION
+      # ------------------------------------------------------
+
+      - Web Enumeration:
+          - Overview: tools/web-enumeration/index.md
+          - WhatWeb: tools/web-enumeration/whatweb.md
+          - Wappalyzer: tools/web-enumeration/wappalyzer.md
+          - httpx: tools/web-enumeration/httpx.md
+
+
+      # ------------------------------------------------------
+      # WEB APPLICATION TESTING
+      # ------------------------------------------------------
+
+      - Web Application Testing:
+          - Overview: tools/web-testing/index.md
+          - Burp Suite: tools/web-testing/burp-suite.md
+          - ffuf: tools/web-testing/ffuf.md
+          - Katana: tools/web-testing/katana.md
+          - Nuclei: tools/web-testing/nuclei.md
+          - sqlmap: tools/web-testing/sqlmap.md
+          - Interactsh: tools/web-testing/interactsh.md
+
+
+      # ------------------------------------------------------
+      # ACTIVE DIRECTORY
+      # ------------------------------------------------------
+
+      - Active Directory:
+          - Overview: tools/active-directory/index.md
+
+
+      # ------------------------------------------------------
+      # PRIVILEGE ESCALATION
+      # ------------------------------------------------------
+
+      - Privilege Escalation:
+          - Overview: tools/privilege-escalation/index.md
+
+          - Windows:
+              - WinPEAS: tools/privilege-escalation/winpeas.md
+              - PowerUp: tools/privilege-escalation/powerup.md
+              - PrivescCheck: tools/privilege-escalation/privesccheck.md
+
+          - Linux:
+              - LinPEAS: tools/privilege-escalation/linpeas.md
+              - linux-smart-enumeration: tools/privilege-escalation/linux-smart-enumeration.md
+
+
+      # ------------------------------------------------------
+      # SOURCE CODE REVIEW
+      # ------------------------------------------------------
+
+      - Source Code Review Tools:
+          - Overview: tools/source-code-review/index.md
+
+          - Canonical Static Analysis:
+              - Static Analysis Overview: source-code-review/static-analysis/index.md
+              - ripgrep: source-code-review/static-analysis/ripgrep.md
+              - Semgrep: source-code-review/static-analysis/semgrep.md
+              - OpenGrep: source-code-review/static-analysis/opengrep.md
+              - CodeQL: source-code-review/static-analysis/codeql.md
+
+
+      # ------------------------------------------------------
+      # RED TEAMING
+      # ------------------------------------------------------
+
+      - Red Teaming Tools:
+          - Overview: tools/red-teaming/index.md
+          - C2 Frameworks: tools/red-teaming/c2-frameworks.md
+
+
+      # ------------------------------------------------------
+      # VULNERABILITY RESEARCH
+      # ------------------------------------------------------
+
+      - Vulnerability Research Tools:
+          - Overview: tools/vulnerability-research/index.md
+
+
+      # ------------------------------------------------------
+      # AI-ASSISTED SECURITY
+      # ------------------------------------------------------
+
+      - AI-Assisted Security:
+          - Overview: tools/ai/index.md
+          - LLM-Assisted Security Testing: tools/ai/llm-assisted-security-testing.md
+
+
+      # ------------------------------------------------------
+      # OTHER STANDALONE TOOLS
+      # ------------------------------------------------------
+
+      - Other Tools:
+          - Nmap: tools/nmap.md
+          - Metasploit: tools/metasploit.md
 
 
   # ==========================================================
