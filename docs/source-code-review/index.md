@@ -1,10 +1,15 @@
+---
+title: Source Code Review
+description: Practical security source code review methodology covering attack surface mapping, source-to-sink analysis, authentication, authorisation, business logic, static analysis, framework-specific review, validation, and evidence.
+---
+
 # Source Code Review
 
-Source code review is the process of analysing application source code to identify security weaknesses, understand application behaviour, trace attacker-controlled data, and determine whether security-sensitive operations can be reached in an unsafe way.
+Source code review is the process of analysing application source code to understand how the application works, identify security-relevant data flows, locate trust boundaries, and determine whether attacker-controlled input can reach sensitive operations unsafely.
 
-Unlike black-box web application testing, source code review provides visibility into the application's internal implementation.
+Unlike black-box testing, source review provides visibility into the application's internal implementation.
 
-A reviewer can examine:
+A reviewer can directly examine:
 
 ```text
 Routes
@@ -18,7 +23,7 @@ Validation
 Business logic
 Database access
 File operations
-HTTP requests
+HTTP clients
 Template rendering
 Deserialisation
 Cryptography
@@ -29,210 +34,80 @@ Security controls
 Dangerous sinks
 ```
 
-The primary objective is not simply to search for dangerous functions.
+The objective is not simply to search for dangerous functions.
 
-The objective is to understand:
-
-```text
-SOURCE
-   |
-   v
-ATTACKER-CONTROLLED DATA
-   |
-   v
-TRANSFORMATIONS
-   |
-   +--> Parsing
-   +--> Decoding
-   +--> Validation
-   +--> Sanitisation
-   +--> Normalisation
-   +--> Business Logic
-   +--> Authorisation
-   |
-   v
-SINK
-   |
-   v
-SECURITY-SENSITIVE OPERATION
-```
-
-A dangerous function found in source code is therefore only a **review candidate**.
+The core question is:
 
 ```text
-Dangerous function found
-          !=
-Vulnerability confirmed
+Can attacker-controlled data
+reach a security-sensitive operation
+without an effective security control?
 ```
-
-The complete data flow and security controls must be analysed.
 
 !!! warning "Authorised Security Testing"
     Perform source code review only against applications, repositories, source packages, or systems for which you have explicit authorisation. Source code may contain credentials, personal data, internal infrastructure information, cryptographic material, API keys, proprietary business logic, and other sensitive information. Handle reviewed material according to the engagement rules and applicable data-handling requirements.
 
 ---
 
-# Source Code Review vs Black-Box Testing
+## Start Here
 
-Black-box testing primarily observes the application externally.
+<div class="grid cards" markdown>
 
-```text
-Tester
-  |
-  v
-HTTP Request
-  |
-  v
-Application
-  |
-  v
-HTTP Response
-```
+-   :material-map-search-outline:{ .lg .middle } **Review Methodology**
 
-The tester attempts to infer what happens internally.
+    ---
 
-Source code review provides another perspective:
+    Follow a repeatable process from repository understanding and attack-surface mapping through validation, evidence, and reporting.
 
-```text
-HTTP Request
-     |
-     v
-Route
-     |
-     v
-Middleware
-     |
-     v
-Controller
-     |
-     v
-Validation
-     |
-     v
-Authorisation
-     |
-     v
-Business Logic
-     |
-     v
-Sensitive Operation
-```
+    [:octicons-arrow-right-24: Source Code Review Methodology](methodology.md)
 
-This can reveal attack paths that are difficult to identify through black-box testing alone.
+-   :material-source-branch:{ .lg .middle } **Source-to-Sink Analysis**
 
----
+    ---
 
-# White-Box, Grey-Box and Black-Box Testing
+    Trace attacker-controlled input through transformations, validation, authorisation, and sensitive operations.
 
-## Black-Box
+    [:octicons-arrow-right-24: Source-to-Sink Analysis](source-to-sink-analysis.md)
 
-The tester has no source code.
+-   :material-magnify-scan:{ .lg .middle } **Static Analysis**
 
-```text
-External Behaviour
-        |
-        v
-Infer Internal Behaviour
-```
+    ---
 
-Examples:
+    Use ripgrep, Semgrep, OpenGrep, and CodeQL to identify and prioritise review candidates.
 
-```text
-Burp Suite
-HTTP testing
-Content discovery
-Parameter discovery
-Fuzzing
-Application interaction
-```
+    [:octicons-arrow-right-24: Static Analysis](static-analysis/index.md)
+
+-   :material-security:{ .lg .middle } **Authentication and Authorisation**
+
+    ---
+
+    Map identity, roles, permissions, ownership checks, tenant boundaries, and protected operations.
+
+    [:octicons-arrow-right-24: Authentication](../web/authentication.md)
+
+-   :material-code-braces:{ .lg .middle } **Framework-Specific Review**
+
+    ---
+
+    Apply language and framework-specific review techniques for .NET, Java, PHP, Python, Django, Flask, Node.js, and client-side JavaScript.
+
+    [:octicons-arrow-right-24: Technology-Specific Notes](#technology-specific-review)
+
+-   :material-bug-check-outline:{ .lg .middle } **Validate Findings**
+
+    ---
+
+    Connect source findings to runtime behaviour and determine whether the identified path is reachable, exploitable, and security relevant.
+
+    [:octicons-arrow-right-24: Review Workflow](#source-code-review-workflow)
+
+</div>
 
 ---
 
-## Grey-Box
+# Core Review Model
 
-The tester has partial knowledge.
-
-Examples:
-
-```text
-API documentation
-Limited source code
-Architecture diagrams
-Test credentials
-Configuration files
-Selected repositories
-```
-
----
-
-## White-Box
-
-The tester has extensive internal visibility.
-
-Examples:
-
-```text
-Full source code
-Configuration
-Dependency manifests
-Infrastructure information
-Database schemas
-Build files
-Deployment configuration
-Architecture documentation
-```
-
-Source code review is primarily associated with white-box and grey-box testing.
-
----
-
-# Why Source Code Review Matters
-
-Many security weaknesses are easier to identify when implementation details are visible.
-
-Examples include:
-
-```text
-Missing authorisation checks
-Unsafe SQL construction
-Command execution
-Dangerous deserialisation
-Weak cryptography
-Hard-coded credentials
-Hidden API endpoints
-Debug functionality
-Unused legacy routes
-Internal administrative endpoints
-Unsafe file handling
-SSRF sinks
-Mass assignment
-Business logic flaws
-Race conditions
-Inconsistent validation
-Framework misconfiguration
-```
-
-Source review also helps answer:
-
-```text
-Where does user input enter?
-
-Where does it go?
-
-What security controls are applied?
-
-Can those controls be bypassed?
-
-Where are sensitive operations performed?
-
-Which endpoints expose those operations?
-```
-
----
-
-# The Core Source Code Review Model
-
-A useful model is:
+The most useful source-review model is:
 
 ```text
 ATTACK SURFACE
@@ -253,550 +128,453 @@ SECURITY CONTROLS
 SINK
       |
       v
+EXPLOITABILITY
+      |
+      v
 IMPACT
 ```
 
-Each stage should be understood.
-
----
-
-# Attack Surface
-
-Before searching for vulnerabilities, understand the application's attack surface.
-
-Identify:
+Or more simply:
 
 ```text
-Web routes
-API routes
-GraphQL endpoints
-gRPC services
-WebSocket handlers
-Authentication endpoints
-Administrative functionality
-File upload endpoints
-Import/export functionality
-Webhooks
-Callbacks
-Background jobs
-Scheduled tasks
-Message consumers
-Third-party integrations
-Internal APIs
-Debug endpoints
-Health endpoints
-Management interfaces
-```
-
-Source review should complement:
-
-[Attack Surface Analysis](../web/attack-surface-analysis.md)
-
----
-
-# Entry Points
-
-An entry point is somewhere external data enters application logic.
-
-Examples:
-
-```text
-HTTP request
-API request
-WebSocket message
-gRPC message
-GraphQL query
-File upload
-Webhook
-Message queue
-Database record
-Configuration
-Environment variable
-Command-line argument
-Scheduled job
-Third-party API
-```
-
-Not every entry point is directly attacker-controlled.
-
-The trust boundary must be determined.
-
----
-
-# Sources
-
-A **source** is a location where potentially untrusted data enters the application's data flow.
-
-Examples:
-
-```text
-Query parameters
-Path parameters
-Form fields
-JSON properties
-XML elements
-HTTP headers
-Cookies
-Uploaded files
-Filename metadata
-WebSocket messages
-GraphQL arguments
-gRPC fields
-Webhook payloads
-```
-
-Language-specific examples differ.
-
-For example:
-
-```text
-PHP
-
-$_GET
-$_POST
-$_REQUEST
-$_COOKIE
-$_FILES
-```
-
-Python Flask:
-
-```text
-request.args
-request.form
-request.json
-request.files
-request.headers
-request.cookies
-```
-
-Django:
-
-```text
-request.GET
-request.POST
-request.FILES
-request.COOKIES
-request.headers
-```
-
-Express:
-
-```text
-req.query
-req.params
-req.body
-req.headers
-req.cookies
-```
-
-ASP.NET:
-
-```text
-Request.Query
-Request.Form
-Request.Headers
-Request.Cookies
-RouteData
-```
-
-Java/Spring:
-
-```text
-@RequestParam
-@PathVariable
-@RequestBody
-@RequestHeader
-@CookieValue
-```
-
-These are starting points for tracing.
-
----
-
-# Sinks
-
-A **sink** is a security-sensitive operation where attacker-controlled data may become dangerous.
-
-Examples include:
-
-```text
-SQL execution
-Operating-system command execution
-Template evaluation
-LDAP queries
-File access
-URL fetching
-Deserialisation
-HTML generation
-Redirects
-Dynamic code execution
-XML parsing
-Header construction
-Logging
-Email generation
-Expression evaluation
-```
-
-Conceptually:
-
-```text
-Source
+SOURCE
    |
    v
-User Input
+DATA FLOW
    |
    v
-Sink
+SECURITY CONTROLS
+   |
+   v
+SINK
+   |
+   v
+IMPACT
 ```
 
-is interesting.
-
-But:
+A dangerous function is only a review candidate.
 
 ```text
-Source
+Dangerous Function Found
+          !=
+Confirmed Vulnerability
+```
+
+The complete data flow must be understood.
+
+---
+
+# Source Code Review vs Black-Box Testing
+
+Black-box testing observes behaviour externally:
+
+```text
+Tester
+  |
+  v
+Request
+  |
+  v
+Application
+  |
+  v
+Response
+```
+
+The tester must infer what happens internally.
+
+Source review exposes the implementation:
+
+```text
+Request
+   |
+   v
+Route
+   |
+   v
+Middleware
+   |
+   v
+Controller
    |
    v
 Validation
    |
    v
-Safe API
+Authorisation
    |
    v
-Sink
+Business Logic
+   |
+   v
+Sensitive Operation
 ```
 
-may be secure.
+The strongest assessments often combine both perspectives.
 
-Therefore sinks identify **review locations**, not automatically vulnerabilities.
+```text
+Source Review
+     +
+Dynamic Testing
+     |
+     v
+Higher Confidence
+```
 
 ---
 
-# Sources and Sinks
+# Review Perspectives
 
-The central question during source review is:
+## Black-Box
 
-```text
-Can attacker-controlled input reach a dangerous sink?
-```
+No source code is available.
 
-Then:
+The tester relies primarily on:
 
 ```text
-What happens between the source and the sink?
+HTTP behaviour
+Application interaction
+Content discovery
+Parameter discovery
+Fuzzing
+Runtime responses
 ```
 
-Example:
+## Grey-Box
+
+Partial internal information is available.
+
+Examples include:
 
 ```text
-request parameter
-       |
-       v
-controller
-       |
-       v
-validation
-       |
-       v
-service
-       |
-       v
-database query
+Selected source files
+API documentation
+Architecture diagrams
+Test credentials
+Configuration
+Specific repositories
 ```
 
-The reviewer must inspect the complete chain.
+## White-Box
+
+Extensive internal visibility is available.
+
+Examples include:
+
+```text
+Full source code
+Configuration
+Dependency manifests
+Database schemas
+Build files
+Deployment configuration
+Architecture documentation
+```
+
+Source code review is most closely associated with grey-box and white-box assessments.
+
+---
+
+# Why Source Review Matters
+
+Implementation visibility can reveal issues that are difficult to identify externally.
+
+Examples include:
+
+- missing authorisation checks;
+- unsafe SQL construction;
+- command execution paths;
+- dangerous deserialisation;
+- weak cryptography;
+- hard-coded credentials;
+- hidden endpoints;
+- legacy functionality;
+- unsafe file handling;
+- SSRF sinks;
+- mass assignment;
+- inconsistent validation;
+- framework misconfiguration;
+- business logic flaws;
+- race conditions.
+
+Source review helps answer:
+
+```text
+Where does input enter?
+
+Where does it go?
+
+Which controls does it cross?
+
+Which sensitive operation does it reach?
+
+Can the path actually be triggered?
+
+What can an attacker achieve?
+```
+
+---
+
+# Understand the Repository First
+
+Before looking for vulnerabilities, understand the application structure.
+
+Identify:
+
+```text
+Languages
+Frameworks
+Routes
+Controllers
+Services
+Models
+Authentication
+Authorisation
+Templates
+Database access
+HTTP clients
+File handling
+Configuration
+Dependencies
+Tests
+Deployment files
+Background jobs
+Integrations
+```
+
+Useful initial commands include:
+
+```bash
+pwd
+```
+
+```bash
+tree -L 3 -I 'node_modules|vendor|venv|.venv|dist|build|target|bin|obj'
+```
+
+If `tree` is unavailable:
+
+```bash
+find . -maxdepth 3 -type f | sort
+```
+
+A repository should first become an architecture map.
+
+---
+
+# Attack Surface Mapping
+
+Identify externally or indirectly reachable entry points such as:
+
+```text
+Web routes
+REST APIs
+GraphQL
+gRPC
+WebSockets
+Authentication endpoints
+Administrative functionality
+File uploads
+Imports
+Exports
+Webhooks
+Callbacks
+Message consumers
+Background jobs
+Scheduled tasks
+Internal APIs
+Debug endpoints
+Management endpoints
+Third-party integrations
+```
+
+Related note:
+
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
+
+---
+
+# Sources
+
+A **source** is somewhere potentially untrusted data enters the application.
+
+Examples include:
+
+```text
+Query parameters
+Path parameters
+Request bodies
+JSON fields
+XML fields
+HTTP headers
+Cookies
+Uploaded files
+WebSocket messages
+GraphQL arguments
+gRPC fields
+Webhook payloads
+Message queues
+Third-party APIs
+Stored user data
+```
+
+The important question is not:
+
+```text
+Is this called "userInput"?
+```
+
+It is:
+
+```text
+Can an attacker meaningfully influence it?
+```
+
+---
+
+# Sinks
+
+A **sink** is a security-sensitive operation.
+
+Typical sink categories include:
+
+| Sink | Potential Security Concern |
+|---|---|
+| SQL execution | SQL injection |
+| NoSQL query | NoSQL injection |
+| LDAP filter | LDAP injection |
+| Process or shell execution | Command injection |
+| Template evaluation | SSTI |
+| HTML or DOM output | XSS |
+| File read/write | Path traversal or file handling |
+| HTTP client | SSRF |
+| Redirect | Open redirect |
+| Deserialiser | Insecure deserialisation |
+| XML parser | XXE |
+| Object binding | Mass assignment |
+| Object lookup | IDOR / BOLA |
+| Dynamic code evaluation | Code injection |
+
+A sink identifies somewhere worth reviewing.
+
+It does not establish exploitability.
 
 ---
 
 # Source-to-Sink Analysis
 
-Consider:
+The central question is:
 
 ```text
-SOURCE
-  |
-  v
-request.getParameter("id")
-  |
-  v
-TRANSFORMATION
-  |
-  v
-Integer.parseInt()
-  |
-  v
-DATABASE QUERY
+Can attacker-controlled data reach a dangerous sink?
 ```
 
-If the application converts the value to an integer before safely binding it to a parameterised query, SQL injection may not be possible.
-
-Compare:
+Then determine what happens in between.
 
 ```text
-SOURCE
-  |
-  v
-request.getParameter("name")
-  |
-  v
-String concatenation
-  |
-  v
-SQL query
+Request Input
+      |
+      v
+Controller
+      |
+      v
+Transformation
+      |
+      v
+Validation
+      |
+      v
+Authorisation
+      |
+      v
+Service
+      |
+      v
+Sensitive Sink
 ```
 
-This requires closer inspection.
+For each path, establish:
+
+- attacker controllability;
+- transformations;
+- normalisation;
+- validation;
+- sanitisation;
+- encoding;
+- authentication;
+- authorisation;
+- reachability;
+- runtime configuration;
+- exploitability;
+- impact.
+
+Detailed methodology:
+
+[Source-to-Sink Analysis](source-to-sink-analysis.md)
 
 ---
 
-# Taint Analysis
+# Forward and Backward Analysis
 
-Taint analysis tracks potentially untrusted data through an application.
+Two approaches are useful.
 
-Conceptually:
+## Forward Analysis
 
-```text
-TAINTED SOURCE
-      |
-      v
-Variable A
-      |
-      v
-Function B
-      |
-      v
-Object C
-      |
-      v
-Function D
-      |
-      v
-SENSITIVE SINK
-```
-
-Example:
+Start from attacker-controlled input:
 
 ```text
-HTTP Parameter
-      |
-      v
-username
-      |
-      v
-buildQuery(username)
-      |
-      v
-executeQuery()
+Source
+  |
+  v
+Where does it go?
 ```
 
-The objective is to determine whether the data remains attacker-controlled when it reaches the sink.
+This works well for high-value routes and application workflows.
 
----
+## Backward Analysis
 
-# Taint Propagation
-
-Input may move through multiple variables.
-
-Example:
+Start from a sensitive sink:
 
 ```text
-request.body.url
+Sensitive Sink
+      ^
       |
-      v
-target
-      |
-      v
-validatedTarget
-      |
-      v
-fetchUrl()
+Who can reach it?
 ```
-
-Do not stop at variable names.
-
-Inspect what actually happens.
 
 For example:
 
 ```text
-validatedTarget
-```
-
-does not prove that validation exists.
-
-Read the implementation.
-
----
-
-# Interprocedural Data Flow
-
-Data often crosses multiple functions.
-
-Example:
-
-```text
-Controller
-   |
-   v
-Service
-   |
-   v
-Utility
-   |
-   v
-Repository
-   |
-   v
-Database
-```
-
-The vulnerable operation may be several functions away from the original request.
-
----
-
-# Reverse Source-to-Sink Analysis
-
-Sometimes it is faster to start at dangerous sinks.
-
-Example:
-
-```text
-exec()
-```
-
-Then work backwards:
-
-```text
-exec()
-  ^
-  |
-command
-  ^
-  |
-buildCommand()
-  ^
-  |
-request parameter
-```
-
-This is particularly useful when reviewing large applications.
-
----
-
-# Forward Analysis
-
-Forward analysis starts at attacker-controlled input.
-
-```text
-HTTP Input
-    |
-    v
-Where does it go?
-```
-
-This is useful when reviewing security-sensitive endpoints.
-
----
-
-# Backward Analysis
-
-Backward analysis starts at a dangerous operation.
-
-```text
-Dangerous Sink
+Process Execution
+      ^
       |
-      v
-Where did its arguments originate?
+Command Builder
+      ^
+      |
+Service
+      ^
+      |
+Controller
+      ^
+      |
+HTTP Parameter
 ```
 
-Both techniques should be used.
-
----
-
-# Sources Are Not Always HTTP Inputs
-
-An important source-review principle is:
-
-```text
-Untrusted data
-    !=
-Only HTTP parameters
-```
-
-Potentially untrusted sources may include:
-
-```text
-Database values
-Message queues
-Uploaded documents
-CSV imports
-Email
-Third-party APIs
-Webhooks
-Cache values
-Environment-specific integrations
-User-generated content stored earlier
-```
-
-This matters for second-order vulnerabilities.
-
----
-
-# Second-Order Vulnerabilities
-
-A value may be stored safely initially but become dangerous later.
-
-Example:
-
-```text
-User Input
-    |
-    v
-Database
-    |
-    v
-Later Retrieved
-    |
-    v
-Dangerous Sink
-```
-
-Examples include:
-
-```text
-Stored XSS
-Second-order SQL injection
-Stored command injection
-Stored template injection
-Stored path manipulation
-```
-
-Do not assume database data is trusted merely because it came from the database.
+Large applications usually benefit from using both.
 
 ---
 
 # Trust Boundaries
 
-Identify where data crosses trust boundaries.
+Do not assume trust based only on component names.
 
-Example:
+Modern applications commonly have multiple trust boundaries:
 
 ```text
 Internet
    |
-   | Trust Boundary
    v
-Web Application
-```
-
-But modern applications often have many more:
-
-```text
-Browser
-   |
-   v
-API Gateway
+Reverse Proxy
    |
    v
 Application
@@ -820,789 +598,365 @@ Webhook
 Application
 ```
 
-Trust must be based on architecture, not assumptions.
-
----
-
-# Start With Application Structure
-
-Before looking for individual vulnerabilities, understand the repository.
-
-Useful questions:
-
-```text
-What language is used?
-
-Which framework?
-
-Where are routes defined?
-
-Where are controllers?
-
-Where is authentication implemented?
-
-Where is authorisation implemented?
-
-Where is configuration stored?
-
-Where are templates?
-
-Where are database queries?
-
-Where are API clients?
-
-Where are file operations?
-
-Where are dependencies defined?
-
-Where are tests?
-
-Where are deployment files?
-```
-
----
-
-# Initial Repository Enumeration
-
-Start with:
-
-```bash
-pwd
-```
-
-Then:
-
-```bash
-find . -maxdepth 2 -type f | sort
-```
-
-For larger repositories:
-
-```bash
-find . -maxdepth 3 -type f | sort | less
-```
-
-Directories:
-
-```bash
-find . -maxdepth 3 -type d | sort
-```
-
----
-
-# Tree
-
-If available:
-
-```bash
-tree
-```
-
-Limit depth:
-
-```bash
-tree -L 3
-```
-
-Ignore common noise:
-
-```bash
-tree -L 3 -I 'node_modules|vendor|venv|.venv|dist|build|target|bin|obj'
-```
-
-This provides a quick architecture overview.
-
----
-
-# Identify Languages
-
-Useful command:
-
-```bash
-find . -type f | sed 's/.*\.//' | sort | uniq -c | sort -nr
-```
-
-This provides a rough extension count.
-
-For example:
-
-```text
-450 java
-220 js
-90 html
-50 xml
-20 properties
-```
-
-This can immediately indicate the application's technology stack.
-
----
-
-# Identify Frameworks
-
-Look for dependency and build files.
-
-Common examples:
-
-```text
-.NET
-
-*.csproj
-*.sln
-Directory.Build.props
-packages.lock.json
-```
-
-Java:
-
-```text
-pom.xml
-build.gradle
-build.gradle.kts
-settings.gradle
-```
-
-PHP:
-
-```text
-composer.json
-composer.lock
-```
-
-Python:
-
-```text
-requirements.txt
-pyproject.toml
-Pipfile
-Pipfile.lock
-poetry.lock
-setup.py
-```
-
-JavaScript:
-
-```text
-package.json
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-```
-
----
-
-# Dependency Files
-
-Dependency manifests reveal:
-
-```text
-Framework
-Libraries
-Database drivers
-Template engines
-Authentication libraries
-Cloud SDKs
-Serialization libraries
-HTTP clients
-Security libraries
-```
-
-They are also important for dependency security.
-
-Refer to:
-
-[Dependency Security](../web/dependency-security.md)
-
----
-
-# Identify Configuration
-
-Search for:
-
-```text
-.env
-.env.example
-application.properties
-application.yml
-appsettings.json
-web.config
-settings.py
-config.py
-config.php
-php.ini
-package.json
-docker-compose.yml
-Dockerfile
-```
-
-Also inspect:
-
-```text
-CI/CD files
-Kubernetes manifests
-Terraform
-Helm charts
-Cloud configuration
-```
-
-Configuration often reveals security-relevant behaviour.
-
----
-
-# Secrets Exposure
-
-Search repositories for potential:
-
-```text
-Passwords
-API keys
-Tokens
-Private keys
-Database credentials
-Cloud credentials
-Signing secrets
-JWT secrets
-OAuth secrets
-Encryption keys
-```
-
-Refer to:
-
-[Secrets Exposure](../web/secrets-exposure.md)
-
-Do not assume every high-entropy string is a valid credential.
-
-Validate carefully and safely.
-
----
-
-# Route Discovery
-
-One of the first major source-review tasks is finding all routes.
-
-The objective is to build:
-
-```text
-HTTP Method
-    |
-    v
-Route
-    |
-    v
-Handler
-    |
-    v
-Authentication
-    |
-    v
-Authorisation
-```
-
-Example inventory:
-
-| Method | Route | Handler | Authentication | Authorisation |
-|---|---|---|---|---|
-| GET | `/profile` | `profile()` | Required | Current user |
-| POST | `/admin/user` | `createUser()` | Required | Admin |
-| GET | `/api/orders/{id}` | `getOrder()` | Required | Object check |
-| POST | `/upload` | `upload()` | Required | User |
-
----
-
-# Why Route Mapping Matters
-
-Route mapping reveals:
-
-```text
-Hidden endpoints
-Legacy endpoints
-Administrative functionality
-Debug endpoints
-Internal APIs
-Alternate versions
-Unauthenticated functionality
-Different HTTP methods
-```
-
-It also provides the foundation for systematic review.
-
----
-
-# Authentication Mapping
-
-Find:
-
-```text
-Login handlers
-Session creation
-Token generation
-JWT validation
-OAuth callbacks
-SAML handlers
-Password reset
-MFA
-Remember-me functionality
-API key validation
-```
-
-Then determine:
-
-```text
-Which endpoints require authentication?
-
-Which do not?
-
-How is authentication enforced?
-
-Is it middleware-based?
-
-Annotation-based?
-
-Decorator-based?
-
-Manually implemented?
-```
-
-Refer to:
-
-[Authentication Testing](../web/authentication.md)
-
----
-
-# Authorisation Mapping
-
-Authentication answers:
-
-```text
-Who are you?
-```
-
-Authorisation answers:
-
-```text
-Are you allowed to perform this action?
-```
-
-Search for:
-
-```text
-Role checks
-Permission checks
-Ownership checks
-Tenant checks
-Policy checks
-Authorisation middleware
-Security annotations
-Decorators
-Access-control helpers
-```
-
-The key question is:
-
-```text
-Can a user reach a sensitive operation without the required authorisation check?
-```
-
-Refer to:
-
-[Authorisation Testing](../web/authorisation.md)
-
-[IDOR and BOLA](../web/idor-bola.md)
-
----
-
-# Object-Level Authorisation
-
-For endpoints such as:
-
-```text
-GET /api/orders/123
-```
-
-trace:
-
-```text
-123
- |
- v
-Object Lookup
- |
- v
-Ownership / Permission Check
- |
- v
-Return Object
-```
-
-A secure lookup may conceptually be:
-
-```text
-Find order
-WHERE
-order.id = requested_id
-AND
-order.user_id = current_user
-```
-
-rather than:
-
-```text
-Find order
-WHERE
-order.id = requested_id
-```
-
-followed by no ownership check.
-
----
-
-# Input Validation Mapping
-
-Find where the application validates:
-
-```text
-Types
-Length
-Range
-Format
-Enumerations
-Business rules
-Schemas
-Files
-URLs
-Identifiers
-```
-
-Then determine whether validation occurs:
-
-```text
-Client-side only
-Server-side
-Controller
-Schema
-Service
-Domain layer
-Database
-```
-
-Refer to:
-
-[Input Validation](../web/input-validation.md)
+Potentially untrusted data can also come from:
+
+- databases;
+- queues;
+- uploaded documents;
+- imports;
+- email;
+- third-party APIs;
+- cached values.
+
+This is especially important for second-order vulnerabilities.
 
 ---
 
 # Security Control Mapping
 
-During review, build an inventory of reusable security controls.
+Identify reusable security controls early.
 
 Examples:
 
 ```text
 Authentication middleware
 Authorisation middleware
-CSRF middleware
+Permission helpers
+CSRF controls
 Input validators
+Schema validators
 Output encoders
 HTML sanitisers
 URL validators
 File validators
-SQL abstraction layers
-Logging helpers
-Cryptographic utilities
+SQL abstractions
 Rate limiters
+Cryptographic helpers
+Logging wrappers
 ```
 
-Then determine:
+Then ask:
 
 ```text
-Where are they used?
+Where is the control used?
 
-Where are they missing?
+Where is it missing?
 
-Can they be bypassed?
+Is it applied consistently?
 
-Are there alternate implementations?
+Can another code path bypass it?
 ```
 
----
-
-# Identify Security Control Inconsistency
-
-One of the most productive review techniques is comparing similar endpoints.
+Inconsistency between similar endpoints is often particularly valuable.
 
 Example:
 
 ```text
 /api/v1/users/{id}
         |
-        +--> authorisation check
+        +--> Ownership check
+
 
 /api/v2/users/{id}
         |
-        +--> no authorisation check
-```
-
-or:
-
-```text
-POST /profile
-    |
-    +--> validation
-
-PATCH /profile
-    |
-    +--> no validation
-```
-
-Security inconsistencies frequently reveal vulnerabilities.
-
----
-
-# Dangerous Sink Categories
-
-A useful source-review strategy is to classify sinks.
-
-```text
-Database Sinks
-Command Sinks
-File Sinks
-Network Sinks
-Template Sinks
-Deserialisation Sinks
-HTML / DOM Sinks
-Redirect Sinks
-XML Sinks
-Dynamic Code Sinks
-Cryptographic Sinks
-Logging Sinks
+        +--> No ownership check
 ```
 
 ---
 
-# Database Sinks
+# Authentication Review
 
-Potential security issues:
+Map:
 
 ```text
-SQL Injection
-NoSQL Injection
-LDAP Injection
-Mass Assignment
-Data exposure
+Login
+   |
+   v
+Identity Verification
+   |
+   v
+Session / Token Creation
+   |
+   v
+Authenticated Requests
+   |
+   v
+Logout / Expiry
 ```
 
 Review:
 
-```text
-Raw queries
-String concatenation
-Dynamic query fragments
-Native queries
-ORM escape hatches
-User-controlled filters
-Sort expressions
-Column names
-Table names
-```
+- credential validation;
+- password storage;
+- session creation;
+- session rotation;
+- logout;
+- password reset;
+- MFA;
+- remember-me functionality;
+- API keys;
+- JWT;
+- OAuth/OIDC;
+- SAML.
+
+Related notes:
+
+[Authentication](../web/authentication.md)
+
+[Password Reset](../web/password-reset.md)
+
+[Multi-Factor Authentication](../web/mfa.md)
+
+[Session Management](../web/session-management.md)
+
+[JSON Web Tokens](../web/jwt.md)
+
+[OAuth 2.0 and OpenID Connect](../web/oauth-oidc.md)
+
+[SAML](../web/saml.md)
 
 ---
 
-# Command Sinks
+# Authorisation Review
 
-Look for APIs capable of launching:
-
-```text
-Commands
-Processes
-Shells
-Scripts
-External programs
-```
-
-Then trace:
+Authentication asks:
 
 ```text
-Can attacker-controlled data influence:
-
-Executable?
-Arguments?
-Environment?
-Working directory?
-Shell syntax?
+Who are you?
 ```
 
-Refer to:
+Authorisation asks:
+
+```text
+Are you allowed to perform this action?
+```
+
+Look for:
+
+- roles;
+- permissions;
+- ownership checks;
+- tenant boundaries;
+- administrative functions;
+- policy checks;
+- middleware;
+- annotations;
+- decorators;
+- query-level access controls.
+
+A useful matrix is:
+
+| Action | Anonymous | User | Manager | Admin |
+|---|---:|---:|---:|---:|
+| View own profile | No | Yes | Yes | Yes |
+| View another profile | No | No | Team only | Yes |
+| Edit user | No | No | No | Yes |
+| Delete user | No | No | No | Yes |
+
+Compare the expected model with the actual implementation.
+
+Related notes:
+
+[Authorisation](../web/authorisation.md)
+
+[IDOR and BOLA](../web/idor-bola.md)
+
+[Mass Assignment](../web/mass-assignment.md)
+
+---
+
+# Business Logic Review
+
+Not every vulnerability has a recognisable dangerous sink.
+
+Review:
+
+```text
+Workflow
+State
+Role transitions
+Approval
+Financial calculations
+Quantity
+Discounts
+Inventory
+Tenant boundaries
+Account state
+Race conditions
+```
+
+Ask:
+
+```text
+What assumptions does this workflow make?
+```
+
+Then:
+
+```text
+Can those assumptions be violated?
+```
+
+Related notes:
+
+[Business Logic Vulnerabilities](../web/business-logic.md)
+
+[Race Conditions](../web/race-conditions.md)
+
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
+
+---
+
+# Common Vulnerability Review Paths
+
+## SQL Injection
+
+```text
+Input
+  |
+  v
+Query Construction
+  |
+  v
+Database Execution
+```
+
+Review:
+
+- string concatenation;
+- interpolation;
+- raw SQL;
+- dynamic query fragments;
+- ORM escape hatches;
+- parameterisation.
+
+[SQL Injection](../web/sql-injection.md)
+
+## Command Injection
+
+```text
+Input
+  |
+  v
+Command Construction
+  |
+  v
+Process Execution
+```
+
+Review:
+
+- executable control;
+- argument control;
+- shell use;
+- environment variables;
+- working directory;
+- safe process APIs.
 
 [OS Command Injection](../web/command-injection.md)
 
----
+## SSRF
 
-# File Sinks
+```text
+User Input
+    |
+    v
+URL Construction
+    |
+    v
+HTTP Client
+```
 
 Review:
 
-```text
-File reads
-File writes
-File deletion
-Directory creation
-Archive extraction
-Upload storage
-File downloads
-Template loading
-Configuration loading
-```
+- schemes;
+- host restrictions;
+- DNS resolution;
+- redirects;
+- network egress;
+- destination validation.
 
-Trace attacker-controlled:
+[Server-Side Request Forgery](../web/ssrf.md)
+
+## Path Traversal and File Handling
 
 ```text
-Filename
-Path
-Extension
-Directory
-Archive entry
+User Input
+    |
+    v
+Path Construction
+    |
+    v
+Filesystem
 ```
 
-Refer to:
+Review:
+
+- path joining;
+- canonicalisation;
+- filename mapping;
+- base-directory enforcement;
+- archive handling;
+- upload processing.
 
 [Path Traversal](../web/path-traversal.md)
 
 [File Inclusion](../web/file-inclusion.md)
 
-[File Upload Security](../web/file-upload.md)
+[File Upload](../web/file-upload.md)
 
----
+## Template Injection
 
-# Network Sinks
-
-Look for:
+Determine whether input is treated as:
 
 ```text
-HTTP clients
-URL fetchers
-Webhook clients
-Image downloaders
-Document importers
-Cloud SDKs
-FTP clients
-Socket connections
+Template Data
 ```
 
-Trace:
+or:
 
 ```text
-URL
-Hostname
-Port
-Scheme
-Redirect destination
+Template Source
 ```
-
-Refer to:
-
-[Server Side Request Forgery](../web/ssrf.md)
-
----
-
-# Template Sinks
-
-Review:
-
-```text
-Dynamic template creation
-Template strings
-Template compilation
-Template evaluation
-```
-
-The key distinction is:
-
-```text
-User input as data
-```
-
-versus:
-
-```text
-User input as template source
-```
-
-Refer to:
 
 [Server-Side Template Injection](../web/ssti.md)
 
----
-
-# Deserialisation Sinks
-
-Look for APIs that convert serialized data into objects.
-
-Formats may include:
-
-```text
-Native object serialization
-JSON
-XML
-YAML
-Pickle
-Binary formats
-Custom serialization
-```
-
-Not all deserialisation is unsafe.
+## Deserialisation
 
 Review:
 
 ```text
-Data source
-Type restrictions
-Allowed classes
-Parser configuration
-Integrity protection
+Input
+  |
+  v
+Deserializer
+  |
+  v
+Object Construction
 ```
 
-Refer to:
+Determine:
+
+- attacker control;
+- allowed types;
+- parser configuration;
+- integrity protection;
+- dangerous callbacks or object behaviour.
 
 [Insecure Deserialization](../web/deserialization.md)
 
----
+## XSS and DOM Security
 
-# XML Sinks
-
-Identify XML parsers.
-
-Review:
-
-```text
-External entity support
-DTD handling
-Schema handling
-Network access
-Parser configuration
-```
-
-Refer to:
-
-[XML External Entity Injection](../web/xxe.md)
-
----
-
-# HTML and DOM Sinks
-
-Review places where attacker-controlled data reaches:
+Trace input to its exact output context:
 
 ```text
 HTML
+Attribute
 JavaScript
-DOM APIs
-Attributes
-URLs
+URL
 CSS
+DOM
 ```
-
-Context matters.
-
-Refer to:
 
 [Cross-Site Scripting](../web/xss.md)
 
@@ -1612,334 +966,86 @@ Refer to:
 
 ---
 
-# Redirect Sinks
+# Configuration and Secrets
 
-Look for:
-
-```text
-Redirect functions
-Location headers
-Callback URLs
-Return URLs
-Next parameters
-Continue parameters
-```
-
-Trace whether the destination is attacker-controlled.
-
-Refer to:
-
-[Open Redirect](../web/open-redirect.md)
-
----
-
-# Dynamic Code Execution
-
-High-value review candidates include APIs capable of:
+Source review should include:
 
 ```text
-Evaluating code
-Executing expressions
-Compiling code
-Loading dynamic modules
-Interpreting scripts
+.env
+Application configuration
+CI/CD
+Container files
+Kubernetes
+Terraform
+Helm
+Cloud configuration
+Build files
+Test configuration
+Git history
 ```
 
-Examples differ by language.
+Search for:
 
-These require careful source tracing.
+- passwords;
+- API keys;
+- tokens;
+- private keys;
+- signing keys;
+- database credentials;
+- cloud credentials;
+- encryption keys.
 
----
+A matching string is only a candidate.
 
-# Business Logic
-
-Many important vulnerabilities do not have an obvious dangerous function.
-
-Examples:
+Determine whether it is:
 
 ```text
-Negative quantities
-Invalid state transitions
-Discount manipulation
-Workflow bypass
-Approval bypass
-Double spending
-Tenant confusion
-Race conditions
-Privilege transitions
+Placeholder
+Example
+Test value
+Expired secret
+Production secret
+Environment reference
+Currently usable credential
 ```
 
-These require understanding the application.
+Related notes:
 
-Source code review should therefore not be reduced to sink searching.
+[Secrets Exposure](../web/secrets-exposure.md)
 
-Refer to:
-
-[Business Logic Vulnerabilities](../web/business-logic.md)
-
-[Race Conditions](../web/race-conditions.md)
-
----
-
-# Security-Relevant Variables
-
-Search for names such as:
-
-```text
-admin
-role
-permission
-privilege
-owner
-user_id
-account_id
-tenant_id
-price
-amount
-quantity
-discount
-balance
-status
-state
-approved
-verified
-mfa
-password
-token
-secret
-key
-redirect
-callback
-url
-filename
-path
-command
-query
-```
-
-These searches can identify important logic quickly.
-
-But:
-
-```text
-Interesting variable name
-        !=
-Vulnerability
-```
-
----
-
-# Search Tools
-
-Useful tools include:
-
-```text
-grep
-ripgrep
-find
-git
-Semgrep
-CodeQL
-Language-specific static analysers
-IDE references
-Call hierarchy
-```
-
----
-
-# ripgrep
-
-`ripgrep`, commonly invoked as `rg`, is extremely useful for source review.
-
-Basic search:
-
-```bash
-rg 'pattern' .
-```
-
-Case-insensitive:
-
-```bash
-rg -i 'password|secret|token' .
-```
-
-Line numbers are displayed by default.
-
-Restrict by file type:
-
-```bash
-rg -t py 'subprocess|os\.system' .
-```
-
-List matching files:
-
-```bash
-rg -l 'pattern' .
-```
-
----
-
-# Search Multiple Security Concepts
-
-Example:
-
-```bash
-rg -n -i \
-'password|passwd|secret|token|api[_-]?key|private[_-]?key' \
-.
-```
-
-Treat results as candidates requiring manual validation.
-
----
-
-# Exclude Dependencies
-
-Large repositories may contain third-party code.
-
-Example:
-
-```bash
-rg \
--g '!node_modules/**' \
--g '!vendor/**' \
--g '!venv/**' \
--g '!.venv/**' \
--g '!dist/**' \
--g '!build/**' \
-'pattern' \
-.
-```
-
-This can significantly reduce noise.
-
----
-
-# Search Configuration Files
-
-```bash
-find . \
--type f \
-\( \
--name '*.env' \
--o -name '*.yml' \
--o -name '*.yaml' \
--o -name '*.json' \
--o -name '*.xml' \
--o -name '*.properties' \
--o -name '*.config' \
-\) \
--print
-```
-
-Review relevant results manually.
-
----
-
-# Search TODO and Debug Code
-
-```bash
-rg -n -i \
-'todo|fixme|hack|debug|temporary|bypass|disable|disabled' \
-.
-```
-
-These comments may reveal unfinished security controls or development functionality.
-
-Do not assume comments accurately describe current behaviour.
-
----
-
-# Search Authentication Terms
-
-```bash
-rg -n -i \
-'login|logout|authenticate|authentication|authorize|authorization|permission|role|admin|session|jwt|oauth|saml|mfa' \
-.
-```
-
----
-
-# Search Potential Secrets
-
-```bash
-rg -n -i \
-'password|passwd|secret|token|api[_-]?key|client[_-]?secret|private[_-]?key|access[_-]?key' \
-.
-```
-
-Then determine:
-
-```text
-Example value?
-Test credential?
-Production credential?
-Placeholder?
-Environment variable reference?
-Actually usable secret?
-```
+[Dependency Security](../web/dependency-security.md)
 
 ---
 
 # Git History
 
-Current source code is only one point in time.
+The current tree is only one point in time.
 
-Security-relevant data may exist in Git history.
-
-Useful commands:
+Useful commands include:
 
 ```bash
 git log --oneline --all
 ```
 
-Search commit changes:
-
-```bash
-git log -p --all
-```
-
-Search for a string:
+Search for historical changes to a value:
 
 ```bash
 git log -S 'password' --all -p
 ```
 
-Search commits whose patches match a regex:
+Search commit patches using a pattern:
 
 ```bash
 git log -G 'secret|token|api[_-]?key' --all -p
 ```
 
-Handle historical secrets carefully.
-
-A removed credential may still be active.
-
----
-
-# Review Security Fixes
-
-Git history can reveal previous vulnerabilities.
-
-Search commit messages:
+Security-related commits can also reveal useful variant-analysis opportunities.
 
 ```bash
 git log --all --oneline --grep='security'
 ```
 
-```bash
-git log --all --oneline --grep='auth'
-```
-
-```bash
-git log --all --oneline --grep='sanitize'
-```
-
-```bash
-git log --all --oneline --grep='validation'
-```
-
-A previous fix can reveal similar unfixed code elsewhere.
+A previous security fix may identify similar code that was not corrected elsewhere.
 
 ---
 
@@ -1948,70 +1054,181 @@ A previous fix can reveal similar unfixed code elsewhere.
 Variant analysis means:
 
 ```text
-Find one security weakness
-        |
-        v
-Understand its root cause
-        |
-        v
-Search for the same pattern elsewhere
+Find Vulnerability
+      |
+      v
+Understand Root Cause
+      |
+      v
+Identify Pattern
+      |
+      v
+Search Entire Codebase
+      |
+      v
+Find Variants
 ```
 
-Example:
+Examples:
 
 ```text
 Missing ownership check
         |
         v
-Search all object lookup endpoints
+Review all object lookup paths
 ```
-
-or:
 
 ```text
-Unsafe raw SQL construction
+Unsafe raw SQL
         |
         v
-Search all raw query usage
+Search all raw-query usage
 ```
 
-This is one of the most effective source-review techniques.
+```text
+Weak URL validation
+        |
+        v
+Review every HTTP client call
+```
+
+Variant analysis is one of the highest-value activities in source review.
 
 ---
 
-# Code Duplication
+# Static Analysis
 
-Similar vulnerable logic may have been copied.
+Static-analysis tooling helps identify candidates at scale.
 
-Search:
+Useful tools include:
 
 ```text
-Same helper
-Same query pattern
-Same validation function
-Same controller logic
-Same authorisation pattern
+ripgrep
+Semgrep
+OpenGrep
+CodeQL
+IDE references
+Language-specific analysers
 ```
 
-Do not stop after finding the first instance.
+The correct model is:
+
+```text
+Static Analysis
+      |
+      v
+Candidate
+      |
+      v
+Manual Review
+      |
+      v
+Reachability
+      |
+      v
+Security Controls
+      |
+      v
+Dynamic Validation
+```
+
+Detailed notes:
+
+[Static Analysis](static-analysis/index.md)
+
+[ripgrep](static-analysis/ripgrep.md)
+
+[Semgrep](static-analysis/semgrep.md)
+
+[OpenGrep](static-analysis/opengrep.md)
+
+[CodeQL](static-analysis/codeql.md)
+
+---
+
+# Static Analysis Is Not the Finding
+
+For example:
+
+```text
+Semgrep identifies exec()
+        |
+        v
+Candidate
+```
+
+You still need to establish:
+
+```text
+Is it reachable?
+
+Can the attacker influence it?
+
+What validation exists?
+
+Is a shell involved?
+
+What execution context is used?
+
+What security impact follows?
+```
+
+Similarly:
+
+```text
+CodeQL data-flow result
+        !=
+Confirmed exploitable vulnerability
+```
+
+Tools accelerate review.
+
+They do not replace security reasoning.
+
+---
+
+# Tool-Assisted Review
+
+The Tools section provides practical guidance on choosing and using source-review tooling:
+
+[Source Code Review Tools](../tools/source-code-review/index.md)
+
+A useful workflow is:
+
+```text
+Repository
+    |
+    +--> ripgrep
+    |
+    +--> Semgrep
+    |
+    +--> OpenGrep
+    |
+    +--> CodeQL
+    |
+    v
+Candidate Paths
+    |
+    v
+Manual Analysis
+```
 
 ---
 
 # IDE-Assisted Review
 
-An IDE can significantly improve manual analysis.
+IDE features can significantly improve tracing.
 
-Useful features include:
+Useful capabilities include:
 
 ```text
-Go to definition
-Find references
-Call hierarchy
-Type hierarchy
-Search symbols
-Find implementations
-Rename preview
-Data-flow features
+Go to Definition
+Find References
+Find Implementations
+Call Hierarchy
+Type Hierarchy
+Symbol Search
+Git Integration
 ```
 
 For example:
@@ -2026,1335 +1243,160 @@ Find References
 Identify Callers
       |
       v
-Trace Back to Routes
+Trace Back to Entry Point
 ```
 
----
-
-# Visual Studio Code
-
-Useful source-review functionality includes:
-
-```text
-Global search
-Go to Definition
-Peek Definition
-Find All References
-Call Hierarchy
-Symbol Search
-Git integration
-```
-
-Extensions should be reviewed before installation in sensitive environments.
-
----
-
-# Semgrep
-
-Semgrep can identify source patterns using static-analysis rules.
-
-Typical workflow:
-
-```text
-Repository
-    |
-    v
-Semgrep
-    |
-    v
-Candidate Findings
-    |
-    v
-Manual Review
-```
-
-Semgrep results should not automatically be treated as confirmed vulnerabilities.
-
-Official project:
-
-```text
-https://semgrep.dev/
-```
-
----
-
-# CodeQL
-
-CodeQL supports semantic code analysis and can model data flow.
-
-Conceptually:
-
-```text
-Source
-   |
-   v
-Data Flow
-   |
-   v
-Sink
-```
-
-This makes it particularly useful for vulnerability classes such as:
-
-```text
-Injection
-Path traversal
-XSS
-Unsafe deserialisation
-```
-
-depending on the supported language and query.
-
-Official documentation:
-
-```text
-https://codeql.github.com/docs/
-```
-
----
-
-# Static Analysis vs Manual Review
-
-Static analysis is useful for:
-
-```text
-Pattern detection
-Data flow
-Known dangerous APIs
-Large codebases
-Variant analysis
-```
-
-Manual review remains important for:
-
-```text
-Business logic
-Authorisation
-Workflow
-Context
-Architecture
-False-positive elimination
-Exploitability
-```
-
-The strongest approach combines both.
-
-```text
-Static Analysis
-       +
-Manual Review
-       +
-Dynamic Testing
-```
-
----
-
-# SAST Findings Are Leads
-
-A scanner may report:
-
-```text
-Potential SQL Injection
-```
-
-This means:
-
-```text
-Investigate
-```
-
-not automatically:
-
-```text
-Confirmed SQL Injection
-```
-
-Verify:
-
-```text
-Source controllability
-Data flow
-Sanitisation
-Parameterisation
-Reachability
-Authentication
-Authorisation
-Impact
-```
+This is especially useful in large, strongly typed codebases.
 
 ---
 
 # Reachability
 
-A dangerous function may not be reachable.
+Code can be insecure without being reachable in the assessed deployment.
 
-Example:
-
-```text
-Legacy function
-    |
-    v
-No callers
-```
-
-or:
+Examples:
 
 ```text
-Debug endpoint
-    |
-    v
-Only compiled in development
+Legacy Function
+      |
+      v
+No Callers
 ```
 
-Determine whether the code is actually reachable in the target deployment.
+```text
+Debug Route
+      |
+      v
+Development Build Only
+```
+
+Review:
+
+- feature flags;
+- build flags;
+- runtime configuration;
+- reverse proxies;
+- routing;
+- deployment environment;
+- authentication;
+- network exposure.
+
+Reachability directly affects the significance of a source finding.
 
 ---
 
 # Deployment Context
 
-Source code alone may not reveal which functionality is enabled.
+Source alone may not tell you what is enabled.
 
 Consider:
 
 ```text
-Environment variables
-Build flags
-Feature flags
+Environment Variables
+Feature Flags
 Configuration
-Reverse proxy
-API gateway
-Cloud environment
-Container configuration
-Runtime version
+Build Profiles
+Containers
+Reverse Proxies
+API Gateways
+Cloud Configuration
+Runtime Versions
 ```
 
-A vulnerability in unused code may have different significance from one exposed in production.
-
----
-
-# Feature Flags
-
-Search for:
+The assessed application is:
 
 ```text
-feature
-flag
-enabled
-disabled
-experimental
-beta
-preview
-```
-
-Security controls sometimes differ between feature variants.
-
----
-
-# Environment-Specific Logic
-
-Look for:
-
-```text
-development
-staging
-production
-test
-local
-debug
-```
-
-Example conceptual pattern:
-
-```text
-if development:
-    disable_authentication()
-```
-
-Determine whether configuration mistakes could expose development behaviour elsewhere.
-
----
-
-# Debug Functionality
-
-Search for:
-
-```text
-debug
-test
-diagnostic
-health
-metrics
-admin
-internal
-dev
-```
-
-Then determine:
-
-```text
-Is it routable?
-
-Is it authenticated?
-
-What information does it expose?
-
-Can it perform actions?
-```
-
----
-
-# Information Disclosure
-
-Source review can identify:
-
-```text
-Stack trace configuration
-Debug pages
-Verbose errors
-Internal hostnames
-Database details
-File paths
-Secrets
-API keys
-Source maps
-Internal endpoints
-```
-
-Refer to:
-
-[Information Disclosure](../web/information-disclosure.md)
-
----
-
-# Error Handling
-
-Search:
-
-```text
-Exception
-catch
-throw
-traceback
-stack trace
-error handler
-```
-
-Determine whether:
-
-```text
-Sensitive information reaches users
-Errors are swallowed
-Security checks fail open
-```
-
----
-
-# Fail Open vs Fail Closed
-
-Security controls should generally fail safely.
-
-Example:
-
-```text
-Authorisation Service Error
-          |
-      +---+---+
-      |       |
-      v       v
-    Deny     Allow
-```
-
-For security-sensitive decisions, unexpected errors should generally not result in automatic access.
-
----
-
-# Authentication Review
-
-Review:
-
-```text
-Credential validation
-Password hashing
-Session creation
-Token generation
-Token validation
-Logout
-Password reset
-MFA
-Account recovery
-Remember-me
-Brute-force protection
-```
-
-Refer to:
-
-[Authentication Testing](../web/authentication.md)
-
-[Password Reset Security](../web/password-reset.md)
-
-[Multi-Factor Authentication Security](../web/mfa.md)
-
-[Session Management](../web/session-management.md)
-
----
-
-# Password Storage
-
-Identify password hashing functions and configuration.
-
-Review:
-
-```text
-Algorithm
-Work factor
-Salt handling
-Migration from legacy hashes
-Password comparison
-```
-
-Do not confuse encryption with password hashing.
-
----
-
-# Session Review
-
-Trace:
-
-```text
-Login
-  |
-  v
-Session Creation
-  |
-  v
-Cookie
-  |
-  v
-Request Authentication
-  |
-  v
-Logout / Expiry
-```
-
-Review:
-
-```text
-Session rotation
-Expiration
-Invalidation
-Cookie attributes
-Concurrent sessions
-```
-
----
-
-# JWT Review
-
-Find:
-
-```text
-Token generation
-Signing
-Verification
-Claims
-Expiration
-Issuer
-Audience
-Key selection
-```
-
-Trace where claims influence:
-
-```text
-Identity
-Roles
-Tenant
-Permissions
-```
-
-Refer to:
-
-[JSON Web Token Security](../web/jwt.md)
-
----
-
-# OAuth and OIDC Review
-
-Map:
-
-```text
-Authorization request
-       |
-       v
-Callback
-       |
-       v
-Code exchange
-       |
-       v
-Token validation
-       |
-       v
-Session creation
-```
-
-Review:
-
-```text
-state
-nonce
-redirect URI
-issuer
-audience
-PKCE
-token validation
-account linking
-```
-
-Refer to:
-
-[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
-
----
-
-# SAML Review
-
-Map:
-
-```text
-SAML Request
-     |
-     v
-Identity Provider
-     |
-     v
-SAML Response
-     |
-     v
-Validation
-     |
-     v
-Application Session
-```
-
-Review:
-
-```text
-Signature validation
-Issuer
-Audience
-Destination
-Recipient
-Replay
-XML parsing
-Attribute mapping
-```
-
-Refer to:
-
-[SAML Security](../web/saml.md)
-
----
-
-# Authorisation Review
-
-Look beyond obvious:
-
-```text
-if role == admin
-```
-
-Authorisation may be implemented through:
-
-```text
-Middleware
-Annotations
-Decorators
-Policies
-Filters
-Framework configuration
-Database queries
-Service methods
-```
-
-Build an authorisation matrix.
-
----
-
-# Authorisation Matrix
-
-Example:
-
-| Action | Anonymous | User | Manager | Admin |
-|---|---:|---:|---:|---:|
-| View profile | No | Own | Team | Any |
-| Edit profile | No | Own | No | Any |
-| View invoice | No | Own | Team | Any |
-| Delete user | No | No | No | Yes |
-
-Compare this expected model with actual code.
-
----
-
-# IDOR / BOLA Review
-
-Look for patterns:
-
-```text
-Object ID from request
-       |
-       v
-Database lookup
-       |
-       v
-Return / modify object
-```
-
-Then ask:
-
-```text
-Where is ownership checked?
-```
-
-Refer to:
-
-[IDOR and BOLA](../web/idor-bola.md)
-
----
-
-# Mass Assignment Review
-
-Look for:
-
-```text
-Request object
-      |
-      v
-Automatic binding
-      |
-      v
-Domain / database object
-```
-
-Determine whether security-sensitive properties can be set.
-
-Examples:
-
-```text
-role
-admin
-owner
-tenant
-balance
-status
-verified
-```
-
-Refer to:
-
-[Mass Assignment](../web/mass-assignment.md)
-
----
-
-# SQL Injection Review
-
-Trace:
-
-```text
-Request Input
-      |
-      v
-Query Construction
-      |
-      v
-Database Execution
-```
-
-Look for:
-
-```text
-String concatenation
-String interpolation
-Raw SQL
-Dynamic query fragments
-Native queries
-```
-
-Then determine whether parameterisation is used correctly.
-
-Refer to:
-
-[SQL Injection](../web/sql-injection.md)
-
----
-
-# NoSQL Injection Review
-
-Review:
-
-```text
-Dynamic query objects
-User-controlled operators
-JSON-to-query conversion
-Filter construction
-```
-
-Refer to:
-
-[NoSQL Injection](../web/nosql-injection.md)
-
----
-
-# LDAP Injection Review
-
-Review:
-
-```text
-LDAP filters
-Distinguished names
-Search filters
-Dynamic filter construction
-```
-
-Refer to:
-
-[LDAP Injection](../web/ldap-injection.md)
-
----
-
-# Command Injection Review
-
-Trace:
-
-```text
-Input
-  |
-  v
-Command Construction
-  |
-  v
-Process API
-```
-
-Determine whether:
-
-```text
-Shell invoked?
-Executable controlled?
-Arguments controlled?
-Input allowlisted?
-```
-
-Refer to:
-
-[OS Command Injection](../web/command-injection.md)
-
----
-
-# SSTI Review
-
-Find template APIs.
-
-Determine:
-
-```text
-Is user input passed as template data?
-```
-
-or:
-
-```text
-Is user input compiled/evaluated as template source?
-```
-
-Refer to:
-
-[Server-Side Template Injection](../web/ssti.md)
-
----
-
-# XSS Review
-
-Trace:
-
-```text
-User Input
-    |
-    v
-Storage / Processing
-    |
-    v
-HTML Output
-```
-
-Review the actual output context.
-
-Examples:
-
-```text
-HTML text
-HTML attribute
-JavaScript
-URL
-CSS
-DOM
-```
-
-Refer to:
-
-[Cross-Site Scripting](../web/xss.md)
-
-[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
-
----
-
-# CSRF Review
-
-Identify state-changing endpoints.
-
-Review:
-
-```text
-Cookie-based authentication
-CSRF tokens
-SameSite cookies
-Origin checks
-Referer checks
-Framework CSRF middleware
-```
-
-Refer to:
-
-[Cross-Site Request Forgery](../web/csrf.md)
-
----
-
-# CORS Review
-
-Search for:
-
-```text
-CORS configuration
-Allowed origins
-Credential support
-Wildcard origins
-Dynamic origin reflection
-```
-
-Refer to:
-
-[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
-
----
-
-# SSRF Review
-
-Search HTTP-client usage.
-
-Trace:
-
-```text
-Request Parameter
-       |
-       v
-URL Construction
-       |
-       v
-HTTP Client
-```
-
-Review:
-
-```text
-Scheme restrictions
-Host restrictions
-DNS resolution
-Redirect handling
-Network egress
-```
-
-Refer to:
-
-[Server Side Request Forgery](../web/ssrf.md)
-
----
-
-# Path Traversal Review
-
-Trace:
-
-```text
-User Input
-    |
-    v
-Path Construction
-    |
-    v
-File Operation
-```
-
-Review:
-
-```text
-Canonicalisation
-Path joining
-Base directory enforcement
-Filename mapping
-```
-
-Refer to:
-
-[Path Traversal](../web/path-traversal.md)
-
----
-
-# File Upload Review
-
-Trace:
-
-```text
-Uploaded File
-     |
-     v
-Validation
-     |
-     v
-Storage
-     |
-     v
-Processing
-     |
-     v
-Retrieval
-```
-
-Review:
-
-```text
-Filename
-Extension
-MIME type
-Content
-File signature
-Size
-Storage location
-Execution possibility
-Image/document processing
-Archive extraction
-```
-
-Refer to:
-
-[File Upload Security](../web/file-upload.md)
-
----
-
-# Deserialisation Review
-
-Search for deserialisation APIs and trace their input.
-
-Determine:
-
-```text
-Can an attacker influence serialized data?
-
-Are arbitrary types allowed?
-
-Is integrity protection used?
-
-Does deserialisation trigger dangerous behaviour?
-```
-
-Refer to:
-
-[Insecure Deserialization](../web/deserialization.md)
-
----
-
-# Open Redirect Review
-
-Trace:
-
-```text
-Request Input
-      |
-      v
-Redirect Destination
-```
-
-Review whether destinations are:
-
-```text
-Allowlisted
-Mapped server-side
-Restricted to local paths
-```
-
-Refer to:
-
-[Open Redirect](../web/open-redirect.md)
-
----
-
-# HTTP Host Header Review
-
-Search for use of:
-
-```text
-Host
-X-Forwarded-Host
-Forwarded
-```
-
-in:
-
-```text
-Password reset links
-Absolute URLs
-Redirects
-Emails
-Cache keys
-Security decisions
-```
-
-Refer to:
-
-[HTTP Host Header Attacks](../web/host-header-attacks.md)
-
----
-
-# HTTP Security Headers
-
-Review configuration for:
-
-```text
-Content-Security-Policy
-Strict-Transport-Security
-X-Content-Type-Options
-Referrer-Policy
-Permissions-Policy
-Frame protection
-```
-
-Do not automatically report every missing header as a vulnerability.
-
-Consider application context and actual impact.
-
-Refer to:
-
-[HTTP Security Headers](../web/http-security-headers.md)
-
----
-
-# Rate Limiting
-
-Identify:
-
-```text
-Login
-Password reset
-MFA
-Registration
-OTP verification
-API keys
-Expensive operations
-Search
-AI endpoints
-```
-
-Then locate rate-limiting controls.
-
-Review:
-
-```text
-Key used for limiting
-IP address handling
-User/account identifiers
-Distributed storage
-Proxy trust
-Failure behaviour
-```
-
-Refer to:
-
-[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
-
----
-
-# Race Conditions
-
-Look for:
-
-```text
-Check
- |
- v
-State Read
- |
- v
-Operation
- |
- v
-State Write
-```
-
-where concurrent requests may violate assumptions.
-
-Security-sensitive examples:
-
-```text
-Balance
-Coupon
-Inventory
-Password reset
-Invitation
-MFA
-Account creation
-```
-
-Refer to:
-
-[Race Conditions](../web/race-conditions.md)
-
----
-
-# Dependency Security
-
-Identify dependency manifests and lockfiles.
-
-Review:
-
-```text
-Versions
-Known vulnerabilities
-Unsupported packages
-Unmaintained dependencies
-Direct dependencies
-Transitive dependencies
-```
-
-Use software composition analysis where appropriate.
-
-Refer to:
-
-[Dependency Security](../web/dependency-security.md)
-
----
-
-# Third-Party JavaScript
-
-Review:
-
-```text
-External scripts
-CDNs
-Tag managers
-Analytics
-Payment scripts
-Support widgets
-Chat widgets
-```
-
-Determine:
-
-```text
-What executes in the page?
-
-What data can it access?
-
-Is SRI appropriate?
-
-What CSP restrictions exist?
-
-How is vendor change managed?
-```
-
-Refer to:
-
-[Third-Party JavaScript Security](../web/third-party-javascript.md)
-
----
-
-# API Security
-
-For APIs, map:
-
-```text
-Routes
-Methods
-Authentication
-Authorisation
-Object IDs
-Schemas
-Rate limits
-Error handling
-Versioning
-```
-
-Refer to:
-
-[API Security](../web/api-security.md)
-
----
-
-# GraphQL
-
-Identify:
-
-```text
-Schema
-Resolvers
-Mutations
-Authentication
-Authorisation
-Data loaders
-Custom scalars
-```
-
-Authorisation should be reviewed at the actual data-access level, not merely at the GraphQL endpoint.
-
-Refer to:
-
-[GraphQL API Security](../web/graphql.md)
-
----
-
-# gRPC
-
-Identify:
-
-```text
-.proto files
-Services
-RPC methods
-Interceptors
-Authentication
-Authorisation
-Message validation
-```
-
-Refer to:
-
-[gRPC Security](../web/grpc-security.md)
-
----
-
-# WebSockets
-
-Map:
-
-```text
-Connection establishment
-Authentication
-Message handlers
-Message types
-Object access
-Authorisation
-State changes
-```
-
-Refer to:
-
-[WebSocket Security](../web/websockets.md)
-
----
-
-# Secrets and Sensitive Configuration
-
-Review:
-
-```text
-Source files
+Source Code
+     +
 Configuration
-Environment examples
-Tests
-CI/CD
-Docker files
-Git history
-Documentation
-Scripts
+     +
+Runtime Environment
 ```
 
-Potential secrets require validation.
-
-Refer to:
-
-[Secrets Exposure](../web/secrets-exposure.md)
+not source code alone.
 
 ---
 
-# Cryptography
+# Technology-Specific Review
 
-Search for:
+Different frameworks implement routing, data binding, authentication, authorisation, templating, persistence, and validation differently.
 
-```text
-Encryption
-Decryption
-Hashing
-Random generation
-Key generation
-Signatures
-Password hashing
-Token generation
-```
+<div class="grid cards" markdown>
 
-Review:
+-   :material-microsoft-visual-studio-code:{ .lg .middle } **.NET / ASP.NET Core**
 
-```text
-Algorithm choice
-Key management
-Nonce/IV generation
-Randomness
-Integrity protection
-Hard-coded keys
-Custom cryptography
-```
+    ---
 
-Avoid reporting algorithm names without understanding their usage.
+    Controllers, Minimal APIs, middleware, ASP.NET Core Identity, Entity Framework, Dapper, HttpClient, Razor, configuration and process execution.
 
----
+    [:octicons-arrow-right-24: .NET Review](dotnet.md)
 
-# Randomness
+-   :material-language-java:{ .lg .middle } **Java / Spring**
 
-Security-sensitive values include:
+    ---
 
-```text
-Session IDs
-Password-reset tokens
-MFA recovery codes
-API keys
-Invitation tokens
-CSRF tokens
-```
+    Spring MVC, Spring Security, JDBC, JPA, Hibernate, XML parsers, templates, ProcessBuilder and HTTP clients.
 
-Determine whether they use a cryptographically secure random source.
+    [:octicons-arrow-right-24: Java Review](java.md)
 
----
+-   :material-language-php:{ .lg .middle } **PHP**
 
-# Logging
+    ---
 
-Review whether logs contain:
+    Superglobals, PDO, MySQLi, file operations, include paths, command execution, sessions, templates and deserialisation.
 
-```text
-Passwords
-Tokens
-Authorization headers
-Session IDs
-API keys
-Personal data
-Sensitive request bodies
-```
+    [:octicons-arrow-right-24: PHP Review](php.md)
 
-Also consider attacker-controlled data entering logs.
+-   :material-language-python:{ .lg .middle } **Python**
+
+    ---
+
+    subprocess, os.system, pickle, YAML, HTTP clients, filesystem APIs, eval/exec, cryptography and dependencies.
+
+    [:octicons-arrow-right-24: Python Review](python.md)
+
+-   :material-language-python:{ .lg .middle } **Django**
+
+    ---
+
+    URLs, views, middleware, permissions, ORM, RawSQL, templates, CSRF, file handling and application settings.
+
+    [:octicons-arrow-right-24: Django Review](django.md)
+
+-   :material-flask-outline:{ .lg .middle } **Flask**
+
+    ---
+
+    Routes, Blueprints, request data, sessions, Jinja, SQLAlchemy, redirects, files, configuration and extensions.
+
+    [:octicons-arrow-right-24: Flask Review](flask.md)
+
+-   :material-nodejs:{ .lg .middle } **Node.js / Express**
+
+    ---
+
+    Routes, middleware, request data, authentication, database operations, child processes, files, HTTP clients and prototype pollution.
+
+    [:octicons-arrow-right-24: Node.js Review](nodejs.md)
+
+-   :material-language-javascript:{ .lg .middle } **Client-Side JavaScript**
+
+    ---
+
+    DOM sources and sinks, postMessage, browser storage, dynamic HTML, script loading and client-side routing.
+
+    [:octicons-arrow-right-24: JavaScript Review](javascript.md)
+
+</div>
 
 ---
 
 # Source Code Review Workflow
 
-A practical workflow is:
+A practical review can be structured as:
 
 ```text
-1. Understand the Repository
+1. Understand Repository
 
 2. Identify Languages and Frameworks
 
@@ -3368,13 +1410,13 @@ A practical workflow is:
 
 7. Map Authorisation
 
-8. Map User-Controlled Sources
+8. Identify User-Controlled Sources
 
-9. Map Security Controls
+9. Identify Security Controls
 
-10. Identify Dangerous Sinks
+10. Identify Sensitive Sinks
 
-11. Trace Source-to-Sink Data Flow
+11. Trace Source-to-Sink Paths
 
 12. Review Business Logic
 
@@ -3384,265 +1426,79 @@ A practical workflow is:
 
 15. Review Git History
 
-16. Run Static Analysis
+16. Perform Static Analysis
 
 17. Perform Variant Analysis
 
-18. Validate Findings Dynamically Where Permitted
+18. Validate Candidates Dynamically
 
-19. Determine Security Impact
+19. Determine Supported Impact
 
 20. Document Evidence
 ```
 
----
+Detailed methodology:
 
-# Phase 1 - Repository Understanding
-
-```text
-[ ] Languages identified
-[ ] Frameworks identified
-[ ] Build system identified
-[ ] Dependency files identified
-[ ] Application entry point identified
-[ ] Configuration identified
-[ ] Deployment files identified
-[ ] Test directories identified
-[ ] Generated code identified
-[ ] Third-party code identified
-```
+[Source Code Review Methodology](methodology.md)
 
 ---
 
-# Phase 2 - Attack Surface
+# Dynamic Validation
+
+Where authorised, source-review findings should be connected to runtime behaviour.
 
 ```text
-[ ] Routes identified
-[ ] API endpoints identified
-[ ] GraphQL identified
-[ ] gRPC identified
-[ ] WebSockets identified
-[ ] File uploads identified
-[ ] Webhooks identified
-[ ] Admin endpoints identified
-[ ] Debug endpoints identified
-[ ] Background jobs identified
-[ ] Third-party integrations identified
-```
-
----
-
-# Phase 3 - Authentication
-
-```text
-[ ] Login flow mapped
-[ ] Logout flow mapped
-[ ] Session creation mapped
-[ ] Password reset mapped
-[ ] MFA mapped
-[ ] OAuth/OIDC mapped
-[ ] SAML mapped
-[ ] API authentication mapped
-[ ] JWT generation mapped
-[ ] JWT validation mapped
-```
-
----
-
-# Phase 4 - Authorisation
-
-```text
-[ ] Roles identified
-[ ] Permissions identified
-[ ] Authorisation middleware identified
-[ ] Object ownership checks identified
-[ ] Tenant checks identified
-[ ] Administrative actions identified
-[ ] Sensitive endpoints mapped to permissions
-```
-
----
-
-# Phase 5 - Sources
-
-```text
-[ ] Query parameters identified
-[ ] Path parameters identified
-[ ] Request bodies identified
-[ ] JSON fields identified
-[ ] XML fields identified
-[ ] Headers identified
-[ ] Cookies identified
-[ ] Uploaded files identified
-[ ] WebSocket messages identified
-[ ] GraphQL arguments identified
-[ ] gRPC fields identified
-[ ] Webhook data identified
-```
-
----
-
-# Phase 6 - Sinks
-
-```text
-[ ] SQL sinks identified
-[ ] NoSQL sinks identified
-[ ] LDAP sinks identified
-[ ] Command sinks identified
-[ ] File sinks identified
-[ ] Network sinks identified
-[ ] Template sinks identified
-[ ] Deserialisation sinks identified
-[ ] XML parsers identified
-[ ] Redirect sinks identified
-[ ] HTML/DOM sinks identified
-[ ] Dynamic execution sinks identified
-```
-
----
-
-# Phase 7 - Data Flow
-
-For every important source-to-sink path:
-
-```text
-[ ] Source is attacker-controllable
-[ ] Data transformations identified
-[ ] Validation identified
-[ ] Sanitisation identified
-[ ] Encoding identified
-[ ] Authorisation identified
-[ ] Sink identified
-[ ] Reachability confirmed
-[ ] Exploitability assessed
-```
-
----
-
-# Phase 8 - Business Logic
-
-```text
-[ ] State transitions reviewed
-[ ] Financial calculations reviewed
-[ ] Quantity handling reviewed
-[ ] Discounts reviewed
-[ ] Approval workflows reviewed
-[ ] Tenant boundaries reviewed
-[ ] Role transitions reviewed
-[ ] Race conditions considered
-```
-
----
-
-# Phase 9 - Configuration and Secrets
-
-```text
-[ ] Hard-coded credentials searched
-[ ] API keys searched
-[ ] Tokens searched
-[ ] Private keys searched
-[ ] Debug settings reviewed
-[ ] Production settings reviewed
-[ ] CORS reviewed
-[ ] Security headers reviewed
-[ ] Secret management reviewed
-```
-
----
-
-# Phase 10 - Dependencies
-
-```text
-[ ] Dependency manifests reviewed
-[ ] Lockfiles reviewed
-[ ] Vulnerability scanning considered
-[ ] Unsupported dependencies identified
-[ ] High-risk libraries reviewed
-[ ] Transitive dependencies considered
-```
-
----
-
-# Phase 11 - Git History
-
-```text
-[ ] Security-related commits reviewed
-[ ] Removed secrets considered
-[ ] Previous vulnerability fixes reviewed
-[ ] Deleted endpoints considered
-[ ] Historical configuration considered
-```
-
----
-
-# Phase 12 - Static Analysis
-
-```text
-[ ] ripgrep searches performed
-[ ] Semgrep considered
-[ ] CodeQL considered
-[ ] Language-specific analyser considered
-[ ] Scanner results manually reviewed
-[ ] False positives removed
-```
-
----
-
-# Phase 13 - Variant Analysis
-
-```text
-[ ] Root cause understood
-[ ] Similar functions searched
-[ ] Similar routes searched
-[ ] Similar sinks searched
-[ ] Similar validation patterns searched
-[ ] Similar authorisation patterns searched
-```
-
----
-
-# Phase 14 - Dynamic Validation
-
-Where authorised and appropriate:
-
-```text
-Source Finding
+Source Candidate
       |
       v
-Identify Endpoint
+Identify Reachable Endpoint
       |
       v
-Create Controlled Request
+Create Controlled Test
       |
       v
-Verify Behaviour
+Observe Runtime Behaviour
+      |
+      v
+Compare With Source
       |
       v
 Determine Impact
 ```
 
-Source review and dynamic testing reinforce each other.
+Source and dynamic testing strengthen each other:
+
+```text
+Source Review
+     +
+Runtime Evidence
+     |
+     v
+Higher Confidence
+```
 
 ---
 
 # Evidence Collection
 
-For each candidate finding record:
+For each candidate, record:
 
 ```text
 File
 Line
-Function
 Class
+Function
 Route
 Source
-Data flow
-Security control
+Data Flow
+Security Control
 Sink
 Reachability
-Authentication requirement
-Authorisation requirement
-Observed impact
+Authentication
+Authorisation
+Runtime Context
+Validation Performed
+Observed Impact
 ```
 
 Example:
@@ -3652,12 +1508,12 @@ Route:
 POST /api/report
 
 Source:
-request JSON field "url"
+request JSON property "url"
 
 Handler:
 ReportController.create()
 
-Data flow:
+Data Flow:
 url -> ReportService.generate() -> fetchRemoteDocument()
 
 Sink:
@@ -3666,24 +1522,59 @@ HTTP client
 Validation:
 Scheme validation only
 
-Authorisation:
-Authenticated users
+Authentication:
+Required
 
-Security concern:
-Potential SSRF
+Dynamic Validation:
+Controlled callback observed
 
-Dynamic validation:
-Controlled callback received
-
-Impact:
+Security Concern:
 Server-side request to attacker-controlled destination
+```
+
+---
+
+# Evidence Before Conclusions
+
+Use a clear confidence model.
+
+| State | Meaning |
+|---|---|
+| Observation | Something potentially interesting was found |
+| Candidate | A plausible security path exists |
+| Reachable | The affected code executes in the assessed context |
+| Validated | Runtime behaviour reproduces the condition |
+| Confirmed | Evidence supports the security condition and impact |
+
+Example:
+
+```text
+HTTP Client Found
+      |
+      v
+User Input Reaches URL
+      |
+      v
+Candidate SSRF
+      |
+      v
+Route Confirmed Reachable
+      |
+      v
+Controlled Callback
+      |
+      v
+Validated Server-Side Request
+      |
+      v
+Impact Assessment
 ```
 
 ---
 
 # Finding Classification
 
-A useful classification is:
+A useful decision model is:
 
 ```text
 Candidate
@@ -3691,7 +1582,7 @@ Candidate
    v
 Reachable?
    |
-   +-- No --> Informational / discard
+   +-- No --> Not applicable to current deployment
    |
    v
 Attacker Controlled?
@@ -3699,19 +1590,19 @@ Attacker Controlled?
    +-- No --> Review context
    |
    v
-Security Control?
+Effective Security Control?
    |
-   +-- Effective --> Not vulnerable
+   +-- Yes --> Not vulnerable
    |
    v
 Exploitable?
    |
-   +-- No --> Defence-in-depth / discard
+   +-- No --> Defence-in-depth / low significance
    |
    v
-Security Impact?
+Supported Security Impact?
    |
-   +-- No --> Low significance
+   +-- No --> Reassess significance
    |
    v
 Confirmed Finding
@@ -3719,27 +1610,35 @@ Confirmed Finding
 
 ---
 
-# Avoid Scanner-Driven Reporting
+# Reporting Source Findings
 
 Do not report:
 
 ```text
-Semgrep found exec()
+Semgrep found exec().
 ```
 
-Report:
+Report the actual security condition:
 
 ```text
-Attacker-controlled filename reaches a shell command without safe argument handling, allowing command injection.
+Attacker-controlled input reaches process execution without safe
+argument handling, allowing command injection in the affected request
+path.
 ```
 
-The finding should describe:
+A strong finding explains:
 
 ```text
-Cause
+Root Cause
 Reachability
+Source
+Data Flow
+Missing / Ineffective Control
+Sink
 Exploitability
 Impact
+Evidence
+Remediation
 ```
 
 ---
@@ -3748,7 +1647,7 @@ Impact
 
 ```text
 Title:
-[Specific vulnerability]
+[Specific security condition]
 
 Affected Component:
 [Route / class / function]
@@ -3756,20 +1655,23 @@ Affected Component:
 Source:
 [Attacker-controlled input]
 
-Sink:
-[Security-sensitive operation]
-
 Data Flow:
 [Source -> transformations -> sink]
 
 Security Control:
 [Missing / ineffective / bypassable control]
 
+Sink:
+[Security-sensitive operation]
+
+Reachability:
+[How the path is exposed]
+
 Impact:
-[What an attacker can achieve]
+[What an attacker can actually achieve]
 
 Evidence:
-[Relevant source locations and controlled runtime evidence]
+[Relevant source and controlled runtime evidence]
 
 Recommendation:
 [Root-cause remediation]
@@ -3777,61 +1679,20 @@ Recommendation:
 
 ---
 
-# Example Source Review Finding
-
-```text
-Title:
-Server-Side Request Forgery Through User-Controlled Report URL
-
-Affected Component:
-Report generation functionality
-
-Source:
-POST /api/report
-JSON property: url
-
-Data Flow:
-
-request.body.url
-      |
-      v
-ReportController
-      |
-      v
-ReportService
-      |
-      v
-HTTP client
-      |
-      v
-Remote request
-
-Observed Control:
-Only the URL scheme is checked.
-
-Impact:
-An authenticated attacker can cause the application server to make requests to attacker-controlled destinations.
-
-Recommendation:
-Restrict server-side requests to explicitly permitted destinations where possible. Validate the resolved destination, account for redirects and DNS behaviour, and apply network-level egress restrictions appropriate to the application's requirements.
-```
-
----
-
 # Quick Review Questions
 
-For every endpoint ask:
+For important endpoints ask:
 
 ```text
 Where is the route defined?
 
-What HTTP methods are allowed?
+Which HTTP methods are supported?
 
 Is authentication required?
 
 How is authentication enforced?
 
-What role is required?
+What role or permission is required?
 
 How is authorisation enforced?
 
@@ -3839,645 +1700,160 @@ Which objects can the user reference?
 
 Are ownership checks performed?
 
-Which parameters are attacker-controlled?
-
-How are they validated?
+Which inputs are attacker-controlled?
 
 Where do they flow?
 
+How are they validated?
+
 Do they reach SQL?
 
-Do they reach a shell?
+Do they reach process execution?
 
 Do they reach LDAP?
 
-Do they reach a template?
+Do they reach a template engine?
 
 Do they reach the filesystem?
 
 Do they reach an HTTP client?
 
-Do they reach HTML?
+Do they reach HTML or DOM APIs?
 
 Do they reach a redirect?
 
 Do they reach a deserialiser?
 
-Can the user control object properties?
+Can sensitive properties be bound automatically?
 
-Can the user influence state transitions?
+Can workflows be reordered?
 
-Are operations rate-limited?
+Can requests race?
 
 Are secrets involved?
 
 Are sensitive values logged?
 
-Can requests race?
-
-Does another route implement the same operation differently?
+Does a similar route use stronger controls?
 ```
 
 ---
 
-# Quick Sink Reference
+# Review Checklist
 
-```text
-SQL
-  -> SQL Injection
-
-NoSQL Query
-  -> NoSQL Injection
-
-LDAP Query
-  -> LDAP Injection
-
-Shell / Process
-  -> Command Injection
-
-Template Evaluation
-  -> SSTI
-
-HTML / DOM
-  -> XSS / HTML Injection
-
-File Read
-  -> Path Traversal / File Inclusion
-
-File Write
-  -> Arbitrary File Write / Upload Issues
-
-HTTP Client
-  -> SSRF
-
-Redirect
-  -> Open Redirect
-
-Deserialiser
-  -> Insecure Deserialisation
-
-XML Parser
-  -> XXE
-
-Object Binding
-  -> Mass Assignment
-
-Object Lookup
-  -> IDOR / BOLA
-
-Dynamic Code Evaluation
-  -> Code Injection
-```
-
-This is a triage map, not a vulnerability guarantee.
-
----
-
-# Quick Source Reference
-
-```text
-HTTP Query
-HTTP Path
-HTTP Body
-JSON
-XML
-Headers
-Cookies
-Files
-WebSocket Messages
-GraphQL Arguments
-gRPC Messages
-Webhooks
-Message Queues
-Third-Party APIs
-Stored User Data
-```
-
-Any of these may become attacker-controlled depending on the architecture.
-
----
-
-# Vulnerability Review Matrix
-
-| Vulnerability | Primary Source Review Question |
-|---|---|
-| SQL Injection | Can untrusted data alter SQL syntax? |
-| NoSQL Injection | Can untrusted data alter NoSQL query semantics? |
-| LDAP Injection | Can untrusted data alter LDAP filters? |
-| Command Injection | Can untrusted data influence shell/command execution? |
-| SSTI | Can untrusted data become template source? |
-| XSS | Can untrusted data reach an unsafe output context? |
-| SSRF | Can untrusted data control a server-side destination? |
-| Path Traversal | Can untrusted data influence filesystem paths? |
-| File Upload | Can attacker-controlled files be stored or processed unsafely? |
-| XXE | Can attacker-controlled XML reach an unsafe parser? |
-| Deserialisation | Can attacker-controlled serialized data reach dangerous object construction? |
-| IDOR / BOLA | Is object access restricted to authorised users? |
-| Mass Assignment | Can users bind security-sensitive object properties? |
-| Open Redirect | Can users control redirect destinations? |
-| CSRF | Can authenticated state-changing actions be triggered cross-site? |
-| CORS | Can untrusted origins read sensitive responses? |
-| Authentication | Can identity verification be bypassed or abused? |
-| Authorisation | Can users perform unauthorised actions? |
-| Session Management | Can sessions be stolen, fixed, reused or remain valid incorrectly? |
-| JWT | Are tokens generated and validated securely? |
-| OAuth/OIDC | Are authorization flows and tokens validated correctly? |
-| SAML | Are assertions and protocol fields validated correctly? |
-| Business Logic | Can valid functions be combined or manipulated unexpectedly? |
-| Race Conditions | Can concurrent operations violate security assumptions? |
-| Rate Limiting | Can sensitive operations be automated excessively? |
-| Secrets Exposure | Are usable secrets exposed in code/config/history? |
-| Dependency Security | Are vulnerable or unsupported components reachable? |
-
----
-
-# Technology-Specific Notes
-
-The following pages provide language and framework-specific review guidance.
-
----
-
-## .NET / ASP.NET Core
-
-[.NET / ASP.NET Core Source Code Review](dotnet.md)
-
-Topics include:
-
-```text
-ASP.NET Core routes
-Controllers
-Minimal APIs
-Authentication
-Authorisation
-Entity Framework
-ADO.NET
-Dapper
-Process execution
-HttpClient
-File APIs
-Serialization
-Razor
-Configuration
-Secrets
-```
-
----
-
-## Java / Spring
-
-[Java / Spring Source Code Review](java.md)
-
-Topics include:
-
-```text
-Spring MVC
-Spring Boot
-Servlets
-Controllers
-Spring Security
-JDBC
-JPA
-Hibernate
-ProcessBuilder
-Runtime.exec
-HTTP clients
-XML parsers
-Serialization
-Templates
-```
-
----
-
-## PHP
-
-[PHP Source Code Review](php.md)
-
-Topics include:
-
-```text
-Superglobals
-Routing
-PDO
-MySQLi
-Command execution
-File inclusion
-File operations
-unserialize()
-Sessions
-Headers
-Templates
-Framework patterns
-```
-
----
-
-## Python
-
-[Python Source Code Review](python.md)
-
-Topics include:
-
-```text
-Python security primitives
-subprocess
-os.system
-pickle
-YAML
-File operations
-HTTP clients
-eval
-exec
-Cryptography
-Dependencies
-```
-
----
-
-## Django
-
-[Django Source Code Review](django.md)
-
-Topics include:
-
-```text
-URLs
-Views
-Middleware
-Authentication
-Permissions
-ORM
-RawSQL
-Templates
-CSRF
-File uploads
-Redirects
-Settings
-```
-
----
-
-## Flask
-
-[Flask Source Code Review](flask.md)
-
-Topics include:
-
-```text
-Routes
-Blueprints
-request
-Sessions
-Jinja
-render_template_string
-SQLAlchemy
-Redirects
-File handling
-Configuration
-Extensions
-```
-
----
-
-## Node.js / Express
-
-[Node.js and Express Source Code Review](nodejs.md)
-
-Topics include:
-
-```text
-Express routes
-Middleware
-req.query
-req.params
-req.body
-Authentication
-Authorisation
-Database access
-child_process
-Filesystem APIs
-HTTP clients
-Templates
-Prototype pollution
-Dependencies
-```
-
----
-
-## Client-Side JavaScript
-
-[Client-Side JavaScript Source Code Review](javascript.md)
-
-Topics include:
-
-```text
-DOM sources
-DOM sinks
-postMessage
-location
-Web Storage
-innerHTML
-document.write
-eval
-Dynamic script loading
-Prototype pollution
-Third-party JavaScript
-Client-side routing
-```
-
----
-
-# Recommended Review Order
-
-For an unfamiliar application:
-
-```text
-Repository Structure
-        |
-        v
-Technology Stack
-        |
-        v
-Routes
-        |
-        v
-Authentication
-        |
-        v
-Authorisation
-        |
-        v
-Sources
-        |
-        v
-Sensitive Business Logic
-        |
-        v
-Dangerous Sinks
-        |
-        v
-Source-to-Sink Tracing
-        |
-        v
-Configuration
-        |
-        v
-Secrets
-        |
-        v
-Dependencies
-        |
-        v
-Static Analysis
-        |
-        v
-Variant Analysis
-        |
-        v
-Dynamic Validation
-```
-
----
-
-# Final Source Code Review Model
-
-The complete methodology can be reduced to five questions:
-
-```text
-1. WHERE CAN AN ATTACKER ENTER DATA?
-
-                  SOURCE
-
-                     |
-                     v
-
-2. WHERE DOES THAT DATA GO?
-
-                 DATA FLOW
-
-                     |
-                     v
-
-3. WHAT SECURITY CONTROLS DOES IT CROSS?
-
-        VALIDATION
-        SANITISATION
-        ENCODING
-        AUTHENTICATION
-        AUTHORISATION
-
-                     |
-                     v
-
-4. WHAT SECURITY-SENSITIVE OPERATION DOES IT REACH?
-
-                   SINK
-
-                     |
-                     v
-
-5. WHAT CAN AN ATTACKER ACTUALLY ACHIEVE?
-
-                  IMPACT
-```
-
-Or:
-
-```text
-SOURCE
-   |
-   v
-DATA FLOW
-   |
-   v
-SECURITY CONTROLS
-   |
-   v
-SINK
-   |
-   v
-EXPLOITABILITY
-   |
-   v
-IMPACT
-```
-
-The most important rule is:
-
-```text
-Search results identify code.
-
-Data-flow analysis identifies candidates.
-
-Security-control analysis determines whether the path is protected.
-
-Dynamic validation demonstrates behaviour.
-
-Impact determines whether there is a vulnerability worth reporting.
-```
-
----
-
-# Source Code Review Checklist
+## Repository
 
 ```text
 [ ] Repository structure understood
 [ ] Languages identified
 [ ] Frameworks identified
+[ ] Build files identified
+[ ] Dependency files identified
+[ ] Configuration identified
+[ ] Deployment context understood
+```
+
+## Attack Surface
+
+```text
 [ ] Routes mapped
-[ ] Entry points mapped
-[ ] Authentication mapped
-[ ] Authorisation mapped
-[ ] Roles mapped
-[ ] Tenant boundaries mapped
-[ ] User-controlled sources mapped
-[ ] Input validation reviewed
-[ ] SQL sinks reviewed
-[ ] NoSQL sinks reviewed
-[ ] LDAP sinks reviewed
-[ ] Command sinks reviewed
-[ ] Template sinks reviewed
-[ ] File sinks reviewed
-[ ] HTTP/network sinks reviewed
-[ ] XML parsers reviewed
-[ ] Deserialisation reviewed
-[ ] HTML/DOM sinks reviewed
-[ ] Redirects reviewed
-[ ] Mass assignment reviewed
-[ ] IDOR/BOLA reviewed
-[ ] Business logic reviewed
-[ ] Race conditions considered
-[ ] Rate limiting reviewed
-[ ] Session management reviewed
-[ ] JWT reviewed
-[ ] OAuth/OIDC reviewed
-[ ] SAML reviewed
-[ ] Password reset reviewed
-[ ] MFA reviewed
-[ ] File uploads reviewed
+[ ] APIs mapped
 [ ] GraphQL reviewed where present
 [ ] gRPC reviewed where present
 [ ] WebSockets reviewed where present
-[ ] CORS reviewed
-[ ] CSRF reviewed
-[ ] Security headers reviewed
+[ ] File uploads identified
+[ ] Webhooks identified
+[ ] Background jobs identified
+[ ] Administrative functionality identified
+```
+
+## Identity and Access
+
+```text
+[ ] Authentication mapped
+[ ] Sessions reviewed
+[ ] Roles identified
+[ ] Permissions mapped
+[ ] Object ownership checked
+[ ] Tenant boundaries reviewed
+[ ] Privileged functionality reviewed
+```
+
+## Data Flow
+
+```text
+[ ] User-controlled sources identified
+[ ] Security-sensitive sinks identified
+[ ] Transformations understood
+[ ] Validation reviewed
+[ ] Sanitisation reviewed
+[ ] Encoding reviewed
+[ ] Reachability established
+```
+
+## Vulnerability Classes
+
+```text
+[ ] SQL / NoSQL / LDAP injection reviewed
+[ ] Command execution reviewed
+[ ] SSRF reviewed
+[ ] Path traversal reviewed
+[ ] File upload reviewed
+[ ] SSTI reviewed
+[ ] Deserialisation reviewed
+[ ] XML parsing reviewed
+[ ] XSS / DOM handling reviewed
+[ ] Redirects reviewed
+[ ] Mass assignment reviewed
+[ ] IDOR / BOLA reviewed
+```
+
+## Application Logic
+
+```text
+[ ] Business logic reviewed
+[ ] State transitions reviewed
+[ ] Race conditions considered
+[ ] Rate limiting reviewed
 [ ] Error handling reviewed
-[ ] Logging reviewed
-[ ] Cryptography reviewed
-[ ] Randomness reviewed
+[ ] Fail-open conditions considered
+```
+
+## Security Engineering
+
+```text
 [ ] Secrets searched
 [ ] Dependencies reviewed
-[ ] Configuration reviewed
+[ ] Cryptography reviewed
+[ ] Randomness reviewed
+[ ] Logging reviewed
+[ ] Security headers/configuration reviewed where relevant
 [ ] Git history reviewed
-[ ] Static analysis performed where useful
+```
+
+## Analysis
+
+```text
+[ ] Static analysis used where useful
+[ ] Static-analysis results manually reviewed
 [ ] Variant analysis performed
-[ ] Candidate findings manually validated
-[ ] Dynamic validation performed where authorised
-[ ] Findings based on demonstrated security impact
+[ ] Candidate findings validated dynamically where permitted
+[ ] Findings based on supported impact
 ```
 
 ---
 
-# References
+# Related Web Security Notes
 
-## OWASP Code Review Guide
-
-[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## OWASP Web Security Testing Guide
-
-[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## OWASP Cheat Sheet Series
-
-[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## OWASP Application Security Verification Standard
-
-[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## OWASP Top 10
-
-[OWASP Top 10](https://owasp.org/www-project-top-ten/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## OWASP API Security Project
-
-[OWASP API Security Project](https://owasp.org/www-project-api-security/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## CWE
-
-[CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Semgrep
-
-[Semgrep](https://semgrep.dev/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## Semgrep Documentation
-
-[docs](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## CodeQL
-
-[CodeQL](https://codeql.github.com/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## CodeQL Documentation
-
-[docs](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## GitHub CodeQL
-
-[GitHub CodeQL](https://github.com/github/codeql){ target="_blank" rel="noopener noreferrer" }
-
----
-
-## ripgrep
-
-[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
-
----
-
-# Related Notes
+Source review and web application testing should reinforce each other.
 
 [Web Application Security](../web/index.md)
 
-[Web Application Testing Methodology](../web/methodology.md)
+[Authentication](../web/authentication.md)
 
-[Web Application Pentesting Checklist](../web/checklist.md)
-
-[Attack Surface Analysis](../web/attack-surface-analysis.md)
-
-[Input Validation](../web/input-validation.md)
-
-[Authentication Testing](../web/authentication.md)
-
-[Authorisation Testing](../web/authorisation.md)
+[Authorisation](../web/authorisation.md)
 
 [Session Management](../web/session-management.md)
-
-[Password Reset Security](../web/password-reset.md)
-
-[Multi-Factor Authentication Security](../web/mfa.md)
 
 [IDOR and BOLA](../web/idor-bola.md)
 
@@ -4491,58 +1867,125 @@ Impact determines whether there is a vulnerability worth reporting.
 
 [Server-Side Template Injection](../web/ssti.md)
 
-[XML External Entity Injection](../web/xxe.md)
-
-[Cross-Site Scripting](../web/xss.md)
-
-[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
-
-[HTML Injection](../web/html-injection.md)
-
-[Cross-Site Request Forgery](../web/csrf.md)
-
-[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
-
-[Open Redirect](../web/open-redirect.md)
-
-[Server Side Request Forgery](../web/ssrf.md)
+[Server-Side Request Forgery](../web/ssrf.md)
 
 [Path Traversal](../web/path-traversal.md)
 
-[File Inclusion](../web/file-inclusion.md)
-
-[File Upload Security](../web/file-upload.md)
+[File Upload](../web/file-upload.md)
 
 [Insecure Deserialization](../web/deserialization.md)
 
-[Business Logic Vulnerabilities](../web/business-logic.md)
-
-[Race Conditions](../web/race-conditions.md)
-
-[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
-
-[JSON Web Token Security](../web/jwt.md)
-
-[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
-
-[SAML Security](../web/saml.md)
-
-[API Security](../web/api-security.md)
-
-[GraphQL API Security](../web/graphql.md)
-
-[gRPC Security](../web/grpc-security.md)
-
-[WebSocket Security](../web/websockets.md)
+[Cross-Site Scripting](../web/xss.md)
 
 [Mass Assignment](../web/mass-assignment.md)
 
-[Secrets Exposure](../web/secrets-exposure.md)
+[Business Logic Vulnerabilities](../web/business-logic.md)
 
-[Dependency Security](../web/dependency-security.md)
+---
 
-[Third-Party JavaScript Security](../web/third-party-javascript.md)
+# Source Code Review Tools
 
-[Information Disclosure](../web/information-disclosure.md)
+The main practical tooling layer is available here:
 
-[HTTP Security Headers](../web/http-security-headers.md)
+[Source Code Review Tools](../tools/source-code-review/index.md)
+
+Detailed static-analysis pages:
+
+[ripgrep](static-analysis/ripgrep.md)
+
+[Semgrep](static-analysis/semgrep.md)
+
+[OpenGrep](static-analysis/opengrep.md)
+
+[CodeQL](static-analysis/codeql.md)
+
+---
+
+# References
+
+## OWASP
+
+[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/){ target="_blank" rel="noopener noreferrer" }
+
+[OWASP Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/){ target="_blank" rel="noopener noreferrer" }
+
+[OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
+
+[OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/){ target="_blank" rel="noopener noreferrer" }
+
+## Static Analysis
+
+[Semgrep Documentation](https://semgrep.dev/docs/){ target="_blank" rel="noopener noreferrer" }
+
+[CodeQL Documentation](https://codeql.github.com/docs/){ target="_blank" rel="noopener noreferrer" }
+
+[ripgrep](https://github.com/BurntSushi/ripgrep){ target="_blank" rel="noopener noreferrer" }
+
+## Weakness Classification
+
+[MITRE CWE](https://cwe.mitre.org/){ target="_blank" rel="noopener noreferrer" }
+
+---
+
+# Final Source Code Review Model
+
+The complete methodology can be reduced to five questions:
+
+```text
+1. WHERE CAN ATTACKER-CONTROLLED DATA ENTER?
+
+                     |
+                     v
+
+                   SOURCE
+
+                     |
+                     v
+
+2. WHERE DOES THE DATA GO?
+
+                  DATA FLOW
+
+                     |
+                     v
+
+3. WHICH SECURITY CONTROLS DOES IT CROSS?
+
+                 VALIDATION
+                SANITISATION
+                  ENCODING
+              AUTHENTICATION
+               AUTHORISATION
+
+                     |
+                     v
+
+4. WHICH SECURITY-SENSITIVE OPERATION DOES IT REACH?
+
+                    SINK
+
+                     |
+                     v
+
+5. WHAT CAN THE ATTACKER ACTUALLY ACHIEVE?
+
+                   IMPACT
+```
+
+The key principle is:
+
+```text
+Search results identify code.
+
+Static analysis identifies candidates.
+
+Data-flow analysis explains the path.
+
+Security-control analysis determines whether the path is protected.
+
+Reachability determines whether it matters in the assessed deployment.
+
+Dynamic validation demonstrates behaviour.
+
+Impact determines whether the condition is a reportable vulnerability.
+```
