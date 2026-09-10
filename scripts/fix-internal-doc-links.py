@@ -4,90 +4,49 @@
 Convert standalone internal Markdown document references displayed inside
 fenced text blocks into clickable internal MkDocs links.
 
-This script supports both:
+The scanner understands ALL Markdown fenced code blocks so that closing
+fences belonging to bash, Python, YAML, PowerShell, JSON, and other code
+blocks are never mistaken for new opening fences.
 
-1. Single-path reference blocks
+Only the following fenced blocks are candidates for link conversion:
 
-       ```text
-       active-directory/netexec.md
-       ```
+    ```
+    ```text
+    ```txt
 
-2. Multi-path reference blocks
+and their ~~~ equivalents.
 
-       ```text
-       active-directory/index.md
-       active-directory/methodology.md
-       active-directory/enumeration.md
-       ```
-
-Multi-path blocks are converted ATOMICALLY:
-
-    - Every non-empty line must be a standalone .md path.
-    - Every target must exist inside docs/.
-    - The surrounding prose must look navigational when
-      --context-check is enabled.
-    - If even one target does not exist, the entire block is left
-      unchanged.
-
-This prevents partially converting roadmap/reference lists where some
-documentation pages have not yet been created.
-
-Examples
-========
+Supported candidate blocks
+==========================
 
 Single reference:
 
-    Before:
+    ```text
+    docs/web/sql-injection.md
+    ```
 
-        For detailed documentation, see:
+Multiple references:
 
-        ```text
-        active-directory/netexec.md
-        ```
-
-    After:
-
-        [NetExec](../active-directory/netexec.md)
-
-
-Multi-reference block:
-
-    Before:
-
-        See the detailed Active Directory notes:
-
-        ```text
-        active-directory/index.md
-        active-directory/methodology.md
-        active-directory/enumeration.md
-        ```
-
-    After:
-
-        [Active Directory](../active-directory/index.md)
-
-        [Active Directory Penetration Testing Methodology](../active-directory/methodology.md)
-
-        [Active Directory Enumeration](../active-directory/enumeration.md)
-
+    ```text
+    docs/web/xss.md
+    docs/web/html-injection.md
+    ```
 
 Safety rules
 ============
 
 - Only scans Markdown files under docs/.
-- Only processes supported fenced text blocks.
-- Supports ```text, ```txt, untyped ```, and equivalent ~~~ fences.
-- Single-reference blocks must contain exactly one standalone .md path.
-- Multi-reference blocks must contain ONLY standalone .md paths.
-- Multi-reference blocks are converted atomically.
-- If one target in a multi-reference block is missing, the entire block
-  is skipped.
-- Targets must physically exist under docs/.
-- Targets must remain inside docs/.
+- Understands all fenced code blocks for document traversal.
+- Only untyped, text, and txt fences are conversion candidates.
+- Every non-empty candidate line must be a standalone .md path.
+- Every target must physically exist inside docs/.
+- Resolved targets must remain inside docs/.
+- Multi-reference blocks are atomic.
+- If one target in a multi-reference block is missing, the whole block
+  remains unchanged.
 - Directory trees are not converted.
-- Shell commands are not converted.
-- YAML/config examples are not converted.
-- Mixed-content code blocks are not converted.
+- Mixed-content blocks are not converted.
+- Shell/code/config blocks are never converted.
 - Existing Markdown links are not modified.
 - Internal links do not receive target="_blank".
 - Link labels come from the target page's first H1.
@@ -107,14 +66,6 @@ Review:
         --verbose \
         --context-check
 
-Save verbose review:
-
-    python3 scripts/fix-internal-doc-links.py \
-        --dry-run \
-        --verbose \
-        --context-check \
-        > /tmp/internal-links-review.txt
-
 Apply:
 
     python3 scripts/fix-internal-doc-links.py \
@@ -130,9 +81,7 @@ Then:
 
     git diff --check
     git diff --stat
-    mkdocs build
 """
-
 
 from __future__ import annotations
 
@@ -151,13 +100,13 @@ from pathlib import Path
 
 DEFAULT_DOCS_ROOT = "docs"
 
+CONVERTIBLE_FENCE_LANGUAGES = {
+    "",
+    "text",
+    "txt",
+}
 
-# Nearby prose containing one of these patterns can indicate that
-# a fenced .md path block is intended as documentation navigation.
-#
-# Keep these deliberately focused on navigational/documentation
-# language. Avoid overly generic patterns such as "and", "at",
-# "following", etc.
+
 LINK_CONTEXT_PATTERNS = [
     r"\bsee\b",
     r"\bsee also\b",
@@ -202,19 +151,6 @@ LINK_CONTEXT_PATTERNS = [
 # REGULAR EXPRESSIONS
 # ============================================================
 
-# Standalone Markdown documentation path.
-#
-# Supported examples:
-#
-# active-directory/netexec.md
-# docs/active-directory/netexec.md
-# ../active-directory/netexec.md
-# ./kerberos.md
-# web/xss.md
-# docs/web/xss.md
-# active-directory/adcs/index.md
-#
-# Spaces are deliberately excluded.
 MD_PATH_RE = re.compile(
     r"^(?P<path>"
     r"(?:\.\.?/)*"
@@ -225,13 +161,31 @@ MD_PATH_RE = re.compile(
 )
 
 
-# First H1 heading in a target Markdown document.
 H1_RE = re.compile(
     r"^#[ \t]+(?P<title>.+?)[ \t]*#*[ \t]*$"
 )
 
 
-# Characters commonly found in directory-tree diagrams.
+# Opening Markdown fence.
+#
+# Supports fences longer than three characters too:
+#
+# ```
+# ```bash
+# ````markdown
+# ~~~python
+#
+# The info string is captured but does not determine whether the
+# scanner recognises the fence. It only determines whether the block
+# is eligible for conversion.
+FENCE_START_RE = re.compile(
+    r"^[ \t]{0,3}"
+    r"(?P<fence>`{3,}|~{3,})"
+    r"(?P<info>[^\r\n]*)"
+    r"(?:\r?\n)?$"
+)
+
+
 TREE_MARKERS = (
     "├",
     "└",
@@ -247,13 +201,20 @@ TREE_MARKERS = (
     "┌",
     "┐",
     "┘",
-    "└",
 )
 
 
 # ============================================================
 # DATA STRUCTURES
 # ============================================================
+
+@dataclass
+class FenceInfo:
+    marker_char: str
+    marker_length: int
+    language: str
+    convertible: bool
+
 
 @dataclass
 class LinkConversion:
@@ -293,29 +254,18 @@ def clean_heading(text: str) -> str:
 
     text = text.strip()
 
-    # Remove trailing MkDocs attr_list.
-    #
-    # Example:
-    #
-    # # BloodHound { #bloodhound }
-    #
-    # becomes:
-    #
-    # BloodHound
     text = re.sub(
         r"\s*\{[^{}]*\}\s*$",
         "",
         text,
     )
 
-    # Inline code.
     text = re.sub(
         r"`([^`]+)`",
         r"\1",
         text,
     )
 
-    # Bold.
     text = re.sub(
         r"\*\*([^*]+)\*\*",
         r"\1",
@@ -328,7 +278,6 @@ def clean_heading(text: str) -> str:
         text,
     )
 
-    # Simple emphasis.
     text = re.sub(
         r"\*([^*]+)\*",
         r"\1",
@@ -374,6 +323,9 @@ def humanise_filename(path: Path) -> str:
 
     name = path.stem
 
+    if name.casefold() == "index":
+        name = path.parent.name
+
     name = name.replace(
         "_",
         " ",
@@ -397,6 +349,7 @@ def humanise_filename(path: Path) -> str:
         "asrep": "AS-REP",
         "bloodhound": "BloodHound",
         "bola": "BOLA",
+        "cors": "CORS",
         "csrf": "CSRF",
         "css": "CSS",
         "dcom": "DCOM",
@@ -463,9 +416,7 @@ def humanise_filename(path: Path) -> str:
                 word.capitalize()
             )
 
-    return " ".join(
-        output
-    )
+    return " ".join(output)
 
 
 # ============================================================
@@ -478,7 +429,7 @@ def get_target_h1(
     """
     Read the first H1 heading from a target Markdown document.
 
-    Fenced code blocks are ignored.
+    All fenced code blocks are ignored.
     """
 
     try:
@@ -494,46 +445,34 @@ def get_target_h1(
 
         return None
 
-    in_fence = False
-    fence_marker: str | None = None
+    lines = content.splitlines(
+        keepends=True
+    )
 
-    for line in content.splitlines():
+    index = 0
 
-        stripped = line.lstrip()
+    while index < len(lines):
 
-        if stripped.startswith("```"):
+        fence = parse_any_fence_start(
+            lines[index]
+        )
 
-            if not in_fence:
+        if fence is not None:
 
-                in_fence = True
-                fence_marker = "```"
+            closing_index = find_closing_fence(
+                lines=lines,
+                opening_index=index,
+                fence=fence,
+            )
 
-            elif fence_marker == "```":
+            if closing_index is None:
+                return None
 
-                in_fence = False
-                fence_marker = None
-
-            continue
-
-        if stripped.startswith("~~~"):
-
-            if not in_fence:
-
-                in_fence = True
-                fence_marker = "~~~"
-
-            elif fence_marker == "~~~":
-
-                in_fence = False
-                fence_marker = None
-
-            continue
-
-        if in_fence:
+            index = closing_index + 1
             continue
 
         match = H1_RE.match(
-            line
+            lines[index].rstrip("\r\n")
         )
 
         if match:
@@ -544,6 +483,8 @@ def get_target_h1(
 
             if title:
                 return title
+
+        index += 1
 
     return None
 
@@ -581,8 +522,6 @@ def candidate_target_paths(
     """
     Generate possible resolved paths for an internal Markdown reference.
 
-    Resolution rules:
-
     docs/foo.md
         -> relative to docs/
 
@@ -591,12 +530,11 @@ def candidate_target_paths(
         -> relative to source document
 
     foo/bar.md
-        -> try docs-root-relative first
+        -> docs-root-relative first
         -> source-relative second
     """
 
     docs_root = docs_root.resolve()
-
     source_dir = source_file.parent.resolve()
 
     raw_path = raw_path.strip()
@@ -635,13 +573,6 @@ def candidate_target_paths(
 
     else:
 
-        # Repository convention:
-        #
-        # active-directory/netexec.md
-        #
-        # normally means:
-        #
-        # docs/active-directory/netexec.md
         candidates.append(
             (
                 docs_root
@@ -649,7 +580,6 @@ def candidate_target_paths(
             ).resolve()
         )
 
-        # Source-relative fallback.
         candidates.append(
             (
                 source_dir
@@ -658,7 +588,6 @@ def candidate_target_paths(
         )
 
     unique: list[Path] = []
-
     seen: set[Path] = set()
 
     for candidate in candidates:
@@ -666,13 +595,8 @@ def candidate_target_paths(
         if candidate in seen:
             continue
 
-        seen.add(
-            candidate
-        )
-
-        unique.append(
-            candidate
-        )
+        seen.add(candidate)
+        unique.append(candidate)
 
     return unique
 
@@ -684,13 +608,6 @@ def resolve_target(
 ) -> Path | None:
     """
     Resolve an internal Markdown path safely.
-
-    The resolved target must:
-
-    - exist;
-    - be a regular file;
-    - end in .md;
-    - remain inside docs/.
     """
 
     docs_root = docs_root.resolve()
@@ -740,13 +657,10 @@ def make_relative_link(
         start=source_file.parent,
     )
 
-    # Markdown URLs should always use forward slashes.
-    relative = relative.replace(
+    return relative.replace(
         os.sep,
         "/",
     )
-
-    return relative
 
 
 # ============================================================
@@ -760,18 +674,11 @@ def get_previous_prose(
 ) -> str:
     """
     Retrieve nearby prose immediately before a candidate fenced block.
-
-    Blank lines are ignored.
-
-    A small amount of preceding prose is collected so the script can
-    determine whether the block appears to be documentation navigation.
     """
 
     collected: list[str] = []
 
-    index = (
-        block_start_index - 1
-    )
+    index = block_start_index - 1
 
     while (
         index >= 0
@@ -785,15 +692,10 @@ def get_previous_prose(
             index -= 1
             continue
 
-        # Stop if another fenced block is encountered.
-        if (
-            line.startswith("```")
-            or line.startswith("~~~")
-        ):
+        if is_fence_line(line):
 
             break
 
-        # Horizontal rules are not useful navigation context.
         if line in {
             "---",
             "***",
@@ -803,7 +705,6 @@ def get_previous_prose(
             index -= 1
             continue
 
-        # A heading can mark a structural boundary.
         if line.startswith("#"):
 
             if collected:
@@ -812,25 +713,19 @@ def get_previous_prose(
             index -= 1
             continue
 
-        collected.append(
-            line
-        )
-
+        collected.append(line)
         index -= 1
 
     collected.reverse()
 
-    return " ".join(
-        collected
-    )
+    return " ".join(collected)
 
 
 def context_looks_navigational(
     context: str,
 ) -> bool:
     """
-    Determine whether nearby prose suggests that a fenced .md path
-    block is intended as documentation navigation.
+    Determine whether nearby prose suggests documentation navigation.
     """
 
     if not context:
@@ -853,74 +748,148 @@ def context_looks_navigational(
 # FENCE ANALYSIS
 # ============================================================
 
-def parse_fence_start(
+def parse_any_fence_start(
     line: str,
-) -> tuple[str, str] | None:
+) -> FenceInfo | None:
     """
-    Parse a supported fenced block opening.
+    Recognise ANY Markdown fenced-code opening.
 
-    Supported:
+    This is the critical traversal function.
+
+    It recognises:
 
         ```
         ```text
-        ``` text
-        ```txt
-
+        ```bash
+        ```python
+        ````markdown
         ~~~
-        ~~~text
-        ~~~txt
+        ~~~yaml
 
-    Other fenced languages are deliberately ignored.
+    The language only determines whether the block is eligible for
+    conversion. Non-convertible blocks are still skipped correctly.
     """
 
-    stripped = line.strip()
+    raw = line.rstrip("\r\n")
 
-    match = re.fullmatch(
-        r"(?P<fence>```|~~~)"
-        r"[ \t]*"
-        r"(?P<lang>[A-Za-z0-9_-]*)"
-        r"[ \t]*",
-        stripped,
+    match = FENCE_START_RE.fullmatch(
+        raw
     )
 
     if not match:
         return None
 
-    fence = match.group(
-        "fence"
+    marker = match.group("fence")
+    info = match.group("info").strip()
+
+    marker_char = marker[0]
+    marker_length = len(marker)
+
+    language = ""
+
+    if info:
+
+        # First token of the info string is the language identifier.
+        language = info.split(
+            None,
+            1,
+        )[0].casefold()
+
+        # Handle common attribute-like forms conservatively.
+        language = language.strip()
+
+    convertible = (
+        language
+        in CONVERTIBLE_FENCE_LANGUAGES
     )
 
-    language = match.group(
-        "lang"
-    ).casefold()
-
-    if language not in {
-        "",
-        "text",
-        "txt",
-    }:
-
-        return None
-
-    return (
-        fence,
-        language,
+    return FenceInfo(
+        marker_char=marker_char,
+        marker_length=marker_length,
+        language=language,
+        convertible=convertible,
     )
+
+
+def is_fence_line(
+    line: str,
+) -> bool:
+    """
+    Return True when a line looks like a Markdown fence.
+    """
+
+    stripped = line.strip()
+
+    return bool(
+        re.fullmatch(
+            r"`{3,}[^\r\n]*|~{3,}[^\r\n]*",
+            stripped,
+        )
+    )
+
+
+def is_closing_fence(
+    line: str,
+    fence: FenceInfo,
+) -> bool:
+    """
+    Determine whether a line closes the supplied fence.
+
+    CommonMark-style behaviour:
+
+    - same marker character;
+    - at least as many marker characters as the opening fence;
+    - only whitespace after the marker.
+    """
+
+    raw = line.rstrip("\r\n")
+
+    pattern = (
+        r"^[ \t]{0,3}"
+        + re.escape(fence.marker_char)
+        + "{"
+        + str(fence.marker_length)
+        + r",}[ \t]*$"
+    )
+
+    return bool(
+        re.fullmatch(
+            pattern,
+            raw,
+        )
+    )
+
+
+def find_closing_fence(
+    lines: list[str],
+    opening_index: int,
+    fence: FenceInfo,
+) -> int | None:
+    """
+    Find the closing fence for one already-recognised opening fence.
+    """
+
+    index = opening_index + 1
+
+    while index < len(lines):
+
+        if is_closing_fence(
+            lines[index],
+            fence,
+        ):
+
+            return index
+
+        index += 1
+
+    return None
 
 
 def block_contains_tree_markers(
     block_lines: list[str],
 ) -> bool:
     """
-    Detect obvious directory-tree / diagram content.
-
-    Example that must remain unchanged:
-
-        docs/cheatsheets/
-        │
-        ├── index.md
-        ├── linux.md
-        └── windows.md
+    Detect obvious directory-tree or diagram content.
     """
 
     for line in block_lines:
@@ -937,13 +906,8 @@ def extract_md_paths_from_block(
     block_lines: list[str],
 ) -> list[str] | None:
     """
-    Return all standalone .md paths from a fenced block only when
-    EVERY non-empty line is a standalone .md path.
-
-    Returns None if the block contains any other content.
-
-    This is the key protection against converting commands,
-    directory trees, configuration examples, prose, etc.
+    Return standalone .md paths only when every non-empty line is a
+    standalone Markdown document path.
     """
 
     non_empty = [
@@ -1025,6 +989,12 @@ def process_content(
 ]:
     """
     Process one complete Markdown document.
+
+    Important:
+
+    ALL fenced code blocks participate in traversal.
+
+    Only text/txt/untyped fences participate in conversion.
     """
 
     lines = content.splitlines(
@@ -1034,60 +1004,61 @@ def process_content(
     output: list[str] = []
 
     conversions: list[BlockConversion] = []
-
     skipped: list[SkippedBlock] = []
 
     index = 0
 
     while index < len(lines):
 
-        opening = parse_fence_start(
+        fence = parse_any_fence_start(
             lines[index]
         )
 
-        if opening is None:
+        # Ordinary Markdown/prose.
+        if fence is None:
 
             output.append(
                 lines[index]
             )
 
             index += 1
-
             continue
 
-        fence_marker, _language = opening
-
-        closing_index: int | None = None
-
-        search_index = (
-            index + 1
+        closing_index = find_closing_fence(
+            lines=lines,
+            opening_index=index,
+            fence=fence,
         )
 
-        # ----------------------------------------------------
-        # FIND CLOSING FENCE
-        # ----------------------------------------------------
-
-        while search_index < len(lines):
-
-            if (
-                lines[search_index].strip()
-                == fence_marker
-            ):
-
-                closing_index = search_index
-                break
-
-            search_index += 1
-
-        # Malformed/unclosed fence.
+        # Malformed/unclosed fence. Preserve the remainder exactly.
         if closing_index is None:
 
-            output.append(
-                lines[index]
+            output.extend(
+                lines[index:]
             )
 
-            index += 1
+            break
 
+        # ----------------------------------------------------
+        # NON-CONVERTIBLE CODE BLOCK
+        #
+        # This is the important bug fix.
+        #
+        # We recognise the whole block and jump past its closing
+        # fence instead of later mistaking that closing fence for
+        # a new opening fence.
+        # ----------------------------------------------------
+
+        if not fence.convertible:
+
+            output.extend(
+                lines[
+                    index:
+                    closing_index + 1
+                ]
+            )
+
+            index = closing_index + 1
             continue
 
         block_lines = lines[
@@ -1110,16 +1081,11 @@ def process_content(
                 ]
             )
 
-            index = (
-                closing_index + 1
-            )
-
+            index = closing_index + 1
             continue
 
         # ----------------------------------------------------
-        # EXTRACT .md PATHS
-        #
-        # Every non-empty line must be a standalone .md path.
+        # PATH EXTRACTION
         # ----------------------------------------------------
 
         raw_paths = extract_md_paths_from_block(
@@ -1135,10 +1101,7 @@ def process_content(
                 ]
             )
 
-            index = (
-                closing_index + 1
-            )
-
+            index = closing_index + 1
             continue
 
         # ----------------------------------------------------
@@ -1176,18 +1139,11 @@ def process_content(
                 ]
             )
 
-            index = (
-                closing_index + 1
-            )
-
+            index = closing_index + 1
             continue
 
         # ----------------------------------------------------
-        # RESOLVE EVERY TARGET
-        #
-        # Multi-line blocks are atomic:
-        #
-        # if even one target is missing, convert NONE of them.
+        # RESOLVE TARGETS ATOMICALLY
         # ----------------------------------------------------
 
         resolved_targets: list[
@@ -1253,14 +1209,11 @@ def process_content(
                 ]
             )
 
-            index = (
-                closing_index + 1
-            )
-
+            index = closing_index + 1
             continue
 
         # ----------------------------------------------------
-        # BUILD ALL LINKS
+        # BUILD LINKS
         # ----------------------------------------------------
 
         link_conversions: list[
@@ -1278,7 +1231,7 @@ def process_content(
             )
 
         # ----------------------------------------------------
-        # PRESERVE INDENTATION
+        # PRESERVE INDENTATION / NEWLINE STYLE
         # ----------------------------------------------------
 
         indentation = (
@@ -1288,7 +1241,6 @@ def process_content(
             ]
         )
 
-        # Preserve newline convention.
         newline = (
             "\r\n"
             if lines[index].endswith("\r\n")
@@ -1296,9 +1248,7 @@ def process_content(
         )
 
         # ----------------------------------------------------
-        # REPLACE ENTIRE FENCED BLOCK
-        #
-        # Separate multiple documentation links with blank lines.
+        # REPLACE FENCED REFERENCE BLOCK
         # ----------------------------------------------------
 
         for link_index, link in enumerate(
@@ -1331,9 +1281,7 @@ def process_content(
             )
         )
 
-        index = (
-            closing_index + 1
-        )
+        index = closing_index + 1
 
     return (
         "".join(output),
@@ -1363,9 +1311,11 @@ def print_conversion(
         f"    Block Type  : {block_type}"
     )
 
-    print(
-        f"    Context     : {conversion.context}"
-    )
+    if conversion.context:
+
+        print(
+            f"    Context     : {conversion.context}"
+        )
 
     for link in conversion.links:
 
@@ -1526,10 +1476,6 @@ def process_file(
         for conversion in conversions
     )
 
-    # --------------------------------------------------------
-    # CONVERSIONS
-    # --------------------------------------------------------
-
     if conversions:
 
         print()
@@ -1558,10 +1504,6 @@ def process_file(
                 f"{converted_link_count}"
             )
 
-    # --------------------------------------------------------
-    # SKIPPED BLOCKS
-    # --------------------------------------------------------
-
     if verbose and skipped:
 
         if not conversions:
@@ -1578,10 +1520,6 @@ def process_file(
                 skipped_block
             )
 
-    # --------------------------------------------------------
-    # DRY RUN
-    # --------------------------------------------------------
-
     if dry_run:
 
         return (
@@ -1590,10 +1528,6 @@ def process_file(
             len(skipped),
             False,
         )
-
-    # --------------------------------------------------------
-    # WRITE
-    # --------------------------------------------------------
 
     if (
         conversions
@@ -1708,10 +1642,6 @@ def main() -> int:
         args.root
     )
 
-    # --------------------------------------------------------
-    # VALIDATE DOCUMENTATION ROOT
-    # --------------------------------------------------------
-
     if not docs_root.exists():
 
         print(
@@ -1753,10 +1683,6 @@ def main() -> int:
         else "WRITE"
     )
 
-    # --------------------------------------------------------
-    # HEADER
-    # --------------------------------------------------------
-
     print(
         "=" * 74
     )
@@ -1797,23 +1723,19 @@ def main() -> int:
         "Multi-reference mode   : atomic"
     )
 
-    # --------------------------------------------------------
-    # COUNTERS
-    # --------------------------------------------------------
+    print(
+        "Fence traversal        : all languages"
+    )
+
+    print(
+        "Convertible fences     : text, txt, untyped"
+    )
 
     total_converted_blocks = 0
-
     total_converted_links = 0
-
     total_skipped_blocks = 0
-
     files_with_conversions = 0
-
     modified_files = 0
-
-    # --------------------------------------------------------
-    # PROCESS FILES
-    # --------------------------------------------------------
 
     for path in files:
 
@@ -1849,10 +1771,6 @@ def main() -> int:
         if modified:
 
             modified_files += 1
-
-    # --------------------------------------------------------
-    # SUMMARY
-    # --------------------------------------------------------
 
     print()
 
@@ -1895,10 +1813,6 @@ def main() -> int:
         f"{total_skipped_blocks}"
     )
 
-    # --------------------------------------------------------
-    # DRY RUN
-    # --------------------------------------------------------
-
     if args.dry_run:
 
         print()
@@ -1918,36 +1832,7 @@ def main() -> int:
             print()
 
             print(
-                "[*] Recommended conservative review:"
-            )
-
-            print()
-
-            print(
-                "    python3 scripts/"
-                "fix-internal-doc-links.py "
-                "--dry-run --verbose --context-check"
-            )
-
-            print()
-
-            print(
-                "[*] Save the full review if required:"
-            )
-
-            print()
-
-            print(
-                "    python3 scripts/"
-                "fix-internal-doc-links.py "
-                "--dry-run --verbose --context-check "
-                "> /tmp/internal-links-review.txt"
-            )
-
-            print()
-
-            print(
-                "[*] If the results look correct, apply with:"
+                "[*] Recommended apply command:"
             )
 
             print()
@@ -1966,10 +1851,6 @@ def main() -> int:
                 "[*] No safe internal documentation "
                 "reference blocks were identified."
             )
-
-    # --------------------------------------------------------
-    # WRITE MODE
-    # --------------------------------------------------------
 
     else:
 
@@ -2007,19 +1888,15 @@ def main() -> int:
             print()
 
             print(
-                "    git diff -- docs/"
+                "[*] Verify remaining raw documentation paths:"
             )
 
             print()
 
             print(
-                "[*] Validate MkDocs:"
-            )
-
-            print()
-
-            print(
-                "    mkdocs build"
+                "    grep -RInE "
+                "'docs/[A-Za-z0-9_./-]+\\.md' "
+                "docs/"
             )
 
             print()
