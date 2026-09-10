@@ -1,10 +1,15 @@
+---
+title: Active Directory Penetration Testing
+description: Practical Active Directory penetration testing notes covering domain discovery, enumeration, identity, authentication, Kerberos, NTLM, permissions, attack paths, AD CS, credential exposure, lateral movement, infrastructure, validation, detection, and remediation.
+---
+
 # Active Directory Penetration Testing
 
-Active Directory (AD) is Microsoft's directory service used by organisations to centrally manage identities, computers, authentication, authorisation, policies, services, and other resources.
+Active Directory (AD) is Microsoft's directory service for centrally managing identities, computers, authentication, authorisation, policies, services, and enterprise resources.
 
-From a penetration-testing perspective, Active Directory should not be viewed as a collection of isolated vulnerabilities.
+From a penetration-testing perspective, Active Directory should not be treated as a collection of isolated vulnerabilities.
 
-It is better understood as a graph of:
+It is better understood as a graph of relationships:
 
 ```text
 Users
@@ -34,7 +39,7 @@ Users
   +--> Network Relationships
 ```
 
-An attacker may begin with a low-privileged account and reach a highly privileged position through several individually legitimate relationships.
+A low-privileged identity may become highly privileged by chaining several individually legitimate relationships.
 
 For example:
 
@@ -45,19 +50,19 @@ Low-Privileged User
 Group Membership
         |
         v
-Write Permission over User
+Permission over Another Account
         |
         v
-Credential / Account Control
+Account Control
         |
         v
-Administrative Group
+Administrative Access
         |
         v
-Domain Privileges
+Higher Privilege
 ```
 
-The objective of an Active Directory penetration test is therefore not simply:
+The objective is therefore not simply:
 
 ```text
 Find Domain Admin credentials
@@ -66,210 +71,248 @@ Find Domain Admin credentials
 It is to understand:
 
 ```text
-How is the domain configured?
+What does this identity know?
 
-What identities exist?
+What can it access?
 
-What systems exist?
+What can it modify?
 
-What trust relationships exist?
+Which credentials can it reach?
 
-Where are credentials exposed?
+Where can it authenticate?
 
-Where are permissions excessive?
+Which systems trust it?
 
-Which authentication mechanisms are available?
+Which attack paths connect these relationships?
 
-Which attack paths connect low privilege to high privilege?
-
-How far could an attacker realistically move through the environment?
-
-What controls prevent or enable that movement?
+What security impact can actually be demonstrated?
 ```
+
+!!! warning "Authorised Security Testing"
+    The techniques documented in these notes are intended for authorised penetration testing, internal security assessments, red team and purple team exercises, security research, and controlled training environments. Active Directory testing can affect authentication and production infrastructure. Confirm the rules of engagement before performing intrusive actions such as password spraying, credential access, account modification, relaying, certificate enrolment, remote execution, coercion, or persistence testing.
 
 ---
 
-# Authorised Testing
+## Start Here
 
-The techniques described in these notes are intended for:
+<div class="grid cards" markdown>
 
-```text
-Authorised penetration testing
-Internal security assessments
-Red team exercises
-Purple team exercises
-Training laboratories
-CTFs
-Security research
-```
+-   :material-map-search-outline:{ .lg .middle } **AD Testing Methodology**
 
-Active Directory testing can affect production authentication and infrastructure.
+    ---
 
-Techniques involving:
+    Follow a structured engagement workflow from initial network access and domain discovery through attack-path analysis, validation, evidence, and remediation.
 
-```text
-Password spraying
-Authentication relaying
-Credential dumping
-Account modification
-Group membership changes
-Certificate enrolment
-Kerberos tickets
-Service creation
-Remote execution
-Coercion
-Persistence
-```
+    [:octicons-arrow-right-24: Active Directory Methodology](methodology.md)
 
-must be performed only when permitted by the engagement scope and rules of engagement.
+-   :material-graph-outline:{ .lg .middle } **Attack Path Analysis**
 
-Prefer passive or read-only enumeration before intrusive validation.
+    ---
+
+    Understand how identities, groups, hosts, permissions, sessions, credentials, and trusts combine to create privilege paths.
+
+    [:octicons-arrow-right-24: BloodHound](bloodhound.md)
+
+-   :material-certificate-outline:{ .lg .middle } **Active Directory Certificate Services**
+
+    ---
+
+    Assess certificate authorities, templates, enrolment rights, certificate authentication, and AD CS escalation paths.
+
+    [:octicons-arrow-right-24: AD CS](ad-cs/index.md)
+
+-   :material-server-network:{ .lg .middle } **Enterprise Infrastructure**
+
+    ---
+
+    Review supporting Windows infrastructure such as Configuration Manager and other systems that may influence large numbers of endpoints.
+
+    [:octicons-arrow-right-24: SCCM / Configuration Manager](sccm.md)
+
+-   :material-tools:{ .lg .middle } **Active Directory Tools**
+
+    ---
+
+    Understand when to use NetExec, Impacket, BloodHound, Certipy, and related tools without turning the methodology into a tool checklist.
+
+    [:octicons-arrow-right-24: Active Directory Tools](../tools/active-directory/index.md)
+
+-   :material-file-document-multiple-outline:{ .lg .middle } **Need Commands Quickly?**
+
+    ---
+
+    Use the Active Directory cheatsheet for quick enumeration, authentication, and assessment references.
+
+    [:octicons-arrow-right-24: Active Directory Cheatsheet](../cheatsheets/active-directory.md)
+
+</div>
 
 ---
 
 # Active Directory Testing Model
 
-A useful high-level methodology is:
+A useful high-level model is:
 
 ```text
-Initial Network Access
-        |
-        v
+Initial Position
+      |
+      v
 Network Discovery
-        |
-        v
+      |
+      v
 Domain Discovery
-        |
-        v
-Active Directory Enumeration
-        |
-        v
-Identity and Host Mapping
-        |
-        v
+      |
+      v
+Directory Enumeration
+      |
+      v
+Identity + Host Mapping
+      |
+      v
+Permission + Session Mapping
+      |
+      v
 Attack Path Analysis
-        |
-        +----------------------+
-        |                      |
-        v                      v
-Authentication             Authorisation
-        |                      |
-        v                      v
-Kerberos / NTLM            ACL / ACE / GPO
-        |                      |
-        +----------+-----------+
-                   |
-                   v
-           Credential Access
-                   |
-                   v
-          Privilege Escalation
-                   |
-                   v
-          Lateral Movement
-                   |
-                   v
-              Pivoting
-                   |
-                   v
-       Additional Network Segments
-                   |
-                   v
-            Domain Control
-                   |
-                   v
-          Trust Relationships
-                   |
-                   v
-       Persistence / Wider Impact
+      |
+      +-------------------+
+      |                   |
+      v                   v
+Authentication       Authorisation
+      |                   |
+      v                   v
+Kerberos / NTLM      ACL / ACE / GPO
+      |                   |
+      +---------+---------+
+                |
+                v
+        Credential Access
+                |
+                v
+       Privilege Escalation
+                |
+                v
+        Lateral Movement
+                |
+                v
+             Pivot
+                |
+                v
+     Additional Networks
+                |
+                v
+ Enterprise Infrastructure
+                |
+                v
+          Trust Analysis
+                |
+                v
+        Supported Impact
 ```
 
-This is not necessarily a linear process.
+An Active Directory assessment is rarely completely linear.
 
-An engagement frequently loops between:
+A more realistic loop is:
 
 ```text
 Enumerate
-   |
-   v
-Identify Opportunity
-   |
-   v
+    |
+    v
+Identify Candidate
+    |
+    v
 Validate
-   |
-   v
+    |
+    v
 Gain New Access
-   |
-   v
+    |
+    v
 Enumerate Again
 ```
 
----
-
-# What Is Active Directory?
-
-Active Directory Domain Services (AD DS) provides centralised management for resources such as:
-
-```text
-Users
-Computers
-Groups
-Organisational Units
-Policies
-Services
-Authentication
-Authorisation
-```
-
-A typical environment may look like:
-
-```text
-                 example.local
-                       |
-              +--------+--------+
-              |                 |
-             DC01              DC02
-              |
-      +-------+-------+
-      |               |
-    Users          Computers
-      |               |
-    Groups          Servers
-      |               |
-     OUs          Workstations
-      |
-     GPOs
-```
+Each new identity, host, session, credential, or network position can expose relationships that were not previously visible.
 
 ---
 
-# Core Active Directory Components
+# Understand the Environment First
 
-Important components include:
+Before using specialist attack techniques, establish the basic environment.
 
-| Component | Purpose |
+Determine:
+
+```text
+Current identity
+Current host
+IP configuration
+DNS servers
+Routes
+Domain
+Forest
+Domain Controllers
+Reachable networks
+Authentication protocols
+Directory services
+Management infrastructure
+```
+
+From Linux:
+
+```bash
+ip addr
+ip route
+cat /etc/resolv.conf
+```
+
+From Windows:
+
+```powershell
+ipconfig /all
+route print
+whoami /all
+```
+
+Environment variables may also reveal domain context:
+
+```powershell
+$env:USERDOMAIN
+$env:USERDNSDOMAIN
+$env:LOGONSERVER
+```
+
+The purpose is to establish the starting position before deeper enumeration.
+
+---
+
+# Active Directory Core Components
+
+Important AD components include:
+
+| Component | Security Relevance |
 |---|---|
-| Domain | Administrative and authentication boundary within AD |
-| Forest | Collection of one or more AD domains |
-| Domain Controller | Server hosting AD DS and authenticating identities |
-| User | Identity representing a person or service |
-| Computer | AD identity representing a computer |
-| Group | Collection of security principals |
-| OU | Container used to organise AD objects |
-| GPO | Group Policy configuration applied to users/computers |
-| ACL | Defines permissions over an object |
+| Domain | Authentication and administration scope |
+| Forest | Collection of one or more domains |
+| Domain Controller | Hosts directory and authentication services |
+| User | Human or service identity |
+| Computer | Machine identity within AD |
+| Group | Assigns permissions and administrative relationships |
+| OU | Organises objects and receives delegated permissions/GPOs |
+| GPO | Applies centralised configuration |
+| ACL / ACE | Defines control over directory objects |
 | Kerberos | Primary AD authentication protocol |
-| NTLM | Legacy/challenge-response authentication protocol still encountered in AD |
-| LDAP | Protocol used to query and interact with directory information |
-| DNS | Critical service used to locate AD services |
-| AD CS | Microsoft's Active Directory Certificate Services |
-| Trust | Relationship allowing authentication between domains or forests |
+| NTLM | Legacy authentication mechanism still widely encountered |
+| LDAP | Directory query and interaction protocol |
+| DNS | Used to locate directory services |
+| AD CS | Certificate-based identity and authentication infrastructure |
+| Trust | Connects authentication across domains or forests |
+
+These components interact.
+
+The security issue often exists in the relationship between them rather than within one component in isolation.
 
 ---
 
 # Domain Controllers
 
-Domain Controllers are among the most important systems in an AD environment.
+Domain Controllers are among the most security-sensitive systems in an AD environment.
 
 They commonly provide:
 
@@ -280,25 +323,19 @@ LDAPS
 DNS
 SMB
 RPC
-Active Directory database services
+Global Catalog
+Directory services
 Group Policy
 Authentication
 ```
 
-A compromise of a Domain Controller can result in compromise of the domain.
-
----
-
-# Common Domain Controller Ports
-
 Common ports include:
 
-| Port | Protocol | Purpose |
+| Port | Protocol | Typical Purpose |
 |---:|---|---|
 | 53 | TCP/UDP | DNS |
 | 88 | TCP/UDP | Kerberos |
 | 135 | TCP | RPC Endpoint Mapper |
-| 139 | TCP | NetBIOS |
 | 389 | TCP/UDP | LDAP |
 | 445 | TCP | SMB |
 | 464 | TCP/UDP | Kerberos password operations |
@@ -306,27 +343,27 @@ Common ports include:
 | 3268 | TCP | Global Catalog |
 | 3269 | TCP | Global Catalog over TLS |
 
-Additional dynamic RPC ports may also be used.
+Port presence is an indicator.
 
-Port presence should be treated as evidence of services, not proof that a host is a Domain Controller.
+It is not by itself proof that a system is a Domain Controller.
 
 ---
 
-# DNS and Active Directory
+# DNS and Domain Discovery
 
 DNS is fundamental to Active Directory.
 
-Clients use DNS to discover:
+Clients use DNS to locate services including:
 
 ```text
 Domain Controllers
-Kerberos services
-LDAP services
-Global Catalog servers
+Kerberos
+LDAP
+Global Catalog
 Domain services
 ```
 
-Important records include SRV records.
+SRV records can therefore provide useful directory information.
 
 Example:
 
@@ -334,7 +371,7 @@ Example:
 _ldap._tcp.dc._msdcs.example.local
 ```
 
-Query from Linux:
+Query:
 
 ```bash
 dig SRV _ldap._tcp.dc._msdcs.example.local
@@ -346,11 +383,297 @@ Kerberos:
 dig SRV _kerberos._tcp.example.local
 ```
 
+Domain discovery should normally precede broad attack-path enumeration.
+
 ---
 
-# Active Directory Authentication
+# LDAP
 
-The two authentication technologies most frequently encountered during AD testing are:
+LDAP provides access to directory information.
+
+Depending on permissions and configuration, LDAP can expose information about:
+
+```text
+Users
+Groups
+Computers
+Organisational Units
+SPNs
+Delegation
+ACLs
+Group Policy
+Trusts
+Domain configuration
+Certificate services
+```
+
+A RootDSE query can help establish directory naming information.
+
+Example:
+
+```bash
+ldapsearch -x \
+  -H ldap://dc01.example.local \
+  -s base \
+  -b "" \
+  defaultNamingContext \
+  rootDomainNamingContext \
+  dnsHostName
+```
+
+The amount of information available without authentication depends on the environment.
+
+---
+
+# Identities
+
+AD security revolves around security principals.
+
+Important identities include:
+
+```text
+Users
+Computer accounts
+Groups
+Service accounts
+Managed service accounts
+Privileged accounts
+Application identities
+```
+
+The assessment should determine:
+
+```text
+Who is the principal?
+
+Which groups contain it?
+
+Which privileges does it inherit?
+
+Which systems accept its credentials?
+
+Which directory objects can it modify?
+
+Which credentials or sessions can it reach?
+```
+
+---
+
+# Users and Service Accounts
+
+User accounts may represent:
+
+```text
+Employees
+Administrators
+Applications
+Services
+Shared accounts
+Legacy identities
+Automation
+```
+
+Review relevant attributes such as:
+
+```text
+Group membership
+SPNs
+Account status
+Delegation
+Password-related settings
+Description
+Privilege
+Administrative relationships
+```
+
+Service accounts deserve particular attention because they frequently connect:
+
+```text
+Identity
+   |
+   v
+Application
+   |
+   v
+Server
+   |
+   v
+Privilege
+```
+
+---
+
+# Computer Accounts
+
+Computers are also AD security principals.
+
+Typical names include:
+
+```text
+WORKSTATION01$
+SERVER01$
+DC01$
+```
+
+Computer accounts:
+
+- possess credentials;
+- participate in Kerberos;
+- can receive permissions;
+- can be members of relationships;
+- can participate in delegation and certificate-based paths.
+
+Do not treat them merely as inventory objects.
+
+---
+
+# Groups
+
+Groups form a major part of AD authorisation.
+
+Common privileged groups may include:
+
+```text
+Domain Admins
+Enterprise Admins
+Administrators
+Server Operators
+Backup Operators
+Account Operators
+DNSAdmins
+Remote Desktop Users
+Remote Management Users
+```
+
+Custom groups are often equally important.
+
+For example:
+
+```text
+User
+  |
+  v
+Helpdesk
+  |
+  v
+Application Administrators
+  |
+  v
+Server Administrators
+```
+
+Always evaluate nested membership.
+
+---
+
+# Organisational Units and Group Policy
+
+OUs organise directory objects and often represent delegated administrative boundaries.
+
+```text
+Domain
+  |
+  +-- Domain Controllers
+  |
+  +-- Servers
+  |
+  +-- Workstations
+  |
+  +-- Users
+```
+
+OUs matter because:
+
+```text
+GPOs apply to them
+
+Permissions may be delegated over them
+
+Objects may inherit permissions
+
+Administrative boundaries may depend on them
+```
+
+Group Policy can control:
+
+```text
+Security settings
+Registry values
+Scripts
+Firewall rules
+Software deployment
+User configuration
+Computer configuration
+```
+
+The assessment should therefore review both:
+
+```text
+What does the GPO configure?
+```
+
+and:
+
+```text
+Who can modify the GPO or its relevant resources?
+```
+
+---
+
+# ACLs and ACEs
+
+AD objects have Access Control Lists containing Access Control Entries.
+
+Conceptually:
+
+```text
+AD Object
+    |
+    v
+ACL
+    |
+    +--> ACE
+    +--> ACE
+    +--> ACE
+```
+
+Permissions may allow a principal to:
+
+```text
+Write attributes
+Reset passwords
+Modify group membership
+Change ownership
+Change permissions
+Create child objects
+Delete objects
+Control another account
+```
+
+A permission should be interpreted according to the target object and resulting capability.
+
+For example:
+
+```text
+Low-Privileged User
+       |
+       v
+Control over Service Account
+       |
+       v
+Service Account Privilege
+       |
+       v
+Administrative Access
+```
+
+The security issue is the complete path.
+
+---
+
+# Authentication
+
+The two most important authentication technologies encountered during AD assessments are:
 
 ```text
 Kerberos
@@ -360,24 +683,24 @@ NTLM
 Conceptually:
 
 ```text
-            Authentication
-                 |
-        +--------+--------+
-        |                 |
-        v                 v
-     Kerberos            NTLM
-        |                 |
-        v                 v
-      Tickets       Challenge/Response
+             Authentication
+                  |
+        +---------+---------+
+        |                   |
+        v                   v
+     Kerberos              NTLM
+        |                   |
+        v                   v
+     Tickets        Challenge / Response
 ```
 
-Understanding both is essential.
+Both need to be understood because they expose different security behaviours and controls.
 
 ---
 
 # Kerberos
 
-Kerberos is the primary authentication protocol used by modern Active Directory environments.
+Kerberos is the primary authentication protocol in modern AD environments.
 
 Important concepts include:
 
@@ -392,7 +715,7 @@ Service accounts
 Delegation
 ```
 
-Simplified authentication flow:
+Simplified flow:
 
 ```text
 User
@@ -414,22 +737,23 @@ KDC
 Service Ticket
  |
  v
-Target Service
+Service
 ```
 
-Kerberos configuration and identity relationships create several important assessment areas, including:
+Security assessment areas commonly include:
 
 ```text
-AS-REP Roasting
-Kerberoasting
+Service accounts
+SPNs
+AS-REP roasting conditions
+Kerberoasting conditions
 Delegation
-Ticket abuse
-Service account exposure
-SPN configuration
-Trust relationships
+Ticket handling
+Trusts
+Certificate-backed authentication
 ```
 
-These topics are covered individually in the Active Directory notes.
+The existence of one of these mechanisms does not automatically mean it is vulnerable.
 
 ---
 
@@ -442,414 +766,57 @@ Simplified:
 ```text
 Client
    |
-   | Authentication Request
    v
-Server
+Server Challenge
    |
-   | Challenge
    v
-Client
+Client Response
    |
-   | Response
    v
-Server
+Authentication Decision
 ```
 
-NTLM remains important because it can interact with:
+NTLM commonly appears with:
 
 ```text
 SMB
 HTTP
 LDAP
 RPC
-Name resolution
-Authentication relay scenarios
 Legacy systems
+Name-resolution behaviour
 ```
 
-Important assessment areas include:
+Relevant security areas can include:
 
 ```text
-NTLM capture
-NTLM relay
+Authentication capture
+Authentication relay
 SMB signing
 LDAP signing
 Channel binding
-LLMNR
-NBT-NS
-mDNS
+Extended Protection for Authentication
+Name-resolution protocols
 Authentication coercion
 ```
 
----
-
-# LDAP
-
-LDAP is one of the primary ways to query Active Directory.
-
-LDAP can expose information about:
+Important distinction:
 
 ```text
-Users
-Groups
-Computers
-Organisational Units
-Service Principal Names
-Delegation
-ACLs
-Group Policy
-Domain configuration
-Trusts
-Certificate services
+NTLM Enabled
+     !=
+NTLM Relay Vulnerability
 ```
 
-LDAP therefore plays a major role in AD enumeration.
+Relayability depends on the target protocol, security controls, authentication flow, and surrounding conditions.
 
 ---
 
-# Distinguished Names
+# Attack Path Analysis
 
-Active Directory objects are represented using Distinguished Names.
+AD security testing is fundamentally attack-path analysis.
 
-Example:
-
-```text
-CN=Alice Smith,OU=Users,DC=example,DC=local
-```
-
-Breakdown:
-
-```text
-CN = Common Name
-OU = Organisational Unit
-DC = Domain Component
-```
-
-Domain:
-
-```text
-example.local
-```
-
-becomes:
-
-```text
-DC=example,DC=local
-```
-
----
-
-# Security Principals
-
-Important security principals include:
-
-```text
-Users
-Computers
-Groups
-Managed service accounts
-Service accounts
-```
-
-Security principals have Security Identifiers (SIDs).
-
-Example conceptual SID:
-
-```text
-S-1-5-21-111111111-222222222-333333333-1105
-```
-
----
-
-# Users
-
-User accounts may represent:
-
-```text
-Employees
-Administrators
-Service accounts
-Application identities
-Legacy accounts
-Shared accounts
-```
-
-Important attributes may include:
-
-```text
-Username
-Display name
-Description
-Group membership
-SPNs
-Password settings
-Account status
-Delegation configuration
-Last logon information
-```
-
----
-
-# Computer Accounts
-
-Computers also have AD accounts.
-
-Typical format:
-
-```text
-WORKSTATION01$
-SERVER01$
-DC01$
-```
-
-Computer accounts possess credentials and can participate in Kerberos authentication.
-
-They should not be ignored during attack-path analysis.
-
----
-
-# Groups
-
-Groups are central to AD authorisation.
-
-Examples include:
-
-```text
-Domain Admins
-Enterprise Admins
-Administrators
-Account Operators
-Server Operators
-Backup Operators
-Remote Desktop Users
-Remote Management Users
-DNSAdmins
-```
-
-However, custom organisational groups can be just as important.
-
-For example:
-
-```text
-Application Administrators
-        |
-        v
-Server Administrators
-        |
-        v
-Tier-0 Management
-```
-
-Group nesting can create indirect privilege.
-
----
-
-# Group Nesting
-
-Example:
-
-```text
-Alice
-  |
-  v
-Helpdesk
-  |
-  v
-Server Operators
-  |
-  v
-Privileged Server Access
-```
-
-Always evaluate nested membership.
-
----
-
-# Organisational Units
-
-Organisational Units organise directory objects.
-
-Example:
-
-```text
-example.local
-│
-├── Domain Controllers
-│
-├── Servers
-│   ├── Production
-│   └── Development
-│
-├── Workstations
-│
-└── Users
-    ├── Administrators
-    └── Employees
-```
-
-OUs matter because:
-
-```text
-GPOs can apply to OUs
-Permissions can be delegated over OUs
-Objects inherit permissions
-Administrative boundaries may depend on OU structure
-```
-
----
-
-# Group Policy
-
-Group Policy is used to centrally configure:
-
-```text
-Security settings
-Windows settings
-Scripts
-Registry values
-Firewall settings
-Software deployment
-User configuration
-Computer configuration
-```
-
-GPO permissions and writable policy paths can become security-relevant.
-
-A simplified model:
-
-```text
-GPO
- |
- v
-OU
- |
- +--> Users
- |
- +--> Computers
-```
-
----
-
-# ACLs and ACEs
-
-Active Directory objects have Access Control Lists.
-
-An ACL contains Access Control Entries.
-
-Conceptually:
-
-```text
-AD Object
-   |
-   v
-ACL
-   |
-   +--> ACE
-   +--> ACE
-   +--> ACE
-```
-
-An ACE may grant a principal permission to:
-
-```text
-Read
-Write
-Reset password
-Modify membership
-Modify owner
-Modify permissions
-Write attributes
-Create child objects
-Delete objects
-```
-
-These permissions can create powerful attack paths.
-
----
-
-# Why ACLs Matter
-
-Suppose:
-
-```text
-User A
-   |
-   | GenericAll
-   v
-User B
-```
-
-User A may effectively control User B.
-
-If User B is privileged:
-
-```text
-Low Privilege User
-       |
-       v
-Control User B
-       |
-       v
-Privileged Group
-       |
-       v
-Privilege Escalation
-```
-
-This is why AD should be treated as a graph rather than a flat list of accounts.
-
----
-
-# BloodHound Model
-
-BloodHound represents Active Directory relationships as a graph.
-
-Conceptually:
-
-```text
-Nodes
- |
- +--> Users
- +--> Groups
- +--> Computers
- +--> Domains
- +--> GPOs
- +--> OUs
- +--> Certificate authorities
-
-Edges
- |
- +--> MemberOf
- +--> AdminTo
- +--> HasSession
- +--> GenericAll
- +--> GenericWrite
- +--> WriteDACL
- +--> WriteOwner
- +--> ForceChangePassword
- +--> delegation relationships
- +--> certificate relationships
-```
-
-This allows questions such as:
-
-```text
-How can this user reach Domain Admin?
-
-Who can control this computer?
-
-Which principals can modify this group?
-
-Where do privileged users have sessions?
-
-Which certificate relationships create escalation paths?
-```
-
----
-
-# Attack Paths
-
-An attack path is a chain of relationships that produces meaningful privilege.
+An attack path is a sequence of relationships that allows an identity to gain additional control.
 
 Example:
 
@@ -860,840 +827,266 @@ User
  v
 Helpdesk
  |
- | GenericWrite
+ | Write Permission
  v
 Service Account
  |
- | Kerberoastable
- v
-Credential
- |
- | AdminTo
+ | Administrative Relationship
  v
 Server
  |
- | Session
+ | Privileged Session
  v
-Administrator
+Higher-Privilege Identity
 ```
 
-Each individual relationship may appear harmless.
+Each individual relationship may look relatively minor.
 
-The combination creates the risk.
+The chain creates the risk.
 
----
-
-# Initial Access States
-
-An internal AD assessment may begin from several positions.
-
-## Unauthenticated Network Access
+The central questions are:
 
 ```text
-Network access
-No domain credentials
-No compromised workstation
+What can this identity control?
+
+What does the target control?
+
+What becomes reachable after the next step?
 ```
-
-Initial objectives:
-
-```text
-Discover hosts
-Discover DNS
-Identify domain
-Locate Domain Controllers
-Identify SMB/LDAP/Kerberos
-Assess anonymous exposure
-```
-
----
-
-## Domain User
-
-```text
-Username
-+
-Password / Hash / Ticket
-```
-
-This dramatically increases enumeration capability.
-
-A normal domain account can often query substantial directory information.
-
----
-
-## Compromised Workstation
-
-You may have:
-
-```text
-Shell
-User context
-Domain context
-Local files
-Network access
-Cached information
-Sessions
-```
-
-The host becomes both:
-
-```text
-A target
-```
-
-and potentially:
-
-```text
-A pivot point
-```
-
----
-
-## Local Administrator
-
-Local administrator privileges may provide access to:
-
-```text
-Local credential material
-Service configuration
-Registry secrets
-Processes
-Sessions
-Remote administration
-```
-
-But:
-
-```text
-Local Administrator
-        !=
-Domain Administrator
-```
-
-The next objective is understanding how local compromise connects to the wider domain.
-
----
-
-# AD Enumeration Philosophy
-
-Do not begin by firing every tool at the domain.
-
-Start with:
-
-```text
-What do I know?
-```
-
-Then:
-
-```text
-What can I safely learn?
-```
-
-Then:
-
-```text
-What relationships matter?
-```
-
-A good workflow is:
-
-```text
-Domain
-  |
-  v
-Domain Controllers
-  |
-  v
-Users
-  |
-  v
-Groups
-  |
-  v
-Computers
-  |
-  v
-Sessions
-  |
-  v
-Permissions
-  |
-  v
-Trusts
-  |
-  v
-Attack Paths
-```
-
----
-
-# Network Discovery
-
-Before deep AD enumeration, understand the network.
-
-Identify:
-
-```text
-Your IP address
-Subnet
-Default gateway
-DNS servers
-Routes
-Accessible networks
-```
-
-Linux:
-
-```bash
-ip addr
-ip route
-cat /etc/resolv.conf
-```
-
-Windows:
-
-```powershell
-ipconfig /all
-route print
-```
-
----
-
-# Domain Discovery from Windows
-
-Useful native commands include:
-
-```cmd
-whoami
-whoami /user
-whoami /groups
-hostname
-systeminfo
-```
-
-Domain information:
-
-```cmd
-echo %USERDOMAIN%
-echo %USERDNSDOMAIN%
-```
-
-Domain Controller discovery:
-
-```cmd
-nltest /dsgetdc:example.local
-```
-
-List Domain Controllers:
-
-```cmd
-nltest /dclist:example.local
-```
-
----
-
-# PowerShell Domain Information
-
-```powershell
-$env:USERDOMAIN
-$env:USERDNSDOMAIN
-$env:LOGONSERVER
-```
-
-Current identity:
-
-```powershell
-whoami /all
-```
-
----
-
-# Linux Domain Discovery
-
-DNS is often the first source.
-
-```bash
-cat /etc/resolv.conf
-```
-
-Then:
-
-```bash
-dig example.local
-```
-
-and:
-
-```bash
-dig SRV _ldap._tcp.dc._msdcs.example.local
-```
-
----
-
-# LDAP RootDSE
-
-RootDSE can reveal useful directory information.
-
-Example:
-
-```bash
-ldapsearch -x \
-  -H ldap://dc01.example.local \
-  -s base \
-  -b "" \
-  defaultNamingContext \
-  rootDomainNamingContext \
-  dnsHostName
-```
-
-Depending on server policy, some RootDSE information may be available without authenticated LDAP enumeration.
-
----
-
-# SMB Discovery
-
-SMB is a major AD assessment surface.
-
-Important questions include:
-
-```text
-Is SMB available?
-
-What SMB dialects are supported?
-
-Is SMB signing required?
-
-Are shares accessible?
-
-Is anonymous access possible?
-
-Which credentials authenticate?
-
-Where do accounts have administrative access?
-```
-
----
-
-# NetExec
-
-NetExec is one of the most useful tools for internal Windows and Active Directory assessments.
-
-It supports multiple protocols and can assist with:
-
-```text
-Host enumeration
-SMB enumeration
-LDAP enumeration
-Authentication validation
-Share enumeration
-User/group enumeration
-Administrative access identification
-Kerberos-related enumeration
-```
-
-Example basic SMB query:
-
-```bash
-nxc smb 10.10.10.10
-```
-
-Authenticated example:
-
-```bash
-nxc smb 10.10.10.10 \
-  -u 'alice' \
-  -p 'Password'
-```
-
-Domain context:
-
-```bash
-nxc smb 10.10.10.10 \
-  -d example.local \
-  -u 'alice' \
-  -p 'Password'
-```
-
-NetExec will receive its own dedicated tool note.
-
----
-
-# Impacket
-
-Impacket is a collection of Python implementations of network protocols commonly encountered in Windows and Active Directory environments.
-
-Important utilities include:
-
-```text
-GetUserSPNs.py
-GetNPUsers.py
-GetADUsers.py
-lookupsid.py
-secretsdump.py
-smbclient.py
-smbserver.py
-psexec.py
-wmiexec.py
-smbexec.py
-dcomexec.py
-atexec.py
-ntlmrelayx.py
-getTGT.py
-getST.py
-ticketer.py
-```
-
-Rather than memorising isolated commands, understand what protocol and security mechanism each tool interacts with.
-
-Impacket will receive its own dedicated note.
-
----
-
-# Responder
-
-Responder is commonly used during internal assessments to analyse and interact with name-resolution and authentication behaviour.
-
-Relevant protocols may include:
-
-```text
-LLMNR
-NBT-NS
-mDNS
-```
-
-Conceptually:
-
-```text
-Client cannot resolve resource
-          |
-          v
-Local Name Resolution
-          |
-          v
-Attacker-controlled response
-          |
-          v
-Authentication attempt
-          |
-          +--> Capture
-          |
-          +--> Potential relay path
-```
-
-Capture and relay must be treated separately:
-
-```text
-Credential Capture
-       !=
-Authentication Relay
-```
-
-Responder and relay techniques will receive dedicated notes.
 
 ---
 
 # BloodHound
 
-BloodHound is used to analyse relationships in Active Directory.
+BloodHound represents AD relationships as a graph.
 
-Typical workflow:
-
-```text
-Collect AD Data
-      |
-      v
-Import
-      |
-      v
-Graph Relationships
-      |
-      v
-Identify Attack Paths
-      |
-      v
-Manually Validate
-```
-
-BloodHound should not replace manual understanding.
-
-A graph edge should be investigated to determine:
+It can model nodes such as:
 
 ```text
-What permission exists?
-
-Why does it exist?
-
-Can it actually be used?
-
-What does it provide?
-
-What is the operational impact?
-```
-
----
-
-# PowerView
-
-PowerView provides PowerShell-based AD enumeration capabilities.
-
-Common categories include:
-
-```text
-Domain information
 Users
 Groups
 Computers
-ACLs
-Sessions
-Trusts
+Domains
+OUs
 GPOs
-SPNs
+Certificate infrastructure
 ```
 
-Where possible, understand equivalent native or LDAP queries rather than depending exclusively on one tool.
-
----
-
-# Kerberoasting
-
-Kerberoasting concerns Kerberos service tickets associated with service accounts.
-
-Conceptually:
+and relationships such as:
 
 ```text
-Domain User
-     |
-     v
-Identify SPN
-     |
-     v
-Request Service Ticket
-     |
-     v
-Ticket Material
-     |
-     v
-Offline Password Analysis
+MemberOf
+AdminTo
+HasSession
+GenericAll
+GenericWrite
+WriteDACL
+WriteOwner
+ForceChangePassword
+Delegation
+Certificate relationships
 ```
 
-The important security issue is often the strength and management of service-account credentials.
-
----
-
-# AS-REP Roasting
-
-Certain accounts may be configured without Kerberos pre-authentication.
-
-Conceptually:
+A useful workflow is:
 
 ```text
-Account
-   |
-   | Pre-authentication not required
-   v
-AS-REQ
+Collect
    |
    v
-AS-REP Material
+Graph
    |
    v
-Offline Password Analysis
+Identify Candidate Path
+   |
+   v
+Understand Each Edge
+   |
+   v
+Validate Permissions
+   |
+   v
+Determine Reachability
+   |
+   v
+Assess Impact
 ```
 
-This is configuration-dependent.
+A graph edge is evidence of a relationship.
 
----
+It should still be interpreted and, where appropriate, manually validated.
 
-# Password Spraying
-
-Password spraying tests a small number of candidate passwords against multiple accounts.
-
-It differs from traditional brute force:
-
-```text
-Brute Force
-
-One account
-    |
-    +--> password1
-    +--> password2
-    +--> password3
-    +--> ...
-```
-
-versus:
-
-```text
-Password Spray
-
-Candidate Password
-       |
-       +--> User A
-       +--> User B
-       +--> User C
-       +--> User D
-```
-
-Password spraying can lock accounts or trigger security controls.
-
-Only perform it when explicitly permitted.
-
----
-
-# Credential Sources
-
-Credentials may exist in many locations:
-
-```text
-LSASS
-SAM
-LSA Secrets
-NTDS.dit
-Registry
-Configuration files
-Scripts
-Scheduled tasks
-Services
-Group Policy
-Shares
-User descriptions
-PowerShell history
-Deployment systems
-Backups
-Password managers
-Browsers
-Service accounts
-LAPS
-gMSA
-dMSA
-```
-
-Credential discovery should be systematic rather than tool-driven.
-
----
-
-# LAPS
-
-Local Administrator Password Solution technologies are designed to manage local administrator credentials.
-
-During authorised assessments, review:
-
-```text
-Is LAPS deployed?
-
-Which systems use it?
-
-Who can read the managed password?
-
-Are permissions appropriately restricted?
-
-Are legacy and modern LAPS configurations understood?
-```
-
-The security question is not merely:
-
-```text
-Does LAPS exist?
-```
-
-but:
-
-```text
-Who can retrieve which credentials?
-```
-
----
-
-# gMSA
-
-Group Managed Service Accounts provide managed credentials for services.
-
-Important questions include:
-
-```text
-Which gMSAs exist?
-
-Which hosts use them?
-
-Which principals can retrieve their managed password material?
-
-What privileges do those accounts possess?
-```
-
----
-
-# Shadow Credentials
-
-Active Directory certificate-based authentication relationships can create paths involving the `msDS-KeyCredentialLink` attribute.
-
-The important review questions include:
-
-```text
-Who can modify the target object?
-
-Can key credentials be added?
-
-What authentication capability would that provide?
-
-How should the change be detected and remediated?
-```
-
-This topic will receive a dedicated note.
+[BloodHound Notes](bloodhound.md)
 
 ---
 
 # Active Directory Certificate Services
 
-AD CS adds a Public Key Infrastructure to Active Directory.
+Active Directory Certificate Services introduces PKI and certificate-based authentication into AD.
 
-It introduces:
+Important components include:
 
 ```text
 Certificate Authorities
 Certificate Templates
-Enrolment permissions
-Certificate authentication
+Enrolment Permissions
+Template Permissions
+Certificate Authentication
 PKINIT
-Web enrolment
-Certificate mappings
+Certificate Mapping
+Web Enrolment
 ```
 
 Simplified:
 
 ```text
-User / Computer
-       |
-       v
+Principal
+    |
+    v
 Certificate Template
-       |
-       v
+    |
+    v
 Certificate Authority
-       |
-       v
+    |
+    v
 Certificate
-       |
-       v
+    |
+    v
 Authentication
 ```
 
-Misconfiguration can create privilege-escalation paths.
+Security-relevant configurations can create privilege paths when certificate enrolment, identity information, permissions, or authentication mappings are insufficiently restricted.
+
+The assessment should determine:
+
+```text
+Which CAs exist?
+
+Which templates are published?
+
+Who can enrol?
+
+Who can modify templates?
+
+What authentication properties exist?
+
+Which identities can ultimately be impersonated or controlled?
+```
+
+[Active Directory Certificate Services](ad-cs/index.md)
 
 ---
 
-# AD CS ESC Paths
+# Enterprise Infrastructure
 
-AD CS research commonly describes certificate-service escalation conditions using ESC identifiers.
+AD environments often include supporting infrastructure with broad administrative reach.
 
-Our AD CS section will cover:
-
-```text
-ESC1
-ESC2
-ESC3
-ESC4
-ESC5
-ESC6
-ESC7
-ESC8
-ESC9
-ESC10
-ESC11
-ESC12
-ESC13
-ESC14
-ESC15
-```
-
-Each page should explain:
+Examples include:
 
 ```text
-What the condition is
-Why it matters
-Prerequisites
-Enumeration
-Safe validation
-Attack-path implications
-Detection
-Remediation
+Configuration Manager / SCCM
+Software deployment
+Patch management
+Backup infrastructure
+Federation
+Certificate infrastructure
+DNS
+PXE / imaging
+Virtualisation
+Endpoint management
 ```
 
-rather than merely presenting a command.
+These systems may be highly security sensitive because compromise can affect many machines or identities.
+
+For example:
+
+```text
+Management Infrastructure
+          |
+          v
+Endpoint Administration
+          |
+          v
+Large Number of Systems
+```
+
+The impact should be assessed according to actual scope and privileges rather than product presence alone.
+
+[SCCM / Configuration Manager](sccm.md)
 
 ---
 
-# NTLM Relay
+# Credential Exposure
 
-NTLM authentication can become relayable depending on the protocol and protections involved.
+Credentials may exist across many AD-connected systems.
 
-Conceptually:
-
-```text
-Victim
-  |
-  | NTLM Authentication
-  v
-Attacker
-  |
-  | Relay
-  v
-Target Service
-```
-
-Important protections include, depending on the target protocol:
+Potential locations include:
 
 ```text
-SMB signing
-LDAP signing
-Channel binding
-EPA
-Protocol-specific protections
+Shares
+Scripts
+Configuration
+Services
+Scheduled tasks
+Deployment systems
+Backup systems
+Directory attributes
+Managed accounts
+Local credential stores
+User profiles
+PowerShell history
+Applications
 ```
 
-Do not assume:
+Credential testing should answer:
 
 ```text
-NTLM enabled
-    =
-NTLM relay vulnerability
+What credential material exists?
+
+Who can access it?
+
+Is it current?
+
+Where can it authenticate?
+
+What privilege does it provide?
 ```
 
-The target service and protections matter.
+A credential only becomes meaningful when connected to access.
 
 ---
 
-# Authentication Coercion
+# LAPS and Managed Accounts
 
-Some techniques can cause a Windows system to initiate authentication to another host.
+Managed-account technologies change how credential exposure should be analysed.
 
-Conceptually:
+Relevant examples include:
 
 ```text
-Attacker
-   |
-   v
-Trigger Authentication Behaviour
-   |
-   v
-Target System
-   |
-   v
-Outbound Authentication
-   |
-   v
-Attacker-Controlled / Relay Destination
+Windows LAPS
+Legacy LAPS
+gMSA
+dMSA
 ```
 
-Coercion and relay are separate concepts.
+The important question is not simply whether these technologies are deployed.
 
-A coercion primitive is not automatically exploitable without a useful authentication destination and suitable target conditions.
+Ask:
+
+```text
+Who can retrieve the managed credential?
+
+Which systems or services use it?
+
+What privileges does the account have?
+```
+
+Permissions around managed credentials may themselves become attack-path relationships.
 
 ---
 
 # Delegation
 
-Kerberos delegation allows services to act on behalf of users.
+Kerberos delegation allows services to act in specific authentication contexts.
 
 Important models include:
 
@@ -1703,96 +1096,108 @@ Constrained Delegation
 Resource-Based Constrained Delegation
 ```
 
-Delegation relationships should be mapped during enumeration.
-
----
-
-# Unconstrained Delegation
-
-Conceptually:
-
-```text
-User
- |
- v
-Service
- |
- v
-Delegated Authentication Material
-```
-
-Systems trusted for unconstrained delegation require particular attention.
-
----
-
-# Constrained Delegation
-
-Constrained delegation limits the services to which delegation is allowed.
+Delegation should be treated as a relationship.
 
 Review:
 
 ```text
-Which account is trusted?
+Which principal is trusted?
 
-Which target SPNs are permitted?
+Which target service is involved?
 
-Which users are protected?
+Who controls the relevant object?
 
-What protocol transition settings exist?
+Which identities can be delegated?
+
+What effective authentication capability results?
 ```
 
 ---
 
-# Resource-Based Constrained Delegation
+# NTLM Relay and Coercion
 
-RBCD moves part of the delegation decision to the target resource.
+Two concepts should be kept separate.
 
-Important objects and permissions should be analysed as relationships rather than as isolated settings.
+## Authentication Coercion
+
+```text
+Trigger
+   |
+   v
+Target System
+   |
+   v
+Outbound Authentication
+```
+
+## Relay
+
+```text
+Inbound Authentication
+      |
+      v
+Relay Infrastructure
+      |
+      v
+Target Service
+```
+
+A coercion primitive does not automatically provide an exploitable relay path.
+
+A useful chain requires:
+
+```text
+Suitable Authentication
+        +
+Useful Relay Target
+        +
+Insufficient Target Protection
+        +
+Meaningful Authorisation
+```
 
 ---
 
-# Machine Account Quota
+# Machine Account Relationships
 
-Active Directory can allow ordinary users to create a limited number of computer accounts depending on domain configuration.
+Computer objects and machine-account creation permissions can contribute to attack paths.
 
 Review:
 
 ```text
-Current MachineAccountQuota
-Who can create computer objects
-Where they can be created
-Whether those objects can participate in other attack paths
+MachineAccountQuota
+Delegated computer creation
+OU permissions
+Computer object control
+Delegation relationships
+Certificate relationships
 ```
 
-A non-zero value is not automatically an exploitable vulnerability.
+A non-zero MachineAccountQuota is not automatically a vulnerability.
 
-Context matters.
+Its significance depends on what a created computer identity can subsequently influence.
 
 ---
 
 # Trusts
 
-Large environments may contain multiple domains and forests.
-
-Example:
+Large environments may contain multiple domains or forests.
 
 ```text
 Forest A
    |
-   +--> Domain A
+   +-- Domain A
    |
-   +--> Domain B
-
+   +-- Domain B
           |
           | Trust
           v
-
 Forest B
    |
-   +--> Domain C
+   +-- Domain C
 ```
 
-Trust analysis should consider:
+Review:
 
 ```text
 Direction
@@ -1800,16 +1205,21 @@ Transitivity
 SID filtering
 Selective authentication
 Forest boundaries
-Privileged identities
+Privileged principals
+Cross-domain administration
 ```
+
+The existence of a trust is expected.
+
+The security question is what that trust permits.
 
 ---
 
 # Lateral Movement
 
-Lateral movement means using obtained access to reach additional systems.
+Lateral movement means using acquired access to reach additional systems.
 
-Potential administration technologies include:
+Potential management technologies include:
 
 ```text
 SMB
@@ -1818,401 +1228,147 @@ WMI
 DCOM
 RDP
 PowerShell Remoting
-Scheduled Tasks
 Services
+Scheduled Tasks
 ```
 
-The presence of a protocol does not mean the current account can use it.
+The presence of a protocol does not imply that the current identity can use it.
 
-Always determine:
+Establish:
 
 ```text
-Credentials
-Privileges
 Network reachability
-Host protections
-Logging/detection impact
+Authentication
+Authorisation
+Local privilege
+Host controls
+Operational risk
 ```
+
+before validation.
 
 ---
 
 # Pivoting
 
-Pivoting becomes necessary when a compromised system can access networks that the tester cannot directly reach.
-
-Example:
+A compromised host may provide access to networks that are not directly reachable from the tester.
 
 ```text
 Tester
   |
   v
-10.10.10.20
 Compromised Host
   |
-  +------------------+
-  |                  |
-  v                  v
-10.10.10.0/24    172.16.50.0/24
-                     |
-                     +--> DC02
-                     +--> SQL01
-                     +--> FILE02
+  +----------+----------+
+  |                     |
+  v                     v
+Current Network     Internal Network
+                         |
+                         +--> DC
+                         +--> Servers
+                         +--> Applications
 ```
 
-The compromised host becomes a network pivot.
-
----
-
-# Pivoting Models
-
-Important models include:
-
-```text
-Local Port Forwarding
-Remote Port Forwarding
-Dynamic SOCKS Proxy
-TUN-Based Routing
-Double Pivoting
-```
-
----
-
-# Port Forwarding
-
-Conceptually:
-
-```text
-Local Port
-    |
-    v
-Tunnel
-    |
-    v
-Remote Service
-```
-
-Useful when only one or a few services need to be reached.
-
----
-
-# SOCKS Proxy
-
-Conceptually:
-
-```text
-Tool
- |
- v
-SOCKS Proxy
- |
- v
-Pivot Host
- |
- v
-Internal Network
-```
-
-Tools that support SOCKS directly, or through ProxyChains, can then communicate through the pivot.
-
----
-
-# TUN-Based Pivoting
-
-Tools such as Ligolo-ng can create a routing-oriented workflow.
-
-Conceptually:
-
-```text
-Linux Routing Table
-        |
-        v
-TUN Interface
-        |
-        v
-Ligolo Tunnel
-        |
-        v
-Pivot Host
-        |
-        v
-Internal Network
-```
-
-This can be convenient because many tools can communicate with the target subnet using normal IP networking.
-
----
-
-# Common Pivoting Tools
-
-The pivoting section will cover:
-
-```text
-SSH
-ProxyChains
-Ligolo-ng
-Chisel
-socat
-Windows netsh portproxy
-```
-
-The objective is to understand the network model first and tool syntax second.
-
----
-
-# Double Pivoting
-
-Sometimes the target network contains multiple inaccessible layers.
-
-```text
-Tester
-  |
-  v
-Pivot 1
-10.10.10.20
-  |
-  v
-Pivot 2
-172.16.50.30
-  |
-  v
-10.50.20.0/24
-```
-
-At each stage record:
+Before selecting a tunnelling tool, understand:
 
 ```text
 Interfaces
 Routes
-Reachable networks
 DNS
-Firewall restrictions
-Tunnel direction
+Firewalls
+Reachable networks
+Required protocols
 ```
 
----
-
-# Shares
-
-SMB shares can expose:
-
-```text
-Configuration
-Scripts
-Backups
-Credentials
-Deployment packages
-Documents
-Source code
-Certificates
-Keys
-Installation files
-```
-
-Share enumeration should include both:
-
-```text
-Share existence
-```
-
-and:
-
-```text
-Actual permissions
-```
-
----
-
-# Deployment Infrastructure
-
-Enterprise Windows environments may contain:
-
-```text
-SCCM
-MDT
-WSUS
-SCOM
-PXE
-```
-
-These systems can be security-sensitive because they may manage large numbers of endpoints.
-
-Review:
-
-```text
-Credentials
-Deployment permissions
-Network exposure
-Service accounts
-Administrative roles
-Configuration
-```
-
----
-
-# Active Directory Integrated DNS
-
-AD-integrated DNS stores DNS information in Active Directory.
-
-Review areas can include:
-
-```text
-DNS records
-Record permissions
-Dynamic updates
-Name-resolution behaviour
-ADIDNS permissions
-```
-
----
-
-# ADFS
-
-Active Directory Federation Services may connect AD identities to federated applications.
-
-Review:
-
-```text
-Federation configuration
-Certificates
-Service accounts
-Trust relationships
-Authentication policies
-Endpoints
-```
-
----
-
-# Privilege Escalation
-
-AD privilege escalation rarely consists of only one technique.
-
-Think in chains:
-
-```text
-Current Principal
-       |
-       v
-Available Relationships
-       |
-       v
-New Principal / Host
-       |
-       v
-New Permissions
-       |
-       v
-Higher Privilege
-```
-
-Examples of contributing relationships may include:
-
-```text
-Group membership
-ACL permissions
-Credential exposure
-Kerberos configuration
-Delegation
-Certificate templates
-Local administrator reuse
-Sessions
-GPO permissions
-Trust relationships
-```
+The network model should determine the pivoting technique.
 
 ---
 
 # Domain Admin Is Not the Only Objective
 
-Do not evaluate security solely by asking whether Domain Admin was obtained.
+Do not measure AD security only by whether Domain Admin can be reached.
 
-High-impact access may include:
+Other high-impact targets may include:
 
 ```text
-Certificate Authority control
-Identity infrastructure
-SCCM control
-Backup infrastructure
-Virtualisation infrastructure
-Tier-0 systems
-Password management
+Certificate Authority
+Configuration Manager
 Federation infrastructure
+Backup infrastructure
+Virtualisation
+Password-management systems
 Security tooling
+Tier-0 systems
 Critical application servers
+Cloud identity connectors
 ```
+
+Impact should reflect the actual control obtained.
 
 ---
 
-# Persistence
+# Tooling
 
-Persistence techniques should only be tested when explicitly authorised.
+Tools help expose relationships.
 
-Potential AD persistence areas include:
+They are not the methodology.
 
 ```text
-Privileged group membership
-ACL modifications
-GPO modification
-Certificate-based persistence
-Account manipulation
-Kerberos-related persistence
-Directory object modification
-Trust manipulation
+Security Question
+      |
+      v
+Choose Protocol / Data Source
+      |
+      v
+Select Tool
+      |
+      v
+Collect Evidence
+      |
+      v
+Interpret Relationship
+      |
+      v
+Validate
 ```
 
-For many assessments, demonstrating the ability to establish persistence may be sufficient without actually implementing long-lived persistence.
-
----
-
-# Tooling Model
-
-Our AD notes will separate techniques from tools.
-
-```text
-                  Technique
-                     |
-        +------------+-------------+
-        |            |             |
-        v            v             v
-     Windows       Linux        Graph
-        |            |             |
-        v            v             v
-   PowerShell     NetExec      BloodHound
-   PowerView      Impacket
-   Rubeus         Certipy
-   Native tools   bloodyAD
-                  ldapsearch
-                  Responder
-```
-
----
-
-# Planned AD Tool Notes
-
-Dedicated tool notes will cover:
+Useful tool families include:
 
 ```text
 NetExec
 Impacket
-Responder
 BloodHound
-SharpHound
 Certipy
-bloodyAD
 PowerView
-ldapsearch
-Kerbrute
-Mimikatz
-Rubeus
-Evil-WinRM
+LDAP clients
+Native Windows tools
 ```
 
-This prevents every technique page from becoming a duplicate tool manual.
+The dedicated Tools section explains how these fit together:
+
+[Active Directory Tools](../tools/active-directory/index.md)
 
 ---
 
-# NetExec Role
+# NetExec
 
-Think of NetExec primarily as:
+NetExec is useful for protocol-oriented Windows and Active Directory assessment.
+
+It can help answer questions such as:
+
+```text
+Which hosts expose SMB?
+
+Which credentials authenticate?
+
+Which shares are accessible?
+
+Where does an identity have administrative access?
+
+What directory information is available?
+```
+
+The important model is:
 
 ```text
 Targets
@@ -2227,123 +1383,78 @@ Authentication
 Enumeration / Validation
 ```
 
-It can help answer questions such as:
+Canonical note:
 
-```text
-Which hosts speak SMB?
-
-Which credentials authenticate?
-
-Where does an account have local administrative access?
-
-Which shares are accessible?
-
-What domain information is available through LDAP?
-```
+[NetExec](netexec.md)
 
 ---
 
-# Impacket Role
+# Impacket
 
-Think of Impacket as:
+Impacket provides implementations of protocols commonly used in Windows and Active Directory environments.
+
+Rather than memorising individual script names, understand:
 
 ```text
-Protocol Implementations
-         |
-         v
-Windows / AD Operations
+Which protocol is being used?
+
+Which authentication mechanism is involved?
+
+What privilege is required?
+
+What security control is being tested?
+
+What does successful output prove?
 ```
 
-Different Impacket examples target different protocols and authentication mechanisms.
-
-Understanding those differences is more valuable than memorising command names.
+This makes the tooling easier to adapt to different environments.
 
 ---
 
-# Responder Role
+# Native Tools
 
-Think of Responder as part of:
+Third-party tooling should not be the only source of evidence.
+
+Useful Windows-native utilities may include:
 
 ```text
-Name Resolution
-      |
-      v
-Authentication Behaviour
-      |
-      v
-Credential Capture Analysis
+whoami
+net
+nltest
+setspn
+klist
+certutil
+PowerShell
+AD cmdlets where available
 ```
 
-and potentially:
+Native tooling can be valuable when:
 
 ```text
-Authentication
-      |
-      v
-Relay Analysis
-```
+Third-party tools cannot be transferred
 
-when used with appropriate relay tooling and authorised scope.
+Application control restricts binaries
 
----
+Internet access is unavailable
 
-# Certipy Role
-
-Certipy is commonly used to assess Active Directory Certificate Services.
-
-Typical workflow:
-
-```text
-Discover CA
-    |
-    v
-Discover Templates
-    |
-    v
-Analyse Permissions
-    |
-    v
-Identify Misconfiguration
-    |
-    v
-Validate Attack Path
-```
-
----
-
-# BloodHound Role
-
-BloodHound answers:
-
-```text
-How are all these relationships connected?
-```
-
-while tools such as NetExec, PowerView and LDAP queries often help answer:
-
-```text
-What objects and relationships exist?
+A tool result needs independent confirmation
 ```
 
 ---
 
 # Manual Validation
 
-Automated tools should produce:
+Automated results should generate candidates.
 
-```text
-Candidates
-```
+They should not generate conclusions automatically.
 
-not unquestioned conclusions.
-
-For example:
+Example:
 
 ```text
 BloodHound Edge
       |
       v
-Read Permission Semantics
+Understand Permission
       |
       v
 Confirm Principal
@@ -2352,64 +1463,87 @@ Confirm Principal
 Confirm Target
       |
       v
-Confirm Effective Permission
+Check Effective Control
       |
       v
-Determine Exploitability
+Determine Reachability
+      |
+      v
+Assess Impact
 ```
 
----
-
-# Evidence Collection
-
-Maintain evidence throughout the assessment.
-
-Useful evidence includes:
+Other examples:
 
 ```text
-Command
-Timestamp
-Source host
-Target host
-Authenticated identity
-Output
-Relevant object
-Permission
-Attack path
-Runtime validation
+SPN Exists
+     !=
+Compromised Service Account
+```
+
+```text
+NTLM Enabled
+     !=
+Relay Vulnerability
+```
+
+```text
+Certificate Template Exists
+     !=
+AD CS Escalation Path
+```
+
+```text
+Writable ACL
+     !=
+Automatic Domain Compromise
+```
+
+```text
+SMB Available
+     !=
+Administrative Access
 ```
 
 ---
 
-# Maintain a Target Inventory
+# Evidence Before Conclusions
+
+Use a clear confidence model.
+
+| State | Meaning |
+|---|---|
+| Observation | Something security relevant was identified |
+| Candidate | A relationship may form part of an attack path |
+| Validated | The effective permission or behaviour was confirmed |
+| Reachable | The path can be exercised from the assessed position |
+| Confirmed | Evidence supports a meaningful security impact |
 
 Example:
 
-| Host | IP | Role | Services | Access |
-|---|---|---|---|---|
-| DC01 | 10.10.10.10 | Domain Controller | DNS/Kerberos/LDAP/SMB | Domain user |
-| FILE01 | 10.10.10.20 | File Server | SMB | Read share |
-| APP01 | 10.10.10.30 | Application | HTTP/WinRM | Unknown |
+```text
+Directory Permission Identified
+        |
+        v
+Candidate
+        |
+        v
+Effective Permission Confirmed
+        |
+        v
+Resulting Object Control Confirmed
+        |
+        v
+New Privilege Becomes Reachable
+        |
+        v
+Supported Security Impact
+```
 
 ---
 
-# Maintain a Credential Inventory
+# Attack Path Tracking
 
-Do not store unnecessary plaintext credentials in engagement notes.
-
-A conceptual inventory can track:
-
-| Identity | Type | Source | Access |
-|---|---|---|---|
-| alice | Domain user | Provided | LDAP/SMB |
-| svc_app | Service account | Assessment finding | APP01 |
-| admin1 | Privileged user | Session observation | SERVER01 |
-
-Protect assessment data appropriately.
-
----
-
-# Maintain an Attack Path Log
+Maintain an attack-path log throughout the assessment.
 
 Example:
 
@@ -2420,378 +1554,139 @@ alice
  v
 Helpdesk
  |
- | GenericWrite
+ | Write Permission
  v
 svc_backup
  |
- | Administrative access
+ | Administrative Access
  v
 BACKUP01
 ```
 
-For each edge record:
+For every edge record:
 
 ```text
+Source Principal
+Target Object
+Relationship
 Evidence
-Required permissions
+Required Conditions
 Validation
+Resulting Access
 Impact
 Remediation
 ```
 
+This makes multi-step findings easier to defend and reproduce.
+
 ---
 
-# Windows and Linux Workflows
+# Target Inventory
 
-The notes will show both approaches where practical.
+Maintain a basic inventory.
+
+| Host | IP | Role | Services | Current Access |
+|---|---|---|---|---|
+| DC01 | 10.10.10.10 | Domain Controller | DNS/Kerberos/LDAP/SMB | Domain user |
+| FILE01 | 10.10.10.20 | File Server | SMB | Share read |
+| APP01 | 10.10.10.30 | Application Server | HTTP/WinRM | Unknown |
+
+The purpose is to maintain context as access changes.
+
+---
+
+# Identity Inventory
+
+Track identities without unnecessarily storing plaintext secrets.
 
 Example:
 
-```text
-              Enumerate Domain
-                     |
-          +----------+----------+
-          |                     |
-          v                     v
-       Windows                Linux
-          |                     |
-          v                     v
-     Native tools            LDAP
-     PowerShell              NetExec
-     PowerView               Impacket
-     SharpHound              bloodyAD
-          |                     |
-          +----------+----------+
-                     |
-                     v
-                  Analyse
-```
+| Identity | Type | Source | Known Access |
+|---|---|---|---|
+| alice | Domain user | Provided | LDAP / SMB |
+| svc_app | Service account | Assessment finding | APP01 |
+| admin1 | Privileged identity | Session observation | SERVER01 |
+
+Assessment credential data should be protected according to engagement requirements.
 
 ---
 
-# Native Tools Matter
+# Assessment Workflow
 
-Do not rely exclusively on third-party tooling.
-
-Useful Windows-native commands include:
+A practical AD assessment can be divided into the following phases:
 
 ```text
-whoami
-net
-nltest
-setspn
-klist
-dsquery
-certutil
-PowerShell AD cmdlets where installed
+1. Establish Initial Position
+
+2. Discover Network and Domain
+
+3. Identify Domain Controllers
+
+4. Enumerate Identities
+
+5. Enumerate Hosts
+
+6. Map Groups and Permissions
+
+7. Map Sessions and Administrative Relationships
+
+8. Analyse Authentication
+
+9. Analyse Credentials
+
+10. Analyse Kerberos and Delegation
+
+11. Analyse AD CS
+
+12. Identify Attack Paths
+
+13. Validate Privilege Escalation
+
+14. Evaluate Lateral Movement
+
+15. Identify Additional Networks
+
+16. Review Enterprise Infrastructure
+
+17. Analyse Trusts
+
+18. Demonstrate Minimum Required Impact
+
+19. Capture Evidence
+
+20. Recommend Remediation and Retest
 ```
 
-Native tooling can be useful when:
+Detailed workflow:
 
-```text
-EDR blocks tooling
-Internet access is unavailable
-Tools cannot be transferred
-You need to verify automated results
-```
+[Active Directory Penetration Testing Methodology](methodology.md)
 
 ---
 
-# Active Directory Assessment Phases
-
-A practical assessment can be divided into:
-
-```text
-Phase 1 - Network Discovery
-Phase 2 - Domain Discovery
-Phase 3 - Identity Enumeration
-Phase 4 - Host Enumeration
-Phase 5 - Permission Enumeration
-Phase 6 - Attack Path Analysis
-Phase 7 - Credential Exposure
-Phase 8 - Authentication Testing
-Phase 9 - Privilege Escalation
-Phase 10 - Lateral Movement
-Phase 11 - Pivoting
-Phase 12 - Infrastructure Assessment
-Phase 13 - Trust Analysis
-Phase 14 - Impact Validation
-Phase 15 - Detection and Remediation
-```
-
----
-
-# Phase 1 - Network Discovery
-
-Identify:
-
-```text
-IP configuration
-DNS
-Routes
-Subnets
-Domain Controllers
-Windows hosts
-Management services
-```
-
----
-
-# Phase 2 - Domain Discovery
-
-Identify:
-
-```text
-Domain name
-Forest name
-Domain Controllers
-DNS namespace
-Trusts
-Sites
-```
-
----
-
-# Phase 3 - Identity Enumeration
-
-Identify:
-
-```text
-Users
-Groups
-Service accounts
-Computer accounts
-Managed service accounts
-Privileged identities
-Disabled accounts
-```
-
----
-
-# Phase 4 - Host Enumeration
-
-Identify:
-
-```text
-Servers
-Workstations
-Domain Controllers
-File servers
-Management servers
-Certificate authorities
-Deployment infrastructure
-```
-
----
-
-# Phase 5 - Permission Enumeration
-
-Identify:
-
-```text
-Group membership
-ACLs
-ACE inheritance
-GPO permissions
-Local administrator relationships
-Remote management permissions
-Certificate permissions
-```
-
----
-
-# Phase 6 - Attack Path Analysis
-
-Use:
-
-```text
-Manual analysis
-BloodHound
-LDAP
-PowerView
-bloodyAD
-```
-
-to identify relationships that may connect the current identity to additional privilege.
-
----
-
-# Phase 7 - Credential Exposure
-
-Review:
-
-```text
-Shares
-Configuration
-Scripts
-Services
-Scheduled tasks
-Managed accounts
-Local credentials
-Backups
-Deployment systems
-Directory attributes
-```
-
----
-
-# Phase 8 - Authentication Testing
-
-Review:
-
-```text
-Kerberos
-NTLM
-Password policy
-Password spraying where authorised
-Roasting conditions
-Relay protections
-Certificate authentication
-```
-
----
-
-# Phase 9 - Privilege Escalation
-
-Investigate confirmed relationships such as:
-
-```text
-ACL control
-Group control
-Credential access
-Delegation
-AD CS
-GPO control
-Service account access
-Local administrative access
-```
-
----
-
-# Phase 10 - Lateral Movement
-
-Determine:
-
-```text
-Where can the current identity authenticate?
-
-Where is it administrator?
-
-Which remote management protocol is available?
-
-What new network position does the host provide?
-```
-
----
-
-# Phase 11 - Pivoting
-
-After obtaining access to a host:
-
-```text
-Enumerate interfaces
-Enumerate routes
-Enumerate DNS
-Identify new subnets
-Determine reachability
-```
-
-Then choose an appropriate pivoting method.
-
----
-
-# Phase 12 - Infrastructure Assessment
-
-Review:
-
-```text
-AD CS
-SCCM
-WSUS
-MDT
-ADFS
-DNS
-Shares
-PXE
-Backup infrastructure
-```
-
-where these systems are within scope.
-
----
-
-# Phase 13 - Trust Analysis
-
-Identify:
-
-```text
-Domain trusts
-Forest trusts
-Trust direction
-Transitivity
-SID filtering
-Cross-domain privileges
-```
-
----
-
-# Phase 14 - Impact Validation
-
-The objective is not to cause disruption.
-
-Demonstrate the minimum required to prove:
-
-```text
-Unauthorised access
-Privilege escalation
-Credential exposure
-Lateral movement
-Domain impact
-Cross-domain impact
-```
-
----
-
-# Phase 15 - Detection and Remediation
-
-For each confirmed attack path identify:
-
-```text
-Root cause
-Affected objects
-Relevant logs
-Detection opportunities
-Preventive control
-Remediation
-Regression test
-```
-
----
-
-# Active Directory Testing Checklist
+# Assessment Checklist
 
 ## Initial Position
 
 ```text
-[ ] Current IP identified
-[ ] Network interfaces identified
-[ ] Routes identified
-[ ] DNS servers identified
 [ ] Current identity identified
-[ ] Domain membership identified
-[ ] Privilege level identified
+[ ] Current privilege identified
+[ ] Current host understood
+[ ] IP configuration recorded
+[ ] DNS servers identified
+[ ] Routes identified
+[ ] Reachable networks understood
 ```
 
-## Domain
+## Domain Discovery
 
 ```text
 [ ] Domain identified
 [ ] Forest identified
 [ ] Domain Controllers identified
 [ ] DNS records reviewed
-[ ] LDAP reachable
-[ ] Kerberos reachable
-[ ] SMB reachable
+[ ] LDAP availability confirmed
+[ ] Kerberos availability confirmed
+[ ] SMB availability confirmed
 ```
 
 ## Identities
@@ -2800,7 +1695,7 @@ Regression test
 [ ] Users enumerated
 [ ] Groups enumerated
 [ ] Nested groups reviewed
-[ ] Privileged users identified
+[ ] Privileged identities identified
 [ ] Service accounts identified
 [ ] Computer accounts identified
 [ ] Managed service accounts considered
@@ -2809,12 +1704,12 @@ Regression test
 ## Hosts
 
 ```text
-[ ] Servers enumerated
-[ ] Workstations enumerated
-[ ] Domain Controllers enumerated
+[ ] Domain Controllers mapped
+[ ] Servers identified
+[ ] Workstations identified
 [ ] File servers identified
 [ ] Management infrastructure identified
-[ ] Certificate authorities identified
+[ ] Certificate infrastructure identified
 ```
 
 ## Authentication
@@ -2822,57 +1717,57 @@ Regression test
 ```text
 [ ] Kerberos configuration reviewed
 [ ] NTLM behaviour reviewed
-[ ] AS-REP roasting conditions reviewed
-[ ] Kerberoasting conditions reviewed
+[ ] SPNs reviewed
+[ ] AS-REP roasting conditions considered
+[ ] Kerberoasting conditions considered
 [ ] Password policy reviewed
-[ ] Password spraying considered only if authorised
+[ ] Password spraying considered only where authorised
 [ ] Relay protections reviewed
 ```
 
 ## Authorisation
 
 ```text
-[ ] Group memberships reviewed
+[ ] Group membership reviewed
+[ ] Nested privileges understood
 [ ] ACLs reviewed
-[ ] ACE inheritance considered
 [ ] GPO permissions reviewed
 [ ] Delegated administration reviewed
-[ ] Local administrator relationships reviewed
+[ ] Local administrative relationships reviewed
 ```
 
 ## Credentials
 
 ```text
 [ ] Shares reviewed
-[ ] Configuration files reviewed
+[ ] Configuration reviewed
 [ ] Scripts reviewed
-[ ] Service credentials considered
-[ ] Scheduled tasks considered
-[ ] LAPS permissions reviewed
-[ ] gMSA permissions reviewed
-[ ] Credential dumping considered only if authorised
+[ ] Service-account exposure considered
+[ ] Managed credentials reviewed
+[ ] Deployment infrastructure reviewed
+[ ] Credential-access testing limited to authorised scope
 ```
 
-## Kerberos
+## Kerberos and Delegation
 
 ```text
 [ ] SPNs enumerated
-[ ] Delegation enumerated
-[ ] Unconstrained delegation reviewed
-[ ] Constrained delegation reviewed
-[ ] RBCD reviewed
-[ ] Ticket-related attack paths considered
+[ ] Delegation relationships mapped
+[ ] Unconstrained delegation considered
+[ ] Constrained delegation considered
+[ ] RBCD considered
+[ ] Relevant ticket relationships analysed
 ```
 
 ## AD CS
 
 ```text
-[ ] Certificate Authorities discovered
+[ ] Certificate Authorities identified
 [ ] Templates enumerated
 [ ] Enrolment permissions reviewed
 [ ] Template permissions reviewed
-[ ] ESC conditions assessed
-[ ] Certificate authentication paths reviewed
+[ ] Authentication properties reviewed
+[ ] Relevant escalation conditions assessed
 ```
 
 ## Relay
@@ -2881,32 +1776,32 @@ Regression test
 [ ] SMB signing reviewed
 [ ] LDAP signing considered
 [ ] Channel binding considered
-[ ] Name-resolution protocols reviewed
-[ ] Coercion paths considered
-[ ] Capture distinguished from relay
+[ ] EPA considered where relevant
+[ ] Name-resolution behaviour reviewed
+[ ] Coercion distinguished from relay
 ```
 
 ## Lateral Movement
 
 ```text
 [ ] Administrative relationships identified
+[ ] Network reachability established
 [ ] SMB access reviewed
 [ ] WinRM access reviewed
-[ ] WMI access reviewed
+[ ] WMI/DCOM exposure considered
 [ ] RDP access reviewed
-[ ] PowerShell Remoting reviewed
+[ ] PowerShell Remoting considered
 ```
 
 ## Pivoting
 
 ```text
-[ ] Interfaces enumerated on compromised hosts
+[ ] Interfaces enumerated on newly accessed hosts
 [ ] Routes enumerated
 [ ] Additional networks identified
-[ ] Network reachability tested safely
-[ ] Appropriate pivot method selected
-[ ] Tunnel routes documented
-[ ] DNS requirements considered
+[ ] DNS requirements understood
+[ ] Appropriate tunnel model selected where required
+[ ] Pivot configuration documented
 ```
 
 ## Trusts
@@ -2914,402 +1809,306 @@ Regression test
 ```text
 [ ] Domain trusts enumerated
 [ ] Forest trusts enumerated
-[ ] Direction reviewed
+[ ] Direction understood
 [ ] Transitivity reviewed
 [ ] SID filtering considered
+[ ] Selective authentication considered
 [ ] Cross-domain privileges reviewed
 ```
 
 ---
 
-# Finding Validation
+# Reporting Attack Paths
 
-A tool result does not automatically prove a vulnerability.
+Avoid reporting only a tool or permission name.
 
-Use:
-
-```text
-Tool Output
-    |
-    v
-Candidate Relationship
-    |
-    v
-Manual Verification
-    |
-    v
-Effective Permission
-    |
-    v
-Reachable Attack Path
-    |
-    v
-Security Impact
-```
-
-Examples:
+For example, this is weak:
 
 ```text
-SPN exists
-    !=
-Compromised service account
-
-Writable ACL
-    !=
-Automatically exploitable path
-
-NTLM enabled
-    !=
-Relay vulnerability
-
-Certificate template exists
-    !=
-ESC vulnerability
-
-SMB available
-    !=
-Administrative access
-
-Non-zero MachineAccountQuota
-    !=
-Domain compromise
+GenericWrite was found.
 ```
 
----
+A stronger explanation is:
 
-# Reporting
+```text
+Low-Privileged Identity
+        |
+        v
+Excessive Directory Permission
+        |
+        v
+Control of Service Account
+        |
+        v
+Administrative Access to Server
+        |
+        v
+Resulting Security Impact
+```
 
 A strong AD finding should explain:
 
 ```text
-Initial privilege
-        |
-        v
-Misconfiguration / Exposure
-        |
-        v
-Attack Path
-        |
-        v
-Resulting Privilege
-        |
-        v
-Business Impact
-```
-
-For example:
-
-```text
-Low-privileged domain user
-        |
-        v
-Excessive directory permission
-        |
-        v
-Control of service account
-        |
-        v
-Administrative access to server
-```
-
-This is more useful than simply reporting:
-
-```text
-GenericWrite found.
+Starting Privilege
+      |
+      v
+Root Misconfiguration
+      |
+      v
+Relationship
+      |
+      v
+Resulting Capability
+      |
+      v
+Next Reachable Privilege
+      |
+      v
+Supported Impact
 ```
 
 ---
 
-# Detection
+# Detection Perspective
 
-Detection should be considered alongside offensive testing.
+Detection should be considered alongside offensive validation.
 
-Potential data sources include:
+Potential telemetry includes:
 
 ```text
-Windows Security logs
-Directory Service logs
-PowerShell logs
+Windows Security Logs
+Directory Service Logs
+PowerShell Logs
 Sysmon
-Defender for Identity
+Microsoft Defender for Identity
 EDR
-Network telemetry
-Certificate Services logs
-Domain Controller logs
-Authentication logs
+Network Telemetry
+Kerberos Logs
+NTLM Authentication Logs
+Certificate Services Logs
+Domain Controller Logs
 ```
 
-Each detailed technique page should include relevant detection considerations.
+The useful question is not merely:
+
+```text
+Was the technique detected?
+```
+
+Also ask:
+
+```text
+Was useful telemetry generated?
+
+Was it collected?
+
+Was it correlated?
+
+Would the activity create an actionable alert?
+
+Could the defender identify the complete attack path?
+```
+
+This connects AD assessment with purple teaming.
+
+[Purple Teaming](../purple-teaming/index.md)
 
 ---
 
 # Remediation Philosophy
 
-Prefer fixing the root cause of the attack path.
+Fix the root cause of the attack path.
 
 Example:
 
 ```text
-Attack Path
-   |
-   v
 Excessive ACL
-   |
-   v
-Credential Control
-   |
-   v
-Server Administration
+      |
+      v
+Service Account Control
+      |
+      v
+Administrative Access
 ```
 
-The correct remediation may involve:
+Possible remediation may involve:
 
 ```text
-Removing excessive ACL
-Reducing group membership
-Separating administrative tiers
-Rotating credentials
-Hardening authentication
-Restricting remote administration
-Monitoring sensitive changes
+Remove excessive delegation
+
+Reduce group membership
+
+Separate administrative tiers
+
+Rotate exposed credentials
+
+Restrict remote administration
+
+Harden authentication
+
+Review certificate permissions
+
+Monitor sensitive directory changes
 ```
 
-rather than simply blocking the tool used to discover the path.
+Blocking the tool that discovered the condition does not fix the underlying security issue.
 
 ---
 
-# Cheatsheet Strategy
+# Retesting
 
-The detailed AD notes explain:
-
-```text
-Why
-How
-Prerequisites
-Security model
-Detection
-Remediation
-```
-
-The Active Directory cheatsheet will provide:
+After remediation, retest the specific relationship.
 
 ```text
-Quick commands
-Enumeration syntax
-Tool syntax
-Common queries
-Authentication formats
-Assessment reminders
-```
-
-Conceptually:
-
-```text
-Detailed AD Notes
+Original Attack Path
        |
        v
-Understanding
+Remediation
        |
-       +------------------+
-       |                  |
-       v                  v
-Assessment            Cheatsheet
-Methodology          Quick Reference
+       v
+Repeat Enumeration
+       |
+       v
+Repeat Permission Validation
+       |
+       v
+Confirm Path Is Broken
 ```
 
-The cheatsheet should not replace the detailed notes.
+Retesting should verify:
+
+- the original relationship no longer exists or is no longer useful;
+- alternate paths were not introduced;
+- legitimate administrative functionality still works;
+- credentials were rotated where necessary;
+- detection improvements operate as expected.
 
 ---
 
-# Planned Active Directory Notes
+# Related Sections
 
-The section will progressively cover:
+## Active Directory
 
-```text
-Active Directory Overview
-Methodology
-Enumeration
+[Active Directory Methodology](methodology.md)
 
-Authentication
-  Kerberos
-  NTLM
-  AS-REP Roasting
-  Kerberoasting
-  Pass-the-Hash
-  Overpass-the-Hash
-  Pass-the-Key
+[BloodHound](bloodhound.md)
 
-Access Control
-  ACL / ACE
-  Groups
-  Group Policy
-  Machine Account Quota
+[NetExec](netexec.md)
 
-Credentials
-  Password Spraying
-  Credential Exposure
-  NTDS
-  Group Policy Preferences
-  LAPS
-  gMSA
-  dMSA
-  DSRM
-  Shadow Credentials
+[Active Directory Certificate Services](ad-cs/index.md)
 
-Kerberos
-  Tickets
-  S4U
-  Unconstrained Delegation
-  Constrained Delegation
-  Resource-Based Constrained Delegation
+[SCCM / Configuration Manager](sccm.md)
 
-Relay
-  Responder
-  NTLM Capture
-  NTLM Relay
-  Kerberos Relay
-  Coercion
+## Tools
 
-AD CS
-  Enumeration
-  ESC1-ESC15
-  Golden Certificates
+[Active Directory Tools](../tools/active-directory/index.md)
 
-Lateral Movement
-  SMB
-  WinRM
-  WMI
-  DCOM
-  RDP
-  PowerShell Remoting
+[Security Tools](../tools/index.md)
 
-Pivoting
-  SSH
-  ProxyChains
-  Chisel
-  Ligolo-ng
-  socat
-  Windows portproxy
+## Supporting Sections
 
-Trusts
-  Relationships
-  SID-related paths
-  Trust Tickets
+[Windows](../windows/index.md)
 
-Infrastructure
-  Shares
-  ADIDNS
-  ADFS
-  SCCM
-  WSUS
-  MDT
-  SCOM
-  PXE
-  RODC
+[Windows Privilege Escalation](../windows/privilege-escalation.md)
 
-Privilege Escalation
-Persistence
-```
+[PrivEsc Explorer](../privesc/index.md)
+
+[Red Teaming](../red-teaming/index.md)
+
+[Purple Teaming](../purple-teaming/index.md)
+
+[Active Directory Cheatsheet](../cheatsheets/active-directory.md)
 
 ---
 
-# Planned Tool Notes
+# External References
 
-Separate tool notes will cover:
+## Microsoft
 
-```text
-NetExec
-Impacket
-Responder
-BloodHound
-SharpHound
-Certipy
-bloodyAD
-PowerView
-ldapsearch
-Kerbrute
-Mimikatz
-Rubeus
-Evil-WinRM
-```
+[Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/){ target="_blank" rel="noopener noreferrer" }
 
-This keeps:
+[Kerberos Authentication Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
 
-```text
-Technique
-```
+[NTLM Overview](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview){ target="_blank" rel="noopener noreferrer" }
 
-separate from:
+[Group Policy Overview](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview){ target="_blank" rel="noopener noreferrer" }
 
-```text
-Tool
-```
+[Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview){ target="_blank" rel="noopener noreferrer" }
 
-while linking them together where appropriate.
+## Tooling and Research
+
+[BloodHound](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
+
+[NetExec](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
+
+[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
+
+[Certipy](https://github.com/ly4k/Certipy){ target="_blank" rel="noopener noreferrer" }
+
+[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/){ target="_blank" rel="noopener noreferrer" }
 
 ---
 
 # Final Active Directory Model
 
+Active Directory testing is not:
+
 ```text
-                         NETWORK ACCESS
-                              |
-                              v
-                         DISCOVERY
-                              |
-                              v
-                       DOMAIN DISCOVERY
-                              |
-                              v
-                        ENUMERATION
-                              |
-          +-------------------+-------------------+
-          |                   |                   |
-          v                   v                   v
-       IDENTITIES           HOSTS              TRUSTS
-          |                   |                   |
-          +-------------------+-------------------+
-                              |
-                              v
-                        BLOODHOUND
-                              |
-                              v
-                       ATTACK PATHS
-                              |
-          +-------------------+-------------------+
-          |                   |                   |
-          v                   v                   v
-       KERBEROS              NTLM              ACL / GPO
-          |                   |                   |
-          +-------------------+-------------------+
-                              |
-             +----------------+----------------+
-             |                                 |
-             v                                 v
-        CREDENTIALS                           AD CS
-             |                                 |
-             +----------------+----------------+
-                              |
-                              v
-                    PRIVILEGE ESCALATION
-                              |
-                              v
-                     LATERAL MOVEMENT
-                              |
-                              v
-                         PIVOTING
-                              |
-                              v
-                  ADDITIONAL NETWORKS
-                              |
-                              v
-                    INFRASTRUCTURE
-                              |
-                              v
-                         TRUSTS
-                              |
-                              v
-                    DOMAIN / FOREST IMPACT
+Run Tool
+   |
+   v
+Find Interesting Output
+   |
+   v
+Report Vulnerability
+```
+
+Use this model:
+
+```text
+Establish Initial Position
+          |
+          v
+Discover Domain
+          |
+          v
+Enumerate Identities + Hosts
+          |
+          v
+Map Permissions + Sessions
+          |
+          v
+Understand Authentication
+          |
+          v
+Identify Candidate Relationships
+          |
+          v
+Build Attack Path
+          |
+          v
+Validate Each Edge
+          |
+          v
+Gain New Access
+          |
+          v
+Enumerate Again
+          |
+          v
+Determine Supported Impact
+          |
+          v
+Capture Evidence
+          |
+          v
+Report Root Cause
+          |
+          v
+Remediate
+          |
+          v
+Retest
 ```
 
 The central principle is:
@@ -3322,134 +2121,25 @@ is attack-path analysis.
 Do not ask only:
 
 ```text
-"What vulnerability exists?"
+What vulnerability exists?
 ```
 
 Also ask:
 
 ```text
-"What can this identity reach?"
+What can this identity reach?
 
-"What does it control?"
+What can it control?
 
-"What credentials can it access?"
+Which systems trust it?
 
-"What authentication paths are available?"
+Which credentials can it access?
 
-"What trusts it?"
+Where can it authenticate?
 
-"What network can it reach?"
+Which permissions become meaningful when chained?
 
-"What happens if these relationships are chained together?"
+What new information becomes visible after each step?
+
+What security impact does the complete path actually support?
 ```
-
----
-
-# References
-
-## Microsoft Active Directory Domain Services
-
-[Microsoft Active Directory Domain Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/){ target="_blank" rel="noopener noreferrer" }
-
-## Microsoft Active Directory Domain Services Overview
-
-[Microsoft Active Directory Domain Services Overview](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview){ target="_blank" rel="noopener noreferrer" }
-
-## Microsoft Kerberos Authentication
-
-[Microsoft Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview){ target="_blank" rel="noopener noreferrer" }
-
-## Microsoft NTLM
-
-[Microsoft NTLM](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview){ target="_blank" rel="noopener noreferrer" }
-
-## Microsoft LDAP
-
-[Microsoft LDAP](https://learn.microsoft.com/en-us/windows/win32/adsi/ldap-adspath){ target="_blank" rel="noopener noreferrer" }
-
-## Microsoft Group Policy
-
-[Microsoft Group Policy](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview){ target="_blank" rel="noopener noreferrer" }
-
-## Microsoft Active Directory Certificate Services
-
-[Microsoft Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview){ target="_blank" rel="noopener noreferrer" }
-
-## BloodHound
-
-[BloodHound](https://bloodhound.specterops.io/){ target="_blank" rel="noopener noreferrer" }
-
-## NetExec
-
-[NetExec](https://www.netexec.wiki/){ target="_blank" rel="noopener noreferrer" }
-
-## NetExec GitHub
-
-[NetExec GitHub](https://github.com/Pennyw0rth/NetExec){ target="_blank" rel="noopener noreferrer" }
-
-## Impacket
-
-[Impacket](https://github.com/fortra/impacket){ target="_blank" rel="noopener noreferrer" }
-
-## Responder
-
-[Responder](https://github.com/lgandx/Responder){ target="_blank" rel="noopener noreferrer" }
-
-## Certipy
-
-[Certipy](https://github.com/ly4k/Certipy){ target="_blank" rel="noopener noreferrer" }
-
-## bloodyAD
-
-[bloodyAD](https://github.com/CravateRouge/bloodyAD){ target="_blank" rel="noopener noreferrer" }
-
-## PowerView
-
-[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon){ target="_blank" rel="noopener noreferrer" }
-
-## Rubeus
-
-[Rubeus](https://github.com/GhostPack/Rubeus){ target="_blank" rel="noopener noreferrer" }
-
-## Ligolo-ng
-
-[Ligolo-ng](https://github.com/nicocha30/ligolo-ng){ target="_blank" rel="noopener noreferrer" }
-
-## Chisel
-
-[Chisel](https://github.com/jpillora/chisel){ target="_blank" rel="noopener noreferrer" }
-
-## InternalAllTheThings - Active Directory
-
-[InternalAllTheThings - Active Directory](https://swisskyrepo.github.io/InternalAllTheThings/active-directory/){ target="_blank" rel="noopener noreferrer" }
-
----
-
-# Next
-
-Continue with:
-
-[Active Directory Penetration Testing Methodology](methodology.md)
-
-The methodology page should turn this overview into a practical engagement workflow:
-
-```text
-Unauthenticated
-      |
-      v
-Domain User
-      |
-      v
-Local Admin
-      |
-      v
-New Host
-      |
-      v
-New Network
-      |
-      v
-Higher Privilege
-```
-
-with separate **Kali/Linux and Windows workflows**, evidence collection, NetExec/Impacket/PowerView/BloodHound integration, OPSEC considerations, pivoting decisions, attack-path tracking, and a reusable assessment checklist.
