@@ -203,9 +203,7 @@ Authorization: Bearer NORMAL_USER
 
 Vertical authorisation issues are covered more broadly in:
 
-```text
-docs/web/authorisation.md
-```
+[Authorisation Testing](authorisation.md)
 
 ---
 

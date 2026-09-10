@@ -3035,11 +3035,11 @@ Retest the process after remediation.
 
 Planned:
 
-```text
-red-teaming/phishing.md
-red-teaming/adversary-emulation.md
-red-teaming/cleanup.md
-```
+[Red Team Phishing](phishing.md)
+
+[Red Team Adversary Emulation](adversary-emulation.md)
+
+[Red Team Cleanup](cleanup.md)
 
 
 ---

@@ -447,9 +447,7 @@ OverPass-the-Hash crosses into Kerberos.
 
 This distinction will be covered separately in:
 
-```text
-active-directory/overpass-the-hash.md
-```
+[OverPass-the-Hash](overpass-the-hash.md)
 
 ---
 

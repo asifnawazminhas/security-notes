@@ -5223,35 +5223,52 @@ Secure Error Handling
 
 # Related Notes
 
-```text
-docs/web/attack-surface-analysis.md
-docs/web/methodology.md
-docs/web/checklist.md
+[Attack Surface Analysis](attack-surface-analysis.md)
 
-docs/web/sql-injection.md
-docs/web/nosql-injection.md
-docs/web/ldap-injection.md
-docs/web/command-injection.md
-docs/web/ssti.md
-docs/web/xss.md
-docs/web/xxe.md
+[Web Application Testing Methodology](methodology.md)
 
-docs/web/ssrf.md
-docs/web/path-traversal.md
-docs/web/file-inclusion.md
-docs/web/file-upload.md
-docs/web/open-redirect.md
+[Web Application Pentesting Checklist](checklist.md)
 
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
+[SQL Injection](sql-injection.md)
 
-docs/web/authorisation.md
-docs/web/idor-bola.md
-docs/web/mass-assignment.md
+[NoSQL Injection](nosql-injection.md)
 
-docs/web/business-logic.md
-docs/web/race-conditions.md
-docs/web/rate-limiting.md
-```
+[LDAP Injection](ldap-injection.md)
+
+[OS Command Injection](command-injection.md)
+
+[Server-Side Template Injection](ssti.md)
+
+[Cross-Site Scripting](xss.md)
+
+[XML External Entity Injection](xxe.md)
+
+[Server Side Request Forgery](ssrf.md)
+
+[Path Traversal](path-traversal.md)
+
+[File Inclusion](file-inclusion.md)
+
+[File Upload Security](file-upload.md)
+
+[Open Redirect](open-redirect.md)
+
+[API Security](api-security.md)
+
+[GraphQL API Security](graphql.md)
+
+[gRPC Security](grpc-security.md)
+
+[WebSocket Security](websockets.md)
+
+[Authorisation Testing](authorisation.md)
+
+[IDOR and BOLA](idor-bola.md)
+
+[Mass Assignment](mass-assignment.md)
+
+[Business Logic Vulnerabilities](business-logic.md)
+
+[Race Conditions](race-conditions.md)
+
+[Rate Limiting and Anti-Automation](rate-limiting.md)

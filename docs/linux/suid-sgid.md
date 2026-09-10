@@ -1665,9 +1665,7 @@ A system may intentionally replace some SUID functionality with capabilities.
 
 The next dedicated page covers this in depth:
 
-```text
-capabilities.md
-```
+[Linux Capabilities Security](capabilities.md)
 
 ---
 

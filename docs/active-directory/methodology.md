@@ -3277,16 +3277,21 @@ creates a new enumeration opportunity.
 
 # Related Notes
 
-```text
-active-directory/index.md
-active-directory/enumeration.md
-active-directory/kerberos.md
-active-directory/ntlm.md
-active-directory/bloodhound.md
-active-directory/lateral-movement.md
-active-directory/privilege-escalation.md
-active-directory/persistence.md
-```
+[Active Directory Penetration Testing](index.md)
+
+[Active Directory Enumeration](enumeration.md)
+
+[Kerberos](kerberos.md)
+
+[NTLM](ntlm.md)
+
+[BloodHound](bloodhound.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Active Directory Privilege Escalation](privilege-escalation.md)
+
+[Active Directory Persistence](persistence.md)
 
 As the Active Directory section expands, these will also link to dedicated notes covering:
 

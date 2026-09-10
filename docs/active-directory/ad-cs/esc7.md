@@ -2950,9 +2950,7 @@ Kerberos:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc8.md
-```
+[AD CS ESC8 - NTLM Relay to AD CS Web Enrollment](esc8.md)
 
 ---
 

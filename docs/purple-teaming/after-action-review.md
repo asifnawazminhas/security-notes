@@ -3833,9 +3833,7 @@ The AAR is complete only when its important lessons have a path from observation
 
 The next planned Purple Teaming page is:
 
-```text
-continuous-validation.md
-```
+[Purple Teaming Continuous Validation](continuous-validation.md)
 
 ---
 

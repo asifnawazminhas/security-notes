@@ -3023,9 +3023,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-active-directory/ad-cs/esc4.md
-```
+[AD CS ESC4 - Vulnerable Certificate Template Access Control](esc4.md)
 
 ---
 

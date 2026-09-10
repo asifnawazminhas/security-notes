@@ -3262,9 +3262,7 @@ NTDS:
 
 The next Active Directory topic is:
 
-```text
-docs/active-directory/lateral-movement.md
-```
+[Active Directory Lateral Movement](../lateral-movement.md)
 
 ---
 

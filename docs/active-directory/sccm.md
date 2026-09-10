@@ -3837,18 +3837,17 @@ AD CS:
 
 The next infrastructure page is:
 
-```text
-docs/active-directory/wsus.md
-```
+[Windows Server Update Services - WSUS](wsus.md)
 
 followed by:
 
-```text
-docs/active-directory/mdt.md
-docs/active-directory/scom.md
-docs/active-directory/adfs.md
-docs/active-directory/rodc.md
-```
+[Microsoft Deployment Toolkit - MDT](mdt.md)
+
+[System Center Operations Manager - SCOM](scom.md)
+
+[Active Directory Federation Services - AD FS](adfs.md)
+
+[Read-Only Domain Controller - RODC](rodc.md)
 
 ---
 

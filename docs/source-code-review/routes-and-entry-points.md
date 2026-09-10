@@ -4714,51 +4714,69 @@ Once the complete entry-point map exists, vulnerability discovery becomes signif
 
 # Related Source Code Review Notes
 
-```text
-docs/source-code-review/index.md
-docs/source-code-review/methodology.md
-docs/source-code-review/source-to-sink-analysis.md
+[Source Code Review](index.md)
 
-docs/source-code-review/dotnet.md
-docs/source-code-review/java.md
-docs/source-code-review/php.md
-docs/source-code-review/python.md
-docs/source-code-review/django.md
-docs/source-code-review/flask.md
-docs/source-code-review/nodejs.md
-docs/source-code-review/javascript.md
-```
+[Source Code Review Methodology](methodology.md)
+
+[Source-to-Sink Analysis](source-to-sink-analysis.md)
+
+[.NET / ASP.NET Core Source Code Review](dotnet.md)
+
+[Java / Spring Source Code Review](java.md)
+
+[PHP Source Code Review](php.md)
+
+[Python Source Code Review](python.md)
+
+[Django Source Code Review](django.md)
+
+[Flask Source Code Review](flask.md)
+
+[Node.js and Express Source Code Review](nodejs.md)
+
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 ---
 
 # Related Static Analysis Notes
 
-```text
-docs/source-code-review/static-analysis/index.md
-docs/source-code-review/static-analysis/ripgrep.md
-docs/source-code-review/static-analysis/semgrep.md
-docs/source-code-review/static-analysis/opengrep.md
-docs/source-code-review/static-analysis/codeql.md
-```
+[Static Analysis for Source Code Review](static-analysis/index.md)
+
+[ripgrep for Security Source Code Review](static-analysis/ripgrep.md)
+
+[Semgrep for Security Source Code Review](static-analysis/semgrep.md)
+
+[OpenGrep for Security Source Code Review](static-analysis/opengrep.md)
+
+[CodeQL for Security Source Code Review](static-analysis/codeql.md)
 
 ---
 
 # Related Web Security Notes
 
-```text
-docs/web/attack-surface-analysis.md
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/idor-bola.md
-docs/web/input-validation.md
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
-docs/web/file-upload.md
-docs/web/business-logic.md
-docs/web/rate-limiting.md
-```
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
+
+[Authentication Testing](../web/authentication.md)
+
+[Authorisation Testing](../web/authorisation.md)
+
+[IDOR and BOLA](../web/idor-bola.md)
+
+[Input Validation](../web/input-validation.md)
+
+[API Security](../web/api-security.md)
+
+[GraphQL API Security](../web/graphql.md)
+
+[gRPC Security](../web/grpc-security.md)
+
+[WebSocket Security](../web/websockets.md)
+
+[File Upload Security](../web/file-upload.md)
+
+[Business Logic Vulnerabilities](../web/business-logic.md)
+
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
 
 ---
 

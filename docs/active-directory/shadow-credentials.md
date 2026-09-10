@@ -3391,9 +3391,7 @@ Impacket:
 
 The next Credential Access page is:
 
-```text
-active-directory/ntds.md
-```
+[NTDS.dit and Active Directory Credential Extraction](ntds.md)
 
 The later AD CS section should cover certificate-specific attack paths separately.
 

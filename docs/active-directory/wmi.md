@@ -3382,9 +3382,7 @@ Credential Access:
 
 The next detailed lateral-movement page is:
 
-```text
-docs/active-directory/dcom.md
-```
+[Active Directory DCOM - Remote Administration and Lateral Movement](dcom.md)
 
 ---
 

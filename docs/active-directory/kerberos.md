@@ -3665,15 +3665,19 @@ active-directory/adcs/index.md
 
 # Related Cheatsheets
 
-```text
-cheatsheets/active-directory.md
-cheatsheets/netexec.md
-cheatsheets/impacket.md
-cheatsheets/bloodhound.md
-cheatsheets/windows.md
-cheatsheets/powershell.md
-cheatsheets/networking.md
-```
+[Active Directory Cheatsheet](../cheatsheets/active-directory.md)
+
+[NetExec Cheatsheet](../cheatsheets/netexec.md)
+
+[Impacket Cheatsheet](../cheatsheets/impacket.md)
+
+[BloodHound Cheatsheet](../cheatsheets/bloodhound.md)
+
+[Windows Cheatsheet](../cheatsheets/windows.md)
+
+[PowerShell Cheatsheet](../cheatsheets/powershell.md)
+
+[Networking Cheatsheet](../cheatsheets/networking.md)
 
 ---
 

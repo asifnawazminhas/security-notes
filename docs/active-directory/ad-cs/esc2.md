@@ -2992,9 +2992,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-active-directory/ad-cs/esc3.md
-```
+[AD CS ESC3 - Enrollment Agent Certificate Templates](esc3.md)
 
 ---
 

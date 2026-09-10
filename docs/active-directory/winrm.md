@@ -2893,9 +2893,7 @@ BloodHound:
 
 The next detailed lateral-movement page is:
 
-```text
-docs/active-directory/wmi.md
-```
+[Active Directory WMI - Enumeration, Remote Administration and Lateral Movement](wmi.md)
 
 ---
 

@@ -1759,9 +1759,7 @@ How Does SID Filtering Treat It?
 
 The dedicated page covers this in more detail:
 
-```text
-docs/active-directory/sid-history.md
-```
+[Active Directory SID History](sid-history.md)
 
 ---
 
@@ -3564,15 +3562,11 @@ Active Directory Certificate Services:
 
 The next trust page is:
 
-```text
-docs/active-directory/sid-history.md
-```
+[Active Directory SID History](sid-history.md)
 
 followed by:
 
-```text
-docs/active-directory/trust-tickets.md
-```
+[Active Directory Trust Tickets](trust-tickets.md)
 
 ---
 

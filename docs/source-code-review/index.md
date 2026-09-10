@@ -4025,9 +4025,7 @@ Secrets
 
 ## Java / Spring
 
-```text
-docs/source-code-review/java.md
-```
+[Java / Spring Source Code Review](java.md)
 
 Topics include:
 
@@ -4052,9 +4050,7 @@ Templates
 
 ## PHP
 
-```text
-docs/source-code-review/php.md
-```
+[PHP Source Code Review](php.md)
 
 Topics include:
 
@@ -4077,9 +4073,7 @@ Framework patterns
 
 ## Python
 
-```text
-docs/source-code-review/python.md
-```
+[Python Source Code Review](python.md)
 
 Topics include:
 
@@ -4101,9 +4095,7 @@ Dependencies
 
 ## Django
 
-```text
-docs/source-code-review/django.md
-```
+[Django Source Code Review](django.md)
 
 Topics include:
 
@@ -4126,9 +4118,7 @@ Settings
 
 ## Flask
 
-```text
-docs/source-code-review/flask.md
-```
+[Flask Source Code Review](flask.md)
 
 Topics include:
 
@@ -4150,9 +4140,7 @@ Extensions
 
 ## Node.js / Express
 
-```text
-docs/source-code-review/nodejs.md
-```
+[Node.js and Express Source Code Review](nodejs.md)
 
 Topics include:
 
@@ -4177,9 +4165,7 @@ Dependencies
 
 ## Client-Side JavaScript
 
-```text
-docs/source-code-review/javascript.md
-```
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 Topics include:
 
@@ -4473,57 +4459,90 @@ Impact determines whether there is a vulnerability worth reporting.
 
 # Related Notes
 
-```text
-docs/web/index.md
-docs/web/methodology.md
-docs/web/checklist.md
-docs/web/attack-surface-analysis.md
-docs/web/input-validation.md
+[Web Application Security](../web/index.md)
 
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/session-management.md
-docs/web/password-reset.md
-docs/web/mfa.md
-docs/web/idor-bola.md
+[Web Application Testing Methodology](../web/methodology.md)
 
-docs/web/sql-injection.md
-docs/web/nosql-injection.md
-docs/web/ldap-injection.md
-docs/web/command-injection.md
-docs/web/ssti.md
-docs/web/xxe.md
+[Web Application Pentesting Checklist](../web/checklist.md)
 
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-docs/web/html-injection.md
-docs/web/csrf.md
-docs/web/cors.md
-docs/web/open-redirect.md
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
 
-docs/web/ssrf.md
-docs/web/path-traversal.md
-docs/web/file-inclusion.md
-docs/web/file-upload.md
-docs/web/deserialization.md
+[Input Validation](../web/input-validation.md)
 
-docs/web/business-logic.md
-docs/web/race-conditions.md
-docs/web/rate-limiting.md
+[Authentication Testing](../web/authentication.md)
 
-docs/web/jwt.md
-docs/web/oauth-oidc.md
-docs/web/saml.md
+[Authorisation Testing](../web/authorisation.md)
 
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
-docs/web/mass-assignment.md
+[Session Management](../web/session-management.md)
 
-docs/web/secrets-exposure.md
-docs/web/dependency-security.md
-docs/web/third-party-javascript.md
-docs/web/information-disclosure.md
-docs/web/http-security-headers.md
-```
+[Password Reset Security](../web/password-reset.md)
+
+[Multi-Factor Authentication Security](../web/mfa.md)
+
+[IDOR and BOLA](../web/idor-bola.md)
+
+[SQL Injection](../web/sql-injection.md)
+
+[NoSQL Injection](../web/nosql-injection.md)
+
+[LDAP Injection](../web/ldap-injection.md)
+
+[OS Command Injection](../web/command-injection.md)
+
+[Server-Side Template Injection](../web/ssti.md)
+
+[XML External Entity Injection](../web/xxe.md)
+
+[Cross-Site Scripting](../web/xss.md)
+
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
+
+[HTML Injection](../web/html-injection.md)
+
+[Cross-Site Request Forgery](../web/csrf.md)
+
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
+
+[Open Redirect](../web/open-redirect.md)
+
+[Server Side Request Forgery](../web/ssrf.md)
+
+[Path Traversal](../web/path-traversal.md)
+
+[File Inclusion](../web/file-inclusion.md)
+
+[File Upload Security](../web/file-upload.md)
+
+[Insecure Deserialization](../web/deserialization.md)
+
+[Business Logic Vulnerabilities](../web/business-logic.md)
+
+[Race Conditions](../web/race-conditions.md)
+
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
+
+[JSON Web Token Security](../web/jwt.md)
+
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
+
+[SAML Security](../web/saml.md)
+
+[API Security](../web/api-security.md)
+
+[GraphQL API Security](../web/graphql.md)
+
+[gRPC Security](../web/grpc-security.md)
+
+[WebSocket Security](../web/websockets.md)
+
+[Mass Assignment](../web/mass-assignment.md)
+
+[Secrets Exposure](../web/secrets-exposure.md)
+
+[Dependency Security](../web/dependency-security.md)
+
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
+
+[Information Disclosure](../web/information-disclosure.md)
+
+[HTTP Security Headers](../web/http-security-headers.md)

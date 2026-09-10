@@ -3724,10 +3724,9 @@ Impacket:
 
 The next Credential Access topics include:
 
-```text
-active-directory/shadow-credentials.md
-active-directory/ntds.md
-```
+[Active Directory Shadow Credentials](shadow-credentials.md)
+
+[NTDS.dit and Active Directory Credential Extraction](ntds.md)
 
 ---
 

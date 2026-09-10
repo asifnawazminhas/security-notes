@@ -3345,14 +3345,17 @@ active-directory/adcs/index.md
 
 # Related Cheatsheets
 
-```text
-cheatsheets/active-directory.md
-cheatsheets/netexec.md
-cheatsheets/impacket.md
-cheatsheets/networking.md
-cheatsheets/windows.md
-cheatsheets/powershell.md
-```
+[Active Directory Cheatsheet](../cheatsheets/active-directory.md)
+
+[NetExec Cheatsheet](../cheatsheets/netexec.md)
+
+[Impacket Cheatsheet](../cheatsheets/impacket.md)
+
+[Networking Cheatsheet](../cheatsheets/networking.md)
+
+[Windows Cheatsheet](../cheatsheets/windows.md)
+
+[PowerShell Cheatsheet](../cheatsheets/powershell.md)
 
 ---
 

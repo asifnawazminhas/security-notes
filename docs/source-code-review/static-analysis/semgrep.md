@@ -4979,90 +4979,132 @@ Variant Analysis
 
 # Related Static Analysis Notes
 
-```text
-docs/source-code-review/static-analysis/index.md
-docs/source-code-review/static-analysis/ripgrep.md
-docs/source-code-review/static-analysis/opengrep.md
-docs/source-code-review/static-analysis/codeql.md
-```
+[Static Analysis for Source Code Review](index.md)
+
+[ripgrep for Security Source Code Review](ripgrep.md)
+
+[OpenGrep for Security Source Code Review](opengrep.md)
+
+[CodeQL for Security Source Code Review](codeql.md)
 
 ---
 
 # Related Source Code Review Notes
 
-```text
-docs/source-code-review/index.md
-docs/source-code-review/methodology.md
+[Source Code Review](../index.md)
 
-docs/source-code-review/dotnet.md
-docs/source-code-review/java.md
-docs/source-code-review/php.md
-docs/source-code-review/python.md
-docs/source-code-review/django.md
-docs/source-code-review/flask.md
-docs/source-code-review/nodejs.md
-docs/source-code-review/javascript.md
-```
+[Source Code Review Methodology](../methodology.md)
+
+[.NET / ASP.NET Core Source Code Review](../dotnet.md)
+
+[Java / Spring Source Code Review](../java.md)
+
+[PHP Source Code Review](../php.md)
+
+[Python Source Code Review](../python.md)
+
+[Django Source Code Review](../django.md)
+
+[Flask Source Code Review](../flask.md)
+
+[Node.js and Express Source Code Review](../nodejs.md)
+
+[Client-Side JavaScript Source Code Review](../javascript.md)
 
 ---
 
 # Related Web Security Notes
 
-```text
-docs/web/attack-surface-analysis.md
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/idor-bola.md
-docs/web/session-management.md
-docs/web/password-reset.md
-docs/web/mfa.md
-docs/web/saml.md
+[Attack Surface Analysis](../../web/attack-surface-analysis.md)
 
-docs/web/input-validation.md
+[Authentication Testing](../../web/authentication.md)
 
-docs/web/sql-injection.md
-docs/web/nosql-injection.md
-docs/web/ldap-injection.md
-docs/web/command-injection.md
-docs/web/ssti.md
+[Authorisation Testing](../../web/authorisation.md)
 
-docs/web/ssrf.md
-docs/web/path-traversal.md
-docs/web/file-inclusion.md
-docs/web/file-upload.md
-docs/web/xxe.md
-docs/web/deserialization.md
+[IDOR and BOLA](../../web/idor-bola.md)
 
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-docs/web/html-injection.md
-docs/web/csrf.md
-docs/web/cors.md
-docs/web/open-redirect.md
-docs/web/xs-leaks.md
+[Session Management](../../web/session-management.md)
 
-docs/web/host-header-attacks.md
-docs/web/http-security-headers.md
-docs/web/http-request-smuggling.md
-docs/web/web-cache-poisoning.md
-docs/web/web-cache-deception.md
-docs/web/information-disclosure.md
+[Password Reset Security](../../web/password-reset.md)
 
-docs/web/business-logic.md
-docs/web/race-conditions.md
-docs/web/rate-limiting.md
-docs/web/mass-assignment.md
+[Multi-Factor Authentication Security](../../web/mfa.md)
 
-docs/web/jwt.md
-docs/web/oauth-oidc.md
+[SAML Security](../../web/saml.md)
 
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
+[Input Validation](../../web/input-validation.md)
 
-docs/web/secrets-exposure.md
-docs/web/dependency-security.md
-docs/web/third-party-javascript.md
-docs/web/prototype-pollution.md
-```
+[SQL Injection](../../web/sql-injection.md)
+
+[NoSQL Injection](../../web/nosql-injection.md)
+
+[LDAP Injection](../../web/ldap-injection.md)
+
+[OS Command Injection](../../web/command-injection.md)
+
+[Server-Side Template Injection](../../web/ssti.md)
+
+[Server Side Request Forgery](../../web/ssrf.md)
+
+[Path Traversal](../../web/path-traversal.md)
+
+[File Inclusion](../../web/file-inclusion.md)
+
+[File Upload Security](../../web/file-upload.md)
+
+[XML External Entity Injection](../../web/xxe.md)
+
+[Insecure Deserialization](../../web/deserialization.md)
+
+[Cross-Site Scripting](../../web/xss.md)
+
+[DOM-Based Vulnerabilities](../../web/dom-based-vulnerabilities.md)
+
+[HTML Injection](../../web/html-injection.md)
+
+[Cross-Site Request Forgery](../../web/csrf.md)
+
+[Cross-Origin Resource Sharing (CORS)](../../web/cors.md)
+
+[Open Redirect](../../web/open-redirect.md)
+
+[XS-Leaks](../../web/xs-leaks.md)
+
+[HTTP Host Header Attacks](../../web/host-header-attacks.md)
+
+[HTTP Security Headers](../../web/http-security-headers.md)
+
+[HTTP Request Smuggling](../../web/http-request-smuggling.md)
+
+[Web Cache Poisoning](../../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../../web/web-cache-deception.md)
+
+[Information Disclosure](../../web/information-disclosure.md)
+
+[Business Logic Vulnerabilities](../../web/business-logic.md)
+
+[Race Conditions](../../web/race-conditions.md)
+
+[Rate Limiting and Anti-Automation](../../web/rate-limiting.md)
+
+[Mass Assignment](../../web/mass-assignment.md)
+
+[JSON Web Token Security](../../web/jwt.md)
+
+[OAuth 2.0 and OpenID Connect Security](../../web/oauth-oidc.md)
+
+[API Security](../../web/api-security.md)
+
+[GraphQL API Security](../../web/graphql.md)
+
+[gRPC Security](../../web/grpc-security.md)
+
+[WebSocket Security](../../web/websockets.md)
+
+[Secrets Exposure](../../web/secrets-exposure.md)
+
+[Dependency Security](../../web/dependency-security.md)
+
+[Third-Party JavaScript Security](../../web/third-party-javascript.md)
+
+[Prototype Pollution](../../web/prototype-pollution.md)

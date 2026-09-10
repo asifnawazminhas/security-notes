@@ -3206,9 +3206,7 @@ Credential Access:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc6.md
-```
+[AD CS ESC6 - CA Allows Requester-Supplied Subject Alternative Names](esc6.md)
 
 ---
 

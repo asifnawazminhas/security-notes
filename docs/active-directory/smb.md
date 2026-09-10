@@ -3403,9 +3403,7 @@ Authentication Coercion:
 
 The next detailed lateral-movement page is:
 
-```text
-docs/active-directory/winrm.md
-```
+[Active Directory WinRM - PowerShell Remoting and Lateral Movement](winrm.md)
 
 ---
 

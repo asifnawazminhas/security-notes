@@ -3031,9 +3031,7 @@ ACLs and ACEs:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc14.md
-```
+[AD CS ESC14 - Weak Explicit Certificate Mapping](esc14.md)
 
 ---
 

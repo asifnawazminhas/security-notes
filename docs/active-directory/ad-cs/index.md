@@ -4276,9 +4276,7 @@ BloodHound:
 
 The next page is:
 
-```text
-active-directory/ad-cs/enumeration.md
-```
+[Active Directory Certificate Services Enumeration](enumeration.md)
 
 After that, the AD CS section can cover the individual ESC attack paths.
 

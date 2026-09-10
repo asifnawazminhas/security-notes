@@ -2684,9 +2684,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc11.md
-```
+[AD CS ESC11 - NTLM Relay to the RPC Certificate Enrollment Interface](esc11.md)
 
 ---
 

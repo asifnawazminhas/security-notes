@@ -4335,15 +4335,11 @@ MDT:
 
 The next infrastructure page is:
 
-```text
-docs/active-directory/adfs.md
-```
+[Active Directory Federation Services - AD FS](adfs.md)
 
 followed by:
 
-```text
-docs/active-directory/rodc.md
-```
+[Read-Only Domain Controller - RODC](rodc.md)
 
 ---
 

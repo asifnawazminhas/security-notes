@@ -3695,10 +3695,9 @@ The next trust-specific page should cover:
 
 followed by:
 
-```text
-docs/active-directory/sid-history.md
-docs/active-directory/trust-tickets.md
-```
+[Active Directory SID History](sid-history.md)
+
+[Active Directory Trust Tickets](trust-tickets.md)
 
 ---
 

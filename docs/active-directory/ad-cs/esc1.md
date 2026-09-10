@@ -2762,9 +2762,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-active-directory/ad-cs/esc2.md
-```
+[AD CS ESC2 - Any Purpose and Unrestricted Certificate Templates](esc2.md)
 
 ---
 

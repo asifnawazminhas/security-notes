@@ -2382,9 +2382,7 @@ means every process is currently executing with unrestricted administrative righ
 
 # Planned Related Note
 
-```text
-docs/windows/uac.md
-```
+[Windows User Account Control](uac.md)
 
 
 # Safe Validation Workflow

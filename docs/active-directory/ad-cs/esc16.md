@@ -2802,9 +2802,7 @@ ACLs and ACEs:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc17.md
-```
+[AD CS ESC17 - Enrollee-Supplied Subject for Server Authentication](esc17.md)
 
 ---
 

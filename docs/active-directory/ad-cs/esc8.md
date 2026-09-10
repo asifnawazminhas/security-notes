@@ -3410,9 +3410,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc9.md
-```
+[AD CS ESC9 - Certificate Template Omits the SID Security Extension](esc9.md)
 
 ---
 

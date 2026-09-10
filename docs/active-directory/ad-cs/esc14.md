@@ -3310,9 +3310,7 @@ Certificate Templates:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc15.md
-```
+[AD CS ESC15 - Arbitrary Application Policies (EKUwu)](esc15.md)
 
 ---
 

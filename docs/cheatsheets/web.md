@@ -5568,80 +5568,125 @@ Nikto
 
 Use the detailed pages for deeper testing.
 
-```text
-web/index.md
-web/methodology.md
-web/checklist.md
-web/attack-surface-analysis.md
+[Web Application Security](../web/index.md)
 
-web/reconnaissance/index.md
-web/reconnaissance/subdomain-enumeration.md
-web/reconnaissance/technology-identification.md
-web/reconnaissance/content-discovery.md
-web/reconnaissance/parameter-discovery.md
-web/reconnaissance/javascript-analysis.md
+[Web Application Testing Methodology](../web/methodology.md)
 
-web/burp-suite/extensions.md
-web/burp-suite/workflows.md
+[Web Application Pentesting Checklist](../web/checklist.md)
 
-web/authentication.md
-web/authorisation.md
-web/idor-bola.md
-web/session-management.md
-web/password-reset.md
-web/mfa.md
-web/saml.md
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
 
-web/xss.md
-web/dom-based-vulnerabilities.md
-web/html-injection.md
-web/csrf.md
-web/clickjacking.md
-web/cors.md
-web/open-redirect.md
-web/xs-leaks.md
-web/third-party-javascript.md
+[Reconnaissance](../web/reconnaissance/index.md)
 
-web/sql-injection.md
-web/nosql-injection.md
-web/ldap-injection.md
-web/command-injection.md
-web/ssti.md
-web/xxe.md
+[Subdomain Enumeration](../web/reconnaissance/subdomain-enumeration.md)
 
-web/ssrf.md
-web/path-traversal.md
-web/file-inclusion.md
-web/file-upload.md
-web/deserialization.md
-web/input-validation.md
+[Technology Identification](../web/reconnaissance/technology-identification.md)
 
-web/http-security-headers.md
-web/http-request-smuggling.md
-web/host-header-attacks.md
-web/web-cache-poisoning.md
-web/web-cache-deception.md
-web/information-disclosure.md
+[Content Discovery](../web/reconnaissance/content-discovery.md)
 
-web/business-logic.md
-web/race-conditions.md
-web/rate-limiting.md
+[Parameter Discovery](../web/reconnaissance/parameter-discovery.md)
 
-web/oauth-oidc.md
-web/jwt.md
+[JavaScript Analysis](../web/reconnaissance/javascript-analysis.md)
 
-web/api-security.md
-web/graphql.md
-web/grpc-security.md
-web/websockets.md
-web/mass-assignment.md
+[Burp Suite Extensions](../web/burp-suite/extensions.md)
 
-web/dependency-security.md
-web/secrets-exposure.md
+[Burp Suite Testing Workflows](../web/burp-suite/workflows.md)
 
-web/prototype-pollution.md
-web/web-llm-attacks.md
-```
+[Authentication Testing](../web/authentication.md)
+
+[Authorisation Testing](../web/authorisation.md)
+
+[IDOR and BOLA](../web/idor-bola.md)
+
+[Session Management](../web/session-management.md)
+
+[Password Reset Security](../web/password-reset.md)
+
+[Multi-Factor Authentication Security](../web/mfa.md)
+
+[SAML Security](../web/saml.md)
+
+[Cross-Site Scripting](../web/xss.md)
+
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
+
+[HTML Injection](../web/html-injection.md)
+
+[Cross-Site Request Forgery](../web/csrf.md)
+
+[Clickjacking](../web/clickjacking.md)
+
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
+
+[Open Redirect](../web/open-redirect.md)
+
+[XS-Leaks](../web/xs-leaks.md)
+
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
+
+[SQL Injection](../web/sql-injection.md)
+
+[NoSQL Injection](../web/nosql-injection.md)
+
+[LDAP Injection](../web/ldap-injection.md)
+
+[OS Command Injection](../web/command-injection.md)
+
+[Server-Side Template Injection](../web/ssti.md)
+
+[XML External Entity Injection](../web/xxe.md)
+
+[Server Side Request Forgery](../web/ssrf.md)
+
+[Path Traversal](../web/path-traversal.md)
+
+[File Inclusion](../web/file-inclusion.md)
+
+[File Upload Security](../web/file-upload.md)
+
+[Insecure Deserialization](../web/deserialization.md)
+
+[Input Validation](../web/input-validation.md)
+
+[HTTP Security Headers](../web/http-security-headers.md)
+
+[HTTP Request Smuggling](../web/http-request-smuggling.md)
+
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
+
+[Web Cache Poisoning](../web/web-cache-poisoning.md)
+
+[Web Cache Deception](../web/web-cache-deception.md)
+
+[Information Disclosure](../web/information-disclosure.md)
+
+[Business Logic Vulnerabilities](../web/business-logic.md)
+
+[Race Conditions](../web/race-conditions.md)
+
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
+
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
+
+[JSON Web Token Security](../web/jwt.md)
+
+[API Security](../web/api-security.md)
+
+[GraphQL API Security](../web/graphql.md)
+
+[gRPC Security](../web/grpc-security.md)
+
+[WebSocket Security](../web/websockets.md)
+
+[Mass Assignment](../web/mass-assignment.md)
+
+[Dependency Security](../web/dependency-security.md)
+
+[Secrets Exposure](../web/secrets-exposure.md)
+
+[Prototype Pollution](../web/prototype-pollution.md)
+
+[Web LLM Attacks](../web/web-llm-attacks.md)
 
 Only turn these into clickable internal links after confirming the files exist in the repository.
 

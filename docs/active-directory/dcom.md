@@ -2786,9 +2786,7 @@ LAPS:
 
 The next lateral-movement page is:
 
-```text
-docs/active-directory/pivoting.md
-```
+[Active Directory Pivoting - Tunnelling, Port Forwarding and Network Access](pivoting.md)
 
 ---
 

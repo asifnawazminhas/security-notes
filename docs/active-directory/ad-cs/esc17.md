@@ -3298,9 +3298,7 @@ The ESC1-ESC17 sequence is now complete.
 
 The next AD CS topic is:
 
-```text
-docs/active-directory/ad-cs/golden-certificate.md
-```
+[AD CS Golden Certificates - CA Private Key Compromise](golden-certificate.md)
 
 ---
 

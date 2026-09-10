@@ -2947,26 +2947,41 @@ Evidence
 
 # Related Notes
 
-```text
-active-directory/index.md
-active-directory/methodology.md
-active-directory/enumeration.md
-active-directory/netexec.md
-active-directory/bloodhound.md
-active-directory/kerberos.md
-active-directory/ntlm.md
-active-directory/asrep-roasting.md
-active-directory/kerberoasting.md
-active-directory/pass-the-hash.md
-active-directory/unconstrained-delegation.md
-active-directory/constrained-delegation.md
-active-directory/rbcd.md
-active-directory/s4u.md
-active-directory/ntlm-relay.md
-active-directory/ntds.md
-active-directory/lateral-movement.md
-active-directory/pivoting.md
-```
+[Active Directory Penetration Testing](index.md)
+
+[Active Directory Penetration Testing Methodology](methodology.md)
+
+[Active Directory Enumeration](enumeration.md)
+
+[NetExec](netexec.md)
+
+[BloodHound](bloodhound.md)
+
+[Kerberos](kerberos.md)
+
+[NTLM](ntlm.md)
+
+[AS-REP Roasting](asrep-roasting.md)
+
+[Kerberoasting](kerberoasting.md)
+
+[Pass-the-Hash](pass-the-hash.md)
+
+[Unconstrained Delegation](unconstrained-delegation.md)
+
+[Constrained Delegation](constrained-delegation.md)
+
+[Resource-Based Constrained Delegation](rbcd.md)
+
+[Kerberos S4U](s4u.md)
+
+[NTLM Relay](ntlm-relay.md)
+
+[NTDS.dit and Active Directory Credential Extraction](ntds.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Active Directory Pivoting - Tunnelling, Port Forwarding and Network Access](pivoting.md)
 
 ---
 

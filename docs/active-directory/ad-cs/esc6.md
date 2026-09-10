@@ -2978,9 +2978,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc7.md
-```
+[AD CS ESC7 - Vulnerable Certification Authority Permissions](esc7.md)
 
 ---
 

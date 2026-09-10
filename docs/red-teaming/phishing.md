@@ -3239,10 +3239,9 @@ Retest after improvements.
 
 Planned:
 
-```text
-red-teaming/adversary-emulation.md
-red-teaming/cleanup.md
-```
+[Red Team Adversary Emulation](adversary-emulation.md)
+
+[Red Team Cleanup](cleanup.md)
 
 
 ---

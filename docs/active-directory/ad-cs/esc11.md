@@ -3020,9 +3020,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc12.md
-```
+[AD CS ESC12 - YubiHSM2 and CA Private Key Protection](esc12.md)
 
 ---
 

@@ -2738,21 +2738,23 @@ Golden Certificate:
 
 The next Active Directory section moves into infrastructure:
 
-```text
-docs/active-directory/adidns.md
-```
+[Active Directory Integrated DNS](adidns.md)
 
 followed by:
 
-```text
-docs/active-directory/shares.md
-docs/active-directory/sccm.md
-docs/active-directory/wsus.md
-docs/active-directory/mdt.md
-docs/active-directory/scom.md
-docs/active-directory/adfs.md
-docs/active-directory/rodc.md
-```
+[Windows and Active Directory Shares](shares.md)
+
+[Microsoft Configuration Manager - SCCM](sccm.md)
+
+[Windows Server Update Services - WSUS](wsus.md)
+
+[Microsoft Deployment Toolkit - MDT](mdt.md)
+
+[System Center Operations Manager - SCOM](scom.md)
+
+[Active Directory Federation Services - AD FS](adfs.md)
+
+[Read-Only Domain Controller - RODC](rodc.md)
 
 ---
 

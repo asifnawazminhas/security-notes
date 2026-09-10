@@ -3536,9 +3536,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc13.md
-```
+[AD CS ESC13 - Issuance Policy Group Linking](esc13.md)
 
 ---
 

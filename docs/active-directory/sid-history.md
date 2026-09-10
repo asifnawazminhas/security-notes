@@ -2650,9 +2650,7 @@ DCOM:
 
 The next trust-specific page is:
 
-```text
-docs/active-directory/trust-tickets.md
-```
+[Active Directory Trust Tickets](trust-tickets.md)
 
 ---
 

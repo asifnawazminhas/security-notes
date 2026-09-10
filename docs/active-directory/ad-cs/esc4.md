@@ -3062,9 +3062,7 @@ Credential Access:
 
 The next AD CS page is:
 
-```text
-active-directory/ad-cs/esc5.md
-```
+[AD CS ESC5 - Vulnerable PKI Object Access Control](esc5.md)
 
 ---
 

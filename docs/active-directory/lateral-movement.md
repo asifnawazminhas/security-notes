@@ -3924,9 +3924,7 @@ Authentication Coercion:
 
 The next detailed lateral-movement page is:
 
-```text
-docs/active-directory/smb.md
-```
+[Active Directory SMB - Enumeration, Authentication and Lateral Movement](smb.md)
 
 ---
 

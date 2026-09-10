@@ -505,9 +505,7 @@ depending on the environment and target naming.
 
 The next dedicated page covers coercion in detail:
 
-```text
-active-directory/authentication-coercion.md
-```
+[Active Directory Authentication Coercion](authentication-coercion.md)
 
 ---
 
@@ -2283,9 +2281,7 @@ Reduce unnecessary services and configurations capable of causing privileged sys
 
 The next page covers this area in detail:
 
-```text
-active-directory/authentication-coercion.md
-```
+[Active Directory Authentication Coercion](authentication-coercion.md)
 
 ---
 
@@ -3449,9 +3445,7 @@ NetExec:
 
 The next page in this section is:
 
-```text
-active-directory/authentication-coercion.md
-```
+[Active Directory Authentication Coercion](authentication-coercion.md)
 
 ---
 

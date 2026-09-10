@@ -5345,55 +5345,78 @@ Only then classify the candidate as a confirmed vulnerability.
 
 # Related Source Code Review Notes
 
-```text
-docs/source-code-review/index.md
-docs/source-code-review/dotnet.md
-docs/source-code-review/java.md
-docs/source-code-review/php.md
-docs/source-code-review/python.md
-docs/source-code-review/django.md
-docs/source-code-review/flask.md
-docs/source-code-review/nodejs.md
-```
+[Source Code Review](index.md)
+
+[.NET / ASP.NET Core Source Code Review](dotnet.md)
+
+[Java / Spring Source Code Review](java.md)
+
+[PHP Source Code Review](php.md)
+
+[Python Source Code Review](python.md)
+
+[Django Source Code Review](django.md)
+
+[Flask Source Code Review](flask.md)
+
+[Node.js and Express Source Code Review](nodejs.md)
 
 ---
 
 # Related Web Security Notes
 
-```text
-docs/web/attack-surface-analysis.md
-docs/web/input-validation.md
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
 
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/idor-bola.md
-docs/web/session-management.md
-docs/web/password-reset.md
-docs/web/mfa.md
+[Input Validation](../web/input-validation.md)
 
-docs/web/xss.md
-docs/web/dom-based-vulnerabilities.md
-docs/web/html-injection.md
-docs/web/csrf.md
-docs/web/cors.md
-docs/web/clickjacking.md
-docs/web/open-redirect.md
-docs/web/xs-leaks.md
+[Authentication Testing](../web/authentication.md)
 
-docs/web/prototype-pollution.md
+[Authorisation Testing](../web/authorisation.md)
 
-docs/web/jwt.md
-docs/web/oauth-oidc.md
+[IDOR and BOLA](../web/idor-bola.md)
 
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
+[Session Management](../web/session-management.md)
 
-docs/web/http-security-headers.md
-docs/web/information-disclosure.md
+[Password Reset Security](../web/password-reset.md)
 
-docs/web/secrets-exposure.md
-docs/web/dependency-security.md
-docs/web/third-party-javascript.md
-```
+[Multi-Factor Authentication Security](../web/mfa.md)
+
+[Cross-Site Scripting](../web/xss.md)
+
+[DOM-Based Vulnerabilities](../web/dom-based-vulnerabilities.md)
+
+[HTML Injection](../web/html-injection.md)
+
+[Cross-Site Request Forgery](../web/csrf.md)
+
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
+
+[Clickjacking](../web/clickjacking.md)
+
+[Open Redirect](../web/open-redirect.md)
+
+[XS-Leaks](../web/xs-leaks.md)
+
+[Prototype Pollution](../web/prototype-pollution.md)
+
+[JSON Web Token Security](../web/jwt.md)
+
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
+
+[API Security](../web/api-security.md)
+
+[GraphQL API Security](../web/graphql.md)
+
+[gRPC Security](../web/grpc-security.md)
+
+[WebSocket Security](../web/websockets.md)
+
+[HTTP Security Headers](../web/http-security-headers.md)
+
+[Information Disclosure](../web/information-disclosure.md)
+
+[Secrets Exposure](../web/secrets-exposure.md)
+
+[Dependency Security](../web/dependency-security.md)
+
+[Third-Party JavaScript Security](../web/third-party-javascript.md)

@@ -2879,9 +2879,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc10.md
-```
+[AD CS ESC10 - Weak Certificate Mapping](esc10.md)
 
 ---
 

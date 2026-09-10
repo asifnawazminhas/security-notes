@@ -3851,16 +3851,21 @@ Enumerate Again
 
 # Related Notes
 
-```text
-active-directory/index.md
-active-directory/methodology.md
-active-directory/kerberos.md
-active-directory/ntlm.md
-active-directory/bloodhound.md
-active-directory/lateral-movement.md
-active-directory/privilege-escalation.md
-active-directory/persistence.md
-```
+[Active Directory Penetration Testing](index.md)
+
+[Active Directory Penetration Testing Methodology](methodology.md)
+
+[Kerberos](kerberos.md)
+
+[NTLM](ntlm.md)
+
+[BloodHound](bloodhound.md)
+
+[Active Directory Lateral Movement](lateral-movement.md)
+
+[Active Directory Privilege Escalation](privilege-escalation.md)
+
+[Active Directory Persistence](persistence.md)
 
 Future dedicated notes will cover:
 

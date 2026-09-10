@@ -3549,10 +3549,9 @@ NetExec:
 
 The next pages in this section are:
 
-```text
-active-directory/kerberos-relay.md
-active-directory/authentication-coercion.md
-```
+[Kerberos Relay](kerberos-relay.md)
+
+[Active Directory Authentication Coercion](authentication-coercion.md)
 
 ---
 

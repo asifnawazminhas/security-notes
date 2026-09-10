@@ -3689,9 +3689,7 @@ Convert valuable procedures into repeatable regression tests.
 
 Planned:
 
-```text
-red-teaming/cleanup.md
-```
+[Red Team Cleanup](cleanup.md)
 
 
 ---

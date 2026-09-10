@@ -4322,13 +4322,18 @@ Documentation:
 
 # Related Notes
 
-```text
-docs/web/reconnaissance/technology-identification.md
-docs/web/reconnaissance/javascript-analysis.md
-docs/web/information-disclosure.md
-docs/web/secrets-exposure.md
-docs/web/prototype-pollution.md
-docs/web/dom-based-vulnerabilities.md
-docs/web/xss.md
-docs/web/third-party-javascript.md
-```
+[Technology Identification](reconnaissance/technology-identification.md)
+
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
+
+[Information Disclosure](information-disclosure.md)
+
+[Secrets Exposure](secrets-exposure.md)
+
+[Prototype Pollution](prototype-pollution.md)
+
+[DOM-Based Vulnerabilities](dom-based-vulnerabilities.md)
+
+[Cross-Site Scripting](xss.md)
+
+[Third-Party JavaScript Security](third-party-javascript.md)

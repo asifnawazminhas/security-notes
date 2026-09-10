@@ -3966,64 +3966,95 @@ That is variant analysis.
 
 # Related Source Code Review Notes
 
-```text
-docs/source-code-review/index.md
-docs/source-code-review/methodology.md
-docs/source-code-review/routes-and-entry-points.md
-docs/source-code-review/authentication-authorisation.md
-docs/source-code-review/source-to-sink-analysis.md
+[Source Code Review](index.md)
 
-docs/source-code-review/dotnet.md
-docs/source-code-review/java.md
-docs/source-code-review/php.md
-docs/source-code-review/python.md
-docs/source-code-review/django.md
-docs/source-code-review/flask.md
-docs/source-code-review/nodejs.md
-docs/source-code-review/javascript.md
-```
+[Source Code Review Methodology](methodology.md)
+
+[Routes and Entry Points](routes-and-entry-points.md)
+
+[Authentication and Authorisation Source Code Review](authentication-authorisation.md)
+
+[Source-to-Sink Analysis](source-to-sink-analysis.md)
+
+[.NET / ASP.NET Core Source Code Review](dotnet.md)
+
+[Java / Spring Source Code Review](java.md)
+
+[PHP Source Code Review](php.md)
+
+[Python Source Code Review](python.md)
+
+[Django Source Code Review](django.md)
+
+[Flask Source Code Review](flask.md)
+
+[Node.js and Express Source Code Review](nodejs.md)
+
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 ---
 
 # Related Static Analysis Notes
 
-```text
-docs/source-code-review/static-analysis/index.md
-docs/source-code-review/static-analysis/ripgrep.md
-docs/source-code-review/static-analysis/semgrep.md
-docs/source-code-review/static-analysis/opengrep.md
-docs/source-code-review/static-analysis/codeql.md
-```
+[Static Analysis for Source Code Review](static-analysis/index.md)
+
+[ripgrep for Security Source Code Review](static-analysis/ripgrep.md)
+
+[Semgrep for Security Source Code Review](static-analysis/semgrep.md)
+
+[OpenGrep for Security Source Code Review](static-analysis/opengrep.md)
+
+[CodeQL for Security Source Code Review](static-analysis/codeql.md)
 
 ---
 
 # Related Web Security Notes
 
-```text
-docs/web/attack-surface-analysis.md
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/idor-bola.md
-docs/web/sql-injection.md
-docs/web/nosql-injection.md
-docs/web/ldap-injection.md
-docs/web/command-injection.md
-docs/web/ssrf.md
-docs/web/path-traversal.md
-docs/web/file-upload.md
-docs/web/deserialization.md
-docs/web/ssti.md
-docs/web/xss.md
-docs/web/xxe.md
-docs/web/mass-assignment.md
-docs/web/prototype-pollution.md
-docs/web/business-logic.md
-docs/web/race-conditions.md
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
-```
+[Attack Surface Analysis](../web/attack-surface-analysis.md)
+
+[Authentication Testing](../web/authentication.md)
+
+[Authorisation Testing](../web/authorisation.md)
+
+[IDOR and BOLA](../web/idor-bola.md)
+
+[SQL Injection](../web/sql-injection.md)
+
+[NoSQL Injection](../web/nosql-injection.md)
+
+[LDAP Injection](../web/ldap-injection.md)
+
+[OS Command Injection](../web/command-injection.md)
+
+[Server Side Request Forgery](../web/ssrf.md)
+
+[Path Traversal](../web/path-traversal.md)
+
+[File Upload Security](../web/file-upload.md)
+
+[Insecure Deserialization](../web/deserialization.md)
+
+[Server-Side Template Injection](../web/ssti.md)
+
+[Cross-Site Scripting](../web/xss.md)
+
+[XML External Entity Injection](../web/xxe.md)
+
+[Mass Assignment](../web/mass-assignment.md)
+
+[Prototype Pollution](../web/prototype-pollution.md)
+
+[Business Logic Vulnerabilities](../web/business-logic.md)
+
+[Race Conditions](../web/race-conditions.md)
+
+[API Security](../web/api-security.md)
+
+[GraphQL API Security](../web/graphql.md)
+
+[gRPC Security](../web/grpc-security.md)
+
+[WebSocket Security](../web/websockets.md)
 
 ---
 

@@ -4881,67 +4881,95 @@ Always review the configuration that actually controls the deployed security beh
 
 # Related Source Code Review Notes
 
-```text
-docs/source-code-review/index.md
-docs/source-code-review/methodology.md
-docs/source-code-review/routes-and-entry-points.md
-docs/source-code-review/source-to-sink-analysis.md
-docs/source-code-review/authentication-authorisation.md
-docs/source-code-review/variant-analysis.md
+[Source Code Review](index.md)
 
-docs/source-code-review/dotnet.md
-docs/source-code-review/java.md
-docs/source-code-review/php.md
-docs/source-code-review/python.md
-docs/source-code-review/django.md
-docs/source-code-review/flask.md
-docs/source-code-review/nodejs.md
-docs/source-code-review/javascript.md
-```
+[Source Code Review Methodology](methodology.md)
+
+[Routes and Entry Points](routes-and-entry-points.md)
+
+[Source-to-Sink Analysis](source-to-sink-analysis.md)
+
+[Authentication and Authorisation Source Code Review](authentication-authorisation.md)
+
+[Variant Analysis](variant-analysis.md)
+
+[.NET / ASP.NET Core Source Code Review](dotnet.md)
+
+[Java / Spring Source Code Review](java.md)
+
+[PHP Source Code Review](php.md)
+
+[Python Source Code Review](python.md)
+
+[Django Source Code Review](django.md)
+
+[Flask Source Code Review](flask.md)
+
+[Node.js and Express Source Code Review](nodejs.md)
+
+[Client-Side JavaScript Source Code Review](javascript.md)
 
 ---
 
 # Related Static Analysis Notes
 
-```text
-docs/source-code-review/static-analysis/index.md
-docs/source-code-review/static-analysis/ripgrep.md
-docs/source-code-review/static-analysis/semgrep.md
-docs/source-code-review/static-analysis/opengrep.md
-docs/source-code-review/static-analysis/codeql.md
-```
+[Static Analysis for Source Code Review](static-analysis/index.md)
+
+[ripgrep for Security Source Code Review](static-analysis/ripgrep.md)
+
+[Semgrep for Security Source Code Review](static-analysis/semgrep.md)
+
+[OpenGrep for Security Source Code Review](static-analysis/opengrep.md)
+
+[CodeQL for Security Source Code Review](static-analysis/codeql.md)
 
 ---
 
 # Related Web Security Notes
 
-```text
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/session-management.md
-docs/web/password-reset.md
-docs/web/mfa.md
-docs/web/jwt.md
-docs/web/oauth-oidc.md
-docs/web/saml.md
+[Authentication Testing](../web/authentication.md)
 
-docs/web/cors.md
-docs/web/csrf.md
-docs/web/http-security-headers.md
-docs/web/host-header-attacks.md
-docs/web/information-disclosure.md
-docs/web/rate-limiting.md
+[Authorisation Testing](../web/authorisation.md)
 
-docs/web/file-upload.md
-docs/web/path-traversal.md
-docs/web/ssrf.md
-docs/web/xxe.md
-docs/web/deserialization.md
+[Session Management](../web/session-management.md)
 
-docs/web/secrets-exposure.md
-docs/web/dependency-security.md
-docs/web/third-party-javascript.md
-```
+[Password Reset Security](../web/password-reset.md)
+
+[Multi-Factor Authentication Security](../web/mfa.md)
+
+[JSON Web Token Security](../web/jwt.md)
+
+[OAuth 2.0 and OpenID Connect Security](../web/oauth-oidc.md)
+
+[SAML Security](../web/saml.md)
+
+[Cross-Origin Resource Sharing (CORS)](../web/cors.md)
+
+[Cross-Site Request Forgery](../web/csrf.md)
+
+[HTTP Security Headers](../web/http-security-headers.md)
+
+[HTTP Host Header Attacks](../web/host-header-attacks.md)
+
+[Information Disclosure](../web/information-disclosure.md)
+
+[Rate Limiting and Anti-Automation](../web/rate-limiting.md)
+
+[File Upload Security](../web/file-upload.md)
+
+[Path Traversal](../web/path-traversal.md)
+
+[Server Side Request Forgery](../web/ssrf.md)
+
+[XML External Entity Injection](../web/xxe.md)
+
+[Insecure Deserialization](../web/deserialization.md)
+
+[Secrets Exposure](../web/secrets-exposure.md)
+
+[Dependency Security](../web/dependency-security.md)
+
+[Third-Party JavaScript Security](../web/third-party-javascript.md)
 
 ---
 

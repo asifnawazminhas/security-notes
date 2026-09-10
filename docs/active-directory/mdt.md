@@ -4529,16 +4529,13 @@ AD CS:
 
 The next infrastructure page is:
 
-```text
-docs/active-directory/scom.md
-```
+[System Center Operations Manager - SCOM](scom.md)
 
 followed by:
 
-```text
-docs/active-directory/adfs.md
-docs/active-directory/rodc.md
-```
+[Active Directory Federation Services - AD FS](adfs.md)
+
+[Read-Only Domain Controller - RODC](rodc.md)
 
 ---
 

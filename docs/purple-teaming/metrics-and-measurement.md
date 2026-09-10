@@ -3618,10 +3618,9 @@ That is meaningful purple team measurement.
 
 The next planned Purple Teaming pages are:
 
-```text
-after-action-review.md
-continuous-validation.md
-```
+[Purple Teaming After-Action Review](after-action-review.md)
+
+[Purple Teaming Continuous Validation](continuous-validation.md)
 
 ---
 

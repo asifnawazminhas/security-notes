@@ -4136,9 +4136,7 @@ BloodHound:
 
 The next AD CS page is:
 
-```text
-active-directory/ad-cs/esc1.md
-```
+[AD CS ESC1 - Enrollee-Supplied Subject for Authentication Certificates](esc1.md)
 
 ---
 

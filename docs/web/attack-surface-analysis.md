@@ -4981,35 +4981,52 @@ and where security testing should focus.
 
 # Related Notes
 
-```text
-docs/web/methodology.md
-docs/web/checklist.md
+[Web Application Testing Methodology](methodology.md)
 
-docs/web/reconnaissance/index.md
-docs/web/reconnaissance/subdomain-enumeration.md
-docs/web/reconnaissance/technology-identification.md
-docs/web/reconnaissance/content-discovery.md
-docs/web/reconnaissance/parameter-discovery.md
-docs/web/reconnaissance/javascript-analysis.md
+[Web Application Pentesting Checklist](checklist.md)
 
-docs/web/api-security.md
-docs/web/graphql.md
-docs/web/grpc-security.md
-docs/web/websockets.md
+[Reconnaissance](reconnaissance/index.md)
 
-docs/web/authentication.md
-docs/web/authorisation.md
-docs/web/idor-bola.md
-docs/web/session-management.md
-docs/web/password-reset.md
-docs/web/mfa.md
+[Subdomain Enumeration](reconnaissance/subdomain-enumeration.md)
 
-docs/web/file-upload.md
-docs/web/information-disclosure.md
-docs/web/business-logic.md
-docs/web/race-conditions.md
+[Technology Identification](reconnaissance/technology-identification.md)
 
-docs/web/dependency-security.md
-docs/web/secrets-exposure.md
-docs/web/third-party-javascript.md
-```
+[Content Discovery](reconnaissance/content-discovery.md)
+
+[Parameter Discovery](reconnaissance/parameter-discovery.md)
+
+[JavaScript Analysis](reconnaissance/javascript-analysis.md)
+
+[API Security](api-security.md)
+
+[GraphQL API Security](graphql.md)
+
+[gRPC Security](grpc-security.md)
+
+[WebSocket Security](websockets.md)
+
+[Authentication Testing](authentication.md)
+
+[Authorisation Testing](authorisation.md)
+
+[IDOR and BOLA](idor-bola.md)
+
+[Session Management](session-management.md)
+
+[Password Reset Security](password-reset.md)
+
+[Multi-Factor Authentication Security](mfa.md)
+
+[File Upload Security](file-upload.md)
+
+[Information Disclosure](information-disclosure.md)
+
+[Business Logic Vulnerabilities](business-logic.md)
+
+[Race Conditions](race-conditions.md)
+
+[Dependency Security](dependency-security.md)
+
+[Secrets Exposure](secrets-exposure.md)
+
+[Third-Party JavaScript Security](third-party-javascript.md)

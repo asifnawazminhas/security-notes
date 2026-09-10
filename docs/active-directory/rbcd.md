@@ -2205,9 +2205,7 @@ Do not conflate the two.
 
 Future detailed coverage:
 
-```text
-active-directory/shadow-credentials.md
-```
+[Active Directory Shadow Credentials](shadow-credentials.md)
 
 ---
 

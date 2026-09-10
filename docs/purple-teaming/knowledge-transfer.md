@@ -2907,11 +2907,11 @@ It is that participants can understand, apply, reproduce and reuse that knowledg
 
 The next planned Purple Teaming pages are:
 
-```text
-metrics-and-measurement.md
-after-action-review.md
-continuous-validation.md
-```
+[Purple Teaming Metrics and Measurement](metrics-and-measurement.md)
+
+[Purple Teaming After-Action Review](after-action-review.md)
+
+[Purple Teaming Continuous Validation](continuous-validation.md)
 
 ---
 

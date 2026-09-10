@@ -4290,9 +4290,7 @@ SCOM:
 
 The next infrastructure page is:
 
-```text
-docs/active-directory/rodc.md
-```
+[Read-Only Domain Controller - RODC](rodc.md)
 
 ---
 

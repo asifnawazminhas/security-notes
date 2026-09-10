@@ -2836,9 +2836,7 @@ ESC14:
 
 The next AD CS page is:
 
-```text
-docs/active-directory/ad-cs/esc16.md
-```
+[AD CS ESC16 - CA-Wide SID Security Extension Disabled](esc16.md)
 
 ---
 
