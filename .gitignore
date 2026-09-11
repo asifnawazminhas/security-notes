@@ -2,3 +2,6 @@
 
 .venv/
 site/
+
+# MkDocs build logs
+final-build*.log
