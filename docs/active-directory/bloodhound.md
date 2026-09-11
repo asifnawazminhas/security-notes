@@ -3319,6 +3319,57 @@ Impact
 
 ---
 
+# Interpreting and Validating Graph Paths
+
+## Graph Edge to Security Conclusion
+
+Treat each BloodHound edge as a candidate relationship, not a confirmed exploit path:
+
+```text
+Graph edge
+   -> Candidate relationship
+   -> Validate object, identity, freshness, and prerequisites
+   -> Perform the minimum controlled operation
+   -> Demonstrate the consequence
+   -> Evidence and security conclusion
+```
+
+Distinguish what the relationship represents:
+
+| Relationship | May establish | Still requires validation |
+|---|---|---|
+| Group membership | Directory membership at collection time | Effective privilege, nesting, token refresh, and scope |
+| Session | A collected session observation | Current presence, credential access, and permitted use |
+| ACL edge | A directory permission relationship | Exact effective right and security-relevant operation |
+| Local administrator | A possible local admin relationship | Host reachability, token behavior, and actual administrative action |
+| Remote-management edge | A possible protocol permission | Authentication, endpoint policy, and command or resource access |
+| Delegation or certificate edge | A potential authentication path | Configuration prerequisites, mapping, issuance, and controlled authentication |
+
+Authentication success is not equivalent to resource access, directory permission, administrative rights, or actual execution. A shortest path to a privileged identity is a prioritisation aid, not proof that every edge is current, reachable, or exploitable.
+
+## Practical Path Validation
+
+For an important path, record the starting identity, target object, collection source and timestamp, edge types, required group or session state, network prerequisites, and the least intrusive validation for each edge. Validate one boundary at a time:
+
+1. Resolve the current principal, target, and relationship in LDAP or the approved administrative interface.
+2. Confirm that the relevant group membership, session, ACL, delegation, or certificate configuration still exists.
+3. Establish whether the starting identity can authenticate to the required host or service.
+4. Use a dedicated test object or read-only operation where possible.
+5. If execution is required and authorised, demonstrate only the minimum harmless action and record the actual execution context.
+6. Re-collect or refresh data after a controlled change instead of relying on the previous graph.
+
+Do not reset passwords, modify groups, request impersonating certificates, create services, or execute remote commands solely because BloodHound shows an edge. These actions require explicit scope and a documented validation need.
+
+## Stale Data and False Positives
+
+Common causes of misleading paths include stale sessions, deleted or renamed objects, replication delay, disabled accounts, incomplete collectors, missing local group data, SID history, unresolved trusts, ACL inheritance, deny ACEs, protocol restrictions, network segmentation, endpoint policy, and differences between the collected identity and the identity used for validation. Record collection method, collector version, scope, errors, and timestamp with the graph evidence.
+
+## Evidence, Remediation, and Retesting
+
+Capture the query or path view, object identifiers, relationship properties, collection timestamp, source identity, validated request and response, resulting identity or resource access, and execution context where applicable. Redact credentials, session details, and unnecessary personal data.
+
+Remediation should address the root relationship: remove unnecessary group membership, reduce ACL rights, secure sessions, restrict remote administration, correct delegation or certificate-template configuration, and protect privileged assets. Retest by refreshing collection, checking the effective relationship, repeating the minimum approved operation, and confirming that legitimate administration still works.
+
 # Related Notes
 
 ```text

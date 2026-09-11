@@ -4482,6 +4482,64 @@ Actual Risk
 
 ---
 
+# Effective Rights and Controlled Validation
+
+## Read the Complete Security Context
+
+An ACE is interpreted together with the security descriptor, owner, DACL, SACL, inheritance flags, object type, inherited object type, principal SID, group memberships, and applicable deny entries. A single displayed allow right is not necessarily the effective right for the current identity.
+
+For object-specific ACEs, resolve the object-type and inherited-object-type GUIDs against the schema. Record whether the right applies to the object itself, a child object, a property set, or a specific attribute. Distinguish:
+
+```text
+GenericAll / GenericWrite
+WriteProperty on a named attribute
+WriteDacl / WriteOwner
+ResetPassword
+AddMember / RemoveMember
+Validated write
+CreateChild / DeleteChild
+ReadProperty
+```
+
+Permission names are candidates for operations. They are not proof of compromise until the permitted operation, target, principal, and resulting security consequence are established.
+
+## Effective Rights Model
+
+Use this sequence when interpreting an interesting relationship:
+
+```text
+Observed ACE
+        -> Resolve trustee and target
+        -> Resolve inheritance, GUID, allow/deny, and group context
+        -> Determine effective right
+        -> Identify the exact permitted operation
+        -> Validate the minimum controlled operation
+        -> Confirm resulting access or privilege
+```
+
+Check nested groups, SID history, disabled accounts, deny ACEs, inheritance protection, object ownership, AdminSDHolder or protected groups, replication state, and whether the tested protocol applies the directory permission as expected. SACL entries are audit context; they should not be confused with DACL authorization.
+
+## Controlled Validation Examples
+
+Prefer read-only confirmation first. If an active change is explicitly authorised, use a dedicated test object, record the original state, make the smallest reversible change, observe the result, and restore it.
+
+| Candidate right | Controlled question | Security conclusion requires |
+|---|---|---|
+| WriteProperty / GenericWrite | Can the principal change this specific security-relevant attribute? | The change is accepted and creates a meaningful access or authentication consequence |
+| AddMember / group write | Can a controlled test member be added? | Effective membership and resulting resource access are demonstrated |
+| WriteDacl / WriteOwner | Can the descriptor or owner be changed? | The changed control grants a validated security-relevant operation |
+| ResetPassword | Can a dedicated test account password be reset? | The new credential authenticates and has the claimed scope |
+| CreateChild | Can an approved child object be created? | The object creates a meaningful access path, not merely directory clutter |
+| ReadProperty | Can the property be read by the tested identity? | The property is sensitive and disclosure crosses the intended boundary |
+
+Do not modify privileged groups, production accounts, delegation, SPNs, certificate templates, or ownership solely to prove an ACE. Where direct validation is unsafe, use authoritative read-only inspection and report the candidate relationship with prerequisites and residual uncertainty.
+
+## Evidence, Remediation, and Retesting
+
+Capture the object DN and type, trustee SID and resolved identity, ACE flags, access mask, GUIDs, inheritance, effective group context, before and after state, protocol used, request result, and resulting access. Include the minimum directory output necessary to reproduce the reasoning.
+
+Remediation should remove unnecessary rights, limit inheritance, protect privileged objects, review ownership and protected-group controls, and monitor changes to DACLs, owners, group membership, delegation, and certificate-related attributes. Retest effective rights after replication, refresh graph and LDAP data, repeat the minimum approved operation, and verify that legitimate administration remains possible.
+
 # Related Notes
 
 Active Directory methodology:

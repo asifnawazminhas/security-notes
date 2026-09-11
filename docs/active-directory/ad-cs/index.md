@@ -4224,6 +4224,89 @@ AD CS must therefore be assessed as part of the Active Directory identity system
 
 ---
 
+# AD CS Triage and Assessment Model
+
+## Start With the PKI Context
+
+Record the forest and domain, enterprise and standalone CAs, CA names and publication, enrollment services, web enrollment or other interfaces, certificate mappings, issuance and revocation services, and the identity used for enumeration. A template visible in LDAP is not necessarily published by a CA or enrollable by the tested principal.
+
+The common assessment sequence is:
+
+```text
+CA discovery
+      -> Enterprise CA and service context
+      -> Template discovery
+      -> Publication and enrollment rights
+      -> EKU and authentication purpose
+      -> Subject / SAN control
+      -> Approval and issuance requirements
+      -> Mapping and authentication context
+      -> Candidate condition
+      -> Minimum controlled validation
+      -> Evidence and security conclusion
+```
+
+## Common Triage Questions
+
+For each relevant template and CA, record:
+
+| Area | Questions |
+|---|---|
+| Publication | Is the template enabled and published by an in-scope CA? |
+| Enrollment | Which users or groups can enroll or autoenroll? Are permissions inherited or indirect? |
+| EKUs | Does the certificate support client authentication, smart card logon, PKINIT, enrollment agent, or another sensitive purpose? |
+| Subject identity | Can the enrollee supply subject or SAN identity information, or is it derived from directory attributes? |
+| Approval | Is manager approval, authorized signature, or another issuance requirement effective? |
+| Issuance | Are key export, validity, renewal, RA, or CA policy settings relevant? |
+| Mapping | How will the certificate map to an AD identity in this environment? |
+| Interface | Are RPC, web enrollment, CES/CEP, or other enrollment interfaces exposed and appropriately protected? |
+
+Do not treat a dangerous-looking template setting as an ESC finding by itself. The condition must include the relevant publication, enrollment, identity-control, issuance, mapping, and authentication prerequisites. Use the individual ESC pages for condition-specific analysis rather than duplicating their full procedures here.
+
+## Candidate to Validation
+
+```text
+Observed CA, template, ACL, or interface
+      -> Candidate AD CS relationship
+      -> Validate publication, principal, EKU, approval, mapping, and issuance
+      -> Use an approved test identity and minimum certificate request
+      -> Confirm only the intended authentication or access consequence
+      -> Preserve redacted evidence
+      -> Report the security conclusion
+```
+
+Certificate enrollment success establishes issuance, not automatically impersonation or administrative access. A certificate that authenticates as a low-privilege test identity does not prove access to another identity. Treat PFX files, private keys, enrollment-agent material, and issued certificates as credentials and store them only in approved locations.
+
+## Evidence, Remediation, and Retesting
+
+Capture forest/domain and CA context, template name and GUID, publication, enrollment and object permissions, EKUs, subject/SAN settings, approval and signature requirements, mapping method, interface, request status, certificate metadata without private keys, test identity, and the minimum validated consequence. Record collection source and time because AD CS configuration and replication can change.
+
+Remediation may include removing unnecessary template publication or enrollment, restricting template ACLs, disabling unsafe subject control, requiring approval or authorized signatures where appropriate, removing unnecessary authentication EKUs, securing CA and web-enrollment interfaces, protecting private keys, and monitoring issuance and template/CA changes. Retest from the relevant low-privilege identity after replication, confirm the old path is denied or no longer authenticates as intended, and verify legitimate enrollment still functions.
+
+## Individual ESC Notes
+
+Use the condition-specific pages for detailed analysis and validation:
+
+- [AD CS Enumeration](enumeration.md)
+- [ESC1](esc1.md)
+- [ESC2](esc2.md)
+- [ESC3](esc3.md)
+- [ESC4](esc4.md)
+- [ESC5](esc5.md)
+- [ESC6](esc6.md)
+- [ESC7](esc7.md)
+- [ESC8](esc8.md)
+- [ESC9](esc9.md)
+- [ESC10](esc10.md)
+- [ESC11](esc11.md)
+- [ESC12](esc12.md)
+- [ESC13](esc13.md)
+- [ESC14](esc14.md)
+- [ESC15](esc15.md)
+- [ESC16](esc16.md)
+- [ESC17](esc17.md)
+- [Golden Certificate](golden-certificate.md)
+
 # Related Notes
 
 Active Directory methodology:

@@ -3391,6 +3391,68 @@ Does the corrected policy produce the expected audit/block events?
 ```
 
 
+# Effective Policy and Execution Validation
+
+## Assessment Model
+
+Application-control testing should distinguish each stage:
+
+```text
+Observation: policy exists
+    -> Candidate: rule may apply to this user and file
+    -> Validation: policy decision is allow, deny, or audit
+    -> Actual execution behavior
+    -> Evidence and security conclusion
+```
+
+An allowed binary is not automatically a finding. The question is whether the effective policy creates an unintended trust relationship, permits an unauthorised user to execute or modify a security-relevant resource, or fails to enforce a documented security requirement.
+
+## AppLocker Coverage
+
+Review the effective AppLocker policy and its collections:
+
+```text
+Executable
+DLL
+Script
+Windows Installer
+Packaged app / AppX
+```
+
+For each collection record enforcement mode, default rules, rule exceptions, user/group scope, and conditions based on path, publisher, or file hash. A default allow rule for protected Windows locations is materially different from a path rule covering a directory writable by standard users. Environment variables, wildcards, rule exceptions, and inherited policy should be resolved to the actual path and effective identity.
+
+Use `Get-AppLockerPolicy -Effective`, `Test-AppLockerPolicy`, event logs, and approved harmless artifacts. Test the exact file as the relevant user rather than inferring behavior from a rule listing. Audit events establish that a decision was evaluated; an enforced block or controlled execution establishes runtime behavior.
+
+## WDAC / App Control for Business
+
+Determine whether Windows Defender Application Control or App Control for Business is active, which policy is effective, whether it is audit or enforced, and whether supplemental policies apply. Review signer, publisher, file-attribute, hash, managed-installer, policy rule, and user-mode code-integrity considerations where relevant. Do not treat the presence of a policy file or a policy identifier as proof that the expected policy is enforced.
+
+Check Code Integrity and AppLocker event channels with the approved test artifact. A policy decision can be affected by signing state, catalog membership, path, reputation, policy version, reboot state, service state, and whether the tested component is actually covered by the policy type.
+
+## Safe Controlled Test
+
+Use a benign, uniquely named test executable or script built for the assessment and placed in an approved test directory. Test a protected path and a user-writable path only where explicitly authorised. Record the file hash, signer, path, user, collection, expected result, observed decision, event identifier, and whether the file actually ran. Do not use a trusted system binary to claim a bypass, and do not introduce unsigned code into production merely to create a denial.
+
+Interpret results as follows:
+
+| Result | Establishes | Does not establish |
+|---|---|---|
+| Policy is present | A policy is configured or discoverable | That it is effective or enforced |
+| Rule matches | The tested rule condition applies | That execution occurred |
+| Audit event appears | The policy evaluated the artifact | That execution was blocked |
+| Execution is blocked | This tested path and identity were denied | That all equivalent file types are blocked |
+| File executes | This specific request was allowed | That the policy is bypassed or insecure |
+
+## Troubleshooting and False Positives
+
+For conflicting results, check effective rather than local policy, collection enforcement, user/group scope, rule priority and exceptions, environment-variable expansion, wildcard matching, signer and hash changes, policy refresh, reboot requirements, AppLocker versus WDAC precedence, Defender or EDR interference, and whether the process was launched through another component. Repeat with the same hash and identity, then compare event logs with actual process creation.
+
+## Evidence, Remediation, and Retesting
+
+Capture the effective policy export or relevant redacted rule, collection and mode, user/group, artifact hash and signer, resolved path, command line, expected and observed decision, event records, and actual execution result. State clearly whether the evidence demonstrates policy coverage, a policy decision, runtime behavior, or a security boundary impact.
+
+Remediation may include moving from audit to enforcement after compatibility testing, removing unsafe writable path rules, narrowing user/group scope, replacing broad wildcard or environment-variable rules, requiring trusted publishers or hashes, protecting default-rule locations, and aligning AppLocker, WDAC, Defender, and filesystem permissions. Retest all affected collections and identities with known-good applications, approved blocked artifacts, policy refresh, reboot-dependent behavior, and business-critical workflows.
+
 # Related Windows Notes
 
 - [Windows Overview](index.md)

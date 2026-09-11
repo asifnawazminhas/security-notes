@@ -3086,6 +3086,49 @@ Does retesting reproduce the expected elevation workflow?
 ```
 
 
+# Focused UAC Validation
+
+## Establish the Security Context
+
+Record the account type, local Administrators membership, current process integrity level, token elevation state, linked token information where authorised, and whether the test is local, remote, interactive, service-based, or scheduled. A standard user and a member of Administrators may receive different prompts and tokens.
+
+Useful observations include:
+
+```text
+Standard user + medium integrity token
+Administrator + filtered medium integrity token
+Administrator + elevated high integrity token
+System or service context
+```
+
+Use `whoami /all`, token inspection, `Get-TokenInformation`-style approved tooling, process properties, and local policy inspection as appropriate. Configuration and token output establish state; they do not prove that a lower-privileged user can cross a boundary.
+
+## Policy and Runtime Interpretation
+
+Review the effective settings for `EnableLUA`, consent behavior, secure desktop, administrator and standard-user prompt behavior, installer detection, virtualization, built-in Administrator handling, and remote token filtering. Group Policy and registry values may differ from local defaults, and policy presence does not prove runtime enforcement for every execution path.
+
+Perform a harmless, approved elevation workflow and compare the requesting account, parent and child process integrity levels, token privileges, prompt behavior, and resulting operation. A medium-to-high transition for an account already in Administrators is an elevation within that administrative identity, not automatically standard-user privilege escalation.
+
+## Candidate and Validation Model
+
+```text
+Observed policy or executable behavior
+    -> Candidate elevation path
+    -> Identify account and token boundary
+    -> Confirm prerequisites and intended trigger
+    -> Perform minimum harmless validation
+    -> Capture resulting identity and operation
+    -> Security conclusion
+```
+
+An auto-elevated binary, permissive setting, prompt behavior, or failed prompt is a candidate. Validate the required account type, file and registry permissions, trusted path, command-line or input influence, and whether the resulting process actually obtains a higher security context. Do not weaken UAC or alter policy to create the test condition.
+
+## Evidence, Remediation, and Retesting
+
+Capture effective policy source, account membership, process integrity, token state, elevation sequence, executable path and permissions, prompt behavior, and the minimum harmless operation. Redact usernames or host details where necessary. Explain whether the observation affects standard users, local administrators, remote administration, or only user experience.
+
+Remediation may include removing unnecessary local administrator membership, applying the intended UAC policy and secure desktop settings, protecting trusted paths, correcting writable dependencies, and aligning remote administration controls. Retest standard and administrator accounts, local and approved remote paths, normal elevation, denied elevation, and relevant application-control interactions.
+
 # Related Windows Notes
 
 - [Windows Overview](index.md)

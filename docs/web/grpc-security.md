@@ -4627,6 +4627,89 @@ Cross-Tenant Access Through gRPC Object Identifier Manipulation
 
 ---
 
+# Practical Assessment Workflow
+
+## Discover Services and Methods
+
+Start by identifying the transport, endpoint, authority, authentication mechanism, and whether the service is intended for browser, mobile, internal, or service-to-service clients. Where available, obtain the approved `.proto` files, generated client code, API gateway configuration, service registry entries, and deployment documentation.
+
+Reflection can expose service and method definitions to a client, which makes discovery easier. Its absence does not prove that methods are protected or undiscoverable: clients, descriptors, gateway routes, logs, generated code, and documentation may still reveal the interface. Conversely, enabled reflection is not automatically a vulnerability; the security consequence depends on exposure, authentication, and the sensitivity of the definitions.
+
+Build an inventory containing:
+
+```text
+Service
+Method
+Unary or streaming type
+Request and response message
+Authentication metadata
+Required role or tenant
+Referenced object or resource
+Expected side effect
+```
+
+Use `grpcurl`, an approved generated client, Burp Suite where the traffic is visible through an HTTP/2-capable proxy, or the application's own test client. Do not infer a complete attack surface from one collector or reflection result.
+
+## Authentication and Authorisation
+
+Test authentication metadata separately from authorization. Record whether the call is accepted with no metadata, an invalid token, a valid low-privilege token, and an approved higher-privilege token. Then compare the same method with:
+
+- a resource owned by the caller;
+- a resource owned by another controlled account;
+- an object in another tenant;
+- an administrative method;
+- an equivalent gateway or REST operation, if one exists.
+
+An authenticated RPC proves only that the server accepted an identity. A successful method call does not by itself prove object access, tenant access, administrative rights, or code execution. A directory or service-discovery relationship is a candidate until the actual operation and consequence are validated.
+
+## Messages and Streaming
+
+Review protobuf fields, enum values, repeated fields, nested messages, field masks, resource names, pagination, timestamps, and optional fields for server-side validation. Test one controlled field at a time and compare the gRPC status, response message, trailers, and resulting state. Client-side generated types and field comments are useful context, not a substitute for server enforcement.
+
+For client, server, or bidirectional streams, document the expected lifecycle and test only approved small sequences. Check authentication at stream creation and, where relevant, per message; check whether cancellation, deadlines, replay, ordering, message size, and idle timeouts are enforced. Avoid high-volume or long-lived resource tests against production.
+
+## TLS and Transport Observations
+
+Record whether TLS is used, how the server identity is validated, whether mutual TLS is required, and which gateway or proxy terminates the connection. A certificate or protocol observation establishes transport properties, not application authorization. Test metadata forwarding and identity propagation only with approved accounts and controlled endpoints.
+
+## Tool-Assisted Validation
+
+Tools can assist with discovery and request construction:
+
+```text
+Reflection / grpcurl -> service and method inventory
+.proto files -> message and field interpretation
+Generated client -> normal application workflow
+Burp or HTTP/2 proxy -> request comparison and evidence
+Server logs -> approved correlation of method and identity
+```
+
+Use the sequence:
+
+```text
+Observation -> Candidate -> Validation -> Evidence -> Security Conclusion
+```
+
+Reflection output, a decoded message, an unusual status, or a proxy finding is not automatically a vulnerability. Confirm the baseline, repeat the changed request, and establish the smallest protected resource or state transition that demonstrates impact.
+
+## Expected Results and Troubleshooting
+
+| Observation | What it establishes | What still requires validation |
+|---|---|---|
+| Reflection responds | Definitions are available to that caller | Whether sensitive methods or data are exposed |
+| Method returns `OK` | The request was accepted | Object ownership, tenant scope, and side effect |
+| `UNAUTHENTICATED` | Authentication was rejected | Whether another path accepts the identity |
+| `PERMISSION_DENIED` | A policy decision denied the call | Which policy layer made the decision |
+| Different response through a gateway | Transport or routing differs | Whether the application security decision differs |
+
+For inconsistent results, check authority and SNI, ALPN/HTTP2 support, proxy decoding, channel credentials, token expiry, clock skew, trailers, retries, deadlines, gateway translations, generated-client version, and whether the call is asynchronous. Re-establish a normal baseline before changing another variable.
+
+## Evidence, Remediation, and Retesting
+
+Capture the service, method, transport, client identity, tenant, redacted metadata, request message, response/status/trailers, baseline comparison, timestamp, and safe read-back or side effect. Preserve `.proto` or reflection evidence only where authorised and redact sensitive fields.
+
+Remediation may include enforcing method and resource authorization server-side, restricting reflection, validating message fields and resource ownership, requiring appropriate TLS and metadata validation, limiting streams and message sizes, and aligning gateway and backend policy. Retest unauthenticated, low-privilege, cross-object, cross-tenant, administrative, unary, and relevant streaming cases, including equivalent gateway paths.
+
 # Remediation
 
 A strong gRPC security model combines multiple controls.
