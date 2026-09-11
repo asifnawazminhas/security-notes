@@ -1013,3 +1013,199 @@
         animation: none;
     }
 }
+
+/* ============================================================
+   PRIVESC EXPLORER V2
+   ============================================================ */
+
+.privesc-landing-hero {
+    padding: 2.2rem;
+}
+
+.privesc-eyebrow {
+    display: inline-block;
+    margin-bottom: 0.65rem;
+    color: var(--md-accent-fg-color);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.privesc-workflow-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.35rem;
+}
+
+.privesc-workflow-strip span {
+    padding: 0.32rem 0.58rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+    background: var(--privesc-surface-active);
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.privesc-workflow-strip b {
+    color: var(--md-accent-fg-color);
+}
+
+.privesc-platform-icon {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--privesc-border-strong);
+    border-radius: 0.65rem;
+    font-weight: 900;
+}
+
+.privesc-platform-windows .privesc-platform-icon {
+    color: #42a5f5;
+}
+
+.privesc-platform-linux .privesc-platform-icon {
+    color: #f0b400;
+}
+
+.privesc-platform-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0 0 1.15rem;
+}
+
+.privesc-platform-tags span {
+    padding: 0.2rem 0.48rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: 999px;
+    color: var(--md-default-fg-color--light);
+    font-size: 0.64rem;
+}
+
+.privesc-stage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 1.5rem;
+}
+
+.privesc-stage-grid > div {
+    min-width: 0;
+    padding: 0.9rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-small);
+    background: var(--privesc-surface);
+}
+
+.privesc-stage-grid strong,
+.privesc-stage-grid span {
+    display: block;
+}
+
+.privesc-stage-grid strong {
+    margin-bottom: 0.3rem;
+    color: var(--md-accent-fg-color);
+    font-size: 0.76rem;
+}
+
+.privesc-stage-grid span {
+    color: var(--md-default-fg-color--light);
+    font-size: 0.72rem;
+    line-height: 1.5;
+}
+
+.privesc-bulk-actions {
+    display: flex;
+    gap: 0.45rem;
+    margin-left: auto;
+}
+
+.privesc-action-button {
+    height: 2.6rem;
+    padding: 0 0.7rem;
+    border: 1px solid var(--privesc-border);
+    border-radius: var(--privesc-radius-small);
+    cursor: pointer;
+    background: transparent;
+    color: var(--md-default-fg-color--light);
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.privesc-action-button:hover {
+    border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
+}
+
+.privesc-action-button:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+.privesc-card.is-expanded {
+    border-left: 0.18rem solid var(--md-accent-fg-color);
+}
+
+.privesc-card-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1.25rem;
+}
+
+.privesc-card-details[hidden] {
+    display: none;
+}
+
+.privesc-card-details > .privesc-commands,
+.privesc-card-details > .privesc-mitre,
+.privesc-card-details > .privesc-tags-section,
+.privesc-card-details > .privesc-related {
+    grid-column: 1 / -1;
+}
+
+@media screen and (max-width: 900px) {
+    .privesc-stage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .privesc-card-details {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .privesc-card-details > * {
+        grid-column: 1 !important;
+    }
+
+    .privesc-results-header {
+        flex-wrap: wrap;
+    }
+
+    .privesc-bulk-actions {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .privesc-stage-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .privesc-workflow-strip b {
+        display: none;
+    }
+
+    .privesc-bulk-actions {
+        width: 100%;
+    }
+
+    .privesc-action-button {
+        flex: 1 1 0;
+    }
+}
