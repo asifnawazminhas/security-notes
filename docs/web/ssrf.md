@@ -2463,6 +2463,16 @@ INPUT → SERVER-SIDE HTTP CLIENT → DESTINATION → EVIDENCE → IMPACT
 
 ---
 
+```mermaid
+flowchart TD
+      A["User-controlled URL"] --> B["Parse and normalize"]
+      B --> C{"Destination allowed?"}
+      C -->|No| D["Reject"]
+      C -->|Yes| E["Server-side client"]
+      E --> F["Redirect/DNS/network controls"]
+      F --> G["Validated response and impact"]
+```
+
 # References
 
 ## PortSwigger Web Security Academy

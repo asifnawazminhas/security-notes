@@ -1950,6 +1950,18 @@ These labs are highly recommended before testing complex desynchronisation behav
 
 ---
 
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant F as Front-end proxy
+  participant B as Back-end server
+  C->>F: Ambiguous HTTP request
+  F->>B: Front-end parse
+  B->>B: Different boundary interpretation
+  B-->>F: Desynchronized response
+  F-->>C: Response comparison/evidence
+```
+
 # References
 
 ## PortSwigger Web Security Academy

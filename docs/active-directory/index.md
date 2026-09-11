@@ -2049,6 +2049,16 @@ Retesting should verify:
 
 ---
 
+```mermaid
+flowchart TD
+      A["Starting identity and network"] --> B["Domain and host discovery"]
+      B --> C["Users, groups, services and trusts"]
+      C --> D["Candidate permissions and paths"]
+      D --> E["Validate authentication and access"]
+      E --> F["Demonstrate bounded consequence"]
+      F --> G["Evidence, remediation and retest"]
+```
+
 # Final Active Directory Model
 
 Active Directory testing is not:

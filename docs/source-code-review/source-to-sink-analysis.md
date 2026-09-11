@@ -4430,6 +4430,15 @@ Does it reach a sensitive operation?
 
 ---
 
+```mermaid
+flowchart LR
+  A["Attacker-controlled source"] --> B["Controller or handler"]
+  B --> C["Transformations"]
+  C --> D["Security controls"]
+  D --> E["Sensitive sink"]
+  E --> F["Validated consequence"]
+```
+
 # Final Source-to-Sink Model
 
 The complete security model is:

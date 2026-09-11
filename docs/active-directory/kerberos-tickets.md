@@ -3693,6 +3693,16 @@ active-directory/kerberos-relay.md
 
 ---
 
+```mermaid
+stateDiagram-v2
+      [*] --> TGT
+      TGT --> ServiceTicket: request service
+      ServiceTicket --> Presented: access service
+      Presented --> Renewed: within lifetime
+      Presented --> Expired: lifetime ends
+      Expired --> [*]
+```
+
 # Final Notes
 
 Kerberos tickets are temporary authentication credentials that form the foundation of Active Directory Kerberos authentication.

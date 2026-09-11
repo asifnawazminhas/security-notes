@@ -4725,6 +4725,16 @@ Then perform crawling only against the authorised targets selected from the resu
 
 ---
 
+```mermaid
+flowchart LR
+   A["Assets"] --> B["Applications"]
+   B --> C["Endpoints"]
+   C --> D["Parameters and messages"]
+   D --> E["Roles and tenants"]
+   E --> F["Trust boundaries"]
+   F --> G["Validated attack surface"]
+```
+
 # Final Testing Model
 
 ```text

@@ -455,6 +455,16 @@ New endpoints, parameters, roles and technologies discovered during testing shou
 
 ---
 
+```mermaid
+flowchart TD
+      A["Reconnaissance"] --> B["Attack-surface mapping"]
+      B --> C["Authentication and authorization"]
+      C --> D["Input and workflow testing"]
+      D --> E["Validate candidate behavior"]
+      E --> F["Assess impact and evidence"]
+      F --> G["Report and retest"]
+```
+
 ## Related Notes
 
 * [Web Application Security Overview](index.md)

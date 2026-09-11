@@ -2924,6 +2924,15 @@ RETEST
 ```
 
 
+```mermaid
+stateDiagram-v2
+    [*] --> StandardOrFiltered
+    StandardOrFiltered --> ConsentPrompt: elevation requested
+    ConsentPrompt --> Elevated: approved and permitted
+    ConsentPrompt --> StandardOrFiltered: denied or cancelled
+    Elevated --> [*]: validate identity and boundary
+```
+
 # Final Testing Principle
 
 UAC testing is not:

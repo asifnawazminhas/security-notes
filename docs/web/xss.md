@@ -2417,6 +2417,16 @@ SOURCE → TRANSFORMATION → CONTEXT → SINK → BROWSER
 
 ---
 
+```mermaid
+flowchart TD
+      A["Input source"] --> B["Application/client transform"]
+      B --> C["Output context"]
+      C --> D["Encoding/sanitization/CSP"]
+      D --> E["Browser parsing"]
+      E --> F["Script execution or safe rendering"]
+      F --> G["Validated impact"]
+```
+
 # References
 
 ## OWASP Cross-Site Scripting Prevention Cheat Sheet

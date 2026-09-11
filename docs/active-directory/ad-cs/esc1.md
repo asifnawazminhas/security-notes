@@ -2822,6 +2822,15 @@ The next AD CS page is:
 
 ---
 
+```mermaid
+flowchart TD
+   A["Enrollee can enroll"] --> B["Subject/SAN control"]
+   B --> C["Authentication EKU"]
+   C --> D["Issuance and mapping"]
+   D --> E["Approved test certificate"]
+   E --> F["Validated identity consequence"]
+```
+
 # Final Notes
 
 ESC1 is fundamentally an:

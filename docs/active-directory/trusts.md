@@ -3843,6 +3843,15 @@ PowerSploit is an older project and should be treated accordingly when comparing
 
 ---
 
+```mermaid
+flowchart LR
+   A["Trust relationship"] --> B["Direction and transitivity"]
+   B --> C["Filtering and selective authentication"]
+   C --> D["Authentication capability"]
+   D --> E["Resource authorization"]
+   E --> F["Validated privilege or denial"]
+```
+
 # Final Notes
 
 Active Directory trusts are:

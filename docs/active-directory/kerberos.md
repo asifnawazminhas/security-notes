@@ -3733,6 +3733,19 @@ active-directory/adcs/index.md
 
 ---
 
+```mermaid
+sequenceDiagram
+   participant C as Client
+   participant K as KDC
+   participant S as Service
+   C->>K: AS-REQ
+   K-->>C: TGT
+   C->>K: TGS-REQ
+   K-->>C: Service ticket
+   C->>S: Authenticated request
+   S-->>C: Service response
+```
+
 # Final Quick Reference
 
 ```text

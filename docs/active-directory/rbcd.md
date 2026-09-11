@@ -4377,6 +4377,15 @@ The following topics complement RBCD and can be linked once their dedicated note
 
 ---
 
+```mermaid
+flowchart TD
+        A["Principal controls computer object"] --> B["RBCD attribute"]
+        B --> C["Service identity prerequisite"]
+        C --> D["S4U ticket request"]
+        D --> E["Target service access"]
+        E --> F["Validated consequence"]
+```
+
 # Final Notes
 
 Resource-Based Constrained Delegation reverses the traditional Kerberos delegation trust relationship.

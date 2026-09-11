@@ -3470,6 +3470,15 @@ Server-side considerations
 
 ---
 
+```mermaid
+flowchart TD
+  A["Schema and operation"] --> B["Authentication metadata"]
+  B --> C["Resolver authorization"]
+  C --> D["Object/field/tenant checks"]
+  D --> E["Query or mutation execution"]
+  E --> F["Safe read-back and evidence"]
+```
+
 # Final GraphQL Testing Model
 
 ```text

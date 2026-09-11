@@ -3491,6 +3491,18 @@ certipy auth -h
 
 ---
 
+```mermaid
+sequenceDiagram
+       participant C as Client
+       participant W as Web enrollment
+       participant CA as Certificate authority
+       C->>W: Authenticated certificate request
+       W->>CA: Forward request
+       CA-->>W: Issue or deny certificate
+       W-->>C: Result and certificate metadata
+       C->>C: Validate approved identity context
+```
+
 # Final Notes
 
 ESC8 is fundamentally an authentication relay problem combined with certificate enrollment.

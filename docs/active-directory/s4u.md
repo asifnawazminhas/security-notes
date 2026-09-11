@@ -4192,6 +4192,19 @@ active-directory/lateral-movement.md
 
 ---
 
+```mermaid
+sequenceDiagram
+        participant U as Delegated identity
+        participant K as KDC
+        participant S as Service
+        U->>K: S4U2Self request
+        K-->>U: Ticket for user-to-self
+        U->>K: S4U2Proxy request
+        K-->>U: Delegated service ticket
+        U->>S: Present ticket
+        S-->>U: Validate access and context
+```
+
 # Final Notes
 
 S4U is one of the most important concepts for understanding modern Active Directory Kerberos delegation.

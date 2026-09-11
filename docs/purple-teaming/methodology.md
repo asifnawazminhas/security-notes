@@ -3608,6 +3608,16 @@ That is the core purpose of a structured purple teaming methodology.
 
 ---
 
+```mermaid
+flowchart LR
+       A["Plan objective"] --> B["Execute behavior"]
+       B --> C["Observe telemetry"]
+       C --> D["Detect and investigate"]
+       D --> E["Improve controls"]
+       E --> F["Retest and transfer learning"]
+       F --> A
+```
+
 # Related Notes
 
 - [Purple Teaming](index.md)

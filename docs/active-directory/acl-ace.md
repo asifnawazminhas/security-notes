@@ -4667,6 +4667,15 @@ active-directory/sid-history.md
 
 ---
 
+```mermaid
+flowchart TD
+        A["ACE and security descriptor"] --> B["Trustee, inheritance and GUIDs"]
+        B --> C["Effective right"]
+        C --> D["Permitted security operation"]
+        D --> E["Target privilege and reachability"]
+        E --> F["Controlled validation and evidence"]
+```
+
 # Final Notes
 
 Active Directory ACLs define one of the most important security boundaries in the domain.

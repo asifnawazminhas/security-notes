@@ -1927,6 +1927,15 @@ Detailed static-analysis pages:
 
 ---
 
+```mermaid
+flowchart TD
+      A["Understand repository"] --> B["Map routes and trust boundaries"]
+      B --> C["Find sources and controls"]
+      C --> D["Trace sinks and variants"]
+      D --> E["Validate reachability"]
+      E --> F["Evidence and security conclusion"]
+```
+
 # Final Source Code Review Model
 
 The complete methodology can be reduced to five questions:

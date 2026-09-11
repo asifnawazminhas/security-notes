@@ -2402,6 +2402,15 @@ permission relationships.
 
 ---
 
+```mermaid
+flowchart TD
+    A["Observed condition"] --> B["Attacker influence"]
+    B --> C["Privileged dependency"]
+    C --> D["Trigger"]
+    D --> E["Boundary crossed"]
+    E --> F["Evidence and conclusion"]
+```
+
 # References
 
 - [Microsoft Windows Security](https://learn.microsoft.com/en-us/windows/security/){ target="_blank" rel="noopener noreferrer" }

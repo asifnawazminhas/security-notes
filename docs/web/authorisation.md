@@ -2822,6 +2822,16 @@ Good authorisation testing is ultimately about identifying **trust boundaries** 
 
 ---
 
+```mermaid
+flowchart TD
+  A["Authenticated identity"] --> B{"Function permitted?"}
+  B -->|No| C["Deny and record"]
+  B -->|Yes| D{"Object and tenant permitted?"}
+  D -->|No| C
+  D -->|Yes| E["Perform approved operation"]
+  E --> F["Validate resulting access or state"]
+```
+
 # References
 
 Useful references for further study:

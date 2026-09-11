@@ -1299,6 +1299,18 @@ A high-level review should include:
 
 ---
 
+# Mermaid Workflow View
+
+```mermaid
+flowchart TD
+      A["Scope and reconnaissance"] --> B["Map applications and inputs"]
+      B --> C["Test identity and access"]
+      C --> D["Test server and client behavior"]
+      D --> E["Validate candidate impact"]
+      E --> F["Evidence and security conclusion"]
+      F --> G["Remediation and retesting"]
+```
+
 # Final Web Testing Model
 
 Do not test web applications like this:

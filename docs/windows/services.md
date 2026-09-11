@@ -2873,6 +2873,15 @@ Finding
 
 ---
 
+```mermaid
+flowchart TD
+    A["Service account"] --> B["Service configuration"]
+    B --> C["Executable or dependency"]
+    C --> D["Low-privilege influence"]
+    D --> E["Restart/trigger"]
+    E --> F["Validated execution context"]
+```
+
 # Related Notes
 
 - [Windows](index.md)

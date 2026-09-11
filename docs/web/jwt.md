@@ -4624,6 +4624,15 @@ Useful JWT testing utility for authorised security assessments.
 
 ---
 
+```mermaid
+flowchart LR
+   A["Issuer"] --> B["Signed token"]
+   B --> C["Parser and algorithm checks"]
+   C --> D["Issuer/audience/time validation"]
+   D --> E["Claims to authorization"]
+   E --> F["Protected resource"]
+```
+
 # Final JWT Testing Model
 
 ```text

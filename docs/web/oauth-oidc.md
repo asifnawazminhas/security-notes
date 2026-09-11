@@ -3176,6 +3176,19 @@ Relevant because successful OAuth authentication normally results in an applicat
 
 ---
 
+```mermaid
+sequenceDiagram
+        participant C as Client
+        participant AS as Authorization Server
+        participant R as Resource Server
+        C->>AS: Authorization request and redirect_uri
+        AS-->>C: Code after authentication/consent
+        C->>AS: Code plus verifier/token request
+        AS-->>C: Access token and identity claims
+        C->>R: Token-protected request
+        R-->>C: Authorized resource response
+```
+
 # Final OAuth/OIDC Testing Model
 
 ```text

@@ -3483,6 +3483,15 @@ These require human reasoning.
 
 ---
 
+```mermaid
+flowchart TD
+      A["Static-analysis match"] --> B["Candidate triage"]
+      B --> C["Source/sink and reachability"]
+      C --> D["Framework/control review"]
+      D --> E["Manual or runtime validation"]
+      E --> F["Evidence and finding decision"]
+```
+
 # Final Static Analysis Model
 
 ```text

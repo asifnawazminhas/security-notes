@@ -3919,6 +3919,19 @@ Resolve-DnsName HOST
 
 ---
 
+```mermaid
+sequenceDiagram
+      participant O as Operator
+      participant E as Endpoint
+      participant S as SIEM
+      participant A as Analyst
+      O->>E: Authorized behavior
+      E->>S: Telemetry
+      S-->>A: Alert or case
+      A->>A: Investigate and respond
+      A-->>O: Outcome and evidence
+```
+
 # Final Detection Model
 
 ```text

@@ -2674,6 +2674,19 @@ A weakness in one authentication component can undermine otherwise strong contro
 
 ---
 
+```mermaid
+sequenceDiagram
+        participant U as User
+        participant A as Application
+        participant M as MFA/Recovery
+        participant S as Session
+        U->>A: Submit credentials
+        A->>M: Require second factor or recovery
+        M-->>A: Verified state
+        A->>S: Create or rotate session
+        S-->>U: Protected access
+```
+
 # References
 
 Useful references for further study:

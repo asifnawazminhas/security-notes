@@ -2916,6 +2916,15 @@ Regular scenario-based validation with measurable improvement
 
 ---
 
+```mermaid
+flowchart TD
+   A["Written authorization and ROE"] --> B["Approved scenario and population"]
+   B --> C["Controlled interaction"]
+   C --> D["Participant/control response"]
+   D --> E["Minimal evidence and debrief"]
+   E --> F["Objective, remediation and retest"]
+```
+
 # Final Social Engineering Model
 
 ```text

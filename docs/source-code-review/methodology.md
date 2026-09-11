@@ -4885,6 +4885,15 @@ Variant Analysis
 
 ---
 
+```mermaid
+flowchart LR
+    A["Architecture and entry points"] --> B["Sources"]
+    B --> C["Validation and authorization"]
+    C --> D["Transformations"]
+    D --> E["Sensitive sink"]
+    E --> F["Runtime/impact validation"]
+```
+
 # Final Source Code Review Model
 
 ```text

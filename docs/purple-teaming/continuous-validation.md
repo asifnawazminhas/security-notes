@@ -3734,6 +3734,17 @@ This turns purple teaming from a periodic exercise into a repeatable security-im
 
 ---
 
+```mermaid
+stateDiagram-v2
+        [*] --> Baseline
+        Baseline --> Exercise
+        Exercise --> Observation
+        Observation --> Remediation
+        Remediation --> Retest
+        Retest --> Baseline: improvement confirmed
+        Retest --> Remediation: gap remains
+```
+
 # Related Notes
 
 - [Purple Teaming Overview](index.md)

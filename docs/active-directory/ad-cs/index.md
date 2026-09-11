@@ -4439,6 +4439,16 @@ After that, the AD CS section can cover the individual ESC attack paths.
 
 ---
 
+```mermaid
+flowchart TD
+      A["CA discovery"] --> B["Published templates"]
+      B --> C["Enrollment and ACLs"]
+      C --> D["EKU and identity control"]
+      D --> E["Approval and mapping"]
+      E --> F["Minimum certificate validation"]
+      F --> G["Authentication consequence"]
+```
+
 # Final Notes
 
 Active Directory Certificate Services should be treated as:

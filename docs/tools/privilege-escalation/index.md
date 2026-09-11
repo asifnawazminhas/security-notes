@@ -2540,6 +2540,15 @@ This project includes WinPEAS and LinPEAS.
 
 ---
 
+```mermaid
+flowchart TD
+    A["Automated enumeration"] --> B["Candidate condition"]
+    B --> C["Effective permission check"]
+    C --> D["Privileged consumer and trigger"]
+    D --> E["Controlled validation"]
+    E --> F["Evidence and conclusion"]
+```
+
 # Final Testing Model
 
 Do not use privilege escalation tools like this:

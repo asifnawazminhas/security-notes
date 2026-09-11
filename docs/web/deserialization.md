@@ -2919,6 +2919,15 @@ ysoserial.net
 
 ---
 
+```mermaid
+flowchart LR
+     A["Serialized input"] --> B["Parser and type resolution"]
+     B --> C["Object construction"]
+     C --> D["Gadget or dangerous callback"]
+     D --> E["Runtime behavior"]
+     E --> F["Controlled validation and impact"]
+```
+
 # References
 
 ## PortSwigger Web Security Academy

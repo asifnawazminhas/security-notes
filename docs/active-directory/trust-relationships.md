@@ -3664,6 +3664,18 @@ PowerSploit is an older project. Verify functions and behaviour against the Powe
 
 ---
 
+```mermaid
+sequenceDiagram
+      participant S as Source identity
+      participant T as Trust boundary
+      participant H as Target service
+      participant R as Resource
+      S->>T: Cross-domain authentication
+      T->>H: Identity and policy evaluation
+      H->>R: Authorization check
+      R-->>S: Access, denial, or bounded result
+```
+
 # Final Notes
 
 Trust relationships should be analysed as:

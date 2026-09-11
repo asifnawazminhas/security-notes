@@ -3749,6 +3749,16 @@ Do I have credentials?
 
 ---
 
+```mermaid
+flowchart TD
+  A["Network and DNS"] --> B["LDAP and domain context"]
+  B --> C["Users, groups and computers"]
+  C --> D["SMB, Kerberos and services"]
+  D --> E["Permissions and sessions"]
+  E --> F["Candidate relationship"]
+  F --> G["Independent validation"]
+```
+
 # Final Enumeration Model
 
 ```text

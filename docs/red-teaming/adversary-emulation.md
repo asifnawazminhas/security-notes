@@ -3559,6 +3559,15 @@ detection engineering
 
 ---
 
+```mermaid
+flowchart LR
+   A["Threat assumption"] --> B["Select behaviors"]
+   B --> C["Bounded scenario"]
+   C --> D["Authorized execution"]
+   D --> E["Telemetry and response"]
+   E --> F["Validated learning"]
+```
+
 # Final Adversary Emulation Model
 
 ```text

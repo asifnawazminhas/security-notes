@@ -4048,6 +4048,15 @@ For conflicting results, check effective versus local configuration, policy relo
 
 Capture identity and group context, process and service details, relevant effective configuration, test input and expected result, actual result, timestamps, and correlated logs. Remediation should address the control that owns the boundary: permissions, sudo, MAC policy, capabilities, seccomp, mounts, systemd, container configuration, network control, or logging. Retest normal and denied behavior after reload or reboot, across the affected service context, and confirm legitimate operation remains available.
 
+```mermaid
+flowchart TD
+        A["Configured state"] --> B["Effective state"]
+        B --> C["Applicable process/context"]
+        C --> D["Controlled validation"]
+        D --> E["Observed result and logs"]
+        E --> F["Security conclusion"]
+```
+
 # Related Notes
 
 - [Linux Overview](index.md)

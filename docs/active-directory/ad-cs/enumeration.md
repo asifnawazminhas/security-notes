@@ -4208,6 +4208,15 @@ The next AD CS page is:
 
 ---
 
+```mermaid
+flowchart LR
+      A["Enumerate CAs"] --> B["Enumerate templates"]
+      B --> C["Publication and enrollment"]
+      C --> D["EKUs and subject control"]
+      D --> E["Candidate ESC condition"]
+      E --> F["Validate prerequisites"]
+```
+
 # Final Notes
 
 AD CS enumeration should not be reduced to:

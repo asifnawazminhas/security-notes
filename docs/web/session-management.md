@@ -1465,6 +1465,18 @@ curl -b cookies.txt \
 
 ---
 
+```mermaid
+stateDiagram-v2
+        [*] --> Unauthenticated
+        Unauthenticated --> Authenticated: successful login
+        Authenticated --> Rotated: privilege or factor change
+        Rotated --> Authenticated
+        Authenticated --> Expired: timeout or revocation
+        Authenticated --> LoggedOut: logout
+        Expired --> [*]
+        LoggedOut --> [*]
+```
+
 # Key Principle
 
 Session management testing is not simply checking whether a cookie contains `Secure` and `HttpOnly`.

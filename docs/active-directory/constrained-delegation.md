@@ -4091,6 +4091,15 @@ active-directory/lateral-movement.md
 
 ---
 
+```mermaid
+flowchart TD
+        A["Delegation configuration"] --> B["Trusted service identity"]
+        B --> C["S4U prerequisites"]
+        C --> D["Impersonated service ticket"]
+        D --> E["Target service authorization"]
+        E --> F["Controlled access consequence"]
+```
+
 # Final Notes
 
 Constrained delegation limits Kerberos delegation to explicitly configured backend services.

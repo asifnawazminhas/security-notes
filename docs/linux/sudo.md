@@ -2603,6 +2603,15 @@ If these questions cannot be answered, the sudo assessment is incomplete.
 
 ---
 
+```mermaid
+flowchart LR
+   A["Current user"] --> B["sudo policy"]
+   B --> C["Permitted command"]
+   C --> D["Arguments and environment"]
+   D --> E["Target user"]
+   E --> F["Validated capability"]
+```
+
 # Related Notes
 
 - [Linux Overview](index.md)

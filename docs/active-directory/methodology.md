@@ -3188,6 +3188,16 @@ Do I have credentials?
 
 ---
 
+```mermaid
+flowchart LR
+      A["Scope and starting position"] --> B["Enumerate context"]
+      B --> C["Map identities and relationships"]
+      C --> D["Select candidate path"]
+      D --> E["Validate prerequisites"]
+      E --> F["Controlled operation and evidence"]
+      F --> G["Re-enumerate and conclude"]
+```
+
 # Final Methodology Model
 
 ```text

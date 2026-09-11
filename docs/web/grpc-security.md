@@ -5258,6 +5258,15 @@ Path Traversal
 
 ---
 
+```mermaid
+flowchart TD
+  A["Service and method discovery"] --> B["Metadata authentication"]
+  B --> C["Method authorization"]
+  C --> D["Message/object validation"]
+  D --> E["Unary or streaming operation"]
+  E --> F["Observed result and evidence"]
+```
+
 # References
 
 ## OWASP gRPC Security Cheat Sheet

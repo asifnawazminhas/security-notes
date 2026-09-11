@@ -3467,6 +3467,15 @@ The later AD CS section should cover certificate-specific attack paths separatel
 
 ---
 
+```mermaid
+flowchart TD
+      A["Write permission"] --> B["KeyCredentialLink change"]
+      B --> C["Private key possession"]
+      C --> D["Certificate-based authentication"]
+      D --> E["Mapped identity and access"]
+      E --> F["Controlled consequence"]
+```
+
 # Final Notes
 
 Shadow Credentials demonstrates an important Active Directory security principle:

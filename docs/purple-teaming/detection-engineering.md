@@ -3783,6 +3783,16 @@ That is the purpose of detection engineering within purple teaming.
 
 ---
 
+```mermaid
+flowchart LR
+   A["Threat behavior"] --> B["Telemetry source"]
+   B --> C["Detection logic"]
+   C --> D["Alert and triage"]
+   D --> E["Analyst validation"]
+   E --> F["Tune and retest"]
+   F --> B
+```
+
 # Related Notes
 
 - [Purple Teaming](index.md)

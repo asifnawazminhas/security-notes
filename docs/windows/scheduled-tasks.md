@@ -3057,6 +3057,15 @@ Defensible finding
 ```
 
 
+```mermaid
+flowchart TD
+    A["Task principal"] --> B["Action and dependencies"]
+    B --> C["Writable or controllable input"]
+    C --> D["Trigger or schedule"]
+    D --> E["Observed process context"]
+    E --> F["Validated boundary"]
+```
+
 # Final Testing Principle
 
 Scheduled task testing is not:

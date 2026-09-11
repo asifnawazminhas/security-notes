@@ -2560,6 +2560,15 @@ Explain the attack path and its root causes.
 
 ---
 
+```mermaid
+flowchart TD
+      A["Objective and starting access"] --> B["Scope and ROE"]
+      B --> C["Candidate attack path"]
+      C --> D["Controlled execution"]
+      D --> E["Observed outcome and detection"]
+      E --> F["Cleanup, evidence and retest"]
+```
+
 # Related Notes
 
 - [Red Teaming](index.md)

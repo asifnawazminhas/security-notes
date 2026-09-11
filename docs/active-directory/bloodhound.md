@@ -3454,6 +3454,15 @@ active-directory/adcs/index.md
 
 ---
 
+```mermaid
+flowchart TD
+   A["Graph edge"] --> B["Candidate relationship"]
+   B --> C["Freshness and prerequisites"]
+   C --> D["Authentication/resource validation"]
+   D --> E["Controlled operation"]
+   E --> F["Demonstrated consequence"]
+```
+
 # Final Model
 
 ```text

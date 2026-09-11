@@ -2882,6 +2882,17 @@ Useful reference for structured testing of application-specific business rules.
 
 ---
 
+```mermaid
+stateDiagram-v2
+  [*] --> Draft
+  Draft --> Submitted: valid workflow action
+  Submitted --> Approved: authorized approval
+  Submitted --> Rejected: denied or invalid
+  Approved --> Fulfilled: server-side transition
+  Fulfilled --> Refunded: permitted reversal
+  Approved --> Submitted: replay or invalid transition candidate
+```
+
 # Final Business Logic Workflow
 
 ```text

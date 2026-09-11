@@ -2107,6 +2107,15 @@ Detailed tool pages:
 
 ---
 
+```mermaid
+flowchart LR
+      A["Map application"] --> B["Proxy and history"]
+      B --> C["Repeater/comparison"]
+      C --> D["Automation or extension"]
+      D --> E["Manual validation"]
+      E --> F["Evidence and report"]
+```
+
 # Final Testing Model
 
 Do not use web-testing tools like this:

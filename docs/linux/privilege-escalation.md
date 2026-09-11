@@ -5250,6 +5250,15 @@ Fix Root Cause
 
 ---
 
+```mermaid
+flowchart TD
+        A["Observed permission or control"] --> B["Attacker influence"]
+        B --> C["Privileged consumer"]
+        C --> D["Trigger"]
+        D --> E["Root or boundary crossed"]
+        E --> F["Evidence and remediation"]
+```
+
 # Related Notes
 
 - [Linux](index.md)

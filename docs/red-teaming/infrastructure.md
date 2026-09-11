@@ -1953,6 +1953,15 @@ Sensitive material should not remain indefinitely on disposable infrastructure.
 
 ---
 
+```mermaid
+flowchart TD
+   A["Owned component"] --> B["Access and exposure controls"]
+   B --> C["Target-facing operation"]
+   C --> D["Logging and scope check"]
+   D --> E["Safe use and evidence"]
+   E --> F["Rotation, teardown and cleanup"]
+```
+
 # Final Infrastructure Model
 
 A mature infrastructure design can be represented as:

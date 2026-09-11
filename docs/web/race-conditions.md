@@ -3229,6 +3229,18 @@ can provide greater control.
 
 ---
 
+```mermaid
+sequenceDiagram
+      participant C as Tester
+      participant A as Application
+      participant D as Shared state
+      C->>A: Concurrent request 1
+      C->>A: Concurrent request 2
+      A->>D: Competing read/write
+      D-->>A: Interleaved state
+      A-->>C: Compare final state and invariant
+```
+
 # References
 
 ## PortSwigger Web Security Academy: Race Conditions

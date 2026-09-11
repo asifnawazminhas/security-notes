@@ -2474,6 +2474,15 @@ Tool pages should support those methodology pages rather than duplicate them.
 
 ---
 
+```mermaid
+flowchart TD
+      A["Choose AD tool"] --> B["Collect scoped output"]
+      B --> C["Interpret context"]
+      C --> D["Form candidate relationship"]
+      D --> E["Validate with native/protocol evidence"]
+      E --> F["Report supported consequence"]
+```
+
 # Final Testing Model
 
 Do not use Active Directory tooling like this:
