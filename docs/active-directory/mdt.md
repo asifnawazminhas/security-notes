@@ -4453,6 +4453,62 @@ Deployment Access
 
 ---
 
+# MDT Access, Credential, and Execution Validation
+
+## Interpret the Deployment Path
+
+Use this sequence when assessing a suspected MDT weakness:
+
+```text
+Deployment share discovered
+    -> Data accessible to the tested identity
+    -> Sensitive material identified and classified
+    -> Credential or access capability validated
+    -> Resource access or administrative right validated
+    -> Execution consequence demonstrated
+    -> Evidence and security conclusion
+```
+
+These are separate claims. Share discovery does not prove file access; file read access does not prove that a credential is current; credential validity does not prove administrative rights; administrative rights do not prove execution on a managed system.
+
+## Effective Access and Credential Triage
+
+Record the share path, SMB identity, share permissions, NTFS permissions, inheritance, group membership, deployment-service context, and whether access is read-only or writable. Effective access may differ from a displayed share or ACL entry because of nested groups, deny entries, local versus domain identity, replication, offline media, or a different deployment server.
+
+Classify discovered material before validation:
+
+```text
+Username or identifier
+    -> Credential-like value or configuration reference
+    -> Current, stale, test, scoped, or unknown
+    -> Authentication accepted?
+    -> Resource access granted?
+    -> Administrative right granted?
+    -> Approved execution consequence?
+```
+
+A string in `Bootstrap.ini`, a task sequence, script, image, backup, or log is an observation. Compare it with ownership and lifecycle records, inspect scope and last-use information, and use the least-privileged read-only validation permitted by the rules of engagement. Do not test credentials against unrelated systems or report a username/password string as valid without evidence.
+
+## Task Sequences and Deployment Influence
+
+For a writable share, script, application installer, driver, image, or task sequence, identify which deployment workflow consumes it, under which account, on which hosts, and at what stage. A writable artifact becomes a candidate privilege path only when the privileged or trusted deployment process actually consumes it and the resulting identity or action is demonstrated.
+
+Use a dedicated test deployment or harmless marker where possible. Do not alter production task sequences, boot images, domain-join settings, deployment credentials, or managed hosts solely to prove influence. Capture the original state and restore approved test changes.
+
+## Expected Results, Evidence, and Retesting
+
+| Observation | Establishes | Still requires validation |
+|---|---|---|
+| Share is visible | The endpoint or share is discoverable | Effective file access and scope |
+| File is readable | The tested identity can retrieve it | Secret validity, privilege, or execution |
+| Credential authenticates | The service accepts the credential | Resource authorization or administrative rights |
+| Join account can add a computer | A directory operation is permitted | Broader administration or endpoint execution |
+| Deployment artifact is writable | The identity can modify the artifact | A trusted workflow consumes the modified content |
+
+Capture share and NTFS evidence, file path and hash, redacted sensitive material, identity and scope, credential lifecycle status, authentication result, resource or administrative result, deployment workflow, execution context, timestamps, and the minimum demonstrated consequence. Remediation should remove plaintext credentials, narrow share and NTFS access, separate read/write roles, reduce join-account rights, rotate exposed secrets, protect deployment artifacts and backups, and retire stale infrastructure. Retest access, credential rejection or scope, legitimate deployment, and any previously demonstrated workflow after replication or deployment refresh.
+
+Related technical notes: [SMB](smb.md), [Shares](shares.md), [Credentials](credential-access.md), [Lateral Movement](lateral-movement.md), [Windows Privilege Escalation](../windows/privilege-escalation.md), and [Active Directory ACL and ACE Abuse](acl-ace.md).
+
 # Related Notes
 
 Active Directory:

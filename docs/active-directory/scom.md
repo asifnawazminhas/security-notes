@@ -4259,6 +4259,57 @@ Security Impact
 
 ---
 
+# SCOM Capability and Execution Validation
+
+## Interpret the Management Path
+
+Use this reasoning chain for an interesting SCOM relationship:
+
+```text
+SCOM relationship or permission observed
+      -> Candidate operation identified
+      -> Effective role, scope, account, and prerequisite validated
+      -> Minimum controlled operation tested
+      -> Resulting access or endpoint consequence demonstrated
+      -> Evidence and security conclusion
+```
+
+Keep these capabilities separate:
+
+```text
+Visibility / monitoring
+      != ability to modify monitoring configuration
+      != ability to create or alter management content
+      != ability to trigger a task or workflow
+      != administrative control
+      != actual endpoint execution
+```
+
+Membership in an SCOM role, visibility of an agent, an available task, or a Run As profile is not automatically remote code execution or domain compromise. Determine what the effective role permits, which management group and objects are in scope, which security context performs the operation, and whether a managed endpoint actually executes it.
+
+## Effective Permissions and Controlled Validation
+
+For each candidate, record the management group, user or group, SCOM role, target object, management pack, task or workflow, Run As account/profile, agent relationship, endpoint, network path, and expected result. Resolve nested group membership and distribution scope, compare configured role membership with effective permissions, and check whether approval, operator action, health state, or another prerequisite is required.
+
+Prefer read-only inspection and a dedicated test agent or harmless task. If active validation is authorised, use a benign marker and the least privileged operation that answers the question. Do not modify management packs, deploy agents, redistribute Run As credentials, trigger production recovery actions, or execute arbitrary commands merely because the interface exposes the capability.
+
+| Observation | Establishes | Still requires validation |
+|---|---|---|
+| Operator can view an alert or agent | Monitoring visibility | Configuration, task, or endpoint control |
+| SCOM role is assigned | A configured role relationship | Effective permitted operations and scope |
+| Run As profile exists | A credential mapping is configured | Distribution, validity, privilege, and use by a workflow |
+| Task is listed | A task definition is available | Who can trigger it, its security context, and actual execution |
+| Management pack is writable | A content modification candidate | Whether trusted workflows consume the change |
+| Agent is managed | A management relationship exists | Endpoint access, service identity, and execution consequence |
+
+## Troubleshooting, Evidence, and Retesting
+
+For conflicting results, check management-group scope, nested role membership, SDK versus console permissions, approval state, Run As distribution, agent health, proxy or gateway paths, service account logon rights, task parameters, management-pack version, replication or configuration refresh, endpoint policy, and whether the observed event came from SCOM or another process. Repeat the baseline with the same identity and target.
+
+Capture role and group membership, effective permission, target agent, task/workflow or management pack, Run As context without exposing credentials, request and approval state, event and process evidence, timestamps, and the exact endpoint consequence. Remediation should narrow SCOM roles, protect management packs and scripts, restrict Run As distribution, secure management servers and agents, limit task execution, and separate monitoring from administration. Retest visibility, configuration change, task triggering, and endpoint execution independently after refresh, restart, or replication, while confirming legitimate monitoring remains functional.
+
+Related technical notes: [Active Directory ACL and ACE Abuse](acl-ace.md), [Credentials](credential-access.md), [Windows Services](../windows/services.md), [Windows Privilege Escalation](../windows/privilege-escalation.md), and [Active Directory Lateral Movement](lateral-movement.md).
+
 # Related Notes
 
 Active Directory:
