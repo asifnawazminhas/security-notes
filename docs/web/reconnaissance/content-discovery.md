@@ -1382,7 +1382,7 @@ Prioritisation should also consider the application's purpose and assessment sco
 
 A practical content discovery workflow could be:
 
-### 1. Manual browsing
+## 1. Manual browsing
 
 Use:
 

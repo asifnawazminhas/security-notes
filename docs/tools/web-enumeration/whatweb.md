@@ -1924,7 +1924,7 @@ JQuery
 Title[Customer Portal]
 ```
 
-### Step 1 - Inspect Headers
+## Step 1 - Inspect Headers
 
 ```bash
 curl -I https://example.test

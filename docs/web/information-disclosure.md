@@ -594,6 +594,10 @@ Exploit development
 
 Inspect page source for comments.
 
+The following are sanitized examples of comments a tester might discover in an
+assessed application. They are not repository TODO items or unfinished work in
+these notes.
+
 Example:
 
 ```html
@@ -619,6 +623,10 @@ Comments can reveal functionality that is not linked through the visible interfa
 # Developer Comments
 
 Search for:
+
+These terms are search indicators for developer comments or exposed artifacts in
+the target application. Their presence in this example list does not indicate
+unfinished work in this documentation.
 
 ```text
 TODO

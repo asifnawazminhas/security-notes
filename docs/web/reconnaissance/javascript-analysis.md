@@ -1959,7 +1959,7 @@ This is why JavaScript analysis belongs early in the reconnaissance process.
 
 # 61. Quick Reference
 
-### Crawl JavaScript
+## Crawl JavaScript
 
 ```bash
 katana -u https://example.com -jc -kf all -d 5

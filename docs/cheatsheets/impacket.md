@@ -383,7 +383,7 @@ Connect:
 impacket-smbclient 'corp.local/asif:Password123!@10.10.10.20'
 ```
 
-### Representative Session
+## Representative Session
 
 ```text
 Impacket v...
@@ -518,7 +518,7 @@ Authenticated example:
 impacket-lookupsid 'corp.local/asif:Password123!@10.10.10.10'
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 [*] Brute forcing SIDs at 10.10.10.10
@@ -663,7 +663,7 @@ Authenticated enumeration:
 impacket-GetUserSPNs 'corp.local/asif:Password123!' -dc-ip 10.10.10.10
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 ServicePrincipalName             Name       MemberOf
@@ -1298,7 +1298,7 @@ Password-based authorised example:
 impacket-wmiexec 'corp.local/asif:Password123!@10.10.10.20'
 ```
 
-### What Success Proves
+## What Success Proves
 
 A successful remote administrative session demonstrates that:
 

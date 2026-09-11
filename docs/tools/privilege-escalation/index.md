@@ -1971,7 +1971,7 @@ Remediation commonly involves removing the user's ability to influence privilege
 
 Examples:
 
-### Windows
+## Windows
 
 - correct service binary ACLs;
 - correct service configuration ACLs;

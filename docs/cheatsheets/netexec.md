@@ -107,7 +107,7 @@ General help:
 nxc --help
 ```
 
-### Why Version Matters
+## Why Version Matters
 
 NetExec changes over time.
 
@@ -318,7 +318,7 @@ Administrative access
 nxc smb 10.10.10.20
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 SMB  10.10.10.20  445  SRV01  [*] Windows Server 2022 Build 20348 x64 (name:SRV01) (domain:corp.local) (signing:True) (SMBv1:False)
@@ -399,7 +399,7 @@ If SMBv1 is reported as enabled, investigate why the legacy protocol is still re
 nxc smb 10.10.10.20 -u 'asif' -p 'Password123!'
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 SMB  10.10.10.20  445  SRV01  [+] corp.local\asif:Password123!
@@ -558,7 +558,7 @@ A successful administrative result may resemble:
 SMB  10.10.10.20  445  SRV01  [+] corp.local\asif:Password123! (Pwn3d!)
 ```
 
-### What `Pwn3d!` Means
+## What `Pwn3d!` Means
 
 NetExec uses `(Pwn3d!)` to indicate administrative-level access relevant to the tested protocol/host.
 
@@ -642,7 +642,7 @@ Validate only the minimum required privilege
 nxc smb 10.10.10.20 -u 'asif' -p 'Password123!' --shares
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 SMB  10.10.10.20  445  SRV01  Share       Permissions
@@ -885,7 +885,7 @@ Domain configuration
 nxc ldap 10.10.10.10
 ```
 
-### Representative Output
+## Representative Output
 
 Depending on the environment/version, NetExec may identify information such as:
 
@@ -906,7 +906,7 @@ LDAP availability
 nxc ldap 10.10.10.10 -u 'asif' -p 'Password123!'
 ```
 
-### Interpretation
+## Interpretation
 
 Successful LDAP authentication means the account can authenticate to the directory service through the tested path.
 
@@ -1215,7 +1215,7 @@ Network exposure alone does not demonstrate access.
 nxc winrm 10.10.10.20 -u 'asif' -p 'Password123!'
 ```
 
-### Representative Outcome
+## Representative Outcome
 
 A successful result indicates that the supplied account was accepted for the tested WinRM path.
 
@@ -1491,7 +1491,7 @@ A common form for authorised SMB testing is:
 nxc smb 10.10.10.20 -u 'asif' -H '0123456789abcdef0123456789abcdef'
 ```
 
-### Interpretation
+## Interpretation
 
 If authentication succeeds, the tested NTLM credential material was sufficient for authentication to that target through the selected protocol.
 

@@ -150,7 +150,7 @@ $env:USERDNSDOMAIN
 $env:LOGONSERVER
 ```
 
-### Interpretation
+## Interpretation
 
 Example:
 
@@ -195,7 +195,7 @@ Using `nltest`:
 nltest /dsgetdc:corp.local
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 DC: \\DC01.corp.local
@@ -206,7 +206,7 @@ Forest Name: corp.local
 Dc Site Name: HQ
 ```
 
-### Interpretation
+## Interpretation
 
 This can identify:
 
@@ -243,7 +243,7 @@ nslookup -type=SRV _ldap._tcp.dc._msdcs.corp.local
 _ldap._tcp.dc._msdcs.corp.local. 600 IN SRV 0 100 389 dc01.corp.local.
 ```
 
-### Interpretation
+## Interpretation
 
 This indicates that:
 
@@ -301,7 +301,7 @@ A focused scan against an authorised domain controller:
 nmap -Pn -sT -p 53,88,135,139,389,445,464,636,3268,3269 "$DC_IP"
 ```
 
-### Interpretation
+## Interpretation
 
 A typical domain controller commonly exposes several of:
 
@@ -363,7 +363,7 @@ Reverse lookup:
 dig -x "$DC_IP"
 ```
 
-### Why DNS Matters
+## Why DNS Matters
 
 Active Directory depends heavily on DNS.
 
@@ -411,13 +411,13 @@ Prefer functioning DNS in real environments rather than relying extensively on s
 nxc smb "$DC_IP"
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 SMB  10.10.10.10  445  DC01  [*] Windows Server 2022 Build 20348 x64 (name:DC01) (domain:corp.local) (signing:True) (SMBv1:False)
 ```
 
-### Interpretation
+## Interpretation
 
 Useful fields include:
 
@@ -450,13 +450,13 @@ Do not treat every SMB configuration value as a vulnerability without understand
 nxc smb "$DC_IP" -u "$USER" -p "$PASSWORD"
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 SMB  10.10.10.10  445  DC01  [+] corp.local\asif:Password123!
 ```
 
-### Interpretation
+## Interpretation
 
 `[+]` indicates authentication succeeded.
 
@@ -491,7 +491,7 @@ You may see output similar to:
 SMB  10.10.10.20  445  SRV01  [+] corp.local\asif:Password123! (Pwn3d!)
 ```
 
-### Interpretation
+## Interpretation
 
 `(Pwn3d!)` is NetExec's indication that the tested account has administrative-level access relevant to the SMB assessment on that host.
 
@@ -541,7 +541,7 @@ Scope mistakes
 nxc smb "$TARGET" -u "$USER" -p "$PASSWORD" --shares
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 SMB  10.10.10.20  445  SRV01  Share       Permissions
@@ -653,7 +653,7 @@ A useful initial LDAP query:
 ldapsearch -x -H "ldap://$DC_IP" -s base namingContexts
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 namingContexts: DC=corp,DC=local
@@ -661,7 +661,7 @@ namingContexts: CN=Configuration,DC=corp,DC=local
 namingContexts: CN=Schema,CN=Configuration,DC=corp,DC=local
 ```
 
-### Interpretation
+## Interpretation
 
 The domain naming context is:
 
@@ -684,7 +684,7 @@ ldapsearch -x \
   sAMAccountName
 ```
 
-### Interpretation
+## Interpretation
 
 Look for:
 
@@ -709,7 +709,7 @@ ldapsearch -x \
   dNSHostName
 ```
 
-### Representative Result
+## Representative Result
 
 ```text
 dNSHostName: DC01.corp.local
@@ -779,7 +779,7 @@ Specific user:
 net user asif /domain
 ```
 
-### Why Native Commands Matter
+## Why Native Commands Matter
 
 They can provide useful context when:
 
@@ -1116,7 +1116,7 @@ Target Service
 klist
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 Cached Tickets: (2)
@@ -1125,7 +1125,7 @@ Cached Tickets: (2)
     Server: krbtgt/CORP.LOCAL @ CORP.LOCAL
 ```
 
-### Interpretation
+## Interpretation
 
 A `krbtgt` ticket indicates a Ticket Granting Ticket is present in the current cache.
 
@@ -1195,7 +1195,7 @@ impacket-GetUserSPNs \
   -dc-ip "$DC_IP"
 ```
 
-### Representative Output
+## Representative Output
 
 ```text
 ServicePrincipalName          Name       MemberOf
@@ -1204,7 +1204,7 @@ MSSQLSvc/sql01.corp.local     svc_sql
 HTTP/web01.corp.local         svc_web
 ```
 
-### Interpretation
+## Interpretation
 
 This identifies accounts with SPNs.
 
@@ -1271,7 +1271,7 @@ For Impacket capabilities:
 impacket-GetNPUsers -h
 ```
 
-### Interpretation
+## Interpretation
 
 A returned account should be investigated for:
 
@@ -1347,7 +1347,7 @@ Minimum password age
 Maximum password age
 ```
 
-### Interpretation
+## Interpretation
 
 The policy helps determine whether authentication testing could lock accounts.
 
@@ -1403,7 +1403,7 @@ Example:
 (signing:True)
 ```
 
-### Interpretation
+## Interpretation
 
 SMB signing configuration affects the feasibility of some relay scenarios.
 
@@ -1721,7 +1721,7 @@ PowerShell:
 Get-ADGroupMember "Domain Admins" -Recursive
 ```
 
-### Why Recursive Membership Matters
+## Why Recursive Membership Matters
 
 Privilege may be inherited through nested groups.
 
@@ -1907,7 +1907,7 @@ Template settings
 Potentially risky configurations
 ```
 
-### Important
+## Important
 
 Do not report an `ESC` classification solely because a tool labels something as vulnerable.
 
@@ -2375,7 +2375,7 @@ The presence of a protocol does not prove the current account can use it.
 nmap -Pn -sT -p 5985,5986 "$TARGET"
 ```
 
-### Interpretation
+## Interpretation
 
 Open `5985` or `5986` indicates WinRM may be available.
 
@@ -2411,7 +2411,7 @@ For authorised remote administration:
 evil-winrm -i "$TARGET" -u "$USER" -p "$PASSWORD"
 ```
 
-### Interpretation
+## Interpretation
 
 A successful session demonstrates that the account has sufficient access for the tested WinRM path.
 
