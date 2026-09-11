@@ -1467,6 +1467,46 @@ This does not replace appropriate validation in security-sensitive workflows.
 
 ---
 
+# Redirect Impact Validation
+
+## Interpret the Redirect Chain
+
+Treat redirect testing as a sequence rather than a single status code:
+
+```text
+Redirect behavior
+  -> Attacker-controlled destination
+  -> Destination survives parsing and normalization
+  -> Security-sensitive workflow uses the redirect
+  -> Token, trust, user action, or boundary consequence demonstrated
+```
+
+A `3xx` response to an external destination establishes redirect behavior. It does not by itself establish token theft, account takeover, authentication bypass, or OAuth compromise. Record whether the destination is relative, same-origin, an approved external host, protocol-relative, or controlled by a nested/encoded parameter.
+
+## OAuth, SSO, and Recovery Validation
+
+For OAuth/OIDC or SSO flows, map the complete authorization request and callback. Confirm the registered `redirect_uri`, exact or pattern matching, state and nonce handling, authorization-code delivery, and whether an attacker-controlled redirect causes a code, token, assertion, or authenticated browser action to reach an unintended destination. Use dedicated test clients and identities; do not collect real users' tokens.
+
+Apply the same restraint to password reset, email verification, invitation, logout, payment, and post-login redirects. A redirect becomes more significant when it changes where a security-sensitive artifact or user action is delivered, but that consequence must be demonstrated safely.
+
+## Expected Results and Troubleshooting
+
+| Observation | Establishes | Still requires validation |
+|---|---|---|
+| External `Location` is returned | Server-side redirect to that destination | Whether a sensitive workflow uses it |
+| Relative path is accepted | Internal navigation behavior | Whether normalization can escape the intended origin |
+| Encoded/nested value redirects | Parser or parameter handling behavior | Whether the final destination crosses a security boundary |
+| OAuth request is rejected | One redirect validation path denied | Whether alternate clients, endpoints, or callback forms differ |
+| Browser and proxy differ | Client or intermediary behavior differs | The application-side redirect decision and artifact flow |
+
+For inconsistent results, check duplicate parameters, URL decoding order, backslashes, fragments, userinfo, ports, scheme-relative URLs, redirects followed by the client, cached responses, allowlist normalization, and whether the proxy or browser rewrites the request. Repeat with a harmless controlled destination and preserve the full chain.
+
+## Evidence, Remediation, and Retesting
+
+Capture the baseline and modified request, every `Location` hop, final destination, account and workflow state, parameter encoding, registered OAuth client configuration where authorised, and the minimum safe evidence of any exposed artifact or user action. Redact codes, tokens, reset values, and personal data.
+
+Remediation should use strict origin or path allowlists, consistent URL parsing and normalization, safe relative navigation, exact OAuth/OIDC redirect URI registration, state and nonce protection, and explicit handling for recovery and invitation workflows. Retest direct, encoded, nested, duplicate-parameter, client-side, server-side, and workflow-specific variants. See [OAuth/OIDC](oauth-oidc.md), [Authentication](authentication.md), [Password Reset](password-reset.md), and [Burp Suite Testing Workflows](burp-suite/workflows.md).
+
 # Open Redirect Testing Checklist
 
 ## Discovery

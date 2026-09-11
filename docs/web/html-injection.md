@@ -1217,6 +1217,55 @@ This is particularly useful when testing applications with many workflows.
 
 ---
 
+# Controlled Validation and Impact Boundaries
+
+## Interpret the Rendering Context
+
+First record where the value enters the response or DOM:
+
+```text
+Plain text context
+  -> HTML element context
+  -> Attribute context
+  -> URL-valued attribute
+  -> Script or style context
+  -> Client-side DOM sink
+```
+
+The same marker can be harmless in text and dangerous in an attribute or script context. Compare the raw HTTP response, parsed DOM, and rendered page. Browser normalization, entity decoding, malformed-tag recovery, templating, and client-side framework behavior can change what is actually interpreted.
+
+Reflected HTML injection is visible in the response associated with the request. Stored HTML injection persists and affects later viewers. DOM-based behavior may never appear in the server response and requires tracing the client-side source and sink. These are different observations and should be reported separately.
+
+## Markup Injection Is Not Automatically XSS
+
+Use a harmless visual marker first, then test whether the application permits markup that changes structure, links, forms, or user interaction. JavaScript execution requires a separate, explicitly authorised demonstration in the relevant browser context.
+
+```text
+HTML markup accepted
+  != JavaScript execution
+  != confirmed XSS
+```
+
+Check output encoding, context-aware sanitisation, trusted-type or framework behavior, CSP, event-handler handling, URL scheme filtering, and whether the value reaches a script-capable sink. Link or form manipulation can have meaningful integrity or phishing impact without proving script execution; do not claim account takeover or XSS without demonstrating the required consequence.
+
+## Expected Results and Troubleshooting
+
+| Observation | Establishes | Still requires validation |
+|---|---|---|
+| Marker appears in raw response | Input is reflected or returned | Whether the browser parses it as markup |
+| Elements appear in the DOM | Markup was interpreted | Whether another user can be affected and what interaction is possible |
+| Stored marker appears for another account | Persistence and viewer reachability | Whether the content crosses a meaningful trust boundary |
+| Script-like text is displayed | Output handling may be weak | That script execution is possible in the actual context |
+| Marker is absent from the response | No server-side reflection at that location | Client-side sources, alternate responses, or encoding changes |
+
+If Burp and the browser disagree, compare the raw response, decoded response, DOM inspector, CSP console messages, browser extensions, sanitiser version, and application state. Re-establish a baseline and change one context or encoding variable at a time. A scanner match or visible text fragment is a candidate, not a confirmed XSS finding.
+
+## Evidence, Remediation, and Retesting
+
+Capture the input location and context, redacted request and response, raw-versus-DOM comparison, account or viewer state, storage and retrieval sequence, CSP and cookie context where relevant, and the minimum harmless proof of structural or user-impacting change. Link the conclusion to the affected viewer and action rather than to the payload alone.
+
+Remediation should use context-aware output encoding, constrained sanitisation for intentionally rich content, safe URL and attribute handling, server-side enforcement, and appropriate CSP. Retest reflected, stored, and DOM paths across relevant roles, browsers, response formats, and previously affected viewer workflows. See [Cross-Site Scripting](xss.md), [Content Security Policy](http-security-headers.md), [CSRF](csrf.md), and [Burp Suite Testing Workflows](burp-suite/workflows.md).
+
 # Testing Checklist
 
 ## Discovery

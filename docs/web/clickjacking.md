@@ -2029,6 +2029,36 @@ This is more accurate than exaggerating the finding.
 
 ---
 
+# Frameability, Interaction, and Retesting
+
+## Interpret the Security Boundary
+
+Use this sequence:
+
+```text
+Page can be framed
+      -> Sensitive interaction can be positioned or influenced
+      -> Authenticated user can reach the page in the test context
+      -> Meaningful state-changing action can be demonstrated
+      -> Security conclusion
+```
+
+Missing `X-Frame-Options` or `Content-Security-Policy: frame-ancestors` establishes a frameability observation, not automatically a significant vulnerability. Consider the page's authentication requirements, action sensitivity, CSRF protections, SameSite cookie behavior, browser policy, user interaction, and whether a framing ancestor is actually permitted.
+
+`frame-ancestors` controls who may embed the protected page; `frame-src` controls what a page may embed and is not a substitute. Modern browsers generally give CSP `frame-ancestors` precedence where supported, while legacy or unsupported clients may interpret `X-Frame-Options`. Record multiple policies, report-only policy, nested frames, and browser differences rather than assuming one header determines every client.
+
+## Controlled Validation and Troubleshooting
+
+Use a local or approved test origin and a dedicated account. Begin with a non-sensitive page, then test an authenticated page and a reversible state-changing action only when explicitly authorised. Do not use deceptive links or real users. Confirm that cookies are sent in the framing context, the page renders, the overlay can influence the intended interaction, and the resulting action is accepted by the server.
+
+If the page appears frameable but the proof does not work, check CSP and X-Frame-Options on the final response, redirects, nested ancestors, response-specific headers, SameSite cookie mode, authentication state, browser version, sandboxing, cross-origin restrictions, UI scaling, and whether CSRF or reauthentication prevents the action. A blocked action is useful evidence that the control chain limits impact.
+
+## Evidence, Remediation, and Retesting
+
+Capture response headers, final URL, browser and account context, framing origin, screenshot or video of the controlled interaction, action result, CSRF and cookie conditions, and the expected-versus-observed behavior. Report the demonstrated action and affected users, not merely the missing header.
+
+Remediation should use an appropriate CSP `frame-ancestors` policy, retain compatible `X-Frame-Options` where required, protect state-changing actions with robust CSRF and reauthentication controls, and review legitimate embedding requirements. Retest unauthenticated and authenticated pages, sensitive actions, redirects, nested framing, supported browsers, and the final response after deployment. See [HTTP Security Headers](http-security-headers.md), [CSRF](csrf.md), [Authentication](authentication.md), and [Authorisation](authorisation.md).
+
 # Reporting Titles
 
 Prefer specific titles:

@@ -1165,6 +1165,47 @@ Subdomain enumeration is therefore not an isolated reconnaissance task. It is th
 
 ---
 
+## Ownership, Scope, and Takeover Triage
+
+Treat every discovered hostname as a candidate asset:
+
+```text
+Candidate hostname
+  -> Normalize and deduplicate
+  -> DNS validation
+  -> Service and HTTP validation
+  -> Ownership and authorised-scope validation
+  -> Security relevance and evidence
+```
+
+Normalize case, trailing dots, wildcard records, internationalized names, ports, schemes, redirects, and aliases before deduplicating. A hostname resolving to a CDN, SaaS provider, cloud load balancer, or shared platform is not automatically owned by the assessed organization or in scope. Confirm ownership through the engagement scope, DNS authority, asset inventory, certificate context, application behavior, and the responsible provider where appropriate.
+
+## Wildcard DNS and Historical Records
+
+Query known-random labels to detect wildcard DNS before treating a resolved hostname as a real asset. Compare the answer, wildcard target, HTTP response, certificate, and application content with a known valid hostname. Wildcard resolution can make nonexistent names appear live and can produce misleading HTTP or takeover signals.
+
+Historical, certificate, repository, search-engine, and passive-source results may identify retired or reassigned names. Preserve the source and timestamp, then revalidate DNS, HTTP, certificate, ownership, and scope before prioritising the asset.
+
+## Takeover Candidate Versus Confirmed Condition
+
+Do not treat an `NXDOMAIN`, dangling CNAME, provider-branded error page, or third-party service as a confirmed takeover. Validate the complete dependency:
+
+```text
+DNS dependency
+  -> Provider or service state
+  -> Ownership and control validation
+  -> Safe provider-specific confirmation
+  -> Evidence and security conclusion
+```
+
+Use a harmless, provider-approved confirmation method only when explicitly authorised. Do not claim control, register a resource, or modify third-party infrastructure merely because a record appears dangling. Record DNS answers, CNAME chain, TTL, resolver and timestamp, HTTP/TLS behavior, provider error, scope decision, and the reason the condition is confirmed or remains a candidate.
+
+## Evidence and Retesting
+
+Store normalized candidate lists with source, discovery time, resolution result, HTTP status/title, technology indicators, ownership decision, scope status, and follow-up action. Keep raw tool output separately from the deduplicated assessment dataset. Troubleshoot inconsistent results by checking resolver differences, caching, split DNS, wildcard records, CDN behavior, rate limits, redirects, virtual hosts, and stale certificates.
+
+Retest prioritized hosts after DNS, deployment, provider, or ownership changes. Confirm that a removed asset no longer resolves or serves the previous application, and confirm that legitimate assets remain in scope and reachable. Continue with [Content Discovery](content-discovery.md), [Technology Identification](technology-identification.md), [HTTP Probing](../../tools/web-enumeration/httpx.md), and the relevant [Web Attack Surface Analysis](../attack-surface-analysis.md).
+
 ## Related Notes
 
 * [Reconnaissance Overview](index.md)
