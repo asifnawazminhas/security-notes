@@ -5,21 +5,30 @@ description: Observation-led Windows and Linux privilege escalation reference co
 
 # PrivEsc Explorer
 
-<div class="privesc-hero privesc-landing-hero">
+<div class="privesc-hero privesc-landing-hero" markdown>
 
 <span class="privesc-eyebrow">Observation-led assessment workflow</span>
 
-<h2>From an observation to a defensible security conclusion</h2>
+## From an observation to a defensible security conclusion
 
-<p>
-PrivEsc Explorer turns host-enumeration results into structured investigation paths.
-Start with what you actually observed, identify a candidate mechanism, verify the privilege
-relationship, choose proportionate validation, and record evidence without treating tool
-output as an automatic vulnerability verdict.
-</p>
+PrivEsc Explorer turns host-enumeration results into structured investigation paths. Start with what you actually observed, identify a candidate mechanism, verify the privilege relationship, choose proportionate validation, and record evidence without treating tool output as an automatic vulnerability verdict.
 
 <div class="privesc-workflow-strip">
-<span>Observation</span><b>→</b><span>Candidate</span><b>→</b><span>Preconditions</span><b>→</b><span>Privileged Consumer</span><b>→</b><span>Trigger</span><b>→</b><span>Boundary</span><b>→</b><span>Evidence</span><b>→</b><span>Conclusion</span>
+<span>Observation</span>
+<b>→</b>
+<span>Candidate</span>
+<b>→</b>
+<span>Preconditions</span>
+<b>→</b>
+<span>Privileged Consumer</span>
+<b>→</b>
+<span>Trigger</span>
+<b>→</b>
+<span>Boundary</span>
+<b>→</b>
+<span>Evidence</span>
+<b>→</b>
+<span>Conclusion</span>
 </div>
 
 </div>
@@ -32,7 +41,7 @@ output as an automatic vulnerability verdict.
 
 <div class="privesc-platform-grid">
 
-<div class="privesc-platform-card privesc-platform-windows">
+<div class="privesc-platform-card privesc-platform-windows" markdown>
 
 <span class="privesc-platform-icon">W</span>
 
@@ -41,14 +50,18 @@ output as an automatic vulnerability verdict.
 Investigate services, scheduled tasks, token privileges, filesystem and registry ACLs, DLL loading, credentials, application control, UAC, applications and drivers.
 
 <div class="privesc-platform-tags">
-<span>Services</span><span>Tokens</span><span>ACLs</span><span>DLLs</span><span>Credentials</span>
+<span>Services</span>
+<span>Tokens</span>
+<span>ACLs</span>
+<span>DLLs</span>
+<span>Credentials</span>
 </div>
 
 [Open Windows Explorer](windows.md){ .md-button .md-button--primary }
 
 </div>
 
-<div class="privesc-platform-card privesc-platform-linux">
+<div class="privesc-platform-card privesc-platform-linux" markdown>
 
 <span class="privesc-platform-icon">L</span>
 
@@ -57,7 +70,11 @@ Investigate services, scheduled tasks, token privileges, filesystem and registry
 Investigate sudo, SUID/SGID, capabilities, systemd, cron, writable resources, credentials, groups, containers, sockets, NFS and kernel candidates.
 
 <div class="privesc-platform-tags">
-<span>sudo</span><span>SUID</span><span>Capabilities</span><span>systemd</span><span>Containers</span>
+<span>sudo</span>
+<span>SUID</span>
+<span>Capabilities</span>
+<span>systemd</span>
+<span>Containers</span>
 </div>
 
 [Open Linux Explorer](linux.md){ .md-button .md-button--primary }
@@ -113,11 +130,13 @@ The Explorer uses assessment language carefully.
 
 | State | Meaning |
 |---|---|
-| Candidate | An observation may be relevant, but applicability and prerequisites still require investigation |
-| Supported | The important prerequisites and privilege relationship are supported by evidence, but the boundary has not necessarily been exercised |
-| Confirmed | Authorised validation demonstrated the stated capability or privilege boundary |
+| **Candidate** | An observation may be relevant, but applicability and prerequisites still require investigation |
+| **Supported** | The important prerequisites and privilege relationship are supported by evidence, but the boundary has not necessarily been exercised |
+| **Confirmed** | Authorised validation demonstrated the stated capability or privilege boundary |
 
-A technique card's static confidence field describes the quality or maturity of the reference entry. It is not a live verdict for the assessed host.
+!!! info "Reference confidence is not assessment status"
+
+    A technique card's static confidence field describes the quality or maturity of the reference entry. It is not a live verdict for the assessed host.
 
 Keep these conclusions separate:
 
@@ -169,7 +188,7 @@ Not every significant issue requires a privileged consumer. Exposed credentials 
 | Credentials | Which identity does exposed material represent and what access does it support? | [Credentials](../windows/credentials.md) |
 | Execution controls | What policy is effective for the current user, file and process? | [Application Control](../windows/application-control.md), [PowerShell](../windows/powershell.md), [Defender](../windows/defender.md) |
 
-[Open Windows PrivEsc Explorer](windows.md)
+[Open Windows PrivEsc Explorer](windows.md){ .md-button }
 
 ### Linux
 
@@ -183,7 +202,7 @@ Not every significant issue requires a privileged consumer. Exposed credentials 
 | Credentials | Which secrets are exposed and why do they matter? | [Credentials](../linux/credentials.md) |
 | Kernel and controls | Do patch state, namespaces or confinement affect the candidate? | [Enumeration](../linux/enumeration.md), [Security Controls](../linux/security-controls.md) |
 
-[Open Linux PrivEsc Explorer](linux.md)
+[Open Linux PrivEsc Explorer](linux.md){ .md-button }
 
 ## Safe Validation and Evidence
 
@@ -201,11 +220,34 @@ For each significant candidate, record:
 - observed result and evidence location;
 - limitations, cleanup and retest requirements.
 
+### Evidence Strength
+
+A useful way to describe evidence is:
+
+| Evidence level | What it establishes |
+|---|---|
+| Observation | The relevant condition was seen |
+| Permission | The current principal has the required effective access |
+| Relationship | A privileged consumer or operation depends on the controlled resource |
+| Trigger | The condition can reach the privileged operation |
+| Boundary | Authorised validation demonstrates the resulting privilege or capability |
+
+The strongest available evidence should support the conclusion, but validation should remain proportionate to the assessment objective.
+
 ## Detection, Remediation and Retesting
 
 Use the candidate's behaviour to identify relevant telemetry. Distinguish an event being generated from it being collected, detected and acted upon.
 
-Remediation should remove the unsafe relationship, for example by narrowing delegated rights, protecting dependencies, restricting runtime access, correcting configuration or protecting exposed secrets.
+Remediation should remove the unsafe relationship, for example by:
+
+- narrowing delegated rights;
+- protecting privileged dependencies;
+- correcting filesystem or registry permissions;
+- restricting runtime or management-interface access;
+- removing unnecessary privileges;
+- protecting exposed secrets;
+- correcting service or scheduled-job configuration;
+- strengthening effective execution controls.
 
 Retest under the original principal and comparable conditions. A changed tool result alone does not establish that the underlying issue is resolved.
 
@@ -219,32 +261,24 @@ Retest under the original principal and comparable conditions. A changed tool re
 | Windows commands | [Windows Cheatsheet](../cheatsheets/windows.md), [PowerShell Cheatsheet](../cheatsheets/powershell.md) |
 | Linux commands | [Linux Cheatsheet](../cheatsheets/linux.md) |
 
+Automated enumeration should accelerate discovery. It does not replace manual verification of identity, effective permissions, privileged consumers, triggers or security boundaries.
+
 ## Compact Workflow Checklist
 
-- [ ] Establish current principal and execution context.
+- [ ] Establish the current principal and execution context.
 - [ ] Record the original observation.
 - [ ] Select the relevant platform Explorer.
-- [ ] Review prerequisites.
+- [ ] Review the candidate's prerequisites.
 - [ ] Identify the controlled resource or privileged operation.
-- [ ] Verify effective permissions and consumer identity.
+- [ ] Verify effective permissions.
+- [ ] Identify the privileged consumer and execution identity.
 - [ ] Establish the trigger or consumption path.
-- [ ] Check dependencies and security controls.
+- [ ] Check dependencies and effective security controls.
 - [ ] Select a proportionate authorised validation method.
 - [ ] Separate observation, supported configuration and demonstrated execution.
 - [ ] Record evidence, limitations and cleanup.
 - [ ] Assess actual impact and contextual severity.
 - [ ] Review detection, remediation and retest requirements.
-
-## Maintainer Notes
-
-The Explorer separates platform pages from structured technique data:
-
-- `docs/privesc/windows.md`
-- `docs/privesc/linux.md`
-- `docs/data/privesc/windows.json`
-- `docs/data/privesc/linux.json`
-
-The JSON files remain the technique database. The JavaScript provides discovery, filtering and rendering. The Markdown pages provide context and platform methodology.
 
 ## References
 
