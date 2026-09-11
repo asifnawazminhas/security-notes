@@ -2882,6 +2882,45 @@ Report
 
 ---
 
+## Baselines, State, and Decision Points
+
+Before changing a request, save a normal response and record the state that produced it:
+
+```text
+Account, role, tenant, CSRF state, session, feature flags, object state
+      -> Baseline request and response
+      -> Change one security-relevant element
+      -> Compare status, headers, body, timing, side effects, and state
+```
+
+Use a fresh request, a replayed request, and a request from a second controlled account when the question involves state or authorisation. A changed response is not automatically a vulnerability: redirects, cache variance, expired tokens, asynchronous processing, and rate limits can all produce differences.
+
+Decision points:
+
+- If the response differs, repeat the baseline and modified request to test reproducibility.
+- If the request is rejected, determine whether rejection is due to authentication, authorisation, input validation, rate limiting, or an unrelated application error.
+- If a mutation succeeds, verify the intended object, tenant, role, and resulting state with a safe read-back.
+- If an out-of-band interaction occurs, correlate the unique marker, timestamp, source, and request context before concluding server-side processing.
+- If impact is unclear, stop at the minimum proof and document what remains unvalidated.
+
+## Scope and Troubleshooting
+
+Keep only explicitly authorised hosts and paths in Target scope. Check scope again before Repeater, Intruder, extensions, Collaborator, or automation sends traffic. Use dedicated accounts, harmless markers, low request rates, and test data where possible.
+
+When results are inconsistent, check session freshness, CSRF tokens, nonce or timestamp fields, redirects, HTTP/2 handling, proxy history, caching, asynchronous jobs, feature flags, and whether the server requires a particular sequence. Compare one variable at a time and capture the server response rather than relying only on the browser display.
+
+## Evidence and Interpretation
+
+Capture the baseline and the smallest reproducible modified request, with credentials, tokens, personal data, and unrelated headers redacted. Include the account and role, target object, timestamp, response status and relevant body or header, and a safe confirmation of the resulting state.
+
+Use the repository model:
+
+```text
+Observation -> Candidate -> Validation -> Evidence -> Security Conclusion
+```
+
+Burp Logger, Comparer, Sequencer, Repeater, and Collaborator can support this process, but their output is evidence about behaviour, not a finding by itself. Report only the security boundary that the controlled test demonstrates.
+
 ## Related Notes
 
 - [Web Application Security](../index.md)

@@ -2690,6 +2690,44 @@ Useful references for further study:
 
 ---
 
+## Controlled Account-State Testing
+
+Use dedicated accounts representing the states relevant to the application, for example:
+
+```text
+New -> Unverified -> Verified -> MFA enrolled -> MFA pending
+Locked -> Disabled -> Password expired -> Recovery pending
+```
+
+Record the expected behaviour for each state before testing. Compare login, API, password-change, recovery, MFA, remember-me, and logout requests across states. Use harmless test identities and stop before lockout thresholds unless the rules of engagement explicitly permit a lockout test.
+
+## Expected Results and Interpretation
+
+For each transition record:
+
+| Test | Expected result | Interpretation if different |
+|---|---|---|
+| Invalid password | Generic failure, no session | Enumeration or authentication weakness candidate |
+| Disabled or locked account | No authentication and no usable session | Success may indicate state enforcement failure |
+| Password reset token reuse | Rejected after use or expiry | Acceptance may indicate recovery weakness |
+| MFA challenge missing or incomplete | Protected resource remains inaccessible | Access may indicate an MFA state-transition failure |
+| Logout | Session or refresh token invalidated as designed | Continued access requires replay and scope checks |
+| Role or tenant change | Existing sessions follow documented policy | Inconsistent sessions require controlled comparison |
+
+A different status code, response length, or redirect is only a candidate. Repeat the request, compare the resulting session and protected resource, and distinguish authentication success from authorisation or data access.
+
+## Burp Workflow and Troubleshooting
+
+Capture a successful flow and a failed flow in Burp, then send one request at a time to Repeater. Preserve cookies, CSRF values, nonces, timestamps, and redirect sequence unless the specific test changes them. Use Comparer for response differences and a controlled second account for horizontal comparisons.
+
+Common causes of misleading results include stale cookies, cached MFA pages, multiple active sessions, clock skew, proxy-generated headers, asynchronous email delivery, rate limits, and an API using a different authentication mechanism. Re-establish the baseline and test the final protected request directly.
+
+## Evidence and Retesting
+
+Capture the account state, test identity, request sequence, redacted request and response, session transition, and safe proof of access or denial. Never include passwords, recovery codes, or live tokens in the report.
+
+Retest after remediation by confirming the old session or recovery token is invalid, the intended state transition still works, MFA cannot be skipped, and equivalent API and web flows enforce the same rule. Follow [Burp Suite Testing Workflows](burp-suite/workflows.md) and [Session Management](session-management.md) for shared baseline guidance.
+
 ## Related Notes
 
 Continue with:

@@ -2939,3 +2939,33 @@ Report the Violated Business Rule
 The key principle is:
 
 > Business logic testing should follow the business. If the application handles pricing, threat model pricing. If it handles account recovery, threat model recovery. If it handles approvals, threat model the approval process. If it manages bookings, threat model the lifecycle of the reserved resource. Understand the intended rules first, then systematically test whether those rules can be violated.
+
+## Invariants and State Transitions
+
+Write the intended business invariant before testing it. Examples include:
+
+```text
+Quantity is positive and within the authorised limit.
+Total equals the server-calculated price and approved discount.
+Only the owner or an authorised role can approve a request.
+A completed action cannot be replayed as a new action.
+A resource cannot be simultaneously reserved by two users.
+```
+
+Map valid and invalid transitions, required roles, timestamps, dependencies, and whether the server or client owns each value. Test sequencing, replay, duplicate submission, cancellation, partial completion, and alternate endpoints. A client-side control or hidden field is an observation about the interface, not proof that the server trusts it.
+
+## Controlled Validation
+
+Use dedicated accounts, products, bookings, balances, and test data. Establish a normal transaction in Burp, then change one assumption: quantity, price, currency, object identifier, sequence, replay token, approval state, or tenant. Prefer harmless boundary values and reversible actions. For races, use a small, authorised number of synchronized requests and stop once the invariant violation is demonstrated.
+
+Validate the server-side result with a safe read-back, audit record, or owner-approved observation. A response difference, duplicate request acceptance, or client-side total change is only a candidate until the business state or protected resource is shown to have changed incorrectly.
+
+## Impact and Evidence
+
+Capture the normal workflow and modified workflow, account and role, object state before and after, relevant requests and responses, timestamps, and the violated invariant. Redact payment data, tokens, and personal information. Explain whether the result affects confidentiality, integrity, availability, financial value, approval authority, or tenant isolation. Do not claim monetary loss or privilege escalation without evidence of the resulting business action.
+
+## Troubleshooting and Retesting
+
+Inconsistent results may be caused by caching, asynchronous jobs, idempotency keys, inventory locks, eventual consistency, client retries, time windows, or a second validation service. Repeat the baseline, inspect the final state, correlate server logs where authorised, and test the same request without Burp extensions if necessary.
+
+After remediation, repeat normal, boundary, replay, alternate-sequence, and concurrency cases. Confirm that legitimate workflows remain functional and that the invariant is enforced server-side across web, API, background, and mobile-facing paths. See [Burp Suite Testing Workflows](burp-suite/workflows.md), [Authorisation](authorisation.md), and [Race Conditions](race-conditions.md).

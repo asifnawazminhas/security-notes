@@ -1200,6 +1200,47 @@ Effective Web Application Testing
 
 ---
 
+## Selecting Extensions
+
+Choose an extension for a defined question rather than installing a large collection by default.
+
+| Need | Useful assistance | Manual confirmation |
+|---|---|---|
+| Compare sessions or roles | Autorize, AuthMatrix | Repeat with controlled accounts and objects |
+| Inspect tokens | JWT Editor | Verify signature, claims, audience, expiry, and server enforcement |
+| Discover endpoints or parameters | content-discovery and parameter helpers | Confirm the endpoint is in scope and reachable |
+| Investigate request smuggling | HTTP Request Smuggler | Reproduce safely and rule out proxy differences |
+| Correlate blind interactions | Collaborator | Match a unique marker and prove the application caused it |
+| GraphQL assistance | InQL or GraphQL-related tooling | Test resolver and object authorisation manually |
+
+Extensions assist discovery, comparison, or request construction. They do not establish exploitability, impact, ownership, or authorisation on their own.
+
+## Maintenance and Version Control
+
+Record the extension name, version, Burp version, configuration, and date used for an assessment. Prefer actively maintained extensions from identifiable authors and review permissions, update history, compatibility, and network behaviour before installation. Test updates in a disposable project because changes in parsing or payload generation can alter results.
+
+Do not upload client requests, credentials, source code, or personal data to an extension or external service unless explicitly authorised. Keep Burp project files and extension output in the approved evidence location.
+
+## False Positives and Validation
+
+Treat extension output as a candidate. For each alert:
+
+1. Reproduce the baseline request in Repeater.
+2. Identify exactly what changed and why the extension considers it interesting.
+3. Repeat with a second request, account, role, or object where relevant.
+4. Check application logs or a safe read-back for the claimed side effect.
+5. Record environmental explanations such as caching, redirects, WAF responses, parser differences, or stale sessions.
+
+The result should state what the extension observed, what manual testing established, and what remains unknown. A highlighted parameter, altered response, or generated payload is not automatically a vulnerability.
+
+## Evidence and Troubleshooting
+
+Capture the extension version and relevant configuration alongside a redacted baseline and validation request. Preserve unique markers, timestamps, response comparisons, and the controlled account or object used. Avoid screenshots that expose tokens or unrelated customer data.
+
+If an extension produces no result, check target scope, proxy interception, TLS trust, HTTP/2 support, authentication state, request format, rate limits, and whether the feature is asynchronous. If results vary, disable competing extensions, reduce concurrency, rebuild the baseline, and test the same request manually.
+
+See [Burp Suite Testing Workflows](workflows.md) for the baseline, state, and evidence process.
+
 ## Related Notes
 
 - [Web Application Testing Methodology](../methodology.md)

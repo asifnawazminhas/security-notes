@@ -3539,3 +3539,49 @@ Server-side considerations
 The key principle is:
 
 > Do not treat GraphQL as a single endpoint that only needs conventional parameter fuzzing. Treat the schema as a map of the application's objects, relationships and operations. Enumerate the available attack surface, then test authentication, object-level authorisation, field-level authorisation, mutations, aliases, rate limiting, input handling and business rules systematically. Burp Suite, InQL and GraphQL Raider can make the schema and requests significantly easier to work with, but manual validation remains essential.
+
+## Schema and Operation Discovery
+
+Identify the GraphQL endpoint, transport, authentication, content types, persisted-query mechanism, and WebSocket or subscription endpoints. Review approved introspection responses, client bundles, API documentation, error messages, persisted operation identifiers, and captured traffic. Record queries, mutations, subscriptions, arguments, input objects, interfaces, fragments, directives, and fields that differ by role.
+
+Introspection being disabled does not prove that the schema is undiscoverable, and an exposed schema does not prove a vulnerability. InQL or Burp's GraphQL support can help format and explore operations; use the result to build a test inventory rather than sending every operation indiscriminately.
+
+## Resolver-Level Authorisation
+
+Test each security boundary separately:
+
+| Boundary | Controlled comparison |
+|---|---|
+| Authentication | Unauthenticated versus authenticated request |
+| Object access | User A object versus User B object |
+| Field access | Same object with sensitive and ordinary fields |
+| Function access | Same mutation as ordinary and privileged roles |
+| Tenant isolation | Tenant A identity and identifiers versus Tenant B |
+| Execution or side effect | Read-only query versus approved test mutation |
+
+Change one object identifier, argument, variable, fragment, or field at a time. A resolver returning `null`, an error, or partial data must be interpreted with the schema's nullability and error policy in mind. Confirm whether data was actually disclosed and whether a mutation changed state.
+
+## Aliases, Batching, and Complexity
+
+Test whether aliases or batched operations bypass per-object checks, rate limits, or audit assumptions. Use a small number of approved test objects and unique markers. Review query depth, breadth, recursion, pagination, field cost, alias count, and persisted-query enforcement. Measure server behaviour rather than relying on a timeout alone; network conditions, proxy limits, and resolver latency can create false positives.
+
+Do not perform denial-of-service testing against production. If complexity impact must be assessed, use a staging environment or an explicitly approved low-volume test and stop at the minimum evidence.
+
+## Burp Workflow and Validation
+
+Capture a normal query and mutation in Burp, save the variables and response as a baseline, then send controlled variants to Repeater. Use Comparer for response changes and InQL or GraphQL Raider for request construction where useful. Keep authentication headers, CSRF state, persisted-query identifiers, and operation names consistent unless they are the test variable.
+
+An error message, successful HTTP status, or schema field visible in a tool is a candidate. Validate with a second account, an object created for testing, a safe read-back, and the smallest permitted mutation. Record whether the result establishes authentication, object access, field access, administrative authority, tenant crossing, or actual state change.
+
+## Evidence, Troubleshooting, and Retesting
+
+Capture endpoint, operation name, redacted query, variables, actor and tenant, baseline and modified responses, relevant errors, timestamps, and state before and after. Redact tokens and sensitive fields. Troubleshoot inconsistent results by checking persisted queries, schema version, subscriptions, caching, resolver authorization, batching limits, CSRF, session freshness, and gateway versus application errors.
+
+After remediation, retest equivalent queries, mutations, aliases, batches, fragments, alternate API versions, and WebSocket operations. Confirm both denial and legitimate access, and verify that complexity limits and audit records behave as intended. See [API Security](api-security.md), [Authorisation](authorisation.md), [Burp Suite Testing Workflows](burp-suite/workflows.md), and [Burp Suite Extensions](burp-suite/extensions.md).
+
+## References
+
+- [OWASP GraphQL Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html){ target="_blank" rel="noopener noreferrer" }
+- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
+- [GraphQL Specification](https://spec.graphql.org/){ target="_blank" rel="noopener noreferrer" }
+- [PortSwigger Web Security Academy: GraphQL API vulnerabilities](https://portswigger.net/web-security/graphql){ target="_blank" rel="noopener noreferrer" }
