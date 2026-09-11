@@ -171,6 +171,34 @@ html {
 
 
 /* ============================================================
+   TOP NAVIGATION - COMPACT DESKTOP SPACING
+   ============================================================ */
+
+/*
+   Keeps all top-level navigation items visible on desktop
+   when navigation.tabs is enabled.
+
+   The site now contains several top-level sections, including
+   Cloud and Cheatsheets, so the default Material tab spacing
+   is slightly reduced without changing the navigation labels.
+*/
+
+@media screen and (min-width: 76.25em) {
+
+  .md-tabs__item {
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
+  }
+
+  .md-tabs__link {
+    margin-top: 0.8rem;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+  }
+}
+
+
+/* ============================================================
    NAVIGATION SECTION TITLES
    ============================================================ */
 
