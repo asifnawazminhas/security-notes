@@ -1,1102 +1,918 @@
 # Azure Subdomain Takeover
 
-Azure subdomain takeover occurs when an organisation's DNS record continues to reference an Azure resource that has been deleted, decommissioned, renamed, or otherwise released, and the referenced resource identifier can subsequently be claimed by another Azure tenant or subscription.
+Azure subdomain takeover can occur when an organisation's DNS record continues to reference an Azure resource that no longer exists, while the referenced resource name or endpoint can still be registered or controlled by another party.
 
-A common pattern is a custom subdomain using a `CNAME` record:
+This creates a **dangling DNS record**.
 
-```text
-portal.example.com
-        |
-        v
-CNAME
-        |
-        v
-example-app.azurewebsites.net
-```
-
-If the Azure resource behind `example-app.azurewebsites.net` is removed while the organisation leaves the DNS record in place, the custom domain may become a **dangling DNS record**.
-
-The security question is not simply whether the Azure hostname returns `NXDOMAIN`.
-
-The important question is:
-
-> Can an unauthorised party claim the referenced Azure resource and cause the organisation-controlled hostname to serve content or interact with a service under their control?
-
-This distinction is important because Azure resource naming, custom-domain validation, resource-reuse protections, and provider behaviour can change.
-
-!!! warning "Authorised testing only"
-
-```
-Only validate takeover conditions for domains and Azure resources that are explicitly in scope.
-
-Do not claim third-party resources, attach production domains, or publish content through an organisation's hostname unless the rules of engagement explicitly permit that validation method.
-```
+A dangling DNS record is an important indicator, but it does not automatically mean that a subdomain takeover is possible. The referenced Azure resource must also be reclaimable or otherwise controllable by an unauthorised party.
 
 ---
 
 ## Security Model
 
-A typical Azure subdomain takeover condition involves several independent prerequisites.
+The key distinction during testing is between identifying a dangling dependency and demonstrating that the dependency can actually cross a security boundary.
 
 ```mermaid
 flowchart TD
-    A["Organisation-controlled subdomain"] --> B["DNS record references Azure service"]
-    B --> C["Referenced Azure resource is absent"]
-    C --> D{"Resource identifier reclaimable?"}
-    D -->|No| E["Dangling DNS but takeover not demonstrated"]
-    D -->|Unknown| F["Candidate requires further validation"]
-    D -->|Yes| G["Validate ownership controls and custom-domain requirements"]
-    G --> H{"Authorised claim possible?"}
-    H -->|No| E
-    H -->|Yes| I["Takeover condition validated"]
-    I --> J["Capture minimal evidence and stop"]
+    A["Organisation Subdomain"] --> B["DNS Record"]
+    B --> C["Azure Service Hostname"]
+    C --> D{"Azure Resource Exists?"}
+
+    D -->|Yes| E["No Dangling Resource"]
+    D -->|No| F["Dangling DNS"]
+
+    F --> G{"Resource or Name Reclaimable?"}
+
+    G -->|No| H["Dangling DNS Only"]
+    G -->|Yes| I["Takeover Candidate"]
+
+    I --> J["Controlled Validation"]
+    J --> K{"Control Demonstrated?"}
+
+    K -->|No| L["Unconfirmed"]
+    K -->|Yes| M["Confirmed Subdomain Takeover"]
 ```
 
-The assessment model should therefore be:
+!!! important
+    An `NXDOMAIN` response, Azure error page, or known service fingerprint identifies a **candidate condition**, not a confirmed vulnerability. Confirmation requires evidence that the referenced resource can actually be controlled by an unauthorised party.
+
+The assessment should therefore follow:
+
+**Observation → Candidate → Validation → Evidence → Security Conclusion**
+
+---
+
+## How Azure Subdomain Takeover Happens
+
+A typical configuration looks like:
 
 ```text
-DNS observation
-      |
-      v
-Azure service identified
-      |
-      v
-Dangling resource suspected
-      |
-      v
-Resource claimability checked
-      |
-      v
-Domain-binding requirements checked
-      |
-      v
-Controlled validation
-      |
-      v
-Evidence
-      |
-      v
-Security conclusion
+app.example.com
+        |
+        | CNAME
+        v
+example-app.azurewebsites.net
 ```
 
-Not:
+While the Azure resource exists, requests to:
 
 ```text
-NXDOMAIN
-   |
-   v
-Confirmed takeover
+app.example.com
+```
+
+are routed to:
+
+```text
+example-app.azurewebsites.net
+```
+
+The risk appears when the Azure resource is deleted but the organisation leaves the DNS record in place.
+
+The resulting state may look like:
+
+```text
+app.example.com
+        |
+        | CNAME
+        v
+example-app.azurewebsites.net
+        |
+        v
+Azure resource no longer exists
+```
+
+If another party can legitimately register or control the referenced Azure resource or equivalent namespace, traffic intended for the organisation's subdomain may be directed to infrastructure outside the organisation's control.
+
+---
+
+## Conditions Required
+
+A potential Azure subdomain takeover generally requires several conditions:
+
+1. The organisation controls a DNS name.
+
+2. The DNS record references an Azure-managed hostname or service.
+
+3. The original Azure resource has been deleted, removed, or otherwise become unavailable.
+
+4. The DNS record remains configured.
+
+5. The referenced Azure resource name, endpoint, or equivalent namespace can be controlled by another party.
+
+6. Requests for the organisation's subdomain can subsequently reach that resource.
+
+The presence of only the first four conditions generally indicates **dangling DNS**, not necessarily a confirmed takeover.
+
+---
+
+## Discovery
+
+Subdomain takeover testing normally begins with the organisation's known subdomains.
+
+Potential sources include:
+
+- passive DNS data;
+- certificate transparency logs;
+- DNS enumeration;
+- asset inventories;
+- historical DNS records;
+- search engines;
+- archived URLs;
+- application JavaScript;
+- source code and configuration;
+- cloud asset inventories.
+
+For general subdomain discovery methodology, see:
+
+[Subdomain Enumeration](../../web/reconnaissance/subdomain-enumeration.md)
+
+---
+
+## Inspect DNS Records
+
+Start by resolving the candidate hostname.
+
+### dig
+
+```bash
+dig app.example.com
+```
+
+Query the CNAME directly:
+
+```bash
+dig CNAME app.example.com
+```
+
+Short output:
+
+```bash
+dig +short app.example.com
+```
+
+Follow the complete resolution:
+
+```bash
+dig app.example.com +trace
 ```
 
 ---
 
-# Why Subdomain Takeovers Occur
+### host
 
-Cloud infrastructure changes frequently.
-
-Applications may be:
-
-* migrated;
-* renamed;
-* rebuilt;
-* moved between subscriptions;
-* replaced by another platform;
-* removed after testing;
-* decommissioned after a project ends.
-
-DNS records are often managed separately from the underlying Azure resources.
-
-This creates a common lifecycle problem:
-
-```text
-Create Azure resource
-        |
-        v
-Create DNS record
-        |
-        v
-Use application
-        |
-        v
-Delete Azure resource
-        |
-        v
-DNS record accidentally remains
-        |
-        v
-Dangling reference
+```bash
+host app.example.com
 ```
-
-The safest decommissioning sequence is normally to remove or update the external DNS dependency before releasing the resource identifier.
 
 ---
 
-# CNAME and DNS Relationship
+### nslookup
 
-A `CNAME` record aliases one hostname to another hostname.
-
-Example:
-
-```text
-blog.example.com.  CNAME  example-blog.azurewebsites.net.
+```bash
+nslookup app.example.com
 ```
-
-The organisation controls:
-
-```text
-blog.example.com
-```
-
-Azure controls the parent service namespace:
-
-```text
-azurewebsites.net
-```
-
-The organisation controls or previously controlled a resource underneath that namespace:
-
-```text
-example-blog.azurewebsites.net
-```
-
-If the Azure resource disappears but the `CNAME` remains, the DNS relationship becomes potentially dangerous.
 
 ---
 
-# Discovery
+### PowerShell
 
-Start with normal subdomain enumeration.
+```powershell
+Resolve-DnsName app.example.com
+```
 
-Possible sources include:
+Query specifically for CNAME records:
 
-* certificate transparency;
-* DNS enumeration;
-* historical DNS;
-* passive DNS;
-* search engines;
-* asset inventories;
-* application documentation;
-* source-code references;
-* infrastructure-as-code;
-* archived URLs.
+```powershell
+Resolve-DnsName app.example.com -Type CNAME
+```
 
-A discovered hostname is only an **observation**.
+---
+
+## Follow the Entire CNAME Chain
+
+Do not stop after discovering the first alias.
 
 For example:
-
-```text
-legacy.example.com
-```
-
-The next step is to understand its DNS configuration.
-
----
-
-# Inspect DNS Records
-
-## dig
-
-Query the hostname:
-
-```bash
-dig legacy.example.com
-```
-
-Request the CNAME directly:
-
-```bash
-dig CNAME legacy.example.com
-```
-
-Use a short response:
-
-```bash
-dig +short legacy.example.com
-```
-
-Follow the DNS chain:
-
-```bash
-dig +trace legacy.example.com
-```
-
-A possible result might resemble:
-
-```text
-legacy.example.com.
-    CNAME
-old-application.azurewebsites.net.
-```
-
-Now inspect the Azure destination:
-
-```bash
-dig old-application.azurewebsites.net
-```
-
-An absent destination might return:
-
-```text
-status: NXDOMAIN
-```
-
-!!! warning "NXDOMAIN is not proof"
-
-```
-`NXDOMAIN` can indicate that the referenced resource no longer exists, but it does not prove that the resource name can be registered by another party.
-
-Treat it as a candidate condition requiring provider-specific validation.
-```
-
----
-
-# Additional DNS Tools
-
-## host
-
-```bash
-host legacy.example.com
-```
-
-## nslookup
-
-```bash
-nslookup legacy.example.com
-```
-
-## Resolve-DnsName
-
-From Windows PowerShell:
-
-```powershell
-Resolve-DnsName legacy.example.com
-```
-
-Query specifically for a CNAME:
-
-```powershell
-Resolve-DnsName legacy.example.com -Type CNAME
-```
-
----
-
-# Follow the Complete DNS Chain
-
-Do not stop after identifying the first CNAME.
-
-A DNS relationship can contain multiple layers:
 
 ```text
 app.example.com
         |
         v
-edge.example.net
+service.example.net
         |
         v
-service.azureedge.net
+example-app.azurewebsites.net
 ```
 
-Record:
+The Azure dependency may only become visible after following multiple aliases.
 
-* the original hostname;
-* record type;
-* intermediate aliases;
-* final destination;
-* DNS response;
-* TTL;
-* Azure service family.
-
-This helps distinguish an Azure dependency from unrelated DNS behaviour.
+The complete DNS chain should therefore be documented.
 
 ---
 
-# Identify the Azure Service
+## Azure Service Namespaces
 
-Azure uses different service namespaces.
+Azure uses many service-specific DNS namespaces.
 
-Examples historically associated with Azure-hosted resources include:
+Examples that may appear during an assessment include:
 
-| Azure service family                    | Example namespace                 |
-| --------------------------------------- | --------------------------------- |
-| App Service                             | `*.azurewebsites.net`             |
-| Traffic Manager                         | `*.trafficmanager.net`            |
-| Azure CDN / Front Door related services | Azure-managed CDN/edge namespaces |
-| Virtual machine public DNS              | `*.cloudapp.azure.com`            |
-| Blob Storage                            | `*.blob.core.windows.net`         |
-| API Management                          | `*.azure-api.net`                 |
-| Azure SQL                               | `*.database.windows.net`          |
-| Azure AI Search                         | `*.search.windows.net`            |
-| Container Registry                      | `*.azurecr.io`                    |
-| Container Instances                     | `*.azurecontainer.io`             |
-| Azure Cache for Redis                   | `*.redis.cache.windows.net`       |
-| Service Bus                             | `*.servicebus.windows.net`        |
+| Azure Service | Example Namespace |
+|---|---|
+| Azure App Service | `*.azurewebsites.net` |
+| Azure Traffic Manager | `*.trafficmanager.net` |
+| Azure Storage | `*.blob.core.windows.net` |
+| Azure API Management | `*.azure-api.net` |
+| Azure SQL Database | `*.database.windows.net` |
+| Azure AI Search | `*.search.windows.net` |
+| Azure Container Registry | `*.azurecr.io` |
+| Azure Container Instances | `*.azurecontainer.io` |
+| Azure Cache for Redis | `*.redis.cache.windows.net` |
+| Azure Service Bus | `*.servicebus.windows.net` |
+| Azure VM Public DNS | Azure regional cloud hostnames |
+| Azure CDN / Front Door | Azure-managed delivery hostnames |
 
-!!! note "Service behaviour changes"
+!!! warning
+    The presence of an Azure hostname does **not** mean that the associated subdomain is vulnerable to takeover.
 
-```
-The presence of an Azure namespace does not mean the service is currently vulnerable to subdomain takeover.
+Azure service behaviour changes over time. Microsoft may introduce custom-domain verification, resource-name reservation, ownership validation, namespace restrictions, or other protections.
 
-Microsoft can introduce ownership verification, scoped name reuse, reservation mechanisms, custom-domain validation, or other protections.
-
-Historical takeover behaviour must therefore be separated from current claimability.
-```
+Always validate the current behaviour of the specific Azure service.
 
 ---
 
-# Candidate Identification
+## Candidate Identification
 
-A strong candidate usually contains several signals.
-
-For example:
+Suppose DNS shows:
 
 ```text
-subdomain.example.com
-        |
-        v
-CNAME
-        |
-        v
-resource.azure-service.example
-        |
-        v
-Resource absent
+portal.example.com. 300 IN CNAME example-portal.azurewebsites.net.
 ```
 
-Useful observations include:
+The next step is to determine whether:
 
-* organisation-controlled DNS record still exists;
-* destination belongs to an external/cloud service;
-* referenced resource appears absent;
-* HTTP response resembles an unconfigured/deleted resource;
-* DNS destination returns `NXDOMAIN`;
-* provider-specific error page indicates missing configuration;
-* resource identifier appears potentially reusable.
+```text
+example-portal.azurewebsites.net
+```
 
-These observations increase confidence but do not independently prove takeover.
+still represents an active resource.
 
----
-
-# HTTP and HTTPS Validation
-
-DNS should be correlated with application behaviour.
-
-Check HTTP:
+Query the Azure hostname directly:
 
 ```bash
-curl -i http://legacy.example.com/
-```
-
-Check HTTPS:
-
-```bash
-curl -ik https://legacy.example.com/
-```
-
-Follow redirects where appropriate:
-
-```bash
-curl -ikL https://legacy.example.com/
-```
-
-Useful observations include:
-
-* provider-specific error messages;
-* default Azure pages;
-* missing-site responses;
-* certificate behaviour;
-* redirect behaviour;
-* CDN or proxy headers;
-* unexpected application content.
-
-Do not treat an error page alone as confirmation.
-
----
-
-# Azure App Service Example
-
-Consider:
-
-```text
-legacy.example.com
-        |
-        v
-old-example-app.azurewebsites.net
-```
-
-Query the custom hostname:
-
-```bash
-dig CNAME legacy.example.com
-```
-
-Possible result:
-
-```text
-legacy.example.com.  CNAME  old-example-app.azurewebsites.net.
-```
-
-Then query the destination:
-
-```bash
-dig old-example-app.azurewebsites.net
-```
-
-If the destination does not exist, the DNS record is dangling.
-
-At this stage the correct conclusion is:
-
-```text
-Dangling Azure App Service reference identified
-```
-
-Not:
-
-```text
-Subdomain takeover confirmed
-```
-
-The remaining question is whether Azure currently permits an unauthorised tenant to obtain the required resource identifier and associate the custom hostname.
-
----
-
-# Resource Claimability
-
-Resource claimability is the critical validation boundary.
-
-The assessment should determine:
-
-1. Does the referenced Azure resource still exist?
-2. Is the identifier reusable?
-3. Is reuse globally available or restricted?
-4. Does Azure require proof of custom-domain ownership?
-5. Is a verification record already present?
-6. Does Azure protect previously used names?
-7. Is the resource namespace scoped to a subscription, tenant, region, or reuse policy?
-8. Can the organisation-controlled hostname actually be bound to the new resource?
-
-Only after these conditions are understood can takeover likelihood be assessed accurately.
-
----
-
-# Azure Portal Validation
-
-For an authorised assessment, the Azure portal can sometimes be used to determine whether a candidate resource identifier is available.
-
-For example, when creating an applicable resource, Azure may indicate whether the requested name is:
-
-```text
-Available
+dig example-portal.azurewebsites.net
 ```
 
 or:
 
-```text
-Unavailable
+```bash
+host example-portal.azurewebsites.net
 ```
 
-This can provide stronger evidence than DNS alone.
+A failure to resolve can indicate that the original Azure resource no longer exists.
 
 However:
 
 ```text
-Resource name available
-        !=
-Custom domain takeover confirmed
+NXDOMAIN != confirmed takeover
 ```
 
-The service may still enforce domain ownership verification or other controls.
+It only establishes part of the required condition.
 
 ---
 
-# Controlled Proof of Concept
+## HTTP and HTTPS Validation
 
-The preferred validation method is the **least invasive evidence necessary** to prove the security condition.
+Check the organisation-controlled hostname:
 
-Depending on the rules of engagement, evidence may stop at:
-
-```text
-Dangling DNS
-+
-Azure service identified
-+
-Resource identifier shown as available
-+
-Domain-binding requirements understood
+```bash
+curl -I https://portal.example.com
 ```
 
-If explicit authorisation permits resource creation, a controlled validation may go further.
+Follow redirects:
 
-Use:
-
-* a dedicated testing subscription;
-* a clearly identifiable test resource;
-* minimal configuration;
-* no credential collection;
-* no user tracking;
-* no production data;
-* no persistent content;
-* immediate cleanup.
-
-A suitable proof page might contain only:
-
-```text
-Authorised security validation
+```bash
+curl -IL https://portal.example.com
 ```
 
-Stop as soon as the agreed security consequence has been demonstrated.
+Inspect the response:
+
+```bash
+curl -i https://portal.example.com
+```
+
+Then compare it with the referenced Azure hostname:
+
+```bash
+curl -i https://example-portal.azurewebsites.net
+```
+
+Look for:
+
+- Azure-specific error pages;
+- missing-site responses;
+- unresolved hostnames;
+- service-specific error messages;
+- TLS certificate behaviour;
+- redirects;
+- HTTP status codes;
+- evidence that the backend resource is absent.
+
+These observations help identify a candidate but should not independently be treated as proof of takeover.
 
 ---
 
-# Evidence
+## Example: Azure App Service
 
-Useful evidence includes:
+Consider:
 
-## DNS
+```text
+shop.example.com
+        |
+        | CNAME
+        v
+company-shop.azurewebsites.net
+```
+
+The original Azure App Service is later deleted.
+
+The DNS record remains:
+
+```text
+shop.example.com CNAME company-shop.azurewebsites.net
+```
+
+An assessment may show:
+
+```bash
+dig CNAME shop.example.com
+```
+
+with output similar to:
+
+```text
+shop.example.com. 300 IN CNAME company-shop.azurewebsites.net.
+```
+
+But:
+
+```bash
+dig company-shop.azurewebsites.net
+```
+
+may return:
+
+```text
+NXDOMAIN
+```
+
+At this point the correct conclusion is:
+
+> The organisation has a dangling DNS record referencing an unavailable Azure resource.
+
+The next question is:
+
+> Can the referenced Azure resource or equivalent endpoint actually be controlled by another Azure tenant?
+
+Only after that question has been safely validated should the issue be described as a confirmed subdomain takeover.
+
+---
+
+## Resource Claimability
+
+Resource claimability is the critical validation stage.
+
+Questions to investigate include:
+
+1. Does the Azure resource still exist?
+
+2. Is the resource name globally unique or scoped to a subscription, tenant, region, or service?
+
+3. Can the same resource name currently be created?
+
+4. Does Azure reserve deleted resource names?
+
+5. Does the service require custom-domain ownership verification?
+
+6. Does Azure prevent another tenant from binding the organisation's domain?
+
+7. Are there service-specific takeover protections?
+
+8. Has the behaviour changed since older takeover research was published?
+
+A known historical fingerprint should therefore be treated as a research lead, not as permanent proof of exploitability.
+
+---
+
+## Azure Portal Validation
+
+Where authorised, the Azure Portal can help determine whether a candidate resource name is currently available.
+
+The objective is to determine whether the Azure dependency can be legitimately created or controlled.
+
+Do not create resources against third-party domains unless the assessment scope explicitly permits controlled validation.
+
+!!! warning
+    Avoid causing disruption, serving arbitrary content, intercepting user traffic, collecting credentials, or interacting with real users.
+
+The objective is to establish the minimum evidence necessary to prove or disprove the security condition.
+
+---
+
+## Controlled Proof of Concept
+
+Where explicit authorisation permits resource creation, use the least invasive validation possible.
+
+A controlled proof may demonstrate only that:
+
+- the Azure resource name can be registered;
+- the resource is under tester control;
+- the organisation's DNS record references that resource;
+- the custom domain can be associated where required;
+- a harmless marker can be returned.
+
+For example, a harmless validation response could contain:
+
+```text
+Security validation - authorised assessment
+```
+
+Do not reproduce the legitimate application or impersonate the organisation unnecessarily.
+
+---
+
+## Evidence
+
+Good evidence should demonstrate the complete chain.
+
+For example:
+
+```text
+Organisation Subdomain
+        ↓
+DNS CNAME
+        ↓
+Azure Resource
+        ↓
+Resource Absent
+        ↓
+Resource Reclaimable
+        ↓
+Controlled Validation
+        ↓
+Confirmed Security Impact
+```
 
 Capture:
 
-```bash
-dig CNAME legacy.example.com
-```
-
-and:
-
-```bash
-dig <azure-target>
-```
-
-Record:
-
-* timestamp;
-* source hostname;
-* CNAME target;
-* DNS response;
-* relevant TTL values.
-
-## HTTP
-
-Capture the provider response:
-
-```bash
-curl -ik https://legacy.example.com/
-```
-
-## Azure
-
-Where authorised, record evidence showing:
-
-* resource type;
-* resource identifier;
-* region where relevant;
-* availability status;
-* custom-domain requirement;
-* ownership-verification requirement.
-
-## Validation
-
-If a controlled claim is explicitly authorised, capture the minimum evidence demonstrating that requests for the organisation-controlled hostname reached the authorised test resource.
+- affected subdomain;
+- DNS record type;
+- complete CNAME chain;
+- Azure service;
+- Azure resource hostname;
+- DNS response;
+- HTTP response;
+- resource availability;
+- custom-domain verification requirements;
+- controlled proof, if authorised;
+- timestamp;
+- remediation status.
 
 ---
 
-# Evidence Strength
+## Evidence Strength
 
-| Observation                                             | Confidence | Interpretation                    |
-| ------------------------------------------------------- | ---------- | --------------------------------- |
-| Azure CNAME discovered                                  | Low        | Azure dependency identified       |
-| Azure target returns NXDOMAIN                           | Medium     | Dangling resource candidate       |
-| Provider-specific missing-resource response             | Medium     | Candidate strengthened            |
-| Resource identifier appears available                   | High       | Claimability likely               |
-| Custom domain can be associated by authorised tester    | Very high  | Takeover condition validated      |
-| Controlled content served through organisation hostname | Confirmed  | Security consequence demonstrated |
+Not all observations provide the same level of confidence.
 
-The exact evidence required depends on the provider and rules of engagement.
+| Observation | Evidence Strength |
+|---|---|
+| Azure hostname discovered | Informational |
+| Azure-specific error response | Weak |
+| Azure hostname returns NXDOMAIN | Candidate |
+| Dangling CNAME confirmed | Candidate |
+| Historical takeover fingerprint matches | Candidate |
+| Azure resource name appears available | Strong candidate |
+| Resource can be controlled | Strong |
+| Organisation subdomain resolves to controlled resource | Confirmed |
 
----
-
-# False Positives
-
-Subdomain takeover scanners commonly produce false positives.
-
-Possible causes include:
-
-* Azure resource still exists but has no active endpoint;
-* resource is temporarily unavailable;
-* service requires ownership verification;
-* resource name cannot be reused;
-* Azure reserves previously used names;
-* resource identifier is scoped rather than globally reusable;
-* DNS behaviour differs between regions;
-* CDN configuration exists without an active origin;
-* application is intentionally disabled;
-* scanner fingerprint is outdated;
-* provider behaviour changed after the fingerprint was created.
-
-Therefore:
-
-```text
-Scanner match
-    !=
-Confirmed takeover
-```
+This distinction is important when writing findings.
 
 ---
 
-# Tool-Assisted Discovery
+## False Positives
 
-Automated tools can help identify candidate dangling DNS records.
+Common false positives include:
 
-Examples include:
+### Deleted but Protected Resource
 
-* Nuclei;
-* Subfinder combined with DNS resolution;
-* dnsx;
-* httpx;
-* purpose-built takeover scanners.
+The original Azure resource is gone, but Azure prevents the resource name from being reused.
 
-A typical workflow is:
+### Custom-Domain Verification
 
-```text
-Subdomain enumeration
-        |
-        v
-DNS resolution
-        |
-        v
-Cloud-service classification
-        |
-        v
-Fingerprint / anomaly detection
-        |
-        v
-Candidate
-        |
-        v
-Manual validation
-```
+The resource name can be registered, but Azure requires proof of domain ownership before the organisation's hostname can be attached.
 
-Automation should prioritize investigation, not replace validation.
+### Reserved Names
+
+Azure may reserve or protect previously used names.
+
+### Service Behaviour Changed
+
+A service that historically allowed takeover may no longer permit it.
+
+### Temporary DNS Failure
+
+An Azure endpoint may temporarily fail to resolve without the underlying resource being permanently deleted.
+
+### Incorrect Fingerprint
+
+An error page may resemble a known takeover fingerprint but represent a different condition.
 
 ---
 
-# Nuclei
+## Tool-Assisted Discovery
 
-Nuclei includes templates that may identify takeover candidates.
+Automated tools can help identify takeover candidates.
 
-Example:
+They should be used for discovery and prioritisation, not as the sole evidence for a finding.
+
+---
+
+### Nuclei
+
+A list of subdomains can be scanned using takeover-related templates:
 
 ```bash
 nuclei -l subdomains.txt -tags takeover
 ```
 
-Results should be manually verified.
+A positive result should be manually validated.
 
-A template match means:
-
-```text
-Known fingerprint observed
-```
-
-It does not necessarily mean:
+The correct workflow is:
 
 ```text
-Resource currently claimable
+Scanner Match
+     ↓
+Candidate
+     ↓
+Manual DNS Validation
+     ↓
+Service Validation
+     ↓
+Claimability Validation
+     ↓
+Evidence
+     ↓
+Security Conclusion
 ```
 
 ---
 
-# can-i-take-over-xyz
+### can-i-take-over-xyz
 
-The `can-i-take-over-xyz` project maintains community research about services associated with subdomain takeover.
+The `can-i-take-over-xyz` project documents known service fingerprints and historical takeover behaviour.
 
-It can help with:
+It is useful for identifying:
 
-* identifying provider fingerprints;
-* understanding known service behaviour;
-* researching historical takeover conditions;
-* identifying services requiring additional investigation.
+- service-specific fingerprints;
+- vulnerable service patterns;
+- known error messages;
+- historical takeover conditions;
+- provider-specific notes.
 
-Because cloud-provider behaviour changes, treat the repository as a research reference rather than an absolute source of truth.
+However, cloud providers continuously change their protections.
 
-Always validate current provider behaviour independently.
+Always verify the current status of the relevant Azure service instead of assuming that an older fingerprint remains exploitable.
 
 ---
 
-# Azure-Specific Considerations
+## Azure-Specific Considerations
 
-Azure deserves particular care because different services implement resource naming differently.
+### Global and Regional Names
 
-Consider:
+Some Azure resource names are globally unique while others may be scoped differently.
 
-## Global vs regional names
+Determine the actual namespace rules before concluding that a resource can be reclaimed.
 
-Some Azure resource identifiers may incorporate a region:
+---
+
+### Custom-Domain Verification
+
+Some Azure services require domain ownership verification before accepting a custom hostname.
+
+This can prevent a dangling DNS condition from becoming a practical takeover.
+
+---
+
+### Resource Name Reuse
+
+Deleted Azure resources may not always become immediately available for reuse.
+
+Resource-name protection can significantly change takeover feasibility.
+
+---
+
+### Legacy Services
+
+Older Azure services may behave differently from newer services.
+
+Documentation and takeover research should therefore be checked against current service behaviour.
+
+---
+
+### DNS Aliases
+
+Complex DNS chains can hide the Azure dependency.
+
+For example:
 
 ```text
-<name>.<region>.cloudapp.azure.com
+portal.example.com
+        ↓
+app.cdn.example.net
+        ↓
+service.azureedge.net
 ```
 
-The region may therefore be part of the claimability analysis.
-
-## Custom-domain verification
-
-Some Azure services require verification before accepting a custom hostname.
-
-This can prevent a dangling DNS record from becoming a practical takeover.
-
-## Resource-name reuse
-
-Azure may restrict reuse of names after deletion or apply scoped reuse protections.
-
-## Legacy services
-
-Older Azure services may behave differently from modern replacements.
-
-Do not assume that a technique documented for a legacy Azure service still applies to its successor.
-
-## DNS aliases
-
-Azure services may use intermediate aliases.
-
-Follow the complete DNS chain before determining which Azure service owns the final destination.
+Follow the chain until the actual service dependency is understood.
 
 ---
 
-# Impact
+## Potential Impact
 
-A validated subdomain takeover can allow an attacker to control content delivered through an organisation-trusted hostname.
+A confirmed subdomain takeover may allow an attacker to serve attacker-controlled content from a hostname trusted by users and applications.
 
-Potential consequences include:
+Potential impact can include:
 
-* phishing from a trusted organisational domain;
-* brand impersonation;
-* malicious content hosting;
-* abuse of existing links;
-* abuse of search-engine reputation;
-* security-policy trust abuse;
-* exposure of traffic intended for the retired service;
-* impact to applications that still reference the hostname;
-* cookie exposure in specific application configurations;
-* OAuth or redirect-related risk where the hostname remains trusted;
-* content injection into applications consuming the hostname;
-* supply-chain consequences where automation references a reclaimable service.
+- phishing;
+- malicious content hosting;
+- reputation abuse;
+- trust abuse;
+- security-policy bypasses;
+- cookie exposure in certain configurations;
+- OAuth redirect abuse;
+- CORS trust abuse;
+- application integration abuse;
+- bypass of hostname-based allowlists.
 
-Impact must be demonstrated based on the actual application architecture.
-
-Do not automatically assign maximum severity simply because takeover is technically possible.
+The actual impact depends on how the affected subdomain is used.
 
 ---
 
-# Cookie Considerations
+## Cookie Considerations
 
-A takeover does not automatically expose cookies from the parent domain.
+Review cookies scoped broadly to the parent domain.
 
-Cookie impact depends on attributes such as:
-
-* `Domain`;
-* `Path`;
-* `Secure`;
-* `HttpOnly`;
-* `SameSite`;
-* host-only cookie behaviour.
-
-For example, a broadly scoped cookie may create additional risk:
+For example:
 
 ```text
 Domain=.example.com
 ```
 
-A host-only cookie for:
+A controlled subdomain may interact with application trust assumptions differently from a completely unrelated domain.
 
-```text
-www.example.com
-```
+Cookie impact depends on:
 
-would not automatically be sent to:
+- `Domain`;
+- `Path`;
+- `Secure`;
+- `HttpOnly`;
+- `SameSite`;
+- browser behaviour;
+- application architecture.
 
-```text
-legacy.example.com
-```
+Do not automatically claim session compromise simply because a subdomain takeover exists.
 
-Validate actual browser behaviour before including cookie theft in the impact statement.
-
----
-
-# OAuth and Trusted Redirects
-
-A retired subdomain may remain referenced by:
-
-* OAuth redirect URI allowlists;
-* SAML configurations;
-* CORS allowlists;
-* CSP directives;
-* API allowlists;
-* mobile deep links;
-* webhook destinations;
-* password-reset workflows.
-
-A takeover may therefore have greater impact than simply hosting content.
-
-Search application configuration for references to the affected hostname.
-
-Again:
-
-```text
-Takeover
-    +
-Trusted application relationship
-    =
-Potential additional impact
-```
-
-The trusted relationship must be independently demonstrated.
+Validate the actual cookie configuration.
 
 ---
 
-# Detection
+## OAuth and Trusted Redirects
 
-Defenders can identify takeover risk through continuous DNS and cloud-resource inventory.
+Check whether the affected hostname appears in:
 
-Monitor for:
+- OAuth redirect URI allowlists;
+- OpenID Connect configuration;
+- SAML endpoints;
+- application callback URLs;
+- trusted origin lists;
+- CORS allowlists;
+- webhook destinations;
+- API allowlists.
 
-* CNAME records pointing to nonexistent destinations;
-* Azure resources removed while DNS remains active;
-* unexpected `NXDOMAIN` responses;
-* cloud resources without known owners;
-* stale test and development environments;
-* DNS records referencing deprecated services;
-* unexpected custom-domain changes;
-* resource deletion events followed by unresolved DNS cleanup.
+A seemingly low-value abandoned hostname may have greater impact if another system continues to trust it.
 
-Cloud and DNS inventories should be reconciled regularly.
+See:
+
+[OAuth 2.0 and OpenID Connect](../../web/oauth-oidc.md)
+
+and:
+
+[Cross-Origin Resource Sharing](../../web/cors.md)
 
 ---
 
-# Prevention
+## Detection
 
-## Remove DNS Before Deleting Resources
+Organisations should continuously compare DNS records with active cloud resources.
 
-Where operationally possible:
+Useful detection approaches include:
+
+- DNS inventory monitoring;
+- Azure resource inventory;
+- certificate transparency monitoring;
+- cloud asset management;
+- DNS change monitoring;
+- external attack-surface management;
+- scheduled takeover scanning;
+- decommissioning reviews.
+
+The objective is to detect:
 
 ```text
-Remove or update DNS
-        |
-        v
-Verify traffic migration
-        |
-        v
-Remove custom-domain binding
-        |
-        v
-Delete Azure resource
+DNS Reference Exists
+        +
+Cloud Resource Does Not Exist
 ```
 
-This reduces the period in which a dangling reference can exist.
+before the abandoned dependency becomes externally controllable.
 
 ---
 
-## Maintain Asset Ownership
+## Prevention
+
+### Remove DNS Before Deleting Resources
+
+Where operationally possible, remove the public DNS dependency before deleting the Azure resource.
+
+Preferred sequence:
+
+```text
+Identify Dependencies
+        ↓
+Remove DNS Reference
+        ↓
+Verify DNS Propagation
+        ↓
+Remove Azure Resource
+        ↓
+Verify External State
+```
+
+---
+
+### Maintain Asset Ownership
 
 Track:
 
-* hostname;
-* DNS record;
-* Azure subscription;
-* resource group;
-* Azure resource;
-* business owner;
-* technical owner;
-* environment;
-* lifecycle status;
-* decommission date.
+- DNS records;
+- Azure resources;
+- subscriptions;
+- resource groups;
+- service owners;
+- application owners;
+- business owners;
+- decommission dates.
 
 ---
 
-## Monitor Dangling Records
+### Monitor Dangling DNS
 
-Continuously identify:
+Regularly identify records pointing to resources that no longer exist.
+
+---
+
+### Review Custom Domains
+
+Maintain an inventory of Azure services with custom domains attached.
+
+---
+
+### Include DNS in Decommissioning
+
+Deleting a cloud resource should never be treated as an isolated task.
+
+The decommissioning process should include:
 
 ```text
-DNS records
-        |
-        v
-External/cloud targets
-        |
-        v
-Missing resources
-        |
-        v
-Investigation
+Application
+DNS
+Certificates
+CDN
+Cloud Resources
+OAuth Integrations
+Monitoring
+Secrets
+External Dependencies
 ```
 
 ---
 
-## Decommission as One Workflow
+## Remediation
 
-DNS cleanup should be part of the resource-decommissioning process rather than a separate optional task.
+For a confirmed or suspected dangling Azure dependency:
 
-For example:
+1. Identify the DNS record.
 
-* remove public DNS;
-* remove custom-domain associations;
-* remove certificates;
-* update application references;
-* remove trusted redirect URIs;
-* update monitoring;
-* delete the cloud resource;
-* verify the hostname no longer references the retired service.
+2. Confirm whether the record is still required.
 
----
+3. Determine the associated Azure resource.
 
-# Remediation
+4. If the service is no longer required, remove the DNS record.
 
-For a confirmed or suspected Azure subdomain takeover condition:
+5. If the service is required, restore or correctly configure the Azure resource.
 
-1. Determine whether the DNS record is still required.
-2. If it is not required, remove it.
-3. If the hostname is required, restore or replace the legitimate Azure resource.
-4. Verify custom-domain ownership.
-5. Review related DNS aliases.
-6. Review certificates associated with the hostname.
-7. Search application configurations for references to the hostname.
-8. Review OAuth, SAML, CORS, CSP and webhook trust relationships.
-9. Review historical logs for unexpected use.
-10. Verify that the retired resource identifier cannot be abused.
-11. Add the hostname to continuous asset monitoring.
+6. Review other DNS records for the same service or application.
+
+7. Review certificates and application integrations.
+
+8. Verify that the hostname no longer references an unowned resource.
+
+9. Retest externally.
 
 ---
 
-# Retesting
+## Retesting
 
 After remediation:
 
 ```bash
-dig CNAME legacy.example.com
+dig CNAME app.example.com
 ```
 
-Confirm that the stale record is gone or points to the intended controlled resource.
+Confirm that the vulnerable or obsolete alias has been removed or updated.
 
 Then:
 
 ```bash
-curl -ik https://legacy.example.com/
+dig app.example.com
 ```
 
-Verify that the previous provider fingerprint or unclaimed-resource behaviour is no longer present.
+and:
 
-Where appropriate, confirm that the old Azure resource identifier can no longer create a security consequence for the organisation-controlled hostname.
+```bash
+curl -I https://app.example.com
+```
+
+Confirm that the hostname either:
+
+- resolves to an organisation-controlled service; or
+- no longer resolves if the service has been retired.
 
 ---
 
-# Assessment Checklist
+## Assessment Checklist
 
-## Discovery
-
-* [ ] Enumerate organisation-owned subdomains.
-* [ ] Resolve CNAME records.
-* [ ] Follow complete DNS chains.
-* [ ] Identify Azure service namespaces.
-* [ ] Record unresolved or suspicious destinations.
-
-## Candidate Analysis
-
-* [ ] Confirm the organisation controls the source hostname.
-* [ ] Confirm the DNS record still exists.
-* [ ] Confirm the Azure destination appears absent.
-* [ ] Identify the Azure service.
-* [ ] Research current service behaviour.
-* [ ] Check whether the resource identifier appears reusable.
-* [ ] Determine custom-domain verification requirements.
-
-## Validation
-
-* [ ] Confirm testing is explicitly authorised.
-* [ ] Use the least invasive validation method.
-* [ ] Do not rely solely on scanner fingerprints.
-* [ ] Do not rely solely on `NXDOMAIN`.
-* [ ] Validate actual resource claimability.
-* [ ] Validate domain-binding requirements.
-* [ ] Stop once the agreed proof has been obtained.
-
-## Evidence
-
-* [ ] Capture DNS records.
-* [ ] Capture provider response.
-* [ ] Record timestamps.
-* [ ] Record Azure service type.
-* [ ] Record resource availability evidence where authorised.
-* [ ] Distinguish observation from demonstrated consequence.
-
-## Impact
-
-* [ ] Determine whether trusted links reference the hostname.
-* [ ] Review cookie scope.
-* [ ] Review OAuth/SAML trust.
-* [ ] Review CORS/CSP configuration.
-* [ ] Review webhook/API dependencies.
-* [ ] Base severity on demonstrated impact.
-
-## Remediation
-
-* [ ] Remove stale DNS.
-* [ ] Restore required resources.
-* [ ] Remove stale custom-domain associations.
-* [ ] Review related application configuration.
-* [ ] Add lifecycle controls.
-* [ ] Retest.
+- [ ] Enumerate organisation subdomains
+- [ ] Resolve CNAME records
+- [ ] Follow complete CNAME chains
+- [ ] Identify Azure-managed hostnames
+- [ ] Determine whether the Azure resource exists
+- [ ] Inspect HTTP and HTTPS behaviour
+- [ ] Identify service-specific fingerprints
+- [ ] Determine current Azure service behaviour
+- [ ] Check resource-name availability
+- [ ] Check custom-domain verification requirements
+- [ ] Distinguish dangling DNS from confirmed takeover
+- [ ] Perform controlled validation only when authorised
+- [ ] Capture evidence
+- [ ] Review cookies and trusted integrations
+- [ ] Document actual impact
+- [ ] Retest after remediation
 
 ---
 
-# Security Conclusion
+## Security Conclusion
 
-The strongest conclusion should describe exactly what was demonstrated.
+The conclusion should reflect what was actually demonstrated.
 
-For example:
+### Confirmed Takeover
 
-```text
-A DNS CNAME for legacy.example.com referenced a deleted Azure-hosted
-resource. The Azure resource identifier was confirmed to be available
-for registration during the authorised assessment, and the service's
-domain-binding controls did not prevent association of the
-organisation-controlled hostname.
+Use wording such as:
 
-This demonstrated a subdomain takeover condition.
-```
+> The affected subdomain referenced an Azure resource that no longer existed. During controlled validation, the referenced resource could be brought under tester control and the organisation's subdomain resolved to the controlled resource. This confirms that the dangling DNS configuration resulted in a subdomain takeover condition.
+
+### Dangling DNS Only
 
 If claimability was not demonstrated:
 
-```text
-A dangling Azure DNS reference was identified. The referenced resource
-was unavailable, but unauthorised resource claimability and custom-domain
-association were not demonstrated.
+> The affected subdomain contains a dangling DNS record referencing an Azure resource that no longer appears to exist. Resource claimability was not demonstrated; therefore, the condition should be reported as dangling DNS or a potential subdomain takeover rather than a confirmed takeover.
 
-The condition should therefore be reported as a dangling DNS
-configuration requiring remediation rather than a confirmed subdomain
-takeover.
-```
-
-This distinction keeps the finding technically defensible.
+This distinction prevents an observation from being overstated as proven impact.
 
 ---
 
-# Related Notes
+## Related Notes
 
-* [Subdomain Enumeration](../../web/reconnaissance/subdomain-enumeration.md)
-* [Attack Surface Analysis](../../web/attack-surface-analysis.md)
-* [Information Disclosure](../../web/information-disclosure.md)
-* [OAuth 2.0 and OpenID Connect](../../web/oauth-oidc.md)
-* [Cross-Origin Resource Sharing](../../web/cors.md)
-* [HTTP Security Headers](../../web/http-security-headers.md)
+- [Subdomain Enumeration](../../web/reconnaissance/subdomain-enumeration.md)
+- [Attack Surface Analysis](../../web/attack-surface-analysis.md)
+- [Information Disclosure](../../web/information-disclosure.md)
+- [OAuth 2.0 and OpenID Connect](../../web/oauth-oidc.md)
+- [Cross-Origin Resource Sharing](../../web/cors.md)
+- [HTTP Security Headers](../../web/http-security-headers.md)
 
 ---
 
-# References
+## References
 
-* [Subdomain takeover: A deep dive into a common but overlooked cloud vulnerability - Asif Nawaz Minhas](https://www.asifnawazminhas.com/posts/Subdomain-takeover/){ target="_blank" rel="noopener noreferrer" }
-* [Can I Take Over XYZ? - EdOverflow](https://github.com/EdOverflow/can-i-take-over-xyz){ target="_blank" rel="noopener noreferrer" }
-* [Microsoft Azure Subdomain Takeover Guide - Stratus Security](https://www.stratussecurity.com/post/azure-subdomain-takeover-guide){ target="_blank" rel="noopener noreferrer" }
-
-!!! note "Reference freshness"
-
-```
-Cloud-provider behaviour changes over time. Provider-specific fingerprints and claimability information should be checked against current Azure behaviour before reaching a security conclusion.
-```
+- [Asif Nawaz Minhas - Subdomain Takeover](https://www.asifnawazminhas.com/posts/Subdomain-takeover/){ target="_blank" rel="noopener noreferrer" }
+- [EdOverflow - can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz){ target="_blank" rel="noopener noreferrer" }
+- [Stratus Security - Azure Subdomain Takeover Guide](https://www.stratussecurity.com/post/azure-subdomain-takeover-guide){ target="_blank" rel="noopener noreferrer" }
