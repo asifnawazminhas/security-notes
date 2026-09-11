@@ -3619,6 +3619,54 @@ Cross-Boundary Security Dependency
 
 ---
 
+# Conceptual Scope and Trust Interpretation
+
+This page is the broad conceptual reference for Active Directory trust types, direction, transitivity, and domain or forest security boundaries. For operational enumeration, authentication-direction testing, cross-domain access checks, and controlled validation, continue to [Trust Relationships](trust-relationships.md).
+
+## Direction From the Relevant Domain
+
+Trust direction is described from the perspective of the domain or forest being trusted:
+
+```text
+Domain A trusts Domain B
+   -> Domain A accepts authentication from Domain B
+   -> Domain B is the trusted domain
+   -> Domain A is the trusting domain
+```
+
+An inbound trust from the perspective of a domain means authentication is accepted into that domain from the other side. An outbound trust means the domain can authenticate toward the other side. Always state the perspective used in notes and evidence; GUI labels and command output can describe the same relationship from opposite sides.
+
+Trust existence establishes a configured relationship. It does not by itself establish that every identity can authenticate, that authentication is accepted by a particular service, that a resource is accessible, or that administrative rights or execution are available.
+
+## Transitivity and Boundaries
+
+Transitive trust can allow the relationship to extend through an additional trusted domain or forest according to the trust architecture. It does not automatically grant resource access across every hop. Non-transitive trust is limited to the directly related domains or realms and should not be interpreted as a route through unrelated domains.
+
+Intra-forest relationships normally rely on the forest's internal trust model and shared directory assumptions. Inter-forest and external relationships cross a more explicit administrative boundary and require careful review of authentication, SID handling, selective authentication, and resource permissions. A parent-child or tree-root relationship is not equivalent to unrestricted administrative control of every forest resource.
+
+## Boundary Controls and Interpretation
+
+SID filtering can reduce the risk of untrusted SID history being presented across a trust. Selective authentication restricts which users from the trusted side may authenticate to computers on the trusting side. Neither control should be inferred solely from the trust type: verify the effective configuration and the target resource's authorization.
+
+Use this interpretation chain:
+
+```text
+Observed trust
+   -> Candidate authentication relationship
+   -> Confirm direction, transitivity, filtering, and selective authentication
+   -> Test approved identity and service/resource boundary
+   -> Evidence of actual access or denial
+   -> Security conclusion
+```
+
+Record the querying domain, trust direction, trust type, source identity, target service or resource, authentication result, authorization result, and any administrative or execution consequence separately. Do not report a trust as a vulnerability because it exists or because a graph shows a cross-domain relationship.
+
+## Evidence and Defensive Considerations
+
+Useful evidence includes the trust object and attributes, source and target domains or forests, effective SID filtering and selective-authentication settings, approved authentication test, resource ACL or group context, and relevant success or denial events. Redact unrelated domain and identity information when it is outside scope.
+
+Defensive review should minimise trust scope, prefer one-way relationships where appropriate, use selective authentication for sensitive resources, preserve SID filtering, restrict foreign group membership, limit network paths, separate privileged administration, and monitor trust, group, ACL, and authentication changes. Retest after changes from the relevant source identity and verify both legitimate cross-domain access and denied access.
+
 # Related Notes
 
 Active Directory:

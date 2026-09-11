@@ -5412,6 +5412,59 @@ Search Variants
 
 ---
 
+# Practical Search and Triage Workflow
+
+## Search Deliberately
+
+Start with repository structure and technology identification, then narrow searches by language, path, and role. Prefer several small searches over one giant expression:
+
+```bash
+rg -n --glob '*.py' --glob '!tests/**' --glob '!vendor/**' 'subprocess|os\.system|eval' .
+rg -n -g '*.{js,ts}' 'req\.(body|query|params)|fetch\(|axios\.' src/
+rg -n -g '*.{java,kt}' 'findById|@PreAuthorize|Runtime\.getRuntime' .
+```
+
+Use `--files`, `--type`, `--glob`, `-g`, `-i`, `-F`, context lines, and path exclusions to reduce generated, dependency, fixture, and build noise. Inspect nearby definitions and call sites with `-C` or `-B`/`-A`; a matching line without its surrounding control flow is rarely enough to interpret safely.
+
+## Search Sources, Sinks, and Controls
+
+Build a review matrix rather than a payload list:
+
+```text
+Source: request, file, environment, message, queue, database, webhook
+Control: authentication, authorisation, validation, encoding, allowlist
+Sink: query, command, file, template, parser, redirect, outbound request
+Context: role, tenant, feature flag, deployment, error handling
+```
+
+Search authentication and authorisation middleware alongside dangerous APIs. Look for route declarations, role checks, object lookups, tenant filters, security decorators, password and token handling, secret/configuration files, command execution, deserialization, file access, HTTP clients, template rendering, and cryptographic operations. Search repeated patterns across controllers, API versions, workers, and background jobs to find variants.
+
+## Candidate Triage
+
+Use this sequence:
+
+```text
+Match
+    -> Open surrounding code
+    -> Identify source and sink
+    -> Trace transformations and controls
+    -> Check reachability and deployment context
+    -> Validate with tests or a focused tool
+    -> Evidence and security conclusion
+```
+
+An `eval`, query call, file operation, missing-looking decorator, hard-coded string, or static-analysis alert is a candidate. False positives commonly come from constants, test code, unreachable routes, framework escaping, parameterized APIs, trusted internal inputs, generated code, and controls implemented in another layer. Record why a candidate was confirmed, downgraded, or excluded.
+
+## Escalate When Structure Matters
+
+Use Semgrep or OpenGrep for syntax-aware patterns and CodeQL or equivalent data-flow analysis when reachability crosses helpers, wrappers, framework boundaries, or multiple languages. Use the result to prioritize and compare candidates; manually inspect the source-to-sink path and security control before reporting it.
+
+Variant analysis should begin with a confirmed root cause. Search for the same sink, missing control, data structure, route family, API version, or helper misuse across the codebase, then validate each variant independently. Continue with [Variant Analysis](../variant-analysis.md) and [Static Analysis](index.md).
+
+## Evidence and Reporting
+
+Capture repository commit, file and line, language/framework, relevant surrounding code, source-to-sink path, security control, reachability assumptions, test or tool output, and the reason the result is confirmed. Redact secrets and avoid copying unrelated source. Link the conclusion to the affected trust boundary and impact rather than the search term that found it.
+
 # References
 
 ## ripgrep GitHub Repository

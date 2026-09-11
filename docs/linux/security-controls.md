@@ -3996,6 +3996,58 @@ The effective security posture comes from the complete control chain.
 
 ---
 
+# Practical Security-Control Assessment
+
+## Configured State to Security Conclusion
+
+Assess controls through the following chain:
+
+```text
+Configured state
+        -> Effective state
+        -> Applicable context
+        -> Controlled validation
+        -> Evidence
+        -> Security conclusion
+```
+
+A package, configuration file, command output, or enabled service is an observation. It does not by itself prove that a control applies to the tested process, user, namespace, mount, or service.
+
+## Context and Control Coverage
+
+Record the user and groups, UID/GID, service account, namespace or container context, executable path, parent service, mount namespace, and relevant network exposure. Then correlate:
+
+- Unix ownership, mode bits, ACLs, SUID/SGID, and file capabilities;
+- `sudo` policy and the effective command context;
+- SELinux mode, policy, domain, and AVC decisions;
+- AppArmor profile attachment and complain/enforce mode;
+- seccomp status, `NoNewPrivileges`, namespaces, and service restrictions;
+- mount options such as `nosuid`, `noexec`, and `nodev` where applicable;
+- systemd hardening, container isolation, capabilities, and host-resource exposure;
+- PAM, firewall, audit, journal, and application logging controls.
+
+Check runtime state such as `getenforce`, `aa-status`, `/proc` status, `findmnt`, `systemctl show`, `systemd-analyze security`, effective `sudo` policy, and audit or journal records. Interpret command failure carefully: missing tooling, insufficient permission, a container view, or distribution differences can produce incomplete observations.
+
+## Controlled Validation and Expected Results
+
+Prefer a harmless, reversible test using a dedicated service, file, process, or container. Compare the expected policy decision with the actual result and correlate the relevant log or audit event.
+
+| Observation | Establishes | Still requires validation |
+|---|---|---|
+| SELinux or AppArmor is enabled | A MAC framework is active | Whether the tested process has a profile/domain and the action is denied |
+| `NoNewPrivileges` is set | A process cannot gain privileges through some execution paths | Coverage of the specific dependency or privileged helper |
+| `nosuid` is present | SUID/SGID behavior is restricted on that mount | Other mounts, capabilities, services, or namespaces |
+| A systemd hardening option is configured | A unit has a requested restriction | Effective unit state and whether the protected resource is actually covered |
+| Audit records exist | Some activity is logged | Completeness, alerting, retention, and analyst response |
+
+Do not disable SELinux, AppArmor, seccomp, firewalling, auditing, or service restrictions to manufacture a result. A blocked controlled action is evidence that the defense works for that path; a successful action requires analysis of the exact security boundary crossed.
+
+## Troubleshooting, Evidence, and Retesting
+
+For conflicting results, check effective versus local configuration, policy reload and reboot state, profile attachment, namespace visibility, inherited systemd drop-ins, mount namespace differences, container privileges, capability bounding sets, service restarts, logging rate limits, and whether another control caused the denial. Repeat the baseline as the same user and process context.
+
+Capture identity and group context, process and service details, relevant effective configuration, test input and expected result, actual result, timestamps, and correlated logs. Remediation should address the control that owns the boundary: permissions, sudo, MAC policy, capabilities, seccomp, mounts, systemd, container configuration, network control, or logging. Retest normal and denied behavior after reload or reboot, across the affected service context, and confirm legitimate operation remains available.
+
 # Related Notes
 
 - [Linux Overview](index.md)

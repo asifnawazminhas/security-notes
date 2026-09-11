@@ -3607,6 +3607,63 @@ That is meaningful purple team measurement.
 
 ---
 
+# Practical Measurement Model
+
+## Objectives and Baselines
+
+Define the exercise objective before selecting metrics. Examples include testing whether a technique is prevented, whether telemetry supports detection, whether analysts can investigate it, or whether a remediation remains effective after a later retest.
+
+Record a baseline using the same scope, technique, identities, data sources, environment, and time assumptions as the exercise where possible. Compare pre-change and post-change observations rather than comparing unrelated exercises.
+
+```text
+Objective
+       -> Baseline
+       -> Controlled exercise
+       -> Detection and response observations
+       -> Remediation
+       -> Repeatable retest
+       -> Trend and learning conclusion
+```
+
+## Useful Outcome Measures
+
+Separate activity metrics from security outcomes:
+
+| Area | Useful measure | Interpretation caution |
+|---|---|---|
+| Prevention | Attempted actions blocked under the tested condition | A block may depend on scope, identity, or environment |
+| Detection | Relevant events and alerts generated for successful or blocked activity | Alert presence is not detection effectiveness without investigation |
+| Detection latency | Time from controlled activity to usable alert | Clock, ingestion, batching, and timestamp differences matter |
+| Response latency | Time from actionable alert to agreed response action | Measure the defined response milestone, not vague awareness |
+| Alert quality | Correctly classified, actionable alerts versus noise | Include false positives and missed expected detections |
+| Investigation | Analysts reconstruct identity, technique, scope, and impact | Completion alone does not prove accuracy |
+| Knowledge transfer | Participants demonstrate the procedure or explain the control | Attendance is an activity metric, not a learning outcome |
+| Retest | Same objective and evidence show the intended improvement persists | A changed tool or environment can invalidate the comparison |
+
+Do not invent universal thresholds. Define success criteria with the system owner and record assumptions, denominator, sample size, timing, and limitations. A high alert count can represent poor quality; zero alerts can represent either prevention, missing telemetry, or failed test execution.
+
+## Evidence and Interpretation
+
+Preserve exercise plan, exact technique and target, timestamps, prevention result, telemetry, alert and case identifiers, analyst actions, response milestones, false-positive/false-negative decisions, remediation record, and retest evidence. Correlate endpoint, identity, network, application, and case-management sources where authorised.
+
+Interpret the complete chain:
+
+```text
+Activity attempted
+       -> Control prevented or activity occurred
+       -> Telemetry available
+       -> Detection usable
+       -> Analyst action correct and timely
+       -> Response completed
+       -> Improvement retested
+```
+
+An executed technique is not automatically a control failure, and an alert is not automatically successful detection. Explain what the evidence establishes, what it cannot establish, and whether the result is repeatable.
+
+## Retesting and Trend Comparison
+
+Repeat the same scenario after remediation with comparable scope and timing, then test a small relevant variant to detect brittle fixes. Compare trends by objective, not only by total exercise count. Record environment changes, sensor coverage, rule changes, staffing, and data-quality limitations that affect comparability. Link detailed execution and after-action work to [Purple Teaming Methodology](methodology.md), [Detection Engineering](detection-engineering.md), and [Continuous Validation](continuous-validation.md).
+
 # Related Notes
 
 - [Purple Teaming Overview](index.md)

@@ -2325,6 +2325,43 @@ nuclei -h
 
 ---
 
+# Template Selection and Result Validation
+
+## Select and Review Templates
+
+Choose templates based on confirmed scope, technology, endpoint behavior, assessment objective, and risk. Record the template source, version or commit, author, tags, severity, variables, request method, matcher, extractor, and whether the template can alter state or generate external interactions. Prefer the official ProjectDiscovery collection or an approved reviewed repository; read the template before using an unfamiliar or intrusive check.
+
+Severity is a prioritisation signal from the template, not the final severity of the finding. A template may match a version, banner, header, default page, or generic response without proving exposure or exploitability in the target context.
+
+## Controlled Scanning
+
+Confirm target scope before every run, exclude third-party infrastructure unless explicitly included, and use conservative rate, concurrency, timeout, retry, and host-error settings. Authenticated scanning should use dedicated least-privilege accounts and approved test data; protect cookies, tokens, and output files.
+
+Interpret matcher and extractor behavior:
+
+```text
+Template request
+      -> Matcher condition
+      -> Extracted value or evidence
+      -> Candidate result
+      -> Manual reproduction
+      -> Security conclusion
+```
+
+A matcher may depend on status, word, regex, DSL, headers, body, or a combination. An extractor may only display a value; it does not prove that the value is sensitive or usable. Check generic pages, soft 404s, WAF/CDN responses, redirects, cached content, authentication state, version backports, and template assumptions before accepting a result.
+
+## Manual Validation and Evidence
+
+Read the template and reproduce the request with Burp Suite, `curl`, the relevant client, or another approved tool. Establish a baseline, change one condition where appropriate, and validate the smallest non-destructive proof. Confirm product/version, configuration, authorization, reachability, and impact with a safe read-back or owner-approved test.
+
+Capture target and scope, template path and hash or commit, Nuclei version, command options, timestamp, request and response with secrets redacted, matcher or extractor that fired, baseline comparison, manual validation, and evidence of the actual security consequence. A Nuclei match is a candidate, not an automatic vulnerability.
+
+## Troubleshooting, Remediation, and Retesting
+
+For inconsistent results, check template version, target normalization, redirects, virtual hosts, TLS verification, rate limits, authentication headers, cookies, WAF behavior, concurrency, retries, and whether the response came from a shared cache or intermediary. Run the template alone at low rate and compare the raw response with a manual request.
+
+Use the vendor advisory, product configuration, or application owner to remediate the underlying weakness. Retest with the same template version and options, then manually confirm the old response is absent or the vulnerable behavior is no longer reachable. Run a relevant neighboring template or manual check to detect a narrow fix without treating unrelated matches as proof.
+
 # Related Tool Notes
 
 [Web Application Testing Tools](index.md)

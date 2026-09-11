@@ -3638,6 +3638,30 @@ Connect the escalation to the wider attack path.
 
 ---
 
+# Campaign-Level Scope
+
+This page describes privilege escalation as a Red Teaming campaign activity: reassessing the foothold, prioritising attack paths, coordinating safe validation, considering detection and operational impact, and recording the resulting security boundary. It is not a replacement for platform-specific enumeration or exploit-validation notes.
+
+Use the dedicated technical pages for implementation detail:
+
+- [Windows Privilege Escalation](../windows/privilege-escalation.md) for Windows services, tasks, tokens, permissions, registry, UAC, and application control.
+- [Linux Privilege Escalation](../linux/privilege-escalation.md) for sudo, SUID/SGID, capabilities, services, scheduled jobs, filesystem permissions, and Linux-specific boundaries.
+- [PrivEsc Explorer](../privesc/index.md), [Windows PrivEsc Explorer](../privesc/windows.md), and [Linux PrivEsc Explorer](../privesc/linux.md) for observed conditions and candidate privilege mechanisms.
+- [Active Directory Privilege Escalation](../active-directory/privilege-escalation.md), [BloodHound](../active-directory/bloodhound.md), and [ACL/ACE Abuse](../active-directory/acl-ace.md) for directory relationships and validation.
+
+The campaign model remains:
+
+```text
+Current foothold
+      -> Candidate privilege path
+      -> Platform-specific prerequisite validation
+      -> Minimum authorised operation
+      -> Demonstrated boundary and detection evidence
+      -> Reassess, clean up, and report
+```
+
+Do not treat an enumeration result, graph edge, writable resource, or tool alert as a confirmed escalation. Keep the campaign decision separate from the technical mechanism and record the identity, boundary, trigger, consequence, and cleanup requirements.
+
 # Related Notes
 
 - [Red Teaming](index.md)
