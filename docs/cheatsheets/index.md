@@ -1,466 +1,296 @@
 ---
 title: Cheatsheets
-description: Practical cybersecurity cheatsheets for penetration testing, red teaming, Active Directory, Windows, Linux, web application security, networking and security tooling.
+description: Practical cybersecurity cheatsheets for authorised assessments, covering operating systems, networking, web testing, authentication, injection, Active Directory and security tools.
 ---
 
 # Cheatsheets
 
-Quick operational references for **penetration testing**, **red teaming**, **Active Directory**, **Windows**, **Linux**, **web application security**, **networking** and commonly used security tools.
+Quick operational references for authorised security assessments: commands, focused workflows, validation steps, troubleshooting and result interpretation.
 
-These cheatsheets are designed for use during authorised security assessments when you need to quickly answer:
+Use these pages when you need to answer:
 
-```text
-What should I check?
+- What should I check?
+- When does this command or technique apply?
+- What prerequisites must be satisfied?
+- What should the result look like?
+- What does the result actually establish?
+- What should I validate next?
 
-Which command should I use?
+The catalogue below links to all 29 dedicated cheatsheets. Use the detailed topic notes when you need background, protocol internals, a fuller testing method or remediation guidance.
 
-What does the result mean?
+**Observation -> Candidate -> Validation -> Evidence -> Security Conclusion**
 
-What should I investigate next?
-```
+!!! warning "Authorised security testing"
+    Use these references only within the approved scope and Rules of Engagement. Check targets, accounts, privileges, operational impact and cleanup requirements before execution. A command appearing in a cheatsheet does not make it appropriate for every environment.
 
-Unlike the detailed topic notes, the cheatsheets focus on fast access to commands, workflows, validation steps and result interpretation.
-
-!!! warning "Authorised Security Testing"
-
-    The commands and techniques in these cheatsheets are intended for educational purposes, security research and authorised security testing only.
-
-## Choose a Cheatsheet
+## Start Here
 
 <div class="grid cards" markdown>
 
--   :material-linux:{ .lg .middle } **Linux**
+-   **Host Assessment**
 
     ---
 
-    Linux enumeration, privilege escalation triage, permissions, SUID/SGID, capabilities, sudo, services, cron, containers, credentials, networking, and evidence collection.
+    Establish identity, permissions, services, scheduled execution, security controls and privilege-escalation candidates.
 
-    [:octicons-arrow-right-24: Linux Cheatsheet](linux.md)
+    [Linux](linux.md) · [Windows](windows.md) · [PowerShell](powershell.md)
 
--   :material-microsoft-windows:{ .lg .middle } **Windows**
-
-    ---
-
-    Windows host enumeration, privileges, services, scheduled tasks, writable paths, AppLocker, App Control, Defender, credentials, local privilege escalation, and evidence collection.
-
-    [:octicons-arrow-right-24: Windows Cheatsheet](windows.md)
-
--   :material-powershell:{ .lg .middle } **PowerShell**
+-   **Networking and Traffic**
 
     ---
 
-    PowerShell syntax, host enumeration, files, ACLs, registry, networking, remoting, language modes, execution controls, logging, Defender, and security assessment commands.
+    Investigate interfaces, routes, DNS, service exposure, connectivity and packet evidence.
 
-    [:octicons-arrow-right-24: PowerShell Cheatsheet](powershell.md)
+    [Networking](networking.md) · [Nmap](nmap.md) · [Wireshark and tshark](wireshark-tshark.md)
 
--   :material-lan:{ .lg .middle } **Networking**
-
-    ---
-
-    TCP/IP, DNS, routing, ports, sockets, Nmap, packet capture, HTTP/TLS, SSH tunnels, proxies, pivoting, VPNs, Active Directory networking, and troubleshooting.
-
-    [:octicons-arrow-right-24: Networking Cheatsheet](networking.md)
-
--   :material-web:{ .lg .middle } **Web Application Security**
+-   **Web Assessment and Tooling**
 
     ---
 
-    Reconnaissance, authentication, authorisation, sessions, SQL injection, XSS, SSRF, file upload, path traversal, request smuggling, APIs, JWT, GraphQL, and Burp Suite workflows.
+    Map the application, capture a baseline, discover relevant content and reproduce focused requests.
 
-    [:octicons-arrow-right-24: Web Cheatsheet](web.md)
+    [Web](web.md) · [Burp Suite](burp-suite.md) · [curl](curl.md) · [Content Discovery](content-discovery.md)
 
--   :material-microsoft-windows:{ .lg .middle } **Active Directory**
-
-    ---
-
-    Domain enumeration, users, groups, computers, Kerberos, NTLM, ACLs, delegation, AD CS, trusts, credential access, lateral movement, and privilege escalation.
-
-    [:octicons-arrow-right-24: Active Directory Cheatsheet](active-directory.md)
-
--   :material-console:{ .lg .middle } **NetExec**
+-   **Authentication and Access Control**
 
     ---
 
-    Practical NetExec reference for SMB, LDAP, WinRM, MSSQL, authentication validation, share enumeration, password policies, local administrators, sessions, and Active Directory assessment workflows.
+    Review identities, sessions, resource permissions, tokens and federated login flows.
 
-    [:octicons-arrow-right-24: NetExec Cheatsheet](netexec.md)
+    [Authentication and Sessions](authentication-session-testing.md) · [Authorisation, IDOR and BOLA](authorization-access-control.md)
 
--   :material-tools:{ .lg .middle } **Impacket**
+    [JWT](jwt.md) · [OAuth 2.0 and OpenID Connect](oauth-oidc.md)
 
-    ---
-
-    Impacket reference for SMB, RPC, Kerberos, SPNs, ticket handling, MSSQL, remote administration, credential access, troubleshooting, evidence collection, and result interpretation.
-
-    [:octicons-arrow-right-24: Impacket Cheatsheet](impacket.md)
-
--   :material-graph:{ .lg .middle } **BloodHound**
+-   **Active Directory**
 
     ---
 
-    BloodHound collection, graph analysis, attack paths, ACL relationships, administrative rights, sessions, Cypher queries, path validation, false positives, remediation, and retesting.
+    Connect domain context, protocol access and directory relationships to candidate attack paths.
 
-    [:octicons-arrow-right-24: BloodHound Cheatsheet](bloodhound.md)
+    [Active Directory](active-directory.md) · [NetExec](netexec.md) · [BloodHound](bloodhound.md) · [Impacket](impacket.md)
+
+-   **Source Code and Repositories**
+
+    ---
+
+    Search code, inspect changes and trace candidate security checks before selecting a validation method.
+
+    [Git and ripgrep](git-ripgrep.md)
 
 </div>
 
+## Complete Cheatsheet Catalogue
 
-## How to Use the Cheatsheets
+Choose a reference according to the question being investigated. These categories organise the pages; they are not a mandatory testing sequence.
 
-The cheatsheets are intended to support a repeatable assessment workflow:
+### Operating Systems and Shells
 
-```text
-Observation
-    |
-    v
-Choose Relevant Cheatsheet
-    |
-    v
-Locate Command or Technique
-    |
-    v
-Check Prerequisites
-    |
-    v
-Run Focused Test
-    |
-    v
-Review Result
-    |
-    v
-Interpret Security Meaning
-    |
-    v
-Validate Further If Required
-    |
-    v
-Capture Evidence
-```
-
-A command succeeding does not automatically mean a vulnerability exists.
-
-The important question is:
-
-> **What does the result actually prove?**
-
-
-## Host Assessment
-
-For host-level security testing:
-
-<div class="grid cards" markdown>
-
--   :material-linux:{ .lg .middle } **Linux Assessment**
-
-    ---
-
-    Start with system identity, users, groups, sudo, permissions, services, scheduled jobs, SUID/SGID, capabilities, containers, credentials, networking, and privilege escalation candidates.
-
-    [:octicons-arrow-right-24: Open Linux Cheatsheet](linux.md)
-
--   :material-microsoft-windows:{ .lg .middle } **Windows Assessment**
-
-    ---
-
-    Review identity, privileges, services, scheduled tasks, filesystem permissions, registry configuration, execution controls, credentials, Defender, and privilege escalation candidates.
-
-    [:octicons-arrow-right-24: Open Windows Cheatsheet](windows.md)
-
--   :material-powershell:{ .lg .middle } **PowerShell Assessment**
-
-    ---
-
-    Use PowerShell for Windows enumeration, permissions analysis, registry inspection, networking, policy inspection, event logs, Defender configuration, and evidence collection.
-
-    [:octicons-arrow-right-24: Open PowerShell Cheatsheet](powershell.md)
-
-</div>
-
-
-## Active Directory Assessment
-
-For Active Directory environments, the cheatsheets can be combined into a workflow:
-
-```text
-Active Directory
-       |
-       v
-Initial Enumeration
-       |
-       v
-NetExec
-       |
-       +--> SMB
-       +--> LDAP
-       +--> WinRM
-       +--> MSSQL
-       |
-       v
-BloodHound
-       |
-       +--> Groups
-       +--> ACLs
-       +--> Sessions
-       +--> Admin Rights
-       +--> Attack Paths
-       |
-       v
-Impacket
-       |
-       +--> Kerberos
-       +--> SMB
-       +--> RPC
-       +--> MSSQL
-       +--> Focused Validation
-       |
-       v
-Manual Validation
-       |
-       v
-Evidence
-```
-
-Use:
-
-- [Active Directory Cheatsheet](active-directory.md) for the overall assessment workflow.
-- [NetExec Cheatsheet](netexec.md) for broad protocol and access mapping.
-- [BloodHound Cheatsheet](bloodhound.md) for relationship and attack-path analysis.
-- [Impacket Cheatsheet](impacket.md) for focused protocol-level validation.
-
-
-## Web Application Assessment
-
-A typical web assessment workflow is:
-
-```text
-Target
-  |
-  v
-Reconnaissance
-  |
-  v
-Technology Identification
-  |
-  v
-Content Discovery
-  |
-  v
-Parameter Discovery
-  |
-  v
-Authentication
-  |
-  v
-Authorisation
-  |
-  v
-Input Handling
-  |
-  v
-Server-Side Behaviour
-  |
-  v
-API Testing
-  |
-  v
-Business Logic
-  |
-  v
-Evidence and Reporting
-```
-
-Use the [Web Application Security Cheatsheet](web.md) as the operational reference and the detailed [Web Application Security Notes](../web/index.md) when deeper explanation is required.
-
-
-## Networking
-
-Networking supports nearly every other assessment area.
-
-Use the [Networking Cheatsheet](networking.md) for:
-
-```text
-Interfaces
-
-IP addressing
-
-Routes
-
-DNS
-
-TCP
-
-UDP
-
-Ports
-
-Nmap
-
-HTTP
-
-TLS
-
-Packet capture
-
-SSH
-
-Tunnelling
-
-Proxies
-
-Pivoting
-
-VPNs
-
-Active Directory connectivity
-
-Troubleshooting
-```
-
-
-## Tool-Specific Cheatsheets
-
-The tool-specific references are intentionally more detailed than simple command lists.
-
-### NetExec
-
-Use the [NetExec Cheatsheet](netexec.md) when working with:
-
-```text
-SMB
-
-LDAP
-
-WinRM
-
-MSSQL
-
-Domain authentication
-
-Local authentication
-
-Shares
-
-Password policies
-
-Local administrators
-
-Sessions
-
-Active Directory enumeration
-```
-
-### Impacket
-
-Use the [Impacket Cheatsheet](impacket.md) for focused protocol operations involving:
-
-```text
-SMB
-
-RPC
-
-Kerberos
-
-SPNs
-
-TGTs
-
-Service tickets
-
-MSSQL
-
-Remote administration
-
-Credential stores
-```
-
-### BloodHound
-
-Use the [BloodHound Cheatsheet](bloodhound.md) for:
-
-```text
-Active Directory graph analysis
-
-Group relationships
-
-ACL relationships
-
-Administrative rights
-
-Sessions
-
-Delegation
-
-Attack paths
-
-Cypher queries
-
-Path validation
-
-Remediation analysis
-```
-
-
-## Tool Selection
-
-Choose the tool based on the question being investigated.
-
-| Question | Starting Point |
+| Cheatsheet | Use it for |
 |---|---|
-| What is running on this Linux host? | [Linux](linux.md) |
-| What privileges does my Windows account have? | [Windows](windows.md) |
-| How can I query this Windows configuration? | [PowerShell](powershell.md) |
-| Why can I not reach this service? | [Networking](networking.md) |
-| What should I test in this web application? | [Web](web.md) |
-| How should I approach this AD environment? | [Active Directory](active-directory.md) |
-| Which systems accept this authorised domain credential? | [NetExec](netexec.md) |
-| Which AD relationships create privilege paths? | [BloodHound](bloodhound.md) |
-| Which protocol-specific tool should validate this AD relationship? | [Impacket](impacket.md) |
+| [Linux](linux.md) | Identity, groups, sudo, permissions, SUID/SGID, capabilities, services, scheduled jobs, containers and host assessment |
+| [Windows](windows.md) | Identity, privileges, services, scheduled tasks, filesystem and registry permissions, execution controls and host assessment |
+| [PowerShell](powershell.md) | Syntax, configuration queries, files, ACLs, registry, networking, remoting, language modes and evidence collection |
 
+### Networking and Traffic
 
-## From Observation to Conclusion
+| Cheatsheet | Use it for |
+|---|---|
+| [Networking](networking.md) | Interfaces, addresses, routes, DNS, sockets, connectivity, TLS, tunnels, proxies, VPNs and pivoting context |
+| [Nmap](nmap.md) | Approved host and service discovery, scan selection, output interpretation and focused follow-up |
+| [Wireshark and tshark](wireshark-tshark.md) | Packet capture, traffic filtering, protocol inspection and network evidence |
 
-The cheatsheets should not be used as:
+### Web Assessment and Tooling
 
-```text
-Command
-   |
-   v
-Interesting Output
-   |
-   v
-Finding
+| Cheatsheet | Use it for |
+|---|---|
+| [Web Application Security](web.md) | The overall web assessment workflow and routing into specific tests |
+| [Burp Suite](burp-suite.md) | Request interception, manual testing, comparison and application-testing workflows |
+| [curl](curl.md) | Focused HTTP requests, headers, cookies, request bodies, proxies and response inspection |
+| [Content Discovery](content-discovery.md) | Identifying routes, files and application content while accounting for baseline responses and filtering |
+
+### Authentication, Sessions and Identity
+
+| Cheatsheet | Use it for |
+|---|---|
+| [Authentication and Session Testing](authentication-session-testing.md) | Login, session state, logout, recovery and identity-related validation |
+| [Authorisation, IDOR and BOLA](authorization-access-control.md) | Role, object, operation and tenant access checks using controlled identities |
+| [JWT Security Testing](jwt.md) | Token structure, validation assumptions, claims and application acceptance behaviour |
+| [OAuth 2.0 and OpenID Connect](oauth-oidc.md) | Authorisation flows, redirects, tokens and identity-provider integration |
+
+### Browser Security
+
+| Cheatsheet | Use it for |
+|---|---|
+| [CORS and CSRF](cors-csrf.md) | Cross-origin data access and cross-site request behaviour under relevant browser and session conditions |
+
+### Injection
+
+| Cheatsheet | Use it for |
+|---|---|
+| [SQL Injection](sql-injection.md) | Database-input candidates, controlled comparisons and validation |
+| [Cross-Site Scripting](xss.md) | Reflection, storage, DOM behaviour, execution context and browser evidence |
+| [OS Command Injection](command-injection.md) | Input reaching operating-system command handling and bounded validation of execution |
+
+### Server-Side Processing and File Handling
+
+| Cheatsheet | Use it for |
+|---|---|
+| [SSRF](ssrf.md) | Server-side request behaviour, controlled callbacks and destination restrictions |
+| [XXE](xxe.md) | XML-processing candidates, entity handling and controlled validation |
+| [SSTI](ssti.md) | Template-processing behaviour and evidence of server-side evaluation |
+| [Insecure Deserialization](deserialization.md) | Serialised-input handling, reachable processing and security-relevant effects |
+| [Path Traversal and File Inclusion](path-traversal-file-inclusion.md) | Path processing, file access, inclusion behaviour and boundary validation |
+| [File Upload Security](file-upload.md) | Acceptance, storage, naming, retrieval, permissions and downstream processing |
+
+### Source Code and Repositories
+
+| Cheatsheet | Use it for |
+|---|---|
+| [Git and ripgrep](git-ripgrep.md) | Repository history, diffs, source searches and locating candidate data flows or security checks |
+
+### Active Directory and Protocol Tools
+
+| Cheatsheet | Use it for |
+|---|---|
+| [Active Directory](active-directory.md) | Domain context, authentication, permissions, delegation, AD CS, trusts and assessment sequencing |
+| [NetExec](netexec.md) | Approved protocol, authentication and access checks across relevant services |
+| [Impacket](impacket.md) | Focused SMB, RPC, Kerberos, ticket and remote-administration operations |
+| [BloodHound](bloodhound.md) | Collection context, graph relationships, queries, candidate paths and validation |
+
+## How to Use a Cheatsheet
+
+Start with a question, not a list of commands.
+
+1. **Establish context.** Identify the target, account, platform and current access.
+2. **Choose the reference.** Select the page that addresses the observed behaviour.
+3. **Check prerequisites.** Confirm tool version, permissions, authentication, dependencies and scope.
+4. **Review the action.** Understand its traffic, data access, changes and cleanup requirements.
+5. **Run a focused test.** Use the smallest useful target set and a known baseline.
+6. **Interpret the result.** Separate observations from assumptions and alternative explanations.
+7. **Validate the consequence.** Establish the relevant security boundary or control outcome.
+8. **Record evidence.** State what was demonstrated and what remains uncertain.
+
+```mermaid
+flowchart TD
+    A["Observation and assessment question"] --> B["Choose relevant cheatsheet"]
+    B --> C{"Scope and prerequisites satisfied?"}
+    C -->|No or uncertain| D["Resolve limitation before testing"]
+    C -->|Yes| E["Run focused test"]
+    E --> F["Compare result with baseline"]
+    F --> G{"Security consequence supported?"}
+    G -->|No or uncertain| H["Review alternatives and next check"]
+    H --> B
+    G -->|Yes| I["Capture evidence and bounded conclusion"]
+    I --> J["Remediate and retest where applicable"]
 ```
+
+A successful command does not automatically demonstrate a vulnerability. A failed command does not automatically demonstrate an effective security control.
+
+A missing utility, permission error or empty result may limit visibility. Record that limitation rather than assuming the resource or control is absent.
+
+## Practical Assessment Routes
+
+### Host Assessment
+
+Begin with [Linux](linux.md) or [Windows](windows.md), then use [PowerShell](powershell.md) where it supports the Windows investigation.
+
+Establish:
+
+- Identity, groups, privileges and session context.
+- Host role, platform and relevant configuration.
+- Services, scheduled execution and their dependencies.
+- Effective permissions on resources of interest.
+- Credential exposure within the authorised scope.
+- Applicable security controls.
+- Network position and accessible services.
+
+Use [Networking](networking.md) for connectivity questions and [PrivEsc Explorer](../privesc/index.md) for candidate privilege mechanisms.
+
+A writable resource becomes an escalation candidate when it connects to a relevant privileged operation. Establish that relationship before claiming elevated execution.
+
+### Active Directory Assessment
+
+Use the references together according to the current question:
+
+| Question | Reference |
+|---|---|
+| What domain and identity context should I establish? | [Active Directory](active-directory.md) |
+| Which approved services accept this authentication or permit this operation? | [NetExec](netexec.md) |
+| Which directory relationships suggest a path? | [BloodHound](bloodhound.md) |
+| Which focused protocol operation can validate the candidate? | [Impacket](impacket.md) |
+| What does the resulting host access permit? | [Windows](windows.md) and [PowerShell](powershell.md) |
+| Why does the connection or protocol exchange fail? | [Networking](networking.md) and [Wireshark and tshark](wireshark-tshark.md) |
+
+This is a selection model, not a requirement to run every tool.
+
+Keep authentication success, resource access, administrative rights and code execution separate. A valid credential does not authorise testing every system where it might work.
+
+For Kerberos, NTLM, ACLs, delegation, AD CS and trusts, continue into the detailed [Active Directory notes](../active-directory/index.md).
+
+### Web Application Assessment
+
+Start with [Web](web.md) and establish the application, roles, sessions, endpoints and intended behaviour.
 
 Use:
 
-```text
-Observation
-    |
-    v
-Command
-    |
-    v
-Result
-    |
-    v
-Interpretation
-    |
-    v
-Alternative Explanation
-    |
-    v
-Further Validation
-    |
-    v
-Security Consequence
-    |
-    v
-Finding
-```
+- [Burp Suite](burp-suite.md) to inspect and compare requests.
+- [curl](curl.md) for focused reproduction outside the browser.
+- [Content Discovery](content-discovery.md) to investigate relevant routes and files.
+- [Authentication and Sessions](authentication-session-testing.md) to establish identity state.
+- [Authorisation](authorization-access-control.md) to compare permitted and prohibited operations.
+- The relevant injection, token, browser or server-side cheatsheet for the candidate under investigation.
 
+Keep the original request and a known-good response. Change one relevant condition at a time where practical.
 
-## Example - Windows Service
+APIs, business logic, request smuggling, GraphQL and other broader subjects remain accessible through [Web](web.md) and the detailed [Web Application Security section](../web/index.md).
 
-Suppose enumeration shows:
+### Network Troubleshooting
+
+Use [Networking](networking.md) to establish the source context, interface, route, DNS result, destination and expected protocol.
+
+Use [Nmap](nmap.md) for an approved exposure check and [Wireshark and tshark](wireshark-tshark.md) when packet evidence can resolve what happened.
+
+Distinguish:
+
+- Name resolution from reachability.
+- A listening service from end-to-end accessibility.
+- A connection from successful application communication.
+- Authentication from authorisation.
+- A tunnel or proxy route from permission to assess the destination.
+
+### Source Review and Research
+
+Use [Git and ripgrep](git-ripgrep.md) to locate candidate functions, checks and changes.
+
+Then follow [Source Code Review](../source-code-review/index.md) to trace the relevant data flow and [Vulnerability Research](../vulnerability-research/index.md) for reproduction, root-cause analysis and impact validation.
+
+A search match, changed line or dangerous-looking function name is a candidate, not a finding.
+
+## Before Copying a Command
+
+Check the command in the context of your actual environment.
+
+| Check | Why it matters |
+|---|---|
+| Target and scope | A placeholder, range or wildcard may affect more systems than intended |
+| Current identity | Permissions and authentication state influence the result |
+| Shell and platform | Quoting, variables, paths and line continuation differ between shells |
+| Tool version | Options, defaults and output may differ from the reference |
+| Authentication context | Local and domain accounts, tickets and tokens are not interchangeable |
+| Operational effect | Some commands change state, access sensitive material or create significant traffic |
+| Baseline | Without expected behaviour, an unusual result is difficult to interpret |
+| Output handling | Credentials and sensitive data may appear in logs or terminal captures |
+| Cleanup | Files, sessions, jobs or configuration changes may require restoration |
+
+Read the explanation around a command before running it. Replace example values deliberately and preserve the exact command used in your evidence.
+
+## From Output to Evidence
+
+The examples below illustrate the interpretation model used throughout the cheatsheets.
+
+### Example: Windows Service Permissions
+
+Suppose enumeration identifies:
 
 ```text
 Service:
@@ -470,90 +300,60 @@ Executable:
 C:\Program Files\Example\Service.exe
 ```
 
-An ACL check shows:
+An ACL entry shows:
 
 ```text
 BUILTIN\Users Allow ReadAndExecute
 ```
 
-This does **not** demonstrate that a standard user can modify the executable.
+That entry grants read and execute permissions. It does not itself grant modification or replacement rights.
 
-The result supports:
+Assess the complete effective permission context, including other entries and relevant parent-directory permissions, before drawing a broader conclusion.
 
-```text
-User can read and execute file.
-```
-
-It does not support:
-
-```text
-User can replace file.
-```
-
-If instead the ACL contains:
+If an applicable entry instead grants:
 
 ```text
 BUILTIN\Users Allow Modify
 ```
 
-the executable becomes security relevant, but further validation is still required:
+there is a candidate worth investigating:
 
-```text
-Who runs the service?
+- Does the current user's effective access permit the relevant modification?
+- Is this the executable actually used by the service?
+- Which identity runs the service?
+- What starts or reloads it?
+- Is the trigger available during the authorised test?
+- Would applicable controls prevent the proposed behaviour?
 
-Can the executable actually be modified?
+The evidence may establish a writable privileged dependency even if active execution testing is outside scope. Report that distinction explicitly.
 
-Can the service be restarted?
+Continue with [Windows](windows.md), [PowerShell](powershell.md) and the detailed [Windows notes](../windows/index.md).
 
-Will the modified executable execute under a more privileged identity?
-```
+### Example: BloodHound Relationships
 
+Suppose the collected graph contains:
 
-## Example - BloodHound
+| Source | Relationship | Destination |
+|---|---|---|
+| Test user | MemberOf | HELPDESK |
+| HELPDESK | GenericAll | SERVER-ADMINS |
 
-BloodHound identifies:
+Treat this as a candidate path.
 
-```text
-ASIF
- |
- | MemberOf
- v
-HELPDESK
- |
- | GenericAll
- v
-SERVER-ADMINS
-```
+Validate:
 
-Do not immediately conclude:
+1. Collection time, source and relevant coverage limitations.
+2. Current membership and the identity being assessed.
+3. The applicable permissions on the destination object.
+4. What control those permissions provide in this context.
+5. What access the destination group actually has.
+6. Which restrictions and scope boundaries affect further validation.
 
-```text
-Privilege escalation confirmed.
-```
+The name `SERVER-ADMINS` does not prove administrative rights. The graph alone does not prove that a privilege transition was performed.
 
-Instead:
+Use the [BloodHound cheatsheet](bloodhound.md) and the documented [GenericAll relationship](https://bloodhound.specterops.io/resources/edges/generic-all){ target="_blank" rel="noopener noreferrer" } to interpret the candidate.
 
-```text
-BloodHound Relationship
-        |
-        v
-Verify Membership
-        |
-        v
-Inspect ACL
-        |
-        v
-Confirm GenericAll
-        |
-        v
-Determine Server-Admins Privilege
-        |
-        v
-Establish Security Consequence
-```
-
-
-## Example - Web Application
+### Example: Web Object Access
 
 Suppose changing:
 
@@ -569,238 +369,99 @@ GET /api/orders/1002
 
 returns another object.
 
-Before concluding IDOR/BOLA, determine:
+Before reporting IDOR/BOLA, establish:
 
-```text
-Does object 1002 belong to another user?
+- Which account made the request.
+- Who owns object `1002`.
+- Whether it is private, shared or publicly accessible.
+- Whether the current account should be permitted access.
+- What protected information or action was exposed.
+- Whether controlled accounts reproduce the result.
+- Whether caching or an existing privileged session explains it.
 
-Was the request authenticated?
+A defensible conclusion would state:
 
-Should the current user have access?
+> With two dedicated accounts and verified private-object ownership, Account A retrieved Account B's order through the tested endpoint. The expected access restriction was not enforced for this request.
 
-Does the response contain protected information?
-
-Can the behaviour be reproduced with controlled accounts?
-```
-
-The result becomes defensible when the authorisation boundary is demonstrated rather than inferred.
-
+Use [Authorisation, IDOR and BOLA](authorization-access-control.md) for the testing reference. The relevant failure is access beyond the intended permissions, as explained in [PortSwigger's access-control guidance](https://portswigger.net/web-security/access-control){ target="_blank" rel="noopener noreferrer" }.
 
 ## Evidence Collection
 
-For important tests, record:
+For meaningful tests, preserve enough information to reproduce the action and assess the conclusion.
 
 ```text
-Timestamp
+Test identifier:
+Timestamp and timezone:
+Target:
+Source:
+Account and session context:
+Platform / relevant configuration:
+Tool and version:
 
-Target
+Question or candidate:
+Prerequisites:
+Command or request:
+Expected result:
+Observed result:
+Evidence references:
 
-Source
+Interpretation:
+Alternative explanations checked:
+Demonstrated security consequence:
+Limitations:
+Next validation step:
 
-Account
-
-Tool
-
-Tool version
-
-Command or request
-
-Relevant output
-
-Interpretation
-
-Security consequence
-
-Cleanup
-
-Retest result
+Changes introduced:
+Cleanup:
+Remediation:
+Retest result:
 ```
 
-Sensitive information should be redacted where appropriate.
+Protect sensitive originals and redact unnecessary credentials, tokens, personal data and internal details from sharing copies.
 
+Distinguish evidence that a condition exists from evidence that it was successfully used. Record prevented, inconclusive and untested outcomes as well as successful tests.
 
-## Cheatsheets vs Detailed Notes
+## Cheatsheets, Detailed Notes and Tools
 
-Use the cheatsheets when you need:
-
-```text
-Fast command lookup
-
-Assessment workflow
-
-Common validation steps
-
-Result interpretation
-
-Troubleshooting
-
-Operational reference
-```
-
-Use the detailed notes when you need:
-
-```text
-Background theory
-
-Protocol explanation
-
-Technique internals
-
-Detailed attack scenarios
-
-Detection engineering
-
-Remediation guidance
-
-Research context
-```
-
-The two sections are designed to complement each other:
-
-```text
-                 SECURITY NOTES
-                       |
-          +------------+------------+
-          |                         |
-          v                         v
-     CHEATSHEETS               DETAILED NOTES
-          |                         |
-          v                         v
-   Fast Operational          Deep Technical
-      Reference                Explanation
-          |                         |
-          +------------+------------+
-                       |
-                       v
-                 PRACTICAL TESTING
-```
-
-
-## Current Cheatsheets
-
-| Cheatsheet | Focus |
+| Resource | Use it when you need |
 |---|---|
-| [Linux](linux.md) | Linux enumeration and privilege escalation |
-| [Windows](windows.md) | Windows host assessment and privilege escalation |
-| [PowerShell](powershell.md) | Windows and PowerShell security assessment commands |
-| [Networking](networking.md) | Network enumeration, connectivity and pivoting |
-| [Web](web.md) | Web application security testing |
-| [Active Directory](active-directory.md) | Active Directory assessment methodology |
-| [NetExec](netexec.md) | SMB, LDAP, WinRM and MSSQL assessment |
-| [Impacket](impacket.md) | Windows and AD protocol tooling |
-| [BloodHound](bloodhound.md) | Active Directory graph and attack-path analysis |
+| Cheatsheets | Fast lookup, focused procedures, expected output, interpretation and troubleshooting |
+| Detailed topic notes | Background, protocol behaviour, prerequisites, deeper validation and remediation |
+| Tools section | Tool purpose, selection, setup, workflow and limitations |
+| PrivEsc Explorer | Navigation from an observed host condition to a candidate privilege mechanism |
 
+The same assessment may move between all four.
 
-## Recommended Workflow
+For example, use the Windows cheatsheet to inspect a service, the detailed service notes to understand the permission relationship, and the Tools section when selecting an enumeration utility.
 
-For an Active Directory engagement:
+Avoid treating either a cheatsheet or a tool's output as a substitute for understanding the security condition.
 
-```text
-Networking
-    |
-    v
-Active Directory
-    |
-    v
-NetExec
-    |
-    v
-BloodHound
-    |
-    v
-Impacket
-    |
-    v
-Windows / PowerShell
-```
+## Quick Review Before Reporting
 
-For a web application engagement:
-
-```text
-Networking
-    |
-    v
-Web
-    |
-    v
-Detailed Web Notes
-```
-
-For a Windows host:
-
-```text
-Windows
-   |
-   v
-PowerShell
-   |
-   v
-Active Directory
-   |
-   v
-NetExec / BloodHound / Impacket
-```
-
-For a Linux host:
-
-```text
-Linux
-  |
-  v
-Networking
-  |
-  v
-Service-Specific Testing
-```
-
-
-## Final Principle
-
-A useful security cheatsheet should help answer more than:
-
-> What command do I run?
-
-It should help answer:
-
-```text
-Why am I running it?
-
-When does it apply?
-
-What should I expect?
-
-What does the result mean?
-
-What does the result not mean?
-
-What should I validate next?
-
-When do I have enough evidence?
-
-How should the issue be remediated?
-
-How should I retest it?
-```
-
-That is the model used throughout these cheatsheets.
-
-<div class="terminal">
-Identify. Test. Interpret. Validate. Document.
-</div>
-
+- [ ] The target and action were authorised.
+- [ ] The identity and environment are recorded.
+- [ ] Relevant prerequisites were satisfied.
+- [ ] Expected behaviour is understood.
+- [ ] The result is reproducible or its reliability is documented.
+- [ ] Alternative explanations were considered.
+- [ ] The security boundary or control outcome is explicit.
+- [ ] The conclusion matches the demonstrated evidence.
+- [ ] Sensitive evidence is handled appropriately.
+- [ ] Changes and cleanup are recorded.
+- [ ] Remediation and retesting follow the underlying cause.
 
 ## Related Knowledge Base Sections
 
 - [Web Application Security](../web/index.md)
+- [Source Code Review](../source-code-review/index.md)
 - [Active Directory](../active-directory/index.md)
 - [Windows](../windows/index.md)
 - [Linux](../linux/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
 - [Red Teaming](../red-teaming/index.md)
 - [Purple Teaming](../purple-teaming/index.md)
 - [Vulnerability Research](../vulnerability-research/index.md)
 - [Tools](../tools/index.md)
-- [PrivEsc Explorer](../privesc/index.md)
-
 
 ## References
 
