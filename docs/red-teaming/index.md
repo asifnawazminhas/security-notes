@@ -1,1589 +1,405 @@
 ---
 title: Red Teaming
-description: Red teaming methodology, infrastructure, initial access, command and control, credential access, lateral movement, persistence, and defence evasion for authorised security assessments.
+description: Objective-driven red teaming, attack-path analysis, adversary emulation, operational safety, detection validation, and evidence-led reporting for authorised assessments.
 ---
 
 # Red Teaming
 
-Red teaming is a goal-driven security assessment discipline that evaluates how well an organisation can prevent, detect, investigate, and respond to realistic adversary activity.
+Red teaming evaluates whether realistic adversary behaviour can reach agreed business objectives and how effectively an organisation prevents, detects, investigates and responds to that activity.
 
-Unlike a vulnerability assessment that primarily identifies individual weaknesses, a red team assessment evaluates how multiple weaknesses, trust relationships, identities, systems, and security controls interact across an attack path.
+The central theme is **attack-path analysis**: understanding how exposure, identities, permissions, credentials, applications and trust relationships combine to create meaningful security impact.
 
-```text
-Reconnaissance
-      |
-      v
-Attack Surface
-      |
-      v
-Initial Access
-      |
-      v
-Execution
-      |
-      v
-Command and Control
-      |
-      v
-Credential Access
-      |
-      v
-Privilege Escalation
-      |
-      v
-Lateral Movement
-      |
-      v
-Objective
-      |
-      v
-Detection and Response Evaluation
-```
+Use this page to plan an assessment, choose the appropriate investigation route and connect technical results to defensive outcomes. Follow the dedicated pages for detailed procedures.
 
-Red teaming should always be performed under explicit authorisation, an agreed scope, defined rules of engagement, and appropriate operational controls.
+An established session, a privileged account or a highlighted tool result is not automatically the final objective or a confirmed finding.
 
+!!! warning "Authorised security testing"
+    Perform testing only with explicit written authorisation, an agreed scope and approved Rules of Engagement. Technical reachability, valid credentials and access to a connected system do not extend that authorisation. Stop when scope, safety or permission becomes uncertain.
 
----
-
-## Red Teaming Notes
+## Start Here
 
 <div class="grid cards" markdown>
 
--   :material-server-network:{ .lg .middle } **Infrastructure**
+-   **Methodology and Planning**
 
     ---
 
-    Design and operate redirectors, domains, servers, payload delivery infrastructure, logging, segmentation, and supporting services.
+    Define objectives, starting access, scope, Rules of Engagement, evidence requirements and decision points.
 
-    [:octicons-arrow-right-24: Infrastructure](infrastructure.md)
+    [Start with Methodology](methodology.md)
 
--   :material-door-open:{ .lg .middle } **Initial Access**
-
-    ---
-
-    Understand externally reachable attack surfaces and the paths through which an authorised assessment may establish an initial foothold.
-
-    [:octicons-arrow-right-24: Initial Access](initial-access.md)
-
--   :material-access-point-network:{ .lg .middle } **Command and Control**
+-   **Adversary Emulation**
 
     ---
 
-    Understand C2 architecture, communication channels, redirectors, operational security, traffic considerations, and defensive visibility.
+    Select relevant behaviours, document threat assumptions and build a scenario that tests meaningful organisational risk.
 
-    [:octicons-arrow-right-24: Command and Control](command-and-control.md)
+    [Plan Adversary Emulation](adversary-emulation.md)
 
--   :material-key-chain:{ .lg .middle } **Credential Access**
-
-    ---
-
-    Assess how credentials, authentication material, tokens, secrets, and privileged identities can affect an attack path.
-
-    [:octicons-arrow-right-24: Credential Access](credential-access.md)
-
--   :material-transit-connection-variant:{ .lg .middle } **Lateral Movement**
+-   **Infrastructure and OPSEC**
 
     ---
 
-    Evaluate how access can propagate between systems through credentials, remote administration protocols, trust relationships, and management infrastructure.
+    Prepare controlled infrastructure, restrict operator access, protect engagement data and establish operational safeguards.
 
-    [:octicons-arrow-right-24: Lateral Movement](lateral-movement.md)
+    [Infrastructure](infrastructure.md) · [Operational Security](opsec.md)
 
--   :material-link-variant:{ .lg .middle } **Persistence**
-
-    ---
-
-    Understand persistence mechanisms and evaluate whether security controls can identify unauthorised mechanisms designed to retain access.
-
-    [:octicons-arrow-right-24: Persistence](persistence.md)
-
--   :material-shield-off-outline:{ .lg .middle } **Defence Evasion**
+-   **Reconnaissance and Initial Access**
 
     ---
 
-    Study the security controls, telemetry gaps, execution restrictions, and defensive assumptions that affect detection and prevention.
+    Map the authorised attack surface and evaluate permitted routes into the environment.
 
-    [:octicons-arrow-right-24: Defence Evasion](defence-evasion.md)
+    [Reconnaissance](reconnaissance.md) · [Initial Access](initial-access.md)
+
+-   **Post-Compromise Investigation**
+
+    ---
+
+    Establish the actual security context, identify candidate paths and determine which next action supports the objective.
+
+    [Discovery](discovery.md) · [Lateral Movement](lateral-movement.md)
+
+-   **Detection and Closeout**
+
+    ---
+
+    Correlate activity with defensive evidence, verify cleanup and explain the demonstrated attack path.
+
+    [Detection Validation](detection-validation.md) · [Cleanup](cleanup.md) · [Reporting](reporting.md)
 
 </div>
 
+## Choose the Assessment Approach
 
----
+These approaches overlap technically. Their distinction is the question being tested, not a fixed set of tools.
 
-## Red Teaming vs Penetration Testing
-
-Penetration testing and red teaming overlap technically, but their objectives are different.
-
-| Area | Penetration Testing | Red Teaming |
+| Approach | Primary question | Typical output |
 |---|---|---|
-| Primary goal | Identify and validate vulnerabilities | Evaluate security against realistic attack paths |
-| Scope | Often broad technical coverage | Usually objective-driven |
-| Visibility | Usually known to security stakeholders | Often limited to selected stakeholders |
-| Testing style | Vulnerability-oriented | Adversary-oriented |
-| Detection testing | Useful but not always central | Usually a major objective |
-| Attack chaining | Common | Fundamental |
-| Operational security | Moderate | High |
-| Social engineering | Scope dependent | Scope dependent |
-| Physical security | Less common | Scope dependent |
-| Success measurement | Vulnerabilities and impact | Objectives, detection, response, and resilience |
+| Penetration testing | Which weaknesses are exploitable, under what conditions and with what impact? | Validated findings, affected assets and remediation |
+| Red teaming | Can a relevant attack path reach the agreed objective, and how does the organisation respond? | Attack-path narrative, objective evidence and defensive observations |
+| Adversary emulation | How does the environment respond to selected behaviours associated with a relevant threat? | A documented scenario with behaviour-specific results |
+| Purple teaming | How can offensive and defensive teams jointly improve and verify security capability? | Reproduced behaviours, improved controls and shared learning |
 
-A red team assessment should not simply attempt to generate the largest possible number of findings.
+The engagement agreement determines defender awareness, permitted techniques and collaboration. Neither stealth nor the use of a C2 framework alone makes an assessment a red team engagement.
 
-The objective is to understand whether realistic attack paths can reach agreed objectives and how effectively the organisation responds.
+A red team assessment can lead into a collaborative [Purple Teaming](../purple-teaming/index.md) exercise to reproduce gaps, tune controls and validate improvements.
 
+## Define the Engagement Before Testing
 
----
+An objective should identify the business concern, starting position, permitted actions and minimum evidence needed to establish an outcome.
 
-## Red Teaming vs Purple Teaming
+For example:
 
-Red teaming focuses on adversary simulation and objective achievement.
+> Starting from a provided standard-user workstation, determine whether that identity can access a designated synthetic finance document on an approved server, and assess whether the activity is detected and investigated.
 
-Purple teaming introduces deliberate collaboration between offensive and defensive teams to improve detection, prevention, response, and knowledge transfer.
+This tests a bounded access path without requiring unnecessary access to production financial records.
 
-```text
-Red Teaming
+| Planning area | Establish before execution |
+|---|---|
+| Business objective | Protected asset, risk scenario and success criteria |
+| Starting position | External access, provided credentials, workstation access or another agreed assumption |
+| Scope | Approved domains, addresses, applications, tenants, identities and physical locations |
+| Exclusions | Third parties, sensitive accounts, critical services, safety systems and prohibited actions |
+| Rules of Engagement | Testing windows, source infrastructure, permitted techniques, rate limits and change restrictions |
+| Human-focused activity | Approved participants, communication channels, pretexts, privacy safeguards and escalation process |
+| Data handling | Permitted data, storage, access, retention, redaction and transfer destinations |
+| Operational control | Engagement lead, authorised customer contact, emergency channel and stop procedure |
+| Evidence and cleanup | Required proof, action logging, change tracking, restoration owners and verification |
 
-Red
- |
- v
-Adversary Activity
- |
- v
-Blue Team Detection and Response
+Record any assumed or customer-provided access. An assumed-breach exercise does not demonstrate that external initial access was achieved.
 
+Use [Methodology](methodology.md), [Adversary Emulation](adversary-emulation.md) and [OPSEC](opsec.md) for planning detail.
 
-Purple Teaming
+!!! important "Stop conditions"
+    Pause affected activity for unexpected production impact, system instability, excluded-system access, unexpected sensitive data, third-party exposure, loss of infrastructure control or uncertain scope. Follow the agreed escalation procedure and obtain clearance before resuming. A genuine incident takes priority over exercise continuity.
 
-Red <------> Blue
- |             |
- +---- Share --+
-       |
-       v
-Detection Improvement
-       |
-       v
-Validation
-       |
-       v
-Repeat
+## Attack-Path Methodology
+
+Use the same evidence model throughout the site:
+
+**Observation -> Candidate -> Validation -> Evidence -> Security Conclusion**
+
+For every proposed step, ask:
+
+- What identity and access do we actually have?
+- What resource, permission or trust relationship may enable the next step?
+- Which prerequisites and security controls apply?
+- Is the target and action authorised?
+- What is the least intrusive test that resolves the question?
+- What would support, disprove or limit the conclusion?
+
+```mermaid
+flowchart TD
+    A["Agreed objective and starting access"] --> B["Observe identities and resources"]
+    B --> C["Form a candidate path"]
+    C --> D{"Next action authorised and safe?"}
+    D -->|No or uncertain| E["Pause and escalate"]
+    D -->|Yes| F["Validate and capture evidence"]
+    F --> G{"Outcome"}
+    G -->|Further step needed| B
+    G -->|Blocked or inconclusive| H["Record control or limitation"]
+    G -->|Objective demonstrated| I["Stop at agreed proof"]
+    H --> J["Detection review and verified cleanup"]
+    I --> J
+    J --> K["Report and retest"]
 ```
 
-The two approaches are complementary.
-
-A red team assessment can identify defensive gaps, while a later purple team exercise can reproduce selected behaviours collaboratively and improve the corresponding controls.
-
-
----
-
-# Engagement Lifecycle
-
-A structured red team engagement should have clearly defined phases.
-
-```text
-Planning
-   |
-   v
-Scoping
-   |
-   v
-Rules of Engagement
-   |
-   v
-Threat Modelling
-   |
-   v
-Infrastructure Preparation
-   |
-   v
-Reconnaissance
-   |
-   v
-Initial Access
-   |
-   v
-Post-Compromise Operations
-   |
-   v
-Objective
-   |
-   v
-Cleanup
-   |
-   v
-Reporting
-   |
-   v
-Detection Review
-```
-
-
----
-
-## 1. Planning
-
-Planning establishes why the assessment is being performed.
-
-Questions include:
-
-```text
-What security capability is being evaluated?
-What business risk is being tested?
-What systems are relevant?
-What attacker profile is appropriate?
-What constitutes success?
-What activities are prohibited?
-Who must know about the assessment?
-```
-
-The engagement should have measurable objectives rather than an unrestricted instruction to "hack the organisation."
-
-
----
-
-## 2. Scope
-
-The scope defines where testing is permitted.
-
-Examples include:
-
-```text
-Domains
-IP ranges
-Cloud tenants
-Applications
-Endpoints
-Active Directory
-Identity providers
-Email infrastructure
-VPN infrastructure
-Wireless networks
-Physical locations
-Third-party systems
-```
+An attack path is not a mandatory sequence of tactics. Credential access may precede execution; an existing identity may already have access to the objective; privilege escalation or persistence may be unnecessary.
 
-Scope should also identify exclusions.
+A failed action is not automatically evidence of effective prevention. Distinguish a verified blocking control from missing prerequisites, an implementation error, insufficient access or an untested assumption.
 
-```text
-Production-critical systems
-Safety systems
-Medical systems
-Payment systems
-Specific accounts
-Specific subsidiaries
-Third-party infrastructure
-Destructive actions
-```
+| Phase | What to do | Expected result | What follows |
+|---|---|---|---|
+| Prepare | Agree the scenario, controls and evidence requirements | An executable, bounded assessment plan | Prepare infrastructure and starting access |
+| Observe | Map relevant exposure, identities, resources and trust | Context and candidate paths | Select an objective-relevant hypothesis |
+| Validate | Check prerequisites and perform the approved test | A supported, blocked or inconclusive step | Continue only where justified |
+| Demonstrate | Obtain the agreed minimum proof | Evidence of the precise objective outcome | Stop unnecessary access or collection |
+| Evaluate | Correlate operator activity with defensive records | Prevention, visibility and response observations | Identify specific improvements |
+| Close | Restore changes, report and arrange retesting | Verified closeout and actionable results | Validate remediation |
 
-Never infer authorisation from technical reachability.
+## Detailed Red Teaming Notes
 
+These routes cover every dedicated page in this section. Select pages according to the objective and current evidence rather than treating them as a compulsory execution checklist.
 
----
+### Planning and Preparation
 
-## 3. Rules of Engagement
+| Page | When to use it | Key question |
+|---|---|---|
+| [Methodology](methodology.md) | Defining or reviewing an engagement | Are objectives, assumptions, boundaries and decision points explicit? |
+| [Adversary Emulation](adversary-emulation.md) | Building a threat-informed scenario | Why are these behaviours relevant, and what will their results establish? |
+| [Infrastructure](infrastructure.md) | Preparing domains, servers, delivery services and supporting resources | Is the infrastructure controlled, isolated, logged and recoverable? |
+| [OPSEC](opsec.md) | Planning operator activity and handling engagement data | What could expose sensitive material or create unintended operational risk? |
 
-The Rules of Engagement define how the assessment may operate.
-
-Typical subjects include:
-
-```text
-Authorised dates and times
-Permitted targets
-Prohibited targets
-Testing source addresses
-Social engineering permissions
-Credential handling
-Persistence restrictions
-Payload restrictions
-Data access restrictions
-Data exfiltration restrictions
-Cloud restrictions
-Availability restrictions
-Escalation contacts
-Emergency stop procedure
-Cleanup requirements
-Evidence handling
-Reporting requirements
-```
-
-The Rules of Engagement should be available to the assessment team throughout the engagement.
-
-
----
-
-## 4. Objectives
-
-Red team objectives should represent meaningful security outcomes.
-
-Examples:
-
-```text
-Obtain access to a defined application
-Reach a designated server
-Demonstrate access to a protected dataset
-Obtain a specified privilege level
-Access a representative administrative interface
-Reach a simulated crown-jewel system
-Evaluate detection of a defined attack chain
-```
-
-Where possible, use synthetic objectives rather than accessing real sensitive data.
-
-
----
-
-## 5. Threat Modelling
-
-Threat modelling helps determine which behaviours are relevant to the organisation.
-
-Potential inputs include:
-
-```text
-Industry
-Geography
-Technology stack
-Threat intelligence
-Known threat actors
-Previous incidents
-Existing security controls
-Business processes
-Critical assets
-Identity architecture
-Cloud architecture
-```
-
-MITRE ATT&CK can provide a useful common language for describing adversary behaviours.
-
-[MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-
-
----
-
-# Operational Model
-
-A practical red team workflow can be represented as:
-
-```text
-External
-   |
-   v
-Reconnaissance
-   |
-   v
-Initial Access
-   |
-   v
-Foothold
-   |
-   +-------------------+
-   |                   |
-   v                   v
-Local Enumeration    Credential Access
-   |                   |
-   +---------+---------+
-             |
-             v
-      Privilege Escalation
-             |
-             v
-      Internal Discovery
-             |
-             v
-       Lateral Movement
-             |
-             v
-        Target System
-             |
-             v
-          Objective
-```
-
-
----
-
-# Reconnaissance
-
-Reconnaissance attempts to understand the externally visible attack surface before interacting deeply with individual systems.
-
-Useful information can include:
-
-```text
-Domains
-Subdomains
-IP addresses
-Autonomous systems
-Cloud infrastructure
-VPN gateways
-Remote-access services
-Email infrastructure
-Technology stacks
-Public applications
-Public repositories
-Metadata
-Leaked credentials
-Public documents
-Employee information
-Third-party relationships
-```
-
-Reconnaissance should remain within the authorised scope and applicable engagement rules.
-
-
----
-
-## Passive Reconnaissance
-
-Passive reconnaissance attempts to collect information without directly interacting with the target infrastructure where practical.
-
-Sources can include:
-
-```text
-DNS records
-Certificate transparency
-Search engines
-Public code repositories
-Public documentation
-Internet scanning datasets
-WHOIS / RDAP
-Public cloud references
-Job advertisements
-Technology documentation
-```
+### Exposure and Access
 
-
----
-
-## Active Reconnaissance
-
-Active reconnaissance interacts directly with target systems.
-
-Examples include:
-
-```text
-DNS resolution
-Port scanning
-Service identification
-HTTP probing
-Content discovery
-Technology fingerprinting
-Authentication-surface discovery
-```
-
-The amount and rate of active reconnaissance should reflect the Rules of Engagement.
-
-
----
-
-# Attack Surface Mapping
-
-Raw reconnaissance should be converted into an understandable attack surface.
-
-```text
-Organisation
-     |
-     +--> Domains
-     |
-     +--> Applications
-     |
-     +--> Remote Access
-     |
-     +--> Identity
-     |
-     +--> Cloud
-     |
-     +--> Email
-     |
-     +--> Third Parties
-```
-
-Each exposed service should be considered in terms of:
-
-```text
-Ownership
-Technology
-Authentication
-Internet exposure
-Privilege relationship
-Business importance
-Potential attack path
-```
-
-
----
-
-# Initial Access
-
-Initial access is the point at which the assessment establishes an authorised foothold.
-
-Potential categories can include:
-
-```text
-External application weakness
-Exposed remote service
-Credential-based access
-Cloud identity weakness
-Misconfiguration
-Approved social engineering
-Approved physical access
-Supply-chain scenario
-```
-
-The exact techniques permitted depend on the Rules of Engagement.
-
-See:
-
-[Initial Access](initial-access.md)
-
-
----
-
-# Foothold
-
-A foothold is not necessarily the final objective.
-
-After obtaining access, first establish context.
-
-```text
-Who am I?
-Where am I?
-What system is this?
-What privileges do I have?
-What network can I reach?
-What security controls are present?
-What data is accessible?
-What should I avoid touching?
-```
-
-On Windows:
+| Page | When to use it | Key question |
+|---|---|---|
+| [Reconnaissance](reconnaissance.md) | Mapping public exposure and candidate entry points | What is exposed, who owns it and is interaction permitted? |
+| [Initial Access](initial-access.md) | Evaluating an approved route into the environment | What boundary was crossed and what access was actually obtained? |
+| [Social Engineering](social-engineering.md) | Testing authorised human and process interactions | Which process or trust assumption is being evaluated? |
+| [Phishing](phishing.md) | Running an explicitly approved messaging scenario | What happened at delivery, interaction, execution and reporting stages? |
+
+Passive information gathering and direct probing have different interaction footprints. Record sources, ownership uncertainty and the permitted level of active testing.
+
+Do not treat a discovered domain, cloud service, employee account or supplier relationship as automatically in scope.
+
+### Execution and Attack-Path Development
+
+| Page | When to use it | Key question |
+|---|---|---|
+| [Execution](execution.md) | Validating whether an approved action runs | Which process and identity executed it, under which restrictions? |
+| [Command and Control](command-and-control.md) | Assessing authorised remote tasking and communication | Was the channel established, usable and visible to defenders? |
+| [Discovery](discovery.md) | Understanding the current environment | Which systems, identities and resources are relevant and reachable? |
+| [Privilege Escalation](privilege-escalation.md) | Testing a required increase in authority | What specific mechanism crosses the privilege boundary? |
+| [Credential Access](credential-access.md) | Reviewing authentication material and secret exposure | What access does the material represent, and is its use permitted? |
+| [Lateral Movement](lateral-movement.md) | Validating access to another system or identity | Which credentials, permissions and protocols enable the transition? |
+| [Persistence](persistence.md) | Testing explicitly approved access-retention scenarios | What change retains access, and how will removal be verified? |
+| [Defence Evasion](defence-evasion.md) | Evaluating controls against approved behaviours | Which protection or visibility assumption is being tested? |
+
+Persistence and defence-evasion testing are not default requirements. Do not disable protections, deploy access-retention mechanisms or increase operational risk merely to complete a list of techniques.
+
+### Objectives, Defensive Evaluation and Closeout
+
+| Page | When to use it | Key question |
+|---|---|---|
+| [Collection](collection.md) | Demonstrating access to approved information | What minimum data or metadata establishes access? |
+| [Exfiltration](exfiltration.md) | Testing an approved transfer scenario | Did the agreed data reach the controlled destination, and what controls responded? |
+| [Detection Validation](detection-validation.md) | Comparing activity with defensive evidence | Was the behaviour recorded, alerted on, investigated and contained? |
+| [Cleanup](cleanup.md) | Tracking and reversing assessment changes | What was changed, what was restored and what remains outstanding? |
+| [Reporting](reporting.md) | Explaining the engagement outcome | Which path was demonstrated, what limited it and what should improve? |
+
+Reading a file does not prove that it can be transferred outside the environment. Likewise, a successful transfer of synthetic data does not establish access to every production dataset.
+
+## Establish Context After Access
+
+Before expanding activity, establish identity, host role, session type, available privileges, network position and applicable controls.
+
+For a Windows baseline:
 
 ```cmd
 whoami /all
 ```
 
-On Linux:
+For a Linux baseline:
 
 ```bash
 id
 ```
 
-Avoid immediately performing broad automated activity before understanding the host and its role.
-
+These commands provide identity context, not a vulnerability assessment.
 
----
+Follow with targeted investigation of:
 
-# Situational Awareness
+- Operating system, hostname and domain or tenant membership.
+- Current process, session restrictions and effective privileges.
+- Interfaces, routes, listeners and accessible management services.
+- Relevant processes, services, applications and mounted resources.
+- Endpoint, application-control, identity and network protections.
+- Sensitive systems and data that must be avoided.
 
-After obtaining a foothold, gather enough information to understand the environment.
+Recheck scope when moving to a new host, account, tenant or network segment.
 
-Potential areas include:
+Use [Discovery](discovery.md), [Windows](../windows/index.md) and [Linux](../linux/index.md) for detailed host assessment.
 
-```text
-Operating system
-Hostname
-Network configuration
-Domain membership
-Current identity
-Privileges
-Processes
-Services
-Security software
-Local users
-Logged-on users
-Network connections
-Mounted resources
-Installed applications
-Environment variables
-```
+Where Active Directory is relevant, use [Active Directory](../active-directory/index.md) for Kerberos, NTLM, ACLs, delegation, AD CS, trusts and identity attack paths.
 
+Network reachability, successful authentication and permission to perform a particular operation are separate conditions. Pivoting changes the route to a target, not the assessment's authority to access it.
 
----
+## Tools and Supporting Resources
 
-# Privilege Escalation
+Choose tools after defining the test, expected evidence and operational constraints.
 
-Privilege escalation attempts to move from the current security context to a more privileged one where required by the engagement objective.
+| Resource | Role in the assessment |
+|---|---|
+| [Tools](../tools/index.md) | Choose the appropriate tooling category |
+| [Red Teaming Tools](../tools/red-teaming/index.md) | Connect operational requirements to supporting tools |
+| [C2 Frameworks](../tools/red-teaming/c2-frameworks.md) | Review framework choices and operational considerations |
+| [Active Directory Tools](../tools/active-directory/index.md) | Route to identity-focused tooling, including NetExec, Impacket, BloodHound and Certipy |
+| [Privilege Escalation Tools](../tools/privilege-escalation/index.md) | Support host enumeration and candidate identification |
+| [PrivEsc Explorer](../privesc/index.md) | Investigate Windows and Linux privilege mechanisms |
+| [Web Application Security](../web/index.md) | Investigate application-based entry points and trust boundaries |
+| [Cheatsheets](../cheatsheets/index.md) | Retrieve commands for an already understood task |
 
-Windows areas include:
+Validate tool behaviour before use, record relevant versions and configuration, and understand expected artefacts, traffic and cleanup requirements.
 
-```text
-Services
-Scheduled tasks
-Privileges
-Filesystem permissions
-Registry permissions
-DLL loading
-PATH configuration
-Credentials
-Drivers
-Custom applications
-```
+A framework reporting task completion does not necessarily prove the intended security outcome. Correlate its output with target-side evidence.
 
-Linux areas include:
+For focused defensive testing, [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team){ target="_blank" rel="noopener noreferrer" } provides individual tests mapped to ATT&CK. Review prerequisites and cleanup before running a test; an individual test is not a complete engagement methodology.
 
-```text
-sudo
-SUID
-SGID
-Capabilities
-systemd
-cron
-Filesystem permissions
-PATH
-Credentials
-Containers
-Sockets
-Kernel
-```
+## Evidence and Defensive Outcomes
 
-Use the interactive privilege escalation references:
+Maintain an action timeline throughout the engagement. Use UTC or an explicitly documented timezone and account for clock differences between evidence sources.
 
-- [Windows PrivEsc Explorer](../privesc/windows.md)
-- [Linux PrivEsc Explorer](../privesc/linux.md)
+For each meaningful action, record:
 
+- Action identifier and timestamp.
+- Source, target and current identity.
+- Objective relationship and candidate being tested.
+- Command or action, relevant tool version and configuration.
+- Preconditions and observed result.
+- Supporting output, log references or screenshots.
+- Changes introduced and cleanup status.
+- Defensive observations and remaining uncertainty.
 
----
+Keep secrets out of routine screenshots and reports. Store necessary sensitive evidence under the agreed access and retention controls.
 
-# Credential Access
+### Separate Execution from Detection
 
-Credentials and authentication material frequently connect otherwise separate systems.
+| Outcome | Evidence needed |
+|---|---|
+| Execution confirmed | Target-side result showing the intended action occurred |
+| Prevention confirmed | Evidence that a specific control blocked the action |
+| Telemetry confirmed | Relevant records in an identified endpoint, network, application or identity source |
+| Alert confirmed | A correlated alert with its identifier and timestamp |
+| Investigation confirmed | Analyst or case evidence showing assessment of the activity |
+| Containment confirmed | Evidence that the response restricted the relevant access or behaviour |
+| Unknown or not assessed | An explicit statement of missing visibility or untested stages |
 
-Relevant material can include:
+A successful action can still be detected and contained. No alert visible to the operator does not establish that the defender missed the activity.
 
-```text
-Passwords
-Password hashes
-Kerberos tickets
-Access tokens
-API keys
-SSH keys
-Cloud credentials
-Application secrets
-Service-account credentials
-Browser credentials
-Configuration secrets
-```
+Record detection gaps at the correct layer: event generation, collection, retention, analytic coverage, alert routing, investigation or response.
 
-Credential handling requires particular care because real credentials can provide access beyond the intended assessment scope.
+Continue with [Detection Validation](detection-validation.md) and [Purple Teaming](../purple-teaming/index.md).
 
-See:
+### Map Behaviours, Not Tool Names
 
-[Credential Access](credential-access.md)
+[MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" } provides a shared vocabulary for adversary behaviours.
 
+Map the procedure actually tested to the relevant technique or sub-technique. Record the ATT&CK version or retrieval date used and distinguish planned, attempted and demonstrated behaviours.
 
----
+The section's page titles are navigation categories, not a claim to reproduce a particular ATT&CK release exactly. ATT&CK mappings are not severity ratings, and a mapped test does not establish complete coverage of a technique.
 
-# Internal Discovery
+## Worked Example: A Bounded Objective
 
-Internal discovery establishes what the compromised identity or system can access.
+Assume an approved exercise starts with a provided standard-user workstation and aims to access a synthetic document on a designated server.
 
-Potential questions include:
+| Stage | Observation or action | Supported interpretation |
+|---|---|---|
+| Starting condition | Customer provides a standard-user session | Assumed-breach starting access, not demonstrated external compromise |
+| Discovery | An approved application configuration exposes a service credential | Credential-exposure candidate requiring access and sensitivity validation |
+| Validation | Approved authentication succeeds against the designated service | The credential is accepted there; broader access remains untested |
+| Objective | The service identity reads the designated synthetic document | The agreed document-access objective is demonstrated |
+| Defensive review | Authentication and file-access records are found | Telemetry exists; alerting and response require separate verification |
+| Closeout | Test artefacts are removed and credential remediation is coordinated | Cleanup and remediation status can be reported separately |
 
-```text
-What networks are reachable?
-What hosts exist?
-What services are exposed?
-What domain is the host joined to?
-What trusts exist?
-What shares are accessible?
-What management infrastructure exists?
-What cloud services are reachable?
-Which identities are privileged?
-```
+The conclusion should explain the verified relationship between configuration access, credential exposure and document permissions.
 
-Discovery should be deliberate rather than unnecessarily noisy.
+Do not report domain compromise, unrestricted lateral movement or successful exfiltration unless those outcomes were separately demonstrated.
 
+## Cleanup, Reporting and Retesting
 
----
+Record changes when they are made, not from memory at the end.
 
-# Active Directory
+Track created or modified files, accounts, permissions, services, scheduled tasks, registry entries, SSH keys, persistence mechanisms, cloud resources, firewall rules, DNS records and temporary infrastructure.
 
-Where Active Directory is in scope, relevant areas can include:
+For each change, record the original state where applicable, responsible owner, restoration action and verification result.
 
-```text
-Domain structure
-Users
-Groups
-Computers
-ACLs
-Kerberos
-NTLM
-Delegation
-Certificate Services
-Trusts
-Group Policy
-Management infrastructure
-Credential exposure
-```
+!!! note "Cleanup preserves accountability"
+    Remove authorised test artefacts and restore approved changes without erasing defensive logs or destroying required evidence. Coordinate credential rotation and session revocation with the owner. Report anything that could not be restored.
 
-Use the dedicated documentation:
+The report should connect:
 
-[Active Directory](../active-directory/index.md)
+- Starting conditions and customer-provided assumptions.
+- Validated weaknesses and the access each enabled.
+- Credential, permission and trust relationships used.
+- Objectives reached, blocked or left untested.
+- Prevention, telemetry, alerting and response evidence.
+- Business impact and limitations.
+- Remediation priorities, cleanup status and retest criteria.
 
+Severity should reflect the supported impact, prerequisites, affected assets and business context. Explain how weaknesses combine without counting the same outcome repeatedly.
 
----
+Retesting should verify that the relevant path is interrupted, required business functions still work and agreed defensive improvements produce the expected evidence.
 
-# Lateral Movement
+Use [Cleanup](cleanup.md) and [Reporting](reporting.md) for detailed procedures.
 
-Lateral movement attempts to move from one authorised system or identity to another as part of an attack path.
+## Compact Engagement Checklist
 
-Potential mechanisms include:
+### Before Testing
 
-```text
-Remote administration
-Shared credentials
-Administrative protocols
-SSH
-SMB
-WinRM
-WMI
-RDP
-Cloud management interfaces
-Application administration
-Management infrastructure
-```
+- [ ] Written authorisation, scope, exclusions and testing window confirmed.
+- [ ] Objectives and starting assumptions documented.
+- [ ] Rules of Engagement and sensitive activities approved.
+- [ ] Emergency contacts, stop conditions and restart authority agreed.
+- [ ] Infrastructure, operator access and logging prepared.
+- [ ] Data handling, evidence requirements and cleanup responsibilities agreed.
 
-The existence of valid credentials does not automatically authorise access to every system where those credentials work.
+### During Testing
 
-Scope remains authoritative.
+- [ ] Current identity, host role and scope checked after each access transition.
+- [ ] Every action has an objective-relevant purpose.
+- [ ] Candidate prerequisites checked before drawing conclusions.
+- [ ] Activity, timestamps, results and changes recorded.
+- [ ] Sensitive data collection minimised.
+- [ ] Technical results separated from defensive outcomes.
+- [ ] Blocked, inconclusive and untested paths retained in the record.
+- [ ] Stop conditions followed when triggered.
 
-See:
+### At Closeout
 
-[Lateral Movement](lateral-movement.md)
+- [ ] Minimum objective evidence collected and unnecessary activity stopped.
+- [ ] Defensive evidence correlated with the operator timeline.
+- [ ] Test changes reversed and cleanup independently checked where agreed.
+- [ ] Outstanding artefacts, access and restoration issues assigned to owners.
+- [ ] Attack path, assumptions, limitations and business impact explained.
+- [ ] Remediation and retest criteria agreed.
 
+Measure objective outcomes, tested-path coverage, telemetry availability, alert quality and response effectiveness. Define the start and end events for timing metrics. Do not substitute vulnerability counts or a single successful technique for an assessment of organisational resilience.
 
----
+## Suggested Reading Routes
 
-# Command and Control
+- **Planning a new engagement:** [Methodology](methodology.md), [Adversary Emulation](adversary-emulation.md), [OPSEC](opsec.md), then [Infrastructure](infrastructure.md).
+- **Assessing external access:** [Reconnaissance](reconnaissance.md), [Initial Access](initial-access.md), then approved [Social Engineering](social-engineering.md) or [Phishing](phishing.md) scenarios where relevant.
+- **Starting from a provided foothold:** [Discovery](discovery.md), [Execution](execution.md), then the credential, privilege or movement route supported by the evidence.
+- **Evaluating information access:** [Collection](collection.md), approved [Exfiltration](exfiltration.md), then [Detection Validation](detection-validation.md).
+- **Closing and improving:** [Cleanup](cleanup.md), [Reporting](reporting.md), then collaborative [Purple Teaming](../purple-teaming/index.md).
 
-Command and control provides communication between assessment infrastructure and authorised test systems.
-
-A simplified architecture may look like:
-
-```text
-Operator
-   |
-   v
-Team Server
-   |
-   v
-Redirector
-   |
-   v
-Internet
-   |
-   v
-Authorised Test Host
-```
-
-Operational considerations include:
-
-```text
-Infrastructure isolation
-Domain management
-TLS
-Logging
-Redirectors
-Access control
-Firewall rules
-Payload control
-Traffic profiles
-Cleanup
-Defensive visibility
-```
-
-See:
-
-[Command and Control](command-and-control.md)
-
-
----
-
-# Infrastructure
-
-Red team infrastructure should be treated as production security infrastructure for the duration of an engagement.
-
-Important controls include:
-
-```text
-Strong authentication
-Restricted administration
-SSH key authentication
-Firewall restrictions
-Logging
-Patch management
-Encrypted communications
-Separate engagement infrastructure
-Minimal exposed services
-Backups of required configuration
-Credential protection
-```
-
-See:
-
-[Infrastructure](infrastructure.md)
-
-
----
-
-# Persistence
-
-Persistence mechanisms attempt to maintain access across changes such as:
-
-```text
-Process termination
-User logoff
-System restart
-Credential rotation
-Service restart
-```
-
-Persistence can create substantial operational risk.
-
-For many engagements, demonstrating that persistence is possible is preferable to deploying a persistent mechanism.
-
-See:
-
-[Persistence](persistence.md)
-
-
----
-
-# Defence Evasion
-
-Defence evasion testing evaluates how security controls respond to authorised adversary behaviours.
-
-Relevant defensive layers can include:
-
-```text
-Antivirus
-EDR
-Application control
-PowerShell controls
-AMSI
-Attack Surface Reduction
-Firewalling
-Proxy controls
-Email security
-Identity protection
-SIEM
-Network detection
-Cloud security controls
-```
-
-The goal should be to evaluate security controls, not disable protections unnecessarily.
-
-See:
-
-[Defence Evasion](defence-evasion.md)
-
-
----
-
-# Objective Execution
-
-The engagement should define what constitutes successful objective completion.
-
-A useful model is:
-
-```text
-Objective
-   |
-   v
-Can It Be Reached?
-   |
-   +--> No --> Document Blocking Control
-   |
-   +--> Yes
-          |
-          v
-   Minimum Evidence Required
-          |
-          v
-   Stop
-```
-
-Do not collect additional sensitive information simply because access is technically possible.
-
-
----
-
-# Proof of Access
-
-Where an objective involves sensitive systems or data, use the minimum evidence necessary.
-
-Prefer:
-
-```text
-Synthetic marker
-Filename
-Directory listing
-Metadata
-Hash of approved test file
-Screenshot of authorised test object
-Controlled test account
-```
-
-Avoid unnecessary copying of:
-
-```text
-Personal information
-Production databases
-Customer records
-Medical information
-Financial information
-Authentication databases
-Large datasets
-```
-
-
----
-
-# Data Exfiltration Simulation
-
-Where exfiltration testing is required, synthetic data is preferable.
-
-```text
-Synthetic Dataset
-      |
-      v
-Approved Channel
-      |
-      v
-Controlled Destination
-      |
-      v
-Detection Measurement
-```
-
-The purpose is usually to evaluate whether exfiltration behaviour is detected, not to remove real organisational data.
-
-
----
-
-# Operational Security
-
-Red team operational security helps prevent the assessment itself from creating unnecessary risk.
-
-Consider:
-
-```text
-Infrastructure attribution
-Credential storage
-Payload storage
-Logging
-Operator access
-Source addresses
-DNS records
-Certificates
-Cloud metadata
-Repository exposure
-Screenshots
-Reports
-Temporary files
-Engagement data
-```
-
-
----
-
-## Engagement Data
-
-Treat engagement data as sensitive.
-
-Potentially sensitive material includes:
-
-```text
-Credentials
-Hashes
-Tokens
-Hostnames
-Internal IP addresses
-Architecture information
-Vulnerability evidence
-Screenshots
-Customer data
-Source code
-Configuration files
-```
-
-Store only what is required.
-
-
----
-
-# Detection Engineering Perspective
-
-Red team activity should produce useful defensive learning.
-
-For each meaningful action, consider:
-
-```text
-What happened?
-What telemetry should exist?
-Was it logged?
-Was it detected?
-Was an alert generated?
-Was the alert investigated?
-Was the activity prevented?
-How quickly did the organisation respond?
-```
-
-This converts technical execution into measurable defensive outcomes.
-
-
----
-
-# Telemetry
-
-Useful telemetry can include:
-
-```text
-Endpoint process creation
-Authentication events
-PowerShell logs
-Service changes
-Scheduled-task changes
-Network connections
-DNS queries
-Proxy logs
-Firewall logs
-EDR telemetry
-Cloud audit logs
-Identity-provider logs
-Email security logs
-Application logs
-```
-
-Telemetry requirements should ideally be considered during engagement planning rather than only after testing.
-
-
----
-
-# MITRE ATT&CK Mapping
-
-MITRE ATT&CK provides a useful framework for mapping observed behaviours.
-
-A red team attack path may span several tactics:
-
-```text
-Reconnaissance
-      |
-Resource Development
-      |
-Initial Access
-      |
-Execution
-      |
-Persistence
-      |
-Privilege Escalation
-      |
-Defence Evasion
-      |
-Credential Access
-      |
-Discovery
-      |
-Lateral Movement
-      |
-Collection
-      |
-Command and Control
-      |
-Exfiltration
-      |
-Impact
-```
-
-Not every engagement needs to exercise every tactic.
-
-
----
-
-# Evidence Collection
-
-Evidence should be collected throughout the assessment.
-
-Useful evidence includes:
-
-```text
-Timestamp
-Source host
-Target host
-Current identity
-Technique
-Command or action
-Result
-Privilege level
-Relevant screenshot
-Relevant log
-Objective relationship
-Detection result
-```
-
-A simple evidence model:
-
-```text
-Action
-  |
-  v
-Technical Result
-  |
-  v
-Security Impact
-  |
-  v
-Detection Result
-  |
-  v
-Evidence
-```
-
-
----
-
-# Timeline
-
-Maintain a reliable operational timeline.
-
-Example:
-
-| Time | Source | Target | Action | Result |
-|---|---|---|---|---|
-| 09:12 | Operator | Web application | Authentication test | Access obtained |
-| 09:37 | Foothold | Endpoint | Host enumeration | User context identified |
-| 10:04 | Endpoint | Internal service | Connection test | Service reachable |
-| 10:31 | Endpoint | Target system | Objective validation | Objective reached |
-
-Use UTC or an explicitly documented timezone consistently.
-
-
----
-
-# Cleanup
-
-Cleanup is part of the engagement, not an optional final step.
-
-Track changes such as:
-
-```text
-Created files
-Created accounts
-Modified files
-Modified permissions
-Created services
-Created scheduled tasks
-Registry changes
-SSH keys
-Persistence mechanisms
-Cloud resources
-Firewall rules
-DNS records
-Temporary infrastructure
-```
-
-A useful workflow is:
-
-```text
-Change Made
-    |
-    v
-Record Change
-    |
-    v
-Assessment Ends
-    |
-    v
-Reverse Change
-    |
-    v
-Verify
-```
-
-
----
-
-# Reporting
-
-A red team report should explain the attack path rather than presenting only isolated findings.
-
-```text
-Initial Condition
-      |
-      v
-Weakness 1
-      |
-      v
-Access
-      |
-      v
-Weakness 2
-      |
-      v
-Privilege
-      |
-      v
-Weakness 3
-      |
-      v
-Lateral Movement
-      |
-      v
-Objective
-```
-
-This helps stakeholders understand how individual weaknesses combine into business risk.
-
-
----
-
-## Finding Structure
-
-A useful finding structure is:
-
-```text
-Title
-Severity
-Affected Systems
-Description
-Attack Path
-Evidence
-Impact
-Detection Observations
-Remediation
-References
-```
-
-
----
-
-## Attack Path Narrative
-
-The report should explain:
-
-```text
-Where the attack started
-What weakness enabled access
-What privileges were obtained
-What credentials or trust relationships were used
-How lateral movement occurred
-Which objective was reached
-Which controls detected the activity
-Which controls failed to detect the activity
-```
-
-
----
-
-# Severity
-
-Severity should reflect the actual demonstrated impact.
-
-Consider:
-
-```text
-Starting access
-Required privileges
-Exploit complexity
-User interaction
-Attack reliability
-Affected systems
-Privilege obtained
-Data exposure
-Business impact
-Detection capability
-Attack chaining
-```
-
-Avoid assigning critical severity simply because a technique sounds powerful.
-
-
----
-
-# Red Team Success Metrics
-
-Useful metrics can include:
-
-```text
-Objective reached
-Time to initial access
-Time to detection
-Time to investigation
-Time to containment
-Number of attack stages detected
-Number of attack stages prevented
-Number of meaningful attack paths
-Telemetry coverage
-Alert quality
-Response effectiveness
-```
-
-The number of vulnerabilities discovered is usually not the best measure of red team effectiveness.
-
-
----
-
-# Stop Conditions
-
-Operators should know when testing must stop.
-
-Potential stop conditions include:
-
-```text
-Unexpected production impact
-System instability
-Access to excluded systems
-Unexpected sensitive data
-Third-party infrastructure reached
-Safety concern
-Incident-response escalation
-Customer instruction
-Loss of infrastructure control
-Uncertain scope
-```
-
-When scope becomes uncertain, do not assume permission.
-
-
----
-
-# Emergency Communication
-
-The engagement should have an escalation path.
-
-```text
-Operator
-   |
-   v
-Red Team Lead
-   |
-   v
-Authorised Customer Contact
-   |
-   v
-Security / Incident Response
-```
-
-Emergency contact details should be available before testing begins.
-
-
----
-
-# Red Team Checklist
-
-## Before the Engagement
-
-- [ ] Written authorisation confirmed
-- [ ] Scope confirmed
-- [ ] Rules of Engagement approved
-- [ ] Objectives defined
-- [ ] Exclusions documented
-- [ ] Testing window confirmed
-- [ ] Emergency contacts confirmed
-- [ ] Stop conditions understood
-- [ ] Infrastructure prepared
-- [ ] Operator access restricted
-- [ ] Logging enabled
-- [ ] Evidence handling agreed
-- [ ] Cleanup process defined
-
-## Reconnaissance
-
-- [ ] Domains identified
-- [ ] Subdomains investigated
-- [ ] IP ranges understood
-- [ ] External services identified
-- [ ] Applications mapped
-- [ ] Identity surfaces identified
-- [ ] Remote-access services reviewed
-- [ ] Cloud exposure considered
-- [ ] Third-party boundaries respected
-
-## Initial Access
-
-- [ ] Permitted techniques confirmed
-- [ ] Initial access documented
-- [ ] Source and target recorded
-- [ ] Security context established
-- [ ] Scope revalidated after access
-
-## Post-Compromise
-
-- [ ] Current identity established
-- [ ] Host role understood
-- [ ] Security controls identified
-- [ ] Privilege escalation assessed
-- [ ] Credentials handled securely
-- [ ] Internal discovery controlled
-- [ ] Lateral movement remained in scope
-
-## Objective
-
-- [ ] Objective reached or blocking control identified
-- [ ] Minimum required evidence collected
-- [ ] Sensitive data collection minimised
-- [ ] Detection status recorded
-
-## Cleanup
-
-- [ ] Files removed
-- [ ] Accounts removed
-- [ ] Persistence removed
-- [ ] Configuration restored
-- [ ] Cloud resources removed
-- [ ] Infrastructure decommissioned
-- [ ] Cleanup verified
-
-## Reporting
-
-- [ ] Timeline complete
-- [ ] Attack path documented
-- [ ] Findings evidenced
-- [ ] Detection observations included
-- [ ] Remediation included
-- [ ] MITRE ATT&CK mappings reviewed
-- [ ] Executive impact explained
-
-
----
-
-# Red Team Decision Model
-
-```text
-                 START
-                   |
-                   v
-          Written Authorisation?
-             /           \
-           No             Yes
-           |               |
-          STOP             v
-                         Scope
-                           |
-                           v
-                   Attack Surface
-                           |
-                           v
-                    Initial Access
-                      /        \
-                    No          Yes
-                    |            |
-             Document Path       v
-                           Establish Context
-                                |
-                                v
-                         Need More Privilege?
-                           /           \
-                         No             Yes
-                         |               |
-                         |        Privilege Escalation
-                         |               |
-                         +-------+-------+
-                                 |
-                                 v
-                          Internal Discovery
-                                 |
-                                 v
-                         Lateral Movement?
-                           /           \
-                         No             Yes
-                         |               |
-                         +-------+-------+
-                                 |
-                                 v
-                              Objective
-                                 |
-                                 v
-                        Minimum Evidence
-                                 |
-                                 v
-                              Cleanup
-                                 |
-                                 v
-                              Report
-```
-
-
----
-
-# Final Testing Model
-
-A mature red team workflow can be summarised as:
-
-```text
-Authorisation
-      |
-      v
-Scope
-      |
-      v
-Threat Model
-      |
-      v
-Infrastructure
-      |
-      v
-Reconnaissance
-      |
-      v
-Initial Access
-      |
-      v
-Situational Awareness
-      |
-      v
-Privilege Escalation
-      |
-      v
-Credential Access
-      |
-      v
-Discovery
-      |
-      v
-Lateral Movement
-      |
-      v
-Objective
-      |
-      v
-Detection Evaluation
-      |
-      v
-Cleanup
-      |
-      v
-Reporting
-      |
-      v
-Security Improvement
-```
-
-
----
-
-# Related Notes
-
-- [Windows](../windows/index.md)
-- [Linux](../linux/index.md)
-- [PrivEsc Explorer](../privesc/index.md)
-- [Active Directory](../active-directory/index.md)
-- [Web Application Security](../web/index.md)
-- [Purple Teaming](../purple-teaming/index.md)
-- [Cheatsheets](../cheatsheets/index.md)
-
-
----
-
-# References
+## References
 
 - [MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework){ target="_blank" rel="noopener noreferrer" }
 - [NIST SP 800-115 - Technical Guide to Information Security Testing and Assessment](https://csrc.nist.gov/pubs/sp/800/115/final){ target="_blank" rel="noopener noreferrer" }
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework){ target="_blank" rel="noopener noreferrer" }
 - [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/){ target="_blank" rel="noopener noreferrer" }
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team){ target="_blank" rel="noopener noreferrer" }
-- [MITRE Caldera](https://caldera.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-
-
----
-
-!!! warning "Authorised testing only"
-    Red teaming can involve actions that affect production systems, identities, credentials, applications, cloud environments, security controls, and sensitive information. Perform testing only with explicit written authorisation and within the approved scope and Rules of Engagement. Stop when scope, safety, or authorisation becomes uncertain.
+- [Caldera](https://caldera.mitre.org/){ target="_blank" rel="noopener noreferrer" }
