@@ -2016,6 +2016,62 @@ End of Engagement:
 
 ---
 
+# Infrastructure Ownership, Exposure, and Validation
+
+## Establish What the Component Is For
+
+Before an engagement, inventory each component's purpose, owner, administrator, provider, target-facing role, management path, data handled, and lifecycle state:
+
+```text
+Operator access
+   -> Management interface
+   -> Redirector or routing layer
+   -> Payload / callback / C2 service
+   -> Logging and evidence store
+```
+
+Separate intentionally exposed assessment infrastructure from unintended exposure. A public VPS, domain, certificate, cloud host, redirector, callback endpoint, or management port is not automatically vulnerable; determine whether it is in scope, intentionally exposed, protected by source-IP or identity controls, and necessary for the authorised objective.
+
+## Ownership and Dependency Validation
+
+For each domain, DNS zone, certificate, VPS, cloud resource, redirector, third-party provider, and shared service, record the ownership or authorization basis, account owner, administrative access path, provider dependency, data location, and target segregation. Confirm DNS control and certificate issuance through the approved provider or account rather than assuming that a registration or hosting relationship proves ownership.
+
+Validate before active use:
+
+```text
+Infrastructure component identified
+   -> Ownership and administrative control confirmed
+   -> Exposure and third-party dependency validated
+   -> Target and engagement scope confirmed
+   -> Routing, authentication, secrets, and logging tested
+   -> Safe target-facing behavior observed
+   -> Operational or security consequence demonstrated
+   -> Evidence and security conclusion
+```
+
+Check management interfaces, SSH, cloud consoles, dashboards, staging endpoints, source-IP restrictions, firewall rules, TLS certificates, redirector backends, callback destinations, operator secrets, and log retention. Test from the intended operator and target perspectives with harmless markers. Do not scan or access provider infrastructure outside the agreed scope.
+
+## Expected Results and Misleading Indicators
+
+| Observation | Establishes | Still requires validation |
+|---|---|---|
+| Service is internet-reachable | Exposure from the tested location | That it is unintended or exploitable |
+| Domain or certificate resolves | DNS or certificate relationship | Ownership, target relevance, or security weakness |
+| Management port is visible | Administrative surface exists | Authentication strength and permitted operation |
+| Redirector returns a response | Routing behavior | Backend restriction, target attribution, or data exposure |
+| Third-party service is involved | A dependency exists | That the provider is unsafe or the account is compromised |
+| Shared host serves multiple targets | Possible segregation concern | Cross-target exposure or data leakage |
+
+Troubleshoot unexpected behavior by checking DNS caching and split-horizon records, CDN or proxy layers, certificate/SNI selection, firewall and source-IP rules, redirector health, clock synchronization, provider rate limits, callback reachability, log ingestion, and stale infrastructure. Reproduce with a unique marker and the smallest permitted request.
+
+## Evidence, Hardening, and Teardown
+
+Capture the inventory and ownership basis, scope decision, resolved DNS and certificate details, exposed services, effective access controls, sanitized routing request/response, dependency and target-segregation checks, operator timeline, logs, and cleanup status. Do not retain target data or credentials beyond the approved evidence need.
+
+Harden the assessment infrastructure with separate operator and target-facing roles, restricted management access, least-privilege cloud accounts, short-lived secrets, isolated target datasets, TLS and DNS controls, firewalls, logging, kill switches, and explicit third-party boundaries. At teardown, revoke credentials and certificates, remove DNS and cloud resources, delete payload and callback data, close management exposure, confirm provider cleanup, and preserve only approved evidence. Retest the intended controls and confirm that no stale endpoint, credential, certificate, or target data remains.
+
+Related planning notes: [Command and Control](command-and-control.md), [Operational Security](opsec.md), [Reconnaissance](reconnaissance.md), [Red Team Methodology](methodology.md), and [Reporting](reporting.md).
+
 # Related Notes
 
 - [Red Teaming](index.md)

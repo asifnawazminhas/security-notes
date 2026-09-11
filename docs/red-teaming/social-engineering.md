@@ -3019,6 +3019,54 @@ Retest the process after remediation.
 
 ---
 
+# Authorization, Safety, and Outcome Interpretation
+
+## Gate the Exercise Before Contact
+
+Obtain written authorization and record the rules of engagement before selecting participants or scenarios. The exercise record should define:
+
+```text
+Approved objective and success criteria
+Target population and excluded individuals/groups
+Approved channels, pretexts, timing, and locations
+Permitted data collection and credential simulation method
+Stop conditions and emergency contacts
+Deconfliction owners and notification/debrief requirements
+Privacy, retention, and participant-protection requirements
+```
+
+Do not improvise a more realistic pretext, contact an excluded person, collect a real password, continue after a stop condition, or use a sensitive personal circumstance merely to improve an exercise metric. Use synthetic identities, harmless markers, simulated credentials, approved test accounts, and minimal personal data where they answer the objective.
+
+## Outcome Classification
+
+Classify each observed result separately:
+
+```text
+Message delivered
+   -> Message opened or viewed
+   -> Link followed or call answered
+   -> Simulated action performed
+   -> Information submitted
+   -> Submitted value validated as a test credential?
+   -> Access actually obtained?
+   -> Security control or incident response triggered?
+   -> Organisational objective evaluated
+```
+
+A delivery, click, conversation, submitted value, or successful interaction is not automatically compromise. A submitted value is not a valid credential until an approved test confirms it, and valid authentication is not proof of resource access or administrative control. A refusal, report, verification request, block, quarantine, alert, or incident-response action can be a successful defensive outcome.
+
+## Evidence, Ambiguity, and Participant Protection
+
+Capture the approved scenario and objective, target cohort without unnecessary identifiers, channel and timestamps, delivery/open/click or response events, simulated action, control response, evidence source and confidence, stop/deconfliction events, and the agreed interpretation. Redact or hash participant identifiers and never retain real passwords, unnecessary call recordings, sensitive personal details, or unrelated message content.
+
+For ambiguous results, distinguish tracking failure from non-delivery, a preview from a deliberate open, a link click from a completed action, a simulated submission from credential validity, and a blocked request from a failed control. Correlate mail, web, identity, help-desk, physical-access, endpoint, and incident-response telemetry only where authorized. Record limitations rather than converting uncertainty into a success or failure claim.
+
+## Remediation, Debrief, and Retesting
+
+Remediation should address the demonstrated control or objective: reporting channels, help-desk verification, identity recovery, access controls, email/web protections, physical visitor controls, analyst playbooks, or participant training. Protect participants from blame, notify and debrief according to the engagement plan, remove simulation artifacts, close test accounts, revoke temporary access, and confirm data deletion or retention decisions.
+
+Retest the same objective with a comparable scenario and a bounded relevant variant. Measure whether the intended control blocks, reports, detects, investigates, or responds as expected; do not optimize for click rate alone. Preserve the distinction between exercise activity, participant behavior, control response, and actual security consequence. See [Phishing](phishing.md), [Credential Access](credential-access.md), [Reporting](reporting.md), [Detection Validation](detection-validation.md), and [Purple Teaming](../purple-teaming/index.md).
+
 # Related Notes
 
 - [Red Teaming](index.md)
