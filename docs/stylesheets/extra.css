@@ -175,25 +175,28 @@ html {
    ============================================================ */
 
 /*
-   Keeps all top-level navigation items visible on desktop
-   when navigation.tabs is enabled.
+   Keeps all top-level navigation tabs visible on desktop.
 
-   The site now contains several top-level sections, including
-   Cloud and Cheatsheets, so the default Material tab spacing
-   is slightly reduced without changing the navigation labels.
+   Chrome and Firefox calculate available width and font
+   metrics slightly differently. Removing the default item
+   padding and reducing horizontal tab margins gives the
+   navigation enough room without shortening labels or
+   reducing the normal font size.
 */
 
 @media screen and (min-width: 76.25em) {
 
   .md-tabs__item {
-    padding-left: 0.15rem;
-    padding-right: 0.15rem;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .md-tabs__link {
     margin-top: 0.8rem;
-    padding-left: 0.35rem;
-    padding-right: 0.35rem;
+    margin-left: 0.35rem;
+    margin-right: 0.35rem;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
