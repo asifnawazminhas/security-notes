@@ -27,6 +27,17 @@ configuration discovered during an authorised assessment.
 
 ---
 
+## Investigation Workflow
+
+<div class="privesc-stage-grid">
+<div><strong>1. Observe</strong><span>Record the exact Linux condition you found.</span></div>
+<div><strong>2. Qualify</strong><span>Check identity, permissions and prerequisites.</span></div>
+<div><strong>3. Connect</strong><span>Identify the privileged consumer or operation.</span></div>
+<div><strong>4. Trigger</strong><span>Determine when and how the relationship is exercised.</span></div>
+<div><strong>5. Validate</strong><span>Use the least intrusive authorised validation.</span></div>
+<div><strong>6. Conclude</strong><span>Separate candidate, supported configuration and demonstrated impact.</span></div>
+</div>
+
 ## Explorer
 
 <div id="privesc-explorer" data-platform="linux">
@@ -1517,7 +1528,7 @@ env
 ## Related Notes
 
 - [PrivEsc Explorer](index.md)
-- [Windows PrivEsc Explorer](../windows/index.md)
+- [Windows PrivEsc Explorer](windows.md)
 - [Linux Overview](../linux/index.md)
 - [Linux Enumeration](../linux/enumeration.md)
 - [Linux Privilege Escalation](../linux/privilege-escalation.md)
