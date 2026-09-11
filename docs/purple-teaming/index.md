@@ -1,1956 +1,743 @@
 ---
 title: Purple Teaming
-description: Practical purple teaming methodology covering collaborative security testing, adversary emulation, detection engineering, MITRE ATT&CK, knowledge transfer, measurement, after-action reviews and continuous validation.
+description: Practical purple teaming methodology covering collaborative security testing, threat-informed exercises, detection engineering, knowledge transfer, measurement, after-action reviews and continuous validation.
 ---
 
 # Purple Teaming
 
-Purple teaming is a collaborative security-testing approach in which offensive and defensive security teams work together to improve an organisation's ability to prevent, detect, investigate and respond to adversary behavior.
+Purple teaming is a structured, collaborative process in which offensive and defensive security teams work together to improve prevention, detection, investigation and response through controlled security testing and shared learning.
 
-Rather than treating red and blue teams as isolated functions:
+Its value comes from connecting technical activity to defensive evidence and organisational improvement:
 
-```text
-Traditional Model
+**What happened? What was visible? What was missed? Why? What changed? Did the change work? Can the organisation retain and repeat that improvement?**
 
-Red Team                         Blue Team
-    |                                |
-    v                                v
-Attack                           Defend
-    |                                |
-    +------------ Limited -----------+
-                 Feedback
+Use this page as the practical overview and navigation map. The eight dedicated pages provide detailed methodology, exercise design, detection engineering, ATT&CK mapping, knowledge transfer, measurement, after-action review and continuous validation.
+
+!!! warning "Authorised security testing"
+    Exercises and recurring validation require explicit authorisation, approved systems and accounts, agreed techniques, safety constraints and cleanup requirements. Collaboration between teams does not extend scope or remove change-control requirements. Stop when permission, scope or operational safety becomes uncertain.
+
+## Start Here
+
+<div class="grid cards" markdown>
+
+-   **Methodology**
+
+    ---
+
+    Establish objectives, scope, roles, Rules of Engagement, feedback cycles and evidence requirements.
+
+    [Purple Teaming Methodology](methodology.md)
+
+-   **Exercises**
+
+    ---
+
+    Turn a security question into a controlled scenario with preparation, execution, observation and retesting.
+
+    [Purple Team Exercises](exercises.md)
+
+-   **Detection Engineering**
+
+    ---
+
+    Trace behaviour through telemetry, collection, parsing, detection logic, alerting and investigation.
+
+    [Detection Engineering](detection-engineering.md)
+
+-   **MITRE ATT&CK**
+
+    ---
+
+    Select relevant behaviours, document procedure-level mappings and interpret coverage without overstating it.
+
+    [MITRE ATT&CK](mitre-attack.md)
+
+-   **Knowledge Transfer**
+
+    ---
+
+    Convert participant experience into explanations, reusable artefacts, practice and operational capability.
+
+    [Knowledge Transfer](knowledge-transfer.md)
+
+-   **Metrics and Measurement**
+
+    ---
+
+    Measure technical, operational and learning outcomes using explicit definitions and comparable evidence.
+
+    [Metrics and Measurement](metrics-and-measurement.md)
+
+-   **After-Action Review**
+
+    ---
+
+    Compare expectations with observations, investigate causes and assign improvements with validation criteria.
+
+    [After-Action Review](after-action-review.md)
+
+-   **Continuous Validation**
+
+    ---
+
+    Preserve important tests and detect regressions after changes to systems, telemetry, analytics or processes.
+
+    [Continuous Validation](continuous-validation.md)
+
+</div>
+
+## What Purple Teaming Adds
+
+Purple teaming connects offensive explanation, defensive observation and improvement. It does not require a separate permanent team; it can be a facilitated exercise, a working process or an ongoing programme.
+
+| Approach | Primary focus | Relationship to purple teaming |
+|---|---|---|
+| Penetration testing | Validate weaknesses and their security impact | Findings can become scenarios for testing prevention, visibility and response |
+| Red teaming | Evaluate objective-driven adversary paths and organisational response | Demonstrated paths and defensive gaps can be reproduced collaboratively |
+| Purple teaming | Explain, improve and validate security capability through collaboration | Technical results, human decisions and learning are evaluated together |
+| Breach and attack simulation | Automate supported security-control tests | Can support repeatability, but does not by itself establish investigation quality or knowledge transfer |
+
+Defender awareness and information sharing depend on the agreed exercise design. A programme may combine an initial baseline attempt with later coached, collaborative attempts.
+
+Keep those results separate. A successful investigation after the facilitator provides the exact query does not demonstrate independent analyst discovery.
+
+See [Red Teaming](../red-teaming/index.md) for objective-driven assessments and [Exercises](exercises.md) for collaborative exercise design.
+
+## Roles and Collaboration
+
+Assign responsibilities before execution. One person may cover several roles, but ownership should remain explicit.
+
+| Role | Main responsibility | Contribution to shared learning |
+|---|---|---|
+| Exercise sponsor or owner | Approve objectives, resources, boundaries and priorities | Connect technical results to business risk |
+| Facilitator | Coordinate timing, communication, safety and feedback | Surface assumptions and keep discussion evidence-led |
+| Offensive operator | Execute approved procedures and record actual outcomes | Explain prerequisites, behaviour, artefacts and attack-path relevance |
+| Blue team or SOC | Observe, triage and investigate activity | Explain available evidence, analyst decisions and operational constraints |
+| Detection engineer | Review telemetry dependencies and analytics | Explain rule behaviour, field mappings, tuning and validation |
+| Incident response | Validate escalation, containment and recovery where approved | Explain decision criteria and response dependencies |
+| Platform, identity, cloud or application owner | Support context, configuration changes and restoration | Explain intended behaviour and operational impact |
+| Evidence or measurement owner | Maintain test records, timestamps and metrics | Make results comparable and traceable |
+
+Use an agreed communication channel and a named stop authority.
+
+A useful working culture is specific and non-punitive: investigate why a system or process behaved as it did rather than treating missed activity as evidence of individual incompetence.
+
+Continue with [Methodology](methodology.md) and [Knowledge Transfer](knowledge-transfer.md).
+
+## The Improvement Lifecycle
+
+Apply the site's evidence model to each technical test:
+
+**Observation -> Candidate -> Validation -> Evidence -> Security Conclusion**
+
+In purple teaming, the resulting conclusion becomes input to improvement, retesting and learning.
+
+```mermaid
+flowchart TD
+    A["Threat and business objective"] --> B["Scope and expected outcomes"]
+    B --> C["Execute approved procedure"]
+    C --> D["Compare execution and defensive evidence"]
+    D --> E{"Expected outcome supported?"}
+    E -->|No or uncertain| F["Investigate gap or limitation"]
+    F --> G{"Change approved and safe?"}
+    G -->|Yes| H["Implement improvement"]
+    H --> C
+    G -->|No| I["Assign action and record limitation"]
+    E -->|Yes| J["Record bounded validation"]
+    I --> K["Review and transfer knowledge"]
+    J --> K
+    K --> L["Select safe recurring tests"]
+    L -->|Change or regression| B
 ```
 
-purple teaming creates an active feedback loop:
+Feedback, measurement and knowledge transfer should occur throughout the cycle, not only at the end.
 
-```text
-Purple Teaming
+| Stage | What to do | Expected result | What follows |
+|---|---|---|---|
+| Define | Agree the security question and learning objective | Measurable success criteria | Select a relevant scenario |
+| Prepare | Confirm scope, prerequisites, access, telemetry and safety | A controlled, repeatable test | Capture the baseline |
+| Execute | Run the agreed procedure and record its actual effect | Evidence of execution, prevention or a test limitation | Inspect defensive records |
+| Observe | Trace the result through the defensive process | A supported outcome or a located gap | Investigate causes |
+| Improve | Agree and implement the appropriate change | A reviewed configuration, analytic, runbook or process update | Repeat the test |
+| Validate | Compare a fresh attempt with the baseline | Evidence of improvement within stated limits | Transfer knowledge and review |
+| Sustain | Assign ownership and preserve suitable tests | Reusable checks and operational learning | Detect regression and revisit relevance |
 
-Red Team
-   |
-   v
-Execute Technique
-   |
-   v
-Blue Team Observes
-   |
-   v
-Telemetry Reviewed
-   |
-   v
-Detection Evaluated
-   |
-   v
-Feedback Shared
-   |
-   v
-Detection Improved
-   |
-   v
-Technique Repeated
-   |
-   v
-Improvement Validated
-```
+A changed rule is evidence of implementation. A repeated test with the expected result provides evidence of validation.
 
-The objective is not simply to determine whether an attacker can succeed.
+## Plan a Threat-Informed Exercise
 
-The objective is to understand:
+### Define the Question
 
-```text
-What happened?
-
-What was visible?
-
-What was detected?
-
-What was missed?
-
-Why was it missed?
-
-What did participants learn?
-
-What should change?
-
-Did the change work?
-
-Will it continue working?
-```
-
----
-
-# Purple Teaming Knowledge Base
-
-This section is organised around nine core areas.
-
-```text
-Purple Teaming
-│
-├── Methodology
-│
-├── Exercises
-│
-├── Detection Engineering
-│
-├── MITRE ATT&CK
-│
-├── Knowledge Transfer
-│
-├── Metrics and Measurement
-│
-├── After-Action Review
-│
-└── Continuous Validation
-```
-
-Each area represents part of the purple team improvement lifecycle.
-
----
-
-# 1. Methodology
-
-[Purple Teaming Methodology](methodology.md)
-
-The methodology defines how purple team activities are planned, executed, reviewed and improved.
-
-Topics include:
-
-```text
-Objectives
-
-Scope
-
-Roles
-
-Rules of engagement
-
-Scenario selection
-
-Technique selection
-
-Exercise preparation
-
-Execution
-
-Observation
-
-Feedback
-
-Improvement
-
-Retesting
-
-Lessons learned
-```
-
-A structured methodology helps make exercises repeatable rather than dependent on individual operators.
-
----
-
-# 2. Exercises
-
-[Purple Team Exercises](exercises.md)
-
-Exercises provide the practical environment in which offensive and defensive teams collaborate.
-
-Topics include:
-
-```text
-Exercise objectives
-
-Scenario design
-
-Exercise preparation
-
-Participants
-
-Facilitation
-
-Attack execution
-
-Defensive observation
-
-Feedback cycles
-
-Evidence collection
-
-Exercise safety
-
-Retesting
-```
-
-The exercise should produce measurable security improvement rather than simply demonstrate offensive capability.
-
----
-
-# 3. Detection Engineering
-
-[Detection Engineering](detection-engineering.md)
-
-Detection engineering connects adversary behavior to observable telemetry and actionable detection logic.
-
-```text
-Adversary Behavior
-       |
-       v
-Telemetry
-       |
-       v
-Data Collection
-       |
-       v
-Detection Logic
-       |
-       v
-Alert
-       |
-       v
-Investigation
-       |
-       v
-Response
-```
-
-Topics include:
-
-```text
-Detection requirements
-
-Telemetry
-
-Data sources
-
-Detection logic
-
-Rule development
-
-Detection testing
-
-False positives
-
-Detection tuning
-
-ATT&CK mapping
-
-Validation
-
-Regression testing
-```
-
-Purple teaming provides an effective environment for validating this complete chain.
-
----
-
-# 4. MITRE ATT&CK
-
-[MITRE ATT&CK](mitre-attack.md)
-
-MITRE ATT&CK provides a shared vocabulary for describing adversary behavior.
-
-It can help structure:
-
-```text
-Threat intelligence
-
-Exercise planning
-
-Technique selection
-
-Adversary emulation
-
-Detection engineering
-
-Coverage analysis
-
-Reporting
-
-Validation
-```
-
-A simplified relationship is:
-
-```text
-Threat
-  |
-  v
-ATT&CK Technique
-  |
-  v
-Purple Team Test
-  |
-  v
-Telemetry
-  |
-  v
-Detection
-  |
-  v
-Validation
-```
-
-ATT&CK should support the testing methodology rather than replace evidence-based validation.
-
----
-
-# 5. Knowledge Transfer
-
-[Knowledge Transfer](knowledge-transfer.md)
-
-Purple teaming is fundamentally a learning activity.
-
-Exercise findings should be converted into reusable organisational knowledge.
-
-```text
-Exercise
-   |
-   v
-Observation
-   |
-   v
-Explanation
-   |
-   v
-Knowledge Transfer
-   |
-   v
-Operational Knowledge
-   |
-   v
-Application
-```
-
-Knowledge may need to move between:
-
-```text
-Red Team
-
-Blue Team
-
-SOC
-
-Detection Engineering
-
-Incident Response
-
-Security Engineering
-
-Platform Teams
-
-Identity Teams
-
-Cloud Teams
-
-Application Teams
-```
-
-The objective is to reduce knowledge isolation and ensure that lessons survive beyond the exercise.
-
----
-
-# 6. Metrics and Measurement
-
-[Metrics and Measurement](metrics-and-measurement.md)
-
-Purple team programmes need evidence that security capability is improving.
-
-Useful measurements may include:
-
-```text
-Technique execution success
-
-Prevention success
-
-Telemetry availability
-
-Detection success
-
-Time to detect
-
-Time to triage
-
-Time to investigate
-
-Response performance
-
-Knowledge improvement
-
-Action completion
-
-Retest success
-
-Regression rate
-```
-
-Metrics should explain capability rather than simply create impressive numbers.
-
----
-
-# 7. After-Action Review
-
-[After-Action Review](after-action-review.md)
-
-The after-action review converts exercise observations into structured improvement.
-
-```text
-Exercise
-   |
-   v
-Evidence
-   |
-   v
-Review
-   |
-   v
-Root Cause
-   |
-   v
-Lesson
-   |
-   v
-Action
-   |
-   v
-Owner
-   |
-   v
-Retest
-```
-
-The review should answer:
-
-```text
-What was expected?
-
-What actually happened?
-
-Why was there a difference?
-
-What worked?
-
-What failed?
-
-What did we learn?
-
-What should change?
-
-Who owns the improvement?
-
-How will the improvement be validated?
-```
-
-A lesson is not fully learned merely because it appears in an exercise report.
-
----
-
-# 8. Continuous Validation
-
-[Continuous Validation](continuous-validation.md)
-
-Continuous validation converts important purple team tests into repeatable security checks.
-
-```text
-Exercise
-   |
-   v
-Finding
-   |
-   v
-Improvement
-   |
-   v
-Retest
-   |
-   v
-Reusable Test
-   |
-   v
-Continuous Validation
-   |
-   v
-Regression Detection
-```
-
-This helps organisations identify when previously successful controls stop working because of environmental changes.
+Choose a question specific enough to answer with observable evidence.
 
 Examples include:
 
-```text
-EDR upgrades
+- Can the selected procedure execute under the approved test identity?
+- Does the intended preventive control block it?
+- Is the required event generated and available to defenders?
+- Does the analytic match the relevant behaviour?
+- Does the alert reach the correct queue with sufficient context?
+- Can an analyst investigate and choose an appropriate response?
+- Can another participant repeat the investigation after knowledge transfer?
+- Does the improvement continue working after an agreed platform change?
 
-SIEM changes
+Include both a technical objective and, where relevant, a learning objective.
 
-Parser changes
+For example:
 
-Detection modifications
+> Validate whether a controlled execution procedure produces the expected alert and whether a second analyst can investigate it using the revised runbook without facilitator guidance.
 
-Logging changes
+### Select Relevant Behaviour
 
-Operating system upgrades
+Use threat intelligence, incident history, red team findings, penetration-test findings, vulnerability assessments, industry threats, critical assets, technology exposure and known control gaps.
 
-Cloud configuration changes
-```
+For each candidate, explain:
 
----
+- Why the behaviour matters to this organisation.
+- Which asset, identity or business process is relevant.
+- Which security assumption the test challenges.
+- Which prevention, detection or response capability should be exercised.
+- What participants should learn.
 
-# Purple Teaming Lifecycle
+Avoid selecting techniques solely because a tool supports them or because they add colour to a coverage matrix.
 
-The complete lifecycle can be represented as:
+[MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" } provides a shared vocabulary grounded in observed adversary behaviours. Use the [MITRE ATT&CK notes](mitre-attack.md) to connect the selected procedure to an appropriate mapping.
 
-```text
-Threat Intelligence
-        |
-        v
-Objectives
-        |
-        v
-Scope
-        |
-        v
-Scenario Selection
-        |
-        v
-ATT&CK Mapping
-        |
-        v
-Exercise Preparation
-        |
-        v
-Technique Execution
-        |
-        v
-Telemetry Observation
-        |
-        v
-Detection Evaluation
-        |
-        v
-Investigation
-        |
-        v
-Feedback
-        |
-        v
-Improvement
-        |
-        v
-Retest
-        |
-        v
-Knowledge Transfer
-        |
-        v
-After-Action Review
-        |
-        v
-Metrics
-        |
-        v
-Continuous Validation
-        |
-        +-------------------------+
-        |                         |
-        v                         |
-New Threat Intelligence           |
-        |                         |
-        +-------------------------+
-```
+Record the ATT&CK version or retrieval date used. One successful procedure does not validate every variant of a technique, and a mapping is not evidence that a detection works.
 
-Purple teaming should therefore be viewed as an improvement cycle rather than a single event.
+### Confirm Scope and Safety
 
----
+Document systems, applications, networks, tenants, accounts, tools, techniques, testing windows and exclusions.
 
-# Red, Blue and Purple Teams
+Agree:
 
-## Red Team
+- Authorised and prohibited activities.
+- Dedicated test accounts and validation endpoints where appropriate.
+- Known test infrastructure and approved test artefacts.
+- Rate limits, resource limits and availability constraints.
+- Data access, storage, retention and sharing rules.
+- Permitted configuration changes and approval requirements.
+- Rollback, cleanup and restoration responsibilities.
+- Emergency contacts, stop conditions and restart authority.
 
-The red team represents the offensive perspective.
+Response actions need their own safety review. Isolating a host, disabling an account or blocking a network destination can affect legitimate operations.
 
-Typical responsibilities include:
+Recurring tests require continuing authorisation and maintained safeguards; an earlier exercise approval is not automatically permanent approval.
 
-```text
-Adversary emulation
+Continue with [Methodology](methodology.md) and [Exercises](exercises.md).
 
-Technique execution
+## Decompose the Technique into a Test
 
-Attack-path testing
+A technique name or tool command is not a complete test specification.
 
-Security-control testing
-
-Evidence collection
-
-Explaining offensive behavior
-```
-
----
-
-## Blue Team
-
-The blue team represents the defensive perspective.
-
-Typical responsibilities include:
-
-```text
-Monitoring
-
-Telemetry analysis
-
-Detection
-
-Investigation
-
-Incident response
-
-Security engineering
-
-Control improvement
-```
-
----
-
-## Purple Team
-
-Purple teaming connects these capabilities.
-
-```text
-              Purple Team
-             /           \
-            /             \
-           v               v
-      Red Team          Blue Team
-           \               /
-            \             /
-             v           v
-              Collaboration
-                   |
-                   v
-               Feedback
-                   |
-                   v
-              Improvement
-```
-
-Purple does not necessarily need to be a separate permanent team.
-
-It may instead represent:
-
-```text
-A process
-
-A working model
-
-A facilitated exercise
-
-A collaborative security programme
-```
-
----
-
-# Purple Teaming Versus Red Teaming
-
-Red teaming and purple teaming have related but different objectives.
-
-| Red Teaming | Purple Teaming |
+| Component | Record |
 |---|---|
-| Tests security from an adversary perspective | Improves security through collaboration |
-| Often limits defender knowledge during execution | Encourages controlled information sharing |
-| Measures whether objectives can be achieved | Measures and improves defensive capability |
-| May emphasise realistic attack paths | May repeat techniques for learning |
-| Detection may be evaluated afterwards | Detection can be improved during the exercise |
-| Feedback often occurs after operations | Feedback can occur continuously |
-
-Purple teaming does not replace red teaming.
-
-The approaches can support each other.
-
----
-
-# Purple Teaming Versus Penetration Testing
-
-Penetration testing commonly focuses on identifying and demonstrating vulnerabilities.
-
-```text
-Asset
-  |
-  v
-Vulnerability
-  |
-  v
-Validation
-  |
-  v
-Impact
-  |
-  v
-Remediation
-```
-
-Purple teaming focuses more directly on defensive capability.
-
-```text
-Adversary Behavior
-       |
-       v
-Security Controls
-       |
-       v
-Telemetry
-       |
-       v
-Detection
-       |
-       v
-Investigation
-       |
-       v
-Response
-       |
-       v
-Improvement
-```
-
-A penetration test finding can become input for a later purple team exercise.
-
----
-
-# Purple Teaming Versus Breach and Attack Simulation
-
-Breach and attack simulation platforms can automate security-control testing.
-
-They can provide:
-
-```text
-Repeatability
-
-Frequent testing
-
-Technique coverage
-
-Automated validation
-```
-
-Purple teaming additionally emphasises:
-
-```text
-Human collaboration
-
-Context
-
-Knowledge transfer
-
-Investigation
-
-Root cause analysis
-
-Detection engineering
-
-Organisational learning
-```
-
-Automation can support a purple team programme but should not be treated as a complete replacement for it.
-
----
-
-# Threat-Informed Purple Teaming
-
-Purple team exercises should ideally be informed by threats relevant to the organisation.
-
-Potential inputs include:
-
-```text
-Threat intelligence
-
-Incident history
-
-Red team findings
-
-Penetration-test findings
-
-Vulnerability assessments
-
-Industry threats
-
-Business-critical assets
-
-Technology stack
-
-External exposure
-```
-
-The process can be:
-
-```text
-Threat Intelligence
-        |
-        v
-Relevant Adversary Behavior
-        |
-        v
-ATT&CK Mapping
-        |
-        v
-Exercise Scenario
-        |
-        v
-Security Validation
-```
-
-This helps prioritise realistic behavior rather than simply testing techniques because they are available.
-
----
-
-# Exercise Objectives
-
-Before testing begins, define what the exercise is intended to answer.
-
-Examples:
-
-```text
-Can the selected technique execute?
-
-Does the preventive control block it?
-
-Is telemetry generated?
-
-Does telemetry reach the SIEM?
-
-Does the detection trigger?
-
-Does the SOC investigate correctly?
-
-Does the response process work?
-
-Can the teams improve the control together?
-```
-
-Clear objectives make the result easier to interpret.
-
----
-
-# Scope
-
-Define:
-
-```text
-Systems
-
-Applications
-
-Networks
-
-Cloud environments
-
-Accounts
-
-Techniques
-
-Tools
-
-Testing windows
-
-Excluded systems
-```
-
-The scope should be understood by all relevant participants.
-
----
-
-# Rules of Engagement
-
-Rules of engagement may define:
-
-```text
-Authorised activities
-
-Prohibited activities
-
-Testing windows
-
-Safety restrictions
-
-Escalation contacts
-
-Stop conditions
-
-Data handling
-
-Cleanup requirements
-```
-
-Purple team collaboration does not remove the need for formal authorisation.
-
----
-
-# Exercise Safety
-
-Purple team exercises should minimise unnecessary operational risk.
-
-Potential controls include:
-
-```text
-Dedicated test accounts
-
-Dedicated validation endpoints
-
-Known test infrastructure
-
-Rate limits
-
-Approved payloads
-
-Defined cleanup
-
-Rollback procedures
-
-Emergency stop process
-```
-
-The test should be proportionate to the objective.
-
----
-
-# Technique Selection
-
-Select techniques based on:
-
-```text
-Threat relevance
-
-Business risk
-
-Existing detection coverage
-
-Previous findings
-
-Critical assets
-
-Known control gaps
-
-Learning objectives
-```
-
-Avoid selecting techniques solely to maximise ATT&CK coverage.
-
----
-
-# Technique Decomposition
-
-A technique should be understood as behavior rather than only a tool.
-
-```text
-Technique
-   |
-   +---- Preconditions
-   |
-   +---- Procedure
-   |
-   +---- Observable Behavior
-   |
-   +---- Telemetry
-   |
-   +---- Detection
-   |
-   +---- Prevention
-   |
-   +---- Investigation
-```
-
-This makes the exercise more transferable.
-
----
-
-# Exercise Execution
-
-A simple purple team cycle is:
-
-```text
-Red Executes
-     |
-     v
-Blue Observes
-     |
-     v
-Result Discussed
-     |
-     v
-Control Improved
-     |
-     v
-Red Repeats
-     |
-     v
-Blue Validates
-```
-
-This cycle may occur multiple times during the same exercise.
-
----
-
-# Feedback Cycles
-
-Short feedback cycles are one of the defining characteristics of purple teaming.
-
-Example:
-
-```text
-Attempt 1
-
-Technique succeeds
-Detection fails
-      |
-      v
-Teams investigate
-      |
-      v
-Detection modified
-      |
-      v
-Attempt 2
-
-Technique succeeds
-Detection succeeds
-```
-
-The improvement should then be documented and retained.
-
----
-
-# Evidence Collection
-
-Capture enough evidence to explain the result.
-
-Potential evidence includes:
-
-```text
-Technique
-
-Timestamp
-
-Target
-
-User context
-
-Execution result
-
-Preventive-control result
-
-Endpoint telemetry
-
-SIEM telemetry
-
-Detection result
-
-Alert
-
-Investigation
-
-Response
-
-Configuration changes
-
-Retest result
-```
-
-Evidence quality is essential for defensible conclusions.
-
----
-
-# Testing the Complete Defensive Chain
-
-A strong purple team exercise should determine where the defensive chain succeeds or fails.
-
-```text
-Adversary Behavior
-       |
-       v
-Endpoint Activity
-       |
-       v
-Sensor
-       |
-       v
-Telemetry
-       |
-       v
-Collection
-       |
-       v
-Parsing
-       |
-       v
-Detection
-       |
-       v
-Alert
-       |
-       v
-Triage
-       |
-       v
-Investigation
-       |
-       v
-Response
-```
-
-A failure at one layer should not automatically be attributed to another.
-
----
-
-# Prevention
+| Applicability | Relevant platform, identity, workload and security question |
+| Prerequisites | Access, configuration, services, permissions and required telemetry |
+| Procedure | Exact approved steps, parameters, tool version and test identity |
+| Expected execution | Observable evidence that the intended behaviour occurred |
+| Expected prevention | The control expected to block the action, if prevention is the objective |
+| Expected telemetry | Source, event characteristics, fields and collection destination |
+| Expected detection | Analytic, matching conditions, schedule, suppression and alert destination |
+| Expected investigation | Questions the analyst should answer and supporting evidence |
+| Expected response | Approved decision or action and its verification criteria |
+| Interpretation | What positive, negative and inconclusive results would mean |
+| Alternative explanations | Invalid prerequisites, unrelated events, stale alerts or environment differences |
+| Cleanup | Artefacts, configuration changes, restoration steps and owner |
+
+For each practical test, make the following clear:
+
+1. When it applies.
+2. What to do.
+3. What to expect.
+4. What the result means.
+5. What follows.
+
+Use [Exercises](exercises.md) for scenario records and [Detection Engineering](detection-engineering.md) for telemetry and analytic requirements.
+
+## Validate the Complete Defensive Process
+
+Determine where the process succeeds or fails before deciding what to change.
+
+### Execution and Prevention
+
+Confirm that the procedure was attempted under the intended identity and that its prerequisites were satisfied.
 
 Ask:
 
-```text
-Was the technique attempted?
+- Did the intended behaviour occur?
+- Was execution partial, complete or prevented?
+- Which control produced the block?
+- Is there correlated evidence of that intervention?
+- Could an error, missing dependency or incorrect test explain the result?
 
-Did it execute?
+A failed command is not automatically a prevention success.
 
-Was it blocked?
+If prevention stops the procedure before a later stage occurs, record that downstream behaviour as not exercised. Do not mark it as a detection failure without considering what activity actually happened.
 
-Which control blocked it?
+### Telemetry, Collection and Parsing
 
-Was the block expected?
+Check whether relevant evidence was:
 
-Was evidence generated?
-```
+- Generated at the source.
+- Collected by the expected sensor or service.
+- Forwarded to the intended destination.
+- Parsed and normalised correctly.
+- Populated with the fields required by the analytic.
+- Available within the agreed latency and retention window.
 
-A failed attack command is not automatically proof of effective prevention.
+Useful sources may include endpoint process events, authentication records, PowerShell logs, service and scheduled-task changes, DNS, proxy, firewall, application, cloud and identity-provider logs.
 
----
+An event in the endpoint console does not establish that the same information reached the SIEM.
 
-# Telemetry
+### Detection and Alerting
 
-Ask:
+Inspect whether:
 
-```text
-Was relevant telemetry generated?
+- The analytic was enabled and evaluated the correct data.
+- Query logic and field values matched the tested behaviour.
+- Scheduling and lookback windows included the event.
+- Exceptions, suppression or aggregation affected the result.
+- The alert was generated and delivered to the correct destination.
+- Severity, entity details and supporting context were useful.
 
-Was it collected?
+An analytic match, an alert and an analyst investigation are separate outcomes.
 
-Was it forwarded?
+Review false positives and expected legitimate behaviour before treating a new or broadened rule as operationally ready. [Sigma documentation](https://sigmahq.io/docs/){ target="_blank" rel="noopener noreferrer" } is a useful reference when working with Sigma-format detections; validate the deployed backend query and local field mappings.
 
-Was it parsed?
+### Investigation and Response
 
-Were required fields populated?
+Can the analyst establish:
 
-Was latency acceptable?
-```
+- What happened and when?
+- Which host, account, process or resource was involved?
+- What preceded and followed the activity?
+- Whether the evidence supports suspicious behaviour.
+- What additional information is needed.
+- Which escalation or response is appropriate.
 
-Detection engineering depends on usable telemetry.
+Where approved, evaluate containment, evidence preservation, communication, recovery and documentation.
 
----
+Record whether the result came from independent investigation, a coached walkthrough or a tabletop discussion. These demonstrate different capabilities.
 
-# Detection
+### Use Precise Result Labels
 
-Ask:
+| Result | Meaning |
+|---|---|
+| Execution confirmed | The intended behaviour occurred and has supporting evidence |
+| Prevention confirmed | A specific control blocked the relevant action |
+| Telemetry confirmed | Required records were available in the identified source or destination |
+| Detection confirmed | The relevant analytic matched the tested activity |
+| Alert delivery confirmed | A correlated alert reached the intended workflow |
+| Investigation validated | The analyst answered the agreed questions using the available evidence |
+| Response validated | The approved response achieved its stated outcome |
+| Inconclusive | Available evidence cannot resolve the question |
+| Not tested | The relevant stage or behaviour was not exercised |
 
-```text
-Did the analytic evaluate the behavior?
+Tool output is an observation, not automatically a finding. A status should identify the test, environment, evidence and limitations that support it.
 
-Did it match?
+## Run Short Feedback Cycles
 
-Was an alert generated?
+Use each attempt to resolve a specific uncertainty.
 
-Was severity appropriate?
+1. Record the baseline conditions and expected outcome.
+2. Execute the approved procedure.
+3. Confirm the technical result.
+4. Review the defensive evidence together.
+5. Identify a candidate explanation for any gap.
+6. Validate that explanation before changing controls.
+7. Approve and implement a targeted improvement.
+8. Repeat the procedure and compare fresh evidence.
 
-Was ATT&CK mapping accurate?
+Weak feedback says:
 
-Did the alert contain useful context?
-```
+> The detection did not work.
 
-See [Detection Engineering](detection-engineering.md).
+Useful feedback says:
 
----
+> The source event reached the SIEM, but the required account field was empty after parsing. The analytic depends on that field, so parsing must be investigated before changing the detection logic.
 
-# Investigation
+Improvements may involve telemetry, parsers, analytics, dashboards, SOC queries, runbooks, configuration, training, architecture or workflow. Not every gap requires a new detection rule.
 
-Detection alone is not the final objective.
+Record what changed between attempts. If several components change together, avoid attributing improvement to one component without supporting evidence.
 
-Validate whether analysts can determine:
+A replayed historical event can help test analytic logic, but it does not by itself validate fresh event generation, collection or the complete response process.
 
-```text
-What happened?
+## Worked Example: Detection Schema Mismatch
 
-Which host was involved?
+### Objective and Baseline
 
-Which account was involved?
+On an approved validation endpoint, test whether a selected execution procedure produces a usable SOC alert.
 
-What process or activity occurred?
+Before execution, record the procedure, test identity, expected event fields, analytic version, observation window and safety controls.
 
-What happened before?
+### First Attempt
 
-What happened afterwards?
+The controlled procedure executes. Correlated endpoint and SIEM events exist, but the analytic does not match and no associated alert is found within the agreed window.
 
-Is the activity malicious?
-
-What should happen next?
-```
-
----
-
-# Response
-
-Where the exercise includes response validation, evaluate:
-
-```text
-Escalation
-
-Containment
-
-Evidence preservation
-
-Communication
-
-Decision-making
-
-Recovery
-
-Documentation
-```
-
-Response activities should follow agreed exercise safety constraints.
-
----
-
-# Feedback
-
-Purple teaming depends on useful feedback.
-
-Weak feedback:
-
-```text
-The detection did not work.
-```
-
-Better feedback:
-
-```text
-The endpoint generated the expected process event, but the
-SIEM parser did not populate the field required by the detection.
-```
-
-The second statement supports investigation and improvement.
-
----
-
-# Improvement
-
-Improvements may include:
-
-```text
-New telemetry
-
-Parser correction
-
-Detection rule
-
-Detection tuning
-
-Dashboard
-
-SOC query
-
-Runbook
-
-Security configuration
-
-Training
-
-Architecture change
-
-Process change
-```
-
-Not every exercise finding requires a new detection rule.
-
----
-
-# Retesting
-
-After an improvement:
-
-```text
-Repeat the original test.
-```
-
-Then compare:
-
-```text
-Before
-
-vs
-
-After
-```
-
-Example:
-
-| Stage | Before | After |
-|---|---|---|
-| Technique | Successful | Successful |
-| Telemetry | Available | Available |
-| Detection | Failed | Successful |
-| Alert | None | Generated |
-| Investigation | Not possible | Successful |
-
-Retesting provides evidence that the improvement worked.
-
----
-
-# Knowledge Transfer
-
-Exercise knowledge should not remain only with the participants.
-
-```text
-Exercise Knowledge
-       |
-       v
-Document
-       |
-       v
-Explain
-       |
-       v
-Demonstrate
-       |
-       v
-Practice
-       |
-       v
-Apply
-       |
-       v
-Retain
-```
-
-See [Knowledge Transfer](knowledge-transfer.md).
-
----
-
-# Measurement
-
-Measure outcomes that demonstrate capability.
-
-Examples:
-
-```text
-Detection success
-
-Telemetry availability
-
-Time to detect
-
-Time to investigate
-
-Retest success
-
-Knowledge improvement
-
-Action completion
-
-Regression rate
-```
-
-See [Metrics and Measurement](metrics-and-measurement.md).
-
----
-
-# After-Action Review
-
-After the exercise:
-
-```text
-Expected
-   |
-   v
-Observed
-   |
-   v
-Difference
-   |
-   v
-Root Cause
-   |
-   v
-Lesson
-   |
-   v
-Action
-   |
-   v
-Owner
-   |
-   v
-Retest
-```
-
-See [After-Action Review](after-action-review.md).
-
----
-
-# Continuous Validation
-
-Important successfully retested scenarios should be considered for recurring validation.
-
-```text
-Exercise
-   |
-   v
-Gap
-   |
-   v
-Fix
-   |
-   v
-Retest
-   |
-   v
-Pass
-   |
-   v
-Reusable Test
-   |
-   v
-Continuous Validation
-```
-
-See [Continuous Validation](continuous-validation.md).
-
----
-
-# Purple Team Exercise Record
-
-A practical record may contain:
-
-```text
-Exercise ID:
-
-Date:
-
-Objective:
-
-Scope:
-
-Participants:
-
-Technique:
-
-ATT&CK Mapping:
-
-Prerequisites:
-
-Expected Result:
-
-Observed Result:
-
-Preventive Control:
-
-Telemetry:
-
-Detection:
-
-Alert:
-
-Investigation:
-
-Response:
-
-Root Cause:
-
-Improvement:
-
-Retest:
-
-Knowledge Transfer:
-
-Owner:
-
-Status:
-```
-
-This creates a reusable record of the exercise.
-
----
-
-# Practical Validation Model
-
-Use the following model when documenting technical purple team tests:
-
-```text
-Prerequisites
-     |
-     v
-Test Procedure
-     |
-     v
-Representative Result
-     |
-     v
-Interpretation
-     |
-     v
-Positive Result
-     |
-     v
-Negative Result
-     |
-     v
-False Positives
-     |
-     v
-Further Validation
-     |
-     v
-Evidence
-     |
-     v
-Conclusion
-     |
-     v
-Remediation
-     |
-     v
-Retest
-```
-
-This makes the conclusion traceable to evidence.
-
----
-
-# Example Purple Team Scenario
-
-## Objective
-
-Validate whether the organisation can detect a selected execution technique.
-
----
-
-## Expected Behavior
-
-```text
-Controlled Technique
-       |
-       v
-Endpoint Telemetry
-       |
-       v
-SIEM
-       |
-       v
-Detection
-       |
-       v
-SOC Alert
-```
-
----
-
-## Attempt 1
-
-Observed:
-
-```text
-Technique:
-Successful
-
-Endpoint Telemetry:
-Available
-
-SIEM Telemetry:
-Available
-
-Detection:
-No Match
-
-Alert:
-None
-```
-
-The result does not immediately explain why detection failed.
-
----
-
-## Investigation
+This establishes a detection gap for the tested case, not its root cause.
 
 The teams review:
 
+- The source event and parsed representation.
+- Required field names and values.
+- Analytic logic and deployment status.
+- Scheduling and lookback windows.
+- Exceptions, suppression and alert routing.
+
+They establish that the analytic expects an older field value that does not match the current event representation.
+
+### Improvement and Retest
+
+Detection Engineering updates the analytic through the agreed review process.
+
+The original procedure is repeated with a new test identifier and timestamp. The teams correlate the new event, rule match, alert and investigation record.
+
+| Stage | Baseline attempt | Retest |
+|---|---|---|
+| Procedure execution | Confirmed | Confirmed |
+| Endpoint telemetry | Available | Available |
+| SIEM telemetry | Available | Available |
+| Analytic match | No match | Match confirmed |
+| Alert delivery | No associated alert | Correlated alert delivered |
+| Alert-led investigation | Not exercised | Agreed questions answered |
+| Prevention | Not an objective | Not an objective |
+| Containment | Not tested | Not tested |
+
+Review representative legitimate activity and selected procedure variations before making broader claims about rule quality.
+
+### Evidence-Based Conclusion
+
+> The selected procedure generated endpoint and SIEM telemetry, but the initial analytic did not match because it expected an outdated field value. After a reviewed analytic change, a fresh execution generated the expected alert and the SOC completed the agreed investigation. Detection and investigation were validated for the tested procedure and environment. Prevention, containment and broader technique coverage were not established by this exercise.
+
+Preserve the procedure, evidence, analytic version, root-cause explanation and investigation guidance.
+
+Continue with [Detection Engineering](detection-engineering.md), [After-Action Review](after-action-review.md) and [Continuous Validation](continuous-validation.md).
+
+## Make Knowledge Transfer Observable
+
+Exercise knowledge should not remain only with the original participants.
+
+Transfer may be needed between offensive operators, the SOC, detection engineers, incident responders, security engineering and platform, identity, cloud or application teams.
+
+| Activity | Practical output | Evidence of learning or transfer |
+|---|---|---|
+| Explain the behaviour | Preconditions, procedure and expected artefacts | Recipient can explain why the activity matters |
+| Explain the evidence | Annotated events and relevant queries | Recipient can locate and interpret the necessary records |
+| Demonstrate investigation | Worked case and decision rationale | Recipient understands the sequence and alternatives |
+| Practise independently | Repeatable exercise or new example | Recipient completes the task without step-by-step coaching |
+| Update operational material | Runbook, test definition, query or checklist | Another operator can use the material successfully |
+| Revisit later | Delayed practice or operational review | Knowledge remains usable beyond the initial session |
+
+Useful mechanisms include paired analysis, teach-back, demonstrations, guided practice, independent practice, peer review and handover to another shift or team.
+
+Attendance and document publication are not sufficient evidence of transfer. Confidence questionnaires can be useful, but self-reported confidence should be distinguished from demonstrated task performance.
+
+The [NICE Framework](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center){ target="_blank" rel="noopener noreferrer" } can help describe relevant tasks, knowledge and skills. It is not, by itself, a test of whether a specific exercise improved those capabilities.
+
+Continue with [Knowledge Transfer](knowledge-transfer.md).
+
+## Measure Capability, Not Activity Alone
+
+Use a balanced view of technical, operational, learning and programme outcomes.
+
+| Dimension | Useful measures | Interpretation requirement |
+|---|---|---|
+| Technical | Execution, prevention, telemetry, detection and retest results | Separate attempted procedures from valid executions and prevented cases |
+| Operational | Detection, triage, investigation and containment times | Define the start event, end event, observation window and clock source |
+| Learning | Teach-back quality, independent task completion and later retention | Separate coaching, confidence and demonstrated capability |
+| Programme | Action closure, repeated gaps and regression frequency | Distinguish implemented changes from validated improvements |
+
+For percentages, state the numerator, denominator and exclusions.
+
+For example:
+
+> Eight of ten valid executions produced the expected alert. Two additional scheduled tests were inconclusive because their prerequisites were unavailable.
+
+Do not silently count inconclusive tests as passes or omit them from reporting.
+
+For timing:
+
+- Separate event occurrence, ingestion, alert creation and analyst acknowledgement.
+- Record timezone and known clock differences.
+- Report missed detections separately from timing results.
+- Distinguish automated timestamps from observer estimates.
+- Keep coached and independent attempts separate.
+- Explain material changes in test difficulty or environment.
+
+A shorter investigation time after a walkthrough is useful learning evidence, but it does not alone prove improved performance against unfamiliar activity.
+
+Continue with [Metrics and Measurement](metrics-and-measurement.md).
+
+## After-Action Review and Improvement Ownership
+
+The review should reconstruct what was expected, what occurred and why they differed.
+
+Discuss:
+
+- Which controls and practices worked.
+- Which gaps were supported by evidence.
+- Which explanations remain uncertain.
+- What participants learned.
+- What should change.
+- Who owns each action.
+- What evidence will establish successful validation.
+
+For each action, record an owner, priority, target date, dependencies, acceptance criteria, retest and evidence location.
+
+Distinguish:
+
+- **Observation recorded:** the issue is documented.
+- **Action assigned:** responsibility is agreed.
+- **Change implemented:** the proposed improvement exists.
+- **Improvement validated:** the relevant test supports the expected outcome.
+- **Operationally adopted:** the change and associated knowledge are in use.
+
+A report entry is not the same as a learned lesson. A completed ticket is not automatically evidence of a working control.
+
+Continue with [After-Action Review](after-action-review.md).
+
+## Continuous Validation
+
+Preserve important, successfully retested scenarios as reusable checks where execution can remain safe and authorised.
+
+Revalidation may be appropriate after:
+
+- EDR or operating-system upgrades.
+- SIEM migrations or configuration changes.
+- Parser and field-mapping changes.
+- Detection updates, exceptions or suppression changes.
+- Logging and collection changes.
+- Identity, cloud or application changes.
+- New threat information or a relevant incident.
+- Runbook, staffing or workflow changes.
+
+A reusable test needs an owner, version, prerequisites, expected outcomes, evidence sources, execution limits, cleanup steps and a failure-handling process.
+
+Not every test should run unattended. Some require a maintenance window, human supervision or a lab environment.
+
+Automation can support execution and comparison, but it does not automatically establish analyst understanding, investigation quality or safe response.
+
+When a recurring test fails, first determine whether the result reflects a control regression, an invalid test, changed prerequisites or missing evidence.
+
+Continue with [Continuous Validation](continuous-validation.md).
+
+## Reusable Exercise Record
+
+Use this compact record as a starting point. Keep sensitive evidence in the approved evidence store rather than copying secrets into the record.
+
 ```text
-Telemetry
+Exercise ID:
+Test / Attempt ID:
+Date and timezone:
+Exercise owner:
+Participants and roles:
 
-Field mappings
+Business objective:
+Technical objective:
+Learning objective:
+Scope and exclusions:
+Authorisation / Rules of Engagement:
+Safety and stop conditions:
 
-Detection logic
+Scenario:
+Technique / procedure:
+ATT&CK mapping and version:
+Target and test identity:
+Prerequisites:
+Tool / procedure version:
+Relevant control / analytic version:
 
-Rule status
+Expected execution:
+Expected prevention:
+Expected telemetry and fields:
+Expected detection and alert:
+Expected investigation:
+Expected response:
+Observation window:
 
-Rule scheduling
+Actual procedure:
+Execution result:
+Preventive-control result:
+Source telemetry:
+Collected / parsed telemetry:
+Analytic result:
+Alert identifier:
+Investigation result:
+Response result:
+Evidence references:
+Limitations and alternative explanations:
 
-Alert pipeline
+Candidate root cause:
+Root-cause validation:
+Approved improvement:
+Change owner:
+Change reference:
+Rollback / cleanup requirements:
+
+Retest procedure:
+Retest result and evidence:
+False-positive / variation checks:
+Knowledge-transfer activity:
+Independent practice / retention evidence:
+
+After-action review:
+Outstanding actions:
+Action owner and target date:
+Acceptance criteria:
+Continuous-validation suitability:
+Cleanup verification:
+Final status:
 ```
 
-They identify that the detection expects a field value that differs from the current telemetry schema.
+For detailed templates and measurement guidance, use [Exercises](exercises.md) and [Metrics and Measurement](metrics-and-measurement.md).
 
----
+## Programme Development
 
-## Improvement
+The following is an illustrative planning aid, not a validated maturity standard or an official framework. Capabilities can develop in parallel rather than in a strict sequence.
 
-Detection Engineering updates the analytic.
+| Stage | Characteristic | Evidence to look for |
+|---|---|---|
+| 1. Isolated | Teams operate with little shared context | Findings rarely lead to joint analysis |
+| 2. Cooperative | Teams exchange selected observations | Findings and explanations are shared |
+| 3. Collaborative | Structured joint exercises occur | Roles, scope and feedback cycles are documented |
+| 4. Measured | Objectives and outcome measures are defined | Results have clear definitions and evidence |
+| 5. Learning | Knowledge transfer and review are systematic | Participants can apply and share what they learned |
+| 6. Validated | Improvements require retesting | Before-and-after evidence supports closure |
+| 7. Continuous | Suitable scenarios are maintained and repeated | Regressions are identified and assigned to owners |
 
-The change is reviewed before deployment.
+Use this to identify a useful next capability, not to claim an organisation-wide score from a single exercise.
 
----
-
-## Attempt 2
-
-The same controlled procedure is repeated.
-
-Observed:
-
-```text
-Technique:
-Successful
-
-Endpoint Telemetry:
-Available
-
-SIEM Telemetry:
-Available
-
-Detection:
-Match
-
-Alert:
-Generated
-
-SOC Investigation:
-Successful
-```
-
----
-
-## Conclusion
-
-A defensible conclusion is:
-
-> The initial test demonstrated that the selected behavior generated the required endpoint and SIEM telemetry, but the existing analytic did not match because its logic depended on an outdated field value. Detection Engineering updated the analytic and the original procedure was repeated. The updated rule generated the expected alert and the SOC successfully investigated the activity. Detection is therefore considered validated for the tested procedure and environment.
-
-This explains:
-
-```text
-What happened
-
-Why it failed
-
-What changed
-
-What evidence supports improvement
-
-What was actually validated
-```
-
----
-
-# Purple Teaming Metrics
-
-A balanced measurement model can include:
-
-```text
-                 Purple Team Metrics
-                         |
-       +-----------------+-----------------+
-       |                 |                 |
-       v                 v                 v
-   Technical          Operational        Learning
-       |                 |                 |
-Telemetry Coverage   Time to Detect    Knowledge Gain
-Detection Success    Investigation     Teach-Back
-Prevention           Response          Retention
-Retest Success       Escalation        Collaboration
-       |
-       v
-Programme Improvement
-       |
-       +---- Action Completion
-       +---- Regression Rate
-       +---- Repeated Findings
-```
-
-Avoid relying on a single metric.
-
----
-
-# Purple Team Maturity
-
-A simple maturity progression is:
-
-```text
-Level 1 - Isolated
-
-Red and Blue operate separately.
-
-
-Level 2 - Cooperative
-
-Teams occasionally share findings.
-
-
-Level 3 - Collaborative
-
-Structured purple team exercises occur.
-
-
-Level 4 - Measured
-
-Exercises use defined objectives and metrics.
-
-
-Level 5 - Learning
-
-Knowledge transfer and AARs are systematic.
-
-
-Level 6 - Validated
-
-Improvements require retesting.
-
-
-Level 7 - Continuous
-
-Important tests become recurring validation.
-```
-
-The exact maturity model can be adapted to organisational needs.
-
----
-
-# Common Purple Teaming Mistakes
+## Common Mistakes
 
 Avoid:
 
-```text
-Treating purple teaming as another penetration test
+- Treating purple teaming as only another penetration test.
+- Measuring only whether the offensive action succeeded.
+- Testing without business, technical or learning objectives.
+- Selecting techniques without threat relevance.
+- Treating a tool result as a security conclusion.
+- Assuming command failure proves prevention.
+- Focusing only on detection rules while ignoring telemetry dependencies.
+- Confusing analytic matches with delivered alerts.
+- Ignoring investigation and response capability.
+- Changing controls without repeating the relevant test.
+- Reporting metrics without denominators or context.
+- Treating coached performance as independent capability.
+- Holding a review without assigning actions and acceptance criteria.
+- Publishing lessons without validating understanding.
+- Assuming one successful test proves permanent or complete effectiveness.
+- Running recurring tests without maintained scope, ownership and cleanup.
 
-Measuring only whether Red succeeded
+## Purple Teaming Checklist
 
-Testing without objectives
+### Planning
 
-Testing techniques without threat relevance
+- [ ] Define business, technical and learning objectives.
+- [ ] Define scope, exclusions and success criteria.
+- [ ] Assign participants, owners and facilitator responsibilities.
+- [ ] Agree Rules of Engagement and safety constraints.
+- [ ] Select threat-relevant behaviours.
+- [ ] Review ATT&CK mappings where useful.
+- [ ] Identify expected telemetry, analytics and alert destinations.
+- [ ] Define the investigation or response outcomes being tested.
+- [ ] Agree measurement definitions and evidence requirements.
 
-Focusing only on detection rules
+### Preparation
 
-Ignoring telemetry dependencies
+- [ ] Confirm authorisation, targets and test accounts.
+- [ ] Confirm prerequisites and relevant configuration versions.
+- [ ] Confirm required logging and collection paths.
+- [ ] Confirm appropriate SIEM, EDR and supporting access.
+- [ ] Confirm communication and escalation channels.
+- [ ] Confirm evidence handling and clock references.
+- [ ] Confirm stop, rollback and cleanup procedures.
+- [ ] Record whether baseline attempts are coached or independent.
 
-Ignoring investigation capability
+### Execution
 
-Changing controls without retesting
+- [ ] Record attempt identifier, timestamp, target and identity.
+- [ ] Execute only the agreed procedure.
+- [ ] Confirm actual execution and prevention results.
+- [ ] Verify source telemetry.
+- [ ] Verify collection, forwarding and parsing.
+- [ ] Verify analytic evaluation and alert delivery.
+- [ ] Assess investigation and approved response separately.
+- [ ] Record inconclusive and untested stages.
+- [ ] Track all introduced changes and artefacts.
 
-Creating metrics without interpretation
+### Collaboration
 
-Holding an AAR without assigning actions
+- [ ] Share observations and supporting evidence.
+- [ ] Explain the offensive behaviour and prerequisites.
+- [ ] Explain telemetry, detection logic and analyst decisions.
+- [ ] Identify assumptions and alternative explanations.
+- [ ] Validate the suspected cause of a gap.
+- [ ] Agree the improvement, owner and approval route.
 
-Documenting lessons without transferring knowledge
+### Retesting
 
-Assuming one successful test proves permanent effectiveness
-```
+- [ ] Repeat the original procedure with a fresh attempt identifier.
+- [ ] Record changes between the baseline and retest.
+- [ ] Compare execution and defensive outcomes.
+- [ ] Confirm telemetry, detection and investigation where applicable.
+- [ ] Check legitimate activity and selected variations where agreed.
+- [ ] Capture evidence and state remaining limitations.
 
----
+### Learning
 
-# Purple Teaming Checklist
+- [ ] Identify what each relevant audience needs to learn.
+- [ ] Explain and demonstrate the important relationships.
+- [ ] Update queries, runbooks and test documentation.
+- [ ] Use teach-back or independent practice.
+- [ ] Distinguish confidence from demonstrated capability.
+- [ ] Assign ownership and consider a later retention check.
 
-## Planning
+### After-Action Review
 
-- [ ] Define objectives
-- [ ] Define scope
-- [ ] Define success criteria
-- [ ] Define participants
-- [ ] Define rules of engagement
-- [ ] Define safety constraints
-- [ ] Select threat-relevant techniques
-- [ ] Map techniques to ATT&CK where useful
-- [ ] Identify expected telemetry
-- [ ] Identify expected detections
+- [ ] Reconstruct the timeline.
+- [ ] Compare expected and observed outcomes.
+- [ ] Identify strengths as well as gaps.
+- [ ] Separate verified causes from hypotheses.
+- [ ] Assign actions, owners, target dates and acceptance criteria.
+- [ ] Define retests and evidence required for closure.
+- [ ] Verify cleanup and document unresolved restoration issues.
 
-## Preparation
+### Continuous Improvement
 
-- [ ] Confirm authorisation
-- [ ] Confirm targets
-- [ ] Confirm test accounts
-- [ ] Confirm logging
-- [ ] Confirm SIEM access
-- [ ] Confirm EDR access
-- [ ] Confirm communication channel
-- [ ] Confirm evidence collection
-- [ ] Confirm stop procedure
-- [ ] Confirm cleanup requirements
+- [ ] Track actions through implementation and validation.
+- [ ] Identify repeated findings and systemic dependencies.
+- [ ] Preserve suitable scenarios as versioned regression tests.
+- [ ] Maintain authorisation, safety controls and test ownership.
+- [ ] Review failures and changed prerequisites.
+- [ ] Review metrics, learning outcomes and threat relevance.
+- [ ] Retire or revise obsolete tests.
 
-## Execution
+## Reading Routes and Related Notes
 
-- [ ] Record timestamp
-- [ ] Execute agreed technique
-- [ ] Confirm execution result
-- [ ] Confirm preventive-control result
-- [ ] Confirm telemetry
-- [ ] Confirm collection
-- [ ] Confirm parsing
-- [ ] Confirm detection
-- [ ] Confirm alert
-- [ ] Confirm investigation
+For a first structured exercise, read:
 
-## Collaboration
+1. [Methodology](methodology.md)
+2. [Exercises](exercises.md)
+3. [MITRE ATT&CK](mitre-attack.md)
+4. [Detection Engineering](detection-engineering.md)
+5. [Knowledge Transfer](knowledge-transfer.md)
+6. [Metrics and Measurement](metrics-and-measurement.md)
+7. [After-Action Review](after-action-review.md)
+8. [Continuous Validation](continuous-validation.md)
 
-- [ ] Share observations
-- [ ] Explain attack behavior
-- [ ] Explain telemetry
-- [ ] Explain detection logic
-- [ ] Identify assumptions
-- [ ] Identify gaps
-- [ ] Agree improvement
+For a specific problem:
 
-## Retesting
+| Starting point | Continue with |
+|---|---|
+| An action ran but no alert appeared | [Detection Engineering](detection-engineering.md) |
+| A scenario lacks clear purpose or boundaries | [Methodology](methodology.md) and [Exercises](exercises.md) |
+| Coverage claims are difficult to justify | [MITRE ATT&CK](mitre-attack.md) and [Metrics and Measurement](metrics-and-measurement.md) |
+| Lessons remain with a few participants | [Knowledge Transfer](knowledge-transfer.md) |
+| Improvements are documented but not verified | [After-Action Review](after-action-review.md) |
+| Previously working controls regress | [Continuous Validation](continuous-validation.md) |
 
-- [ ] Repeat original procedure
-- [ ] Compare before and after
-- [ ] Confirm telemetry
-- [ ] Confirm detection
-- [ ] Confirm investigation
-- [ ] Capture evidence
-- [ ] Record limitations
-
-## Learning
-
-- [ ] Identify lessons
-- [ ] Transfer relevant knowledge
-- [ ] Update documentation
-- [ ] Update runbooks
-- [ ] Validate understanding
-- [ ] Record ownership
-
-## After-Action Review
-
-- [ ] Reconstruct timeline
-- [ ] Compare expected and observed
-- [ ] Identify strengths
-- [ ] Identify failures
-- [ ] Determine root causes
-- [ ] Define actions
-- [ ] Assign owners
-- [ ] Define retests
-
-## Continuous Improvement
-
-- [ ] Track actions
-- [ ] Close only after appropriate validation
-- [ ] Identify repeated findings
-- [ ] Identify systemic problems
-- [ ] Add future exercise scenarios
-- [ ] Convert suitable tests to regression tests
-- [ ] Review metrics
-- [ ] Review threat relevance
-
----
-
-# Quick Purple Team Workflow
-
-```text
-DEFINE OBJECTIVE
-      |
-      v
-DEFINE SCOPE
-      |
-      v
-SELECT THREAT
-      |
-      v
-MAP BEHAVIOR
-      |
-      v
-DEFINE EXPECTED RESULT
-      |
-      v
-EXECUTE
-      |
-      v
-OBSERVE
-      |
-      v
-ANALYSE
-      |
-      v
-IMPROVE
-      |
-      v
-RETEST
-      |
-      v
-TRANSFER KNOWLEDGE
-      |
-      v
-MEASURE
-      |
-      v
-AFTER-ACTION REVIEW
-      |
-      v
-CONTINUOUS VALIDATION
-      |
-      +----------------+
-      |                |
-      v                |
-NEW THREAT / CHANGE ---+
-```
-
----
-
-# Recommended Reading Order
-
-For someone learning purple teaming from these notes:
-
-```text
-1. Purple Teaming Overview
-          |
-          v
-2. Methodology
-          |
-          v
-3. Exercises
-          |
-          v
-4. MITRE ATT&CK
-          |
-          v
-5. Detection Engineering
-          |
-          v
-6. Knowledge Transfer
-          |
-          v
-7. Metrics and Measurement
-          |
-          v
-8. After-Action Review
-          |
-          v
-9. Continuous Validation
-```
-
-Start with the process before focusing on individual tools.
-
----
-
-# Related Notes
-
-## Purple Teaming
-
-- [Methodology](methodology.md)
-- [Exercises](exercises.md)
-- [Detection Engineering](detection-engineering.md)
-- [MITRE ATT&CK](mitre-attack.md)
-- [Knowledge Transfer](knowledge-transfer.md)
-- [Metrics and Measurement](metrics-and-measurement.md)
-- [After-Action Review](after-action-review.md)
-- [Continuous Validation](continuous-validation.md)
-
-## Related Security Areas
+Use the wider site for the behaviour and environment being assessed:
 
 - [Red Teaming](../red-teaming/index.md)
 - [Active Directory](../active-directory/index.md)
@@ -1958,36 +745,18 @@ Start with the process before focusing on individual tools.
 - [Linux Security](../linux/index.md)
 - [Web Application Security](../web/index.md)
 - [Source Code Review](../source-code-review/index.md)
-- [Privilege Escalation Explorer](../privesc/index.md)
+- [PrivEsc Explorer](../privesc/index.md)
+- [Tools](../tools/index.md)
+- [Cheatsheets](../cheatsheets/index.md)
 
----
+Select tools to support the agreed test. Keep scenario design, interpretation and learning objectives independent of any particular framework.
 
-# References
+## References
 
 - [MITRE ATT&CK](https://attack.mitre.org/){ target="_blank" rel="noopener noreferrer" }
-- [MITRE Caldera](https://caldera.mitre.org/){ target="_blank" rel="noopener noreferrer" }
+- [Caldera](https://caldera.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 - [MITRE Center for Threat-Informed Defense](https://ctid.mitre.org/){ target="_blank" rel="noopener noreferrer" }
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team){ target="_blank" rel="noopener noreferrer" }
 - [Sigma Documentation](https://sigmahq.io/docs/){ target="_blank" rel="noopener noreferrer" }
 - [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework){ target="_blank" rel="noopener noreferrer" }
 - [NICE Workforce Framework for Cybersecurity](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center){ target="_blank" rel="noopener noreferrer" }
-
-!!! tip "Purple teaming is an improvement process"
-
-    The value of a purple team exercise is not determined by how many techniques the red team executes. Its value comes from what the organisation learns, improves and can subsequently validate.
-
-!!! tip "Follow the complete chain"
-
-    When a detection fails, determine whether the problem occurred during execution, telemetry generation, collection, parsing, detection logic, alert routing or investigation before deciding what needs to change.
-
-!!! tip "Retest improvements"
-
-    A configuration or detection change demonstrates implementation. Repeating the relevant scenario and observing the expected result provides validation.
-
-!!! tip "Preserve important tests"
-
-    Successful retests can become reusable regression tests so that future platform, telemetry or detection changes do not silently reintroduce previously resolved gaps.
-
-!!! warning "Stay within authorised scope"
-
-    Purple team exercises and recurring validation should operate only against approved systems, accounts and techniques under the organisation's agreed rules of engagement.
