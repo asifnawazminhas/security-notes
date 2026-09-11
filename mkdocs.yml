@@ -370,6 +370,7 @@ nav:
   - Cloud:
 
       - Azure:
+          - Overview: cloud/azure/index.md
           - Subdomain Takeover: cloud/azure/subdomain-takeover.md
 
 
@@ -604,15 +605,6 @@ extra_css:
 
 
 # ============================================================
-# EXTRA JAVASCRIPT
-# ============================================================
-
-extra_javascript:
-  - javascripts/scroll-buttons.js
-  - javascripts/privesc-explorer.js
-
-
-# ============================================================
 # PLUGINS
 # ============================================================
 
@@ -632,7 +624,12 @@ markdown_extensions:
   - tables
 
   - pymdownx.details
-  - pymdownx.superfences
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
   - pymdownx.highlight:
       anchor_linenums: true
@@ -651,6 +648,17 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+
+# ============================================================
+# MERMAID INITIALISATION
+# ============================================================
+
+extra_javascript:
+  - javascripts/scroll-buttons.js
+  - javascripts/privesc-explorer.js
+  - https://unpkg.com/mermaid@11/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
 
 
 # ============================================================
