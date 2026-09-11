@@ -6,797 +6,667 @@ site_url: https://notes.asifnawazminhas.com/
 repo_name: asifnawazminhas/security-notes
 repo_url: https://github.com/asifnawazminhas/security-notes
 
-copyright: Copyright © Asif Nawaz Minhas
+copyright: Copyright &copy; Asif Nawaz Minhas
+
 
 # ============================================================
-
 # THEME
-
 # ============================================================
 
 theme:
-name: material
+  name: material
 
-logo: assets/logo.png
-favicon: assets/favicon.png
+  logo: assets/logo.png
+  favicon: assets/favicon.png
 
-icon:
-repo: fontawesome/brands/github
+  icon:
+    repo: fontawesome/brands/github
 
-features:
-- navigation.instant
-- navigation.instant.progress
-- navigation.tracking
-- navigation.tabs
-- navigation.tabs.sticky
-- navigation.sections
-- navigation.expand
-- navigation.path
-- navigation.indexes
-- navigation.top
-- toc.follow
-- search.suggest
-- search.highlight
-- search.share
-- content.code.copy
-- content.code.annotate
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
 
-palette:
+  palette:
 
-```
-# Dark mode
-- media: "(prefers-color-scheme: dark)"
-  scheme: slate
-  primary: black
-  accent: cyan
-  toggle:
-    icon: material/brightness-4
-    name: Switch to light mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
-# Light mode
-- media: "(prefers-color-scheme: light)"
-  scheme: default
-  primary: black
-  accent: cyan
-  toggle:
-    icon: material/brightness-7
-    name: Switch to dark mode
-```
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
 
 # ============================================================
-
 # NAVIGATION
-
 # ============================================================
 
 nav:
 
-# ==========================================================
+  # ==========================================================
+  # HOME
+  # ==========================================================
+
+  - Home: index.md
+
+
+  # ==========================================================
+  # WEB APPLICATION SECURITY
+  # ==========================================================
+
+  - Web Application Security:
+
+      - Overview: web/index.md
+      - Methodology: web/methodology.md
+      - Pentesting Checklist: web/checklist.md
+
+      - Reconnaissance:
+          - Overview: web/reconnaissance/index.md
+          - Attack Surface Analysis: web/attack-surface-analysis.md
+          - Subdomain Enumeration: web/reconnaissance/subdomain-enumeration.md
+          - Technology Identification: web/reconnaissance/technology-identification.md
+          - Content Discovery: web/reconnaissance/content-discovery.md
+          - Parameter Discovery: web/reconnaissance/parameter-discovery.md
+          - JavaScript Analysis: web/reconnaissance/javascript-analysis.md
+
+      - Burp Suite:
+          - Extensions: web/burp-suite/extensions.md
+          - Testing Workflows: web/burp-suite/workflows.md
+
+      - Authentication and Access Control:
+          - Authentication: web/authentication.md
+          - Authorisation: web/authorisation.md
+          - IDOR / BOLA: web/idor-bola.md
+          - Session Management: web/session-management.md
+          - Password Reset: web/password-reset.md
+          - Multi-Factor Authentication: web/mfa.md
+          - SAML Security: web/saml.md
+
+      - Client-Side Security:
+          - Cross-Site Scripting (XSS): web/xss.md
+          - DOM-Based Vulnerabilities: web/dom-based-vulnerabilities.md
+          - HTML Injection: web/html-injection.md
+          - Cross-Site Request Forgery (CSRF): web/csrf.md
+          - Clickjacking: web/clickjacking.md
+          - Cross-Origin Resource Sharing (CORS): web/cors.md
+          - Open Redirect: web/open-redirect.md
+          - XS-Leaks: web/xs-leaks.md
+          - Third-Party JavaScript: web/third-party-javascript.md
+
+      - Injection:
+          - SQL Injection: web/sql-injection.md
+          - NoSQL Injection: web/nosql-injection.md
+          - LDAP Injection: web/ldap-injection.md
+          - OS Command Injection: web/command-injection.md
+          - Server-Side Template Injection (SSTI): web/ssti.md
+          - XML External Entity Injection (XXE): web/xxe.md
+
+      - Server-Side Security:
+          - Server-Side Request Forgery (SSRF): web/ssrf.md
+          - Path Traversal: web/path-traversal.md
+          - File Inclusion: web/file-inclusion.md
+          - File Upload Vulnerabilities: web/file-upload.md
+          - Insecure Deserialization: web/deserialization.md
+          - Input Validation: web/input-validation.md
+
+      - HTTP and Infrastructure:
+          - HTTP Security Headers: web/http-security-headers.md
+          - HTTP Request Smuggling: web/http-request-smuggling.md
+          - HTTP Host Header Attacks: web/host-header-attacks.md
+          - Web Cache Poisoning: web/web-cache-poisoning.md
+          - Web Cache Deception: web/web-cache-deception.md
+          - Information Disclosure: web/information-disclosure.md
+
+      - Application Logic:
+          - Business Logic Vulnerabilities: web/business-logic.md
+          - Race Conditions: web/race-conditions.md
+          - Rate Limiting and Anti-Automation: web/rate-limiting.md
+
+      - Identity and Tokens:
+          - OAuth 2.0 and OpenID Connect: web/oauth-oidc.md
+          - JSON Web Tokens (JWT): web/jwt.md
+
+      - APIs:
+          - API Security: web/api-security.md
+          - GraphQL: web/graphql.md
+          - gRPC Security: web/grpc-security.md
+          - WebSockets: web/websockets.md
+          - Mass Assignment: web/mass-assignment.md
+
+      - Software Supply Chain:
+          - Dependency Security: web/dependency-security.md
+          - Secrets Exposure: web/secrets-exposure.md
+
+      - Modern Web Security:
+          - Prototype Pollution: web/prototype-pollution.md
+          - Web LLM Attacks: web/web-llm-attacks.md
+
+
+  # ==========================================================
+  # SOURCE CODE REVIEW
+  # ==========================================================
+
+  - Source Code Review:
+
+      - Overview: source-code-review/index.md
+      - Methodology: source-code-review/methodology.md
+      - Routes and Entry Points: source-code-review/routes-and-entry-points.md
+      - Source-to-Sink Analysis: source-code-review/source-to-sink-analysis.md
+      - Authentication and Authorisation: source-code-review/authentication-authorisation.md
+      - Secrets and Configuration: source-code-review/secrets-and-configuration.md
+      - Variant Analysis: source-code-review/variant-analysis.md
+
+      - Static Analysis:
+          - Overview: source-code-review/static-analysis/index.md
+          - ripgrep: source-code-review/static-analysis/ripgrep.md
+          - Semgrep: source-code-review/static-analysis/semgrep.md
+          - OpenGrep: source-code-review/static-analysis/opengrep.md
+          - CodeQL: source-code-review/static-analysis/codeql.md
+
+      - Languages and Frameworks:
+          - .NET / ASP.NET Core: source-code-review/dotnet.md
+          - Java / Spring: source-code-review/java.md
+          - PHP: source-code-review/php.md
+
+          - Python:
+              - Python: source-code-review/python.md
+              - Django: source-code-review/django.md
+              - Flask: source-code-review/flask.md
+
+          - JavaScript:
+              - Node.js / Express: source-code-review/nodejs.md
+              - Client-Side JavaScript: source-code-review/javascript.md
+
+
+  # ==========================================================
+  # ACTIVE DIRECTORY
+  # ==========================================================
+
+  - Active Directory:
+
+      - Overview: active-directory/index.md
+      - Methodology: active-directory/methodology.md
+      - Enumeration: active-directory/enumeration.md
+
+      - Tooling:
+          - NetExec: active-directory/netexec.md
+          - Impacket: active-directory/impacket.md
+          - BloodHound: active-directory/bloodhound.md
+
+      - Authentication:
+          - Kerberos: active-directory/kerberos.md
+          - NTLM: active-directory/ntlm.md
+          - Password Spraying: active-directory/password-spraying.md
+          - AS-REP Roasting: active-directory/asrep-roasting.md
+          - Kerberoasting: active-directory/kerberoasting.md
+          - Pass-the-Hash: active-directory/pass-the-hash.md
+          - OverPass-the-Hash: active-directory/overpass-the-hash.md
+          - Pass-the-Key: active-directory/pass-the-key.md
+          - Pass-the-Ticket: active-directory/pass-the-ticket.md
+
+      - Access Control:
+          - ACL and ACE: active-directory/acl-ace.md
+          - Groups: active-directory/groups.md
+          - Group Policy: active-directory/group-policy.md
+          - Machine Account Quota: active-directory/machine-account-quota.md
+
+      - Kerberos and Delegation:
+          - Kerberos Tickets: active-directory/kerberos-tickets.md
+          - Unconstrained Delegation: active-directory/unconstrained-delegation.md
+          - Constrained Delegation: active-directory/constrained-delegation.md
+          - Resource-Based Constrained Delegation: active-directory/rbcd.md
+          - S4U: active-directory/s4u.md
+
+      - Credential Access:
+          - Overview: active-directory/credential-access.md
+          - LAPS: active-directory/laps.md
+          - gMSA: active-directory/gmsa.md
+          - Shadow Credentials: active-directory/shadow-credentials.md
+          - NTDS: active-directory/ntds.md
+
+      - Relay and Coercion:
+          - NTLM Relay: active-directory/ntlm-relay.md
+          - Kerberos Relay: active-directory/kerberos-relay.md
+          - Authentication Coercion: active-directory/authentication-coercion.md
+
+      - Active Directory Certificate Services:
+          - Overview: active-directory/ad-cs/index.md
+          - Enumeration: active-directory/ad-cs/enumeration.md
+
+          - ESC Techniques:
+              - ESC1: active-directory/ad-cs/esc1.md
+              - ESC2: active-directory/ad-cs/esc2.md
+              - ESC3: active-directory/ad-cs/esc3.md
+              - ESC4: active-directory/ad-cs/esc4.md
+              - ESC5: active-directory/ad-cs/esc5.md
+              - ESC6: active-directory/ad-cs/esc6.md
+              - ESC7: active-directory/ad-cs/esc7.md
+              - ESC8: active-directory/ad-cs/esc8.md
+              - ESC9: active-directory/ad-cs/esc9.md
+              - ESC10: active-directory/ad-cs/esc10.md
+              - ESC11: active-directory/ad-cs/esc11.md
+              - ESC12: active-directory/ad-cs/esc12.md
+              - ESC13: active-directory/ad-cs/esc13.md
+              - ESC14: active-directory/ad-cs/esc14.md
+              - ESC15: active-directory/ad-cs/esc15.md
+              - ESC16: active-directory/ad-cs/esc16.md
+              - ESC17: active-directory/ad-cs/esc17.md
+
+          - Golden Certificate: active-directory/ad-cs/golden-certificate.md
+
+      - Lateral Movement and Pivoting:
+          - Lateral Movement: active-directory/lateral-movement.md
+          - SMB: active-directory/smb.md
+          - WinRM: active-directory/winrm.md
+          - WMI: active-directory/wmi.md
+          - DCOM: active-directory/dcom.md
+          - Pivoting: active-directory/pivoting.md
+
+      - Trusts:
+          - Overview: active-directory/trusts.md
+          - Trust Relationships: active-directory/trust-relationships.md
+          - SID History: active-directory/sid-history.md
+          - Trust Tickets: active-directory/trust-tickets.md
+
+      - Infrastructure:
+          - Active Directory Integrated DNS: active-directory/adidns.md
+          - Network Shares: active-directory/shares.md
+          - SCCM: active-directory/sccm.md
+          - WSUS: active-directory/wsus.md
+          - MDT: active-directory/mdt.md
+          - SCOM: active-directory/scom.md
+          - ADFS: active-directory/adfs.md
+          - Read-Only Domain Controllers: active-directory/rodc.md
+
+      - Privilege Escalation: active-directory/privilege-escalation.md
+      - Persistence: active-directory/persistence.md
+
+
+  # ==========================================================
+  # WINDOWS
+  # ==========================================================
+
+  - Windows:
 
-# HOME
+      - Overview: windows/index.md
+      - Enumeration: windows/enumeration.md
+      - PowerShell: windows/powershell.md
 
-# ==========================================================
+      - Services and Scheduled Execution:
+          - Services: windows/services.md
+          - Scheduled Tasks: windows/scheduled-tasks.md
 
-* Home: index.md
+      - Filesystem and Registry:
+          - Filesystem Permissions: windows/filesystem-permissions.md
+          - Registry Security: windows/registry.md
 
-# ==========================================================
+      - Credentials: windows/credentials.md
 
-# WEB APPLICATION SECURITY
+      - Security Controls:
+          - Application Control: windows/application-control.md
+          - Microsoft Defender: windows/defender.md
+          - User Account Control (UAC): windows/uac.md
 
-# ==========================================================
+      - Privilege Escalation: windows/privilege-escalation.md
 
-* Web Application Security:
 
-  * Overview: web/index.md
+  # ==========================================================
+  # LINUX
+  # ==========================================================
 
-  * Methodology: web/methodology.md
+  - Linux:
 
-  * Pentesting Checklist: web/checklist.md
+      - Overview: linux/index.md
+      - Enumeration: linux/enumeration.md
 
-  * Reconnaissance:
+      - Services and Scheduled Execution:
+          - Services: linux/services.md
+          - Scheduled Jobs: linux/scheduled-jobs.md
 
-    * Overview: web/reconnaissance/index.md
-    * Attack Surface Analysis: web/attack-surface-analysis.md
-    * Subdomain Enumeration: web/reconnaissance/subdomain-enumeration.md
-    * Technology Identification: web/reconnaissance/technology-identification.md
-    * Content Discovery: web/reconnaissance/content-discovery.md
-    * Parameter Discovery: web/reconnaissance/parameter-discovery.md
-    * JavaScript Analysis: web/reconnaissance/javascript-analysis.md
+      - Filesystem and Permissions:
+          - Filesystem Permissions: linux/filesystem-permissions.md
 
-  * Burp Suite:
+      - Privileged Access:
+          - sudo Security: linux/sudo.md
+          - SUID and SGID Security: linux/suid-sgid.md
+          - Linux Capabilities: linux/capabilities.md
 
-    * Extensions: web/burp-suite/extensions.md
-    * Testing Workflows: web/burp-suite/workflows.md
+      - Credentials: linux/credentials.md
 
-  * Authentication and Access Control:
+      - Security Controls:
+          - Linux Security Controls: linux/security-controls.md
 
-    * Authentication: web/authentication.md
-    * Authorisation: web/authorisation.md
-    * IDOR / BOLA: web/idor-bola.md
-    * Session Management: web/session-management.md
-    * Password Reset: web/password-reset.md
-    * Multi-Factor Authentication: web/mfa.md
-    * SAML Security: web/saml.md
+      - Privilege Escalation: linux/privilege-escalation.md
 
-  * Client-Side Security:
 
-    * Cross-Site Scripting (XSS): web/xss.md
-    * DOM-Based Vulnerabilities: web/dom-based-vulnerabilities.md
-    * HTML Injection: web/html-injection.md
-    * Cross-Site Request Forgery (CSRF): web/csrf.md
-    * Clickjacking: web/clickjacking.md
-    * Cross-Origin Resource Sharing (CORS): web/cors.md
-    * Open Redirect: web/open-redirect.md
-    * XS-Leaks: web/xs-leaks.md
-    * Third-Party JavaScript: web/third-party-javascript.md
+  # ==========================================================
+  # CLOUD
+  # ==========================================================
 
-  * Injection:
+  - Cloud:
 
-    * SQL Injection: web/sql-injection.md
-    * NoSQL Injection: web/nosql-injection.md
-    * LDAP Injection: web/ldap-injection.md
-    * OS Command Injection: web/command-injection.md
-    * Server-Side Template Injection (SSTI): web/ssti.md
-    * XML External Entity Injection (XXE): web/xxe.md
+      - Azure:
+          - Subdomain Takeover: cloud/azure/subdomain-takeover.md
 
-  * Server-Side Security:
 
-    * Server-Side Request Forgery (SSRF): web/ssrf.md
-    * Path Traversal: web/path-traversal.md
-    * File Inclusion: web/file-inclusion.md
-    * File Upload Vulnerabilities: web/file-upload.md
-    * Insecure Deserialization: web/deserialization.md
-    * Input Validation: web/input-validation.md
+  # ==========================================================
+  # PRIVILEGE ESCALATION EXPLORER
+  # ==========================================================
 
-  * HTTP and Infrastructure:
+  - PrivEsc Explorer:
 
-    * HTTP Security Headers: web/http-security-headers.md
-    * HTTP Request Smuggling: web/http-request-smuggling.md
-    * HTTP Host Header Attacks: web/host-header-attacks.md
-    * Web Cache Poisoning: web/web-cache-poisoning.md
-    * Web Cache Deception: web/web-cache-deception.md
-    * Information Disclosure: web/information-disclosure.md
+      - Overview: privesc/index.md
+      - Windows PrivEsc Explorer: privesc/windows.md
+      - Linux PrivEsc Explorer: privesc/linux.md
 
-  * Application Logic:
 
-    * Business Logic Vulnerabilities: web/business-logic.md
-    * Race Conditions: web/race-conditions.md
-    * Rate Limiting and Anti-Automation: web/rate-limiting.md
+  # ==========================================================
+  # RED TEAMING
+  # ==========================================================
 
-  * Identity and Tokens:
+  - Red Teaming:
 
-    * OAuth 2.0 and OpenID Connect: web/oauth-oidc.md
-    * JSON Web Tokens (JWT): web/jwt.md
+      - Overview: red-teaming/index.md
+      - Methodology: red-teaming/methodology.md
 
-  * APIs:
+      - Infrastructure: red-teaming/infrastructure.md
+      - OPSEC: red-teaming/opsec.md
 
-    * API Security: web/api-security.md
-    * GraphQL: web/graphql.md
-    * gRPC Security: web/grpc-security.md
-    * WebSockets: web/websockets.md
-    * Mass Assignment: web/mass-assignment.md
+      - Reconnaissance: red-teaming/reconnaissance.md
+      - Initial Access: red-teaming/initial-access.md
 
-  * Software Supply Chain:
+      - Execution: red-teaming/execution.md
+      - Discovery: red-teaming/discovery.md
 
-    * Dependency Security: web/dependency-security.md
-    * Secrets Exposure: web/secrets-exposure.md
+      - Privilege Escalation: red-teaming/privilege-escalation.md
+      - Credential Access: red-teaming/credential-access.md
 
-  * Modern Web Security:
+      - Lateral Movement: red-teaming/lateral-movement.md
+      - Persistence: red-teaming/persistence.md
+      - Defence Evasion: red-teaming/defence-evasion.md
 
-    * Prototype Pollution: web/prototype-pollution.md
-    * Web LLM Attacks: web/web-llm-attacks.md
+      - Command and Control: red-teaming/command-and-control.md
 
-# ==========================================================
+      - Collection: red-teaming/collection.md
+      - Exfiltration: red-teaming/exfiltration.md
 
-# SOURCE CODE REVIEW
+      - Social Engineering: red-teaming/social-engineering.md
+      - Phishing: red-teaming/phishing.md
 
-# ==========================================================
+      - Adversary Emulation: red-teaming/adversary-emulation.md
+      - Detection Validation: red-teaming/detection-validation.md
 
-* Source Code Review:
+      - Cleanup: red-teaming/cleanup.md
+      - Reporting: red-teaming/reporting.md
 
-  * Overview: source-code-review/index.md
 
-  * Methodology: source-code-review/methodology.md
+  # ==========================================================
+  # PURPLE TEAMING
+  # ==========================================================
 
-  * Routes and Entry Points: source-code-review/routes-and-entry-points.md
+  - Purple Teaming:
 
-  * Source-to-Sink Analysis: source-code-review/source-to-sink-analysis.md
+      - Overview: purple-teaming/index.md
+      - Methodology: purple-teaming/methodology.md
 
-  * Authentication and Authorisation: source-code-review/authentication-authorisation.md
+      - Exercises: purple-teaming/exercises.md
+      - MITRE ATT&CK: purple-teaming/mitre-attack.md
 
-  * Secrets and Configuration: source-code-review/secrets-and-configuration.md
+      - Detection Engineering: purple-teaming/detection-engineering.md
 
-  * Variant Analysis: source-code-review/variant-analysis.md
+      - Learning and Measurement:
+          - Knowledge Transfer: purple-teaming/knowledge-transfer.md
+          - Metrics and Measurement: purple-teaming/metrics-and-measurement.md
 
-  * Static Analysis:
+      - Review and Continuous Improvement:
+          - After-Action Review: purple-teaming/after-action-review.md
+          - Continuous Validation: purple-teaming/continuous-validation.md
 
-    * Overview: source-code-review/static-analysis/index.md
-    * ripgrep: source-code-review/static-analysis/ripgrep.md
-    * Semgrep: source-code-review/static-analysis/semgrep.md
-    * OpenGrep: source-code-review/static-analysis/opengrep.md
-    * CodeQL: source-code-review/static-analysis/codeql.md
 
-  * Languages and Frameworks:
+  # ==========================================================
+  # VULNERABILITY RESEARCH
+  # ==========================================================
 
-    * .NET / ASP.NET Core: source-code-review/dotnet.md
+  - Vulnerability Research:
 
-    * Java / Spring: source-code-review/java.md
+      - Overview: vulnerability-research/index.md
+      - Methodology: vulnerability-research/methodology.md
 
-    * PHP: source-code-review/php.md
+      - Research and Analysis:
+          - Attack Surface Analysis: vulnerability-research/attack-surface-analysis.md
+          - Debugging and Dynamic Analysis: vulnerability-research/debugging-dynamic-analysis.md
+          - Fuzzing: vulnerability-research/fuzzing.md
+          - Crash Analysis: vulnerability-research/crash-analysis.md
 
-    * Python:
+      - Root Cause and Variants:
+          - Patch Diffing: vulnerability-research/patch-diffing.md
+          - Variant Analysis: vulnerability-research/variant-analysis.md
 
-      * Python: source-code-review/python.md
-      * Django: source-code-review/django.md
-      * Flask: source-code-review/flask.md
+      - Validation:
+          - Proof of Concept Development: vulnerability-research/poc-development.md
 
-    * JavaScript:
+      - CVE Research and Disclosure:
+          - CVE Research: vulnerability-research/cve-research.md
+          - Responsible Disclosure: vulnerability-research/responsible-disclosure.md
 
-      * Node.js / Express: source-code-review/nodejs.md
-      * Client-Side JavaScript: source-code-review/javascript.md
 
-# ==========================================================
+  # ==========================================================
+  # TOOLS
+  # ==========================================================
 
-# ACTIVE DIRECTORY
+  - Tools:
 
-# ==========================================================
+      - Overview: tools/index.md
 
-* Active Directory:
+      - Web Enumeration:
+          - Overview: tools/web-enumeration/index.md
+          - WhatWeb: tools/web-enumeration/whatweb.md
+          - Wappalyzer: tools/web-enumeration/wappalyzer.md
+          - httpx: tools/web-enumeration/httpx.md
 
-  * Overview: active-directory/index.md
+      - Web Application Testing:
+          - Overview: tools/web-testing/index.md
+          - Burp Suite: tools/web-testing/burp-suite.md
+          - ffuf: tools/web-testing/ffuf.md
+          - Katana: tools/web-testing/katana.md
+          - Nuclei: tools/web-testing/nuclei.md
+          - sqlmap: tools/web-testing/sqlmap.md
+          - Interactsh: tools/web-testing/interactsh.md
 
-  * Methodology: active-directory/methodology.md
+      - Active Directory:
+          - Overview: tools/active-directory/index.md
 
-  * Enumeration: active-directory/enumeration.md
+      - Privilege Escalation:
+          - Overview: tools/privilege-escalation/index.md
 
-  * Tooling:
+          - Windows:
+              - WinPEAS: tools/privilege-escalation/winpeas.md
+              - PowerUp: tools/privilege-escalation/powerup.md
+              - PrivescCheck: tools/privilege-escalation/privesccheck.md
 
-    * NetExec: active-directory/netexec.md
-    * Impacket: active-directory/impacket.md
-    * BloodHound: active-directory/bloodhound.md
+          - Linux:
+              - LinPEAS: tools/privilege-escalation/linpeas.md
+              - linux-smart-enumeration: tools/privilege-escalation/linux-smart-enumeration.md
 
-  * Authentication:
+      - Source Code Review Tools:
+          - Overview: tools/source-code-review/index.md
 
-    * Kerberos: active-directory/kerberos.md
-    * NTLM: active-directory/ntlm.md
-    * Password Spraying: active-directory/password-spraying.md
-    * AS-REP Roasting: active-directory/asrep-roasting.md
-    * Kerberoasting: active-directory/kerberoasting.md
-    * Pass-the-Hash: active-directory/pass-the-hash.md
-    * OverPass-the-Hash: active-directory/overpass-the-hash.md
-    * Pass-the-Key: active-directory/pass-the-key.md
-    * Pass-the-Ticket: active-directory/pass-the-ticket.md
+          - Canonical Static Analysis:
+              - Static Analysis Overview: source-code-review/static-analysis/index.md
+              - ripgrep: source-code-review/static-analysis/ripgrep.md
+              - Semgrep: source-code-review/static-analysis/semgrep.md
+              - OpenGrep: source-code-review/static-analysis/opengrep.md
+              - CodeQL: source-code-review/static-analysis/codeql.md
 
-  * Access Control:
+      - Red Teaming Tools:
+          - Overview: tools/red-teaming/index.md
+          - C2 Frameworks: tools/red-teaming/c2-frameworks.md
 
-    * ACL and ACE: active-directory/acl-ace.md
-    * Groups: active-directory/groups.md
-    * Group Policy: active-directory/group-policy.md
-    * Machine Account Quota: active-directory/machine-account-quota.md
+      - Vulnerability Research Tools:
+          - Overview: tools/vulnerability-research/index.md
 
-  * Kerberos and Delegation:
+      - AI-Assisted Security:
+          - Overview: tools/ai/index.md
+          - LLM-Assisted Security Testing: tools/ai/llm-assisted-security-testing.md
 
-    * Kerberos Tickets: active-directory/kerberos-tickets.md
-    * Unconstrained Delegation: active-directory/unconstrained-delegation.md
-    * Constrained Delegation: active-directory/constrained-delegation.md
-    * Resource-Based Constrained Delegation: active-directory/rbcd.md
-    * S4U: active-directory/s4u.md
 
-  * Credential Access:
+  # ==========================================================
+  # CHEATSHEETS
+  # ==========================================================
 
-    * Overview: active-directory/credential-access.md
-    * LAPS: active-directory/laps.md
-    * gMSA: active-directory/gmsa.md
-    * Shadow Credentials: active-directory/shadow-credentials.md
-    * NTDS: active-directory/ntds.md
+  - Cheatsheets:
 
-  * Relay and Coercion:
+      - Overview: cheatsheets/index.md
 
-    * NTLM Relay: active-directory/ntlm-relay.md
-    * Kerberos Relay: active-directory/kerberos-relay.md
-    * Authentication Coercion: active-directory/authentication-coercion.md
+      - Operating Systems and Shells:
+          - Linux: cheatsheets/linux.md
+          - Windows: cheatsheets/windows.md
+          - PowerShell: cheatsheets/powershell.md
 
-  * Active Directory Certificate Services:
+      - Networking and Traffic:
+          - Networking: cheatsheets/networking.md
+          - Nmap: cheatsheets/nmap.md
+          - Wireshark and tshark: cheatsheets/wireshark-tshark.md
 
-    * Overview: active-directory/ad-cs/index.md
+      - HTTP and Web Tooling:
+          - Web: cheatsheets/web.md
+          - Burp Suite: cheatsheets/burp-suite.md
+          - curl: cheatsheets/curl.md
+          - Content Discovery: cheatsheets/content-discovery.md
 
-    * Enumeration: active-directory/ad-cs/enumeration.md
+      - Source Code and Repositories:
+          - Git and ripgrep: cheatsheets/git-ripgrep.md
 
-    * ESC Techniques:
+      - Web Vulnerability Testing:
 
-      * ESC1: active-directory/ad-cs/esc1.md
-      * ESC2: active-directory/ad-cs/esc2.md
-      * ESC3: active-directory/ad-cs/esc3.md
-      * ESC4: active-directory/ad-cs/esc4.md
-      * ESC5: active-directory/ad-cs/esc5.md
-      * ESC6: active-directory/ad-cs/esc6.md
-      * ESC7: active-directory/ad-cs/esc7.md
-      * ESC8: active-directory/ad-cs/esc8.md
-      * ESC9: active-directory/ad-cs/esc9.md
-      * ESC10: active-directory/ad-cs/esc10.md
-      * ESC11: active-directory/ad-cs/esc11.md
-      * ESC12: active-directory/ad-cs/esc12.md
-      * ESC13: active-directory/ad-cs/esc13.md
-      * ESC14: active-directory/ad-cs/esc14.md
-      * ESC15: active-directory/ad-cs/esc15.md
-      * ESC16: active-directory/ad-cs/esc16.md
-      * ESC17: active-directory/ad-cs/esc17.md
+          - Injection:
+              - SQL Injection: cheatsheets/sql-injection.md
+              - Cross-Site Scripting (XSS): cheatsheets/xss.md
+              - OS Command Injection: cheatsheets/command-injection.md
 
-    * Golden Certificate: active-directory/ad-cs/golden-certificate.md
+          - Server-Side:
+              - Server-Side Request Forgery (SSRF): cheatsheets/ssrf.md
+              - XML External Entity Injection (XXE): cheatsheets/xxe.md
+              - Server-Side Template Injection (SSTI): cheatsheets/ssti.md
+              - Insecure Deserialization: cheatsheets/deserialization.md
+              - Path Traversal and File Inclusion: cheatsheets/path-traversal-file-inclusion.md
+              - File Upload Security: cheatsheets/file-upload.md
 
-  * Lateral Movement and Pivoting:
+          - Authentication and Access Control:
+              - Authentication and Session Testing: cheatsheets/authentication-session-testing.md
+              - Authorization, IDOR and BOLA: cheatsheets/authorization-access-control.md
 
-    * Lateral Movement: active-directory/lateral-movement.md
-    * SMB: active-directory/smb.md
-    * WinRM: active-directory/winrm.md
-    * WMI: active-directory/wmi.md
-    * DCOM: active-directory/dcom.md
-    * Pivoting: active-directory/pivoting.md
+          - Tokens and Identity:
+              - JWT Security Testing: cheatsheets/jwt.md
+              - OAuth 2.0 and OpenID Connect: cheatsheets/oauth-oidc.md
 
-  * Trusts:
+          - Browser Security:
+              - CORS and CSRF: cheatsheets/cors-csrf.md
 
-    * Overview: active-directory/trusts.md
-    * Trust Relationships: active-directory/trust-relationships.md
-    * SID History: active-directory/sid-history.md
-    * Trust Tickets: active-directory/trust-tickets.md
+      - Active Directory:
+          - Active Directory: cheatsheets/active-directory.md
+          - NetExec: cheatsheets/netexec.md
+          - Impacket: cheatsheets/impacket.md
+          - BloodHound: cheatsheets/bloodhound.md
 
-  * Infrastructure:
-
-    * Active Directory Integrated DNS: active-directory/adidns.md
-    * Network Shares: active-directory/shares.md
-    * SCCM: active-directory/sccm.md
-    * WSUS: active-directory/wsus.md
-    * MDT: active-directory/mdt.md
-    * SCOM: active-directory/scom.md
-    * ADFS: active-directory/adfs.md
-    * Read-Only Domain Controllers: active-directory/rodc.md
-
-  * Privilege Escalation: active-directory/privilege-escalation.md
-
-  * Persistence: active-directory/persistence.md
-
-# ==========================================================
-
-# WINDOWS
-
-# ==========================================================
-
-* Windows:
-
-  * Overview: windows/index.md
-
-  * Enumeration: windows/enumeration.md
-
-  * PowerShell: windows/powershell.md
-
-  * Services and Scheduled Execution:
-
-    * Services: windows/services.md
-    * Scheduled Tasks: windows/scheduled-tasks.md
-
-  * Filesystem and Registry:
-
-    * Filesystem Permissions: windows/filesystem-permissions.md
-    * Registry Security: windows/registry.md
-
-  * Credentials: windows/credentials.md
-
-  * Security Controls:
-
-    * Application Control: windows/application-control.md
-    * Microsoft Defender: windows/defender.md
-    * User Account Control (UAC): windows/uac.md
-
-  * Privilege Escalation: windows/privilege-escalation.md
-
-# ==========================================================
-
-# LINUX
-
-# ==========================================================
-
-* Linux:
-
-  * Overview: linux/index.md
-
-  * Enumeration: linux/enumeration.md
-
-  * Services and Scheduled Execution:
-
-    * Services: linux/services.md
-    * Scheduled Jobs: linux/scheduled-jobs.md
-
-  * Filesystem and Permissions:
-
-    * Filesystem Permissions: linux/filesystem-permissions.md
-
-  * Privileged Access:
-
-    * sudo Security: linux/sudo.md
-    * SUID and SGID Security: linux/suid-sgid.md
-    * Linux Capabilities: linux/capabilities.md
-
-  * Credentials: linux/credentials.md
-
-  * Security Controls:
-
-    * Linux Security Controls: linux/security-controls.md
-
-  * Privilege Escalation: linux/privilege-escalation.md
-
-# ==========================================================
-
-# CLOUD
-
-# ==========================================================
-
-* Cloud:
-
-  * Azure:
-
-    * Subdomain Takeover: cloud/azure/subdomain-takeover.md
-
-# ==========================================================
-
-# PRIVILEGE ESCALATION EXPLORER
-
-# ==========================================================
-
-* PrivEsc Explorer:
-
-  * Overview: privesc/index.md
-  * Windows PrivEsc Explorer: privesc/windows.md
-  * Linux PrivEsc Explorer: privesc/linux.md
-
-# ==========================================================
-
-# RED TEAMING
-
-# ==========================================================
-
-* Red Teaming:
-
-  * Overview: red-teaming/index.md
-
-  * Methodology: red-teaming/methodology.md
-
-  * Infrastructure: red-teaming/infrastructure.md
-
-  * OPSEC: red-teaming/opsec.md
-
-  * Reconnaissance: red-teaming/reconnaissance.md
-
-  * Initial Access: red-teaming/initial-access.md
-
-  * Execution: red-teaming/execution.md
-
-  * Discovery: red-teaming/discovery.md
-
-  * Privilege Escalation: red-teaming/privilege-escalation.md
-
-  * Credential Access: red-teaming/credential-access.md
-
-  * Lateral Movement: red-teaming/lateral-movement.md
-
-  * Persistence: red-teaming/persistence.md
-
-  * Defence Evasion: red-teaming/defence-evasion.md
-
-  * Command and Control: red-teaming/command-and-control.md
-
-  * Collection: red-teaming/collection.md
-
-  * Exfiltration: red-teaming/exfiltration.md
-
-  * Social Engineering: red-teaming/social-engineering.md
-
-  * Phishing: red-teaming/phishing.md
-
-  * Adversary Emulation: red-teaming/adversary-emulation.md
-
-  * Detection Validation: red-teaming/detection-validation.md
-
-  * Cleanup: red-teaming/cleanup.md
-
-  * Reporting: red-teaming/reporting.md
-
-# ==========================================================
-
-# PURPLE TEAMING
-
-# ==========================================================
-
-* Purple Teaming:
-
-  * Overview: purple-teaming/index.md
-
-  * Methodology: purple-teaming/methodology.md
-
-  * Exercises: purple-teaming/exercises.md
-
-  * MITRE ATT&CK: purple-teaming/mitre-attack.md
-
-  * Detection Engineering: purple-teaming/detection-engineering.md
-
-  * Learning and Measurement:
-
-    * Knowledge Transfer: purple-teaming/knowledge-transfer.md
-    * Metrics and Measurement: purple-teaming/metrics-and-measurement.md
-
-  * Review and Continuous Improvement:
-
-    * After-Action Review: purple-teaming/after-action-review.md
-    * Continuous Validation: purple-teaming/continuous-validation.md
-
-# ==========================================================
-
-# VULNERABILITY RESEARCH
-
-# ==========================================================
-
-* Vulnerability Research:
-
-  * Overview: vulnerability-research/index.md
-
-  * Methodology: vulnerability-research/methodology.md
-
-  * Research and Analysis:
-
-    * Attack Surface Analysis: vulnerability-research/attack-surface-analysis.md
-    * Debugging and Dynamic Analysis: vulnerability-research/debugging-dynamic-analysis.md
-    * Fuzzing: vulnerability-research/fuzzing.md
-    * Crash Analysis: vulnerability-research/crash-analysis.md
-
-  * Root Cause and Variants:
-
-    * Patch Diffing: vulnerability-research/patch-diffing.md
-    * Variant Analysis: vulnerability-research/variant-analysis.md
-
-  * Validation:
-
-    * Proof of Concept Development: vulnerability-research/poc-development.md
-
-  * CVE Research and Disclosure:
-
-    * CVE Research: vulnerability-research/cve-research.md
-    * Responsible Disclosure: vulnerability-research/responsible-disclosure.md
-
-# ==========================================================
-
-# TOOLS
-
-# ==========================================================
-
-* Tools:
-
-  * Overview: tools/index.md
-
-  * Web Enumeration:
-
-    * Overview: tools/web-enumeration/index.md
-    * WhatWeb: tools/web-enumeration/whatweb.md
-    * Wappalyzer: tools/web-enumeration/wappalyzer.md
-    * httpx: tools/web-enumeration/httpx.md
-
-  * Web Application Testing:
-
-    * Overview: tools/web-testing/index.md
-    * Burp Suite: tools/web-testing/burp-suite.md
-    * ffuf: tools/web-testing/ffuf.md
-    * Katana: tools/web-testing/katana.md
-    * Nuclei: tools/web-testing/nuclei.md
-    * sqlmap: tools/web-testing/sqlmap.md
-    * Interactsh: tools/web-testing/interactsh.md
-
-  * Active Directory:
-
-    * Overview: tools/active-directory/index.md
-
-  * Privilege Escalation:
-
-    * Overview: tools/privilege-escalation/index.md
-
-    * Windows:
-
-      * WinPEAS: tools/privilege-escalation/winpeas.md
-      * PowerUp: tools/privilege-escalation/powerup.md
-      * PrivescCheck: tools/privilege-escalation/privesccheck.md
-
-    * Linux:
-
-      * LinPEAS: tools/privilege-escalation/linpeas.md
-      * linux-smart-enumeration: tools/privilege-escalation/linux-smart-enumeration.md
-
-  * Source Code Review Tools:
-
-    * Overview: tools/source-code-review/index.md
-
-    * Canonical Static Analysis:
-
-      * Static Analysis Overview: source-code-review/static-analysis/index.md
-      * ripgrep: source-code-review/static-analysis/ripgrep.md
-      * Semgrep: source-code-review/static-analysis/semgrep.md
-      * OpenGrep: source-code-review/static-analysis/opengrep.md
-      * CodeQL: source-code-review/static-analysis/codeql.md
-
-  * Red Teaming Tools:
-
-    * Overview: tools/red-teaming/index.md
-    * C2 Frameworks: tools/red-teaming/c2-frameworks.md
-
-  * Vulnerability Research Tools:
-
-    * Overview: tools/vulnerability-research/index.md
-
-  * AI-Assisted Security:
-
-    * Overview: tools/ai/index.md
-    * LLM-Assisted Security Testing: tools/ai/llm-assisted-security-testing.md
-
-# ==========================================================
-
-# CHEATSHEETS
-
-# ==========================================================
-
-* Cheatsheets:
-
-  * Overview: cheatsheets/index.md
-
-  * Operating Systems and Shells:
-
-    * Linux: cheatsheets/linux.md
-    * Windows: cheatsheets/windows.md
-    * PowerShell: cheatsheets/powershell.md
-
-  * Networking and Traffic:
-
-    * Networking: cheatsheets/networking.md
-    * Nmap: cheatsheets/nmap.md
-    * Wireshark and tshark: cheatsheets/wireshark-tshark.md
-
-  * HTTP and Web Tooling:
-
-    * Web: cheatsheets/web.md
-    * Burp Suite: cheatsheets/burp-suite.md
-    * curl: cheatsheets/curl.md
-    * Content Discovery: cheatsheets/content-discovery.md
-
-  * Source Code and Repositories:
-
-    * Git and ripgrep: cheatsheets/git-ripgrep.md
-
-  * Web Vulnerability Testing:
-
-    * Injection:
-
-      * SQL Injection: cheatsheets/sql-injection.md
-      * Cross-Site Scripting (XSS): cheatsheets/xss.md
-      * OS Command Injection: cheatsheets/command-injection.md
-
-    * Server-Side:
-
-      * Server-Side Request Forgery (SSRF): cheatsheets/ssrf.md
-      * XML External Entity Injection (XXE): cheatsheets/xxe.md
-      * Server-Side Template Injection (SSTI): cheatsheets/ssti.md
-      * Insecure Deserialization: cheatsheets/deserialization.md
-      * Path Traversal and File Inclusion: cheatsheets/path-traversal-file-inclusion.md
-      * File Upload Security: cheatsheets/file-upload.md
-
-    * Authentication and Access Control:
-
-      * Authentication and Session Testing: cheatsheets/authentication-session-testing.md
-      * Authorization, IDOR and BOLA: cheatsheets/authorization-access-control.md
-
-    * Tokens and Identity:
-
-      * JWT Security Testing: cheatsheets/jwt.md
-      * OAuth 2.0 and OpenID Connect: cheatsheets/oauth-oidc.md
-
-    * Browser Security:
-
-      * CORS and CSRF: cheatsheets/cors-csrf.md
-
-  * Active Directory:
-
-    * Active Directory: cheatsheets/active-directory.md
-    * NetExec: cheatsheets/netexec.md
-    * Impacket: cheatsheets/impacket.md
-    * BloodHound: cheatsheets/bloodhound.md
 
 # ============================================================
-
 # EXTRA CSS
-
 # ============================================================
 
 extra_css:
+  - stylesheets/extra.css
+  - stylesheets/privesc-explorer.css
 
-* stylesheets/extra.css
-* stylesheets/privesc-explorer.css
 
 # ============================================================
-
 # EXTRA JAVASCRIPT
-
 # ============================================================
 
 extra_javascript:
+  - javascripts/scroll-buttons.js
+  - javascripts/privesc-explorer.js
 
-* javascripts/scroll-buttons.js
-* javascripts/privesc-explorer.js
 
 # ============================================================
-
 # PLUGINS
-
 # ============================================================
 
 plugins:
+  - search
 
-* search
 
 # ============================================================
-
 # MARKDOWN EXTENSIONS
-
 # ============================================================
 
 markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - tables
 
-* admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
-* attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
 
-* md_in_html
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
 
-* footnotes
+  - pymdownx.tabbed:
+      alternate_style: true
 
-* tables
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
-* pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
-* pymdownx.superfences
-
-* pymdownx.highlight:
-  anchor_linenums: true
-  line_spans: __span
-  pygments_lang_class: true
-
-* pymdownx.inlinehilite
-
-* pymdownx.snippets
-
-* pymdownx.tabbed:
-  alternate_style: true
-
-* pymdownx.tasklist:
-  custom_checkbox: true
-
-* pymdownx.emoji:
-  emoji_index: !!python/name:material.extensions.emoji.twemoji
-  emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 # ============================================================
-
 # SOCIAL LINKS
-
 # ============================================================
 
 extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/asifnawazminhas
+      name: GitHub
 
-social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/asifminhasnl/
+      name: LinkedIn
 
-```
-- icon: fontawesome/brands/github
-  link: https://github.com/asifnawazminhas
-  name: GitHub
-
-- icon: fontawesome/brands/linkedin
-  link: https://www.linkedin.com/in/asifminhasnl/
-  name: LinkedIn
-
-- icon: fontawesome/solid/globe
-  link: https://asifnawazminhas.com
-  name: Personal Website
-```
+    - icon: fontawesome/solid/globe
+      link: https://asifnawazminhas.com
+      name: Personal Website
