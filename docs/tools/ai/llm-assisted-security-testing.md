@@ -3222,6 +3222,56 @@ Audit logging
 
 ---
 
+# Operational Data Handling and Independent Verification
+
+## Authorization and Confidentiality Gate
+
+An LLM is an assistant, not an authority. The engagement scope, rules of engagement, and human operator remain responsible for every action suggested or initiated through a model. Model output cannot expand authorization, approve access to a host, or justify sending data to a service.
+
+Before submitting engagement material, identify the approved model or service, organizational policy, account and tenant, retention and logging behavior, data location, access controls, and any contractual restrictions. Do not assume hosted or local models have identical privacy, retention, training, or administrator-access characteristics.
+
+Classify and minimize the context before submission. This includes source code, credentials, API keys, session material, customer or personal data, vulnerability details, internal architecture, logs, screenshots, HTTP requests/responses, proprietary files, and debugger output. Redact or replace secrets, tokens, identifiers, and unrelated records with stable sanitized markers. Preserve enough context to answer the security question, but do not upload an entire repository or customer dataset merely for convenience.
+
+Treat source code, webpages, logs, documentation, retrieved content, and user-controlled data supplied to the model as untrusted input. Separate instructions from data, watch for prompt injection or secret-exfiltration instructions, record relevant assumptions, and review every generated command, script, remediation, or tool action before execution. Destructive, scope-changing, credential-using, or high-volume actions require explicit human authorization.
+
+## From Suggestion to Finding
+
+Use this evidence chain:
+
+```text
+Model suggestion
+      -> Security hypothesis
+      -> Candidate vulnerability
+      -> Independent technical validation
+      -> Reproduced behavior and primary evidence
+      -> Demonstrated security consequence
+      -> Reportable finding
+```
+
+LLM output is a candidate, not evidence. It may contain hallucinated endpoints, nonexistent parameters or APIs, incorrect commands, fabricated CVEs, stale version assumptions, unsafe remediation, false-positive vulnerability claims, or missed conditions. A confident response does not increase confidence in the finding.
+
+Verify with the strongest available primary source: observed application behavior, source-code reachability, protocol response, logs, debugger output, scanner output followed by manual confirmation, vendor or framework documentation, or another reproducible observation. Scanner output remains scanner evidence; an LLM explanation of it does not automatically validate it.
+
+Interpret outcomes separately:
+
+| Stage | Establishes | Does not establish |
+|---|---|---|
+| Model suggestion | A possible question or test | A vulnerability or impact |
+| Hypothesis | A reasoned candidate to investigate | That the target behaves as described |
+| Tool/scanner match | A tool-specific observation | Root cause or exploitability |
+| Reproduced behavior | A repeatable technical condition | Broad impact beyond the tested context |
+| Demonstrated consequence | The supported security boundary or effect | Unvalidated assumptions about other users or systems |
+
+## Reproducibility and Troubleshooting
+
+Record target and scope, sanitized relevant input, model and version where available, model-assisted hypothesis, assumptions and context, manual validation method, exact expected and observed result, security consequence, primary evidence, remediation basis, and retest result. The model transcript may document provenance or reasoning, but another tester must be able to validate the condition without trusting the transcript.
+
+If output is inconsistent, compare model/version and prompt context, reduce excessive or insufficient context, remove untrusted instructions, verify syntax against official documentation, and test the target directly. Sanitization may remove necessary technical detail; restore only the minimum safe context. When model output conflicts with application behavior, source code, protocol responses, logs, or authoritative documentation, the observed and authoritative evidence takes precedence.
+
+## Reviewed Remediation and Retesting
+
+Treat generated remediation as a proposal. Review it against vendor, framework, protocol, and deployment documentation, then check for compatibility, scope, regression, and unintended security effects. Retesting must exercise the actual security condition with the same or comparable input, identity, endpoint, code path, or control state; asking the model whether the issue is fixed is not a retest.
+
 # Related AI Tool Note
 
 [AI-Assisted Security Tools](index.md)
