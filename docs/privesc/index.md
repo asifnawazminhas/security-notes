@@ -5,13 +5,18 @@ description: Observation-led Windows and Linux privilege escalation reference co
 
 # PrivEsc Explorer
 
-<div class="privesc-hero privesc-landing-hero" markdown>
+<div class="privesc-hero privesc-landing-hero">
 
 <span class="privesc-eyebrow">Observation-led assessment workflow</span>
 
-## From an observation to a defensible security conclusion
+<h2>From an observation to a defensible security conclusion</h2>
 
-PrivEsc Explorer turns host-enumeration results into structured investigation paths. Start with what you actually observed, identify a candidate mechanism, verify the privilege relationship, choose proportionate validation, and record evidence without treating tool output as an automatic vulnerability verdict.
+<p>
+PrivEsc Explorer turns host-enumeration results into structured investigation paths.
+Start with what you actually observed, identify a candidate mechanism, verify the privilege
+relationship, choose proportionate validation, and record evidence without treating tool
+output as an automatic vulnerability verdict.
+</p>
 
 <div class="privesc-workflow-strip">
 <span>Observation</span>
@@ -41,13 +46,20 @@ PrivEsc Explorer turns host-enumeration results into structured investigation pa
 
 <div class="privesc-platform-grid">
 
-<div class="privesc-platform-card privesc-platform-windows" markdown>
+<div class="privesc-platform-card privesc-platform-windows">
 
+<div class="privesc-platform-heading">
 <span class="privesc-platform-icon">W</span>
+<div>
+<h3>Windows</h3>
+<span class="privesc-platform-subtitle">Windows privilege escalation</span>
+</div>
+</div>
 
-### Windows
-
-Investigate services, scheduled tasks, token privileges, filesystem and registry ACLs, DLL loading, credentials, application control, UAC, applications and drivers.
+<p>
+Investigate services, scheduled tasks, token privileges, filesystem and registry ACLs,
+DLL loading, credentials, application control, UAC, applications and drivers.
+</p>
 
 <div class="privesc-platform-tags">
 <span>Services</span>
@@ -57,17 +69,26 @@ Investigate services, scheduled tasks, token privileges, filesystem and registry
 <span>Credentials</span>
 </div>
 
-[Open Windows Explorer](windows.md){ .md-button .md-button--primary }
+<a class="md-button md-button--primary privesc-platform-button" href="windows/">
+Open Windows Explorer
+</a>
 
 </div>
 
-<div class="privesc-platform-card privesc-platform-linux" markdown>
+<div class="privesc-platform-card privesc-platform-linux">
 
+<div class="privesc-platform-heading">
 <span class="privesc-platform-icon">L</span>
+<div>
+<h3>Linux</h3>
+<span class="privesc-platform-subtitle">Linux privilege escalation</span>
+</div>
+</div>
 
-### Linux
-
-Investigate sudo, SUID/SGID, capabilities, systemd, cron, writable resources, credentials, groups, containers, sockets, NFS and kernel candidates.
+<p>
+Investigate sudo, SUID/SGID, capabilities, systemd, cron, writable resources,
+credentials, groups, containers, sockets, NFS and kernel candidates.
+</p>
 
 <div class="privesc-platform-tags">
 <span>sudo</span>
@@ -77,7 +98,9 @@ Investigate sudo, SUID/SGID, capabilities, systemd, cron, writable resources, cr
 <span>Containers</span>
 </div>
 
-[Open Linux Explorer](linux.md){ .md-button .md-button--primary }
+<a class="md-button md-button--primary privesc-platform-button" href="linux/">
+Open Linux Explorer
+</a>
 
 </div>
 
