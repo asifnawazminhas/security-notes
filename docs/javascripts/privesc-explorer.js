@@ -65,9 +65,7 @@
         state.platform = normalisePlatform(explorer.dataset.platform);
 
         if (!state.platform) {
-            renderFatalError(
-                "PrivEsc Explorer could not determine the requested platform."
-            );
+            // /privesc/ is intentionally a cross-platform landing page.
             return;
         }
 
@@ -94,6 +92,8 @@
                 : [];
 
             populateCategoryFilter();
+            restoreStateFromUrl();
+            addExplorerActions();
             render();
         } catch (error) {
             console.error("[PrivEsc Explorer]", error);
@@ -526,6 +526,7 @@
         renderActiveFilters();
         renderTechniqueCards(techniques);
         renderEmptyState(techniques.length === 0);
+        updateUrlState();
     }
 
     function setLoadingState() {
@@ -1276,6 +1277,110 @@
 
         searchInput.focus();
     });
+
+    /*
+     * -------------------------------------------------------------------------
+     * URL State and Bulk Actions
+     * -------------------------------------------------------------------------
+     */
+
+    function restoreStateFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+
+        state.query = params.get("q") || "";
+        state.category = params.get("category") || "all";
+        state.severity = params.get("severity") || "all";
+        state.sort = params.get("sort") || "name";
+
+        searchInput.value = state.query;
+
+        if ([...categoryFilter.options].some((option) => option.value === state.category)) {
+            categoryFilter.value = state.category;
+        } else {
+            state.category = "all";
+            categoryFilter.value = "all";
+        }
+
+        if ([...severityFilter.options].some((option) => option.value === state.severity)) {
+            severityFilter.value = state.severity;
+        } else {
+            state.severity = "all";
+            severityFilter.value = "all";
+        }
+
+        if ([...sortSelect.options].some((option) => option.value === state.sort)) {
+            sortSelect.value = state.sort;
+        } else {
+            state.sort = "name";
+            sortSelect.value = "name";
+        }
+    }
+
+    function updateUrlState() {
+        if (!state.platform) {
+            return;
+        }
+
+        const url = new URL(window.location.href);
+        const values = {
+            q: state.query,
+            category: state.category === "all" ? "" : state.category,
+            severity: state.severity === "all" ? "" : state.severity,
+            sort: state.sort === "name" ? "" : state.sort
+        };
+
+        Object.entries(values).forEach(([key, value]) => {
+            if (value) {
+                url.searchParams.set(key, value);
+            } else {
+                url.searchParams.delete(key);
+            }
+        });
+
+        window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function addExplorerActions() {
+        const header = document.querySelector(".privesc-results-header");
+
+        if (!header || header.querySelector(".privesc-bulk-actions")) {
+            return;
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "privesc-bulk-actions";
+        actions.innerHTML = `
+            <button type="button" class="privesc-action-button" data-expand-all>Expand all</button>
+            <button type="button" class="privesc-action-button" data-collapse-all>Collapse all</button>
+        `;
+
+        header.insertBefore(actions, sortSelect);
+
+        actions.addEventListener("click", (event) => {
+            if (event.target.closest("[data-expand-all]")) {
+                setAllCardsExpanded(true);
+            }
+
+            if (event.target.closest("[data-collapse-all]")) {
+                setAllCardsExpanded(false);
+            }
+        });
+    }
+
+    function setAllCardsExpanded(expanded) {
+        resultsContainer.querySelectorAll(".privesc-card").forEach((card) => {
+            const toggle = card.querySelector("[data-technique-toggle]");
+            const details = card.querySelector(".privesc-card-details");
+
+            if (!toggle || !details) {
+                return;
+            }
+
+            toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+            details.hidden = !expanded;
+            card.classList.toggle("is-expanded", expanded);
+        });
+    }
 
     /*
      * -------------------------------------------------------------------------
