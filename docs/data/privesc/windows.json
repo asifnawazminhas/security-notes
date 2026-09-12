@@ -2,7 +2,7 @@
   "platform": "windows",
   "title": "Windows PrivEsc Explorer",
   "description": "Structured Windows privilege escalation assessment techniques for authorised security testing.",
-  "version": "1.2",
+  "version": "1.3",
   "techniques": [
     {
       "id": "windows-applocker-policy-gap",
@@ -62,28 +62,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed AppLocker Policy Gap condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether AppLocker Policy Gap is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for AppLocker Policy Gap under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Capture the effective application-control state relevant to AppLocker Policy Gap.",
+          "Compare configured policy with effective runtime behaviour using a harmless executable or script that represents the boundary being assessed.",
+          "Perform the technique-specific validation already defined for this entry: Determine the intended policy design",
+          "Corroborate the result with: Review each relevant rule collection",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Relevant AppLocker collection is NotConfigured, AuditOnly, or contains unexpectedly broad allow rules",
+          "The key prerequisite is verified: AppLocker is part of the intended security boundary",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For AppLocker Policy Gap, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -142,28 +143,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed PowerShell FullLanguage in Restricted Endpoint condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether PowerShell FullLanguage in Restricted Endpoint is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for PowerShell FullLanguage in Restricted Endpoint under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Capture the effective application-control state relevant to PowerShell FullLanguage in Restricted Endpoint.",
+          "Compare configured policy with effective runtime behaviour using a harmless executable or script that represents the boundary being assessed.",
+          "Perform the technique-specific validation already defined for this entry: Record the language mode",
+          "Corroborate the result with: Determine the intended endpoint baseline",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: $ExecutionContext.SessionState.LanguageMode returns FullLanguage",
+          "The key prerequisite is verified: The endpoint security baseline intends PowerShell language restrictions",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For PowerShell FullLanguage in Restricted Endpoint, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -220,28 +222,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Privileged Autorun Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Privileged Autorun Resource is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Privileged Autorun Resource under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Identify the exact configuration object involved in Privileged Autorun Resource and record its current owner, ACL, and privileged consumer.",
+          "Confirm that the lower-privileged user can influence the object while the consuming process or logon context operates at a higher privilege.",
+          "Perform the technique-specific validation already defined for this entry: Identify the startup identity",
+          "Corroborate the result with: Resolve the exact executable or script",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Machine-level autorun or privileged startup mechanism references a writable resource",
+          "The key prerequisite is verified: Higher-privileged startup consumer",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Privileged Autorun Resource, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -302,28 +305,29 @@
       ],
       "proof": {
         "mode": "lab",
-        "objective": "Determine whether the observed Privileged Named Pipe Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Privileged Named Pipe Exposure is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Privileged Named Pipe Exposure under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Identify the exact configuration object involved in Privileged Named Pipe Exposure and record its current owner, ACL, and privileged consumer.",
+          "Confirm that the lower-privileged user can influence the object while the consuming process or logon context operates at a higher privilege.",
+          "Perform the technique-specific validation already defined for this entry: Identify the pipe server process",
+          "Corroborate the result with: Determine the server security context",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Privileged process owns or serves a named pipe",
+          "The key prerequisite is verified: Privileged pipe server",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+        "safety": "Active exploitation of Privileged Named Pipe Exposure can materially alter privileged execution or system state. Keep exploit-style proof to an isolated lab or an explicitly approved test system; use non-destructive validation on production."
       }
     },
     {
@@ -379,28 +383,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Privileged Startup Folder condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Privileged Startup Folder is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Privileged Startup Folder under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Identify the exact configuration object involved in Writable Privileged Startup Folder and record its current owner, ACL, and privileged consumer.",
+          "Confirm that the lower-privileged user can influence the object while the consuming process or logon context operates at a higher privilege.",
+          "Perform the technique-specific validation already defined for this entry: Identify which identity processes the startup location",
+          "Corroborate the result with: Confirm effective write permissions",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: A machine-wide or privileged user's startup location is writable by the current identity",
+          "The key prerequisite is verified: A more privileged identity processes the startup location",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Privileged Startup Folder, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -460,28 +465,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed AutoLogon Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether AutoLogon Credential Exposure is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for AutoLogon Credential Exposure under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that the artefact associated with AutoLogon Credential Exposure is readable by the assessed lower-privileged identity.",
+          "Determine whether the exposed material is current and security-relevant without using it to access unrelated systems.",
+          "Perform the technique-specific validation already defined for this entry: Confirm AutoLogon is configured",
+          "Corroborate the result with: Record account metadata without unnecessarily exposing passwords",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: AutoAdminLogon is configured",
+          "The key prerequisite is verified: AutoLogon configuration exists",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For AutoLogon Credential Exposure, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -540,28 +546,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed Environment Variable Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Environment Variable Credential Exposure is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Environment Variable Credential Exposure under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that the artefact associated with Environment Variable Credential Exposure is readable by the assessed lower-privileged identity.",
+          "Determine whether the exposed material is current and security-relevant without using it to access unrelated systems.",
+          "Perform the technique-specific validation already defined for this entry: Search by variable name first",
+          "Corroborate the result with: Avoid exposing values unnecessarily",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Environment-variable names or values indicate stored secrets",
+          "The key prerequisite is verified: Sensitive material is present",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For Environment Variable Credential Exposure, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -623,28 +630,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed PowerShell History Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether PowerShell History Credential Exposure is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for PowerShell History Credential Exposure under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that the artefact associated with PowerShell History Credential Exposure is readable by the assessed lower-privileged identity.",
+          "Determine whether the exposed material is current and security-relevant without using it to access unrelated systems.",
+          "Perform the technique-specific validation already defined for this entry: Use targeted searches",
+          "Corroborate the result with: Avoid printing complete secret values unnecessarily",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: PSReadLine history contains password, token, secret, key, or credential-related command material",
+          "The key prerequisite is verified: Sensitive material exists in accessible history",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For PowerShell History Credential Exposure, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -699,28 +707,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed Stored Credential Target condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Stored Credential Target is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Stored Credential Target under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that the artefact associated with Stored Credential Target is readable by the assessed lower-privileged identity.",
+          "Determine whether the exposed material is current and security-relevant without using it to access unrelated systems.",
+          "Perform the technique-specific validation already defined for this entry: Record target metadata",
+          "Corroborate the result with: Determine the intended credential scope",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: cmdkey.exe /list returns stored targets",
+          "The key prerequisite is verified: Stored credential exists",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For Stored Credential Target, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -778,28 +787,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed Unattended Installation Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Unattended Installation Credential Exposure is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Unattended Installation Credential Exposure under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that the artefact associated with Unattended Installation Credential Exposure is readable by the assessed lower-privileged identity.",
+          "Determine whether the exposed material is current and security-relevant without using it to access unrelated systems.",
+          "Perform the technique-specific validation already defined for this entry: Inspect only relevant files",
+          "Corroborate the result with: Avoid printing complete secrets unnecessarily",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Accessible unattended, sysprep, deployment, or provisioning files contain credential-related material",
+          "The key prerequisite is verified: Sensitive material is present and accessible",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For Unattended Installation Credential Exposure, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -858,28 +868,29 @@
       ],
       "proof": {
         "mode": "lab",
-        "objective": "Determine whether the observed DLL Search Order Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether DLL Search Order Candidate is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for DLL Search Order Candidate under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Identify the privileged executable, the unresolved or precedence-sensitive DLL name, and the directories searched at runtime.",
+          "Confirm that a lower-privileged user controls a directory that is actually reached before the legitimate dependency location.",
+          "Perform the technique-specific validation already defined for this entry: Identify the exact DLL requested",
+          "Corroborate the result with: Determine the actual search order",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Privileged application requests a DLL by name or otherwise uses search-order resolution",
+          "The key prerequisite is verified: Privileged process",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+        "safety": "Active exploitation of DLL Search Order Candidate can materially alter privileged execution or system state. Keep exploit-style proof to an isolated lab or an explicitly approved test system; use non-destructive validation on production."
       }
     },
     {
@@ -942,28 +953,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed Vulnerable Driver Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Vulnerable Driver Candidate is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Vulnerable Driver Candidate under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the installed driver name, version, signature/provider information, service configuration, and whether it is loaded.",
+          "Correlate the exact installed version with a trusted vulnerability reference and the privilege boundary it could affect.",
+          "Perform the technique-specific validation already defined for this entry: Identify exact vendor and version",
+          "Corroborate the result with: Confirm the driver is loaded or reachable",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Third-party kernel driver is installed",
+          "The key prerequisite is verified: Exact affected driver version or vulnerable implementation",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For Vulnerable Driver Candidate, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -1021,28 +1033,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Privileged Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Privileged Directory is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Privileged Directory under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the exact file or directory involved in Writable Privileged Directory, including owner and effective ACLs.",
+          "Identify the privileged service, task, application, or other consumer that reads or executes the writable resource.",
+          "Perform the technique-specific validation already defined for this entry: Do not report the writable directory by itself",
+          "Corroborate the result with: Identify the privileged consumer",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Writable directory under Program Files, ProgramData, Windows, or a custom privileged application path",
+          "The key prerequisite is verified: A privileged consumer uses the directory",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Privileged Directory, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -1100,28 +1113,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Privileged File condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Privileged File is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Privileged File under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the exact file or directory involved in Writable Privileged File, including owner and effective ACLs.",
+          "Identify the privileged service, task, application, or other consumer that reads or executes the writable resource.",
+          "Perform the technique-specific validation already defined for this entry: Confirm effective permissions",
+          "Corroborate the result with: Identify the privileged consumer",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Current user has dangerous rights over an executable, script, configuration file, plugin, or other privileged resource",
+          "The key prerequisite is verified: Lower-privileged write control",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Privileged File, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -1179,28 +1193,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable ProgramData Privileged Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable ProgramData Privileged Resource is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable ProgramData Privileged Resource under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the exact file or directory involved in Writable ProgramData Privileged Resource, including owner and effective ACLs.",
+          "Identify the privileged service, task, application, or other consumer that reads or executes the writable resource.",
+          "Perform the technique-specific validation already defined for this entry: Identify the privileged consumer before treating writability as a finding",
+          "Corroborate the result with: Determine the exact trusted resources",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: A ProgramData subdirectory is writable",
+          "The key prerequisite is verified: Lower-privileged write control",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable ProgramData Privileged Resource, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -1257,28 +1272,29 @@
       ],
       "proof": {
         "mode": "lab",
-        "objective": "Determine whether the observed AlwaysInstallElevated condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether AlwaysInstallElevated is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for AlwaysInstallElevated under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Verify the relevant Windows Installer policy values in both machine and user policy context.",
+          "Confirm that the effective combination applies to the assessed user and is not merely a stale or one-sided registry setting.",
+          "Perform the technique-specific validation already defined for this entry: Check both policy locations",
+          "Corroborate the result with: Record the values",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: HKCU AlwaysInstallElevated equals 1",
+          "The key prerequisite is verified: AlwaysInstallElevated enabled in the relevant HKCU policy location",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+        "safety": "Active exploitation of AlwaysInstallElevated can materially alter privileged execution or system state. Keep exploit-style proof to an isolated lab or an explicitly approved test system; use non-destructive validation on production."
       }
     },
     {
@@ -1337,28 +1353,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable PATH Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable PATH Directory is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable PATH Directory under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the effective PATH order for the privileged consumer and identify writable directories in that search path.",
+          "Identify an executable lookup performed without a fully qualified path and confirm the writable location is searched first.",
+          "Perform the technique-specific validation already defined for this entry: Identify the privileged consumer",
+          "Corroborate the result with: Confirm relative executable lookup",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: A PATH directory is writable by the current user",
+          "The key prerequisite is verified: Writable PATH directory",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable PATH Directory, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -1412,28 +1429,29 @@
       ],
       "proof": {
         "mode": "lab",
-        "objective": "Determine whether the observed SeAssignPrimaryTokenPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeAssignPrimaryTokenPrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeAssignPrimaryTokenPrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeAssignPrimaryTokenPrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Record the privilege state",
+          "Corroborate the result with: Determine why the identity requires the privilege",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeAssignPrimaryTokenPrivilege",
+          "The key prerequisite is verified: Relevant privilege is available",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+        "safety": "Active exploitation of SeAssignPrimaryTokenPrivilege can materially alter privileged execution or system state. Keep exploit-style proof to an isolated lab or an explicitly approved test system; use non-destructive validation on production."
       }
     },
     {
@@ -1492,28 +1510,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed SeBackupPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeBackupPrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeBackupPrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeBackupPrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Record privilege state",
+          "Corroborate the result with: Identify why the account has backup rights",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeBackupPrivilege",
+          "The key prerequisite is verified: SeBackupPrivilege is available",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For SeBackupPrivilege, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -1570,28 +1589,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed SeDebugPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeDebugPrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeDebugPrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeDebugPrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Record privilege state",
+          "Corroborate the result with: Identify whether protected process restrictions apply",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeDebugPrivilege",
+          "The key prerequisite is verified: SeDebugPrivilege is available in the relevant token",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For SeDebugPrivilege, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -1649,28 +1669,29 @@
       ],
       "proof": {
         "mode": "lab",
-        "objective": "Determine whether the observed SeImpersonatePrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeImpersonatePrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeImpersonatePrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeImpersonatePrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Record whether the privilege is enabled or disabled",
+          "Corroborate the result with: Identify why the account has the privilege",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeImpersonatePrivilege",
+          "The key prerequisite is verified: SeImpersonatePrivilege is available in the relevant token",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+        "safety": "Active exploitation of SeImpersonatePrivilege can materially alter privileged execution or system state. Keep exploit-style proof to an isolated lab or an explicitly approved test system; use non-destructive validation on production."
       }
     },
     {
@@ -1730,28 +1751,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed SeLoadDriverPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeLoadDriverPrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeLoadDriverPrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeLoadDriverPrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Record privilege state",
+          "Corroborate the result with: Review installed and approved drivers",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeLoadDriverPrivilege",
+          "The key prerequisite is verified: SeLoadDriverPrivilege is available",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For SeLoadDriverPrivilege, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -1806,28 +1828,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed SeRestorePrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeRestorePrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeRestorePrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeRestorePrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Record privilege state",
+          "Corroborate the result with: Identify security-sensitive resources potentially affected",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeRestorePrivilege",
+          "The key prerequisite is verified: SeRestorePrivilege is available",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For SeRestorePrivilege, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -1882,28 +1905,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed SeTakeOwnershipPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether SeTakeOwnershipPrivilege is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for SeTakeOwnershipPrivilege under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Confirm that SeTakeOwnershipPrivilege is enabled or usable in the current access token rather than merely listed in documentation or group policy.",
+          "Identify the Windows operation or privileged resource for which that token privilege is security-relevant.",
+          "Perform the technique-specific validation already defined for this entry: Identify relevant protected resources",
+          "Corroborate the result with: Document the privilege assignment",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: whoami /priv shows SeTakeOwnershipPrivilege",
+          "The key prerequisite is verified: SeTakeOwnershipPrivilege is available",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For SeTakeOwnershipPrivilege, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     },
     {
@@ -1962,28 +1986,29 @@
       ],
       "proof": {
         "mode": "lab",
-        "objective": "Determine whether the observed Writable Privileged COM Registration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Privileged COM Registration is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Privileged COM Registration under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the exact registry key/value involved in Writable Privileged COM Registration, its owner, ACL, current value, and privileged consumer.",
+          "Confirm that the assessed lower-privileged identity can modify the security-sensitive value or key.",
+          "Perform the technique-specific validation already defined for this entry: Identify the privileged COM consumer",
+          "Corroborate the result with: Resolve InprocServer32 or LocalServer32 where applicable",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Security-sensitive COM registration is writable or references a writable resource",
+          "The key prerequisite is verified: A privileged consumer activates the affected COM class",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+        "safety": "Active exploitation of Writable Privileged COM Registration can materially alter privileged execution or system state. Keep exploit-style proof to an isolated lab or an explicitly approved test system; use non-destructive validation on production."
       }
     },
     {
@@ -2040,28 +2065,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Security-Sensitive Registry Key condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Security-Sensitive Registry Key is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Security-Sensitive Registry Key under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the exact registry key/value involved in Writable Security-Sensitive Registry Key, its owner, ACL, current value, and privileged consumer.",
+          "Confirm that the assessed lower-privileged identity can modify the security-sensitive value or key.",
+          "Perform the technique-specific validation already defined for this entry: Confirm effective ACLs",
+          "Corroborate the result with: Identify which values affect privileged behaviour",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Current user has dangerous registry rights",
+          "The key prerequisite is verified: Lower-privileged registry write access",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Security-Sensitive Registry Key, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2120,28 +2146,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Weak Scheduled Task Permissions condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Weak Scheduled Task Permissions is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Weak Scheduled Task Permissions under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the scheduled task identity, trigger, action, run-as account, and effective permissions on the task and referenced resources.",
+          "Confirm that the lower-privileged user can influence the task definition, action, or dependency while the task executes at a higher privilege.",
+          "Perform the technique-specific validation already defined for this entry: Record the task principal, actions, triggers, and security descriptor where available",
+          "Corroborate the result with: Determine which effective task-management rights apply to the current identity",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: A scheduled task executes as SYSTEM, administrator, or another privileged identity",
+          "The key prerequisite is verified: A privileged scheduled task",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Weak Scheduled Task Permissions, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2204,28 +2231,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Scheduled Task Action condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Scheduled Task Action is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Scheduled Task Action under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the scheduled task identity, trigger, action, run-as account, and effective permissions on the task and referenced resources.",
+          "Confirm that the lower-privileged user can influence the task definition, action, or dependency while the task executes at a higher privilege.",
+          "Perform the technique-specific validation already defined for this entry: Confirm the task principal",
+          "Corroborate the result with: Confirm the exact action",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Scheduled task runs as SYSTEM, administrator, or another privileged identity",
+          "The key prerequisite is verified: Privileged scheduled task",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Scheduled Task Action, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2284,28 +2312,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Scheduled Task Dependency Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Scheduled Task Dependency Directory is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Scheduled Task Dependency Directory under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the scheduled task identity, trigger, action, run-as account, and effective permissions on the task and referenced resources.",
+          "Confirm that the lower-privileged user can influence the task definition, action, or dependency while the task executes at a higher privilege.",
+          "Perform the technique-specific validation already defined for this entry: Resolve the exact task action and dependencies",
+          "Corroborate the result with: Check file and parent-directory rights separately",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: A privileged task references a resource beneath a lower-privileged writable directory",
+          "The key prerequisite is verified: Privileged task execution",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Scheduled Task Dependency Directory, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2369,28 +2398,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Unquoted Service Path condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Unquoted Service Path is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Unquoted Service Path under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the service name, account, start mode, executable path, configuration, and effective permissions.",
+          "Confirm the lower-privileged user can influence the exact service object, executable, directory, configuration, or recovery resource relevant to this candidate.",
+          "Perform the technique-specific validation already defined for this entry: Confirm the executable path is actually unquoted",
+          "Corroborate the result with: Determine the candidate executable paths Windows could evaluate",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Service executable path contains spaces",
+          "The key prerequisite is verified: Unquoted service executable path containing spaces",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Unquoted Service Path, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2450,28 +2480,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Weak Service Object Permissions condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Weak Service Object Permissions is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Weak Service Object Permissions under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the service name, account, start mode, executable path, configuration, and effective permissions.",
+          "Confirm the lower-privileged user can influence the exact service object, executable, directory, configuration, or recovery resource relevant to this candidate.",
+          "Perform the technique-specific validation already defined for this entry: Record the service security descriptor",
+          "Corroborate the result with: Determine which rights apply to the current user and groups",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Service security descriptor grants excessive rights to a lower-privileged principal",
+          "The key prerequisite is verified: A privileged service",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Weak Service Object Permissions, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2532,28 +2563,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Service Configuration Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Service Configuration Resource is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Service Configuration Resource under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the service name, account, start mode, executable path, configuration, and effective permissions.",
+          "Confirm the lower-privileged user can influence the exact service object, executable, directory, configuration, or recovery resource relevant to this candidate.",
+          "Perform the technique-specific validation already defined for this entry: Identify how the service consumes the resource",
+          "Corroborate the result with: Confirm effective permissions",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Service uses a writable configuration file, helper script, plugin, or supporting resource",
+          "The key prerequisite is verified: Privileged service",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Service Configuration Resource, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2617,28 +2649,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Service Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Service Directory is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Service Directory under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the service name, account, start mode, executable path, configuration, and effective permissions.",
+          "Confirm the lower-privileged user can influence the exact service object, executable, directory, configuration, or recovery resource relevant to this candidate.",
+          "Perform the technique-specific validation already defined for this entry: Confirm the service identity",
+          "Corroborate the result with: Confirm which resources are loaded from the directory",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Privileged service executable or dependencies are stored in a writable directory",
+          "The key prerequisite is verified: A privileged service consumes resources from the directory",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Service Directory, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2708,28 +2741,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Service Executable condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Service Executable is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Service Executable under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the service name, account, start mode, executable path, configuration, and effective permissions.",
+          "Confirm the lower-privileged user can influence the exact service object, executable, directory, configuration, or recovery resource relevant to this candidate.",
+          "Perform the technique-specific validation already defined for this entry: Confirm the service execution identity",
+          "Corroborate the result with: Confirm the exact executable path",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Service executes as LocalSystem or another privileged identity",
+          "The key prerequisite is verified: A service running with elevated privileges",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Service Executable, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2789,28 +2823,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Writable Service Recovery Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Writable Service Recovery Resource is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Writable Service Recovery Resource under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the service name, account, start mode, executable path, configuration, and effective permissions.",
+          "Confirm the lower-privileged user can influence the exact service object, executable, directory, configuration, or recovery resource relevant to this candidate.",
+          "Perform the technique-specific validation already defined for this entry: Record recovery actions",
+          "Corroborate the result with: Resolve the exact recovery resource",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: A privileged service has recovery actions configured",
+          "The key prerequisite is verified: Privileged service recovery action",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Writable Service Recovery Resource, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2873,28 +2908,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Custom Privileged Application condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Custom Privileged Application is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Custom Privileged Application under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Identify the exact privileged application, version, execution identity, writable resources, and trust boundary.",
+          "Trace lower-privileged influence to a concrete file, configuration, plugin, update path, IPC endpoint, or other dependency consumed by that application.",
+          "Perform the technique-specific validation already defined for this entry: Map the application trust boundary",
+          "Corroborate the result with: Identify all lower-privileged controlled inputs",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Custom application or service runs privileged",
+          "The key prerequisite is verified: Privileged application",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Custom Privileged Application, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -2955,28 +2991,29 @@
       ],
       "proof": {
         "mode": "controlled",
-        "objective": "Determine whether the observed Privileged Third-Party Software Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether Privileged Third-Party Software Candidate is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for Privileged Third-Party Software Candidate under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Identify the exact privileged application, version, execution identity, writable resources, and trust boundary.",
+          "Trace lower-privileged influence to a concrete file, configuration, plugin, update path, IPC endpoint, or other dependency consumed by that application.",
+          "Perform the technique-specific validation already defined for this entry: Identify exact product and version",
+          "Corroborate the result with: Check vendor security advisories",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Third-party software is installed",
+          "The key prerequisite is verified: Exact vulnerable version or insecure configuration",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+        "safety": "For Privileged Third-Party Software Candidate, use the least intrusive authorised proof that demonstrates the boundary. Avoid persistence, credential theft, destructive changes, or an interactive privileged shell when a harmless marker is sufficient."
       }
     },
     {
@@ -3035,28 +3072,29 @@
       ],
       "proof": {
         "mode": "validation-only",
-        "objective": "Determine whether the observed UAC Elevated Administrator Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "objective": "Establish whether UAC Elevated Administrator Context is only an observed condition or whether it creates a demonstrable privilege boundary relevant to this host.",
         "steps": [
-          "Reproduce the observation for UAC Elevated Administrator Context under the original lower-privileged identity.",
-          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
-          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
-          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
-          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
-          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+          "Record the current token integrity level, group membership, elevation state, and relevant UAC policy.",
+          "Distinguish an administrator running unelevated from a standard user and from an actually elevated administrative process.",
+          "Perform the technique-specific validation already defined for this entry: Confirm administrative group membership",
+          "Corroborate the result with: Confirm current integrity level",
+          "Where active proof is authorised, use a reversible harmless marker or equivalent non-destructive action at the identified boundary; do not establish persistence or an interactive privileged shell solely for proof.",
+          "Capture before/after evidence showing the lower-privileged influence, the privileged consumer or operation, and the resulting security context."
         ],
         "expected": [
-          "The original observation and effective access are reproducible.",
-          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
-          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
-          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+          "The observed condition is reproduced: Current identity belongs to Administrators",
+          "The key prerequisite is verified: User already possesses administrative membership or equivalent administrative rights",
+          "The lower-privileged influence is tied to a specific privileged consumer, operation, or execution context.",
+          "If controlled proof is performed, the harmless marker is attributable to that higher-privileged context.",
+          "The evidence supports Candidate, Supported, or Confirmed status without relying on tool output alone."
         ],
         "cleanup": [
-          "Remove any temporary marker, test file, or other assessment artefact.",
-          "Restore any deliberately changed configuration or resource from the captured original state.",
-          "Verify that the affected service, task, unit, application, or host remains operational.",
-          "Record cleanup and any residual uncertainty in the assessment evidence."
+          "Restore every deliberately modified file, ACL, registry value, service/task/unit setting, environment value, or configuration item to the captured original state.",
+          "Remove temporary markers and assessment artefacts.",
+          "Verify the affected service, task, application, container, or host behaviour is normal after restoration.",
+          "Record cleanup evidence and any item that could not be restored automatically."
         ],
-        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+        "safety": "For UAC Elevated Administrator Context, prefer configuration, permission, version, and runtime evidence. Do not force a privileged action or use a disruptive exploit merely to upgrade the finding from Supported to Confirmed."
       }
     }
   ]
