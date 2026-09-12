@@ -49,7 +49,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Polkit Authorization Review condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Polkit Authorization Review under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-backup-job",
@@ -100,7 +125,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Privileged Backup Job condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Backup Job under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-management-agent",
@@ -150,7 +200,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Privileged Management Agent condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Management Agent under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-recent-custom-files",
@@ -185,7 +260,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Recently Modified Custom Privileged Files condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Recently Modified Custom Privileged Files under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-config",
@@ -234,7 +334,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged Configuration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged Configuration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-plugin",
@@ -285,7 +410,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged Plugin condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged Plugin under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-cap-dac-override",
@@ -333,7 +483,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed CAP_DAC_OVERRIDE condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_DAC_OVERRIDE under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-cap-dac-read-search",
@@ -380,7 +555,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed CAP_DAC_READ_SEARCH condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_DAC_READ_SEARCH under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-cap-setgid",
@@ -429,7 +629,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed CAP_SETGID condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_SETGID under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-cap-setuid",
@@ -481,7 +706,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed CAP_SETUID condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_SETUID under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-cap-sys-admin",
@@ -532,7 +782,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed CAP_SYS_ADMIN condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_SYS_ADMIN under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-cap-sys-module",
@@ -581,7 +856,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed CAP_SYS_MODULE condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_SYS_MODULE under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-cap-sys-ptrace",
@@ -632,7 +932,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed CAP_SYS_PTRACE condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for CAP_SYS_PTRACE under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-file-capabilities",
@@ -682,7 +1007,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed File Capability Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for File Capability Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-gtfobins-capabilities",
@@ -730,7 +1080,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed GTFOBins Capability Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for GTFOBins Capability Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-writable-polkit-rule",
@@ -784,7 +1159,32 @@
       "related": [
         "../linux/security-controls.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Writable Polkit Rule or Action condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Polkit Rule or Action under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-docker-socket",
@@ -836,7 +1236,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Accessible Docker Socket condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Accessible Docker Socket under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-container-detection",
@@ -874,7 +1299,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Container Environment Detection condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Container Environment Detection under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-privileged-container",
@@ -930,7 +1380,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Over-Privileged Container condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Over-Privileged Container under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-host-mount",
@@ -979,7 +1454,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Sensitive Host Filesystem Mount condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Sensitive Host Filesystem Mount under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-ssh-private-key",
@@ -1031,7 +1531,32 @@
       "related": [
         "../linux/credentials.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Accessible SSH Private Key condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Accessible SSH Private Key under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-application-credentials",
@@ -1083,7 +1608,32 @@
       "related": [
         "../linux/credentials.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Application Configuration Credentials condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Application Configuration Credentials under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-environment-credentials",
@@ -1132,7 +1682,32 @@
       "related": [
         "../linux/credentials.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Credentials in Environment Variables condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Credentials in Environment Variables under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-shell-history-credentials",
@@ -1183,7 +1758,32 @@
       "related": [
         "../linux/credentials.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Credentials in Shell History condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Credentials in Shell History under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-cron-enumeration",
@@ -1232,7 +1832,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Cron Job Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Cron Job Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-cron-script",
@@ -1285,7 +1910,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Root Cron Script condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Root Cron Script under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-mount-options",
@@ -1327,7 +1977,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Filesystem Mount Security Options condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Filesystem Mount Security Options under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-temp-file",
@@ -1375,7 +2050,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Temporary File condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Temporary File under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-acl",
@@ -1424,7 +2124,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Unexpected POSIX ACL condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Unexpected POSIX ACL under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-world-writable-directories",
@@ -1473,7 +2198,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed World-Writable Directory Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for World-Writable Directory Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-world-writable-files",
@@ -1520,7 +2270,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed World-Writable File Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for World-Writable File Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-parent-directory",
@@ -1569,7 +2344,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Parent Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Parent Directory under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-disk-group",
@@ -1616,7 +2416,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed disk Group Membership condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for disk Group Membership under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-docker-group",
@@ -1670,7 +2495,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed docker Group Membership condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for docker Group Membership under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-libvirt",
@@ -1720,7 +2570,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed libvirt Administrative Access condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for libvirt Administrative Access under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-lxd-group",
@@ -1770,7 +2645,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed LXD Administrative Access condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for LXD Administrative Access under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-adm-journal",
@@ -1818,7 +2718,32 @@
       "related": [
         "../linux/credentials.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Privileged Log Access condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Log Access under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-shadow-group",
@@ -1867,7 +2792,32 @@
       "related": [
         "../linux/credentials.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed shadow File Access condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for shadow File Access under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-apparmor",
@@ -1905,7 +2855,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed AppArmor Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for AppArmor Context under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-kernel-version",
@@ -1961,7 +2936,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Kernel LPE Candidate Assessment condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Kernel LPE Candidate Assessment under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-nonewprivs",
@@ -1998,7 +2998,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed NoNewPrivileges Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for NoNewPrivileges Context under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-seccomp",
@@ -2035,7 +3060,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed seccomp Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for seccomp Context under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-selinux",
@@ -2074,7 +3124,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed SELinux Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SELinux Context under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-yama",
@@ -2110,7 +3185,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Yama ptrace_scope condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Yama ptrace_scope under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-ld-library-path",
@@ -2160,7 +3260,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Privileged LD_LIBRARY_PATH Trust condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged LD_LIBRARY_PATH Trust under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-python-import",
@@ -2213,7 +3338,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Privileged Python Import Path condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Python Import Path under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-writable-ld-preload",
@@ -2267,7 +3417,32 @@
       "related": [
         "../linux/filesystem-permissions.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Writable Dynamic Loader Configuration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Dynamic Loader Configuration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-writable-library",
@@ -2320,7 +3495,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Writable Privileged Library condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged Library under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-nfs-no-root-squash",
@@ -2373,7 +3573,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed NFS no_root_squash condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for NFS no_root_squash under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-cron-path",
@@ -2426,7 +3651,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Cron PATH Trust condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Cron PATH Trust under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-path-hijack",
@@ -2478,7 +3728,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged PATH Hijack Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged PATH Hijack Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-logrotate-config",
@@ -2533,7 +3808,32 @@
       "related": [
         "../linux/scheduled-jobs.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged logrotate Configuration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged logrotate Configuration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-timer-writable-resource",
@@ -2589,7 +3889,32 @@
       "related": [
         "../linux/scheduled-jobs.md",
         "../linux/services.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable systemd Timer Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable systemd Timer Resource under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-local-services",
@@ -2641,7 +3966,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Local Service condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Local Service under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-root-processes",
@@ -2690,7 +4040,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Root Process Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Root Process Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-service-binary",
@@ -2743,7 +4118,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged Service Executable condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged Service Executable under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-service-script",
@@ -2799,7 +4199,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Root Service Script condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Root Service Script under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-sgid-enumeration",
@@ -2849,7 +4274,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed SGID Binary Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SGID Binary Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-dbus",
@@ -2898,7 +4348,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Privileged D-Bus Service condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged D-Bus Service under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-unix-sockets",
@@ -2950,7 +4425,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Unix Socket condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Unix Socket under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-sudo-gtfobins",
@@ -3001,7 +4501,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed GTFOBins sudo Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for GTFOBins sudo Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-editor-sudo",
@@ -3051,7 +4576,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Editor Delegation condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Editor Delegation under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-interpreter-sudo",
@@ -3102,7 +4652,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Privileged Interpreter Delegation condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Interpreter Delegation under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-package-manager-sudo",
@@ -3153,7 +4728,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Package Manager Delegation condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Package Manager Delegation under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-sudo-nopasswd",
@@ -3203,7 +4803,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed sudo NOPASSWD Delegation condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for sudo NOPASSWD Delegation under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "linux-sudo-enumeration",
@@ -3257,7 +4882,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed sudo Permissions condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for sudo Permissions under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-sudo-secure-path",
@@ -3312,7 +4962,32 @@
       "related": [
         "../linux/sudo.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed sudo secure_path and PATH Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for sudo secure_path and PATH Context under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-sudo-setenv",
@@ -3363,7 +5038,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed sudo SETENV condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for sudo SETENV under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-sudo-wildcard",
@@ -3413,7 +5113,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed sudo Wildcard Rule condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for sudo Wildcard Rule under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-custom-suid",
@@ -3473,7 +5198,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Custom SUID Binary condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Custom SUID Binary under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-gtfobins-suid",
@@ -3523,7 +5273,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed GTFOBins SUID Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for GTFOBins SUID Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-suid-enumeration",
@@ -3576,7 +5351,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed SUID Binary Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SUID Binary Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "linux-systemd-services",
@@ -3627,7 +5427,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed systemd Service Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for systemd Service Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-systemd-timers",
@@ -3674,7 +5499,32 @@
       ],
       "related": [
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed systemd Timer Enumeration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for systemd Timer Enumeration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-systemd-dropin",
@@ -3729,7 +5579,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable systemd Drop-In condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable systemd Drop-In under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-systemd-environment-file",
@@ -3778,7 +5653,32 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable systemd EnvironmentFile condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable systemd EnvironmentFile under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "linux-writable-systemd-unit",
@@ -3831,8 +5731,33 @@
       "related": [
         "../linux/services.md",
         "../linux/privilege-escalation.md"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable systemd Unit condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable systemd Unit under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the effective UID/GID, service or job identity, namespace/container context, and relevant confinement controls.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     }
   ],
-  "version": "1.1"
+  "version": "1.2"
 }
