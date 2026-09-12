@@ -2,7 +2,7 @@
   "platform": "windows",
   "title": "Windows PrivEsc Explorer",
   "description": "Structured Windows privilege escalation assessment techniques for authorised security testing.",
-  "version": "1.1",
+  "version": "1.2",
   "techniques": [
     {
       "id": "windows-applocker-policy-gap",
@@ -59,7 +59,32 @@
       "related": [
         "../../windows/privilege-escalation/",
         "../../windows/powershell/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed AppLocker Policy Gap condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for AppLocker Policy Gap under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-powershell-full-language",
@@ -114,7 +139,32 @@
       "related": [
         "../../windows/powershell/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed PowerShell FullLanguage in Restricted Endpoint condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for PowerShell FullLanguage in Restricted Endpoint under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-insecure-autorun",
@@ -167,7 +217,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Autorun Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Autorun Resource under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-named-pipe-permissions",
@@ -224,7 +299,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Privileged Named Pipe Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Named Pipe Exposure under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "windows-writable-startup-folder",
@@ -276,7 +376,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged Startup Folder condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged Startup Folder under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-autologon-credentials",
@@ -332,7 +457,32 @@
       "related": [
         "../../windows/credentials/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed AutoLogon Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for AutoLogon Credential Exposure under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-environment-credentials",
@@ -387,7 +537,32 @@
       ],
       "related": [
         "../../windows/credentials/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Environment Variable Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Environment Variable Credential Exposure under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-powershell-history-credentials",
@@ -445,7 +620,32 @@
       "related": [
         "../../windows/credentials/",
         "../../windows/powershell/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed PowerShell History Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for PowerShell History Credential Exposure under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-credential-manager",
@@ -496,7 +696,32 @@
       ],
       "related": [
         "../../windows/credentials/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Stored Credential Target condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Stored Credential Target under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-unattended-credential-files",
@@ -550,7 +775,32 @@
       "related": [
         "../../windows/credentials/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Unattended Installation Credential Exposure condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Unattended Installation Credential Exposure under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-dll-search-order",
@@ -605,7 +855,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed DLL Search Order Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for DLL Search Order Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "windows-vulnerable-driver-candidate",
@@ -664,7 +939,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed Vulnerable Driver Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Vulnerable Driver Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-writable-privileged-directory",
@@ -718,7 +1018,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged Directory under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-privileged-file",
@@ -772,7 +1097,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Privileged File condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged File under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-programdata-config",
@@ -826,7 +1176,32 @@
       "related": [
         "../../windows/filesystem-permissions/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable ProgramData Privileged Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable ProgramData Privileged Resource under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-always-install-elevated",
@@ -879,7 +1254,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed AlwaysInstallElevated condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for AlwaysInstallElevated under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "windows-writable-path-directory",
@@ -934,7 +1334,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable PATH Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable PATH Directory under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-seassignprimarytoken",
@@ -984,7 +1409,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed SeAssignPrimaryTokenPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeAssignPrimaryTokenPrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "windows-sebackup",
@@ -1039,7 +1489,32 @@
       "related": [
         "../../windows/credentials/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed SeBackupPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeBackupPrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-sedebug",
@@ -1092,7 +1567,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed SeDebugPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeDebugPrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-seimpersonate",
@@ -1146,7 +1646,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed SeImpersonatePrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeImpersonatePrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "windows-seloaddriver",
@@ -1202,7 +1727,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed SeLoadDriverPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeLoadDriverPrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-serestore",
@@ -1253,7 +1803,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed SeRestorePrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeRestorePrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-setakeownership",
@@ -1304,7 +1879,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed SeTakeOwnershipPrivilege condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for SeTakeOwnershipPrivilege under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     },
     {
       "id": "windows-writable-com-registration",
@@ -1359,7 +1959,32 @@
       "related": [
         "../../windows/registry/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "lab",
+        "objective": "Determine whether the observed Writable Privileged COM Registration condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Privileged COM Registration under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Keep active exploitation to an isolated lab or an explicitly approved test system. On production systems, prefer configuration evidence and a harmless proof that does not establish an interactive privileged session."
+      }
     },
     {
       "id": "windows-writable-registry-key",
@@ -1412,7 +2037,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Security-Sensitive Registry Key condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Security-Sensitive Registry Key under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-scheduled-task-permissions",
@@ -1467,7 +2117,32 @@
       "related": [
         "../../windows/scheduled-tasks/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Weak Scheduled Task Permissions condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Weak Scheduled Task Permissions under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-scheduled-task-action",
@@ -1526,7 +2201,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Scheduled Task Action condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Scheduled Task Action under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-task-directory",
@@ -1581,7 +2281,32 @@
       "related": [
         "../../windows/scheduled-tasks/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Scheduled Task Dependency Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Scheduled Task Dependency Directory under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-unquoted-service-path",
@@ -1641,7 +2366,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Unquoted Service Path condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Unquoted Service Path under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-weak-service-permissions",
@@ -1697,7 +2447,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Weak Service Object Permissions condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Weak Service Object Permissions under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-service-config",
@@ -1754,7 +2529,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Service Configuration Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Service Configuration Resource under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-service-directory",
@@ -1814,7 +2614,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Service Directory condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Service Directory under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-writable-service-binary",
@@ -1880,7 +2705,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Service Executable condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Service Executable under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-service-recovery-resource",
@@ -1936,7 +2786,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Writable Service Recovery Resource condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Writable Service Recovery Resource under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-custom-privileged-application",
@@ -1995,7 +2870,32 @@
       "related": [
         "../../windows/services/",
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Custom Privileged Application condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Custom Privileged Application under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-third-party-software",
@@ -2052,7 +2952,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "controlled",
+        "objective": "Determine whether the observed Privileged Third-Party Software Candidate condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for Privileged Third-Party Software Candidate under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Use the least intrusive authorised proof. Prefer a harmless marker that demonstrates the privilege boundary without persistence, credential theft, destructive changes, or an interactive privileged shell."
+      }
     },
     {
       "id": "windows-uac-context",
@@ -2107,7 +3032,32 @@
       ],
       "related": [
         "../../windows/privilege-escalation/"
-      ]
+      ],
+      "proof": {
+        "mode": "validation-only",
+        "objective": "Determine whether the observed UAC Elevated Administrator Context condition can be connected to a real privilege boundary without relying on the discovery result alone.",
+        "steps": [
+          "Reproduce the observation for UAC Elevated Administrator Context under the original lower-privileged identity.",
+          "Confirm the effective permissions, privilege, delegation, or configuration that makes the candidate relevant.",
+          "Verify the listed prerequisites, especially the privileged consumer or security-sensitive operation.",
+          "Identify the Windows execution identity, integrity context, and any effective application-control restrictions.",
+          "Use a harmless marker or equivalent non-destructive proof where active validation is authorised; otherwise stop at configuration evidence.",
+          "Capture the resulting identity/capability evidence and restore any test artefact or changed state."
+        ],
+        "expected": [
+          "The original observation and effective access are reproducible.",
+          "The security-sensitive consumer, delegated operation, or privilege relationship is demonstrated.",
+          "If active proof is authorised, the harmless proof is observed in the expected higher-privileged context.",
+          "Evidence is sufficient to distinguish Candidate, Supported, and Confirmed status."
+        ],
+        "cleanup": [
+          "Remove any temporary marker, test file, or other assessment artefact.",
+          "Restore any deliberately changed configuration or resource from the captured original state.",
+          "Verify that the affected service, task, unit, application, or host remains operational.",
+          "Record cleanup and any residual uncertainty in the assessment evidence."
+        ],
+        "safety": "Configuration and permission evidence should normally be sufficient. Do not force a privileged action, expose additional secrets, crash services, or modify production security controls solely to obtain execution proof."
+      }
     }
   ]
 }
