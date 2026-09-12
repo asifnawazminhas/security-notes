@@ -42,7 +42,6 @@ theme:
 
   palette:
 
-    # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black
@@ -51,7 +50,6 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
-    # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: black
@@ -501,6 +499,22 @@ nav:
       - Active Directory:
           - Overview: tools/active-directory/index.md
 
+          - Windows Authentication and Kerberos:
+              - Mimikatz: tools/mimikatz.md
+              - Rubeus: tools/rubeus.md
+
+          - Active Directory Certificate Services:
+              - Certify: tools/certify.md
+              - Certipy: tools/certipy.md
+
+      - Tunnelling and Pivoting:
+          - Ligolo-ng: tools/ligolo-ng.md
+          - Chisel: tools/chisel.md
+
+      - Command and Control:
+          - Sliver: tools/sliver.md
+          - Cobalt Strike: tools/cobalt-strike.md
+
       - Privilege Escalation:
           - Overview: tools/privilege-escalation/index.md
 
@@ -591,8 +605,60 @@ nav:
       - Active Directory:
           - Active Directory: cheatsheets/active-directory.md
           - NetExec: cheatsheets/netexec.md
-          - Impacket: cheatsheets/impacket.md
           - BloodHound: cheatsheets/bloodhound.md
+          - Impacket: cheatsheets/impacket.md
+
+      - Additional Web and Protocol References:
+          - API Security: cheatsheets/api-security.md
+          - GraphQL: cheatsheets/graphql.md
+          - HTTP Request Smuggling: cheatsheets/http-request-smuggling.md
+          - Host Header Attacks: cheatsheets/host-header-attacks.md
+          - Prototype Pollution: cheatsheets/prototype-pollution.md
+          - Clickjacking: cheatsheets/clickjacking.md
+          - HTML Injection: cheatsheets/html-injection.md
+          - Open Redirect: cheatsheets/open-redirect.md
+
+
+# ============================================================
+# MARKDOWN EXTENSIONS
+# ============================================================
+
+markdown_extensions:
+
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+
+# ============================================================
+# PLUGINS
+# ============================================================
+
+plugins:
+  - search
 
 
 # ============================================================
@@ -605,76 +671,10 @@ extra_css:
 
 
 # ============================================================
-# PLUGINS
-# ============================================================
-
-plugins:
-  - search
-
-
-# ============================================================
-# MARKDOWN EXTENSIONS
-# ============================================================
-
-markdown_extensions:
-  - admonition
-  - attr_list
-  - md_in_html
-  - footnotes
-  - tables
-
-  - pymdownx.details
-
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-
-  - pymdownx.tabbed:
-      alternate_style: true
-
-  - pymdownx.tasklist:
-      custom_checkbox: true
-
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-
-
-# ============================================================
-# MERMAID INITIALISATION
+# EXTRA JAVASCRIPT
 # ============================================================
 
 extra_javascript:
+  - javascripts/mermaid-init.js
   - javascripts/scroll-buttons.js
   - javascripts/privesc-explorer.js
-  - https://unpkg.com/mermaid@11/dist/mermaid.min.js
-  - javascripts/mermaid-init.js
-
-
-# ============================================================
-# SOCIAL LINKS
-# ============================================================
-
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/asifnawazminhas
-      name: GitHub
-
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/asifminhasnl/
-      name: LinkedIn
-
-    - icon: fontawesome/solid/globe
-      link: https://asifnawazminhas.com
-      name: Personal Website
