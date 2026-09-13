@@ -392,13 +392,21 @@ nav:
       - Overview: red-teaming/index.md
       - Methodology: red-teaming/methodology.md
 
-      - Infrastructure: red-teaming/infrastructure.md
-      - OPSEC: red-teaming/opsec.md
+      - Planning and Infrastructure:
+          - Infrastructure: red-teaming/infrastructure.md
+          - OPSEC: red-teaming/opsec.md
+          - Custom Tooling: red-teaming/custom-tooling.md
 
-      - Reconnaissance: red-teaming/reconnaissance.md
-      - Initial Access: red-teaming/initial-access.md
+      - Reconnaissance and Initial Access:
+          - Reconnaissance: red-teaming/reconnaissance.md
+          - Initial Access: red-teaming/initial-access.md
+          - Payload Delivery: red-teaming/payload-delivery.md
 
-      - Execution: red-teaming/execution.md
+      - Execution:
+          - Execution Overview: red-teaming/execution.md
+          - Staged Payloads: red-teaming/staged-payloads.md
+          - DLL Hijacking: red-teaming/dll-hijacking.md
+
       - Discovery: red-teaming/discovery.md
 
       - Privilege Escalation: red-teaming/privilege-escalation.md
@@ -608,6 +616,9 @@ nav:
           - BloodHound: cheatsheets/bloodhound.md
           - Impacket: cheatsheets/impacket.md
 
+      - Red Teaming:
+          - Sliver: cheatsheets/sliver.md
+
       - Additional Web and Protocol References:
           - API Security: cheatsheets/api-security.md
           - GraphQL: cheatsheets/graphql.md
@@ -635,7 +646,6 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
 
-  # Material and Octicons icon support
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
