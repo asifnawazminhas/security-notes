@@ -3110,16 +3110,17 @@ Stop unused listeners and remove temporary infrastructure after the engagement.
 - [Active Directory](../active-directory/index.md)
 - [Windows](../windows/index.md)
 - [Linux](../linux/index.md)
+- 
 
-Planned related material:
+## Related Material
 
-```text
-red-teaming/custom-tooling.md
-red-teaming/payload-delivery.md
-red-teaming/staged-payloads.md
-red-teaming/dll-hijacking.md
-red-teaming/evasion/
-cheatsheets/sliver.md
+- [Custom Tooling](../red-teaming/custom-tooling.md)
+- [Payload Delivery](../red-teaming/payload-delivery.md)
+- [Staged Payloads](../red-teaming/staged-payloads.md)
+- [DLL Hijacking](../red-teaming/dll-hijacking.md)
+- [Defence Evasion](../red-teaming/defence-evasion.md)
+- [Sliver Cheatsheet](../cheatsheets/sliver.md)
+  
 ```
 
 ---
