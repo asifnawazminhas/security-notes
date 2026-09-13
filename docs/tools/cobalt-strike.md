@@ -3110,7 +3110,7 @@ Stop unused listeners and remove temporary infrastructure after the engagement.
 - [Active Directory](../active-directory/index.md)
 - [Windows](../windows/index.md)
 - [Linux](../linux/index.md)
-- 
+  
 
 ## Related Material
 
@@ -3120,8 +3120,6 @@ Stop unused listeners and remove temporary infrastructure after the engagement.
 - [DLL Hijacking](../red-teaming/dll-hijacking.md)
 - [Defence Evasion](../red-teaming/defence-evasion.md)
 - [Sliver Cheatsheet](../cheatsheets/sliver.md)
-  
-```
 
 ---
 
