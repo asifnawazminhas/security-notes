@@ -3110,7 +3110,6 @@ Stop unused listeners and remove temporary infrastructure after the engagement.
 - [Active Directory](../active-directory/index.md)
 - [Windows](../windows/index.md)
 - [Linux](../linux/index.md)
-  
 
 ## Related Material
 
