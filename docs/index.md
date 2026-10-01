@@ -79,6 +79,13 @@ Use the knowledge base to study a security topic in depth or jump directly into 
 </div>
 
 
+## Recently Updated
+
+- **1 October 2026:** Improved platform-button readability in [PrivEsc Explorer](privesc/index.md).
+
+[View all updates](updates.md)
+
+
 ## Explore the Knowledge Base
 
 <div class="grid cards" markdown>
