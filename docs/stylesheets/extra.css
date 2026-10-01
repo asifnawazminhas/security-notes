@@ -313,11 +313,11 @@ html {
 
 /* Dark mode links */
 
-[data-md-color-scheme="slate"] .md-typeset a {
+[data-md-color-scheme="slate"] .md-typeset a:not(.md-button) {
   color: #00d9f5;
 }
 
-[data-md-color-scheme="slate"] .md-typeset a:hover {
+[data-md-color-scheme="slate"] .md-typeset a:not(.md-button):hover {
   color: #66f2ff;
 }
 
@@ -340,6 +340,54 @@ html {
 
 [data-md-color-scheme="default"] .md-nav__link:hover {
   color: #008ca3;
+}
+
+
+/* ============================================================
+   PRIVESC PLATFORM BUTTONS
+   ============================================================ */
+
+/*
+   Explicit foreground and background pairs keep platform buttons
+   readable. These selectors override the generic Material and
+   PrivEsc button rules, including hover and focus states.
+*/
+
+[data-md-color-scheme="slate"] .md-typeset .privesc-platform-card .md-button {
+  color: #071014;
+  background: #00e5ff;
+  border-color: #00e5ff;
+  filter: none;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .privesc-platform-card .md-button:hover,
+[data-md-color-scheme="slate"] .md-typeset .privesc-platform-card .md-button:focus,
+[data-md-color-scheme="slate"] .md-typeset .privesc-platform-card .md-button:active {
+  color: #071014;
+  background: #66f2ff;
+  border-color: #66f2ff;
+  filter: none;
+}
+
+[data-md-color-scheme="default"] .md-typeset .privesc-platform-card .md-button {
+  color: #ffffff;
+  background: #007c91;
+  border-color: #007c91;
+  filter: none;
+}
+
+[data-md-color-scheme="default"] .md-typeset .privesc-platform-card .md-button:hover,
+[data-md-color-scheme="default"] .md-typeset .privesc-platform-card .md-button:focus,
+[data-md-color-scheme="default"] .md-typeset .privesc-platform-card .md-button:active {
+  color: #ffffff;
+  background: #006577;
+  border-color: #006577;
+  filter: none;
+}
+
+[data-md-color-scheme] .md-typeset .privesc-platform-card .md-button:focus-visible {
+  outline: 3px solid var(--md-accent-fg-color);
+  outline-offset: 4px;
 }
 
 
