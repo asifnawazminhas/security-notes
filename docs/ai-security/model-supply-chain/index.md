@@ -11,23 +11,13 @@ Compromise or untrusted changes within this chain can affect the application bef
 
 ## Supply Chain
 
-```text
-Data
- |
- v
-Model / Adapter
- |
- v
-Repository / Registry
- |
- v
-Application Dependency
- |
- v
-Deployment
- |
- v
-AI Application
+```mermaid
+flowchart LR
+    A[Data] --> B[Model / Adapter]
+    B --> C[Repository / Registry]
+    C --> D[Application Dependency]
+    D --> E[Deployment]
+    E --> F[AI Application]
 ```
 
 ## Components

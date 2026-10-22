@@ -22,17 +22,11 @@ Examples include:
 
 ## Security Model
 
-```text
-Sensitive Data
-     |
-     v
-AI Context / Retrieval / Tool
-     |
-     v
-Access-Control Decision
-     |
-     v
-Authorised Output?
+```mermaid
+flowchart LR
+    A[Sensitive Data] --> B[AI Context / Retrieval / Tool]
+    B --> C[Access-Control Decision]
+    C --> D{Authorised Output?}
 ```
 
 The security boundary should be enforced by the application and underlying data systems.
@@ -89,15 +83,8 @@ Potential issues include:
 
 System instructions can contain security-relevant implementation information.
 
-However:
-
-```text
-System Prompt Exposure
-        !=
-Sensitive Data Exposure
-```
-
-The actual contents determine the impact.
+!!! note "System prompt exposure ≠ sensitive data exposure"
+    The actual contents determine the impact. Exposure becomes security-relevant when the prompt contains protected information or enables another security-sensitive action.
 
 See:
 

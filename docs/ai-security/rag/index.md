@@ -9,23 +9,13 @@ Retrieval-augmented generation (RAG) extends an AI application with information 
 
 This introduces security boundaries beyond the model itself.
 
-```text
-User Query
-    |
-    v
-Retriever
-    |
-    v
-Knowledge Source
-    |
-    v
-Retrieved Context
-    |
-    v
-LLM
-    |
-    v
-Response
+```mermaid
+flowchart LR
+    A[User Query] --> B[Retriever]
+    B --> C[Knowledge Source]
+    C --> D[Retrieved Context]
+    D --> E[LLM]
+    E --> F[Response]
 ```
 
 ## Security Objectives

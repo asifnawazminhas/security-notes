@@ -13,20 +13,12 @@ A model may produce content that becomes dangerous when passed directly into ano
 
 ## Data Flow
 
-```text
-User / External Data
-        |
-        v
-       LLM
-        |
-        v
-Generated Output
-        |
-        v
-Downstream Consumer
-        |
-        v
-Security-Sensitive Interpretation
+```mermaid
+flowchart LR
+    A[User / External Data] --> B[LLM]
+    B --> C[Generated Output]
+    C --> D[Downstream Consumer]
+    D --> E[Security-Sensitive Interpretation]
 ```
 
 The downstream consumer may include:
@@ -103,6 +95,20 @@ The goal is to prove the unsafe data flow, not to cause unnecessary impact.
 - require confirmation for high-impact actions.
 
 ---
+
+## Related Application Security Boundaries
+
+When model output reaches another interpreter, continue testing using the canonical application-security methodology for that sink:
+
+- [Cross-Site Scripting (XSS)](../web/xss.md) for browser rendering;
+- [SQL Injection](../web/sql-injection.md) for database query construction;
+- [OS Command Injection](../web/command-injection.md) for shell or process execution;
+- [Server-Side Template Injection](../web/ssti.md) for template engines;
+- [Path Traversal](../web/path-traversal.md) for model-influenced file paths;
+- [API Security](../web/api-security.md) for downstream API actions.
+
+!!! tip "Testing workflow"
+    First prove that model-controlled output reaches the sink. Then test the sink using its normal security controls rather than treating the model as the security boundary.
 
 ## Related Pages
 

@@ -35,6 +35,20 @@ The section now includes coverage of:
 
 The navigation has also been expanded so these topics are available as a first-class section of the site.
 
+### AI Security Visual and QA Polish
+
+The AI Security section has received a presentation and quality pass without adding new topic pages.
+
+Changes include:
+
+- Mermaid diagrams for architecture and trust-boundary flows;
+- Material callouts for key security principles and warnings;
+- proper task-list rendering for the AI Security Checklist;
+- an expanded AI Security landing page covering all 21 pages;
+- stronger cross-links to existing web application security material;
+- deeper practical guidance for agents, multi-agent systems, MCP and model supply-chain trust;
+- removal of visually awkward ASCII comparison blocks where a callout communicates the principle more clearly.
+
 ### Site Structure
 
 An **Updates** page has been added to make significant additions to the knowledge base easier to follow.

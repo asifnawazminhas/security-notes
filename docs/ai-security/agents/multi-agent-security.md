@@ -11,19 +11,13 @@ A message from another agent should not automatically be considered trusted.
 
 ## Architecture
 
-```text
-User
- |
- v
-Agent A
- |
- +--------> Agent B
- |             |
- |             +--> Tool
- |
- +--------> Agent C
-               |
-               +--> Data Source
+```mermaid
+flowchart LR
+    U[User] --> A[Agent A]
+    A --> B[Agent B]
+    A --> C[Agent C]
+    B --> T[Tool]
+    C --> D[Data Source]
 ```
 
 ## Trust Questions
@@ -80,6 +74,22 @@ Potential impact includes:
 - use least-privilege tools;
 - enforce authorisation at every action boundary;
 - log agent-to-agent actions.
+
+## Delegation and Confused-Deputy Testing
+
+Pay particular attention when one agent can request work from another agent with different privileges.
+
+Assess whether:
+
+- the receiving agent authenticates the requesting agent;
+- delegated requests retain the originating user and tenant context;
+- privilege is reduced or preserved explicitly during delegation;
+- a lower-privilege agent can cause a higher-privilege agent to act on its behalf;
+- context from one agent can silently become trusted instructions for another;
+- chained delegation can bypass confirmation or policy controls.
+
+!!! warning "Delegation must not create privilege"
+    A request becoming agent-to-agent traffic should not make it more trusted or more privileged than the original request.
 
 ## Related Pages
 

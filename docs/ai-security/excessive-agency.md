@@ -17,24 +17,19 @@ Examples include:
 - changing infrastructure;
 - invoking administrative APIs.
 
+!!! important "Authorisation belongs outside the model"
+    The model may propose an action, but deterministic controls should decide whether that action is permitted.
+
 ---
 
 ## Security Model
 
-```text
-Model
-  |
-  v
-Tool Selection
-  |
-  v
-Tool Parameters
-  |
-  v
-Authorisation
-  |
-  v
-Action
+```mermaid
+flowchart LR
+    A[Model] --> B[Tool Selection]
+    B --> C[Tool Parameters]
+    C --> D[Authorisation]
+    D --> E[Action]
 ```
 
 The model should not be the sole authorisation mechanism.

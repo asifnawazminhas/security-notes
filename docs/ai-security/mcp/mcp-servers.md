@@ -13,17 +13,11 @@ Its effective privileges can determine the impact of an AI security weakness.
 
 For every server record:
 
-```text
-Server:
-Owner:
-Purpose:
-Transport:
-Authentication:
-Credentials:
-Tools:
-Resources:
-Effective Permissions:
-Data Classification:
+```mermaid
+flowchart LR
+    A[AI Client] --> B[MCP Server]
+    B --> C[Tool / Resource]
+    C --> D[Protected System]
 ```
 
 ## Assessment Areas
@@ -77,6 +71,25 @@ Each boundary should have explicit security controls.
 - validate tool arguments;
 - monitor server changes;
 - log security-sensitive calls.
+
+## Configuration and Replacement
+
+Treat MCP configuration as security-sensitive.
+
+Verify:
+
+- where server definitions are stored;
+- who can modify command, arguments, environment variables or remote endpoints;
+- whether an approved server can be silently replaced;
+- whether local server executables or dependencies are writable by lower-privilege users;
+- whether credentials are embedded directly in configuration;
+- whether remote endpoints use appropriate transport and authentication controls.
+
+## Practical Validation
+
+Use a controlled server or test resource to verify the expected boundary without exposing real secrets.
+
+Record the server identity, configuration source, effective credentials, exposed capabilities and the resulting backend request.
 
 ## Related Pages
 

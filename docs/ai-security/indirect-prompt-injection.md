@@ -22,20 +22,12 @@ Potential sources include:
 
 ## Trust Boundary
 
-```text
-Attacker-Controlled Content
-          |
-          v
-External Data Source
-          |
-          v
-AI Application Retrieves Data
-          |
-          v
-Model Interprets Data
-          |
-          v
-Instruction Influences Behaviour
+```mermaid
+flowchart LR
+    A[Attacker-Controlled Content] --> B[External Data Source]
+    B --> C[AI Application Retrieves Data]
+    C --> D[Model Interprets Data]
+    D --> E[Behaviour Influenced]
 ```
 
 The fundamental problem is confusion between **data** and **instructions**.

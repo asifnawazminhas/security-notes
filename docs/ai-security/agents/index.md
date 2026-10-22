@@ -9,22 +9,14 @@ AI agents combine model reasoning with capabilities such as tools, memory, exter
 
 The attack surface therefore extends beyond prompt handling.
 
-```text
-Input
-  |
-  v
-Agent
-  |
-  +--> Memory
-  |
-  +--> Retrieval
-  |
-  +--> Tools
-  |
-  +--> Other Agents
-  |
-  v
-Action
+```mermaid
+flowchart TD
+    A[Input] --> B[Agent]
+    B --> C[Memory]
+    B --> D[Retrieval]
+    B --> E[Tools]
+    B --> F[Other Agents]
+    B --> G[Action]
 ```
 
 ## Security Objectives
@@ -88,6 +80,19 @@ Authorisation
   v
 Action
 ```
+
+## Practical Testing Workflow
+
+1. Inventory the agent's tools, memory, retrieval sources and external identities.
+2. Establish which actions should require confirmation or deterministic authorisation.
+3. Introduce a benign marker through an authorised input source.
+4. Observe planning, tool selection, parameters and context propagation.
+5. Attempt a controlled action outside the expected permission boundary.
+6. Verify that backend controls block the action independently of model behaviour.
+7. Record the complete decision-to-action chain.
+
+!!! warning "Agent reasoning is not authorisation"
+    Security-sensitive actions should be authorised by deterministic application or backend controls, not by the model's decision to proceed.
 
 ## Related Pages
 

@@ -11,23 +11,13 @@ Security should not depend on the model choosing to use these tools safely.
 
 ## Tool Boundary
 
-```text
-Model
-  |
-  v
-Tool Request
-  |
-  v
-Parameter Validation
-  |
-  v
-Authorisation
-  |
-  v
-Tool
-  |
-  v
-External System
+```mermaid
+flowchart LR
+    A[Model] --> B[Tool Request]
+    B --> C[Parameter Validation]
+    C --> D[Authorisation]
+    D --> E[Tool]
+    E --> F[External System]
 ```
 
 ## Inventory

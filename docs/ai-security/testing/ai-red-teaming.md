@@ -11,29 +11,15 @@ It should extend beyond jailbreak testing.
 
 ## Assessment Model
 
-```text
-Architecture
-    |
-    v
-Threat Model
-    |
-    v
-Attack Surface
-    |
-    v
-Security Hypotheses
-    |
-    v
-Controlled Tests
-    |
-    v
-Impact Validation
-    |
-    v
-Mitigation
-    |
-    v
-Retest
+```mermaid
+flowchart LR
+    A[Architecture] --> B[Threat Model]
+    B --> C[Attack Surface]
+    C --> D[Security Hypotheses]
+    D --> E[Controlled Tests]
+    E --> F[Impact Validation]
+    F --> G[Mitigation]
+    G --> H[Retest]
 ```
 
 ## Test Areas

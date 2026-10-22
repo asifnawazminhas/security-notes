@@ -11,26 +11,14 @@ The content may influence later responses even when the attacker is no longer in
 
 ## Attack Path
 
-```text
-Attacker-Controlled Content
-          |
-          v
-Knowledge Source
-          |
-          v
-Ingestion Pipeline
-          |
-          v
-Index / Vector Database
-          |
-          v
-Victim Query
-          |
-          v
-Retrieved Poisoned Content
-          |
-          v
-Model Behaviour
+```mermaid
+flowchart LR
+    A[Attacker-Controlled Content] --> B[Knowledge Source]
+    B --> C[Ingestion Pipeline]
+    C --> D[Index / Vector Database]
+    D --> E[Victim Query]
+    E --> F[Poisoned Content Retrieved]
+    F --> G[Model Behaviour]
 ```
 
 ## Potential Sources

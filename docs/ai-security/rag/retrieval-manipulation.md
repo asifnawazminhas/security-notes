@@ -11,20 +11,12 @@ The weakness may exist in the query transformation, metadata filters, ranking pr
 
 ## Data Flow
 
-```text
-User Query
-    |
-    v
-Query Transformation
-    |
-    v
-Search / Vector Retrieval
-    |
-    v
-Filtering and Ranking
-    |
-    v
-Retrieved Context
+```mermaid
+flowchart LR
+    A[User Query] --> B[Query Transformation]
+    B --> C[Search / Vector Retrieval]
+    C --> D[Filtering and Ranking]
+    D --> E[Retrieved Context]
 ```
 
 ## Assessment Areas

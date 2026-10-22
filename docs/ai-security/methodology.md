@@ -7,39 +7,24 @@ description: Structured methodology for assessing LLM applications, agents, retr
 
 AI security testing should begin with architecture and trust boundaries rather than prompt payloads.
 
+!!! important "Start with architecture"
+    Map trust boundaries, identities, data sources and capabilities before spending time on prompt payloads.
+
 ---
 
 ## Assessment Flow
 
-```text
-Scope
-  |
-  v
-Architecture
-  |
-  v
-Trust Boundaries
-  |
-  v
-Inputs and Data Sources
-  |
-  v
-Model Capabilities
-  |
-  v
-Tools and Actions
-  |
-  v
-Security Hypotheses
-  |
-  v
-Controlled Validation
-  |
-  v
-Evidence
-  |
-  v
-Impact
+```mermaid
+flowchart TD
+    A[Scope] --> B[Architecture]
+    B --> C[Trust Boundaries]
+    C --> D[Inputs and Data Sources]
+    D --> E[Model Capabilities]
+    E --> F[Tools and Actions]
+    F --> G[Security Hypotheses]
+    G --> H[Controlled Validation]
+    H --> I[Evidence]
+    I --> J[Impact]
 ```
 
 ---

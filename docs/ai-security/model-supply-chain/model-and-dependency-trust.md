@@ -48,20 +48,12 @@ Consider:
 
 ## Deployment Principle
 
-```text
-Download
-   |
-   v
-Verify
-   |
-   v
-Review
-   |
-   v
-Test
-   |
-   v
-Deploy
+```mermaid
+flowchart LR
+    A[Download] --> B[Verify]
+    B --> C[Review]
+    C --> D[Test]
+    D --> E[Deploy]
 ```
 
 ## Mitigation
@@ -74,6 +66,31 @@ Deploy
 - maintain an inventory;
 - monitor upstream security advisories;
 - control promotion into production.
+
+## Artefact Verification
+
+Where supported, record and verify:
+
+- immutable version or commit;
+- cryptographic hash;
+- publisher or repository provenance;
+- signature or attestation;
+- whether loading the artefact executes custom code;
+- serialisation or deserialisation format;
+- dependency lock state;
+- promotion path from evaluation to production.
+
+!!! warning "Model files can be executable risk"
+    Treat formats, loaders and repositories according to their real behaviour. A model artefact or its loader may introduce code-execution or deserialisation risk independently of model inference.
+
+## Practical Workflow
+
+1. Identify the exact artefact and source.
+2. Pin the version or immutable reference.
+3. Verify integrity where verification data is available.
+4. Review required custom code and loader behaviour.
+5. Evaluate in an isolated environment.
+6. Record the trust decision before production promotion.
 
 ## Related Pages
 

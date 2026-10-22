@@ -19,19 +19,11 @@ Ask:
 
 > Does the exposed instruction contain information or capabilities that create a real security consequence?
 
-```text
-System Prompt Revealed
-        |
-        v
-Sensitive Content Present?
-        |
-   +----+----+
-   |         |
-  No        Yes
-   |         |
-   v         v
-Low/No    Validate
-Impact     Impact
+```mermaid
+flowchart TD
+    A[System Prompt Revealed] --> B{Sensitive Content Present?}
+    B -->|No| C[Low or No Security Impact]
+    B -->|Yes| D[Validate Security Impact]
 ```
 
 ---

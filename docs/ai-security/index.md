@@ -7,209 +7,130 @@ description: Practical security methodology for LLM applications, AI agents, RAG
 
 AI security testing evaluates the security boundaries created when applications use large language models, retrieval systems, tools, agents and external data sources.
 
-The important distinction is:
+!!! important "Core security principle"
+    **Model behaviour ≠ security impact.**
 
-```text
-Model Behaviour
-      !=
-Security Impact
-```
-
-A surprising model response is not automatically a vulnerability.
-
-Testing should establish which trust boundary was crossed, what capability became available and what security impact can be reproduced.
-
----
-
-## Scope
-
-This section focuses on:
-
-- prompt injection;
-- indirect prompt injection;
-- sensitive information disclosure;
-- system prompt exposure;
-- unsafe model output handling;
-- excessive agency;
-- AI agents;
-- tool integrations;
-- retrieval-augmented generation;
-- MCP;
-- AI-specific attack-surface analysis;
-- validation and reporting.
-
----
+    A surprising model response is not automatically a vulnerability. Testing should establish which trust boundary was crossed, what capability became available and what security impact can be reproduced.
 
 ## Core Model
 
-```text
-Untrusted Input
-      |
-      v
-AI Component
-      |
-      v
-Context / Retrieval / Tools
-      |
-      v
-Model Decision
-      |
-      v
-Application Action
-      |
-      v
-Security Impact
+```mermaid
+flowchart LR
+    A[Untrusted Input] --> B[AI Component]
+    B --> C[Context / Retrieval / Tools]
+    C --> D[Model Decision]
+    D --> E[Application Action]
+    E --> F[Security Impact]
 ```
 
-The most important testing question is not whether the model can be persuaded to say something unusual.
+!!! question "Primary testing question"
+    Can untrusted content influence a security-sensitive decision, disclose protected information, invoke a privileged capability or cause unsafe downstream behaviour?
 
-Ask instead:
+## Explore AI Security
 
-> Can untrusted content influence a security-sensitive decision, disclose protected information, invoke a privileged capability or cause unsafe downstream behaviour?
+### Core Methodology
 
----
+- [AI Security Methodology](methodology.md)
+- [AI Red Teaming](testing/ai-red-teaming.md)
+- [AI Security Checklist](testing/ai-security-checklist.md)
 
-## Start Here
+### Prompt and Data Security
 
-[AI Security Methodology](methodology.md)
+- [Prompt Injection](prompt-injection.md)
+- [Indirect Prompt Injection](indirect-prompt-injection.md)
+- [Sensitive Information Disclosure](sensitive-information-disclosure.md)
+- [System Prompt Exposure](system-prompt-exposure.md)
 
-[Prompt Injection](prompt-injection.md)
+### Application Security
 
-[Indirect Prompt Injection](indirect-prompt-injection.md)
+- [Improper Output Handling](improper-output-handling.md)
+- [Excessive Agency](excessive-agency.md)
 
-[Sensitive Information Disclosure](sensitive-information-disclosure.md)
+### Retrieval-Augmented Generation
 
-[System Prompt Exposure](system-prompt-exposure.md)
+- [RAG Security](rag/index.md)
+- [Retrieval Manipulation](rag/retrieval-manipulation.md)
+- [Knowledge Base Poisoning](rag/knowledge-base-poisoning.md)
 
-[Improper Output Handling](improper-output-handling.md)
+### Agents and Tools
 
-[Excessive Agency](excessive-agency.md)
+- [Agent Security](agents/index.md)
+- [Tool Abuse](agents/tool-abuse.md)
+- [Multi-Agent Security](agents/multi-agent-security.md)
 
----
+### Model Context Protocol
+
+- [MCP Security](mcp/index.md)
+- [MCP Servers](mcp/mcp-servers.md)
+- [Tool Trust](mcp/tool-trust.md)
+
+### Model and Supply Chain
+
+- [Model Supply Chain](model-supply-chain/index.md)
+- [Model and Dependency Trust](model-supply-chain/model-and-dependency-trust.md)
 
 ## AI Attack Surface
 
 A modern AI application may include considerably more than a model.
 
-```text
-                    User
-                      |
-                      v
-                 Application
-                      |
-          +-----------+-----------+
-          |           |           |
-          v           v           v
-       Prompt       Memory       Files
-          |           |           |
-          +-----------+-----------+
-                      |
-                      v
-                     LLM
-                      |
-       +--------------+--------------+
-       |              |              |
-       v              v              v
-      RAG           Tools          Agents
-       |              |              |
-       v              v              v
- Vector DB          APIs        Other Agents
-       |              |              |
-       +--------------+--------------+
-                      |
-                      v
-              External Systems
+```mermaid
+flowchart TD
+    U[User] --> A[Application]
+    A --> P[Prompt]
+    A --> M[Memory]
+    A --> F[Files]
+    P --> L[LLM]
+    M --> L
+    F --> L
+    L --> R[RAG]
+    L --> T[Tools]
+    L --> G[Agents]
+    R --> V[Vector / Knowledge Store]
+    T --> API[APIs and Services]
+    G --> OA[Other Agents]
+    V --> X[External Systems]
+    API --> X
+    OA --> X
 ```
 
-Each connection creates a potential trust boundary.
-
----
+Each connection can create a trust boundary that needs independent security controls.
 
 ## Testing Principle
 
-Do not treat:
+!!! warning "Do not equate jailbreaks with vulnerabilities"
+    A jailbreak or unexpected response is **behaviour**, not automatically a security finding.
 
-```text
-Jailbreak
-   =
-Vulnerability
-```
+A supported finding should establish:
 
-Instead establish:
-
-```text
-Input
-  +
-Trust Boundary
-  +
-Security-Sensitive Behaviour
-  +
-Reproducible Impact
-  =
-Supported Finding
-```
-
----
+1. attacker-controlled or otherwise untrusted input;
+2. an affected trust boundary;
+3. security-sensitive behaviour;
+4. reproducible impact.
 
 ## AI Security vs AI-Assisted Security
 
-These are separate disciplines.
+**AI Security** tests AI-enabled applications themselves: prompt injection, RAG security, agent security, tool abuse, excessive agency and sensitive data exposure.
 
-### AI Security
-
-Testing AI-enabled applications themselves.
-
-Examples:
-
-- prompt injection;
-- RAG poisoning;
-- agent security;
-- tool abuse;
-- excessive agency;
-- sensitive data exposure.
-
-### AI-Assisted Security
-
-Using AI to support security testing.
-
-Examples:
-
-- source-code analysis;
-- payload reasoning;
-- log analysis;
-- vulnerability research;
-- reporting assistance.
-
-The existing tooling pages remain under:
+**AI-Assisted Security** uses AI to support security testing: source-code analysis, payload reasoning, log analysis, vulnerability research and reporting assistance.
 
 [AI-Assisted Security Tools](../tools/ai/index.md)
-
----
 
 ## Evidence
 
 Useful evidence includes:
 
-- exact input;
-- conversation context;
-- retrieved content;
-- tool calls;
-- application response;
-- affected identity;
-- effective permissions;
-- downstream action;
-- resulting state;
-- reproducibility;
+- exact input and relevant conversation context;
+- retrieved content and provenance;
+- tool calls and parameters;
+- affected identity and effective permissions;
+- application response and downstream action;
+- resulting state change;
+- reproduction rate;
 - relevant logs.
-
----
 
 ## Related Sections
 
-[Web Application Security](../web/index.md)
-
-[Source Code Review](../source-code-review/index.md)
-
-[Red Teaming](../red-teaming/index.md)
-
-[AI-Assisted Security Tools](../tools/ai/index.md)
+- [Web Application Security](../web/index.md)
+- [Source Code Review](../source-code-review/index.md)
+- [Red Teaming](../red-teaming/index.md)
+- [AI-Assisted Security Tools](../tools/ai/index.md)

@@ -17,17 +17,12 @@ The important question is whether attacker-controlled instructions can cross an 
 
 Direct prompt injection originates from input intentionally supplied by the user.
 
-```text
-User Input
-    |
-    v
-LLM Context
-    |
-    v
-Instruction Conflict
-    |
-    v
-Unexpected Behaviour
+```mermaid
+flowchart LR
+    A[User Input] --> B[LLM Context]
+    B --> C[Instruction Conflict]
+    C --> D[Unexpected Behaviour]
+    D --> E{Security Boundary Crossed?}
 ```
 
 ---
@@ -96,13 +91,8 @@ Ask:
 
 ## Important Distinction
 
-```text
-Unexpected Model Response
-        !=
-Confirmed Security Vulnerability
-```
-
-A meaningful finding requires a security consequence.
+!!! important "Behaviour ≠ vulnerability"
+    An unexpected model response is not a confirmed security vulnerability. A meaningful finding requires a demonstrable security consequence.
 
 ---
 

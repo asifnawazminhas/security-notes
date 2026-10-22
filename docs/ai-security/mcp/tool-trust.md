@@ -11,20 +11,12 @@ A tool may access systems that the model itself cannot directly reach.
 
 ## Trust Model
 
-```text
-Model
-  |
-  v
-Tool Description
-  |
-  v
-Tool Selection
-  |
-  v
-Tool Implementation
-  |
-  v
-External Resource
+```mermaid
+flowchart LR
+    A[Model] --> B[Tool Description]
+    B --> C[Tool Selection]
+    C --> D[Tool Implementation]
+    D --> E[External Resource]
 ```
 
 ## Assessment Questions
@@ -71,6 +63,21 @@ Do not automatically treat tool output as trusted instructions.
 - separate read and write operations;
 - enforce backend authorisation;
 - log sensitive actions.
+
+## Description and Schema Manipulation
+
+Tool names, descriptions and schemas can influence tool selection and argument generation.
+
+Assess whether a lower-trust party can:
+
+- rename a tool;
+- alter its description;
+- change parameter descriptions or defaults;
+- broaden accepted resource identifiers;
+- make a write-capable tool appear read-only;
+- return output that is subsequently interpreted as instructions.
+
+Protect tool metadata with the same care as other security-relevant configuration.
 
 ## Related Pages
 
