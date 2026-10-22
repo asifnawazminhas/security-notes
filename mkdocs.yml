@@ -373,6 +373,28 @@ nav:
 
 
   # ==========================================================
+  # AI SECURITY
+  # ==========================================================
+
+  - AI Security:
+
+      - Overview: ai-security/index.md
+      - Methodology: ai-security/methodology.md
+
+      - Prompt Injection:
+          - Direct Prompt Injection: ai-security/prompt-injection.md
+          - Indirect Prompt Injection: ai-security/indirect-prompt-injection.md
+
+      - Data and Information Exposure:
+          - Sensitive Information Disclosure: ai-security/sensitive-information-disclosure.md
+          - System Prompt Exposure: ai-security/system-prompt-exposure.md
+
+      - Application and Agent Security:
+          - Improper Output Handling: ai-security/improper-output-handling.md
+          - Excessive Agency: ai-security/excessive-agency.md
+
+
+  # ==========================================================
   # PRIVILEGE ESCALATION EXPLORER
   # ==========================================================
 
