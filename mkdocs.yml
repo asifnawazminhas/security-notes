@@ -70,6 +70,7 @@ nav:
   # ==========================================================
 
   - Home: index.md
+  - Updates: updates.md
 
 
   # ==========================================================
@@ -389,9 +390,32 @@ nav:
           - Sensitive Information Disclosure: ai-security/sensitive-information-disclosure.md
           - System Prompt Exposure: ai-security/system-prompt-exposure.md
 
-      - Application and Agent Security:
+      - Application Security:
           - Improper Output Handling: ai-security/improper-output-handling.md
           - Excessive Agency: ai-security/excessive-agency.md
+
+      - RAG:
+          - Overview: ai-security/rag/index.md
+          - Retrieval Manipulation: ai-security/rag/retrieval-manipulation.md
+          - Knowledge Base Poisoning: ai-security/rag/knowledge-base-poisoning.md
+
+      - Agents:
+          - Overview: ai-security/agents/index.md
+          - Tool Abuse: ai-security/agents/tool-abuse.md
+          - Multi-Agent Security: ai-security/agents/multi-agent-security.md
+
+      - MCP:
+          - Overview: ai-security/mcp/index.md
+          - MCP Servers: ai-security/mcp/mcp-servers.md
+          - Tool Trust: ai-security/mcp/tool-trust.md
+
+      - Model and Supply Chain:
+          - Overview: ai-security/model-supply-chain/index.md
+          - Model and Dependency Trust: ai-security/model-supply-chain/model-and-dependency-trust.md
+
+      - Testing:
+          - AI Red Teaming: ai-security/testing/ai-red-teaming.md
+          - AI Security Checklist: ai-security/testing/ai-security-checklist.md
 
 
   # ==========================================================

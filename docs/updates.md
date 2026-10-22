@@ -1,31 +1,44 @@
 ---
 title: Updates
-description: Notable changes, technical reviews and corrections to Asif's Security Notes.
+description: Recent additions and significant changes to Asif's Security Notes.
 ---
 
 # Updates
 
-Notable additions, technical reviews and corrections to the knowledge base.
-
-This log records meaningful changes. A publication date does not mean that every command on the affected page has been retested. Technical pages describe their review scope separately where available.
+This page tracks significant additions and structural changes to the Security Notes knowledge base.
 
 ## October 2026
 
-### 1 October 2026
+### AI Security
 
-#### Interface improvements
+A dedicated **AI Security** section has been introduced to separate testing of AI-enabled systems from the existing **AI-Assisted Security** tooling notes.
 
-- Improved the contrast of the Windows and Linux platform buttons in [PrivEsc Explorer](privesc/index.md).
-- Added explicit button colours for dark and light themes, including hover and focus states.
-- Confirmed that the updated button labels are readable in the dark theme.
+The section now includes coverage of:
 
-## How to Read This Log
+- AI security methodology;
+- direct and indirect prompt injection;
+- sensitive information disclosure;
+- system prompt exposure;
+- improper output handling;
+- excessive agency;
+- retrieval-augmented generation (RAG) security;
+- retrieval manipulation;
+- knowledge base poisoning;
+- AI agent security;
+- tool abuse;
+- multi-agent security;
+- Model Context Protocol (MCP) security;
+- MCP servers and tool trust;
+- model and dependency supply-chain trust;
+- AI red teaming;
+- an AI security testing checklist.
 
-| Change type | Meaning |
-| --- | --- |
-| New content | A new page or substantial new section |
-| Technical review | Existing guidance checked, with the review scope recorded on the affected page |
-| Correction | An inaccurate statement, command, reference or link corrected |
-| Interface improvement | A change to navigation, layout, readability or interaction |
+The navigation has also been expanded so these topics are available as a first-class section of the site.
 
-For individual code and documentation changes, see the [repository commit history](https://github.com/asifnawazminhas/security-notes/commits/main/){ target="_blank" rel="noopener noreferrer" }.
+### Site Structure
+
+An **Updates** page has been added to make significant additions to the knowledge base easier to follow.
+
+---
+
+Updates listed here focus on meaningful new sections, major expansions and structural changes rather than every minor wording or formatting edit.
