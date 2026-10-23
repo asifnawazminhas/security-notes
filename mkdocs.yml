@@ -70,7 +70,6 @@ nav:
   # ==========================================================
 
   - Home: index.md
-  - Updates: updates.md
 
 
   # ==========================================================
@@ -371,6 +370,30 @@ nav:
       - Azure:
           - Overview: cloud/azure/index.md
           - Subdomain Takeover: cloud/azure/subdomain-takeover.md
+
+
+  # ==========================================================
+  # CONTAINERS AND KUBERNETES
+  # ==========================================================
+
+  - Containers and Kubernetes:
+
+      - Overview: containers/index.md
+      - Methodology: containers/methodology.md
+
+      - Docker:
+          - Overview: containers/docker/index.md
+          - Enumeration: containers/docker/enumeration.md
+          - Container Escape: containers/docker/container-escape.md
+          - Docker Socket: containers/docker/docker-socket.md
+          - Image Security: containers/docker/image-security.md
+
+      - Kubernetes:
+          - Overview: containers/kubernetes/index.md
+          - Enumeration: containers/kubernetes/enumeration.md
+          - RBAC: containers/kubernetes/rbac.md
+          - Service Accounts: containers/kubernetes/service-accounts.md
+          - Pod Security: containers/kubernetes/pod-security.md
 
 
   # ==========================================================
