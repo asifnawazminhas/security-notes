@@ -171,32 +171,39 @@ html {
 
 
 /* ============================================================
-   TOP NAVIGATION - COMPACT DESKTOP SPACING
+   TOP NAVIGATION - WRAP DESKTOP TABS WITHOUT CLIPPING
    ============================================================ */
 
-/*
-   Keeps all top-level navigation tabs visible on desktop.
-
-   Chrome and Firefox calculate available width and font
-   metrics slightly differently. Removing the default item
-   padding and reducing horizontal tab margins gives the
-   navigation enough room without shortening labels or
-   reducing the normal font size.
-*/
-
+/* Allow all top-level categories to remain visible at desktop widths.
+   Long menus wrap into a second row instead of disappearing off-screen. */
 @media screen and (min-width: 76.25em) {
+  .md-tabs {
+    height: auto;
+  }
+
+  .md-tabs__inner {
+    overflow: visible;
+  }
+
+  .md-tabs__list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    column-gap: 0.2rem;
+    row-gap: 0;
+  }
 
   .md-tabs__item {
-    padding-left: 0;
-    padding-right: 0;
+    height: auto;
+    padding: 0;
   }
 
   .md-tabs__link {
-    margin-top: 0.8rem;
-    margin-left: 0.35rem;
-    margin-right: 0.35rem;
-    padding-left: 0;
-    padding-right: 0;
+    margin: 0.45rem 0.4rem;
+    padding: 0;
+    white-space: nowrap;
   }
 }
 
