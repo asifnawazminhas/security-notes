@@ -6,6 +6,8 @@
 
 # Security Knowledge Base
 
+**Created and maintained by [Asif Nawaz Minhas](https://www.linkedin.com/in/asifminhasnl/).**
+
 Practical notes for **offensive security**, **penetration testing**, **red teaming**, **purple teaming**, **vulnerability research**, **source code review**, **Active Directory**, **Windows** and **Linux**.
 
 <span class="security-badge">OFFENSIVE SECURITY</span>

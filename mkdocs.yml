@@ -73,81 +73,6 @@ nav:
 
 
   # ==========================================================
-  # TOOLS
-  # ==========================================================
-
-  - Tools:
-
-      - Overview: tools/index.md
-
-      - Web Enumeration:
-          - Overview: tools/web-enumeration/index.md
-          - WhatWeb: tools/web-enumeration/whatweb.md
-          - Wappalyzer: tools/web-enumeration/wappalyzer.md
-          - httpx: tools/web-enumeration/httpx.md
-
-      - Web Application Testing:
-          - Overview: tools/web-testing/index.md
-          - Burp Suite: tools/web-testing/burp-suite.md
-          - ffuf: tools/web-testing/ffuf.md
-          - Katana: tools/web-testing/katana.md
-          - Nuclei: tools/web-testing/nuclei.md
-          - sqlmap: tools/web-testing/sqlmap.md
-          - Interactsh: tools/web-testing/interactsh.md
-
-      - Active Directory:
-          - Overview: tools/active-directory/index.md
-
-          - Windows Authentication and Kerberos:
-              - Mimikatz: tools/mimikatz.md
-              - Rubeus: tools/rubeus.md
-
-          - Active Directory Certificate Services:
-              - Certify: tools/certify.md
-              - Certipy: tools/certipy.md
-
-      - Tunnelling and Pivoting:
-          - Ligolo-ng: tools/ligolo-ng.md
-          - Chisel: tools/chisel.md
-
-      - Command and Control:
-          - Sliver: tools/sliver.md
-          - Cobalt Strike: tools/cobalt-strike.md
-
-      - Privilege Escalation:
-          - Overview: tools/privilege-escalation/index.md
-
-          - Windows:
-              - WinPEAS: tools/privilege-escalation/winpeas.md
-              - PowerUp: tools/privilege-escalation/powerup.md
-              - PrivescCheck: tools/privilege-escalation/privesccheck.md
-
-          - Linux:
-              - LinPEAS: tools/privilege-escalation/linpeas.md
-              - linux-smart-enumeration: tools/privilege-escalation/linux-smart-enumeration.md
-
-      - Source Code Review Tools:
-          - Overview: tools/source-code-review/index.md
-
-          - Canonical Static Analysis:
-              - Static Analysis Overview: source-code-review/static-analysis/index.md
-              - ripgrep: source-code-review/static-analysis/ripgrep.md
-              - Semgrep: source-code-review/static-analysis/semgrep.md
-              - OpenGrep: source-code-review/static-analysis/opengrep.md
-              - CodeQL: source-code-review/static-analysis/codeql.md
-
-      - Red Teaming Tools:
-          - Overview: tools/red-teaming/index.md
-          - C2 Frameworks: tools/red-teaming/c2-frameworks.md
-
-      - Vulnerability Research Tools:
-          - Overview: tools/vulnerability-research/index.md
-
-      - AI-Assisted Security:
-          - Overview: tools/ai/index.md
-          - LLM-Assisted Security Testing: tools/ai/llm-assisted-security-testing.md
-
-  # ==========================================================
   # WEB APPLICATION SECURITY
   # ==========================================================
 
@@ -696,6 +621,82 @@ nav:
           - Clickjacking: cheatsheets/clickjacking.md
           - HTML Injection: cheatsheets/html-injection.md
           - Open Redirect: cheatsheets/open-redirect.md
+
+
+  # ==========================================================
+  # TOOLS
+  # ==========================================================
+
+  - Tools:
+
+      - Overview: tools/index.md
+
+      - Web Enumeration:
+          - Overview: tools/web-enumeration/index.md
+          - WhatWeb: tools/web-enumeration/whatweb.md
+          - Wappalyzer: tools/web-enumeration/wappalyzer.md
+          - httpx: tools/web-enumeration/httpx.md
+
+      - Web Application Testing:
+          - Overview: tools/web-testing/index.md
+          - Burp Suite: tools/web-testing/burp-suite.md
+          - ffuf: tools/web-testing/ffuf.md
+          - Katana: tools/web-testing/katana.md
+          - Nuclei: tools/web-testing/nuclei.md
+          - sqlmap: tools/web-testing/sqlmap.md
+          - Interactsh: tools/web-testing/interactsh.md
+
+      - Active Directory:
+          - Overview: tools/active-directory/index.md
+
+          - Windows Authentication and Kerberos:
+              - Mimikatz: tools/mimikatz.md
+              - Rubeus: tools/rubeus.md
+
+          - Active Directory Certificate Services:
+              - Certify: tools/certify.md
+              - Certipy: tools/certipy.md
+
+      - Tunnelling and Pivoting:
+          - Ligolo-ng: tools/ligolo-ng.md
+          - Chisel: tools/chisel.md
+
+      - Command and Control:
+          - Sliver: tools/sliver.md
+          - Cobalt Strike: tools/cobalt-strike.md
+
+      - Privilege Escalation:
+          - Overview: tools/privilege-escalation/index.md
+
+          - Windows:
+              - WinPEAS: tools/privilege-escalation/winpeas.md
+              - PowerUp: tools/privilege-escalation/powerup.md
+              - PrivescCheck: tools/privilege-escalation/privesccheck.md
+
+          - Linux:
+              - LinPEAS: tools/privilege-escalation/linpeas.md
+              - linux-smart-enumeration: tools/privilege-escalation/linux-smart-enumeration.md
+
+      - Source Code Review Tools:
+          - Overview: tools/source-code-review/index.md
+
+          - Canonical Static Analysis:
+              - Static Analysis Overview: source-code-review/static-analysis/index.md
+              - ripgrep: source-code-review/static-analysis/ripgrep.md
+              - Semgrep: source-code-review/static-analysis/semgrep.md
+              - OpenGrep: source-code-review/static-analysis/opengrep.md
+              - CodeQL: source-code-review/static-analysis/codeql.md
+
+      - Red Teaming Tools:
+          - Overview: tools/red-teaming/index.md
+          - C2 Frameworks: tools/red-teaming/c2-frameworks.md
+
+      - Vulnerability Research Tools:
+          - Overview: tools/vulnerability-research/index.md
+
+      - AI-Assisted Security:
+          - Overview: tools/ai/index.md
+          - LLM-Assisted Security Testing: tools/ai/llm-assisted-security-testing.md
 
 
 # ============================================================
