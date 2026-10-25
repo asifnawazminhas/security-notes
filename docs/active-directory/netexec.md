@@ -1165,6 +1165,42 @@ nxc ldap --help
 
 ---
 
+# Kerberos Configuration and Ticket-Based Collection (HTB Checkpoint)
+
+The following lab workflow illustrates using NetExec to generate a Kerberos configuration, obtaining a Kerberos ticket with `kinit`, and using that ticket with RustHound-CE to collect Active Directory relationships. It is adapted from [0xdf's Checkpoint walkthrough](https://0xdf.gitlab.io/2026/10/24/htb-checkpoint.html) (24 October 2026).
+
+## Generate a Kerberos configuration with NetExec
+
+```bash
+nxc smb DC01.checkpoint.htb --generate-krb5-file checkpoint.krb5
+export KRB5_CONFIG="$PWD/checkpoint.krb5"
+```
+
+The generated file must point to the correct domain controller and realm. Verify DNS and hostname resolution. Older NetExec releases may fail to generate the file in some environments; the linked walkthrough describes a Server 2025-related null binding issue.
+
+## Request a Kerberos ticket
+
+```bash
+kinit alex.turner
+klist
+```
+
+`kinit` prompts for the lab account password. Avoid putting passwords on the command line. Confirm the principal belongs to `CHECKPOINT.HTB` and that `klist` shows a valid ticket-granting ticket.
+
+## Collect directory relationships with RustHound-CE
+
+```bash
+rusthound-ce --domain checkpoint.htb -k -f DC01.checkpoint.htb --zip
+```
+
+In the Checkpoint lab, RustHound-CE's default connection did not work because LDAP signing was enforced, whereas Kerberos-authenticated collection succeeded. The `-k` option uses Kerberos authentication, `-f` specifies the target domain controller, and `--zip` packages collection output for BloodHound CE.
+
+This is a related BloodHound collection workflow, not a NetExec command. Keep it alongside NetExec's Kerberos configuration feature so the complete sequence is discoverable.
+
+**Reference:** [0xdf, HTB: Checkpoint](https://0xdf.gitlab.io/2026/10/24/htb-checkpoint.html).
+
+---
+
 # Kerberos Troubleshooting
 
 When Kerberos unexpectedly fails, check:
