@@ -171,39 +171,52 @@ html {
 
 
 /* ============================================================
-   TOP NAVIGATION - WRAP DESKTOP TABS WITHOUT CLIPPING
+   TOP NAVIGATION - TWO ROWS WHEN NECESSARY
    ============================================================ */
 
-/* Allow all top-level categories to remain visible at desktop widths.
-   Long menus wrap into a second row instead of disappearing off-screen. */
+/* Material uses a horizontally scrolling tabs container by default.
+   Override the sizing and overflow at every container level to prevent
+   later tabs from being clipped in Chrome and Firefox. */
 @media screen and (min-width: 76.25em) {
   .md-tabs {
-    height: auto;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .md-tabs__inner {
-    overflow: visible;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
   }
 
   .md-tabs__list {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: auto;
-    align-items: center;
-    column-gap: 0.2rem;
-    row-gap: 0;
+    display: flex !important;
+    flex-flow: row wrap !important;
+    align-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0.2rem 0 !important;
+    white-space: normal !important;
+    gap: 0 0.1rem;
   }
 
   .md-tabs__item {
-    height: auto;
-    padding: 0;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .md-tabs__link {
-    margin: 0.45rem 0.4rem;
-    padding: 0;
-    white-space: nowrap;
+    display: block;
+    margin: 0.35rem 0.42rem !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
   }
 }
 
